@@ -123,8 +123,24 @@ class SocialUserTest < Test::Unit::TestCase
                  'should be two groups overall (all)'
   end
 
+  def test_clear_id_cache
+    u = create_user :login => 'peter'
+
+    g1 = Group.create :name => 'pumpkin'
+    g2 = Group.create :name => 'eaters'
+    g1.memberships.create :user => u
+    g2.memberships.create :user => u
+
+    #u.clear_cache
+    #u = User.find_by_login 'peter'
+    #assert_equal [g1.id, g2.id], all_group_id_cache, 'the serialize as intarray is not working!'
+    u = User.find_by_login 'peter'
+    assert_equal [g1.id, g2.id], u.all_group_id_cache, 'the serialize as intarray is not working!!'
+    #y u.all_group_id_cache
+  end
+
   def test_create_many_groups_join_some
-    u = create_user
+    u = create_user :login => 'pippi'
 
     g = []
     to_join = [2,3,5,7,11,13,17,19]
@@ -134,7 +150,7 @@ class SocialUserTest < Test::Unit::TestCase
         g[i].memberships.create :user => u
       end
     end
-
+    
     assert_equal to_join.collect { |i| g[i].id}, u.group_ids.sort,
                  'wrong groups (id)'
     assert_equal to_join.collect { |i| g[i].id}, u.all_group_ids.sort,
@@ -142,7 +158,7 @@ class SocialUserTest < Test::Unit::TestCase
     assert_equal to_join.collect { |i| g[i]}, u.groups.sort_by {|x| x.id},
                  'wrong groups'
     assert_equal to_join.collect { |i| g[i]}, u.all_groups.sort_by {|x| x.id},
-                 'wrong groups (all)'    
+                 'wrong groups (all)'
   end
 
   def test_create_many_groups_and_committees_join_some
@@ -151,9 +167,9 @@ class SocialUserTest < Test::Unit::TestCase
     g = []
     c = []
     
-    committee_cnt = [15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,0,0,0,0,0]
+    committee_cnt = [15,14,13,12,11,10,9,8,7,6,5,4,3,2,1,1,1,1,1,1]
     groups_to_join = [0,2,4,6,8,10,12,14,16,17,18]
-    committees_to_join = [2,0,4,0,8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    committees_to_join = [8,0,7,0,6,0,5,0,4,0,3,0,2,0,1,0,0,0,0,0]
     for i in 0..19
       g[i] = Group.create :name => 'group-%d' % i
     end
@@ -161,7 +177,7 @@ class SocialUserTest < Test::Unit::TestCase
     for i in 0..19
       c[i] = []
       for j in 0..committee_cnt[i]
-        c[i][j] = Committee.create :name => 'subgroup-%d-%d' % [i, j]
+        c[i][j] = Committee.create :name => 'subgroup-%d-%d' % [i, j], :parent => g[i]
       end
     end
     
@@ -175,16 +191,31 @@ class SocialUserTest < Test::Unit::TestCase
     end
 
     correct_group_ids = []
+    correct_all_group_ids = []
     for i in groups_to_join
       correct_group_ids += [g[i].id]
-      for j in 0..committees_to_join[i]
-        correct_group_ids += [c[i][j].id]
+      correct_all_group_ids += [g[i].id]
+      
+      for j in 0..committee_cnt[i]
+        if j <= committees_to_join[i]
+          correct_group_ids += [c[i][j].id]
+        end
+        correct_all_group_ids += [c[i][j].id]
       end
     end
 
+#    u.clear_cache
+#    u.reload
+
     assert_equal correct_group_ids.sort, u.group_ids.sort,
-                 'wrong groups (id)'
-  end
+                 'wrong groups (ids)'
+    assert_equal correct_all_group_ids.sort, u.all_group_ids.sort,
+                 'wrong groups (all ids)'
+    assert_equal correct_group_ids.sort.collect { |i| Group.find(i)}, u.groups.sort_by {|x| x.id},
+                 'wrong groups'
+    assert_equal correct_all_group_ids.sort.collect { |i| Group.find(i)}, u.all_groups.sort_by {|x| x.id},
+                 'wrong groups (all)'    
+   end
 
   protected
     def create_user(options = {})
