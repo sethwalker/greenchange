@@ -1,0 +1,35 @@
+<% content_for :style do  %>
+div.wikiedit {
+  float: left;
+  margin: 10px;
+  margin-left: -20px;
+}
+div.wikiedit span {
+  background: #C2D4FF;
+  padding: 4px 16px;
+  border: 1px solid #ADBDE3;
+  border-left: 0;
+}
+div.wikiedit a {
+  color: #669;
+  font-weight: bold;
+  text-decoration: none;
+}
+div.wikiedit a:hover {text-decoration: underline;}
+
+<% end %>
+
+<div class='wiki'>
+  <%= @wiki.body_html %>
+  <% if @wiki.editable_by? current_user -%>
+    <div class='wikiedit'><span>
+       <%= link_to '<u>e</u>dit', page_url(@page,:action=>'edit'), :accesskey => 'e' %>
+       &nbsp;
+       <%= link_to 'versions', page_url(@page,:action=>'versions') %>
+       &nbsp;
+       <%= link_to 'last change', page_url(@page, :action=>'diff', :id => "#{@wiki.version.to_i-1}-#{@wiki.version}") if @wiki.version > 1 %>
+    </span></div>
+  <% end -%>
+  <br style='clear: both' />
+</div><!-- end wiki -->
+

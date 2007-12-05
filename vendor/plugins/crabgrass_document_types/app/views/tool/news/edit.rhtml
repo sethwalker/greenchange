@@ -1,0 +1,19 @@
+<% @show_posts = false %>
+
+<div class='formbox'>
+  <% form_tag(page_url(@page,:action=>'edit')) do -%>
+   <%= hidden_field 'wiki', 'version' %>
+   <%= text_area 'wiki', 'body', :size => '80x35' %>
+   <%# :size => '80x20' %>
+   <%= render :partial => 'document_meta', :object => @wiki.document_meta %>
+   <div>
+    <a style="float: right" href="javascript:quickRedReference();">formatting reference</a>
+     <%= submit_tag 'Save', :name => 'save' %>
+     <%# submit_tag 'Save minor edit', :name => 'save_minor' %>
+     <%= submit_tag 'Cancel', :name => 'cancel' %>
+
+   </div>
+  <% end -%>
+
+</div>
+
