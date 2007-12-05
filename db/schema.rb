@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 1196752821) do
+ActiveRecord::Schema.define(:version => 1196894225) do
 
   create_table "asset_versions", :force => true do |t|
     t.column "asset_id",       :integer
@@ -83,6 +83,17 @@ ActiveRecord::Schema.define(:version => 1196752821) do
   end
 
   add_index "discussions", ["page_id"], :name => "index_discussions_page_id"
+
+  create_table "document_metas", :force => true do |t|
+    t.column "creator",      :string
+    t.column "creator_url",  :string
+    t.column "source",       :string
+    t.column "source_url",   :string
+    t.column "published_at", :date
+    t.column "wiki_id",      :integer
+  end
+
+  add_index "document_metas", ["wiki_id"], :name => "index_document_metas_on_wiki_id"
 
   create_table "email_addresses", :force => true do |t|
     t.column "profile_id",    :integer
@@ -448,6 +459,7 @@ ActiveRecord::Schema.define(:version => 1196752821) do
     t.column "lock_version", :integer,  :default => 0
     t.column "locked_at",    :datetime
     t.column "locked_by_id", :integer
+    t.column "type",         :string
   end
 
   add_index "wikis", ["user_id"], :name => "index_wikis_user_id"
