@@ -5,6 +5,7 @@ class PageTest < Test::Unit::TestCase
   fixtures :pages, :users, :groups
 
   def setup
+    User.current = nil
     @page = create_page :title => 'this is a very fine test page'
     # @page_tool_count = @page.tools.length
   end

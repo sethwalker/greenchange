@@ -1,14 +1,7 @@
-<%
-page_classes = [
-  Tool::Message, Tool::Discussion, Tool::TextDoc, Tool::RateMany,
-  Tool::RankedVote, Tool::TaskList, Tool::Asset, Tool::Event
-]
-%>
-
 <h1 id='create-title'>create a new page</h1>
 
 <div id='listing-of-page-classes' class='workarea'>
-<% page_classes.each_with_index do |page_class,i| -%>
+<% page_classes.each do |page_class| -%>
 <div class="page-class"><div>
   <%= link_to "<b>#{page_class.class_display_name.t}</b>: #{page_class.class_description.t}",
     {:controller => 'tool/'+page_class.controller, :action => 'create',

@@ -24,6 +24,11 @@ so that each tool can define their own method of creation.
 
 class PagesController < ApplicationController
 
+  cattr_accessor :page_classes
+  @@page_classes = [ Tool::Message, Tool::Discussion, Tool::TextDoc, Tool::RateMany,
+                     Tool::RankedVote, Tool::TaskList, Tool::Asset, Tool::Event ]
+  helper_method :page_classes
+
   helper Tool::BaseHelper
   
   before_filter :login_required, :except => 'search'

@@ -29,7 +29,10 @@ class AuthenticatedUser < ActiveRecord::Base
   set_table_name 'users'
 
   # a class attr which is set to the currently logged in user
-  cattr_accessor :current
+  cattr_writer :current
+  def self.current
+    @@current unless @@current == :false
+  end
   
   # Virtual attribute for the unencrypted password
   attr_accessor :password

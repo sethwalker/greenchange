@@ -47,6 +47,7 @@ Rails::Initializer.run do |config|
   config.active_record.default_timezone = :utc
   
   # See Rails::Configuration for more options
+  config.plugins = ["engines", "*"]
 end
 
 
@@ -75,7 +76,7 @@ require "#{RAILS_ROOT}/lib/misc.rb"
 #### TOOLS #########################
 
 # pre-load the tools:
-Dir.glob("#{RAILS_ROOT}/app/models/tool/*.rb").each do |toolfile|
+Dir.glob("#{RAILS_ROOT}/**/app/models/tool/*.rb").each do |toolfile|
   require toolfile
 end
 # a static array of tool classes:
