@@ -29,8 +29,6 @@
 ## These classes inherit from and/or are modeled after the classes in
 ## election.rb and condorcet.rb
 
-require 'election'
-
 class BordaVote < ElectionVote
 
   def initialize(votes=nil)
@@ -40,15 +38,20 @@ class BordaVote < ElectionVote
     end
     super(votes)
   end
-
+   
   def tally_vote(vote)
     points = candidates.length - 1
     vote.each do |candidate|
-      @votes[candidate] = points
+      #if the candidate exist, add the points, otherwise assign them
+      if @votes.has_key?(candidate)
+        @votes[candidate] += points
+      else
+        @votes[candidate] = points
+      end
       points -= 1
     end
   end
-
+  
   def verify_vote(vote=nil)
     vote.instance_of?( Array ) and
       vote == vote.uniq
@@ -60,10 +63,13 @@ class BordaVote < ElectionVote
 end
 
 class BordaResult < ElectionResult
+  attr_reader :ranked_candidates
+  attr_reader :points
+  
   def initialize(voteobj=nil)
     super(voteobj)
     votes = @election.votes
-
+    
     @ranked_candidates = votes.sort do |a, b|
       b[1] <=> a[1]
     end.collect {|i| i[0]}
@@ -71,6 +77,8 @@ class BordaResult < ElectionResult
     @winners = @ranked_candidates.find_all do |i|
       votes[i] == votes[@ranked_candidates[0]]
     end
+    
+    @points = @election.votes
   end
 
 end

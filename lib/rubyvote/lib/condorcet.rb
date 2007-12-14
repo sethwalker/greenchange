@@ -31,56 +31,75 @@
 ## The CondorcetVote class is subclassed by the PureCondorcetVote and
 ## the CloneproofSSDVote classes but should not be used directly.
 
-require 'election'
-
-class CondorcetVote < ElectionVote 
+class CondorcetVote < ElectionVote
   
+  def initialize(votes=nil)
+    unless defined?(@candidates)
+      @candidates = Array.new
+      votes.each do |vote_row|
+        vote_row = vote_row.flatten if vote_row.class == Array
+        vote_row.each do |vote| 
+          @candidates << vote unless @candidates.include?(vote)
+        end
+      end
+    end
+    super(votes)
+  end
+
   def tally_vote(vote=nil)
 
-    vote.each_with_index do |winner, index|
-      # only run through this if this *is* preferred to something
-      break if vote.length - 1 == index
-      losers = vote.last( vote.length - index )
-
-      losers.each do |loser|
-        next if winner == loser
-
-        @votes[winner] = Hash.new unless @votes.has_key?(winner)
-        @votes[loser] = Hash.new unless @votes.has_key?(loser)
-
-        if @votes[winner].has_key?(loser)
-          @votes[winner][loser] += 1
-        else
-          @votes[winner][loser] = 1
-        end
-
-        # make sure we have a comparable object
-        @votes[loser][winner] = 0 unless @votes[loser].has_key?( winner )
-
-        @candidates << loser unless @candidates.include?( loser )
+    vote.each_with_index do |winners, index|
+      if vote.flatten.length < @candidates.length
+        implied_losers = @candidates.select { |c| not vote.flatten.include?(c) }
+        vote.push(implied_losers)
+      end
+      if vote.length - 1 == index
+        losers = []
+      else
+        losers = vote.flatten.last( vote.flatten.length - index - 1)
       end
 
-      @candidates << winner unless @candidates.include?( winner )
+      losers.each do |place|
+        place = [place] unless place.class == Array
+        place.each do |loser|
+          
+          winners = [winners] unless winners.class == Array
+          next if winners.include?(loser)
+          winners.each do |winner|
+            @votes[winner] = Hash.new unless @votes.has_key?(winner)
+            @votes[loser] = Hash.new unless @votes.has_key?(loser)
+
+            if @votes[winner].has_key?(loser)
+              @votes[winner][loser] += 1
+            else
+              @votes[winner][loser] = 1
+            end
+
+            # make sure we have a comparable object
+            @votes[loser][winner] = 0 unless @votes[loser].has_key?( winner )
+          end
+        end
+      end
     end
   end
 
   protected
+
   def verify_vote(vote=nil)
     vote.instance_of?( Array ) and
       vote == vote.uniq
   end
-  
 end
 
 class PureCondorcetVote < CondorcetVote
   def result
-    PureCondorcetResult.new( self )
+    PureCondorcetResult.new(self)
   end
 end
 
 class CloneproofSSDVote < CondorcetVote
   def result
-    CloneproofSSDResult.new( self )
+    CloneproofSSDResult.new(self)
   end
 end
 
@@ -93,58 +112,48 @@ end
 ## directly.
 
 class CondorcetResult < ElectionResult
-  #attr_reader :ranked_candidates
-  attr_accessor :candidate_sums
-    
+  attr_reader :matrix
+  
   def initialize(voteobj=nil)
     unless voteobj and voteobj.kind_of?( CondorcetVote )
       raise ArgumentError, "You must pass a CondorcetVote array.", caller
     end
-
     super(voteobj)
+    @matrix = voteobj.votes
   end
   
-  def rank_of_candidate(candidate)
-    candidate_ranks[candidate]
-  end
+  def victories_and_ties
+    victories_ties = {}
+    candidates = @matrix.keys.sort
     
-  protected
-  
-  def candidate_ranks
-    @candidate_ranks ||= calculate_candidate_ranks
-  end
-  
-  def calculate_candidate_ranks()
-    @candidate_sums = []
-    @election.votes.each_pair do |candidate,wins|
-      if @winners.include? candidate
-        @candidate_sums << [candidate, 100000000]
-      else
-        sum = wins.values.inject{ |sum,n| sum+n }
-        #count = wins.values.inject{ |count,n| n == 0 ? count : count+1 }
-        @candidate_sums << [candidate, sum]
+    candidates.each do |candidate|
+      candidates.each do |challenger|
+        next if candidate == challenger
+        diff = @matrix[candidate][challenger] - @matrix[challenger][candidate]
+        victories_ties[candidate] = {} unless victories_ties.key?(candidate)
+        if diff >= 0
+          victories_ties[candidate][challenger] = diff
+        end
       end
     end
-    @candidate_sums.sort! {|a,b| b[1] <=> a[1] }  # sort by the win sums, desc.
     
-    #ranked_candidates = []
-    ranks = {}
-    previous_win_sum = -1
-    rank = 0
-    @candidate_sums.each do |candidate_and_wins|
-      candidate, win_sum = candidate_and_wins
-      #@ranked_candidates << candidate
-      rank += 1 if win_sum != previous_win_sum
-      ranks[candidate] = rank
-      previous_win_sum = win_sum
-    end
-    return ranks
+    return victories_ties    
   end
-  
-  
+
+  def ranked_candidates
+    if not defined?(@ranked_candidates)
+      @ranked_candidates = build_ranked_candidates()
+    end
+
+    @ranked_candidates
+  end
+        
+  protected
   def defeats(candidates=nil, votes=nil)
-    candidates = @election.candidates unless candidates
-    votes = @election.votes unless votes
+    candidates ||= @election.candidates || []
+    # we're assumign that if there are candidates, there must be at
+    # least one vote for them
+    votes ||= @election.votes 
 
     defeats = Array.new
     candidates.each do |candidate|
@@ -158,6 +167,27 @@ class CondorcetResult < ElectionResult
 
     defeats
   end
+  
+  def build_ranked_candidates
+    # build a lis of ranked candidates by dropping the winner and
+    # cursing
+
+    ranked_candidates = []
+
+    resultobj = self.dup
+    candidates = self.election.candidates
+
+    until candidates.empty? 
+      ranked_candidates << resultobj.winners
+      
+      new_voteobj = resultobj.election.dup
+      candidates = new_voteobj.candidates
+      new_voteobj.candidates.delete_if {|x| resultobj.winners.include?(x)}
+      resultobj = new_voteobj.result
+    end
+
+    ranked_candidates
+  end
 
 end
 
@@ -168,9 +198,14 @@ class PureCondorcetResult < CondorcetResult
   end
 
   protected
+  
   def condorcet
     votes = @election.votes
     candidates = @election.candidates
+
+    unless votes.length > 0 and candidates.length > 0
+      return @winners=[]
+    end
 
     victors = Hash.new
     candidates.each do |candidate|
@@ -182,11 +217,18 @@ class PureCondorcetResult < CondorcetResult
       victors[winner] << loser
     end
 
-    winners = @election.candidates.find_all do |candidate|
-        victors[candidate].length == @election.candidates.length - 1
+    victory_margin = 1
+    while true
+      winners = @election.candidates.find_all do |candidate|
+        victors[candidate].length == @election.candidates.length - victory_margin
+      end
+      if winners.length > 0
+        @winners = winners
+        return @winners
+      else
+        victory_margin += 1
+      end
     end
-
-    @winners << winners if winners.length == 1
   end
 end
 
@@ -197,9 +239,10 @@ class CloneproofSSDResult < CondorcetResult
   end
 
   protected
+
   def cpssd
     votes = @election.votes
-    candidates = *@election.candidates
+    candidates = @election.candidates.dup
 
     def in_schwartz_set?(candidate, candidates, transitive_defeats)
       candidates.each do |challenger|
@@ -217,15 +260,22 @@ class CloneproofSSDResult < CondorcetResult
 
       # see the array with the standard defeats
       transitive_defeats = self.defeats(candidates, votes)
+      defeats_hash = Hash.new
+      transitive_defeats.each { |td| defeats_hash[td] = 1 }
 
+      candidates = [candidates] unless candidates.class == Array
       candidates.each do |cand1|
         candidates.each do |cand2|
-          candidates.each do |cand3|
-            if transitive_defeats.include?( [ cand2, cand1 ] ) and
-                transitive_defeats.include?( [ cand1, cand3 ] ) and
-                not transitive_defeats.include?( [ cand2, cand3 ] ) and
-                not cand2 == cand3
-              transitive_defeats << [ cand2, cand3 ]
+          unless cand1 == cand2
+            candidates.each do |cand3|
+              if not cand2 == cand3 and 
+                  not cand1 == cand3 and 
+                  defeats_hash[[cand2, cand1]] and
+                  defeats_hash[[cand1, cand3]] and
+                  not defeats_hash[[cand2, cand3]] 
+                transitive_defeats << [cand2, cand3]
+                defeats_hash[[cand2, cand3]] = 1
+              end
             end
           end
         end

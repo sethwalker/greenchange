@@ -42,7 +42,11 @@ class ElectionVote
     if votes
       if votes.instance_of?( Array )
         votes.each do |vote|
-          self.tally_vote(vote) if self.verify_vote(vote)
+          if self.verify_vote(vote)
+            self.tally_vote(vote)
+          else
+            raise InvalidVoteError.new("Invalid vote object", vote)
+          end
         end
       else
         raise ElectionError, "Votes must be in the form of an array.", caller
@@ -61,6 +65,7 @@ class ElectionVote
   def tally_vote
     self.verify_vote(vote)
   end
+
 end
 
 class PluralityVote < ElectionVote
@@ -70,7 +75,7 @@ class PluralityVote < ElectionVote
   
   protected
   def verify_vote(vote=nil)
-    vote.instance_of?( String )
+    vote ? true : false
   end
 
   def tally_vote(candidate)
@@ -109,6 +114,7 @@ end
 
 class ElectionResult
   attr_reader :winners
+  attr_reader :election
 
   def initialize(voteobj=nil)
     unless voteobj and voteobj.kind_of?( ElectionVote )
@@ -124,14 +130,15 @@ class ElectionResult
   end
 
   def winner?
-    @winners.length > 0
+    @winners.length > 0 and not @winners[0].nil?
   end
-
+  
 end
 
 class PluralityResult < ElectionResult
   attr_reader :ranked_candidates
-
+  attr_reader :points
+  
   def initialize(voteobj=nil)
     super(voteobj)
 
@@ -141,6 +148,8 @@ class PluralityResult < ElectionResult
     @ranked_candidates = votes.sort do |a, b|
       b[1] <=> a[1]
     end.collect {|a| a[0]}
+    
+    @points = @election.votes
     
     # winners are anyone who has the same number of votes as the
     # first person
@@ -158,3 +167,10 @@ end
 class ElectionError < ArgumentError
 end
 
+class InvalidVoteError < ElectionError
+  attr_accessor :voteobj
+  def initialize(msg=nil, voteobj=nil)
+    super(msg)
+    @voteobj=voteobj
+  end
+end
