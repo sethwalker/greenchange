@@ -175,11 +175,10 @@ class Page < ActiveRecord::Base
   ## RELATIONSHIP TO OTHER PAGES
   
   # reciprocal links between pages
-  has_and_belongs_to_many :links,
-    :class_name => "Page",
-    :join_table => "links",
-    :association_foreign_key => "other_page_id",
-    :foreign_key => "page_id",
+  has_many :links_as_page, :class_name => 'Link', :foreign_key => 'page_id', :dependent => :destroy
+  has_many :links, 
+    :through => :links_as_page, 
+    :source => :other_page,
     :uniq => true,
     :after_add => :reciprocate_add,
     :after_remove => :reciprocate_remove

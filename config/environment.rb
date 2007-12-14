@@ -31,6 +31,7 @@ ACCESS = {
 FLOW = {
  :membership => '1',
  :contacts => '2',
+ :collection => '3',
 }.freeze
 
 Rails::Initializer.run do |config|
@@ -107,3 +108,7 @@ FightTheMelons::Helpers::FormMultipleSelectHelperConfiguration.outer_class = 'pl
 SVN_REVISION = (RAILS_ENV != 'test' && r = YAML.load(`svn info`)) ? r['Revision'] : nil
 
 require "#{RAILS_ROOT}/vendor/enhanced_migrations-1.2.0/lib/enhanced_migrations.rb"
+
+# ensure that plugin code overrides application code always
+Engines.disable_application_code_loading = true
+Engines.disable_application_view_loading = true
