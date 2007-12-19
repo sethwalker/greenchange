@@ -6,7 +6,7 @@
   <%= link_to "<b>#{page_class.class_display_name.t}</b>: #{page_class.class_description.t}",
     {:controller => 'tool/'+page_class.controller, :action => 'create',
      :id => page_class.class_display_name.nameize, :group_id => params[:group_id]},
-    {:style => "background: url(/images/pages/big/#{page_class.icon}) no-repeat 0% 50%", :class => 'page-link'} %>
+    {:style => "background: url(#{page_class.big_icon_path}) no-repeat 0% 50%", :class => 'page-link'} %>
 </div></div>
 <% end -%>
 </div>

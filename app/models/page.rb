@@ -228,6 +228,14 @@ class Page < ActiveRecord::Base
   class_attribute :controller, :model, :icon, :internal?,
     :class_description, :class_display_name, :class_group
 
+  def self.icon_path
+    "/images/pages/#{self.icon}"
+  end
+
+  def self.big_icon_path
+    "/images/pages/big/#{self.icon}"
+  end
+
   # lets us convert from a url pretty name to the actual class.
   def self.display_name_to_class(display_name)
     dn = display_name.nameize

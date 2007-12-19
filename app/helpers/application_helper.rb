@@ -46,7 +46,7 @@ module ApplicationHelper
   end
  
   def page_icon(page)
-    image_tag "pages/#{page.icon}", :size => "22x22"
+    image_tag "#{page.class.icon_path}", :size => "22x22"
   end
   
   def page_icon_style(icon)
