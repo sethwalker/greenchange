@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 1196752821) do
+ActiveRecord::Schema.define(:version => 1199732497) do
 
   create_table "asset_versions", :force => true do |t|
     t.column "asset_id",       :integer
@@ -111,6 +111,14 @@ ActiveRecord::Schema.define(:version => 1196752821) do
     t.column "is_cancelled",     :boolean, :default => false
     t.column "is_tentative",     :boolean, :default => true
     t.column "location",         :string
+  end
+
+  create_table "external_medias", :force => true do |t|
+    t.column "media_key",           :string
+    t.column "media_url",           :string
+    t.column "media_thumbnail_url", :string
+    t.column "media_embed",         :string
+    t.column "type",                :string
   end
 
   create_table "federations", :force => true do |t|

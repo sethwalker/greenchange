@@ -232,8 +232,16 @@ class Page < ActiveRecord::Base
     "/images/pages/#{self.icon}"
   end
 
+  def icon_path
+    self.class.icon_path
+  end
+
   def self.big_icon_path
     "/images/pages/big/#{self.icon}"
+  end
+
+  def big_icon_path
+    self.class.big_icon_path
   end
 
   # lets us convert from a url pretty name to the actual class.
