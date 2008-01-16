@@ -8,10 +8,8 @@ the one that matches their language and relationship to the user/group.
 
 =end
 
-module Profile
+class Profile::Profile < ActiveRecord::Base
 
-class Profile < ActiveRecord::Base
- 
   ### relationship to user or group #########################################
   
   belongs_to :entity, :polymorphic => true
@@ -79,5 +77,3 @@ class Profile < ActiveRecord::Base
   end
   
 end # class
-
-end # module
