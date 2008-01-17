@@ -6,14 +6,19 @@ unless Rake::TaskManager.methods.include?(:redefine_task)
   module Rake
     module TaskManager
       def redefine_task(task_class, args, &block)
-        task_name, deps = resolve_args(args)
+        task_name, deps = (RAKEVERSION >= '0.8.0') ? resolve_args([args]) : resolve_args(args)
         task_name = task_class.scope_name(@scope, task_name)
         deps = [deps] unless deps.respond_to?(:to_ary)
         deps = deps.collect {|d| d.to_s }
         task = @tasks[task_name.to_s] = task_class.new(task_name, self)
         task.application = self
-        task.add_comment(@last_comment)
-        @last_comment = nil
+        if RAKEVERSION >= '0.8.0'
+          task.add_description(@last_description)
+          @last_description = nil
+        else
+          task.add_comment(@last_comment)
+          @last_comment = nil
+        end
         task.enhance(deps, &block)
         task
       end
