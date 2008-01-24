@@ -146,6 +146,21 @@ class Group < ActiveRecord::Base
     def pending
       find(:all, :conditions => ['resolved = ?',false], :order => 'happens_at' )
     end
+    def find_with_access(*args)
+      user = args[1].delete(:user)
+      scope = if user
+        if user.member_of?(proxy_owner)
+          {}
+        else
+          {:conditions => ["pages.public = ? OR user_participations.user_id = ? OR group_participations.group_id IN (?)", true, user.id, user.all_group_ids], :include => [:user_participations, :group_participations]}
+        end
+      else
+        {:conditions => ["pages.public = ?", true]}
+      end
+      with_scope(:find => scope) do
+        find(*args)
+      end
+    end
   end
 
   def add_page(page, attributes)
