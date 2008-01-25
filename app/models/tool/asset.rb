@@ -7,6 +7,8 @@ class Tool::Asset < Page
   class_description 'an uploaded file'
   class_group 'asset'
 
+  belongs_to :asset_data, :foreign_key => "data_id", :class_name => '::Asset'
+
   def icon
     return asset.small_icon if asset
     return 'package.png' 
