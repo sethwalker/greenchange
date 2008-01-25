@@ -1,7 +1,5 @@
 module MeHelper
 
-  include PageFinders
-
   def task_link(text, id, default=false)
     if default and params[:id].empty?
       selected = 'selected'
@@ -13,11 +11,9 @@ module MeHelper
   end
   
   def pending_request_link
-    if @request_count == 1
-      link_to @request_count.to_s + ' ' + 'pending request'.t, :controller => 'requests'
-    elsif @request_count > 1
-      link_to @request_count.to_s + ' ' + 'pending requests'.t, :controller => 'requests'
-    end
+    s = @request_count == 1 ? '' : 's'
+    link_to '%s pending request%s'.t % [@request_count, s],
+      :controller => 'requests'
   end
 
   def unread_inbox_link

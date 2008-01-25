@@ -3,13 +3,16 @@ table.activity {
 }
 table.activity td a, table.activity td {
   padding: 5px;
-  
+  text-decoration: none;
+}
+table.activity td a:hover {
+  text-decoration: underline;
 }
 table.activity tr.odd {
   background-color: #F2F2F2;
 }
 table.activity tr.even {
- background-color: white;
+  background-color: white;
 }
 table.activity th {
   padding-top: 20px; 

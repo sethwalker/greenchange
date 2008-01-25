@@ -9,7 +9,6 @@ class GroupsController < ApplicationController
   prepend_before_filter :find_group, :except => ['list','create','index']
   
   before_filter :login_required,
-#    :only => [:create, :edit, :edit_public_home, :edit_private_home, :destroy, :update]
     :except => [:list, :index, :show, :search, :archive, :tags]
     
   verify :method => :post,
@@ -31,7 +30,17 @@ class GroupsController < ApplicationController
   end
 
   def show
-#    redirect_to :action => 'not_found' unless (@group.parent and @group.parent.publicly_visible_group) or @group.publicly_visible_group or may_admin_group?
+    if logged_in? and current_user.member_of?(@group)
+      @access = :private
+    elsif @group.publicly_visible_group
+      @access = :public
+    else
+      return render(:template => 'groups/show_nothing')
+    end
+    
+    @pages = Page.find_by_path('descending/updated_at/limit/20', options_for_group(@group))
+    @profile = @group.profiles.send(@access)
+    @profile.create_wiki unless @profile.wiki
   end
 
   def visualize
@@ -51,7 +60,7 @@ class GroupsController < ApplicationController
      "JOIN user_participations ON pages.id = user_participations.id " +
      "WHERE group_participations.group_id = #{@group.id} "
     unless may_admin_group?
-      sql += " AND (pages.public = 1#{' OR user_participations.user_id = ' + current_user.id if logged_in?}) "
+      sql += " AND (pages.public = 1#{' OR user_participations.user_id = %d' % current_user.id if logged_in?}) "
     end
     sql += "GROUP BY year, month ORDER BY year, month"
     @months = Page.connection.select_all(sql)
@@ -72,7 +81,7 @@ class GroupsController < ApplicationController
         @parsed << [ 'year', @months.last['year'] ]
       end
 
-      @pages, @sections = fetch_pages_from_path(@path)
+      @pages, @sections = Page.find_and_paginate_by_path(@path, options_for_group(@group))
     end
   end
   
@@ -81,7 +90,7 @@ class GroupsController < ApplicationController
       path = build_filter_path(params[:search])
       redirect_to groups_url(:id => @group, :action => 'search') + path   
     else
-      @pages, @sections = fetch_pages_from_path(params[:path])
+      @pages, @sections = Page.find_and_paginate_by_path(params[:path], options_for_group(@group))
       if parsed_path.sort_arg?('created_at') or parsed_path.sort_arg?('created_by_login')    
         @columns = [:icon, :title, :created_by, :created_at, :contributors_count]
       else
@@ -97,13 +106,13 @@ class GroupsController < ApplicationController
   def tags
     tags = params[:path] || []
     path = tags.collect{|a|['tag',a]}.flatten
-    @pages, @sections = fetch_pages_from_path(path)
+    @pages, @sections = Page.find_and_paginate_by_path(path, options_for_group(@group))
   end
 
   def tasks
     @stylesheet = 'tasks'
-    @pages, @sections = fetch_pages_from_path(['type','task','pending'])
-    @task_lists = @pages.collect{|part|part.page.data}
+    @pages, @sections = Page.find_and_paginate_by_path('type/task/pending', options_for_group(@group))
+    @task_lists = @pages.collect{|page|page.data}
   end
 
   # login required
@@ -150,33 +159,7 @@ class GroupsController < ApplicationController
       end
     end
   end
-  
-  # login required
-  def edit_public_home
-    unless @group.public_home
-      page = Page.make :wiki, :group => @group, :user => current_user, :name => 'public home', :body => 'new public home'
-      page.save!
-      @group.public_home_id = page.data_id
-      @group.save!
-    else
-      page = @group.public_home.page
-    end
-    redirect_to page_url(page, :action => 'edit')
-  end
-  
-  # login required
-  def edit_private_home
-    unless @group.private_home
-      page = Page.make :wiki, :group => @group, :user => current_user, :name => 'private home', :body => 'new private home'
-      page.save!
-      @group.private_home_id = page.data_id
-      @group.save!
-    else
-      page = @group.private_home.page
-    end
-    redirect_to page_url(page, :action => 'edit')
-  end
-  
+    
   # login required
   # post required
   def update
@@ -223,37 +206,11 @@ class GroupsController < ApplicationController
       @group_type = @group.class.to_s.downcase
       return true
     else
-      render :template => 'dispatch/not_found', :status => :not_found
+      render :template => 'groups/show_nothing'
       return false
     end
   end
   
-=begin
-  def authorized?
-    post_allowed_always = %w(create)
-    get_allowed_always  = post_allowed_always
-    post_allowed_if_visible = %w(archive search tags tasks create) + post_allowed_always
-    get_allowed_if_visible  = %w(show members) + post_allowed_if_visible
-
-    if request.get? and get_allowed_always.include? params[:action]
-      return true
-    elsif request.post? and post_allowed_always.include? params[:action]
-      return true
-    end
-  
-    if may_admin_group?
-      return true
-    elsif @group.publicly_visible_group or (@group.parent and @group.parent.publicly_visible_group)
-      if request.get? and get_allowed_if_visible.include? params[:action]
-        return true
-      elsif request.post? and post_allowed_if_visible.include? params[:action]
-        return true
-      end
-    end
-    render :action => 'not_found'
-    return false
-  end
-=end
   def authorized?
     non_members_post_allowed = %w(archive search tags tasks create)
     non_members_get_allowed = %w(show members) + non_members_post_allowed
@@ -265,21 +222,5 @@ class GroupsController < ApplicationController
       return(logged_in? and current_user.member_of? @group)
     end
   end    
-  
-  def fetch_pages_from_path(path)
-    options = {:class => GroupParticipation, :path => path}
-    if logged_in?
-      # the group's pages that we also have access to
-      # we might not be in a group, but still have access one of the group's
-      # pages via our membership in another group.
-      options[:conditions] = "(group_participations.group_id = ? AND (group_parts.group_id IN (?) OR user_parts.user_id = ? OR pages.public = ?))"
-      options[:values]     = [@group.id, current_user.all_group_ids, current_user.id, true]
-    else
-      # the group's public pages
-      options[:conditions] = "group_participations.group_id = ? AND pages.public = ?"
-      options[:values]     = [@group.id, true]
-    end
-    find_and_paginate_pages options
-  end
   
 end

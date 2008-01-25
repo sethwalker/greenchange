@@ -1,14 +1,15 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
-  
-  include PageUrlHelper
+    
+  include PageUrlHelper         # provides page_url() and page_xurl()
   include UrlHelper
-  include Formy
+  include Formy                 # helps create forms
   include LayoutHelper
   include LinkHelper
-  include PaginationHelper
+  include PaginationHelper      # creates windowed pagination links
   include TimeHelper
-  
+  include PathFinder::Options   # for Page.find_by_path options
+    
   # display flash messages with appropriate styling
   def display_messages()
     return "" unless flash[:notice] || flash[:error] || flash[:update]
@@ -149,17 +150,7 @@ module ApplicationHelper
         return( link_to 'discuss'.t, page_url(page.links.first) )
       end
     elsif column == :title
-      title = link_to(page.title, page_url(page))
-      if participation and participation.instance_of? UserParticipation
-        title += " " + image_tag("emblems/pending.png", :size => "11x11", :title => 'pending') unless participation.resolved?
-        title += " " + image_tag("emblems/star.png", :size => "11x11", :title => 'star') if participation.star?
-      else
-        title += " " + image_tag("emblems/pending.png", :size => "11x11", :title => 'pending') unless page.resolved?
-      end
-      if page.flag[:new]
-        title += " <span class='newpage'>#{'new'.t}</span>"
-      end
-      return title
+      return page_list_title(page, column, participation)    
     elsif column == :updated_by or column == :updated_by_login
       return( page.updated_by_login ? link_to_user(page.updated_by_login) : '&nbsp;')
     elsif column == :created_by or column == :created_by_login
@@ -177,14 +168,32 @@ module ApplicationHelper
     elsif column == :owner
       return (page.group_name || page.created_by_login)
     elsif column == :owner_with_icon
-      if page.group_id
-        return link_to_group(page.group, :avatar => 'xsmall')
-      elsif page.created_by
-        return link_to_user(page.created_by, :avatar => 'xsmall')
-      end
+      return page_list_owner_with_icon(page)
     else
       return page.send(column)
     end
+  end
+
+  def page_list_owner_with_icon(page)
+    if page.group_id
+      return link_to_group(page.group_id, :avatar => 'xsmall')
+    elsif page.created_by
+      return link_to_user(page.created_by, :avatar => 'xsmall')
+    end
+  end
+  
+  def page_list_title(page, column, participation = nil)
+    title = link_to(page.title, page_url(page))
+    if participation and participation.instance_of? UserParticipation
+      title += " " + image_tag("emblems/pending.png", :size => "11x11", :title => 'pending') unless participation.resolved?
+      title += " " + image_tag("emblems/star.png", :size => "11x11", :title => 'star') if participation.star?
+    else
+      title += " " + image_tag("emblems/pending.png", :size => "11x11", :title => 'pending') unless page.resolved?
+    end
+    if page.flag[:new]
+      title += " <span class='newpage'>#{'new'.t}</span>"
+    end
+    return title
   end
   
   def page_list_heading(column=nil)
@@ -208,6 +217,22 @@ module ApplicationHelper
     elsif column
       list_heading column.to_s.t, column.to_s
     end    
+  end
+
+  #
+  # Often when you run a page search, you will get an array of UserParticipation
+  # or GroupParticipation objects. 
+  #
+  # This method will convert the array to Pages if they are not.
+  #
+  def array_of_pages(pages)
+    if pages
+      if pages.first.is_a? Page
+        return pages
+      else
+        return pages.collect{|p|p.page}
+      end
+    end
   end
   
 end

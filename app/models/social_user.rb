@@ -117,7 +117,14 @@ class SocialUser < AuthenticatedUser
       group_ids.include?(group.id)
     end
   end
-  
+
+  # eventually, we will have group admins.
+  # for now, we can just make this return true
+  # for all members
+  def may_admin?(group)
+    member_of?(group)
+  end
+    
   def check_duplicate_memberships(membership)
     raise AssociationError.new('you cannot have duplicate membership') if self.group_ids.include?(membership.group_id)
   end
@@ -171,8 +178,12 @@ class SocialUser < AuthenticatedUser
   ## person/group, like invite them to things, send them notices, etc.
   ## 
 
+  def may_be_pestered_by?(user)
+    return true
+  end
+
   def may_pester?(entity)
-    true
+    entity.may_be_pestered_by? self
   end
 
   def stranger_to?(user)
@@ -190,14 +201,19 @@ class SocialUser < AuthenticatedUser
   end
   
   def relationship_to(user)
+    relationships_to(user).first
+  end
+  def relationships_to(user)
     return :stranger unless user
-    (@relationships ||= {})[user.login] ||= if friend_of?(user) || user == self
-      :friend
-    elsif peer_of?(user)
-      :peer
-    else
-      :stranger
-    end
+    (@relationships ||= {})[user.login] ||= get_relationships_to(user)
+  end
+  def get_relationships_to(user)
+    ret = []
+    ret << :friend   if friend_of?(user)
+    ret << :peer     if peer_of?(user)
+#   ret << :fof      if fof_of?(user)
+    ret << :stranger if ret.empty?
+    ret
   end
   
   ######################################################################
@@ -209,22 +225,42 @@ class SocialUser < AuthenticatedUser
   
   ######################################################################
   ## Caching IDs
-  #
-  # The idea here is that every user in a social networking universe
-  # has a lot of relationships to other entities that might be expensive
-  # to discover. For example, a list of all your peers or a list of all
-  # groups you have direct or indirect access to. So, we cache it.
-  #
-  # If you are paying attention, you will realize this is stupid. 
-  # See the notes in the migration for my justification for why it is not.
-  # 
-  # In many cases, all we *want* are the ids, since this is sufficient
-  # to test membership and to display name and avatar if ever get around
-  # to creating a memcached for users and groups that stores [id,name,avatar_id].
-  #
-  # As a handy bit of fun, if any of these ids caches changes, we increment
-  # the user's version. This can be then used to easily expire caches which
-  # use these values.
+ 
+=begin 
+The idea here is that every user in a social networking universe
+has a lot of relationships to other entities that might be expensive
+to discover. For example, a list of all your peers or a list of all
+groups you have direct or indirect access to. So, we cache it, in
+the form of serialized arrays of integers corresponding to the ids of the
+foreign relationships.
+
+If you are paying attention, you will realize this is stupid. A couple reasons
+why it is not:
+
+  (1) by using compressed integers for serialization, we can actually store
+      a lot of ids without taking up too much space.
+  (2) it is much faster to deserialize a big array of integers than it is
+      to join in another table or make an extra query.
+
+In many cases, all we *want* are the ids, since this is sufficient
+to test membership and to display name and avatar (if ever get around
+to creating a memcached for users and groups that stores [id,name,avatar_id]).
+
+Also, we make a lot of queries of the form "group_id IN (1,2,3,4)".
+This is fast, according to the mysql manual:
+
+   If all values are constants, they are evaluated according to
+   the type of expr and sorted. The search for the item then is
+   done using a binary search. This means IN is very quick if
+   the IN value list consists entirely of constants.
+
+This suggests that if we stored the ids caches pre-sorted, it would be
+slightly faster.
+
+As a handy bit of fun, if any of these ids caches changes, we increment
+the user's version. This can be then used to easily expire caches which
+use these values.
+=end
 
   # Be careful with this method: it is called any time a Membership
   # object is created or destroyed, and it is also called any time

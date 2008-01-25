@@ -5,7 +5,7 @@ require 'groups_controller'
 class GroupsController; def rescue_action(e) raise e end; end
 
 class GroupsControllerTest < Test::Unit::TestCase
-  fixtures :groups, :users, :memberships
+  fixtures :groups, :users, :memberships, :profiles
 
   include UrlHelper
 
@@ -49,9 +49,8 @@ class GroupsControllerTest < Test::Unit::TestCase
     assert_template 'show'
     
     get :show, :id => groups(:private_group).name
-    assert_response :not_found
-    assert_template 'not_found'
-#    assert_template 'dispatch/not_found'
+    assert_response :success
+    assert_template 'show_nothing'
   end
 
   def test_get_create
@@ -75,6 +74,23 @@ class GroupsControllerTest < Test::Unit::TestCase
     assert_equal assigns(:group).name, 'test-create-group'
     assert_equal group.name, 'test-create-group'
     assert_equal num_groups + 1, Group.count
+  end
+
+  def test_create_fails_when_name_is_taken
+    login_as :gerrard
+
+    num_groups = Group.count
+    post :create, :group => {:name => 'test-create-group'}
+    assert_equal num_groups + 1, Group.count, "should have created a new group"
+
+    num_groups = Group.count
+    post :create, :group => {:name => 'test-create-group'}
+    assert_equal num_groups, Group.count,
+                 "should not create group with name of an existing group"
+
+    post :create, :group => {:name => User.find(1).login}
+    assert_equal num_groups, Group.count,
+                 "should not create group with name of an existing user"
   end
 
   def test_edit
@@ -135,26 +151,31 @@ class GroupsControllerTest < Test::Unit::TestCase
 # i'm not sure how to write tests  --af
 #    post :invite, :user => 'blue'
   end
-  
-  def test_archive
+    
+  def test_archive_logged_in
     login_as :blue
+
     get :archive, :id => groups(:rainbow).name
-
-    assert_response :success
+    assert_response :success, 'logged in, member of group should succeed'
     assert_template 'archive'
+    assert_not_nil assigns(:months)
+    assert assigns(:group).valid?
+    
+    get :archive, :id => groups(:public_group).name
+    assert_response :success, 'public group, logged in, should be found'
+    assert assigns(:group).valid?
 
-#    assert_not_nil assigns(:months)
-#    assert assigns(:group).valid?
+    get :archive, :id => groups(:private_group).name
+    assert_template 'show_nothing', 'private group, logged in, should not be found'
   end
 
-  def test_archive_when_not_logged_in
+  def test_archive_not_logged_in
     get :archive, :id => groups(:public_group).name    
     assert_response :success
     assert_template 'archive'
     
     get :archive, :id => groups(:private_group).name
-    assert_response :not_found
-    assert_template 'not_found'
+    assert_template 'show_nothing'
   end
 
   def test_member_of_committee_but_not_of_group_cannot_access_group_pages
@@ -184,7 +205,7 @@ class GroupsControllerTest < Test::Unit::TestCase
     get :show
     assert_response :success
     assert_template 'show'
-    assert_select "h4", "New Pages"
+    assert_select "h4", "Today"
     assert_select "a[href=?]", @controller.page_url(committee_page)
 
     @controller.instance_variable_set(:@group, g)

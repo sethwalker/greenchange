@@ -4,8 +4,9 @@ class ApplicationController < ActionController::Base
   include PageUrlHelper
   include UrlHelper
   include ContextHelper
-  include PageFinders
   include TimeHelper
+
+  include PathFinder::Options
       
   # don't allow passwords in the log file.
   filter_parameter_logging "password"
@@ -13,7 +14,8 @@ class ApplicationController < ActionController::Base
   before_filter :pre_clean
   before_filter :breadcrumbs, :context
   around_filter :set_timezone
-  
+  session :session_secure => true if Crabgrass::Config.https_only
+
   protected
   
   # let controllers set a custom stylesheet in their class definition

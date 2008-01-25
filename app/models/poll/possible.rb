@@ -1,10 +1,12 @@
 
 class Poll::Possible < ActiveRecord::Base
 
-  belongs_to :poll
-  has_many :votes, :dependent => :destroy
+	acts_as_list
+  belongs_to :poll, :class_name => 'Poll::Poll', :foreign_key => 'poll_id'
+  has_many :votes, :dependent => :destroy, :class_name => 'Poll::Vote', :foreign_key => 'possible_id'
   format_attribute :description  
   validates_presence_of :name
+  
   
   # rails doesn't let you serialize instances of auto loaded classes
   # see the bug here: http://dev.rubyonrails.org/ticket/7537

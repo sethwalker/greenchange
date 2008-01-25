@@ -47,12 +47,11 @@ class PagesController < ApplicationController
   def search
     unless @pages
       if logged_in?
-        options = options_for_pages_viewable_by(current_user)
+        options = options_for_me
       else
         options = options_for_public_pages
       end
-      options.merge!( {:class => Page, :path => params[:path]} )
-      @pages, @page_sections = find_and_paginate_pages(options)
+      @pages, @page_sections = Page.find_and_paginate_by_path(params[:path], options)
     end
   end
 
@@ -61,7 +60,6 @@ class PagesController < ApplicationController
   # Tool::BaseController (or overridden by the particular tool). 
   def create
   end
- 
      
   def tag
     return unless request.xhr?
@@ -133,10 +131,18 @@ class PagesController < ApplicationController
       elsif params[:add_name]
         access = params[:access] || :admin
         if group = Group.get_by_name(params[:add_name])
-          @page.add group, :access => access
+          if current_user.may_pester? group
+            @page.add group, :access => access
+          else
+            message :error => 'you do not have permission to do that'
+          end
         elsif user = User.find_by_login(params[:add_name])
-          @page.remove user
-          @page.add user, :access => access
+          if current_user.may_pester? user
+            @page.remove user
+            @page.add user, :access => access
+          else
+            message :error => 'you do not have permission to do that'
+          end
         else
           message :error => 'group or user not found'
         end
@@ -182,6 +188,8 @@ class PagesController < ApplicationController
   # only works with xhr for now.
   def update_public
     @page.update_attribute(:public, ('true' == params[:public]))
+    current_user.updated @page
+    # in the future, indicate that the page was changed by making it public
     render :nothing => true
   end
   

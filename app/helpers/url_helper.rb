@@ -1,5 +1,16 @@
 module UrlHelper
-
+  # if you pass options[:full_name] = true, committees will have the string
+  # "group+committee" (default does not include leading "group+")
+  # 
+  # options[:display_name] = true for groups will yield the descriptive name for display, if one exists
+  #
+  # This function accepts a string, a group_id (integer), or a class derived from a group
+  #
+  # If options[:text] = "boop %s beep", the group name will be 
+  # substituted in for %s, and the display name will be "boop group_name beep"
+  #
+  # If options[:action] is not included it is assumed to be show, and otherwise
+  # the the link goes to "/groups/action/group_name'
   def name_and_path_for_group(arg,options={})
     if arg.instance_of? Integer
       # this assumes that at some point simple id based finds will be cached in memcached
@@ -8,15 +19,19 @@ module UrlHelper
       name = arg
     elsif arg.is_a? Committee
       name = arg.name
-      display_name = arg.display_name
+      if options[:full_name]
+        display_name = arg.full_name
+      else
+        display_name = arg.display_name
+      end
     elsif arg.is_a? Group
       name = arg.name
+      if options[:display_name] and arg.full_name
+        display_name = arg.full_name
+      end
     end
     display_name ||= name
     display_name = options[:text] % display_name if options[:text]
-    if options[:show_full_name] and arg.full_name
-      display_name += " - " + arg.full_name
-    end
     action = options[:action] || 'show'
     if action == 'show'
       path = "/#{name}"
@@ -67,8 +82,15 @@ module UrlHelper
     end
     link_to login, path, :class => 'name_link', :style => style
   end
-  
+
+  # see function name_and_path_for_group for description of options
   def link_to_group(arg, options={})
+    if arg.is_a? Integer
+      @group_cache ||= {}
+      @group_cache[arg] ||= Group.find(arg)
+      arg = @group_cache[arg]
+    end
+    
     display_name, path = name_and_path_for_group(arg,options)
     style = options[:style] || ''
     if options[:avatar]

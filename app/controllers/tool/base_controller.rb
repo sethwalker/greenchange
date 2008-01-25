@@ -7,7 +7,6 @@ class Tool::BaseController < ApplicationController
   
   prepend_before_filter :fetch_page_data
   append_before_filter :login_or_public_page_required
-  skip_before_filter :login_required
   append_before_filter :setup_default_view
   append_after_filter :update_participation
   
@@ -19,6 +18,8 @@ class Tool::BaseController < ApplicationController
     @user = options[:user]   # the user context, if any
     @group = options[:group] # the group context, if any
     @page = options[:page]   # the page object, if already fetched
+
+    @javascript_extra = true
   end  
     
   # the form to create this type of page

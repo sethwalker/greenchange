@@ -12,6 +12,10 @@ require File.join(File.dirname(__FILE__), 'boot')
 SITE_NAME = 'riseup.net'
 SECTION_SIZE = 29 # the default size for pagination sections
 
+AVAILABLE_PAGE_CLASSES = %w[
+  Message Discussion TextDoc RateMany RankedVote TaskList Asset
+]
+
 ### END CUSTOM OPTIONS
 ########################################################################
 
@@ -20,19 +24,22 @@ SECTION_SIZE = 29 # the default size for pagination sections
 
 # levels of page access
 ACCESS = {
- :admin => '1',
- :change => '2',
- :edit => '2', 
- :view => '3',
- :read => '3'
+ :admin => 1,
+ :change => 2,
+ :edit => 2, 
+ :view => 3,
+ :read => 3
 }.freeze
 
 # types of page flows
 FLOW = {
- :membership => '1',
- :contacts => '2',
+ :membership => 1,
+ :contacts => 2,
  :collection => '3',
 }.freeze
+
+# do this early because environments/*.rb need it
+require 'crabgrass_config'
 
 Rails::Initializer.run do |config|
   config.load_paths += %w(associations discussion chat).collect do |dir|
@@ -73,6 +80,7 @@ require "#{RAILS_ROOT}/lib/extends_to_active_record.rb"
 require "#{RAILS_ROOT}/lib/extends_like_edge.rb"
 require "#{RAILS_ROOT}/lib/greencloth/greencloth.rb"
 require "#{RAILS_ROOT}/lib/misc.rb"
+require "#{RAILS_ROOT}/lib/path_finder.rb"
 
 #### TOOLS #########################
 
@@ -82,6 +90,8 @@ Dir.glob("#{RAILS_ROOT}/**/app/models/tool/*.rb").each do |toolfile|
 end
 # a static array of tool classes:
 TOOLS = Tool.constants.collect{|tool|Tool.const_get(tool)}.freeze
+
+AVAILABLE_PAGE_CLASSES.collect!{|i|Tool.const_get(i)}.freeze
 
 #### ASSETS ########################
 

@@ -21,7 +21,7 @@ true_levellers:
   id: 1
   name: the-true-levellers
   summary: We come in peace, To dig and sow / We come to work the land in common / And to make the waste land grow
-another:
+animals:
   id: 2
   name: animals
   summary: all the animals party down!
@@ -45,10 +45,10 @@ public_group:
   id: 1000
   name: public_group_everyone_can_see
   summary: The public group that everyone can see
-  publicly_visible_group: true
+#  publicly_visible_group: true
 private_group:
   id: 2000
   name: private_group_not_everyone_can_see
   summary: The private group that not everyone can see
-  publicly_visible_group: false
+#  publicly_visible_group: false
 

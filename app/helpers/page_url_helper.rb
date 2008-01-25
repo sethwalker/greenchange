@@ -24,7 +24,7 @@ module PageUrlHelper
     elsif page.group_name
       path = page_path(page.group_name, page.name_url, options)
     elsif page.created_by_id
-      path = page_path(page.created_by.login, page.friendly_url, options)
+      path = page_path(page.created_by_login, page.friendly_url, options)
     else
       path = page_path('page', page.friendly_url, options)
     end
@@ -98,7 +98,7 @@ module PageUrlHelper
   # the query string. The query string will correctly build array parameter
   # values.
   def build_query_string(hash, only_keys=nil)
-    elements = []
+    elements = [] 
     
     only_keys ||= hash.keys
     

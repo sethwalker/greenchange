@@ -1,6 +1,7 @@
 # http://www.hervalfreire.com/blog/2007/05/11/faster-pagination-reloaded/
 
 module PaginationHelper  
+  include PageUrlHelper
 
   def windowed_pagination_links(pagingEnum, options)  
     link_to_current_page = options[:link_to_current_page]  
@@ -45,6 +46,9 @@ module PaginationHelper
     html  
   end
   
+  # page_name: the name of the parameter in the url
+  #            (ie ?section=4 or ?posts=3)
+  # pages: a Paginator for the list of objects
   def pagination(page_name, pages) 
     return unless pages and pages.page_count > 1
     
@@ -82,11 +86,11 @@ module PaginationHelper
   
   # a special link_to for doing pagination
   
-  def plink_to(title, path)
+  def plink_to(title, section)
     if @page
-      link_to title, page_url(@page, path)
+      link_to title, page_url(@page, section)
     else
-      link_to(title, path)
+      link_to(title, request.path + build_query_string(section))
     end
   end
   
