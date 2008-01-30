@@ -28,7 +28,7 @@ This group does not have a public profile.
     %>
  
     <% pages.each do |p| -%>
-      <% p.page.user_participations.each do |upart| -%>
+      <% p.user_participations.each do |upart| -%>
         <% next if not upart.user or not pt[upart.user] -%>
         <%= SVG::Path.new(["M", "#{pt[upart.user].x+psize}, #{pt[upart.user].y+psize/2}",
                            'C', "#{pt[upart.user].x+4*psize}, #{pt[upart.user].y+psize/2}",
@@ -53,9 +53,9 @@ This group does not have a public profile.
     <% end -%>
     <% pages.each do |p| -%>
       <%= SVG::Image.new(pt[p].x, pt[p].y, psize, psize, 
-            request.protocol + request.host_with_port + "/images/pages/#{p.page.icon}")
+            request.protocol + request.host_with_port + "/images/pages/#{p.icon}")
       %>
-      <%= SVG::Text.new(pt[p].x+psize/2, pt[p].y+psize+10, p.page.title) {
+      <%= SVG::Text.new(pt[p].x+psize/2, pt[p].y+psize+10, p.title) {
         self.style = SVG::Style.new
         self.style.fill           = '#000000'
         self.style.font_size      = '8pt'
