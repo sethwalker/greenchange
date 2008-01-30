@@ -12,7 +12,7 @@ This group does not have a public profile.
     psize = 32
 
     pt = {}
-    pages = find_pages(options_for_group(@group),'/changed/descending/updated_at/limit/5')
+    pages = Page.find_by_path('/changed/descending/updated_at/limit/5', options_for_group(@group))
     members = User.find @group.memberships.collect { |m| m.user_id }
     
     members.each_with_index { |m, i|
