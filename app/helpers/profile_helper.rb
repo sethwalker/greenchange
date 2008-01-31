@@ -13,7 +13,7 @@ module ProfileHelper
   end    
   
   def add_row_link(title,action)
-    link_to_remote title, :url => {:action => action}
+    link_to_remote title, :url => {:controller => :profile, :action => action}
   end
   
   

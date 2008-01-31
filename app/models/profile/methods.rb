@@ -27,6 +27,16 @@ module Profile::Methods
       :order => 'foe DESC, friend DESC, peer DESC, fof DESC, stranger DESC'
     )
   end
+
+  def find_all_by_access(*args)
+    args.map!{|i| if i==:member; :friend; else; i; end}
+    conditions = args.collect{|access| "profiles.`#{access}` = ?"}.join(' OR ')
+    find(
+      :all,
+      :conditions => [conditions]+[true]*args.size,
+      :order => 'foe DESC, friend DESC, peer DESC, fof DESC, stranger DESC'
+    )
+  end
   
   # a shortcut to grab the 'public' profile
   def public
