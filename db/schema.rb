@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 1199732497) do
+ActiveRecord::Schema.define(:version => 1202506152) do
 
   create_table "asset_versions", :force => true do |t|
     t.column "asset_id",       :integer
@@ -162,6 +162,20 @@ ActiveRecord::Schema.define(:version => 1199732497) do
   end
 
   add_index "im_addresses", ["profile_id"], :name => "im_addresses_profile_id_index"
+
+  create_table "issue_identifications", :force => true do |t|
+    t.column "issue_id",               :integer,                 :null => false
+    t.column "issue_identifying_id",   :integer,                 :null => false
+    t.column "issue_identifying_type", :string,  :default => "", :null => false
+  end
+
+  add_index "issue_identifications", ["issue_id", "issue_identifying_id", "issue_identifying_type"], :name => "index_issue_identifications", :unique => true
+
+  create_table "issues", :force => true do |t|
+    t.column "name", :string, :default => "", :null => false
+  end
+
+  add_index "issues", ["name"], :name => "index_issues_on_name", :unique => true
 
   create_table "links", :id => false, :force => true do |t|
     t.column "page_id",       :integer
