@@ -1,0 +1,19 @@
+<div class="section">
+  <table>
+    <tr>
+      <td class="label" valign="top">
+        <%= _('Websites') -%>
+      </td>
+      <td class="form">
+        <table>
+          <tbody id="profile_websites">
+            <% profile.websites.each_with_index do |website, index| -%>
+              <%= render :partial => 'website', :locals => { :website => website, :index => index } %>
+            <% end -%>
+          </tbody>
+        </table>
+        <%= add_row_link 'Add Websites'.t, 'add_website' %>
+      </td>
+    </tr>
+  </table>
+</div>

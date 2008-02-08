@@ -101,5 +101,10 @@ class ProfileController < ApplicationController
     add_context 'inbox'.t, url_for(:controller => 'inbox', :action => 'index')
   end
   
-  
+  #try to make it easier to add or edit profile sections from plugins
+  def profile_sections
+    ['description_section', 'phone_number_section', 'email_address_section', 'location_section', 'im_address_section', 'website_section']
+  end
+  helper_method :profile_sections
+
 end
