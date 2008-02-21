@@ -142,9 +142,7 @@ class SocialUser < AuthenticatedUser
     :after_add => :reciprocate_add,
     :after_remove => :reciprocate_remove} do
     def online
-      find( :all, 
-        :conditions => ['users.last_seen_at > ?',10.minutes.ago],
-        :order => 'users.last_seen_at DESC' )
+      find(:all, :conditions => ['users.last_seen_at > ?',10.minutes.ago])
     end
   end
 
