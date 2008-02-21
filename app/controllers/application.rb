@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   include UrlHelper
   include ContextHelper
   include TimeHelper
+  helper 'forms'
 
   include PathFinder::Options
       
