@@ -21,7 +21,7 @@ class Post < ActiveRecord::Base
   
   ## validations ############################################
 
-  validates_presence_of :discussion, :user, :body  
+  validates_presence_of :discussion, :user_id, :body  
 
   ## methods ################################################
 
