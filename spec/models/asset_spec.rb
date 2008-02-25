@@ -26,8 +26,15 @@ describe Asset, "when updating" do
   it "should remember the old filename" do
     @asset.save
     filename = @asset.filename
+    old_version = @asset.version
     @asset.uploaded_data = ActionController::TestUploadedFile.new(asset_fixture_path('gears2.jpg'), 'image/jpg')
-    File.basename(@asset.old_filename).should == filename
+    @asset.revert_to(old_version)
+    File.basename(@asset.filename).should == filename
+  end
+
+  it "should assign the new filename" do
+    @asset.save
+    @asset.uploaded_data = ActionController::TestUploadedFile.new(asset_fixture_path('gears2.jpg'), 'image/jpg')
     File.basename(@asset.filename).should == 'gears2.jpg'
   end
 
