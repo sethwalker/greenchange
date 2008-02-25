@@ -20,7 +20,7 @@ module ActionView
           content_tag("div",
             content_tag(
               options[:header_tag] || "h2",
-              "%d errors prohibited this #{object_name.to_s.gsub("_", " ").t} from being saved" / object.errors.count
+              ( options[:header_message] || ( "%d errors prohibited this #{object_name.to_s.gsub("_", " ").t} from being saved"  / object.errors.count ))
             ) +
             content_tag("p", "There were problems with the following fields:".t) +
             content_tag("ul", object.errors.full_messages.collect { |msg| content_tag("li", msg) }),
