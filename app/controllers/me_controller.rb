@@ -69,9 +69,9 @@ class MeController < ApplicationController
     elsif filter =~ /^my-(.*)/
       # show my completed or pending tasks
       completed = $1 == 'completed'
-      include = [:pages, {:tasks => :users}] # eager load all we will need to show the tasks.
-      conditions = ['users.id = ? AND tasks.completed = ?', current_user.id, completed]
-      @task_lists = Task::TaskList.find(:all, :conditions => conditions, :include => include)
+      included = [:pages, {:tasks => :users}] # eager load all we will need to show the tasks.
+      conditions = ['users.id = ? AND tasks.completed_at ?', current_user.id, (completed ? 'IS NOT NULL' : 'IS NULL')]
+      @task_lists = Task::TaskList.find(:all, :conditions => conditions, :include => included)
       @show_user = current_user
       @show_status = completed ? 'completed' : 'pending'
     end
