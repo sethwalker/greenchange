@@ -219,7 +219,7 @@ class SocialUserTest < Test::Unit::TestCase
 
   def test_pestering
     u1 = create_user :login => 'pest'
-    u2 = create_user :login => 'af'
+    u2 = create_user :login => 'aff'
   
     assert u1.may_pester?(u2), 'pest can pester me'
     assert u2.may_be_pestered_by?(u1), 'i can be pestered by the pest'
@@ -227,6 +227,9 @@ class SocialUserTest < Test::Unit::TestCase
   
   protected
     def create_user(options = {})
-      User.create({ :login => 'mrtester', :email => 'mrtester@riseup.net', :password => 'test', :password_confirmation => 'test' }.merge(options))
+      u = User.new({ :login => 'mrtester', :email => 'mrtester@riseup.net', :password => 'test', :password_confirmation => 'test' }.merge(options))
+      u.stubs(:validate_profiles).returns(true)
+      u.save
+      u
     end
 end

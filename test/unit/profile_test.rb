@@ -32,8 +32,8 @@ class ProfileTest < Test::Unit::TestCase
     
     red.contacts << blue unless red.contacts.include?(blue)
     
-    blue.profiles.create :friend => true, :organization => 'rainbows'
-    blue.profiles.create :stranger => true, :organization => 'none'
+    blue.profiles.create :friend => true, :organization => 'rainbows', :first_name => 'blue', :last_name => 'blue'
+    blue.profiles.create :stranger => true, :organization => 'none', :first_name => 'blue', :last_name => 'blue'
         
     profile = blue.profiles.visible_by(red)
     assert profile, 'red should be able to view blue profile'

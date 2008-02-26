@@ -31,7 +31,8 @@ class ParticipationTest < Test::Unit::TestCase
     u.updated(p)
     assert_equal 'orange', p.updated_by_login, 'cached updated_by_login should be "orange"'
     u.login = 'banana'
-    u.save
+    u.stubs(:validate_profiles).returns(true)
+    u.save!
     p.reload
     assert_equal 'banana', p.updated_by_login, 'cached updated_by_login should be "banana"'
   end

@@ -23,19 +23,22 @@ describe Asset, "when updating" do
     FileUtils.rm_rf(Asset.public_storage)
   end
 
-  it "should remember the old filename" do
+  it "should update attachment filename when saving a new version" do
     @asset.save
-    filename = @asset.filename
     old_version = @asset.version
     @asset.uploaded_data = ActionController::TestUploadedFile.new(asset_fixture_path('gears2.jpg'), 'image/jpg')
-    @asset.revert_to(old_version)
-    File.basename(@asset.filename).should == filename
+    @asset.save
+    File.basename(@asset.filename).should == 'gears2.jpg'
+    File.basename(@asset.versions.first.filename).should == 'gears.jpg'
   end
 
-  it "should assign the new filename" do
+  it "should copy attachment data when saving a new version" do
     @asset.save
-    @asset.uploaded_data = ActionController::TestUploadedFile.new(asset_fixture_path('gears2.jpg'), 'image/jpg')
-    File.basename(@asset.filename).should == 'gears2.jpg'
+    @asset.uploaded_data = ActionController::TestUploadedFile.new(asset_fixture_path('image.png'), 'image/png')
+    @asset.save
+    File.read(@asset.full_filename).should == File.read(asset_fixture_path('image.png'))
+    File.read(@asset.versions.first.full_filename).should == File.read(asset_fixture_path('gears.jpg'))
+    File.read(@asset.full_filename).should_not == File.read(@asset.versions.first.full_filename)
   end
 
   it "should remember old filename when it's time to copy asset" do

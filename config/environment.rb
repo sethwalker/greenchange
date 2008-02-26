@@ -127,3 +127,5 @@ end
 # ensure that plugin code overrides application code always
 Engines.disable_application_code_loading = true
 Engines.disable_application_view_loading = true
+
+require 'tagging_extensions'
