@@ -17,6 +17,6 @@
   name: <%= task_name %>
   description: <%= task_name %> description
   description_html: <p><%= task_name %> description</p>
-  completed_at: nil
+  completed_at: nil 
   position: <%= n-3 %>
 <% end %>

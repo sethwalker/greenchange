@@ -63,7 +63,7 @@ class SocialUserTest < Test::Unit::TestCase
   end
   
   def test_associations
-    assert check_associations(SocialUser)
+    assert check_associations(User)
     assert check_associations(Contact)
   end  
 
@@ -77,8 +77,8 @@ class SocialUserTest < Test::Unit::TestCase
     g = Group.create :name => 'hogwarts-academy'
     g.memberships.create :user => u
 
-    assert_equal [g.id], u.group_ids, 'should be one group (id)'
     assert_equal [g.id], u.all_group_ids, 'should be one group (all id)'
+    assert_equal [g.id], u.group_ids, 'should be one group (id)'
 
     # u.groups is already cached, must be manually refreshed
     u.groups.reload
@@ -227,9 +227,9 @@ class SocialUserTest < Test::Unit::TestCase
   
   protected
     def create_user(options = {})
-      u = User.new({ :login => 'mrtester', :email => 'mrtester@riseup.net', :password => 'test', :password_confirmation => 'test' }.merge(options))
-      u.stubs(:validate_profiles).returns(true)
-      u.save
-      u
+      user = User.new({ :login => 'mrtester', :email => 'mrtester@riseup.net', :password => 'test', :password_confirmation => 'test' }.merge(options))
+      user.profiles.build :first_name => "Test", :last_name => "Test", :friend => true
+      user.save!
+      user
     end
 end

@@ -6,20 +6,6 @@ RAILS_GEM_VERSION = '1.2.3'
 require File.join(File.dirname(__FILE__), 'boot')
 
 
-########################################################################
-### BEGIN CUSTOM OPTIONS
-
-SITE_NAME = 'connect.green.change'
-SECTION_SIZE = 29 # the default size for pagination sections
-
-AVAILABLE_PAGE_CLASSES = %w[
-  Message Discussion TextDoc RateMany RankedVote TaskList Asset
-]
-
-### END CUSTOM OPTIONS
-########################################################################
-
-
 #### ENUMERATIONS ##############
 
 # levels of page access
@@ -41,6 +27,23 @@ FLOW = {
 # do this early because environments/*.rb need it
 require 'crabgrass_config'
 
+########################################################################
+### BEGIN CUSTOM OPTIONS
+
+Crabgrass::Config.site_name         = 'planet.unicorn' 
+Crabgrass::Config.host              = 'greenchange.staging.radicaldesigns.org'
+Crabgrass::Config.email_sender      = 'planet_unicorn@radicaldesigns.org'
+
+SECTION_SIZE = 29 # the default size for pagination sections
+
+AVAILABLE_PAGE_CLASSES = %w[
+  Message Discussion TextDoc RateMany RankedVote TaskList Asset
+]
+
+### END CUSTOM OPTIONS
+########################################################################
+
+
 Rails::Initializer.run do |config|
   config.load_paths += %w(associations discussion chat).collect do |dir|
     "#{RAILS_ROOT}/app/models/#{dir}"
@@ -48,6 +51,7 @@ Rails::Initializer.run do |config|
   
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
+  config.active_record.observers = :user_observer
 
 #  config.action_controller.session_store = :p_store
   
@@ -118,7 +122,7 @@ FightTheMelons::Helpers::FormMultipleSelectHelperConfiguration.outer_class = 'pl
 SVN_REVISION = (RAILS_ENV != 'test' && r = YAML.load(`svn info`)) ? r['Revision'] : nil
 
 require "#{RAILS_ROOT}/vendor/enhanced_migrations-1.2.0/lib/enhanced_migrations.rb"
-
+    
 #include all files in the initializers folder ( TODO remove in Rails 2 branch )
 Dir.entries( "#{RAILS_ROOT}/config/initializers/" ).each do |filename |
   require "#{RAILS_ROOT}/config/initializers/#{filename}" if filename =~ /\.rb$/ 

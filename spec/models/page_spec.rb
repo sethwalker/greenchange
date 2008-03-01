@@ -5,6 +5,7 @@ describe Page do
   before do
     User.current = nil
     @page = Page.new :title => 'this is a very fine test page'
+    User.current = nil
   end
 
   it "should make a friendly url from a nameized title and id" do

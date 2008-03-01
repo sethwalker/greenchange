@@ -5,6 +5,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../config/environment")
 require 'spec'
 require 'spec/rails'
 require 'pp'
+require 'ruby-debug'
 
 Spec::Runner.configure do |config|
   # If you're not using ActiveRecord you should remove these
@@ -25,6 +26,7 @@ Spec::Runner.configure do |config|
   # names with your fixtures.
   #
   # config.global_fixtures = :table_a, :table_b
+  config.global_fixtures = :users
   #
   # If you declare global fixtures, be aware that they will be declared
   # for all of your examples, even those that don't use them.
@@ -39,6 +41,13 @@ Spec::Runner.configure do |config|
   # config.mock_with :rr
   def create_valid_page
     @page = Page.create :title => 'valid_page'
+  end
+
+  def create_valid_user
+    valid_user = User.new :login => "jones", :email => "aviary@birdcage.com", :password => "joke", :password_confirmation => "joke"
+    valid_user.profiles.build :first_name => "Plus", :last_name => "Ca Change", :friend => true
+    valid_user.save!
+    valid_user
   end
 end
 def asset_fixture_path(filename)
