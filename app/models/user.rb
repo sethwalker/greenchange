@@ -3,7 +3,6 @@ class User < ActiveRecord::Base
   include AuthenticatedUser
   include CrabgrassDispatcher::Validations
   include SocialUser
-  include ActiveRecord::Acts::Modified
 
   validates_handle :login
   acts_as_modified

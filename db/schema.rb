@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(:version => 1204080236) do
     t.column "channel_id", :integer
     t.column "user_id",    :integer
     t.column "last_seen",  :datetime
+    t.column "status",     :integer
   end
 
   add_index "channels_users", ["channel_id", "user_id"], :name => "index_channels_users"
@@ -395,8 +396,8 @@ ActiveRecord::Schema.define(:version => 1204080236) do
     t.column "position",         :integer
     t.column "completed_at",     :datetime
     t.column "due_at",           :datetime
-    t.column "completed_at",     :datetime
-    t.column "due_at",           :datetime
+    t.column "created_at",       :datetime
+    t.column "updated_at",       :datetime
   end
 
   add_index "tasks", ["task_list_id"], :name => "index_tasks_task_list_id"

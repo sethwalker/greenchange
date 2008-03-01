@@ -22,8 +22,10 @@ describe User, "when forgetting a password" do
 
   it "should allow resetting the password" do
     @user.forgot_password
-    @user.reset_password
-    @user.password_reset_code.should be_nil
+    @user.save!
+    user = User.find @user.id
+    user.reset_password
+    user.password_reset_code.should be_blank
   end
 
 end

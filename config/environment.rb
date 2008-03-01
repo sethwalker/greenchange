@@ -59,7 +59,7 @@ Rails::Initializer.run do |config|
   config.active_record.default_timezone = :utc
   
   # See Rails::Configuration for more options
-  config.plugins = ["engines", "*"]
+  config.plugins = ["engines", "acts_as_modified", "*"]
 end
 
 
