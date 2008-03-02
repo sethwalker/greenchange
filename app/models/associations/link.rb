@@ -5,5 +5,5 @@
 
 class Link < ActiveRecord::Base
   belongs_to :page
-  belongs_to :other_page, :class_name => 'Page', :foreign_key => 'other_page_id'
+  belongs_to :other_page, :class_name => 'Page'
 end

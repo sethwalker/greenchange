@@ -21,7 +21,6 @@ ACCESS = {
 FLOW = {
  :membership => 1,
  :contacts => 2,
- :collection => '3',
 }.freeze
 
 # do this early because environments/*.rb need it
