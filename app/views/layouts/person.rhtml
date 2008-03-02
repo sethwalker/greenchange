@@ -6,7 +6,7 @@
     <% unless params[:action] == 'show' -%>
     <div id='breadcrumbs'><%= link_to_breadcrumbs %></div>
     <% end -%>
-    <%= @title if @title %>
+    <%= yield :title %>
   </div>
   <%= yield %>
   <br clear='both' />

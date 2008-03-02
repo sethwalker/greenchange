@@ -74,7 +74,6 @@ ActiveRecord::Schema.define(:version => 1204080236) do
   end
 
   add_index "contacts", ["contact_id", "user_id"], :name => "index_contacts"
-  add_index "contacts", ["user_id"], :name => "index_contacts_on_user_id"
 
   create_table "discussions", :force => true do |t|
     t.column "posts_count",  :integer,  :default => 0
@@ -137,8 +136,6 @@ ActiveRecord::Schema.define(:version => 1204080236) do
   end
 
   add_index "group_participations", ["group_id", "page_id"], :name => "index_group_participations"
-  add_index "group_participations", ["page_id"], :name => "index_group_participations_on_page_id"
-  add_index "group_participations", ["group_id"], :name => "index_group_participations_on_group_id"
 
   create_table "groups", :force => true do |t|
     t.column "name",           :string
@@ -157,7 +154,6 @@ ActiveRecord::Schema.define(:version => 1204080236) do
 
   add_index "groups", ["name"], :name => "index_groups_on_name"
   add_index "groups", ["parent_id"], :name => "index_groups_parent_id"
-  add_index "groups", ["type"], :name => "index_groups_on_type"
 
   create_table "im_addresses", :force => true do |t|
     t.column "profile_id", :integer
@@ -211,7 +207,6 @@ ActiveRecord::Schema.define(:version => 1204080236) do
   end
 
   add_index "memberships", ["group_id", "user_id", "page_id"], :name => "index_memberships"
-  add_index "memberships", ["user_id", "group_id"], :name => "user_group_idx"
 
   create_table "messages", :force => true do |t|
     t.column "created_at",  :datetime
@@ -271,8 +266,6 @@ ActiveRecord::Schema.define(:version => 1204080236) do
   add_index "pages", ["updated_at"], :name => "index_pages_on_updated_at"
   add_index "pages", ["starts_at"], :name => "index_pages_on_starts_at"
   add_index "pages", ["ends_at"], :name => "index_pages_on_ends_at"
-  add_index "pages", ["data_id", "data_type"], :name => "index_pages_on_data_id_and_data_type"
-  add_index "pages", ["type", "starts_at"], :name => "index_pages_on_type_and_starts_at"
 
   create_table "phone_numbers", :force => true do |t|
     t.column "profile_id",        :integer
@@ -394,10 +387,10 @@ ActiveRecord::Schema.define(:version => 1204080236) do
     t.column "description",      :text
     t.column "description_html", :text
     t.column "position",         :integer
-    t.column "completed_at",     :datetime
-    t.column "due_at",           :datetime
     t.column "created_at",       :datetime
     t.column "updated_at",       :datetime
+    t.column "completed_at",     :datetime
+    t.column "due_at",           :datetime
   end
 
   add_index "tasks", ["task_list_id"], :name => "index_tasks_task_list_id"
@@ -456,6 +449,9 @@ ActiveRecord::Schema.define(:version => 1204080236) do
     t.column "foe_id_cache",              :binary
     t.column "peer_id_cache",             :binary
     t.column "tag_id_cache",              :binary
+    t.column "activation_code",           :string,   :limit => 40
+    t.column "activated_at",              :datetime
+    t.column "enabled",                   :boolean,                :default => true
     t.column "password_reset_code",       :string,   :limit => 40
   end
 

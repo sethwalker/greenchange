@@ -1,7 +1,9 @@
 <%
- # set @title variable used by the layout
- @title = render :partial => 'groups/widgets/infopanel'
+ # set title variable used by the layout
+ content_for :title do title 
 -%>
+  <%= render :partial => 'groups/widgets/infopanel' %>
+<% end %>
 
 <div class='landing'>
 

@@ -5,7 +5,6 @@ RAILS_GEM_VERSION = '1.2.3'
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
 
-
 #### ENUMERATIONS ##############
 
 # levels of page access
@@ -25,6 +24,7 @@ FLOW = {
 
 # do this early because environments/*.rb need it
 require 'crabgrass_config'
+Crabgrass::Config.host = 'greenchange.staging.radicaldesigns.org'
 
 ########################################################################
 ### BEGIN CUSTOM OPTIONS

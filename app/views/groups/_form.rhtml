@@ -44,7 +44,7 @@ Group Privacy Settings
 <p><%= check_box :group, :publicly_visible_group, :onclick => "show_or_hide_vis_opts();" %>
 <label for="group_visible"><b>Make Group Publicly Visible</b></label>
 <br>
-Group appears in public directory and group <i>profile</i> is viewable by non-members at we.riseup.net/yourgroupname.
+Group appears in public directory and group <i>profile</i> is viewable by non-members at <%= Crabgrass::Config.host %>/yourgroupname.
 </p>
 
 <div id='visible_group_options' style='margin-left: 2em'>
@@ -52,13 +52,13 @@ Group appears in public directory and group <i>profile</i> is viewable by non-me
   <p><%= check_box :group, :publicly_visible_committees %>
   <label for="group_visible"><b>Make Committees Publicly Visible</b></label>
   <br>
-  Committees are viewable by non-members at we.riseup.net/yourgroupname
+  Committees are viewable by non-members at <%= Crabgrass::Config.host %>/yourgroupname
   </p>
 
   <p><%= check_box :group, :publicly_visible_members %>
   <label for="group_visible"><b>Make Members Publicly Visible</b></label>
   <br>
-  Members are viewable by non-members at we.riseup.net/yourgroupname. Also, the name of the group will be listed on each members profile page (we.riseup.net/username)
+  Members are viewable by non-members at <%= Crabgrass::Config.host %>/yourgroupname. Also, the name of the group will be listed on each members profile page (<%= Crabgrass::Config.host %>/username)
   </p>
 
   <p><%= check_box :group, :accept_new_membership_requests %>

@@ -92,3 +92,28 @@ div.landing-side-column {
   float: right;
 }
 
+/** group edit page **/
+
+.form .h1 .banner {
+  padding: 8px;
+}
+
+.form .h1 .group_info {
+ background: url(/images/actions/beehive.png) no-repeat 100% 50%;
+}
+
+.form .h1 .group_privacy {
+ background: url(/images/actions/lock.png) no-repeat 100% 50%;
+}
+.form label {
+  font-weight: bold;
+  display:block;
+}
+.form p.checkbox input {
+  float:left;
+  margin-right: .5em;
+}
+.form .comment {
+  display:block;
+}
+
