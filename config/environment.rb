@@ -1,6 +1,6 @@
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '1.2.3'
+RAILS_GEM_VERSION = '1.2.6'
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -58,7 +58,6 @@ Rails::Initializer.run do |config|
   config.active_record.default_timezone = :utc
   
   # See Rails::Configuration for more options
-  config.plugins = ["engines", "acts_as_modified", "*"]
 end
 
 
@@ -126,9 +125,5 @@ require "#{RAILS_ROOT}/vendor/enhanced_migrations-1.2.0/lib/enhanced_migrations.
 Dir.entries( "#{RAILS_ROOT}/config/initializers/" ).each do |filename |
   require "#{RAILS_ROOT}/config/initializers/#{filename}" if filename =~ /\.rb$/ 
 end
-
-# ensure that plugin code overrides application code always
-Engines.disable_application_code_loading = true
-Engines.disable_application_view_loading = true
 
 require 'tagging_extensions'

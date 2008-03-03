@@ -2,7 +2,7 @@
 # migrations feature of ActiveRecord to incrementally modify your database, and
 # then regenerate this schema definition.
 
-ActiveRecord::Schema.define(:version => 1204080236) do
+ActiveRecord::Schema.define(:version => 1204311382) do
 
   create_table "asset_versions", :force => true do |t|
     t.column "asset_id",       :integer
@@ -47,6 +47,16 @@ ActiveRecord::Schema.define(:version => 1204080236) do
     t.column "data",   :binary
     t.column "public", :boolean, :default => false
   end
+
+  create_table "bookmarks", :force => true do |t|
+    t.column "page_id",     :integer
+    t.column "url",         :string
+    t.column "description", :text
+    t.column "user_id",     :integer
+  end
+
+  add_index "bookmarks", ["page_id"], :name => "index_bookmarks_on_page_id"
+  add_index "bookmarks", ["user_id"], :name => "index_bookmarks_on_user_id"
 
   create_table "categories", :force => true do |t|
   end
