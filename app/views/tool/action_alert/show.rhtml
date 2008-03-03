@@ -1,0 +1,64 @@
+<% content_for :style do  %>
+div.wikiedit {
+  float: left;
+  margin: 10px;
+  margin-left: -20px;
+}
+div.wikiedit span {
+  background: #C2D4FF;
+  padding: 4px 16px;
+  border: 1px solid #ADBDE3;
+  border-left: 0;
+}
+div.wikiedit a {
+  color: #669;
+  font-weight: bold;
+  text-decoration: none;
+}
+div.wikiedit a:hover {text-decoration: underline;}
+div.meta {
+  display:block;
+  padding: .5em;
+  float:left;
+}
+
+div.block {
+  clear:both;
+}
+
+<% end %>
+
+<div class='wiki'>
+  <div>
+    <% if @action_alert.creator > '' -%>
+      <div class="meta">
+        By: <%= @action_alert.creator_url > '' ? link_to(@action_alert.creator, @action_alert.creator_url ) : @action_alert.creator %>
+      </div>
+    <% end -%>
+    <% if @action_alert.source -%>
+      <div class="meta">
+        Source: <%= @action_alert.source_url > '' ? link_to( @action_alert.source, @action_alert.source_url ) : @action_alert.source %>
+      </div>
+    <% end -%>
+    <% if @wiki.source -%>
+      <div class="meta">
+        Published: <%= @action_alert.published_at %>
+      </div>
+    <% end -%>
+  </div>
+  <div class='block'>
+  <%= @action_alert.body_html %>
+  </div>
+  <% if @action_alert.editable_by? current_user -%>
+  <br style='clear: both' />
+    <div class='wikiedit'><span>
+       <%= link_to '<u>e</u>dit', page_url(@page,:action=>'edit'), :accesskey => 'e' %>
+       &nbsp;
+       <%= link_to 'versions', page_url(@page,:action=>'versions') %>
+       &nbsp;
+       <%= link_to 'last change', page_url(@page, :action=>'diff', :id => "#{@action_alert.version.to_i-1}-#{@action_alert.version}") if @action_alert.version > 1 %>
+    </span></div>
+  <% end -%>
+  <br style='clear: both' />
+</div><!-- end wiki -->
+
