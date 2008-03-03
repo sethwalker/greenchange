@@ -4,20 +4,23 @@
 
 <% else -%>
 
-<p>
-<b>Groups:</b>
-<% group_count = 0 -%>
-<% @user.groups.each do |g| %>
-  <% if g.publicly_visible_members or current_user.member_of? g %>
-    <%= link_to(g.name, :controller => 'groups', :action => 'show', :id => g) %>
-    <% group_count += 1 -%>
-  <% end -%>
-<% end -%>
-<% if group_count == 0 %>
-<%= 'none'.t %>
+
+<% content_for :title do %>
+  <%=render :partial => 'person/widgets/info'  %>
 <% end %>
-</p>
+
+
+
+<%=
+@profile = @user.profiles.visible_by(current_user)
+render 'profile/show' if @profile
+ 
+ %>
+
+
 
 <%= render :partial => 'pages/list/table', :locals => {:heading => true} %>
+
+
 
 <% end -%>

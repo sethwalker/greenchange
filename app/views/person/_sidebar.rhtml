@@ -3,20 +3,148 @@
 
 <div class='sidelink'>
 <% if @is_contact -%>
-<%= link_to 'remove from my contacts', {:controller => 'contact', :action => 'remove', :id => @user} %>
+<%= link_to_icon 'remove from my contacts', 'actions/minus.png',  url_for(:controller => 'contact', :action => 'remove', :id => @user) %>
 <% elsif logged_in? and !current_user.contacts.include?(@user) -%>
-<%= link_to 'add to my contacts', url_for(:controller => 'contact', :action => 'add', :id => @user) %>
+  <%= link_to_icon 'add to my contacts', 'actions/plus.png', url_for(:controller => 'contact', :action => 'add', :id => @user) %>
 <% end -%>
 </div>
 
+
 <div class='sidelink'>
-<%= link_to 'send message', {:controller => 'tool/message', :action => 'create', :to => @user.login}, :method => 'get' if @user%>
+ <%= link_to_icon 'send message', 'pages/message.png', url_for(:controller => 'tool/message', :action => 'create', :to => @user.login) %>
+</div>
+
+
+<div class='sidelink'>
+  <%= link_to_icon 'star this person', 'actions/star.png', url_for_user(@user, :action => 'star'), :method => :post %>
 </div>
 
 <div class='sidelink'>
-  <%= link_to 'tasks', url_for_user(@user, :action => 'tasks') if @user %>
+currently 
+<% if @user.online? %>
+online <%= link_to '(chat)', {:controller => 'tool/message' }%>
+
+<% else -%>
+offline
+<% end -%>
 </div>
+
+<!-- <div class='sidelink'>
+  <%= link_to 'tasks', url_for_user(@user, :action => 'tasks') if @user %>
+</div>  -->
 
 <div class='sidetail'></div>
 </div>
+
+
+
+
+<div class='sidesection'>
+<div class='sidehead'>Contacts</div>
+<% if current_user.contacts.any? -%>
+  <%= render :partial => 'avatars/boxes', :locals => {:people => current_user.contacts, :side => 'left'} %>
+  <br style='clear:both'/>
+<% else -%>
+  no contacts
+<% end -%>
+
+<div class='sidetail'></div>
+</div>
+
+
+
+
+
+<div class='sidesection'>
+<div class='sidehead'>Groups</div>
+<% group_count = 0 -%>
+<% @user.groups.each do |g| %>
+  <% if g.publicly_visible_members or current_user.member_of? g %>
+  <%= render :partial => 'avatars/boxes', :locals => {:groups => current_user.groups, :side => 'left'} %>  
+    <% group_count += 1 -%>
+  <% end -%>
+<% end -%>
+<% if group_count == 0 %>
+<%= 'none'.t %>
+<% end %>
+
+<div class='sidetail'></div>
+</div>
+
+
+
+
+<div class='sidesection'>
+<div class='sidehead'>Photos</div>
+<% photo_pages = Tool::Asset.find(:all, :include => [:user_participations, :group_participations, :asset_data], :conditions => ["pages.created_by_id = ? AND ((user_participations.user_id = ? OR group_participations.group_id IN (?)) OR pages.public = ?) AND pages.type = 'Tool::Asset' AND assets.content_type IN (?)", @user.id, current_user.id, current_user.all_group_ids, true, Technoweenie::AttachmentFu.content_types]) %>
+<% if photo_pages.any? -%>
+  <% photo_pages.each do |photo| -%>
+    <%= image_tag photo.asset.public_filename(:thumb) %>
+    <%= link_to photo.title, page_url(photo) %>
+  <% end -%>
+<br><%= link_to 'view all', groups_url(:action => 'photo', :id => @group) %>
+<% else -%>
+(no photos)
+<% end -%>
+<div class='sidetail'></div>
+</div>
+
+
+<div class='sidesection'>
+<div class='sidehead'>Videos</div>
+<% 
+video_pages = Page.find_by_path('type/video/descending/id/limit/4', options_for_participation_by(@user)) %>
+<% if video_pages.any? -%>
+  <% video_pages.each do |video| -%>
+    <div style="padding: 10px 10px;">
+      <%= image_tag video.data.thumbnail_url %>
+      <br/>
+      <%= link_to video.title, page_url(video) %>
+    </div>
+  <% end -%>
+  <br>
+  <%= link_to 'view all', url_for_user(@user, :action => 'video') %>
+<% else -%>
+(no videos)
+<% end -%>
+<div class='sidetail'></div>
+</div>
+
+
+
+<% 
+events = Page.find_by_path('/type/event/descending/starts_at/limit/5', options_for_participation_by(@user))
+columns = [:icon, :title, :starts_at]
+%>
+<% if events.any? -%>
+<div class='sidesection'>
+<div class='sidehead'><%= link_to image_tag('/images/actions/rss.png', :align => "right"), url_for_user(:action => 'calendar_rss', :id => @user) %>Events</div>
+<%= render :partial => 'pages/list/table', :locals => {:pages => events, :columns => columns} %>
+<div class='sidetail'></div>
+</div>
+<% end -%>
+
+
+
+<div class='sidesection'>
+<div class='sidehead'>Bookmarks/Favorites</div>
+
+<% faves = Page.find_by_path('starred/descending/starts_at/limit/5', options_for_participation_by(@user))
+columns = [:icon, :title]
+%>
+<%= render :partial => 'pages/list/table', :locals => {:pages => faves, :columns => columns} %>
+
+<div class='sidetail'></div>
+</div>
+
+<div class='sidesection'>
+<div class='sidehead'>Comments/Discussions</div>
+<% 
+pages = Page.find(:all, :include => {:discussion => :posts}, :joins => "LEFT OUTER JOIN user_participations ON user_participations.page_id = pages.id LEFT OUTER JOIN group_participations ON group_participations.page_id = pages.id", :conditions => ["posts.user_id = ? AND (group_participations.group_id IN (?) OR user_participations.user_id = ? OR pages.public = ?)", @user.id, current_user.all_group_ids, current_user.id, true], :order => "posts.created_at DESC")
+columns = [:icon, :title]
+%>
+<%= render :partial => 'pages/list/table', :locals => {:pages => pages, :columns => columns} %>
+<div class='sidetail'></div>
+</div>
+
 
