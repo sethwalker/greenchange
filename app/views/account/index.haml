@@ -1,0 +1,9 @@
+#login_container
+  #login_left
+    %h2 Greenchange Login
+    %h3 Are you new to the site?
+    = link_to 'Sign up here', :controller => 'account', :action => 'signup'
+    to get started.
+
+  #login_right
+    = render 'account/login'

@@ -183,7 +183,9 @@ class GroupsControllerTest < Test::Unit::TestCase
     g = Group.create :name => 'riseup'
     c = Committee.create :name => 'outreach', :parent => g
     g.committees << c
-    u = User.create! :login => 'user', :password => 'password', :password_confirmation => 'password'
+    u = User.new :login => 'user', :password => 'password', :password_confirmation => 'password', :email => 'jebus@superbaby.com'
+    u.profiles.build :first_name => 'cheech', :last_name => 'marin', :friend => true 
+    u.save!
     assert u.id
     c.memberships.create :user => u
     c.save

@@ -22,16 +22,28 @@ class AccountController < ApplicationController
     end
   end
 
-  def signup
+  def new 
     @user = User.new(params[:user])
-    return unless request.post?
-    @user.save!
-    self.current_user = @user
-    send_welcome_message(current_user)
-    redirect_to params[:redirect] || {:controller => '/account', :action => 'welcome'}
-    flash[:notice] = "Thanks for signing up!"
-  rescue ActiveRecord::RecordInvalid
-    render :action => 'signup'
+  end
+  alias :signup :new
+
+  def create
+    @user = User.new params[:user] 
+    @profile = @user.profiles.build params[:profile].merge(:friend => true, :entity => @user )
+
+    unless params[:agreed_to_terms] 
+      flash[:error] = "You must agree to the terms and conditions to sign up"
+      render :action => 'signup' and return 
+    end
+
+    if @user.save && @profile.save
+      self.current_user = @user
+      send_welcome_message(current_user)
+      flash[:notice] = "Thanks for signing up!"
+      redirect_to params[:redirect] || { :controller => '/account', :action => 'welcome' }
+    else
+      render :action => 'signup' and return
+    end
   end
 
   def logout
@@ -45,24 +57,15 @@ class AccountController < ApplicationController
   def welcome
     render :text => GreenCloth.new(WELCOME_TEXT_MARKUP).to_html, :layout => 'me'
   end
-  
+
   protected
   def send_welcome_message(user)
-    page = Page.make :private_message, :to => user, :from => user, :title => 'Welcome to crabgrass!', :body => WELCOME_TEXT_MARKUP
+    page = Page.make :private_message, :to => user, :from => user, :title => "Welcome to #{Crabgrass::Config.site_name}!", :body => WELCOME_TEXT_MARKUP
     page.save
   end
 
-  # TODO: make this configurable
+  # TODO: move this to an e-mail
   
-  WELCOME_TEXT_MARKUP = <<MARKUP
-*Welcome*
-
-Hi. This is a quick intro for new users. Next time you log in you will land at [your dashboard -> /me/dashboard] which will be a cold and lonely place until you join groups and make contacts.
-
-So, the best thing to do as a new user is to create a group or join a group. To do so go to the [group directory -> /groups] and either click "create a new group" or click on the group you want to join and find the "join group" link. 
-
-Once your request is accepted you can upload assets, create task lists, discussions, wikis, polls, and messages to communicate, collaborate, and get things done within the group. Like any new platform you will need to familiarize yourself with the work flow. To help answer question such as whats the difference between the inbox and the dashboard check out the [help pages -> /crabgrass/table-of-contents].
-
-Development is driven by user feedback, so please [join -> /users] the user feed back group and get involved by clicking the [Get involved building Crabgrass! -> /users/get-involved] link at the bottom over every page.
-MARKUP
+  WELCOME_TEXT_MARKUP = File.read "#{RAILS_ROOT}/app/views/account/welcome.txt"
 end
+

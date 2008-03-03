@@ -28,7 +28,19 @@ class Profile::Profile < ActiveRecord::Base
     self.entity_type = 'User' if self.entity_type =~ /User/
     self.entity_type = 'Group' if self.entity_type =~ /Group/
   end
+
+  validate :validate_user_info
   
+  def validate_user_info
+    return unless (self.entity.class.name =~ /User/) and self.private?
+    validate_user_name
+  end
+
+  def validate_user_name
+    errors.add :first_name, "First name cannot be blank" if self.first_name.blank?
+    errors.add :last_name, "Last name cannot be blank" if self.last_name.blank?
+  end
+
   ### basic info ###########################################################
 
   def full_name

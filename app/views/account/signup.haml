@@ -1,0 +1,44 @@
+#signup_container
+  #signup_left
+    %h2 Create Your Account
+    Choose your user name and your password then click "Sign up".
+    %br
+    %br
+
+  #signup_right
+    #signupform
+      = error_messages_for :user, :header_message => _("We had a problem creating your account")
+      - form_for :user, @user, :url => {:action => 'create' }  do |f| 
+        %p
+          = content_tag :label, _("Desired username"), :for => "user_login"
+          = f.text_field :login 
+          %span.comment
+            3-50 characters, no spaces please
+        %p
+          = content_tag :label, _("Password"), :for => "user_password"
+          = f.password_field :password
+        %p
+          = content_tag :label, _("Confirm Password"), :for => "user_password_confirmation"
+          = f.password_field :password_confirmation
+        %hr
+        %p
+          = content_tag :label, "First Name", :for => "profile_first_name"
+          = text_field :profile, :first_name
+        %p
+          = content_tag :label, "Last Name", :for => "profile_last_name"
+          = text_field :profile, :last_name
+        %p
+          = content_tag :label, "Email", :for => "user_email"
+          = text_field :user, :email
+        %p
+          = check_box_tag :agreed_to_terms, nil, :checked => true
+          - link_text = link_to "the terms and conditions", "/extensions/greenchange/terms.html", :target => "blank"
+          = content_tag :label, "I agree to #{link_text}", :for => "agreed_to_terms"
+        %p
+          = submit_tag "Sign up"
+          = hidden_field_tag( 'redirect', params[:redirect]) if params[:redirect]
+
+  #signup_footer
+
+- content_for :javascript do 
+  = javascript_tag "document.getElementById('user_login').focus();"

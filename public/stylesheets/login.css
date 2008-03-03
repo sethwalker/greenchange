@@ -8,6 +8,8 @@ div#login_container{
 	line-height:160%;
 	border:0px solid grey;
 	background: white;
+  padding-bottom: 4em;
+  border-bottom: 1px solid grey;
 }
 div#login_left{
 	float: left;
@@ -31,6 +33,14 @@ div#loginformbox {
 	padding: 1em 1em 1em 1em;
 	border: 1px dotted #BB8B1A;  
 	background: #EEE9E9;
+  line-height: 100%;
+  
+}
+#loginformbox .submit {
+  text-align: right;
+}
+#loginformbox p {
+  display:block;
 }
 #loginform table {
 	margin: 0 auto;
@@ -58,7 +68,7 @@ div#signup_left{
 div#signup_right{
 	margin-left: 32em;
 	width: 20em;
-	padding: 3em 0 0 0;
+	padding: 3em 0 3em 0;
 }
 div#signup_footer{
 	width: 60em;
@@ -74,7 +84,7 @@ div#signup_footer{
 	background: #EEE9E9;
 }
 
-.comment {
+form .comment {
     font-size: 50%;
 }
 

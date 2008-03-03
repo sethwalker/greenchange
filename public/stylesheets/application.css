@@ -57,13 +57,13 @@ body, p, ol, ul, td {
 table#masthead {
   border-collapse: collapse;
   width: 100%;
-  background: #cc9 url(/riseup/bg-top.png) repeat-x bottom left;
+  background: #cc9 url(/extensions/greenchange/images/bg-top-gc.png) repeat-x bottom left;
 }
 table#masthead td {
   vertical-align: bottom;
 }
 #masthead-image {
-  background: url(/riseup/riseup.net.png) no-repeat;
+  background: url(/extensions/greenchange/images/greenchange.png) no-repeat 0px -15px;
   width: 166px;
   height: 30px;
 }

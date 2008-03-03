@@ -28,6 +28,50 @@ describe User, "when forgetting a password" do
     user.password_reset_code.should be_blank
   end
 
+  describe "when saving with a profile" do
+    before do
+      @user = User.new
+    end
+
+    it "checks to be sure there's an email" do
+      @user.should have_at_least(1).errors_on(:email) 
+    end
+
+    it "sends an error if the email has the wrong format" do
+      @user.email = "cheese"
+      @user.should have_at_least(1).errors_on(:email) 
+    end
+
+    it "accepts valid emails" do
+      @user.email = "pablo@laminated.com"
+      @user.should have(0).errors_on(:email) 
+    end
+
+    it "requires a profile" do
+      @user.should have_at_least(1).errors_on(:profiles)
+    end
+
+    it "should not save a new profile if the profile is invalid" do
+      lambda do
+        @user.profiles.build {}
+        @user.save 
+      end.should_not change(Profile::Profile, :count )
+    end
+
+    it "should have errors on profile unless the profile is valid" do
+      profile = @user.profiles.build :friend => true, :entity => @user
+      profile.should_not be_valid
+      profile.should have_at_least(1).errors_on(:first_name)
+    end
+
+    it "should have errors on user unless the profile is valid" do
+      profile = @user.profiles.build :friend => true, :entity => @user
+      @user.should_not be_valid
+      @user.should have_at_least(1).errors_on(:profiles)
+    end
+
+  end
+
 end
 
 describe User do

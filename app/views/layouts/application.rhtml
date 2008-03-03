@@ -1,16 +1,16 @@
-<% # see README -%>
+<%# see README -%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/ DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <%= favicon %>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <title><%=h title_from_context %></title>
   <link rel="stylesheet" href="/bundles/<%=CSS_VERSION%>/base.css" type="text/css" media="screen" charset="utf-8" />
-  <%= stylesheet_link_tag stylesheet if stylesheet %>
   <script type="text/javascript" src="/bundles/<%=JAVASCRIPT_VERSION%>/base.js"></script>
   <% if need_extra_javascript? %><script type="text/javascript" src="/bundles/<%=JAVASCRIPT_VERSION%>/extra.js"></script><% end %>
-  <script>
+<script>
 <%# get_unobtrusive_javascript %>
   </script>
   <!--[if lt IE 7.]>
@@ -21,6 +21,7 @@
 <%= yield :style %>
 <%= theme_styles %>
   </style>
+  <%= stylesheet_link_tag stylesheet if stylesheet %>
 </head>
 
 <body class="<%=body_class||=''%>">
@@ -50,27 +51,12 @@
   <%= yield %>
 </div>
 
-<div id="footer" align="center">
-
-<table>
- <tr>
-  <td valign="bottom">
-  <div style="text-align: center; margin:0 auto;">
-    <a href='https://we.riseup.net/crabgrass-dev/get-involved'>Get involved</a> &nbsp;
-    <a href='https://we.riseup.net/crabgrass-dev/bugs'>Bugs</a> &nbsp;
-    <a href='https://we.riseup.net/crabgrass-dev/feature-requests'>Feature requests</a> &nbsp;
-    <a href='https://we.riseup.net/crabgrass/table-of-contents'>Help</a>
+<div id="footer">
+  <div style="text-align: center; font-size: 9px; padding-bottom: 3em;">
+  <% if SVN_REVISION -%>
+    <a href="http://code.autistici.org/svn/crabgrass/branches/greenchange">crabgrass/greenchange r<%= SVN_REVISION %></a>
+  <% end -%>
   </div>
-  </td>
-  <td><div style='margin: 0 auto; width: 73px; padding-left: 1em;'>
-	<div style='text-align: right; font-size: .7em; border; margin-bottom: -19px; margin-right: 3px;'>
-    <a class="noline" href="http://code.autistici.org/trac/crabgrass/log/trunk"><%= " r#{SVN_REVISION}" if SVN_REVISION %></div>
-    <img src='/images/crabgrass-xsmall.png' align='center'/></a>
-	</div>
-  </td>
- </tr>
-</table>
-  
 </div><!-- end footer -->
 
 </div><!-- end container -->

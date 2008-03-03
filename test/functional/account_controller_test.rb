@@ -127,8 +127,8 @@ class AccountControllerTest < Test::Unit::TestCase
 
   protected
     def create_user(options = {})
-      post :signup, :user => { :login => 'quire', :email => 'quire@example.com', 
-        :password => 'quire', :password_confirmation => 'quire' }.merge(options)
+      post :create, :user => { :login => 'quire', :email => 'quire@example.com', 
+        :password => 'quirej', :password_confirmation => 'quirej' }.merge(options), :profile => { :first_name => 'Dr.', :last_name => 'J' }, :agreed_to_terms => 1
     end
     
     def auth_token(token)

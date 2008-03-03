@@ -6,7 +6,12 @@ class User < ActiveRecord::Base
 
   validates_handle :login
   acts_as_modified
-  
+
+  validate                 :validate_profiles
+  validates_presence_of    :email
+  validates_format_of      :email, :with => /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
+  validates_length_of      :email,    :within => 6..100
+
   #########################################################    
   # my identity
 
@@ -91,6 +96,13 @@ class User < ActiveRecord::Base
     read_attribute(:time_zone) || DEFAULT_TZ
   end
 
+  ## validations
+  def validate_profiles
+    if self.profiles.empty?
+      self.errors.add :profiles, "User must have at least a private profile"
+    end
+
+  end
 
     
 end
