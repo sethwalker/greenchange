@@ -1,6 +1,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe User, "when forgetting a password" do
+class UserExampleGroup < Spec::Rails::Example::ModelExampleGroup
+  describe User, "when forgetting a password"
 
   before do
     @user = create_valid_user
