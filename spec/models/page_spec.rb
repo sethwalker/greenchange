@@ -121,4 +121,9 @@ describe Page do
       end
     end
   end
+
+  it "should respond to bookmarks" do
+    p = Page.new
+    p.should respond_to(:bookmarks)
+  end
 end

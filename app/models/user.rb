@@ -26,6 +26,9 @@ class User < ActiveRecord::Base
     end
   end
 
+  has_many :bookmarks
+  has_many :bookmarked_pages, :through => :bookmarks, :source => :page
+
   belongs_to :avatar
   has_many :profiles, :as => 'entity', :dependent => :destroy, :class_name => 'Profile::Profile', :extend => Profile::Methods
 

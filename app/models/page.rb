@@ -134,6 +134,8 @@ class Page < ActiveRecord::Base
     true
   end
 
+  has_many :bookmarks
+
   #######################################################################
   ## RELATIONSHIP TO GROUPS
   

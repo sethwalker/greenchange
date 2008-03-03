@@ -14,7 +14,7 @@ class Tag < ActiveRecord::Base
   
   # Set up the polymorphic relationship.
   has_many_polymorphs :taggables, 
-    :from => ([:pages] + TOOLS.map {|t| t.to_s.underscore.pluralize.to_sym}),
+    :from => ([:pages, :bookmarks] + TOOLS.map {|t| t.to_s.underscore.pluralize.to_sym}),
     :through => :taggings, 
     :dependent => :destroy,
     :skip_duplicates => false, 

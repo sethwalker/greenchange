@@ -92,4 +92,13 @@ describe User do
     u.issue_ids = [i.id]
     u.issues.should include(i)
   end
+
+  it "should respond to bookmarks" do
+    u = User.new
+    u.should respond_to(:bookmarks)
+  end
+  it "should respond to bookmarked_pages" do
+    u = User.new
+    u.should respond_to(:bookmarked_pages)
+  end
 end
