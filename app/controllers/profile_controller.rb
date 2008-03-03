@@ -12,6 +12,7 @@ class ProfileController < ApplicationController
   def edit
     if request.post?
       @profile.save_from_params params['profile']
+      @entity.issue_ids = params['issues']
     end
   end
 
@@ -105,5 +106,11 @@ class ProfileController < ApplicationController
     ['description_section', 'phone_number_section', 'email_address_section', 'location_section', 'im_address_section', 'website_section']
   end
   helper_method :profile_sections
+
+  protected
+  def profile_sections_with_issues
+    ['issues_section'] + profile_sections_without_issues
+  end
+  alias_method_chain :profile_sections, :issues
 
 end

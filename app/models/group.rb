@@ -61,6 +61,17 @@ class Group < ActiveRecord::Base
     Group.find_by_name(name.gsub(' ','+'))
   end
 
+  has_many :issue_identifications, :as => :issue_identifying
+  has_many :issues, :through => :issue_identifications
+  def issue_ids=(issue_ids)
+    issue_identifications.each do |issue_identification|
+      issue_identification.destroy unless issue_ids.include?(issue_identification.issue_id)
+    end
+    issue_ids.each do |issue_id|
+      self.issue_identifications.create(:issue_id => issue_id) unless issue_identifications.any? {|issue_identification| issue_identification.issue_id == issue_id}
+    end
+  end
+
   belongs_to :avatar
   has_many :profiles, :as => 'entity', :dependent => :destroy, :class_name => 'Profile::Profile', :extend => Profile::Methods
   

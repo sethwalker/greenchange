@@ -1,7 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-class UserExampleGroup < Spec::Rails::Example::ModelExampleGroup
-  describe User, "when forgetting a password"
+describe User, "when forgetting a password" do
 
   before do
     @user = create_valid_user
@@ -29,4 +28,24 @@ class UserExampleGroup < Spec::Rails::Example::ModelExampleGroup
     user.password_reset_code.should be_blank
   end
 
+end
+
+describe User do
+  it "should have issues" do
+    User.new.should respond_to(:issues)
+  end
+
+  it "should be able to add an issue" do
+    i = Issue.find_or_create_by_name('an issue')
+    u = create_valid_user
+    u.issues << i
+    u.issues.should include(i)
+  end
+
+  it "should be able to set issues" do
+    i = Issue.find_or_create_by_name('an issue')
+    u = create_valid_user
+    u.issue_ids = [i.id]
+    u.issues.should include(i)
+  end
 end
