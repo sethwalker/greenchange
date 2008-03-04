@@ -1,6 +1,6 @@
 
 # Specifies gem version of Rails to use when vendor/rails is not present
-RAILS_GEM_VERSION = '1.2.3'
+RAILS_GEM_VERSION = '1.2.6'
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
@@ -44,7 +44,7 @@ AVAILABLE_PAGE_CLASSES = %w[
 
 
 Rails::Initializer.run do |config|
-  config.load_paths += %w(associations discussion chat).collect do |dir|
+  config.load_paths += %w(associations discussion chat profile).collect do |dir|
     "#{RAILS_ROOT}/app/models/#{dir}"
   end
   

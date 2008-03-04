@@ -73,7 +73,7 @@ class Group < ActiveRecord::Base
   end
 
   belongs_to :avatar
-  has_many :profiles, :as => 'entity', :dependent => :destroy, :class_name => 'Profile::Profile', :extend => Profile::Methods
+  has_many :profiles, :as => 'entity', :dependent => :destroy, :extend => Profile::Methods
   
   has_many :tags, :finder_sql => %q[
     SELECT DISTINCT tags.* FROM tags INNER JOIN taggings ON tags.id = taggings.tag_id

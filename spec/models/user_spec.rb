@@ -55,7 +55,7 @@ describe User, "when forgetting a password" do
       lambda do
         @user.profiles.build {}
         @user.save 
-      end.should_not change(Profile::Profile, :count )
+      end.should_not change(Profile, :count )
     end
 
     it "should have errors on profile unless the profile is valid" do

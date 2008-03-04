@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   has_many :bookmarked_pages, :through => :bookmarks, :source => :page
 
   belongs_to :avatar
-  has_many :profiles, :as => 'entity', :dependent => :destroy, :class_name => 'Profile::Profile', :extend => Profile::Methods
+  has_many :profiles, :as => 'entity', :dependent => :destroy, :extend => Profile::Methods
 
   # this is a hack to get 'has_many :profiles' to polymorph
   # on User instead of AuthenticatedUser

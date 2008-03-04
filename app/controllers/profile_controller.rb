@@ -62,7 +62,7 @@ class ProfileController < ApplicationController
  
   def fetch_profile
     return true unless params[:id]
-    @profile = Profile::Profile.find params[:id]
+    @profile = Profile.find params[:id]
     @entity = @profile.entity
     if @entity.is_a?(User)
       @user = @entity

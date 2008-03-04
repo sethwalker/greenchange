@@ -4,17 +4,17 @@ describe "Profile::Profile" do
 
   before do
     @user = User.new( :login => 'testo' , :password => 'test', :password_confirmation => 'test' )
-    @profile = Profile::Profile.new(:friend => true, :entity => @user )
+    @profile = Profile.new(:friend => true, :entity => @user )
   end
 
   it "does not perform name validation for public profiles" do
-    profile = Profile::Profile.new(:stranger => true, :entity => @user )
+    profile = Profile.new(:stranger => true, :entity => @user )
     profile.should have(0).errors_on(:first_name)
   end
   
   it "does not perform name validation for group profiles" do
     @group = Group.new( :name => 'testo' )
-    profile = Profile::Profile.new(:friend => true, :entity => @group) 
+    profile = Profile.new(:friend => true, :entity => @group) 
     profile.should have(0).errors_on(:first_name)
   end
   

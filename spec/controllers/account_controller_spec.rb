@@ -87,7 +87,7 @@ describe AccountController do
       end
 
       it "should create a new profile" do
-        lambda {  act! }.should change( Profile::Profile, :count ).by(1)
+        lambda {  act! }.should change( Profile, :count ).by(1)
       end
 
       it "should add a message to the flash" do

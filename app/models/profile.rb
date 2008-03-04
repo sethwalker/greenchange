@@ -15,7 +15,7 @@ Order of profile presidence (user sees the first one that matches):
 
 =end
 
-class Profile::Profile < ActiveRecord::Base
+class Profile < ActiveRecord::Base
 
   ### relationship to user or group #########################################
   
@@ -67,16 +67,16 @@ class Profile::Profile < ActiveRecord::Base
   has_many   :im_addresses,    :dependent => :destroy, :order=>"preferred desc"
   has_many   :phone_numbers,   :dependent => :destroy, :order=>"preferred desc"
   has_many   :websites,        :dependent => :destroy, :order=>"preferred desc"
-  has_many   :notes,           :class_name => 'Note', :dependent => :destroy, :order=>"preferred desc"
+  has_many   :notes,           :dependent => :destroy, :order=>"preferred desc"
 
   # takes a huge params hash that includes sub hashes for dependent collections
   # and saves it all to the database.
   def save_from_params(profile_params)
     valid_params = ['first_name', 'middle_name', 'last_name', 'role', 'organization']
     collections = {
-      'phone_numbers'   => Profile::PhoneNumber,   'locations' => Profile::Location,
-      'email_addresses' => Profile::EmailAddress,  'websites'  => Profile::Website,
-      'im_addresses'    => Profile::ImAddress,     'notes'     => Profile::Note
+      'phone_numbers'   => PhoneNumber,   'locations' => Location,
+      'email_addresses' => EmailAddress,  'websites'  => Website,
+      'im_addresses'    => ImAddress,     'notes'     => Note
     }
     
     profile_params.stringify_keys!
