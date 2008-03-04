@@ -1,0 +1,18 @@
+%h1 Viewing bookmark
+
+%div[current_object]
+  %p.url
+    %strong Url
+    = h current_object.url
+  %p.description
+    %strong Description
+    = h current_object.description
+  %p.page_id
+    %strong Page
+    = h current_object.page_id
+
+= link_to 'Edit', edit_object_path
+|
+= link_to 'Destroy', object_path, :confirm => 'Really destroy bookmark?', :method => :delete
+|
+= link_to 'Back', objects_path

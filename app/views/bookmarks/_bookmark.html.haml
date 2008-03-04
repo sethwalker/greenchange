@@ -1,0 +1,16 @@
+%div[bookmark]
+  %p.url
+    %strong Url
+    = h bookmark.url
+  %p.description
+    %strong Description
+    = h bookmark.description
+  %p.page_id
+    %strong Page
+    = h bookmark.page_id
+
+  = link_to 'Show', object_path(bookmark)
+  |
+  = link_to 'Edit', edit_object_path(bookmark)
+  |
+  = link_to 'Destroy', object_path(bookmark), :confirm => 'Really destroy bookmark?', :method => :delete

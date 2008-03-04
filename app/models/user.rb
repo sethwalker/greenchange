@@ -28,6 +28,12 @@ class User < ActiveRecord::Base
 
   has_many :bookmarks
   has_many :bookmarked_pages, :through => :bookmarks, :source => :page
+  def bookmarked?(page)
+    bookmarked_pages.detect {|p| p == page}
+  end
+  def bookmark!(page)
+    bookmarked_pages << page
+  end
 
   belongs_to :avatar
   has_many :profiles, :as => 'entity', :dependent => :destroy, :extend => Profile::Methods

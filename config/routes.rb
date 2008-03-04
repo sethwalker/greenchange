@@ -6,7 +6,9 @@
 # with any of our other routes).
 # 
 
-ActionController::Routing::Routes.draw do |map|  
+ActionController::Routing::Routes.draw do |map|
+  map.resources :bookmarks, :belongs_to => :page
+  
 
   ##### ASSET ROUTES ######################################
   

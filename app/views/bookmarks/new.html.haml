@@ -1,0 +1,9 @@
+%h1 Creating bookmark
+
+= error_messages_for :bookmark
+
+- form_for(:bookmark, :url => objects_url) do |f|
+  = render :partial => "form", :locals => {:f => f}
+  %p= submit_tag "Create"
+
+= link_to 'Back', objects_path

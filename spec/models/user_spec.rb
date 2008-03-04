@@ -102,3 +102,28 @@ describe User do
     u.should respond_to(:bookmarked_pages)
   end
 end
+
+describe User, "with bookmarks" do
+  it "should respond to bookmarked?" do
+    User.new.should respond_to(:bookmarked?)
+  end
+  it "bookmarked? should return nil if not bookmarked" do
+    u = create_valid_user
+    p = create_valid_page
+    u.bookmarked?(p).should be_nil
+  end
+
+  it "bookmarked? should not be false if a page is bookmarked" do
+    u = create_valid_user
+    p = create_valid_page
+    u.bookmarked_pages << p
+    u.bookmarked?(p).should_not be_false
+  end
+  it "bookmark! should add a page to bookmarked_pages" do
+    u = create_valid_user
+    p = create_valid_page
+    u.bookmark!(p)
+    u.bookmarked?(p).should_not be_false
+  end
+
+end
