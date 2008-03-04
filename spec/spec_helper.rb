@@ -39,8 +39,8 @@ Spec::Runner.configure do |config|
   # config.mock_with :mocha
   # config.mock_with :flexmock
   # config.mock_with :rr
-  def create_valid_page
-    @page = Page.create :title => 'valid_page'
+  def create_valid_page(options = {})
+    @page = Page.create({:title => 'valid_page'}.merge(options))
   end
 
   def create_valid_user

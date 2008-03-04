@@ -20,4 +20,9 @@ describe Bookmark do
       b.tag_list.should include('gat')
     end
   end
+
+  it "should show the url if url" do
+    b = Bookmark.create :page => (p = create_valid_page(:title => 'pagey'))
+    b.url.should == p.url
+  end
 end

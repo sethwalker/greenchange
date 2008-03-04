@@ -10,6 +10,11 @@ class Page < ActiveRecord::Base
   acts_as_modified
 
   extend PathFinder::FindByPath
+  include PageUrlHelper
+
+  def url
+    page_url(self)
+  end
   
   #######################################################################
   ## PAGE NAMING
