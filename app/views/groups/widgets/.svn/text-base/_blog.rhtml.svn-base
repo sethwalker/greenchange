@@ -1,8 +1,0 @@
-<p><strong><%= link_to(blog.title, page_url(blog) ) %></strong><br>
-<%= blog.summary  %></p>
-<div align="right"><%= page_icon(blog)   %>  posted by 
-
-<%= render :partial => 'avatars/person', :object => blog.created_by %>
-
-<%= link_to_user(blog.created_by) %> on <%= friendly_date(blog.created_at) %></div>
-<hr>
