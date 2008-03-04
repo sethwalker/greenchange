@@ -92,6 +92,18 @@ div.landing-side-column {
   float: right;
 }
 
+div.landing-group .section {
+  float: left;
+  width: 100%;
+}
+
+div.landing-group .home .edit-tab {
+  clear: both;
+}
+div.landing-group .home .wiki {
+  clear: both;
+}
+
 /** group edit page **/
 
 .form .h1 .banner {
