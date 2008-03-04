@@ -152,6 +152,7 @@ class Group < ActiveRecord::Base
   def may_be_pestered_by?(user)
     return true if user.member_of?(self)
     return true if publicly_visible_group
+    return parent.may_be_pestered_by?(user) if parent && parent.publicly_visible_committees
     return false
   end
   

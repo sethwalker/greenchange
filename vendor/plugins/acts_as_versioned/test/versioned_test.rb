@@ -4,9 +4,10 @@ require File.join(File.dirname(__FILE__), 'fixtures/widget')
 
 class VersionedTest < Test::Unit::TestCase
   fixtures :pages, :page_versions, :locked_pages, :locked_pages_revisions, :authors, :landmarks, :landmark_versions
+  set_fixture_class :page_versions => Page::Version
 
   def test_saves_versioned_copy
-    p = Page.create :title => 'first title', :body => 'first body'
+    p = Page.create! :title => 'first title', :body => 'first body'
     assert !p.new_record?
     assert_equal 1, p.versions.size
     assert_equal 1, p.version
@@ -69,7 +70,7 @@ class VersionedTest < Test::Unit::TestCase
   end
 
   def test_saves_versioned_copy_with_options
-    p = LockedPage.create :title => 'first title'
+    p = LockedPage.create! :title => 'first title'
     assert !p.new_record?
     assert_equal 1, p.versions.size
     assert_instance_of LockedPage.versioned_class, p.versions.first
@@ -96,7 +97,7 @@ class VersionedTest < Test::Unit::TestCase
   end
   
   def test_saves_versioned_copy_with_sti
-    p = SpecialLockedPage.create :title => 'first title'
+    p = SpecialLockedPage.create! :title => 'first title'
     assert !p.new_record?
     assert_equal 1, p.versions.size
     assert_instance_of LockedPage.versioned_class, p.versions.first
@@ -127,7 +128,7 @@ class VersionedTest < Test::Unit::TestCase
   end
 
   def test_version_if_condition
-    p = Page.create :title => "title"
+    p = Page.create! :title => "title"
     assert_equal 1, p.version
     
     Page.feeling_good = false
@@ -144,7 +145,7 @@ class VersionedTest < Test::Unit::TestCase
       alias_method :feeling_good?, :new_feeling_good
     end
     
-    p = Page.create :title => "title"
+    p = Page.create! :title => "title"
     assert_equal 1, p.version # version does not increment
     assert_equal 1, p.versions(true).size
     
@@ -165,7 +166,7 @@ class VersionedTest < Test::Unit::TestCase
     old_condition = Page.version_condition
     Page.version_condition = Proc.new { |page| page.title[0..0] == 'b' }
     
-    p = Page.create :title => "title"
+    p = Page.create! :title => "title"
     assert_equal 1, p.version # version does not increment
     assert_equal 1, p.versions(true).size
     
@@ -182,7 +183,7 @@ class VersionedTest < Test::Unit::TestCase
   end
 
   def test_version_no_limit
-    p = Page.create :title => "title", :body => 'first body'
+    p = Page.create! :title => "title", :body => 'first body'
     p.save
     p.save
     5.times do |i|
@@ -191,7 +192,7 @@ class VersionedTest < Test::Unit::TestCase
   end
 
   def test_version_max_limit
-    p = LockedPage.create :title => "title"
+    p = LockedPage.create! :title => "title"
     p.update_attributes(:title => "title1")
     p.update_attributes(:title => "title2")
     5.times do |i|
@@ -209,12 +210,10 @@ class VersionedTest < Test::Unit::TestCase
   def test_version_order
     assert_equal 23, pages(:welcome).versions.first.version
     assert_equal 24, pages(:welcome).versions.last.version
-    assert_equal 23, pages(:welcome).find_versions.first.version
-    assert_equal 24, pages(:welcome).find_versions.last.version
   end
   
   def test_track_changed_attributes    
-    p = LockedPage.create :title => "title"
+    p = LockedPage.create! :title => "title"
     assert_equal 1, p.lock_version
     assert_equal 1, p.versions(true).size
     
@@ -246,17 +245,15 @@ class VersionedTest < Test::Unit::TestCase
   
   def test_find_versions
     assert_equal 2, locked_pages(:welcome).versions.size
-    assert_equal 1, locked_pages(:welcome).find_versions(:conditions => ['title LIKE ?', '%weblog%']).length
-    assert_equal 2, locked_pages(:welcome).find_versions(:conditions => ['title LIKE ?', '%web%']).length
-    assert_equal 0, locked_pages(:thinking).find_versions(:conditions => ['title LIKE ?', '%web%']).length
-    assert_equal 2, locked_pages(:welcome).find_versions.length
+    assert_equal 1, locked_pages(:welcome).versions.find(:all, :conditions => ['title LIKE ?', '%weblog%']).length
+    assert_equal 2, locked_pages(:welcome).versions.find(:all, :conditions => ['title LIKE ?', '%web%']).length
+    assert_equal 0, locked_pages(:thinking).versions.find(:all, :conditions => ['title LIKE ?', '%web%']).length
+    assert_equal 2, locked_pages(:welcome).versions.length
   end
   
   def test_with_sequence
     assert_equal 'widgets_seq', Widget.versioned_class.sequence_name
-    Widget.create :name => 'new widget'
-    Widget.create :name => 'new widget'
-    Widget.create :name => 'new widget'
+    3.times { Widget.create! :name => 'new widget' }
     assert_equal 3, Widget.count
     assert_equal 3, Widget.versioned_class.count
   end
@@ -283,11 +280,11 @@ class VersionedTest < Test::Unit::TestCase
     
     association = Widget.reflect_on_association(:versions)
     options = association.options
-    assert_nil options[:dependent]
+    assert_equal :nullify, options[:dependent]
     assert_equal 'version desc', options[:order]
     assert_equal 'widget_id', options[:foreign_key]
     
-    widget = Widget.create :name => 'new widget'
+    widget = Widget.create! :name => 'new widget'
     assert_equal 1, Widget.count
     assert_equal 1, Widget.versioned_class.count
     widget.destroy
@@ -302,12 +299,30 @@ class VersionedTest < Test::Unit::TestCase
   end
   
   def test_unchanged_attributes
-    landmarks(:washington).attributes = landmarks(:washington).attributes
+    landmarks(:washington).attributes = landmarks(:washington).attributes.except("id")
     assert !landmarks(:washington).changed?
   end
   
   def test_unchanged_string_attributes
-    landmarks(:washington).attributes = landmarks(:washington).attributes.inject({}) { |params, (key, value)| params.update key => value.to_s }
+    landmarks(:washington).attributes = landmarks(:washington).attributes.except("id").inject({}) { |params, (key, value)| params.update(key => value.to_s) }
     assert !landmarks(:washington).changed?
+  end
+
+  def test_should_find_earliest_version
+    assert_equal page_versions(:welcome_1), pages(:welcome).versions.earliest
+  end
+  
+  def test_should_find_latest_version
+    assert_equal page_versions(:welcome_2), pages(:welcome).versions.latest
+  end
+  
+  def test_should_find_previous_version
+    assert_equal page_versions(:welcome_1), page_versions(:welcome_2).previous
+    assert_equal page_versions(:welcome_1), pages(:welcome).versions.before(page_versions(:welcome_2))
+  end
+  
+  def test_should_find_next_version
+    assert_equal page_versions(:welcome_2), page_versions(:welcome_1).next
+    assert_equal page_versions(:welcome_2), pages(:welcome).versions.after(page_versions(:welcome_1))
   end
 end

@@ -6,9 +6,11 @@ class PostsTest < Test::Unit::TestCase
   def test_creation
     @page = Page.create(:title => 'my page')
     @discussion = @page.discussion ||= Discussion.create
-    @post       = @discussion.posts.build(:body => 'hi')
+    @post       = Post.new(:body => 'hi')
+    @post.discussion = @discussion
     @post.user = users(:blue)
     @post.save
+    @post.discussion(true)
     assert @post.valid?, 'post should be valid (%s)' % @post.errors.full_messages.to_s
     assert @discussion.valid?, 'discussion should be valid (%s)' % @discussion.errors.full_messages.to_s
   end
@@ -17,13 +19,12 @@ class PostsTest < Test::Unit::TestCase
   # all in memory and then have them saved all at once?
   def test_building
     @page =     Page.new(:title => 'my page')
-    @discussion = Discussion.new
+    @discussion = Discussion.create
     @page.discussion = @discussion
     @discussion.page = @page
     
     @post = Post.new(:body => 'hi')
     @discussion.posts << @post
-    @post.discussion = @discussion
     @post.user = users(:blue)
    
     @page.save

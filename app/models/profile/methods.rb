@@ -40,12 +40,12 @@ module Profile::Methods
   
   # a shortcut to grab the 'public' profile
   def public
-    @public_profile ||= (find_by_access(:stranger) || create(:stranger => true))
+    @public_profile ||= (find_by_access(:stranger) || build(:stranger => true))
   end
   
   # a shortcut to grab the 'private' profile
   def private
-    @private_profile ||= (find_by_access(:friend) || create(:friend => true))
+    @private_profile ||= (find_by_access(:friend) || build(:friend => true))
   end
   
 end

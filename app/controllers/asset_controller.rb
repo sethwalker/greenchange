@@ -10,9 +10,7 @@ class AssetController < ApplicationController
   end
 
   def create
-    if @asset.save
-      return redirect_to(page_url(@asset.page))
-    end
+    redirect_to(page_url(@asset.page)) if @asset.save
   end
 
   def destroy

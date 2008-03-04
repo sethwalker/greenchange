@@ -49,6 +49,21 @@ module ActiveRecord #:nodoc:
     #   page.revert_to(page.versions.last) # using versioned instance
     #   page.title         # => 'hello world'
     #
+    #   page.versions.earliest # efficient query to find the first version
+    #   page.versions.latest   # efficient query to find the most recently created version
+    #
+    #
+    # Simple Queries to page between versions
+    #
+    #   page.versions.before(version) 
+    #   page.versions.after(version)
+    #
+    # Access the previous/next versions from the versioned model itself
+    #
+    #   version = page.versions.latest
+    #   version.previous # go back one version
+    #   version.next     # go forward one version
+    #
     # See ActiveRecord::Acts::Versioned::ClassMethods#acts_as_versioned for configuration options
     module Versioned
       CALLBACKS = [:set_new_version, :save_version_on_create, :save_version?, :clear_changed_attributes]
@@ -184,7 +199,7 @@ module ActiveRecord #:nodoc:
           self.non_versioned_columns        = [self.primary_key, inheritance_column, 'version', 'lock_version', versioned_inheritance_column]
           self.version_association_options  = {
                                                 :class_name  => "#{self.to_s}::#{versioned_class_name}",
-                                                :foreign_key => "#{versioned_foreign_key}",
+                                                :foreign_key => versioned_foreign_key,
                                                 :order       => 'version',
                                                 :dependent   => :delete_all
                                               }.merge(options[:association_options] || {})
@@ -199,7 +214,17 @@ module ActiveRecord #:nodoc:
           end
 
           class_eval do
-            has_many :versions, version_association_options
+            has_many :versions, version_association_options do
+              # finds earliest version of this record
+              def earliest
+                @earliest ||= find(:first)
+              end
+              
+              # find latest version of this record
+              def latest
+                @latest ||= find(:first, :order => 'version desc')
+              end
+            end
             before_save  :set_new_version
             after_create :save_version_on_create
             after_update :save_version
@@ -222,8 +247,29 @@ module ActiveRecord #:nodoc:
           # create the dynamic versioned model
           const_set(versioned_class_name, Class.new(ActiveRecord::Base)).class_eval do
             def self.reloadable? ; false ; end
+            # find first version before the given version
+            def self.before(version)
+              find :first, :order => 'version desc',
+                :conditions => ["#{original_class.versioned_foreign_key} = ? and version < ?", version.send(original_class.versioned_foreign_key), version.version]
+            end
+            
+            # find first version after the given version.
+            def self.after(version)
+              find :first, :order => 'version',
+                :conditions => ["#{original_class.versioned_foreign_key} = ? and version > ?", version.send(original_class.versioned_foreign_key), version.version]
+            end
+            
+            def previous
+              self.class.before(self)
+            end
+            
+            def next
+              self.class.after(self)
+            end
           end
           
+          versioned_class.cattr_accessor :original_class
+          versioned_class.original_class = self
           versioned_class.set_table_name versioned_table_name
           versioned_class.belongs_to self.to_s.demodulize.underscore.to_sym, 
             :class_name  => "::#{self.to_s}", 
@@ -263,24 +309,12 @@ module ActiveRecord #:nodoc:
           end
         end
 
-        # Finds a specific version of this model.
-        def find_version(version)
-          return version if version.is_a?(self.class.versioned_class)
-          return nil if version.is_a?(ActiveRecord::Base)
-          find_versions(:conditions => ['version = ?', version], :limit => 1).first
-        end
-        
-        # Finds versions of this model.  Takes an options hash like <tt>find</tt>
-        def find_versions(options = {})
-          versions.find(:all, options)
-        end
-
         # Reverts a model to a given version.  Takes either a version number or an instance of the versioned model
         def revert_to(version)
           if version.is_a?(self.class.versioned_class)
             return false unless version.send(self.class.versioned_foreign_key) == self.id and !version.new_record?
           else
-            return false unless version = find_version(version)
+            return false unless version = versions.find_by_version(version)
           end
           self.clone_versioned_model(version, self)
           self.send("#{self.class.version_column}=", version.version)
@@ -328,7 +362,7 @@ module ActiveRecord #:nodoc:
         # Clones a model.  Used when saving a new version or reverting a model's version.
         def clone_versioned_model(orig_model, new_model)
           self.versioned_attributes.each do |key|
-            new_model.send("#{key}=", orig_model.attributes[key]) if orig_model.has_attribute?(key)
+            new_model.send("#{key}=", orig_model.send(key)) if orig_model.has_attribute?(key)
           end
           
           if orig_model.is_a?(self.class.versioned_class)
@@ -402,11 +436,6 @@ module ActiveRecord #:nodoc:
             write_attribute(attr_name, attr_value_for_db)
           end
 
-        private
-          CALLBACKS.each do |attr_name| 
-            alias_method "orig_#{attr_name}".to_sym, attr_name
-          end
-
         module ClassMethods
           # Finds a specific version of a specific row of this model
           def find_version(id, version)
@@ -476,17 +505,18 @@ module ActiveRecord #:nodoc:
           #
           def without_revision(&block)
             class_eval do 
-              CALLBACKS.each do |attr_name| 
+              CALLBACKS.each do |attr_name|
+                alias_method "orig_#{attr_name}".to_sym, attr_name
                 alias_method attr_name, :empty_callback
               end
             end
-            result = block.call
+            block.call
+          ensure
             class_eval do 
               CALLBACKS.each do |attr_name|
                 alias_method attr_name, "orig_#{attr_name}".to_sym
               end
             end
-            result
           end
 
           # Turns off optimistic locking for the duration of the block

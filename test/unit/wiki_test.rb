@@ -10,7 +10,7 @@ class WikiTest < Test::Unit::TestCase
     a = Tool::TextDoc.create :title => 'x61'
     a.add g; a.save
 
-    b = Tool::TextDoc.new :title => 'x61'
+    b = Tool::TextDoc.create :title => 'x61'
     b.add g;
  
     assert_equal 'x61', a.name, 'name should equal title'

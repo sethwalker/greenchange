@@ -28,7 +28,7 @@ class Tool::AssetControllerTest < Test::Unit::TestCase
     page.data.uploaded_data = fixture_file_upload(File.join('files','photos.png'), 'image/png')
     page.data.save
     assert File.exists?(page.data.full_filename)
-    assert File.exists?(version_filename = page.data.find_version(1).full_filename)
+    assert File.exists?(version_filename = page.data.versions.find_by_version(1).full_filename)
     
     @controller.stubs(:login_or_public_page_required).returns(true)
     post :destroy_version, :controller => "tool/asset", :page_id => page.id, :id => 1

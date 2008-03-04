@@ -59,8 +59,17 @@ class GroupsController < ApplicationController
   end
 
   def archive
-    sql = "SELECT MONTH(pages.created_at) AS month, " + 
-     "YEAR(pages.created_at) AS year, count(pages.id) " +
+    #XXX: this belongs in the model
+    case Page.connection.adapter_name
+    when "SQLite"
+      dates = "strftime('%m', created_at) AS month, strftime('%Y', created_at) AS year"
+    when "MySQL"
+      dates = "MONTH(pages.created_at) AS month, YEAR(pages.created_at) AS year"
+    else
+      raise "#{Article.connection.adapter_name} is not yet supported here"
+    end
+
+    sql = "SELECT #{dates}, count(pages.id) " +
      "FROM pages JOIN group_participations ON pages.id = group_participations.page_id " +
      "JOIN user_participations ON pages.id = user_participations.id " +
      "WHERE group_participations.group_id = #{@group.id} "
