@@ -4,6 +4,6 @@ class UserPasswordReset < ActiveRecord::Migration
   end
 
   def self.down
-    remove_column :users,  :password_reset_code,     :string,  :limit => 40
+    remove_column :users,  :password_reset_code
   end
 end
