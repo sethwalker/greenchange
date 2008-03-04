@@ -1,3 +1,1 @@
-page.replace_html area_id(params[:access]),
-  :partial => 'preview',
-  :locals => {:wiki => @wiki, :access => params[:access]}
+page.replace_html 'wiki-area', :partial => 'wiki/show'

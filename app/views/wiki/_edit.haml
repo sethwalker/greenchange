@@ -1,0 +1,5 @@
+#wiki-error-area
+%h2
+  Edit Homepage
+.tab-content.tab-area{ :id => area_id(:public) }
+  = render :partial => 'wiki/edit_area', :locals => {:wiki => @public, :access => :public}

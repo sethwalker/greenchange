@@ -1,13 +1,14 @@
-- content_for :title do
-  = render :partial => 'groups/widgets/info'
+-unless current_user.member_of? @group
+  - content_for :title do
+    = render :partial => 'groups/widgets/info'
  
-.landing
-  .group_widget.section
+.landing.landing-group
+  .group_widget.section.home
     = render :partial => 'groups/widgets/homepage'
-    Homepage
   .group_widget.section
     = render :partial => 'groups/widgets/sticky'
-    Sticky
+  .group_widget.section.samples
+    =# render :partial => 'groups/widgets/samples'
   .group_widget.section
     = render :partial => 'groups/widgets/updates'
   .group_widget.section

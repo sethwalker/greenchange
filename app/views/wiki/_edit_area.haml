@@ -1,0 +1,16 @@
+- # locals: wiki
+- spinner_id = 'save-spinner-%s' % rand(1000000)
+
+.formbox.spaced-out
+  - form_remote_tag( :url => wiki_action('save', :access => 'public'), :loading => show_spinner(spinner_id)) do
+    = hidden_field_tag 'version', wiki.version
+    = submit_tag 'Save', :name => 'save'
+    = submit_tag 'Cancel', :name => 'cancel'
+    .textarea-wrapper
+      = text_area_tag 'body', wiki.body, :size => '80x35'
+    %div
+      %a{ :href => "javascript:quickRedReference();", :style => "float: right" }
+        formatting reference
+    = submit_tag 'Save', :name => 'save'
+    = submit_tag 'Cancel', :name => 'cancel'
+    = spinner(spinner_id)

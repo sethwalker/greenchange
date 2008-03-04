@@ -1,4 +1,4 @@
-<h4><%= link_to image_tag('/images/actions/rss.png', :align => "right"), groups_url(:action => 'udpate_rss', :id => @group) %>News, Updates and Actions</h4>
+<h4><%= link_to image_tag('/images/actions/rss.png', :align => "right"), groups_url(:action => 'update_rss', :id => @group) %>News, Updates and Actions</h4>
 <%
   pages = Page.find_by_path('/type/news/or/type/blog/or/type/action_alert/descending/updated_at/limit/10', options_for_group(@group))
 -%>

@@ -1,1 +1,1 @@
-<%= (@group.profiles.public.wiki || @group.profiles.public.create_wiki).body_html if @group.profiles.public %>
+= render :partial => 'wiki/show' 
