@@ -2,6 +2,9 @@ require 'svg/svg'
 
 class GroupsController < ApplicationController
   include GroupsHelper
+  helper 'groups_content'
+  helper :profile
+
   
   layout :choose_layout
   stylesheet 'groups'
@@ -10,6 +13,7 @@ class GroupsController < ApplicationController
   
   before_filter :login_required,
     :except => [:list, :index, :show, :search, :archive, :tags]
+  before_filter :authorized_to_view?, :only => :archive
     
   verify :method => :post,
     :only => [:destroy, :update ]
@@ -215,16 +219,19 @@ class GroupsController < ApplicationController
   
   def find_group
     @group = Group.get_by_name params[:id].sub(' ','+') if params[:id]
-    if @group and (@group.publicly_visible_group or (@group.committee? and @group.parent.publicly_visible_group) or may_admin_group?) ##committees need to be handled better
-      @group_type = @group.class.to_s.downcase
-      return true
-    else
+  end
+
+  #this is a terrible method, but this is a better place than find_group
+  def authorized_to_view?
+    unless @group and (@group.publicly_visible_group or may_admin_group?) ##committees need to be handled better
       render :template => 'groups/show_nothing'
       return false
     end
+    true
   end
   
   def authorized?
+
     non_members_post_allowed = %w(archive search tags tasks create)
     non_members_get_allowed = %w(show members) + non_members_post_allowed
     if request.get? and non_members_get_allowed.include? params[:action]
@@ -236,4 +243,8 @@ class GroupsController < ApplicationController
     end
   end    
   
+  def edit_profile
+    @profile = @group.profiles.public
+    @profile.save_from_params(params[:profile]) if request.post?
+  end
 end

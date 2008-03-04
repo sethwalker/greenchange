@@ -1,0 +1,7 @@
+<% @pages.each do |event| -%>
+<p>
+<%= link_to event.title, page_url(event) %> - <%= event.starts_at %>
+<br/>
+<%= truncate(event.summary, 100) %>
+</p>
+<% end -%>

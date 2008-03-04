@@ -1,0 +1,14 @@
+<% @pages.each do |page| -%>
+<p>
+<%= link_to page.title, page_url(page) %>
+<br/>
+<div>Recent Comments</div>
+<div style="padding-left: 20px;">
+  <% page.discussion.posts.to_a.last(3).each do |post| -%>
+  <p><%= truncate(post.body) %><br/>
+  <span>- <%= post.user.login %> on <%= friendly_date(post.created_at) %></span>
+  </p>
+  <% end -%>
+</div>
+</p>
+<% end -%>

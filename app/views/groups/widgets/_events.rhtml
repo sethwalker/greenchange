@@ -1,0 +1,8 @@
+<h4>Events</h4>
+<%
+  pages = Page.find_by_path('/type/event', options_for_group(@group))
+  columns = [:icon, :title, :created_by, :created_at]
+%>
+<%= render :partial => 'pages/list/table', :locals => {:pages => pages, :columns => columns} %>
+
+<%= link_to 'more &raquo;', groups_url(:id => @group, :action => 'search') + "/type/event" %>

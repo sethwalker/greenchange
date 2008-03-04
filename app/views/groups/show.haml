@@ -1,0 +1,16 @@
+- content_for :title do
+  = render :partial => 'groups/widgets/info'
+ 
+.landing
+  .group_widget.section
+    = render :partial => 'groups/widgets/homepage'
+    Homepage
+  .group_widget.section
+    = render :partial => 'groups/widgets/sticky'
+    Sticky
+  .group_widget.section
+    = render :partial => 'groups/widgets/updates'
+  .group_widget.section
+    = render :partial => 'groups/widgets/discussions'
+  .group_widget.section
+    = render :partial => 'groups/widgets/files'

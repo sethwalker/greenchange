@@ -1,0 +1,37 @@
+%p
+  = avatar_for @group, 'large'
+  %h3
+    = @group.full_name
+  = h @group.summary
+
+  = link_to 'Read More', groups_url(:action => 'profile', :id => @group, :path => nil)
+  |
+  = link_to 'History', groups_url(:action => 'history', :id => @group, :path => nil)
+%table{ :width => "100%" }
+  %tr
+    %td{ :width => "33%" }
+      %ul.plainlist
+        %li
+          Location:
+          %b
+            = group_location(@group)
+        %li
+          Issues:
+          %b
+            unknown
+    %td{ :width => "33%" }
+      %ul.plainlist
+        %li
+          Founded:
+          %b
+            - # @group.year_founded
+        %li
+          \# of Members:
+          %b
+            = @group.users.count
+    %td{ :width => "33%" }
+      %ul.plainlist
+        %li
+          Tags:
+          %b
+            - # @group.language

@@ -1,0 +1,7 @@
+<% @pages.each do |blog| -%>
+<p>
+<%= link_to blog.title, page_url(blog) %> - posted on <%= friendly_date(blog.created_at) %> (<%= pluralize(blog.discussion.posts.length, 'comment') %>)
+<br/>
+<%= truncate(blog.data.body_html, 100) %>
+</p>
+<% end -%>

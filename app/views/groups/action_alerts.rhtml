@@ -1,0 +1,7 @@
+<h4>Take Action Today</h4>
+<%
+  columns = [:icon, :title, :updated_by, :updated_at]
+-%>
+<%= render :partial => 'pages/list/table', :locals => {:pages => @pages, :columns => columns} %>
+
+

@@ -214,4 +214,36 @@ class GroupsControllerTest < Test::Unit::TestCase
     get :show
     assert_select "a[href=?]", @controller.page_url(group_page), false
   end
+
+  def test_get_show
+    mock_login
+    g = Group.create :name => 'showme'
+    assert_nothing_raised do
+      get :show, :id => g.name
+    end
+  end
+
+  def test_get_blog
+    mock_login
+    g = Group.create :name => 'blogme'
+    g.pages << (page = Tool::Blog.create(:title => 'a blog'))
+    assert_nothing_raised do
+      get :blog, :id => g.name
+    end
+  end
+
+  def test_get_events
+    mock_login
+    g = Group.create :name => 'eventiful'
+    g.pages << (page = Tool::Event.create( :title => 'arts nite', :starts_at => 1.day.from_now, :ends_at => (1.day + 1.hour).from_now))
+    assert_nothing_raised do
+      get :events
+    end
+  end
+
+  def mock_login
+    u = User.new :login => 'tester', :id => 1
+    @controller.stubs(:logged_in?).returns(true)
+    @controller.stubs(:current_user).returns(u)
+  end
 end

@@ -1,0 +1,13 @@
+- @rightbar ||= 'groups/sidebar'
+- inside_layout 'application' do
+  = render :partial => 'groups/tabs'
+
+  #maincolumn.rightbar{ :style => sidebar_space }
+    = sidebar
+    #content
+      - if title = yield( :title )
+        #titlebox
+          = title
+      = yield
+
+    %br{ :clear => "all" }

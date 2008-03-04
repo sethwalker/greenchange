@@ -78,4 +78,14 @@ module GroupsHelper
     end
   end
   
+  def group_location(group)
+    location = group.profiles.public.locations.first
+    return 'not set' unless location
+    display_location = [location.city, location.state].compact.join(', ')
+    display_location.empty? ? 'not set' : display_location
+  end
+
+  def group_type
+    "group" 
+  end
 end
