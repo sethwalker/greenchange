@@ -36,7 +36,7 @@ Crabgrass::Config.email_sender      = 'planet_unicorn@radicaldesigns.org'
 SECTION_SIZE = 29 # the default size for pagination sections
 
 AVAILABLE_PAGE_CLASSES = %w[
-  Message Discussion TextDoc RateMany RankedVote TaskList Asset
+  Message Discussion TextDoc RateMany RankedVote TaskList Asset Blog ActionAlert News ExternalVideo
 ]
 
 ### END CUSTOM OPTIONS
