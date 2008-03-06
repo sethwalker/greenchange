@@ -43,6 +43,10 @@ Spec::Runner.configure do |config|
     @page = Page.create({:title => 'valid_page'}.merge(options))
   end
 
+  def create_valid_asset
+    Asset.create! :filename => 'test.jpg', :size => '100', :content_type => 'image/jpg'
+  end
+
   def create_valid_user
     valid_user = User.new :login => "jones", :email => "aviary@birdcage.com", :password => "joke", :password_confirmation => "joke"
     valid_user.profiles.build :first_name => "Plus", :last_name => "Ca Change", :friend => true
@@ -51,6 +55,12 @@ Spec::Runner.configure do |config|
   end
   def create_valid_group
     valid_group = Group.create :name => 'valid_group'
+  end
+
+  def login_valid_user
+    current_user = create_valid_user
+    User.current = current_user
+    controller.stub!(:current_user).and_return(current_user)
   end
 end
 def asset_fixture_path(filename)

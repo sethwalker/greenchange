@@ -17,7 +17,7 @@ class Tool::BlogControllerTest < Test::Unit::TestCase
     @page.data = Blog.new(:body => 'new page')
     @page.save
     @controller.stubs(:logged_in?).returns(true)
-    @controller.stubs(:current_user).returns(stub(:may? => true, :banner_style => Style.new, :time_zone => nil, :avatar => nil, :contacts => [], :groups => [], :viewed => true, :display_name => 'a name'))
+    @controller.stubs(:current_user).returns(stub(:may? => true, :banner_style => Style.new, :time_zone => nil, :avatar => nil, :contacts => [], :groups => [], :viewed => true, :display_name => 'a name', :bookmarked? => true ))
     get :show, :controller => 'tool/blog_controller', :page_id => @page.id
     assert_response :success
     assert_template 'show'

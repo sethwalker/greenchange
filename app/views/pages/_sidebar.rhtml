@@ -6,7 +6,7 @@
 
   <div class='sidelink'>
   <% if bookmark = current_user.bookmarked?(@page) %>
-    <%= link_to_icon 'delete bookmark', 'actions/link_delete.png', destroy_bookmark_url(bookmark) %>
+    <%= link_to_icon 'delete bookmark', 'actions/link_delete.png', bookmark_url(bookmark), :method => :destroy %>
   <% else %>
     <%#= link_to_icon 'bookmark this page', 'actions/link_add.png', new_bookmark_url(@page) %>
   <% end %>

@@ -26,6 +26,7 @@ class BookmarksControllerTest < Test::Unit::TestCase
 
   def test_should_create_bookmark
     old_count = Bookmark.count
+    @controller.stubs(:current_user).returns(User.find_by_login 'quentin')
     post :create, :bookmark => { }
     assert_equal old_count + 1, Bookmark.count
 

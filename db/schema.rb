@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1204310122) do
+ActiveRecord::Schema.define(:version => 1204327871) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -84,6 +84,23 @@ ActiveRecord::Schema.define(:version => 1204310122) do
   end
 
   add_index "channels_users", ["channel_id", "user_id"], :name => "index_channels_users"
+
+  create_table "collectings", :force => true do |t|
+    t.integer  "collection_id"
+    t.integer  "collectable_id"
+    t.integer  "created_by"
+    t.integer  "position"
+    t.string   "collectable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "collections", :force => true do |t|
+    t.integer "user_id"
+    t.integer "group_id"
+    t.integer "page_id"
+    t.string  "permission"
+  end
 
   create_table "contacts", :id => false, :force => true do |t|
     t.integer "user_id"

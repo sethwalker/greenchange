@@ -62,6 +62,10 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'page/:_page/:_page_action/:id', :controller => 'dispatch', :action => 'dispatch', :_page_action => 'show', :id => nil
   map.connect ':_context/:_page/:_page_action/:id', :controller => 'dispatch', :action => 'dispatch', :_page_action => 'show', :id => nil
   map.connect ':_context', :controller => 'dispatch', :action => 'dispatch', :_page => nil
+
+  #### RESTFUL ROUTES #######################################
+  map.resources :collectings
+  map.resources :collections
 end
 
 # debug routes
