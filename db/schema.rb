@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(:version => 1204310122) do
   add_index "assets", ["page_id"], :name => "index_assets_page_id"
 
   create_table "avatars", :force => true do |t|
-    t.binary  "data",                      :null => false
+    t.binary  "data"
     t.boolean "public", :default => false
   end
 
@@ -182,15 +182,15 @@ ActiveRecord::Schema.define(:version => 1204310122) do
   add_index "im_addresses", ["profile_id"], :name => "im_addresses_profile_id_index"
 
   create_table "issue_identifications", :force => true do |t|
-    t.integer "issue_id",               :null => false
-    t.integer "issue_identifying_id",   :null => false
-    t.string  "issue_identifying_type", :null => false
+    t.integer "issue_id",                               :null => false
+    t.integer "issue_identifying_id",                   :null => false
+    t.string  "issue_identifying_type", :default => "", :null => false
   end
 
   add_index "issue_identifications", ["issue_id", "issue_identifying_id", "issue_identifying_type"], :name => "index_issue_identifications", :unique => true
 
   create_table "issues", :force => true do |t|
-    t.string "name", :null => false
+    t.string "name", :default => "", :null => false
   end
 
   add_index "issues", ["name"], :name => "index_issues_on_name", :unique => true
@@ -219,8 +219,8 @@ ActiveRecord::Schema.define(:version => 1204310122) do
   create_table "memberships", :force => true do |t|
     t.integer  "group_id"
     t.integer  "user_id"
-    t.integer  "page_id"
     t.datetime "created_at"
+    t.integer  "page_id"
   end
 
   add_index "memberships", ["group_id", "user_id", "page_id"], :name => "index_memberships"
