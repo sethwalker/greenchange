@@ -142,4 +142,11 @@ describe Page do
     pages.should include(p)
     pages.should_not include(p2)
   end
+
+  it "has_finder for allowed accepts multiple arguments" do
+    u = create_valid_user
+    lambda {Page.allowed}.should_not raise_error
+    lambda {Page.allowed(u)}.should_not raise_error
+    lambda {Page.allowed(u, :view)}.should_not raise_error
+  end
 end

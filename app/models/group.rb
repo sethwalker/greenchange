@@ -32,6 +32,11 @@
 
 class Group < ActiveRecord::Base
 
+  def allows?(user, perm)
+    logger.warn("'Group#allows?' not yet implemented")
+    return publicly_visible_group || user.member_of?(self)
+  end
+
   #track_changes :name
   acts_as_modified
 
@@ -77,7 +82,14 @@ class Group < ActiveRecord::Base
   end
 
   belongs_to :avatar
-  has_many :profiles, :as => 'entity', :dependent => :destroy, :extend => Profile::Methods
+  has_one :public_profile, :as => 'entity', :dependent => :destroy, :conditions => ["stranger = ?", true], :class_name => 'Profile'
+  def profile
+    public_profile || create_public_profile(:stranger => 'true')
+  end
+
+  def page
+    profile.create_wiki
+  end
   
   has_many :tags, :finder_sql => %q[
     SELECT DISTINCT tags.* FROM tags INNER JOIN taggings ON tags.id = taggings.tag_id
@@ -152,13 +164,6 @@ class Group < ActiveRecord::Base
 #      else; relationship.to_s
 #    end  
 #  end
-  
-  def may_be_pestered_by?(user)
-    return true if user.member_of?(self)
-    return true if publicly_visible_group
-    return parent.may_be_pestered_by?(user) if parent && parent.publicly_visible_committees
-    return false
-  end
   
   # whenever the structure of this group has changed 
   # (ie a committee or network has been added or removed)
@@ -257,40 +262,36 @@ class Group < ActiveRecord::Base
     return ([ids] + committee_ids(ids) + parent_ids + committee_ids(parent_ids)).flatten.uniq
   end
   
-#  has_and_belongs_to_many :locations,
-#    :class_name => 'Category'
-#  has_and_belongs_to_many :categories
-  
   ######################################################
   ## temp stuff for profile transition
   ## should be removed eventually
     
   def publicly_visible_group
-    profiles.public.may_see?
+    profile.may_see?
   end
   def publicly_visible_group=(val)
-    profiles.public.update_attribute :may_see, val
+    profile.update_attribute :may_see, val
   end
 
   def publicly_visible_committees
-    profiles.public.may_see_committees?
+    profile.may_see_committees?
   end
   def publicly_visible_committees=(val)
-    profiles.public.update_attribute :may_see_committees, val
+    profile.update_attribute :may_see_committees, val
   end
 
   def publicly_visible_members
-    profiles.public.may_see_members?
+    profile.may_see_members?
   end
   def publicly_visible_members=(val)
-    profiles.public.update_attribute :may_see_members, val
+    profile.update_attribute :may_see_members, val
   end
 
   def accept_new_membership_requests
-    profiles.public.may_request_membership?
+    profile.may_request_membership?
   end
   def accept_new_membership_requests=(val)
-    profiles.public.update_attribute :may_request_membership, val
+    profile.update_attribute :may_request_membership, val
   end
 
 

@@ -9,8 +9,12 @@
 class Page < ActiveRecord::Base
   acts_as_modified
 
+  has_finder :allowed, Proc.new {|user,perm| logger.warn "'allowed' finder not yet implemented"; {} }
+
   has_finder :created_in_month, lambda {|month| {:conditions => ["#{Page.sql_month('pages.created_at')} = ?", month]}}
   has_finder :created_in_year,  lambda {|year|  {:conditions => ["#{Page.sql_year('pages.created_at')} = ?", year]}}
+
+  has_finder :type, lambda {|type| {:conditions => type.is_a?(Enumerable) ? ["pages.type IN (?)", type] : ["pages.type = ?", type]}}
 
   has_finder :public, {:conditions => ["pages.public = ?", true]}
   

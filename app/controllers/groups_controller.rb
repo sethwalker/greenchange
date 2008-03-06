@@ -38,18 +38,10 @@ class GroupsController < ApplicationController
   end
 
   def show
-    if logged_in? and current_user.member_of?(@group)
-      @access = :private
-    elsif @group.publicly_visible_group
-      @access = :public
-    else
-      return render(:template => 'groups/show_nothing')
-    end
-    
-    @pages = Page.find_by_path('descending/updated_at/limit/20', options_for_group(@group))
-    @profile = @group.profiles.send(@access)
-    
-    @wiki = private_or_public_wiki()
+    return render(:template => 'groups/show_nothing') unless @group.allows?(current_user, :view)
+    @pages = @group.pages.allowed(current_user, :view).find(:all, :order => 'pages.updated_at DESC', :limit => 20)
+    @profile = @group.profile
+    @wiki = @group.page
   end
 
   def visualize
@@ -204,18 +196,6 @@ class GroupsController < ApplicationController
   end  
      
   protected
-  
-  # returns a private wiki if it exists, a public one otherwise
-  def private_or_public_wiki
-    if @access == :private and (@profile.wiki.nil? or @profile.wiki.body == '' or @profile.wiki.body.nil?)
-      public_profile = @group.profiles.public
-      public_profile.create_wiki unless public_profile.wiki
-      public_profile.wiki
-    else
-      @profile.create_wiki unless @profile.wiki
-      @profile.wiki
-    end
-  end
   
   def choose_layout
      return 'application' if ['list','index', 'create'].include? params[:action]

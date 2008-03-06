@@ -52,27 +52,10 @@ class ProfileTest < Test::Unit::TestCase
     
   def test_wiki
     g = Group.create :name => 'trees'
-    assert g.profiles.public, 'there should be a public profile'
-    w = g.profiles.public.create_wiki
-    assert_equal w.profile, g.profiles.public, 'wiki should have a profile'
+    assert g.profile, 'there should be a public profile'
+    w = g.profile.create_wiki
+    assert_equal w.profile, g.profile, 'wiki should have a profile'
   end
-  
-  def test_find_by_access
-    g = Group.create :name => 'berries'
-    p1 = g.profiles.create(
-      :stranger => true, 
-      :may_see => true, 
-      :may_see_committees => false, 
-      :may_see_members => false,
-      :may_request_membership => true
-    )
-    p2 = g.profiles.find_by_access(:stranger)
-    p3 = g.profiles.public
-    
-    assert_equal p1.id, p2.id, 'find_by_access should have returned the profile we just created'
-    assert_equal p1.id, p3.id, 'profiles.public should return the profile we just created'
-  end
-  
   
   def test_associations
     assert check_associations(Profile)
