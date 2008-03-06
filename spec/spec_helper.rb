@@ -49,6 +49,9 @@ Spec::Runner.configure do |config|
     valid_user.save!
     valid_user
   end
+  def create_valid_group
+    valid_group = Group.create :name => 'valid_group'
+  end
 end
 def asset_fixture_path(filename)
   File.join(RAILS_ROOT, 'test', 'fixtures', 'files', filename)

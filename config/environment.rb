@@ -44,6 +44,12 @@ AVAILABLE_PAGE_CLASSES = %w[
 
 
 Rails::Initializer.run do |config|
+  #autoload gems in vendor
+  config.load_paths += Dir["#{RAILS_ROOT}/vendor/gems/**"].map do |dir| 
+    File.directory?(lib = "#{dir}/lib") ? lib : dir
+  end
+
+  #load models in subdirectories
   config.load_paths += %w(associations discussion chat profile).collect do |dir|
     "#{RAILS_ROOT}/app/models/#{dir}"
   end
@@ -69,6 +75,9 @@ Rails::Initializer.run do |config|
   # See Rails::Configuration for more options
 end
 
+require 'enhanced_migrations'
+require 'has_finder'
+require 'tagging_extensions'
 
 
 #### SESSION HANDLING ##############
@@ -122,16 +131,13 @@ DEFAULT_TZ = 'Pacific Time (US & Canada)'
 
 FightTheMelons::Helpers::FormMultipleSelectHelperConfiguration.outer_class = 'plainlist'
 
-SVN_REVISION = (RAILS_ENV != 'test' && r = YAML.load(`svn info`)) ? r['Revision'] : nil
+SVN_REVISION = (File.directory?('.svn') && r = YAML.load(`svn info`)) ? r['Revision'] : nil
 
-require "#{RAILS_ROOT}/vendor/enhanced_migrations-1.2.0/lib/enhanced_migrations.rb"
-    
 #include all files in the initializers folder ( TODO remove in Rails 2 branch )
 Dir.entries( "#{RAILS_ROOT}/config/initializers/" ).each do |filename |
   require "#{RAILS_ROOT}/config/initializers/#{filename}" if filename =~ /\.rb$/ 
 end
 
-require 'tagging_extensions'
 
 WillPaginate::ViewHelpers.pagination_options[:renderer] = 'CrabgrassLinkRenderer'
 WillPaginate::ViewHelpers.pagination_options[:prev_label] = '&laquo; previous'

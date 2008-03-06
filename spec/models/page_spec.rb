@@ -126,4 +126,30 @@ describe Page do
     p = Page.new
     p.should respond_to(:bookmarks)
   end
+
+  it "has_finder for month returns pages" do
+    p = create_valid_page(:created_at => Date.new(2008, 2))
+    pages = Page.created_in_month('2')
+    pages.should_not be_empty
+  end
+
+  it "has_finder for year returns pages" do
+    p = create_valid_page(:created_at => Date.new(2008, 2))
+    pages = Page.created_in_year('2008')
+    pages.should_not be_empty
+  end
+
+  it "has_finder for month and year returns pages" do
+    p = create_valid_page(:created_at => Date.new(2008, 2))
+    pages = Page.created_in_year('2008').created_in_month('2')
+    pages.should include(p)
+  end
+
+  it "has_finder should not find pages in other months" do
+    p = create_valid_page(:created_at => Date.new(2008, 2))
+    p2 = create_valid_page(:created_at => Date.new(2008, 3))
+    pages = Page.created_in_year('2008').created_in_month('2')
+    pages.should include(p)
+    pages.should_not include(p2)
+  end
 end

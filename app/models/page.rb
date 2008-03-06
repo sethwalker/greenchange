@@ -9,6 +9,32 @@
 class Page < ActiveRecord::Base
   acts_as_modified
 
+  has_finder :created_in_month, lambda {|month| {:conditions => ["#{Page.sql_month('pages.created_at')} = ?", month]}}
+  has_finder :created_in_year,  lambda {|year|  {:conditions => ["#{Page.sql_year('pages.created_at')} = ?", year]}}
+
+  has_finder :public, {:conditions => ["pages.public = ?", true]}
+  
+  #TODO: move to general purpose
+  def self.sql_month(expr)
+    case connection.adapter_name
+    when "SQLite"
+      "CAST(STRFTIME('%m', #{expr}) as 'INTEGER')"
+    when "MySQL"
+      "MONTH(#{expr})"
+    else
+      raise "#{connection.adapter_name} is not supported"
+    end
+  end
+
+  def self.sql_year(expr)
+    case connection.adapter_name
+    when "SQLite"
+      "CAST(STRFTIME('%Y', #{expr}) as 'INTEGER')"
+    when "MySQL"
+      "YEAR(#{expr})"
+    end
+  end
+
   extend PathFinder::FindByPath
   include PageUrlHelper
 
