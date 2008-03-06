@@ -2,6 +2,11 @@ class Collection < ActiveRecord::Base
   has_many :collectings
   has_many_polymorphs :collectables, :from => [ :assets, :pages ], :through => :collectings
   belongs_to :page
+  belongs_to :user
+  belongs_to :group
 
-  delegate :name, :to => :page
+  def name
+    return page.name if page
+    permission.to_s.humanize
+  end
 end

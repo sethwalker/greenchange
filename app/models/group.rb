@@ -39,8 +39,12 @@ class Group < ActiveRecord::Base
   ## about this group
 
   include CrabgrassDispatcher::Validations
+  include Crabgrass::ActiveRecord::Collector
+
   validates_handle :name
   before_validation :clean_names
+
+  has_collections :admin, :member, :public, :unrestricted
 
   def clean_names
     t_name = read_attribute(:name)

@@ -1,8 +1,10 @@
+#require 'crabgrass/active_record/collector'
 class User < ActiveRecord::Base
 
   include AuthenticatedUser
   include CrabgrassDispatcher::Validations
   include SocialUser
+  include Crabgrass::ActiveRecord::Collector
 
   validates_handle :login
   acts_as_modified
@@ -25,6 +27,8 @@ class User < ActiveRecord::Base
       self.issue_identifications.create(:issue_id => issue_id) unless issue_identifications.any? {|issue_identification| issue_identification.issue_id == issue_id}
     end
   end
+
+  has_collections :private, :social, :public, :unrestricted
 
   has_many :bookmarks
   has_many :bookmarked_pages, :through => :bookmarks, :source => :page
