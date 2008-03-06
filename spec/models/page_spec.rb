@@ -41,16 +41,6 @@ describe Page do
     @page.should_not be_valid
   end
 
-  it "should not allow unique names with over 40 word segments" do
-    pending("doesn't seem to work, maybe my regex fu is weak?") do
-      @page.name = "x" * 40 + "x"
-      @page.should_not be_valid
-      @page.should have(1).error_on(:name)
-    end
-    @page.name = "x-" * 39 + "x"
-    @page.should be_valid
-  end
-
   it "should not be valid if the name has changed to an existing name" do
     @page.stub!(:name_modified?).and_return(true)
     @page.stub!(:name_taken?).and_return(true)

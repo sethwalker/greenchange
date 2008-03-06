@@ -11,7 +11,6 @@ describe Tool::AssetController do
     @page.stub!(:title).and_return('pagetitle')
     @asset.filename = 'pagetitle.gif'
 
-    pending "ActionController::TestUploadedFile.new doesn't seem to make a nice param"
     post 'update', {:asset => ActionController::TestUploadedFile.new(asset_fixture_path('gears.jpg'), 'image/jpg')}
     response.should be_redirect
     @asset.filename.should == 'pagetitle.jpg'
