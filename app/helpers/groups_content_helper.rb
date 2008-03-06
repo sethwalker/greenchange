@@ -19,5 +19,8 @@ module GroupsContentHelper
     @pages = @group.pages.find_with_access(:all, :user => current_user, :conditions => "pages.type = 'Tool::ActionAlert'", :order => "pages.updated_at DESC", :limit => 10)
   end
 
+  def pages_by_month
+  end
+
 end
 
