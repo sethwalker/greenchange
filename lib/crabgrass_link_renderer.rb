@@ -14,7 +14,12 @@ class CrabgrassLinkRenderer < WillPaginate::LinkRenderer
       text ||= page.to_s
       if page and page != current_page
         options = (li_class == 'currentpage') ? {} : {:class => li_class}
-        @template.content_tag :li, @template.link_to(text, url_options(page), :rel => rel_value(page)), options
+        url = if (@page = @template.instance_variable_get(:@page))
+          @template.page_url(@page, param_name => page)
+        else
+          url_options(page)
+        end
+        @template.content_tag :li, @template.link_to(text, url, :rel => rel_value(page)), options
       else
         @template.content_tag :li, text, :class => li_class
       end
