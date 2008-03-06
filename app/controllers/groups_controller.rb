@@ -33,6 +33,10 @@ class GroupsController < ApplicationController
     set_banner "groups/banner_search", Style.new(:background_color => "#1B5790", :color => "#eef")
   end
 
+  def media
+  	@pages = @group.pages  
+  end
+
   def show
     if logged_in? and current_user.member_of?(@group)
       @access = :private

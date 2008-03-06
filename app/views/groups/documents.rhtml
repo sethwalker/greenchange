@@ -1,4 +1,4 @@
-<h4>Group Documents</h4>
+<h2>Group Documents</h2>
 <%
   pages = Page.find_by_path('/type/wiki/or/type/blog/or/type/news/descending/updated_at', options_for_group(@group))
   columns = [:icon, :title, :updated_by, :updated_at]

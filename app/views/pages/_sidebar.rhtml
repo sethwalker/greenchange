@@ -8,7 +8,7 @@
   <% if bookmark = current_user.bookmarked?(@page) %>
     <%= link_to_icon 'delete bookmark', 'actions/link_delete.png', destroy_bookmark_url(bookmark) %>
   <% else %>
-    <%= link_to_icon 'bookmark this page', 'actions/link_add.png', new_bookmark_url(@page) %>
+    <%#= link_to_icon 'bookmark this page', 'actions/link_add.png', new_bookmark_url(@page) %>
   <% end %>
   </div>
 

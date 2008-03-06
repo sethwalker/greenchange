@@ -1,49 +1,50 @@
 <%= Formy.tabs do |f|
   f.tab do |t|
+    t.label 'People'
+    t.link group_url(:action => 'members', :id => @group)
+    t.selected params[:action] == 'members'
+  end  
+  f.tab do |t|
     t.label 'Blog'
     t.link group_url(:action => 'blog', :id => @group)
     t.selected params[:action] == 'blog'
   end
   f.tab do |t|
-    t.label 'Events'
+    t.label 'Activites'
     t.link group_url(:action => 'calendar', :id => @group)
     t.selected params[:action] == 'calendar'
   end
-  f.tab do |t|
-    t.label 'Action Alerts'
-    t.link group_url(:action => 'action_alerts', :id => @group)
-    t.selected params[:action] == 'search'
-  end
+ # f.tab do |t|
+ #   t.label 'Action Alerts'
+ #   t.link group_url(:action => 'action_alerts', :id => @group)
+ #   t.selected params[:action] == 'search'
+ # end
   f.tab do |t|
     t.label 'Discussions'
     t.link group_url(:action => 'discussions', :id => @group)
     t.selected params[:action] == 'discussions'
   end
   f.tab do |t|
-    t.label 'Media'
+    t.label 'Favorites'
     t.link group_url(:action => 'media', :id => @group)
     t.selected params[:action] == 'media'
   end
-  f.tab do |t|
-    t.label 'Members'
-    t.link group_url(:action => 'members', :id => @group)
-    t.selected params[:action] == 'members'
-  end  
+
   f.tab do |t|
     t.label 'Documents'
      t.link group_url(:action => 'documents', :id => @group)
     t.selected params[:action] == 'documents'
   end
-  f.tab do |t|
-    t.label 'Archive'
-    t.link group_url(:action => 'archive', :id => @group)
-    t.selected params[:action] == 'archive'
-  end  
-  f.tab do |t|
-    t.label 'Search'
-    t.link group_url(:action => 'search', :id => @group)
-    t.selected params[:action] == 'search'
-  end
+#  f.tab do |t|
+#    t.label 'Archive'
+#    t.link group_url(:action => 'archive', :id => @group)
+#    t.selected params[:action] == 'archive'
+#  end  
+#  f.tab do |t|
+#    t.label 'Search'
+#    t.link group_url(:action => 'search', :id => @group)
+#    t.selected params[:action] == 'search'
+#  end
 
 end
 %>

@@ -24,10 +24,12 @@ div.sidehead {
   /* background: #1B5790; */
   /* background-color: #A5CC7A; */
   /* background-color: #73B32D; */
+  background: #1c9bc9; 
+  border-top: 4px solid #116c90;
 }
 
 div.sidesection {
-  /* background-color: #AFC7DD; */
+   background-color: #CCE7F1; 
   /* background-color: #E9FFD1; */
   /* background-color: #A5CC7A; */
   /* background: white url(/images/shadows/small-left-a.png) repeat-y; */
@@ -46,6 +48,6 @@ div.sideline a {
 
 /* banner */
 
-div#banner {border-color: white;}
-#toprule-outer {border-color: black;}
+div#banner {border-color: white; border-top: 4px solid #8A9316;}
+/*#toprule-outer {border-color: black;}
 

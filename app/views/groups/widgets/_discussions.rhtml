@@ -1,4 +1,4 @@
-	<h4><%= link_to image_tag('/images/actions/rss.png', :align => "right"), groups_url(:action => 'discussions_rss', :id => @group) %>Ongoing Discussions</h4>
+	<h2><%= link_to image_tag('/images/actions/rss.png', :align => "right"), groups_url(:action => 'discussions_rss', :id => @group) %>Ongoing Discussions</h2>
 <%
   pages = @group.pages.find(:all, :include => {:discussion => :posts}, :conditions => "posts.id IS NOT NULL", :order => "posts.created_at DESC", :limit => 10)
   columns = [:icon, :title, :contributors_count, :updated_by, :updated_at]

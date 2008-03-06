@@ -15,11 +15,17 @@
 </tr>
 </table>
 <% else -%>
+<div id='banner'>
 <table>
+<% unless controller.action_name =='show' %>
 <tr>
-  <td rowspan='2'><%= avatar_for @group, 'large' %></td>
+  <td><%= avatar_for @group, 'medium' %></td>
   <td style='width:99%'><h1><%= link_to_group @group, :display_name => true %></h1></td>
 </tr>
-
+<% end -%>
+ <tr>
+  <td colspan='2'><%= render :partial => 'groups/tabs' %></td>
+</tr>	
 </table>
+</div>
 <% end -%>

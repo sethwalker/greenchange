@@ -231,4 +231,8 @@ module ApplicationHelper
     end
   end
   
+  def issue_url(issue)
+  	issue 
+  end
+  
 end

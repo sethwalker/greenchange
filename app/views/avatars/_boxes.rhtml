@@ -15,13 +15,11 @@
     online = e.respond_to?(:online?) && e.online? ? 'online' : ''
 -%>
   <div class='iconbox <%=side%> <%=online%>'>
-    <%= link_to avatar_for(e, 'xsmall', :class=>'iconbox'), url %>
-    <div class='hover'>
-      <%= link_to avatar_for(e, 'small', :class=>'bigiconbox'), url %>
-      <div class='text'>
+    <%= link_to avatar_for(e, 'large', :class=>'iconbox'), url %>
+     <div class='text'>
         <span><%= link_to e.display_name, url %></span>
       </div>
-    </div>
+   
   </div>
 <% end -%>
 </div>

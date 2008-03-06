@@ -1,3 +1,4 @@
+<h2>Group Favorites</h2>
 <h3>Video</h3>
 <div>
 <% @pages.select {|p| p.is_a?(Tool::ExternalVideo)}.each do |page| -%>
@@ -7,7 +8,7 @@
 <% end -%>
 </div>
 
-<h3>Images</h3>
+<h3>Images and Galleries</h3>
 <div>
 <% @pages.select {|p| p.is_a?(Tool::Asset) && Technoweenie::AttachmentFu.content_types.include?(p.data.content_type) }.each do |page| -%>
   <%= image_tag page.asset.public_filename(:preview) %>
@@ -15,3 +16,7 @@
   <%= link_to page.title, page_url(page) %>
 <% end -%>
 </div>
+
+<h3>Audio</h3>
+
+<h3>News and Bookmarks</h3>

@@ -1,14 +1,10 @@
--unless current_user.member_of? @group
-  - content_for :title do
-    = render :partial => 'groups/widgets/info'
- 
 .landing.landing-group
+  .group_widget.section.profile
+    =render :partial => 'groups/widgets/info'
   .group_widget.section.home
     = render :partial => 'groups/widgets/homepage'
-  .group_widget.section
-    = render :partial => 'groups/widgets/sticky'
-  .group_widget.section.samples
-    =# render :partial => 'groups/widgets/samples'
+  .group_widget.section.promo
+    = render :partial => 'groups/widgets/promo'
   .group_widget.section
     = render :partial => 'groups/widgets/updates'
   .group_widget.section

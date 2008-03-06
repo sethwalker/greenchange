@@ -1,8 +1,13 @@
-<p><strong><%= link_to(blog.title, page_url(blog) ) %></strong><br>
-<%= blog.summary  %></p>
-<div align="right"><%= page_icon(blog)   %>  posted by 
-
-<%= render :partial => 'avatars/person', :object => blog.created_by %>
-
-<%= link_to_user(blog.created_by) %> on <%= friendly_date(blog.created_at) %></div>
-<hr>
+<li>
+<div class='list-item'>
+	<div class='list-thumb'>
+		<%= link_to image_tag('http://img.youtube.com/vi/WWyJJQbFago/2.jpg', :align => "left"), page_url(blog) %>	
+	</div>
+	<div class='list-description'>
+		<h3><%= page_icon(blog) %><%= link_to(blog.title, page_url(blog) ) %></h3>
+		<p><%= blog.summary  %></p>
+		  by <!--<%= render :partial => 'avatars/person', :object => blog.created_by %>--> <%= link_to_user(blog.created_by) %> posted <%= friendly_date(blog.created_at) %><br/>
+		Issues:  |   Tags:  |  Comment(#)
+	</div>
+</div>
+</li>

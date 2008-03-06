@@ -144,13 +144,14 @@ ul.tabset a.tab-link:hover {
 
 /* top */
 ul.tabset.top {
-  font-size: 0.8em;
-  background: url(/images/grey9.png) repeat-x bottom;
+  font-size: 11px;
+  /*background: url(/images/grey9.png) repeat-x bottom;*/
   padding: 0 0 0 0.75em;
 }
 ul.tabset.top li {
   height: 1.7em; /* must equal a.height + a.vertical-padding */
   padding: 2px;
+  list-style: url(http://www.greenchange.org/img/arrow-bullet.gif);
 }
 ul.tabset.top li.tab {
   float: left;
@@ -165,12 +166,15 @@ ul.tabset.top a.tab-link {
   display: block;
   text-decoration: none;
   padding: 0 1em;
+  color:white;
+  text-transform:uppercase;
+
 }
 ul.tabset a.tab-link:hover {
   text-decoration: underline;
 }
 ul.tabset.top a.selected {
-  background: #fff url(/images/shadows/inside-tab.png) repeat-x top;
+  /*background: #fff url(/images/shadows/inside-tab.png) repeat-x top;*/
   outline: 1px solid white;
   color: black;
   height: 2em; /* this is what hides the bottom border */

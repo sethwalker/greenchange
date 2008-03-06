@@ -1,3 +1,4 @@
+<h2>Group Blog</h2>
 <% @pages.each do |blog| -%>
 <p>
 <%= link_to blog.title, page_url(blog) %> - posted on <%= friendly_date(blog.created_at) %> (<%= pluralize(blog.discussion.posts.length, 'comment') %>)

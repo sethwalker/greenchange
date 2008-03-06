@@ -38,6 +38,7 @@
 #topmenu li span a {
   color: #fff;
   text-decoration: none;
+  text-transform: uppercase;
   padding: 2px 6px;
   font-weight: bold;
   border: 1px solid transparent;
@@ -56,9 +57,10 @@
 
 /* selected tab */
 #topmenu li.selected span a {
-  background: #fff url(/images/shadows/small-top.png) repeat-x top;
-  color: black;
-  border-color: #000;
+/* background: #fff url(/images/shadows/small-top.png) repeat-x top;
+  color: black; 
+  border-color: #000; */
+  color: #757E0F;
 }
 
 /* selected tab hover */
@@ -72,7 +74,7 @@
 
 /* drop down menu */
 #topmenu li ul {
-  background: #000;
+  background: #ACD20E;
 /*  border: 1px solid white; */
   padding: 0 4em 2px 0;
 /*  -moz-border-radius-topright: 4px;
@@ -93,10 +95,18 @@
 }
 /* drop down link hover */
 #topmenu li:hover ul li:hover {
+background-color: #787824;
 }
 
 /* the bottom of the tabs */
-#toprule-outer {border-bottom: 1px solid transparent;}
+#toprule-outer {
+	border-top: 4px solid #8a9316;
+	background-color: #a8cb1c;
+	margin: 4px;
+	padding-top: 4px;
+	padding-bottom: 4px; 
+	padding-left:10px;
+}
 
 
 /*** banner ***/

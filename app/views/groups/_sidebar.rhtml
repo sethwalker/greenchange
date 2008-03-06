@@ -1,5 +1,118 @@
-<div class='sidesection'>
 
+<div class='sidesection'>
+<div class='sidehead'>Featured Members</div>
+<% if @group.users.any? -%>
+<%= render :partial => 'avatars/boxes', :locals => {:people => @group.users, :side => "left"} %>
+<% else -%>
+(no members)
+<% end -%>
+<br style='clear:both'/>
+<%= link_line(more_members_link) %>
+
+<div class='sidetail'></div>
+</div>
+
+
+
+<% if current_user.member_of? @group %>
+  <div class='sidesection'>
+    <div class='sidelink'>
+      <%= link_to_icon 'join chat','pages/discussion.png', :controller => 'chat', :action => 'channel', :id => @group.name %>
+    </div>
+  <div class='sidetail'></div>
+  </div>
+<% end %>
+
+
+
+
+
+<div class='sidesection'>
+<div class='sidehead'>Media</div>
+<ul class='tab-block'>
+	<li>
+		<div class='tab-title'><%= link_to image_tag('/images/actions/rss.png', :align => "right"), groups_url(:action => 'photo_rss', :id => @group) %>Photos</div>
+		<ul class= 'tab-content list'>
+			<% 
+photo_pages = Tool::Asset.find(:all, :include => [:group_participations, :asset_data], :conditions => ["(group_participations.group_id = :group_id OR pages.group_id = :group_id) AND assets.content_type IN (:content_types)", {:group_id => @group.id, :content_types => Technoweenie::AttachmentFu.content_types}])
+%>
+			<% if photo_pages.any? -%>
+  				<% photo_pages.each do |photo| -%>
+    			<li><%= image_tag photo.asset.public_filename(:thumb) %>
+    			<%= link_to photo.title, page_url(photo) %></li>
+  			<% end -%>
+			<br/><%= link_to 'view all', groups_url(:action => 'photo', :id => @group) %>
+			<% else -%>
+				<li>(no photos)</li>
+			<% end -%>
+		</ul>
+	</li>
+	<li>
+		<div class='tab-title'><%= link_to image_tag('/images/actions/rss.png', :align => "right"), groups_url(:action => 'video_rss', :id => @group) %>Video</div>
+		<ul class= 'tab-content list'>	
+			<%
+video_pages = @group.pages.find_with_access(:all, :user => (current_user if logged_in?), :conditions => "type = 'Tool::ExternalVideo'", :order => "id DESC", :limit => 4)
+%>
+<% if video_pages.any? -%>
+  <% video_pages.each do |video| -%>
+			<li>
+				<div style="padding: 10px 10px;">
+     			 <%= image_tag video.data.thumbnail_url %>
+    			  <br/>
+     			 <%= link_to video.title, page_url(video) %>
+   				 </div>
+			</li>
+		 <% end -%>	
+		 <% else -%>
+<li>(no videos)</li>
+<% end -%>
+		</ul>
+	</li>
+</ul>	
+
+<div class='sidetail'></div>
+</div>
+
+
+<div class='sidesection'>
+<div class='sidehead'><%= link_to image_tag('/images/actions/rss.png', :align => "right"), groups_url(:action => 'video_rss', :id => @group) %>
+Videos</div>
+<%
+video_pages = @group.pages.find_with_access(:all, :user => (current_user if logged_in?), :conditions => "type = 'Tool::ExternalVideo'", :order => "id DESC", :limit => 4)
+%>
+<% if video_pages.any? -%>
+  <% video_pages.each do |video| -%>
+    <div style="padding: 10px 10px;">
+      <%= image_tag video.data.thumbnail_url %>
+      <br/>
+      <%= link_to video.title, page_url(video) %>
+    </div>
+  <% end -%>
+<br/>
+<%= link_to 'view all', groups_url(:action => 'video', :id => @group) %>
+<% else -%>
+(no videos)
+<% end -%>
+<div class='sidetail'></div>
+</div>
+
+<% 
+events = @group.pages.find_with_access(:all, :user => (current_user if logged_in?), :conditions => "pages.type = 'Tool::Event'", :order => "pages.starts_at DESC", :limit => 5)
+columns = [:icon, :title, :starts_at]
+%>
+<% if events.any? -%>
+<div class='sidesection'>
+<div class='sidehead'><%= link_to image_tag('/images/actions/rss.png', :align => "right"), groups_url(:action => 'calendar_rss', :id => @group) %>Events</div>
+<%= render :partial => 'pages/list/table', :locals => {:pages => events, :columns => columns} %>
+<div class='sidetail'></div>
+</div>
+<% end -%>
+
+
+
+
+<div class='sidesection'>
+<div class='sidehead'>Group Tools</div>
 <% unless current_user.member_of? @group %>
   <div class='sidelink'>
     <%= link_to_icon 'join group', 'actions/plus.png', groups_url(:action => 'join', :id => @group, :path => nil) %>
@@ -40,83 +153,6 @@
 </div>
 
 
-
-
-<% if current_user.member_of? @group %>
-  <div class='sidesection'>
-    <div class='sidelink'>
-      <%= link_to_icon 'join chat','pages/discussion.png', :controller => 'chat', :action => 'channel', :id => @group.name %>
-    </div>
-  <div class='sidetail'></div>
-  </div>
-<% end %>
-
-
-<div class='sidesection'>
-<div class='sidehead'>Members</div>
-<% if @group.users.any? -%>
-<%= render :partial => 'avatars/boxes', :locals => {:people => @group.users, :side => "left"} %>
-<% else -%>
-(no members)
-<% end -%>
-<br style='clear:both'/>
-<%= link_line(more_members_link) %>
-
-<div class='sidetail'></div>
-</div>
-
-
-<div class='sidesection'>
-<div class='sidehead'><%= link_to image_tag('/images/actions/rss.png', :align => "right"), groups_url(:action => 'photo_rss', :id => @group) %>Photos</div>
-<% 
-photo_pages = Tool::Asset.find(:all, :include => [:group_participations, :asset_data], :conditions => ["(group_participations.group_id = :group_id OR pages.group_id = :group_id) AND assets.content_type IN (:content_types)", {:group_id => @group.id, :content_types => Technoweenie::AttachmentFu.content_types}])
-%>
-<% if photo_pages.any? -%>
-  <% photo_pages.each do |photo| -%>
-    <%= image_tag photo.asset.public_filename(:thumb) %>
-    <%= link_to photo.title, page_url(photo) %>
-  <% end -%>
-<br/><%= link_to 'view all', groups_url(:action => 'photo', :id => @group) %>
-<% else -%>
-(no photos)
-<% end -%>
-<div class='sidetail'></div>
-</div>
-
-
-<div class='sidesection'>
-<div class='sidehead'><%= link_to image_tag('/images/actions/rss.png', :align => "right"), groups_url(:action => 'video_rss', :id => @group) %>
-Videos</div>
-<%
-video_pages = @group.pages.find_with_access(:all, :user => (current_user if logged_in?), :conditions => "type = 'Tool::ExternalVideo'", :order => "id DESC", :limit => 4)
-%>
-<% if video_pages.any? -%>
-  <% video_pages.each do |video| -%>
-    <div style="padding: 10px 10px;">
-      <%= image_tag video.data.thumbnail_url %>
-      <br/>
-      <%= link_to video.title, page_url(video) %>
-    </div>
-  <% end -%>
-<br/>
-<%= link_to 'view all', groups_url(:action => 'video', :id => @group) %>
-<% else -%>
-(no videos)
-<% end -%>
-<div class='sidetail'></div>
-</div>
-
-<% 
-events = @group.pages.find_with_access(:all, :user => (current_user if logged_in?), :conditions => "pages.type = 'Tool::Event'", :order => "pages.starts_at DESC", :limit => 5)
-columns = [:icon, :title, :starts_at]
-%>
-<% if events.any? -%>
-<div class='sidesection'>
-<div class='sidehead'><%= link_to image_tag('/images/actions/rss.png', :align => "right"), groups_url(:action => 'calendar_rss', :id => @group) %>Events</div>
-<%= render :partial => 'pages/list/table', :locals => {:pages => events, :columns => columns} %>
-<div class='sidetail'></div>
-</div>
-<% end -%>
 
 <% if logged_in? && current_user.may_admin?(@group) -%>
 <div class='sidesection'>

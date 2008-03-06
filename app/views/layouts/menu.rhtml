@@ -4,51 +4,70 @@
 -%>
 
 <ul id="topmenu">
-  <% if logged_in? -%>
-  <li <%= selected if active == 'me' %> >
-    <span><%= link_to 'Me', '/me/dashboard' %></span>
-    <ul>
-      <li><%= link_to 'inbox', '/me/inbox', :style => page_icon_style('inbox') %></li>
-      <li><%= link_to 'tasks', '/me/tasks', :style => page_icon_style('task-list') %></li>
-      <li><%= link_to 'search', '/me/search', :style => page_icon_style('search') %></li>
-      <li><%= link_to 'requests', '/me/requests', :style => page_icon_style('request') %></li>
-      <li><%= link_to 'edit&nbsp;profile', '/me/edit', :style => page_icon_style('settings') %></li>
-      <li><%= link_to 'new&nbsp;page', {:controller => 'pages', :action => 'create'}, :style => page_icon_style('add') %></li>
-    </ul>
-  </li>
-  <% else -%>
-    <li <%= selected if params[:controller]=='account' %> >
-      <span><%= link_to "Home", '/' %></span>
-    </li>    
-  <% end -%>
 
-  <li <%= selected if active == 'people' %> >
-    <span><%= link_to "People", people_url %></span>
-    <% if logged_in? and current_user.contacts.any? -%>
-    <ul>
-      <% current_user.contacts.sort_by {|person| person.login}.each do |person| -%>
-      <li><%= link_to_user person, :avatar => 'xsmall', :one_link => true %></li>
-      <% end -%>
-    </ul>
-    <% end -%>
-  </li>
 
   <li <%= selected if active == 'groups' %> >
-    <span><%= link_to "Groups", groups_url %></span>
-   <% if logged_in? and current_user.groups.any? -%>
+  	<span><%= link_to "Connect", '/connect' %></span>
+  	<ul>
+    	<li><%= link_to "People", people_url %></li>
+    	<li><%= link_to "Groups", groups_url %></li>
+    </ul>
+  </li>
+  
+  <li <%= selected if active == 'issues' %> >
+    <span><%= link_to "Issues", '/issues' %></span>
     <ul>
+    	<li><%= link_to issue_url("Justice") %></li>
+    	<li><%= link_to issue_url("Non-Violence") %></li>
+        <li><%= link_to issue_url("Sustainability") %></li>
+    	<li><%= link_to issue_url("Grassroots Democracy") %></li>
+    </ul>
+  </li>
+  
+  <li <%= selected if active == 'create' %> >
+    <span><%= link_to "Create", '/pages/create' %></span>
+    <ul>
+    	<li><%= link_to "Posts", '/pages/create?type=post' %></li>
+    	<li><%= link_to "Media", '/pages/create?type=media' %></li>
+        <li><%= link_to "Event", '/pages/create?type=event' %></li>
+    	<li><%= link_to "Action", '/pages/create?type=action' %></li>
+    	<li><%= link_to "Discussion", '/pages/create?type=discussion' %></li>
+    </ul>
+  </li>
+  
+  <li <%= selected if active == 'action' %> >
+    <span><%= link_to "Take Action", '/action' %></span>
+  </li>
+
+  <li <%= selected if active == 'media' %> >
+    <span><%= link_to "Media", '/media' %></span>
+  </li>
+
+  
+  <% if logged_in? -%>
+  <li <%= selected if active == 'me' %> >
+    <span><%= link_to 'My Community', '/me/dashboard' %></span>
+    <ul>
+      <li><%= link_to 'inbox', '/me/inbox', :style => page_icon_style('inbox') %></li>
+      <li><%= link_to 'requests', '/me/requests', :style => page_icon_style('request') %></li>
+      <li><%= link_to 'edit&nbsp;profile', '/me/edit', :style => page_icon_style('settings') %></li>
+      <!-- <li><%= link_to 'new&nbsp;page', {:controller => 'pages', :action => 'create'}, :style => page_icon_style('add') %></li> -->
+ 
+      <% if logged_in? and current_user.groups.any? -%>
       <% current_user.groups.sort_by {|group| group.name }.each do |group| -%>
       <li><%= link_to_group group, :full_name => true, :avatar => 'xsmall', :one_link => true %></li>
       <% end -%>
-    </ul>
+      <% end -%>
+      
+      <% if logged_in? and current_user.contacts.any? -%>
+      <% current_user.contacts.sort_by {|person| person.login}.each do |person| -%>
+      <li><%= link_to_user person, :avatar => 'xsmall', :one_link => true %></li>
+      <% end -%>
+      <% end -%>
+	</ul>
+   </li>	
     <% end -%>
-  </li>
-
-  <% if logged_in? -%>
-  <li <%= selected if active == 'chat' %> >
-    <span><%= link_to "Chat", '/chat' %></span>
-  </li>
-  <% end -%>
+      
 
   <% if logged_in? -%>
   <li>

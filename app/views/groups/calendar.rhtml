@@ -1,3 +1,13 @@
+<h2>Group Activites</h2>
+
+<h3>Active Action Alerts</h3>
+<% columns = [:icon, :title, :updated_by, :updated_at]
+-%>
+<%= render :partial => 'pages/list/table', :locals => {:pages => @pages, :columns => columns} %>
+
+<br/>
+<h3>Upcomming Events</h3>
+
 <% @pages.each do |event| -%>
 <p>
 <%= link_to event.title, page_url(event) %> - <%= event.starts_at %>
