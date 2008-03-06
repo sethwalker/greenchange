@@ -51,7 +51,7 @@ photo_pages = Tool::Asset.find(:all, :include => [:group_participations, :asset_
 		<div class='tab-title'><%= link_to image_tag('/images/actions/rss.png', :align => "right"), groups_url(:action => 'video_rss', :id => @group) %>Video</div>
 		<ul class= 'tab-content list'>	
 			<%
-video_pages = @group.pages.find_with_access(:all, :user => (current_user if logged_in?), :conditions => "type = 'Tool::ExternalVideo'", :order => "id DESC", :limit => 4)
+video_pages = @group.pages.find_with_access(:all, :user => (current_user if logged_in?), :conditions => "type = 'Tool::ExternalVideo'", :order => "pages.id DESC", :limit => 4)
 %>
 <% if video_pages.any? -%>
   <% video_pages.each do |video| -%>
@@ -78,7 +78,7 @@ video_pages = @group.pages.find_with_access(:all, :user => (current_user if logg
 <div class='sidehead'><%= link_to image_tag('/images/actions/rss.png', :align => "right"), groups_url(:action => 'video_rss', :id => @group) %>
 Videos</div>
 <%
-video_pages = @group.pages.find_with_access(:all, :user => (current_user if logged_in?), :conditions => "type = 'Tool::ExternalVideo'", :order => "id DESC", :limit => 4)
+video_pages = @group.pages.find_with_access(:all, :user => (current_user if logged_in?), :conditions => "type = 'Tool::ExternalVideo'", :order => "pages.id DESC", :limit => 4)
 %>
 <% if video_pages.any? -%>
   <% video_pages.each do |video| -%>

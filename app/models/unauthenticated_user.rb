@@ -15,7 +15,7 @@ class UnauthenticatedUser
     false
   end
 
-  def method_missing(method)
+  def method_missing(method, *args)
     return false if method =~ /^may/
     raise PermissionDenied
   end
