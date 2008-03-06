@@ -63,6 +63,7 @@ Spec::Runner.configure do |config|
     controller.stub!(:current_user).and_return(current_user)
   end
 end
+
 def asset_fixture_path(filename)
   File.join(RAILS_ROOT, 'test', 'fixtures', 'files', filename)
 end
