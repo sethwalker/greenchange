@@ -77,7 +77,7 @@ class GroupsController < ApplicationController
      "FROM pages JOIN group_participations ON pages.id = group_participations.page_id " +
      "JOIN user_participations ON pages.id = user_participations.id " +
      "WHERE group_participations.group_id = #{@group.id} "
-    unless may_admin_group?
+    unless current_user.may_admin?(@group)
       sql += " AND (pages.public = 1#{' OR user_participations.user_id = %d' % current_user.id if logged_in?}) "
     end
     sql += "GROUP BY year, month ORDER BY year, month"
@@ -236,7 +236,7 @@ class GroupsController < ApplicationController
 
   #this is a terrible method, but this is a better place than find_group
   def authorized_to_view?
-    unless @group and (@group.publicly_visible_group or may_admin_group?) ##committees need to be handled better
+    unless @group and (@group.publicly_visible_group or current_user.may_admin?(@group)) ##committees need to be handled better
       render :template => 'groups/show_nothing'
       return false
     end

@@ -3,7 +3,7 @@ table.members td {padding: 4px;}
 table.members td a {padding: 4px;}
 <% end -%>
 
-<% if may_admin_group? -%>
+<% if current_user.may_admin?(@group) -%>
 <%= render :partial => 'admin' %>
 <% end -%>
 

@@ -2,10 +2,6 @@ module GroupsHelper
 
   include WikiHelper
   
-  def may_admin_group?
-    logged_in? and current_user.member_of? @group
-  end
-    
   def committee?
     @group.instance_of? Committee
   end
@@ -15,7 +11,7 @@ module GroupsHelper
   end
   
   def edit_settings_link
-    if may_admin_group?
+    if current_user.may_admin?(@group)
       link_to 'edit settings'.t, group_url(:action => 'edit', :id => @group)
     end
   end
@@ -53,13 +49,13 @@ module GroupsHelper
   end
   
   def create_committee_link
-    if may_admin_group?
+    if current_user.may_admin?(@group)
       link_to 'create committee'.t, group_url(:action => 'create', :parent_id => @group.id)
     end
   end
   
   def more_members_link
-    if may_admin_group?
+    if current_user.may_admin?(@group)
       link_to 'edit'.t, url_for(:controller => 'membership', :action => 'list', :id => @group)
     else
       link_to 'view all'.t, url_for(:controller => 'membership', :action => 'list', :id => @group)
@@ -67,13 +63,13 @@ module GroupsHelper
   end
   
   def invite_link
-    if may_admin_group?
+    if current_user.may_admin?(@group)
       link_to 'send invites'.t, url_for(:controller => 'membership', :action => 'invite', :id => @group)
     end
   end
 
   def requests_link
-    if may_admin_group?
+    if current_user.may_admin?(@group)
       link_to 'view requests'.t, url_for(:controller => 'membership', :action => 'requests', :id => @group)
     end
   end
