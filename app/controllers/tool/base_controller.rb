@@ -114,9 +114,8 @@ class Tool::BaseController < ApplicationController
     @page.discussion = Discussion.new unless @page.discussion
     
     disc = @page.discussion
-    current_page = params[:posts] || disc.last_page
-    @post_paging = Paginator.new self, disc.posts.count, disc.per_page, current_page
-    @posts = disc.posts.find(:all, :include => 'ratings', :limit => disc.per_page, :offset => @post_paging.current.offset)
+    current_page = params[:posts] || disc.last_page #last_page = (posts.count.to_f / per_page.to_f).ceil.to_i
+    @posts = disc.posts.paginate(:all, :include => 'ratings', :page => current_page, :per_page => disc.per_page)
     @post = Post.new
     true
   end

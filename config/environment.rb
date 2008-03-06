@@ -132,3 +132,7 @@ Dir.entries( "#{RAILS_ROOT}/config/initializers/" ).each do |filename |
 end
 
 require 'tagging_extensions'
+
+WillPaginate::ViewHelpers.pagination_options[:renderer] = 'CrabgrassLinkRenderer'
+WillPaginate::ViewHelpers.pagination_options[:prev_label] = '&laquo; previous'
+WillPaginate::ViewHelpers.pagination_options[:next_label] = 'next &raquo;'
