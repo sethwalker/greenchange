@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(:version => 1204327871) do
     t.integer  "created_by"
     t.integer  "position"
     t.string   "collectable_type"
+    t.string   "permission"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

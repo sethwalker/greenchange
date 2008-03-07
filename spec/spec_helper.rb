@@ -52,8 +52,8 @@ Spec::Runner.configure do |config|
     Asset.create! :filename => 'test.jpg', :size => '100', :content_type => 'image/jpg'
   end
 
-  def create_valid_user
-    valid_user = User.new :login => "jones", :email => "aviary@birdcage.com", :password => "joke", :password_confirmation => "joke"
+  def create_valid_user( options = {} )
+    valid_user = User.new( { :login => "jones", :email => "aviary@birdcage.com", :password => "joke", :password_confirmation => "joke"}.merge( options ))
     valid_user.profiles.build :first_name => "Plus", :last_name => "Ca Change", :friend => true
     valid_user.save!
     valid_user

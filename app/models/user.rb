@@ -30,6 +30,17 @@ class User < ActiveRecord::Base
 
   has_collections :private, :social, :public, :unrestricted
 
+  #TODO this make this reflect real policies
+  def restricted_collection_ids(perm=:view)
+    if perm == :view 
+      ( [ private_collection.id, social_collection.id ] + 
+        contacts.map{ |c| c.social_collection.id }  +
+        groups.map    { |g| g.member_collection.id } ) 
+    else
+      User.collections.map{ |name, accessor| send(accessor).id }
+    end
+  end
+
   has_many :bookmarks
   has_many :bookmarked_pages, :through => :bookmarks, :source => :page
   def bookmarked?(page)

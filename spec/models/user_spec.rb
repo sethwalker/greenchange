@@ -103,6 +103,16 @@ describe User do
   end
 end
 
+describe User, "with privileges" do
+  before do
+    @user = create_valid_user
+  end
+
+  it "should have a set of privileged access collection ids" do
+    @user.restricted_collection_ids.should_not be_empty
+  end
+  
+end
 describe User, "with bookmarks" do
   it "should respond to bookmarked?" do
     User.new.should respond_to(:bookmarked?)

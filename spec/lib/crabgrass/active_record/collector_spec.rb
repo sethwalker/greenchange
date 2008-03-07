@@ -32,21 +32,4 @@ describe "Model::Collector" do
     #@user.pages.private.should_not be_nil
   end
 
-  describe "for finding pages" do
-
-    before do
-      @user.private_collection.pages << create_valid_page
-      @user.public_collection.pages << create_valid_page
-      @user.social_collection.pages << create_valid_page
-      @user.unrestricted_collection.pages << create_valid_page
-    end
-
-    it "should limit private pages to the private selector"
-    it "should show bouth unrestricted and public pages to  the public"
-    it "should show public., unrestricted, and social pages to contacts" do
-      pending "working allowed"
-      @user.pages.allowed(contact).size.should == 3
-    end
-  end
-
 end

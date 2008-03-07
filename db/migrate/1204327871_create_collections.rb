@@ -13,6 +13,7 @@ class CreateCollections < ActiveRecord::Migration
       t.column :created_by, :integer
       t.column :position, :integer
       t.column :collectable_type, :string
+      t.column :permission, :string
       t.column :created_at, :datetime
       t.column :updated_at, :datetime
     end
