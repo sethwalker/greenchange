@@ -1,0 +1,21 @@
+<% if logged_in? -%>
+
+<h1>My issues</h1>
+<div class='workarea' >
+<% if current_user.issue %>
+<%= render :partial => 'issue', :collection => current_user.issues %>
+<% else %>
+<%=  'You have no issues'.t %>
+<% end %>
+<br class='clear' />
+</div>
+
+<% end -%>
+
+<h1 style='clear:both'>All issues</h1>
+<div class='workarea'>
+<%= render :partial => 'issue', :collection => @issues %>
+<br class='clear' />
+</div>
+
+

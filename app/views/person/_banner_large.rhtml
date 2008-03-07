@@ -1,6 +1,13 @@
+<div id='banner'>
 <table>
+<% unless controller.action_name =='show' %>
 <tr>
-  <td rowspan='2'><%= avatar_for @user, 'medium' %></td>
-  <td style='width:99%'><h1><%= link_to_user @user %></h1></td>
+  <td><%= avatar_for @user, 'medium' %></td>
+  <td style='width:99%'><h1><%= link_to_user @user, :display_name => true %></h1></td>
 </tr>
+<% end -%>
+ <tr>
+  <td colspan='2'><%= render :partial => 'person/tabs' %></td>
+</tr>	
 </table>
+</div>

@@ -1,0 +1,6 @@
+<h2>Friends</h2>
+<% @user.contacts.each do |user| -%>
+<%= avatar_for(user) %>
+<br/>
+<%= user.login %>
+<% end -%>

@@ -1,0 +1,27 @@
+<ul class='tab-block'>
+	<li>
+		<div class='tab-title'>Blogs</div>
+		<ul class= 'tab-content list'>
+
+<%= render :partial => 'pages/list/page', :collection => blogs.pages.type('Tool::Blog') %>
+
+		</ul>
+	</li>	
+	<li>
+		<div class='tab-title'>News</div>
+		<ul class= 'tab-content list'>
+			<%= render :partial => 'pages/list/page', :collection => blogs.pages.type('Tool::News') %>
+		</ul>
+	</li>
+	<li>
+		<div class='tab-title'>Wikis</div>
+		<ul class= 'tab-content list'>
+			<%= render :partial => 'pages/list/page', :collection => blogs.pages.type('Tool::TextDoc') %>
+			<li></li>
+		</ul>
+	</li>
+	<li>
+		<div class='tab-title create'><%= link_to 'Create', {:controller => '/pages', :action => 'create'} %></div>
+	</li>
+</ul>
+
