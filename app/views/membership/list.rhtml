@@ -7,7 +7,7 @@ table.members td a {padding: 4px;}
 <%= render :partial => 'admin' %>
 <% end -%>
 
-<% if committee? -%>
+<% if @group.committee? -%>
 <%= render :partial => 'committee' %>
 <% end -%>
 

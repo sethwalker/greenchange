@@ -2,14 +2,6 @@ module GroupsHelper
 
   include WikiHelper
   
-  def committee?
-    @group.instance_of? Committee
-  end
-  
-  def network?
-    @group.instance_of? Network
-  end
-  
   def edit_settings_link
     if current_user.may_admin?(@group)
       link_to 'edit settings'.t, group_url(:action => 'edit', :id => @group)
