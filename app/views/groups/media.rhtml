@@ -1,22 +1,3 @@
-<h2>Group Favorites</h2>
-<h3>Video</h3>
-<div>
-<% @pages.select {|p| p.is_a?(Tool::ExternalVideo)}.each do |page| -%>
-  <%= image_tag page.data.thumbnail_url %>
-  <br/> 
-  <%= link_to page.title, page_url(page) %>
-<% end -%>
-</div>
+<h2><%= link_to image_tag('/images/actions/rss.png', :align => "right"), groups_url(:action => 'media_rss', :id => @group) %>Media</h2>
 
-<h3>Images and Galleries</h3>
-<div>
-<% @pages.select {|p| p.is_a?(Tool::Asset) && Technoweenie::AttachmentFu.content_types.include?(p.data.content_type) }.each do |page| -%>
-  <%= image_tag page.asset.public_filename(:preview) %>
-  <br/>
-  <%= link_to page.title, page_url(page) %>
-<% end -%>
-</div>
-
-<h3>Audio</h3>
-
-<h3>News and Bookmarks</h3>
+<%= render :partial => 'groups/widgets/media' %>

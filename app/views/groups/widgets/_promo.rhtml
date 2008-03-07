@@ -1,2 +1,2 @@
 <h2>Featured Content</h2>
-<br><br>
+<%= render :partial => 'pages/list/page', :object =>@group.pages.find(:first, :order => "updated_at DESC") %>

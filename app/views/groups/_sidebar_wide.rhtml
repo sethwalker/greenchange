@@ -25,16 +25,13 @@
 
 
 
-<% if controller.action_name =='show' %>
+
 
 <div class='sidesection'>
 <div class='sidehead'>Media</div>
 <%= render :partial => 'groups/widgets/media' %>
 <div class='sidetail'></div>
 </div>
-
-<% end -%>
-
 
 
 
@@ -44,26 +41,21 @@
   <div class='sidelink'>
     <%= link_to_icon 'join group', 'actions/plus.png', groups_url(:action => 'join', :id => @group, :path => nil) %>
   </div>
-
 <% else %>
-
-  <div class='sidelink'>
-  <%= link_to_icon 'create page','actions/plus.png', {:controller => '/pages', :action => 'create', :group_id => @group.id} %>
-  </div>
-  <div class='sidelink'>
-    <%= link_to_icon 'send invite', 'actions/announce.png',groups_url(:action => 'invite', :id => @group, :path => nil) %>
-  </div>
-<!--  <div class='sidelink'>
-    <%= link_to_icon 'send group message', 'pages/message.png', groups_url(:action => 'message', :id => @group, :path => nil) %>
-  </div>  -->
   <div class='sidelink'>
     <%= link_to_icon 'leave group', 'actions/minus.png', groups_url(:action => 'leave', :id => @group, :path => nil) %>
   </div>
 
-<% end %>
+  <div class='sidelink'>
+    <%= link_to_icon 'send invite', 'actions/announce.png',groups_url(:action => 'invite', :id => @group, :path => nil) %>
+  </div>
+  <div class='sidelink'>
+    <%= link_to_icon 'send group message', 'pages/message.png', groups_url(:action => 'message', :id => @group, :path => nil) %>
+  </div>
   <div class='sidelink'>
     <%= link_to_icon 'message admin', 'actions/admin.png',groups_url(:action => 'message', :id => @group, :path => nil) %>
   </div>
+<% end %>
 <div class='sidelink'>
   <%= link_to_icon 'search', 'emblems/glasses.png', groups_url(:action => 'search', :id => @group, :path => nil) %>
 </div>
@@ -91,17 +83,22 @@
 <div class='sidehead'>Administer Group</div>
 
 <div class='sidelink'>
+  <%= link_to 'create page', {:controller => '/pages', :action => 'create', :group_id => @group.id} %>
+</div>
+
+<div class='sidelink'>
   <%= link_to 'edit settings', groups_url(:action => 'edit', :id => @group, :path => nil) %>
 </div>
 
 <div class='sidelink'>
   <%= link_to 'view requests', groups_url(:action => 'requests', :id => @group, :path => nil) %>
 </div>
-<!-- <div class='sidelink'>
-  <%= link_to 'edit group profile', group_url(:id => @group, :action => 'edit_profile') %>
-</div> -->
 <div class='sidelink'>
   <%= link_to 'destroy group', groups_url(:action => 'destroy', :id => @group, :path => nil) %>
+</div>
+
+<div class='sidelink'>
+  <%= link_to 'edit group profile', group_url(:id => @group, :action => 'edit_profile') %>
 </div>
 
 

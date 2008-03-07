@@ -1,0 +1,47 @@
+<li>
+<div class='list-item'>
+	<div class='list-thumb'>
+		<% 	image = page.assets.detect {|a| a.image?}
+		if image %>
+		<%= link_to image_tag(image.public_filename(:thumb), :align => "left"), page_url(page) %> 
+		<% else
+		
+		image_url = 'http://www.greenchange.org/img/thumb/icon_image.jpg'
+
+		
+		if page.is_a?(Tool::News) 
+		image_url = 'http://www.greenchange.org/img/thumb/icon_fact_sheet.jpg' 	
+		end 
+			
+		if page.is_a?(Tool::ExternalVideo) 
+		image_url = 'http://www.greenchange.org/img/thumb/icon_video.jpg' 	
+		end		
+
+		if page.is_a?(Tool::ActionAlert) 
+		image_url = 'http://www.greenchange.org/img/thumb/icon_social_network.jpg' 	
+		end		
+
+		if page.is_a?(Tool::Asset) 
+		image_url = page.data.public_filename(:thumb)	
+		end		
+		
+		if page.is_a?(Tool::TextDoc) 
+		image_url = 'http://www.greenchange.org/img/thumb/icon_books.jpg' 	
+		end
+
+        if page.is_a?(Tool::Blog) 
+		image_url = 'http://www.greenchange.org/img/thumb/icon_spotlight.jpg' 			
+		end
+
+		%>
+		<%= link_to image_tag(image_url, :align => "left"), page_url(page) %>	
+		<% end -%>
+	</div>
+	<div class='list-description'>
+		<h3><%= page_icon(page) %><%= link_to(page.title, page_url(page) ) %></h3>
+		<p><%= page.summary  %></p>
+		  by <!--<%= render :partial => 'avatars/person', :object => page.created_by %>--> <%= link_to_user(page.created_by) %> posted <%= friendly_date(page.created_at) %><br/>
+		Issues:  |   Tags:  |  Comment(#)
+	</div>
+</div>
+</li>

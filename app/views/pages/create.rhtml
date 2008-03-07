@@ -1,12 +1,79 @@
 <h1 id='create-title'>create a new page</h1>
+<table>
+	<tr>
+		<td width="50%">
+<h3>Posts</h3>
+<div class="page-class"><%= link_to "<b>blog</b>: A blog posting",
+    {:controller => 'tool/blog', :action => 'create',
+     :id => 'Blog', :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/message.png}) no-repeat 0% 50%", :class => 'page-link'} %></div>
+<div class="page-class"><%= link_to "<b>news</b>: A news article",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>
+<div class="page-class"><%= link_to "<b>wiki</b>: A free-form text document",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>
+</td><td>
+<h3>Media</h3>
+<div class="page-class"><%= link_to "<b>file</b>: an photo, audio or document",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>
+<div class="page-class"><%= link_to "<b>external video</b>: a video from an external service",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>
+<div class="page-class"><%= link_to "<b>photo gallery</b>: an collection of pictures",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>
+</td>
+<tr>
+	<td>
+
+<h3>Events and Actions</h3>
+<div class="page-class"><%= link_to "<b>action alert</b>: An action alert",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>
+
+</td><td>
+
+<h3>Discusions</h3>
+<div class="page-class"><%= link_to "<b>group discussion:</b> A group discussion on a particular topic.",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>
+
+</td>
+<tr>
+	<td colspan=2>
+
+<h3>Tools</h3>
+<div class="page-class"><%= link_to "<b>task list:</b> A list of todo items.",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>
+<div class="page-class"><%= link_to "<b>ranked vote:</b> Rank possibilities in order of preference.",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>
+<div class="page-class"><%= link_to "<b>approval vote:</b> Approve or disapprove of each possibility.",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>
+</td></tr>
+</table>
 
 <div id='listing-of-page-classes' class='workarea'>
 <% AVAILABLE_PAGE_CLASSES.each_with_index do |page_class,i| -%>
 <div class="page-class"><div>
   <%= link_to "<b>#{page_class.class_display_name.t}</b>: #{page_class.class_description.t}",
-    {:controller => 'tool/'+page_class.controller, :action => 'create',
-     :id => page_class.class_display_name.nameize, :group_id => params[:group_id]},
-    {:style => "background: url(#{page_class.big_icon_path}) no-repeat 0% 50%", :class => 'page-link'} %>
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %>
 </div></div>
 <% end -%>
 </div>

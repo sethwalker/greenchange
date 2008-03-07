@@ -1,0 +1,13 @@
+<li>
+<div class='list-item'>
+	<div class='list-thumb'>
+		<%= link_to image_tag('http://img.youtube.com/vi/WWyJJQbFago/2.jpg', :align => "left"), page_url(discussion) %>	
+	</div>
+	<div class='list-description'>
+		<h3><%= page_icon(discussion) %><%= link_to(discussion.title, page_url(discussion) ) %></h3>
+		<p><%= discussion.summary  %></p>
+		Posts:  |  Participants:  |   Last Post: <br/>
+		Issues:  |   Tags:  
+	</div>
+</div>
+</li>

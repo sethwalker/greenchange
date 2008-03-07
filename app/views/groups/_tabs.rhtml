@@ -5,12 +5,12 @@
     t.selected params[:action] == 'members'
   end  
   f.tab do |t|
-    t.label 'Blog'
+    t.label 'News & Blogs'
     t.link group_url(:action => 'blog', :id => @group)
     t.selected params[:action] == 'blog'
   end
   f.tab do |t|
-    t.label 'Activites'
+    t.label 'Events & Actions'
     t.link group_url(:action => 'calendar', :id => @group)
     t.selected params[:action] == 'calendar'
   end
@@ -19,22 +19,19 @@
  #   t.link group_url(:action => 'action_alerts', :id => @group)
  #   t.selected params[:action] == 'search'
  # end
+   f.tab do |t|
+    t.label 'Media'
+    t.link group_url(:action => 'media', :id => @group)
+    t.selected params[:action] == 'media'
+  end
   f.tab do |t|
     t.label 'Discussions'
     t.link group_url(:action => 'discussions', :id => @group)
     t.selected params[:action] == 'discussions'
   end
-  f.tab do |t|
-    t.label 'Favorites'
-    t.link group_url(:action => 'media', :id => @group)
-    t.selected params[:action] == 'media'
-  end
 
-  f.tab do |t|
-    t.label 'Documents'
-     t.link group_url(:action => 'documents', :id => @group)
-    t.selected params[:action] == 'documents'
-  end
+
+
 #  f.tab do |t|
 #    t.label 'Archive'
 #    t.link group_url(:action => 'archive', :id => @group)

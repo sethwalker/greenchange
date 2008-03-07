@@ -1,0 +1,14 @@
+<li>
+<div class='list-item'>
+	<div class='list-thumb'>
+		<%= link_to image_tag('http://img.youtube.com/vi/WWyJJQbFago/2.jpg', :align => "left"), page_url(event) %>	
+	</div>
+	<div class='list-description'>
+		<h3><%= page_icon(event) %><%= link_to(event.title, page_url(event) ) %></h3>
+		Date and Time</br>
+		City, State, Location</br>
+		<p><%= event.summary  %></p>
+		Issues:  |   Tags:  
+	</div>
+</div>
+</li>

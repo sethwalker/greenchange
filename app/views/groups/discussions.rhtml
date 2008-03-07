@@ -1,20 +1,3 @@
-<h2>Group Discussions and Comments</h2>
-<h3>Most Active Discussions and Comments</h3>
+<h2><%= link_to image_tag('/images/actions/rss.png', :align => "right"), groups_url(:action => 'discuss_rss', :id => @group) %>Discussions and Comments</h2>
 
-<% @pages.each do |page| -%>
-<p>
-<%= link_to page.title, page_url(page) %>
-<br/>
-<div>Recent Comments</div>
-<div style="padding-left: 20px;">
-  <% page.discussion.posts.to_a.last(3).each do |post| -%>
-  <p><%= truncate(post.body) %><br/>
-  <span>- <%= post.user.login %> on <%= friendly_date(post.created_at) %></span>
-  </p>
-  <% end -%>
-</div>
-</p>
-<% end -%>
-
-<h3>All Recent Discussions</h3>
-
+<%= render :partial => 'groups/widgets/discussions' %>
