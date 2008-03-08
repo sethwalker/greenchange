@@ -1,53 +1,25 @@
-/**
- theme.css: colors for the default theme.
- any color that might be changed by the theme goes in here.
- colors which do not change, such as UI elements, do not go here.
- **/
+#maincolumn {
+  border-color: #999; }
 
-/* body {background: #e6e6e6;} */
-/*
-body {
-  background: #eee;
-}
-#main {
-  background: url(/images/test/grey-to-light-grey.jpg) repeat-x;
-}
-*/
-
-#maincolumn, #tabarea {
+#tabarea {
   border-color: #999;
-}
-#tabarea {border-top: 1px solid transparent;}
+  border-top: 1px solid transparent; }
 
 div.sidehead {
-  /* color: #fff; */
-  /* background: #1B5790; */
-  /* background-color: #A5CC7A; */
-  /* background-color: #73B32D; */
-  background: #1c9bc9; 
-  border-top: 4px solid #116c90;
-}
+  background: #1c9bc9;
+  border-top: 4px solid #116c90; }
 
 div.sidesection {
-   background-color: #CCE7F1; 
-  /* background-color: #E9FFD1; */
-  /* background-color: #A5CC7A; */
-  /* background: white url(/images/shadows/small-left-a.png) repeat-y; */
-  /* border-color: white; */
-}
+  background-color: #CCE7F1; }
 
-div.sideline a {
-}
-
-/* title and info panel */
 
 #titlebox, .titlebox {
   background: #E6F2FF;
-  border: 2px solid white;
-}
+  border: 2px solid white; }
 
-/* banner */
+div#banner {
+  border-color: white;
+  border-top: 4px solid #8A9316; }
 
-div#banner {border-color: white; border-top: 4px solid #8A9316;}
-/*#toprule-outer {border-color: black;}
-
+#toprule {
+  border-color: black; }

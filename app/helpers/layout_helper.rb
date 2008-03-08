@@ -77,11 +77,6 @@ module LayoutHelper
   ############################################
   # JAVASCRIPT
   
-  def need_extra_javascript?
-    @javascript_extra
-    #true
-  end
-
   def get_unobtrusive_javascript
     controller.get_unobtrusive_javascript
   end

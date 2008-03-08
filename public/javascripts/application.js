@@ -61,4 +61,10 @@ function mytoggle(element) {
     Element.toggle(element)
 }
 
+/* initialize links with class "remote" as remote links" */
+$$("a.remote").invoke( "observe", 'click', function(event) {
+  new Ajax.Request(this.href, {asynchronous:true, evalScripts:true, method:'get'});
+  return false;
+});
+
 

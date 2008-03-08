@@ -9,7 +9,6 @@
 <tr>
   <td align='right'><b>title</b></td>
   <td><%= text_field 'page', 'title', :size => 30 %></td>
-  <%= javascript_tag %( $("page_title").focus() ) %>
 </tr>
 <tr>
   <td align='right'><b>summary</b></td>
@@ -38,4 +37,6 @@
 <% end %>
 
 </div>
-
+<% content_for :javascript do %>
+  <%= javascript_tag '$("page_title").focus();' %>
+<% end %>

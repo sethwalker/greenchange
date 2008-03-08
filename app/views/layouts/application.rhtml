@@ -1,4 +1,3 @@
-<%# see README -%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/ DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -7,82 +6,39 @@
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <title><%=h title_from_context %></title>
-  <link rel="stylesheet" href="/bundles/<%=CSS_VERSION%>/base.css" type="text/css" media="screen" charset="utf-8" />
-  <script type="text/javascript" src="/bundles/<%=JAVASCRIPT_VERSION%>/base.js"></script>
-  <% if need_extra_javascript? %><script type="text/javascript" src="/bundles/<%=JAVASCRIPT_VERSION%>/extra.js"></script><% end %>
-<script>
-<%# get_unobtrusive_javascript %>
-  </script>
-  <!--[if lt IE 7.]>
-  <script defer type="text/javascript" src="/javascripts/pngfix.js"></script>
-  <![endif] -->
-  <!-- local styles -->
- <!-- <style type="text/css">
-<%= yield :style %>
-<%= theme_styles %>
-  </style> -->
+  <%= javascript_include_tag :defaults %>
+  <%= render :partial => 'shared/ie6' %>
+  <%= stylesheet_link_tag 'application' %>
+  <%= stylesheet_link_tag 'navigation' %>
+  <%= stylesheet_link_tag 'page' %>
+  <%= stylesheet_link_tag 'ui' %>
+  <%= stylesheet_link_tag 'print', :media => 'print' %>
   <%= stylesheet_link_tag stylesheet if stylesheet %>
+  <%= stylesheet_link_tag 'greenchange' %>
+  <!-- local styles -->
+  <%= yield :stylesheet %>
+  <style type="text/css">
+    <% yield :style %>
+  </style> 
 </head>
 
-<body class="<%=body_class||=''%>">
-<div id="container">
-<div id="subcontainer">
+<body class="<%=controller.controller_name%>">
+  <div id="container">
 
+    <div id="header">
+      <%= render 'layouts/masthead' %>
+      <%= render 'layouts/menu' %>
+    </div>
 
-<!-- masthead -->
+    <div id="main">
+        <%= render :partial => 'shared/messages' %>
+        <%= yield %>
+    </div>
 
-<table id="masthead" cellpadding="0" cellspacing="0"><tr>
- <td id='masthead-image'></td>
- <td></td>
-</tr></table><!--end masthead -->
-
-<div id="toprule-outer"><div id="toprule">
-<%= render 'layouts/menu' %>
-</div></div><!--end toprule -->
-
-
-
-<div id="main">
-  <div id='message'>
-    <%= display_messages %>
+    <div id="footer">
+      <%= render 'layouts/footer' %>
+    </div>
   </div>
-  
-  <%= yield %>
-</div>
-
-
-
-
-
-
-<div id="footer">
-
-<table width="100%" cellspacing="0" cellpadding="0" border="0">
-              <tbody><tr>
-                <td height="2" bgcolor="#999999"/>
-              </tr>
-              <tr>
-                <td height="30" bgcolor="#dddddd" align="center"> <span class="footer"><a href="http://greenchange.org/form.php?id=57">Contact us</a> | <a href="http://greenchange.org/sitemap.php">Sitemap</a> | <a href="http://greenchange.org/article.php?list=type&type=3">About</a> | <a href="http://greenchange.org/credits">Credits</a></span>
-                <br><br>
-                  <% if SVN_REVISION -%>
-    <a href="http://code.autistici.org/svn/crabgrass/branches/greenchange">crabgrass/greenchange r<%= SVN_REVISION %></a>
-  <% end -%>
-                </td>
-              </tr>
-            </tbody></table>
-
-<!--
-
-  <div style="text-align: center; font-size: 9px; padding-bottom: 3em;">
-  <% if SVN_REVISION -%>
-    <a href="http://code.autistici.org/svn/crabgrass/branches/greenchange">crabgrass/greenchange r<%= SVN_REVISION %></a>
-  <% end -%>
-  </div>
-  
-  -->
-</div><!-- end footer -->
-</div><!-- end sub container -->
-</div><!-- end container -->
-<%= yield :javascript %>
 </body>
+<%= yield :javascript %>
 </html>

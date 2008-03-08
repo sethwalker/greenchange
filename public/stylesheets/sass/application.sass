@@ -1,0 +1,124 @@
+@import colors
+body
+  :margin 0
+  :padding 0
+  :background-color white
+  :text-align center
+  :background-color = !body_bg
+  :font-family Arial,Helvetica,Verdana,sans-serif
+  :font-size 12px
+  :font-weight normal
+  :line-height 18px
+  :color black
+
+table
+  :margin 0
+  :padding 0
+  :border-spacing 0
+
+img
+  :border 0
+
+#container
+  :width 860px
+  :padding-left 10px
+  :padding-right 10px
+  :background-color = !main_bg
+  :text-align left
+  :margin 0 auto
+
+
+#main
+  :padding 10px 5px
+  :background-color white
+
+div.sidehead
+  :background = !bar_header_bg
+
+#banner
+  :background = !banner_bg
+  :color = !banner_text
+  :width 600px
+  a.name_link
+    :color = !banner_text
+    :text-decoration none
+
+#breadcrumbs
+  :margin-bottom 1em
+
+#maincolumn
+  :padding 0px
+  :background = !main_bg
+
+#tabarea
+  :padding 0px
+  :background = !main_bg
+  :padding-top 0
+  :clear both
+
+div.tabinfo
+  :font-size 0.8em
+  :margin 1em
+
+#titlebox
+  :margin -20px
+  :margin-bottom 20px
+  :padding 10px 20px
+  .h1
+    :color = !page_title_text
+
+#maincolumn.leftbar #content
+  :float left
+  :width 100%
+
+#maincolumn.rightbar #content
+  :float right
+  :width 100%
+
+
+#footer
+  :text-align center
+  :background-color = !footer_bg
+  :border-top = 2px solid !footer_border
+  :width 100%
+  .links
+    :padding 1em 0 1em 0
+    a
+      :border-left = 1px solid #000000
+      :height 30px
+      :padding 0 .5em 0 .5em
+      &.first
+        :border-left 0
+
+p, ol, ul, td
+  :font-family Arial,Helvetica,Verdana,sans-serif
+  :font-size 12px
+  :font-weight normal
+  :line-height 18px
+
+.normal
+  :font-size 13px
+  :font-weight normal
+
+#masthead
+  :border-collapse collapse
+  :width 100%
+  :background-color = !masthead_bg
+  div
+    :vertical-align bottom
+
+
+.clear
+  :clear both
+
+a
+  :text-decoration underline
+  &:link
+    :color = !link_text
+  &visited
+    :color = !link_text_visited
+  &:hover
+    :color = !link_text_hover
+  &:active
+    :color = !link_text_active
+

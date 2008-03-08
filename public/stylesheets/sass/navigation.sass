@@ -1,0 +1,155 @@
+@import colors
+#topmenu
+  :margin 0
+  :padding 0
+  :list-style none
+  ul
+    :padding 0
+    :margin 0
+    :list-style none
+  li
+    :padding 4px 0 4px 0
+    span a
+      :display block
+      :color = !topmenu_text
+      :text-decoration none
+      :text-transform uppercase
+      :padding 2px 6px
+      :font-weight bold
+      :border 1px solid transparent
+      :border-bottom 0
+    ul
+      :position absolute
+      :left -999em
+      :z-index 100
+      :background = !topmenu_bg
+      :padding 0 4em 2px 0
+      li
+        :margin 0 0 -2px 0
+        :padding 2px 4px
+        a
+          :color !topmenu_text
+          :font-weight bold
+          :padding 4px
+          :display block
+          :text-decoration none
+  > li
+    :float left
+    :margin 0 4px
+    :position relative
+    :top 1px
+  li:hover
+    ul
+      :left auto
+      li:hover
+        :background-color =  !topmenu_bg_hover
+    span a
+      :background = !topmenu_bg_hover
+      :color = !topmenu_text
+      :border-color = !topmenu_text
+  li.selected span a
+    :color = !topmenu_selected_text
+  li.selected:hover span a
+    :color = !topmenu_selected_text_hover 
+    :background = !topmenu_selected_bg_hover 
+
+#toprule
+  :border-top = 4px solid !topmenu_container_border
+  :background-color = !topmenu_container_bg
+  :margin 4px
+  :padding-left 10px
+
+div#banner
+  :padding 4px 10px
+  :border-bottom 1px solid transparent
+  img.avatar_large
+    :padding-right 10px
+  img.avatar_small
+    :padding-right 4px
+  h1, h3
+    :padding 0
+    :margin 0
+  table
+    :width 100%
+
+div.iconboxes
+  img
+    :border = 1px solid !icon_border
+  div.iconbox
+    :position relative
+    :width 24px
+    :height 24px
+    :float right
+    :margin 2px
+  div.iconbox.left
+    :float left
+  div.hover
+    :display none
+  div.iconbox:hover div.hover
+    :display inline
+    :position absolute
+    :top -5px
+    :left -5px
+    :background white
+    :color black
+    :z-index 100
+
+div.online img
+  :border 1px solid yellow
+
+div.iconbox
+  div.hover div.text
+    :position absolute
+    :width 20em
+    :right 0px
+    :top 37px
+
+    span
+      :background = !icon_container_text_bg
+      :border = 1px solid !icon_container_text_border 
+      :padding 3px
+  a
+    :text-decoration none
+    :color black
+
+div.iconbox.left div.hover div.text
+  :left 0px
+
+.pagination
+  :padding 5px 0
+  ul
+    :margin 0
+    :padding 0
+    :text-align left
+  li
+    :list-style-type none
+    :display inline
+    :padding-bottom 1px
+  a, a:visited
+    :padding 0 5px 1px 5px
+    :border = 1px solid !pagination_link_border
+    :text-decoration none
+    :color = !pagination_link_text
+  a:hover, a:active
+    :border = 1px solid !pagination_link_border_hover
+    :color = !pagination_link_text_hover 
+    :background-color !pagination_link_bg_hover
+    :text-decoration none
+  li.currentpage
+    :padding 0 5px 1px 5px
+    :border 1px solid navy
+    :background-color = !pagination_current_bg
+    :color = !pagination_current_text
+  li.disablepage
+    :padding 0 5px 1px 5px
+    :border = 1px solid !pagination_disable_border
+    :color = !pagination_disable_text 
+
+span#top-login-form
+  label
+    :color = !login_form_text
+    :font-size 9px
+  input
+    :width 8em
+    :font-size 9px
+

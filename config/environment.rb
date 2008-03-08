@@ -131,8 +131,6 @@ DEFAULT_TZ = 'Pacific Time (US & Canada)'
 
 FightTheMelons::Helpers::FormMultipleSelectHelperConfiguration.outer_class = 'plainlist'
 
-SVN_REVISION = (File.directory?('.svn') && r = YAML.load(`svn info`)) ? r['Revision'] : nil
-
 #include all files in the initializers folder ( TODO remove in Rails 2 branch )
 Dir.entries( "#{RAILS_ROOT}/config/initializers/" ).each do |filename |
   require "#{RAILS_ROOT}/config/initializers/#{filename}" if filename =~ /\.rb$/ 

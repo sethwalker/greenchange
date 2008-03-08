@@ -52,5 +52,7 @@ div#new_possible {background: #eee; padding: 1em; margin: 1em;}
 -->
 
 </p>
-<%= sortable_element 'sort_list', :handle => 'handle', :url => page_xurl(@page, :action=>'sort') %>
-<%= javascript_tag "Element.hide('non-ajax-form')" %>
+<% content_for :javascript do %>
+  <%= sortable_element 'sort_list', :handle => 'handle', :url => page_xurl(@page, :action=>'sort') %>
+  <%= javascript_tag "Element.hide('non-ajax-form')" %>
+<% end %>

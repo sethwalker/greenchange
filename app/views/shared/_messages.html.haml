@@ -1,0 +1,18 @@
+#message
+  - if flash[:update]
+    .notice.update
+      %h2
+        = flash[:update]
+      =flash[:text]
+
+  - if flash[:error]
+    .notice.error
+      %h2
+        = flash[:error]
+      =flash[:text]
+
+  - if flash[:notice]
+    .notice.info
+      %h2
+        = flash[:notice]
+      =flash[:text]

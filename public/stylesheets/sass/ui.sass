@@ -1,0 +1,219 @@
+.handle
+  :cursor move
+
+form
+  input[type=submit], input[type=button]
+    :border 1px solid
+    :border-color #fff #ccc #bbb #ddd
+    :outline 1px solid #336
+    :text-decoration none
+    :color #000
+    :background #eee url(/images/blend/24-wb-25.png) 0% 50% repeat-x
+    :padding 0 6px 1px 6px
+    :cursor pointer
+    :margin 1px
+  input[type=submit]:hover, input[type=button]:hover
+    :background #fff url(/images/blend/24-wb-25.png) 0% 50% repeat-x
+
+a.button
+  :border 1px solid
+  :border-color #fff #ccc #bbb #ddd
+  :outline 1px solid #336
+  :text-decoration none
+  :color #000
+  :background #eee url(/images/blend/24-wb-25.png) 0% 50% repeat-x
+  :padding 0 6px 1px 6px
+  :cursor pointer
+  :margin 1px
+  :padding-bottom 3px
+
+a.button:hover
+  :background #fff url(/images/blend/24-wb-25.png) 0% 50% repeat-x
+
+form.button-to
+  :padding 0
+  :margin 0
+  :display inline
+  input
+    :display inline
+  div
+    :display inline
+
+form.link
+  :display inline
+  :border 0
+  :padding 0
+  :margin 0
+  input[type=submit]
+    :border none
+    :padding 0
+    :margin 0
+    :text-decoration underline
+    :color blue
+    :background-color transparent
+    :cursor pointer
+    :display inline
+
+input[type=submit].link
+  :border none
+  :padding 0
+  :margin 0
+  :text-decoration underline
+  :color blue
+  :background-color transparent
+  :cursor pointer
+  :display inline
+
+textarea, input[type=text], input[type=password], input[type=file]
+  :border 1px solid #666
+  :background #fff url(/images/shadows/small-top-a.png) 0 -1px repeat-x
+  :padding 4px
+
+select
+  :border 1px solid #666
+  :background #fff url(/images/shadows/small-top-a.png) 0 -1px repeat-x
+  :padding 4px
+  :padding 1px
+
+textarea:focus, input[type=text]:focus, input[type=password]:focus
+  :background #ffe url(/images/shadows/small-top-a.png) 0 -1px repeat-x
+  :border 1px solid #000
+
+div.textarea-wrapper
+  :padding-right 10px
+
+.spaced-out
+  textarea, input, select
+    :margin 4px 0
+
+a.dotted
+  :color black
+  :text-decoration none
+  :border-bottom 1px #999 dotted
+  :outline 0
+
+a.invert
+  :color white
+  :background-color #003399
+
+a.noline
+  :text-decoration none
+
+a.imglink
+  :text-decoration none
+  span
+    :text-decoration underline
+
+img.avatar
+  :vertical-align middle
+
+ul.plainlist
+  :padding 0
+  :margin 0
+  :list-style none
+  li
+    :margin 3px 0
+
+ul.floatlist li
+  :float left
+  :margin-right 1em
+
+div.left-small
+  :float left
+  :width 10em
+
+div.right-big
+  :margin-left 11em
+
+a.selected
+  :font-weight bold
+
+div.tab-area
+  :border 1px solid #999
+  :border-top 0
+  :padding 10px
+
+ul.tabset
+  :list-style-type none
+  :margin 0
+  a.tab-link:hover
+    :text-decoration underline
+    :text-decoration underline
+
+ul.tabset.left
+  :padding 0 20px 0 0
+  li.tab
+    :border 1px solid transparent
+  li.tab.selected
+    :background #eef
+    :border-top 1px solid #ccc
+    :border-bottom 1px solid #ccc
+  li.tab:hover
+    :background #ffc
+    :border-top 1px solid #ccc
+    :border-bottom 1px solid #ccc
+  a.tab-link
+    :display block
+    :text-decoration none
+    :padding 1.5em
+    :padding-left 56px
+
+ul.tabset.top
+  :font-size 11px
+  :padding 0 0 0 0.75em
+  li
+    :height 1.7em
+    :padding 2px
+    :list-style url(http://www.greenchange.org/img/arrow-bullet.gif)
+  li.tab
+    :float left
+    :padding 1px
+    :margin 0
+  li.tab.selected
+    :border 1px solid #999
+  a.tab-link
+    :display block
+    :text-decoration none
+    :padding 0 1em
+    :color white
+    :text-transform uppercase
+  a.selected
+    :outline 1px solid white
+    :color black
+    :height 2em
+
+table.layout
+  :margin-top 2em
+  td
+    :vertical-align top
+
+tr.page-list-heading
+  th
+    :text-align left
+    :font-size 0.85em
+    :background #ccc url(/images/ui/list-head-light.png) repeat-x 50% 0%
+    img
+      :vertical-align bottom
+    a
+      :color #333
+  th.selected
+    :background #888 url(/images/ui/list-head-dark.png) repeat-x 50% 0%
+    a
+      :color white
+
+div.edit-tab
+  :float left
+  :margin 10px
+  :margin-left -20px
+  span
+    :background #C2D4FF
+    :padding 4px 16px
+    :border 1px solid #ADBDE3
+    :border-left 0
+  a
+    :color #669
+    :font-weight bold
+    :text-decoration none
+  a:hover
+    :text-decoration underline
+

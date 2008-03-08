@@ -1,6 +1,6 @@
-<% content_for :style do %>
-  @import url(/stylesheets/chat.css);
-<% end %>
+<% content_for :stylesheet do -%>
+  <%= stylesheet_link_tag 'chat' %>
+<% end -%>
 
 <div id="userlist">
   <%= render :partial => 'chat/userlist' %>
@@ -13,9 +13,6 @@
     <% end -%>
   </div>
 </div>
-
-<%= javascript_tag scroll_conversation_script %>
-<%= javascript_tag set_time_and_name_script %>
 
 <%= # handle input by posting it and also sending it to the server 
 form_remote_tag :url => { :controller => 'chat',
@@ -60,3 +57,8 @@ observe_field(:entryfield,
                         :action => 'user_is_typing',
                         :id => @channel })
 %>
+<% content_for :javascript do %>
+  <%= javascript_tag scroll_conversation_script %>
+  <%= javascript_tag set_time_and_name_script %>
+<% end %>
+

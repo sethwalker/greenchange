@@ -10,24 +10,6 @@ module ApplicationHelper
   include TimeHelper
   include PathFinder::Options   # for Page.find_by_path options
     
-  # display flash messages with appropriate styling
-  def display_messages()
-    return "" unless flash[:notice] || flash[:error] || flash[:update]
-    if flash[:update]
-      type = "update"
-      message = flash[:update]
-    elsif flash[:notice]
-      type = "info"
-      message = flash[:notice]
-    elsif flash[:error]
-      type = "error"
-      message = flash[:error]
-    end
-    img = image_tag("notice/#{type}.png")
-    header = content_tag("h2", message)
-    content_tag("div", img + header + flash[:text].to_s, "class" => "notice #{type}")
-  end
-  
   # use by ajax
   def notify_errors(title, errors)
      type = "error"
@@ -233,6 +215,12 @@ module ApplicationHelper
   
   def issue_url(issue)
   	issue 
+  end
+
+  # Unobtrusive version of link_to_remote
+  def link_to_remote( name, options, html_options={} )
+    html_options[:class] = "remote #{html_options.delete(:class)}".strip
+    link_to(name, options, html_options)
   end
   
 end

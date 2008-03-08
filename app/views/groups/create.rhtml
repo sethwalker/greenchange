@@ -14,8 +14,10 @@
   <%= submit_tag "Create" %>
 
 <% end %>
-<%= javascript_tag "Form.focusFirstElement('createform');" %>
 
 </div> <!-- end work area -->
 
+<% content_for :javascript do %>
+  <%= javascript_tag "Form.focusFirstElement('createform');" %>
+<% end %>
 
