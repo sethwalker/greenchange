@@ -14,5 +14,4 @@ class Collection < ActiveRecord::Base
     permission.to_s.humanize if permission
   end
 
-  delegate :name, :to => :page
 end
