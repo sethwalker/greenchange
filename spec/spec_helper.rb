@@ -58,16 +58,17 @@ Spec::Runner.configure do |config|
     valid_user.save!
     valid_user
   end
-  def create_valid_group
-    valid_group = Group.create :name => 'valid_group'
-  end
 
   def create_valid_group
     valid_group = Group.create :name => 'valid_group'
   end
 
-  def login_valid_user
-    current_user = create_valid_user
+  def create_valid_group
+    valid_group = Group.create :name => 'valid_group'
+  end
+
+  def login_valid_user( options = {} )
+    current_user = create_valid_user( options )
     User.current = current_user
     controller.stub!(:current_user).and_return(current_user)
   end
