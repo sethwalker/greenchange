@@ -1,7 +1,10 @@
+- current_year = (Date.today).year 
+- start_year = @months[0]['year'] if @months[0]
+- start_year ||= current_year.to_s
 %blockquote
-  = unless @months.empty? 
+  - unless @months.empty? 
     %table.archive-calendar
-      - @start_year.upto(@current_year.to_s) do |year| 
+      - start_year.upto(current_year.to_s) do |year| 
         %tr
           %td
             %b
@@ -11,11 +14,10 @@
               - linkable_month = !( @months.detect {|a| a['year'] == year and a['month'] == month}.empty? )
               - if linkable_month
                 - klass = ''
-                - if @parsed.first_arg_for('year').to_i == year.to_i and @parsed.first_arg_for('month').to_i == month.to_i
+                - if @year.to_i == year.to_i and @month.to_i == month.to_i
                   -  klass = 'invert'
-                = link_to( month, {:path => 'month/' + month + '/year/' + year}, :class => klass )
+                = link_to( month, {:path => "#{year}/#{month}"}, :class => klass )
               - else
                 = month
 
 = render :partial => 'pages/list/table', :locals => {:heading => true, :columns => [:icon, :title, :created_by, :created_at, :contributors_count]} 
-

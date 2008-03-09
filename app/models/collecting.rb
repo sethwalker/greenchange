@@ -7,7 +7,7 @@ class Collecting < ActiveRecord::Base
     perm ||= :view
     ##not_logged_in
     if user.is_a?( UnauthenticatedUser ) and perm != :view
-      { :conditions => "FALSE" }
+      { :conditions => ["?", false] }
     ##unspecified
     elsif user.nil? || user.is_a?(UnauthenticatedUser)
       { :conditions => [ "collectings.permission in(?)", Collecting.permissions_for_global(perm)] } 

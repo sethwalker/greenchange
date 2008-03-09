@@ -10,8 +10,8 @@ class Page < ActiveRecord::Base
   acts_as_modified
 
   has_finder :allowed, Proc.new { |user,perm| 
-    allowed_collectings = Collecting.allowed(user,perm).find( :all, :conditions => [ 'collectable_type = ?', self.table_name.singularize] )
-    { :conditions => ["pages.id in(?)", allowed_collectings.map(&:collectable_id) ] }
+    allowed_collectings = Collecting.allowed(user,perm).find( :all, :conditions => [ 'collectable_type = ?', self.name] )
+    { :conditions => ["pages.id IN (?)", allowed_collectings.map(&:collectable_id) ] }
     
     #logger.debug( "### found collecting ids : %s" % Collecting.allowed(user,perm).find(:all, :conditions => ['collectable_type = ?', self.class.to_s.downcase ] ).map(&:collectable_id).join( ", ") )
     #logger.warn "'allowed' finder not yet implemented"
@@ -21,7 +21,7 @@ class Page < ActiveRecord::Base
   has_finder :created_in_month, lambda {|month| {:conditions => ["#{Page.sql_month('pages.created_at')} = ?", month]}}
   has_finder :created_in_year,  lambda {|year|  {:conditions => ["#{Page.sql_year('pages.created_at')} = ?", year]}}
 
-  has_finder :type, lambda {|type| {:conditions => type.is_a?(Enumerable) ? ["pages.type IN (?)", type] : ["pages.type = ?", type]}}
+  has_finder :page_type, lambda {|page_type| {:conditions => page_type.is_a?(Enumerable) ? ["pages.type IN (?)", page_type] : ["pages.type = ?", page_type]}}
 
   has_finder :public, {:conditions => ["pages.public = ?", true]}
   

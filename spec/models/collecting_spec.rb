@@ -53,7 +53,7 @@ describe Collecting do
     end
 
     it "should accept further conditions" do
-      Collecting.allowed( @searching_user ).find(:all, :conditions => [ "collectable_type = ?", 'page']).size.should == 1
+      Collecting.allowed( @searching_user ).find(:all, :conditions => [ "collectable_type = ?", 'Page']).size.should == 1
     end
   end
 end

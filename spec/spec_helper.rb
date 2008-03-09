@@ -58,12 +58,8 @@ Spec::Runner.configure do |config|
     valid_user.save!
     valid_user
   end
-  def create_valid_group
-    valid_group = Group.create :name => 'valid_group'
-  end
-
-  def create_valid_group
-    valid_group = Group.create :name => 'valid_group'
+  def create_valid_group(options={})
+    valid_group = Group.create({:name => 'valid_group'}.merge(options))
   end
 
   def create_valid_group

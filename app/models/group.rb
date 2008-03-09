@@ -226,6 +226,35 @@ class Group < ActiveRecord::Base
     raise PermissionDenied
   end
 
+  def months_with_pages_viewable_by_user(user)
+    case Page.connection.adapter_name
+    when "SQLite"
+      dates = sqlite_months_string
+    when "MySQL"
+      dates = mysql_months_string
+    else
+      raise "#{Article.connection.adapter_name} is not yet supported here"
+    end
+    sql = "SELECT #{dates}, count(pages.id) " +
+     "FROM pages JOIN group_participations ON pages.id = group_participations.page_id " +
+     "WHERE group_participations.group_id = #{id}"
+    unless allows?(user, :view)
+      sql += " AND pages.public = 1"
+    end
+    sql += " GROUP BY year, month ORDER BY year, month"
+    months = Page.connection.select_all(sql)
+    months.each {|m| m['month'].gsub!(/^0/,'')}
+    months
+  end
+
+  def sqlite_months_string
+    "strftime('%m', created_at) AS month, strftime('%Y', created_at) AS year"
+  end
+
+  def mysql_months_string
+    "MONTH(pages.created_at) AS month, YEAR(pages.created_at) AS year"
+  end
+
   ####################################################################
   ## relationship to other groups
 
@@ -311,4 +340,13 @@ class Group < ActiveRecord::Base
     Page.connection.execute "UPDATE pages SET `group_name` = '#{self.name}' WHERE pages.group_id = #{self.id}"
   end
     
+  after_create :clear_user_caches
+  after_destroy :clear_user_caches
+
+  def clear_user_caches
+    parent.users.each do |u|
+      u.clear_cache
+    end if parent
+  end
+ 
 end

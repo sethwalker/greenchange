@@ -152,32 +152,6 @@ class GroupsControllerTest < Test::Unit::TestCase
 #    post :invite, :user => 'blue'
   end
     
-  def test_archive_logged_in
-    login_as :blue
-
-    get :archive, :id => groups(:rainbow).name
-    assert_response :success, 'logged in, member of group should succeed'
-    assert_template 'archive'
-    assert_not_nil assigns(:months)
-    assert assigns(:group).valid?
-    
-    get :archive, :id => groups(:public_group).name
-    assert_response :success, 'public group, logged in, should be found'
-    assert assigns(:group).valid?
-
-    get :archive, :id => groups(:private_group).name
-    assert_template 'show_nothing', 'private group, logged in, should not be found'
-  end
-
-  def test_archive_not_logged_in
-    get :archive, :id => groups(:public_group).name    
-    assert_response :success
-    assert_template 'archive'
-    
-    get :archive, :id => groups(:private_group).name
-    assert_template 'show_nothing'
-  end
-
   def test_member_of_committee_but_not_of_group_cannot_access_group_pages
     User.current = nil
     g = Group.create :name => 'riseup'

@@ -49,5 +49,5 @@ class Committee < Group
     update_attribute(:parent_id, p.id)
     parent_name_change
   end
- 
+
 end

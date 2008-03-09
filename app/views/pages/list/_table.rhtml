@@ -38,5 +38,6 @@ checkbox ||= false
 <% end -%>
 </table>
 
-<%= pagination 'section', sections %>
+<%= pagination 'section', sections if sections%>
+<%= will_paginate(@pages, :param_name => :section) if @pages.respond_to?(:page_count) %>
 

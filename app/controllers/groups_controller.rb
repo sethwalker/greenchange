@@ -9,14 +9,14 @@ class GroupsController < ApplicationController
   layout :choose_layout
   stylesheet 'groups'
   
-  prepend_before_filter :find_group, :except => ['list','create','index']
+  prepend_before_filter :find_group, :except => ['list','new','create','index']
   
   before_filter :login_required,
     :except => [:list, :index, :show, :search, :archive, :tags]
   before_filter :authorized_to_view?, :only => :archive
     
   verify :method => :post,
-    :only => [:destroy, :update ]
+    :only => [:create, :update, :destroy]
 
   def initialize(options={})
     super()
@@ -33,10 +33,6 @@ class GroupsController < ApplicationController
     set_banner "groups/banner_search", Style.new(:background_color => "#1B5790", :color => "#eef")
   end
 
-  def media
-  	@pages = @group.pages  
-  end
-
   def show
     return render(:template => 'groups/show_nothing') unless @group.allows?(current_user, :view)
     @pages = @group.pages.allowed(current_user, :view).find(:all, :order => 'pages.updated_at DESC', :limit => 20)
@@ -44,54 +40,90 @@ class GroupsController < ApplicationController
     @wiki = @group.page
   end
 
-  def visualize
-    unless logged_in? and current_user.member_of?(@group)
-      message( :error => 'you do not have permission to do that', :later => true )
-      redirect_to url_for_group(@group)
+  def new
+  end
+
+  # login required
+  def create
+    raise 'must call new' if request.get?
+
+    @parent = Group.find(params[:parent_id]) if params[:parent_id]
+    if @parent and not current_user.member_of?(@parent)
+      message( :error => 'you do not have permission to do that'.t, :later => true )
+      redirect_to url_for_group(@parent)
     end
 
-    # return xhtml so that svg content is rendered correctly --- only works for firefox (?)    
-    response.headers['Content-Type'] = 'application/xhtml+xml'       
+    if @parent
+      @group = Committee.new(params[:group])
+      @group.parent = @parent
+    else
+      @group = Group.new(params[:group])
+    end
+
+    unless @group.save
+      message :object => @group
+      render :action => :new and return
+    end
+
+    message :success => 'Group was successfully created.'.t
+    @group.memberships.create :user => current_user, :group => @group
+    redirect_to url_for_group(@group)
+  end
+
+  # login required
+  def edit
+    if request.post? 
+      if @group.update_attributes(params[:group])
+        redirect_to :action => 'edit', :id => @group
+        message :success => 'Group was successfully updated.'
+      else
+        message :object => @group
+      end
+    end
+  end
+    
+  # login required
+  # post required
+  def update
+    @group.update_attributes(params[:group])
+    redirect_to :action => 'show', :id => @group
+  end
+  
+  # login required
+  # post required
+  def destroy
+    if @group.users.uniq.size > 1 or @group.users.first != current_user
+      message :error => 'You can only delete a group if you are the last member'
+      redirect_to :action => 'show', :id => @group
+    else
+      @group.destroy
+      if @group.parent
+        redirect_to url_for_group(@group.parent)
+      else
+        redirect_to :action => 'list'
+      end
+    end
+  end  
+     
+  def media
+  	@pages = @group.pages  
   end
 
   def archive
-    #XXX: this belongs in the model
-    case Page.connection.adapter_name
-    when "SQLite"
-      dates = "strftime('%m', created_at) AS month, strftime('%Y', created_at) AS year"
-    when "MySQL"
-      dates = "MONTH(pages.created_at) AS month, YEAR(pages.created_at) AS year"
-    else
-      raise "#{Article.connection.adapter_name} is not yet supported here"
-    end
-
-    sql = "SELECT #{dates}, count(pages.id) " +
-     "FROM pages JOIN group_participations ON pages.id = group_participations.page_id " +
-     "JOIN user_participations ON pages.id = user_participations.id " +
-     "WHERE group_participations.group_id = #{@group.id} "
-    unless current_user.may_admin?(@group)
-      sql += " AND (pages.public = 1#{' OR user_participations.user_id = %d' % current_user.id if logged_in?}) "
-    end
-    sql += "GROUP BY year, month ORDER BY year, month"
-    @months = Page.connection.select_all(sql)
+    @months = @group.months_with_pages_viewable_by_user(current_user)
     
     unless @months.empty?
-      @current_year = (Date.today).year 
-      @start_year = @months[0]['year'] || @current_year.to_s
-      @current_month = (Date.today).month
+      @year = params[:path] ? params[:path][0] : @months.last['year']
+      @month = params[:path] ? params[:path][1] : @months.last['month']
 
-      @path = params[:path] || []
-      @parsed = parse_filter_path(params[:path])
-      unless @parsed.keyword?('month')
-        @path << 'month' << @months.last['month'] #@current_month
-        @parsed << [ 'month', @months.last['month'] ]
-      end
-      unless @parsed.keyword?('year')
-        @path << 'year' << @months.last['year'] #@current_year
-        @parsed << [ 'year', @months.last['year'] ]
-      end
-
-      @pages, @sections = Page.find_and_paginate_by_path(@path, options_for_group(@group))
+      @pages = @group.pages.
+        allowed(current_user).
+        created_in_year(@year).
+        created_in_month(@month).
+        paginate(:all, 
+                 :conditions => 'pages.flow IS NULL', 
+                 :order => 'updated_at DESC', 
+                 :page => params[:page])
     end
   end
   
@@ -121,84 +153,23 @@ class GroupsController < ApplicationController
 
   def tasks
     @stylesheet = 'tasks'
-    @pages, @sections = Page.find_and_paginate_by_path('type/task/pending', options_for_group(@group))
-    @task_lists = @pages.collect{|page|page.data}
+    @task_lists = @group.pages.allowed(current_user, :view).page_type('Tool::TaskList').find(:all, :conditions => ["pages.resolved = ?", false]).collect{|page| page.data}
   end
 
-  # login required
-  def create
-    set_banner "groups/banner_search", Style.new(:background_color => "#1B5790", :color => "#eef")
-
-    @parent = Group.find(params[:parent_id]) if params[:parent_id]
-    if @parent and not current_user.member_of?(@parent)
-      message( :error => 'you do not have permission to do that'.t, :later => true )
-      redirect_to url_for_group(@parent)
+  def visualize
+    unless logged_in? and current_user.member_of?(@group)
+      message( :error => 'you do not have permission to do that', :later => true )
+      redirect_to url_for_group(@group)
     end
 
-    if request.post?
-      if @parent
-        @group = Committee.new(params[:group])
-        @group.parent = @parent
-      else
-        @group = Group.new(params[:group])
-      end
-
-      if @group.save
-        message :success => 'Group was successfully created.'.t
-        @group.memberships.create :user => current_user, :group => @group
-        if @parent
-          @parent.users.each do |u|
-            u.clear_cache
-          end
-        end
-        redirect_to url_for_group(@group)
-      else
-        message :object => @group
-      end
-    end
+    # return xhtml so that svg content is rendered correctly --- only works for firefox (?)    
+    response.headers['Content-Type'] = 'application/xhtml+xml'       
   end
 
-  # login required
-  def edit
-    if request.post? 
-      if @group.update_attributes(params[:group])
-        redirect_to :action => 'edit', :id => @group
-        message :success => 'Group was successfully updated.'
-      else
-        message :object => @group
-      end
-    end
-  end
-    
-  # login required
-  # post required
-  def update
-    @group.update_attributes(params[:group])
-    redirect_to :action => 'show', :id => @group
-  end
-  
-  # login required
-  # post required
-  def destroy
-    if @group.users.uniq.size > 1 or @group.users.first != current_user
-      message :error => 'You can only delete a group if you are the last member'
-      redirect_to :action => 'show', :id => @group
-    else
-      parent = @group.parent
-      @group.destroy
-      if parent
-        parent.users.each {|u| u.clear_cache}
-        redirect_to url_for_group(parent)
-      else
-        redirect_to :action => 'list'
-      end
-    end
-  end  
-     
   protected
   
   def choose_layout
-     return 'application' if ['list','index', 'create'].include? params[:action]
+     return 'application' if ['list','index', 'new'].include? params[:action]
      return 'groups'
   end
   
@@ -216,7 +187,7 @@ class GroupsController < ApplicationController
 
   #this is a terrible method, but this is a better place than find_group
   def authorized_to_view?
-    unless @group and (@group.publicly_visible_group or current_user.may_admin?(@group)) ##committees need to be handled better
+    unless @group and (@group.publicly_visible_group or @group.allows?(current_user, :view)) ##committees need to be handled better
       render :template => 'groups/show_nothing'
       return false
     end
@@ -226,7 +197,7 @@ class GroupsController < ApplicationController
   def authorized?
 
     non_members_post_allowed = %w(archive search tags tasks create)
-    non_members_get_allowed = %w(show members) + non_members_post_allowed
+    non_members_get_allowed = %w(new show members) + non_members_post_allowed
     if request.get? and non_members_get_allowed.include? params[:action]
       return true
     elsif request.post? and non_members_post_allowed.include? params[:action]
