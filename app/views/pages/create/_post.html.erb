@@ -1,0 +1,18 @@
+<h3>Posts</h3>
+<div class="page-class"><%= link_to "<b>blog</b>: A blog posting",
+    {:controller => 'tool/blog', :action => 'create',
+     :id => 'Blog', :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/message.png}) no-repeat 0% 50%", :class => 'page-link'} %></div>
+<div class="page-class"><%= link_to "<b>news</b>: A news article",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>
+<div class="page-class"><%= link_to "<b>wiki</b>: A free-form text document",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>
+    
+<div class="page-class"><%= link_to "<b>document</b>: an pdf or other document",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>

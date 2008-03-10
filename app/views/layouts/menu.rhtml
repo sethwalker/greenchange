@@ -45,6 +45,9 @@
     <span><%= link_to "Media", '/media' %></span>
   </li>
 
+  <li <%= selected if active == 'news' %> >
+    <span><%= link_to "News", '/news' %></span>
+  </li>  
   
   <% if logged_in? -%>
   <li <%= selected if active == 'me' %> >

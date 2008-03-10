@@ -1,0 +1,20 @@
+<h3>Media</h3>
+<div class="page-class"><%= link_to "<b>photo</b>: an photo",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>
+    
+<div class="page-class"><%= link_to "<b>audio</b>: an audio file",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>
+
+<div class="page-class"><%= link_to "<b>video</b>: a video from an external service",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>
+    
+<div class="page-class"><%= link_to "<b>photo gallery</b>: an collection of pictures",
+    {:controller => 'tool/', :action => 'create',
+      :group_id => params[:group_id]},
+    {:style => "background: url(/images/pages/big/.png) no-repeat 0% 50%", :class => 'page-link'} %></div>
