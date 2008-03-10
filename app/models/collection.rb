@@ -13,5 +13,4 @@ class Collection < ActiveRecord::Base
     return page.name if page
     permission.to_s.humanize if permission
   end
-
 end
