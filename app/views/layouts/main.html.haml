@@ -1,0 +1,10 @@
+#maincolumn
+  #content
+    = render :partial => 'shared/location'
+    #titlebox
+      = yield :title
+    = yield
+
+  #bar
+    = render 'layouts/sidebar'
+  %br.clear

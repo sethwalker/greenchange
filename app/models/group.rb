@@ -126,6 +126,7 @@ class Group < ActiveRecord::Base
       raise Exception.new("don't call << on group.users");
     end
   end
+  alias :members :users
   
   def user_ids
     @user_ids ||= memberships.collect{|m|m.user_id}

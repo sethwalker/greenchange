@@ -8,7 +8,7 @@ including join requests.
 =end
 
 class MembershipController < ApplicationController
-  layout 'groups'
+  #layout 'groups'
   stylesheet 'groups'
   helper 'groups', 'application'
     

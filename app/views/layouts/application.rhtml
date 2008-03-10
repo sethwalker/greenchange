@@ -12,6 +12,7 @@
   <%= stylesheet_link_tag 'navigation' %>
   <%= stylesheet_link_tag 'page' %>
   <%= stylesheet_link_tag 'ui' %>
+  <%= stylesheet_link_tag 'sidebar' %>
   <%= stylesheet_link_tag 'print', :media => 'print' %>
   <%= stylesheet_link_tag stylesheet if stylesheet %>
   <%= stylesheet_link_tag 'greenchange' %>
@@ -32,7 +33,7 @@
 
     <div id="main">
         <%= render :partial => 'shared/messages' %>
-        <%= yield %>
+        <%= render 'layouts/main' %>
     </div>
 
     <div id="footer">

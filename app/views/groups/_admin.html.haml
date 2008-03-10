@@ -1,0 +1,5 @@
+- if logged_in? && current_user.may_admin?(@group)
+  = link_to 'edit settings', groups_url(:action => 'edit', :id => @group, :path => nil)
+  = link_to 'view requests', groups_url(:action => 'requests', :id => @group, :path => nil)
+  = link_to 'destroy group', groups_url(:action => 'destroy', :id => @group, :path => nil)
+

@@ -35,7 +35,8 @@ div#rightbar {
 div.sidesection {
   margin-bottom: 1em;
   border: 1px solid white;
-  background: #eee; }
+  background: #eee;
+  padding-bottom: 4px; }
   div.sidesection img {
     vertical-align: top; }
 
@@ -51,21 +52,26 @@ div.sideline {
   div.sideline a:hover {
     text-decoration: underline; }
 
-div.sidelink {
+.sidelink {
   padding: 3px 0 3px 9px; }
-  div.sidelink a {
+  .sidelink a {
     text-decoration: none; }
-  div.sidelink a:hover {
+  .sidelink a:hover {
     text-decoration: underline; }
+  .sidelink:selected {
+    font-weight: bold; }
+  .sidelink:hover {
+    background: #cdf; }
 
-div.sidelink.selected {
-  font-weight: bold; }
-
-div.sidelink:hover {
-  background: #cdf; }
-
-div.sidetail {
-  height: 4px; }
+div.sidesection a.action {
+  padding: 3px 0 3px 9px;
+  text-decoration: none;
+  display: block; }
+  div.sidesection a.action:hover {
+    text-decoration: underline;
+    background: #cdf; }
+  div.sidesection a.action:selected {
+    font-weight: bold; }
 
 div.sidesubhead {
   border-bottom: 1px dotted #999;

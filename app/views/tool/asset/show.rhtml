@@ -39,11 +39,11 @@
 <% end -%>
 </table>
 
-<p><%= link_line(
-  link_to("download %s" % @asset.filename, @asset.public_filename),
-  link_to_function("upload a new version", "$('upload-new').toggle()"),
-  link_to_function("view versions", "$('versions').toggle()")
-  ) %></p>
+<p><div class='link-line'>
+  <%= link_to("download %s" % @asset.filename, @asset.public_filename, :class => 'first' ) %>
+  <%= link_to_function("upload a new version", "$('upload-new').toggle()") %>
+  <%= link_to_function("view versions", "$('versions').toggle()") %>
+</div></p>
 
 <style>
   td.busy {

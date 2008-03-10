@@ -1,14 +1,13 @@
 - @rightbar ||= 'groups/sidebar'
 - inside_layout 'application' do
 
-  #maincolumn.rightbar{ :style => sidebar_space }
-    = sidebar
-    = render :partial => 'banner_large'
-
+  #maincolumn
     #content
-      - if title = yield( :title )
-        #titlebox
-          = title
+      = render :partial => 'banner_large'
+      #titlebox
+        = yield :title
       = yield
 
+    #bar
+      = render 'layouts/sidebar'
     %br{ :clear => "all" }

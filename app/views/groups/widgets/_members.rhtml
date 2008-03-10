@@ -4,4 +4,8 @@
 (no members)
 <% end -%>
 <br style='clear:both'/>
-<%= link_line(more_members_link, invite_link, requests_link) %>
+<div class='link-line'>
+  <%= more_members_link( :class => 'first') %>
+  <%= invite_link %>
+  <%= requests_link %>
+</div>

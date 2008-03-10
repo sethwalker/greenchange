@@ -1,0 +1,13 @@
+- unless current_user.member_of? @group
+  /public tools
+  .sidelink
+    = link_to_icon 'join group', 'actions/plus.png', groups_url(:action => 'join', :id => @group, :path => nil)
+- else
+  / member tools
+  .sidelink
+    = link_to_icon 'create page','actions/plus.png', {:controller => '/pages', :action => 'create', :group_id => @group.id}
+  .sidelink
+    = link_to_icon 'send invite', 'actions/announce.png',groups_url(:action => 'invite', :id => @group, :path => nil)
+  .sidelink
+    = link_to_icon 'leave group', 'actions/minus.png', groups_url(:action => 'leave', :id => @group, :path => nil)
+

@@ -1,21 +1,3 @@
-<% if @group.committee? -%>
-<table>
-<tr>
-  <td align='left'>
-    <%= avatar_for @group.parent, 'xsmall' %>
-    <b><%= link_to_group @group.parent %></b>
-  </td>
-</tr>
-<tr>
-  <td align='left' valign='top'>
-    <div id='l-shape'></div>
-    <%= avatar_for @group, 'small' %>
-    <b><%= link_to_group @group %></b> <%=h @group.summary %>
-  </td>
-</tr>
-</table>
-<% else -%>
-<div id='banner'>
 <table>
 <% unless controller.action_name =='show' %>
 <tr>
@@ -28,4 +10,3 @@
 </tr>	
 </table>
 </div>
-<% end -%>
