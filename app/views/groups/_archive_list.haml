@@ -1,6 +1,7 @@
 - current_year = (Date.today).year 
 - start_year = @months[0]['year'] if @months[0]
 - start_year ||= current_year.to_s
+
 %blockquote
   - unless @months.empty? 
     %table.archive-calendar
