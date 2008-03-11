@@ -34,11 +34,11 @@ module ToolCreation
   end
 
   def get_group(options = {})
-    return unless options[:group_name] || options[:group_id]
+    return if options[:group_name].empty? && options[:group_id].empty?
     if options[:group_name]
       return Group.get_by_name(options[:group_name]) || raise(Exception.new('no such group %s' % options[:group_name]))
     end
-    Group.find_by_id(options[:group_id]) || debugger# raise(Exception.new('no such group'))
+    Group.find_by_id(options[:group_id])
   end
   
   def get_users
