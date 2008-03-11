@@ -105,9 +105,11 @@ class MembershipController < ApplicationController
   end
   
   def requests
-    path = 'descending/created_at'
-    options = options_for_group(@group, :flow => :membership)
-    @pages, @sections = Page.find_and_paginate_by_path(path, options)
+    @pages = @group.pages.
+      allowed(current_user).
+      paginate(:page => params[:section], 
+               :order => "created_at DESC", 
+               :conditions => ["pages.flow = ?", FLOW[:membership]])
     @columns = [:title, :created_by, :created_at, :contributors_count]
   end
   

@@ -151,4 +151,24 @@ describe GroupsController do
       response.should be_success
     end
   end
+
+  describe "tags" do
+    before do
+      user = login_valid_user 
+      @group = create_valid_group
+      @group.memberships.create :user => user
+      @page = create_valid_page
+      @page.tag_with 'tagish'
+      @group.pages << @page
+      @group.member_collection << @page
+    end
+    it "should not die" do
+      get :tags, :id => @group.name, :path => ['tagish']
+      assigns[:pages].should include(@page)
+    end
+    it "should be a paginated collection" do
+      get :tags, :id => @group.name, :path => ['tagish']
+      assigns[:pages].should be_a_kind_of(WillPaginate::Collection)
+    end
+  end
 end

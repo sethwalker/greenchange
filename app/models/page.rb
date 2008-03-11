@@ -9,21 +9,66 @@
 class Page < ActiveRecord::Base
   acts_as_modified
 
-  has_finder :allowed, Proc.new { |user,perm| 
-    allowed_collectings = Collecting.allowed(user,perm).find( :all, :conditions => [ 'collectable_type = ?', self.name] )
-    { :conditions => ["pages.id IN (?)", allowed_collectings.map(&:collectable_id) ] }
-    
-    #logger.debug( "### found collecting ids : %s" % Collecting.allowed(user,perm).find(:all, :conditions => ['collectable_type = ?', self.class.to_s.downcase ] ).map(&:collectable_id).join( ", ") )
-    #logger.warn "'allowed' finder not yet implemented"
-    #{} 
-  }
+  has_finder :allowed, 
+    Proc.new { |user,perm| 
+      allowed_collectings = Collecting.allowed(user,perm).find( :all, :conditions => [ 'collectable_type = ?', self.name] )
+      { :conditions => ["pages.id IN (?)", allowed_collectings.map(&:collectable_id) ] }
+    }
 
-  has_finder :created_in_month, lambda {|month| {:conditions => ["#{Page.sql_month('pages.created_at')} = ?", month]}}
-  has_finder :created_in_year,  lambda {|year|  {:conditions => ["#{Page.sql_year('pages.created_at')} = ?", year]}}
+  #note, don't use finders that depend on user_participations for a specific users starred pages, use user.pages_starred, etc instead
+  has_finder :starred?, 
+    Proc.new {|starred| 
+      starred ? {:include => :user_participations, :conditions => ["user_participations.star = ?", true]} : {}
+    }
 
-  has_finder :page_type, lambda {|page_type| {:conditions => page_type.is_a?(Enumerable) ? ["pages.type IN (?)", page_type] : ["pages.type = ?", page_type]}}
+  has_finder :pending?, 
+    Proc.new {|pending| pending ? {:conditions => ["pages.resolved = ?", false]} : {}}
+
+  has_finder :created_in_month, 
+    Proc.new {|month| 
+      month ? {:conditions => ["#{Page.sql_month('pages.created_at')} = ?", month]} : {}
+    }
+
+  has_finder :created_in_year,  
+    Proc.new {|year| 
+      year ? {:conditions => ["#{Page.sql_year('pages.created_at')} = ?", year]} : {}
+    }
+
+  has_finder :created_by, 
+    Proc.new {|user| user ? {:conditions => ["created_by_id = ?", user]} : {}}
+
+  has_finder :viewable_in_group,
+    Proc.new {|group, user| 
+      group = Group.find(group) if group && !group.is_a?(Group)
+      user  = User.find(user) if user && !user.is_a?(User)
+      if group
+        if user 
+#          {:include => :collections, :conditions => ["collections.id IN (?)", group.collections_viewable_by_user(user)]}
+          $stderr.puts('hey') if RAILS_ENV='test'
+        else
+          {:include => :collection, :conditions => ["collections.id IN (?)", group.collection_ids]}
+        end
+      else
+        {}
+      end
+    }
+
+  has_finder :page_type, 
+    Proc.new {|page_type| 
+      page_types = [page_type].flatten.map {|t| t =~ /^Tool::/ ? t : Page.class_group_to_class_names(t) }.flatten
+      page_types.any? ? {:conditions => ["pages.type IN (?)", page_types]} : {}
+    }
 
   has_finder :public, {:conditions => ["pages.public = ?", true]}
+
+  has_finder :tagged, 
+    lambda {|*tags| 
+      Tag
+      tags.any? ? {:include => :tags, :conditions => ["tags.name IN (?)", *tags]} : {}
+    }
+
+  has_finder :text, 
+    Proc.new {|text| text ? {:conditions => ["pages.title LIKE ?", "%#{text}%"]} : {}}
   
   #TODO: move to general purpose
   def self.sql_month(expr)

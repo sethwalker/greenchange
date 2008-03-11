@@ -95,6 +95,11 @@ class Group < ActiveRecord::Base
     SELECT DISTINCT tags.* FROM tags INNER JOIN taggings ON tags.id = taggings.tag_id
     WHERE taggings.taggable_type = 'Page' AND taggings.taggable_id IN
       (SELECT pages.id FROM pages INNER JOIN group_participations ON pages.id = group_participations.page_id
+      WHERE group_participations.group_id = #{id})],
+    :counter_sql => %q[
+    SELECT COUNT(*) FROM tags INNER JOIN taggings ON tags.id = taggings.tag_id
+    WHERE taggings.taggable_type = 'Page' AND taggings.taggable_id IN
+      (SELECT pages.id FROM pages INNER JOIN group_participations ON pages.id = group_participations.page_id
       WHERE group_participations.group_id = #{id})]
   
   # name stuff

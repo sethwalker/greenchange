@@ -15,6 +15,8 @@ module PathFinder
   module FindByPath
   
     def find_and_paginate_by_path(path, options={})
+      Crabgrass::Deprecation.warn('find_and_paginate_by_path is deprecated, use the finders on page + will_paginate')
+=begin
       pages_per_section = options[:section_size] || ::SECTION_SIZE
       current_section   = options[:section] || 1
       offset            = (current_section - 1) * pages_per_section 
@@ -31,6 +33,7 @@ module PathFinder
       )
       
       [pages, page_sections]
+=end
     end
     
     def count_by_path(path, options={})

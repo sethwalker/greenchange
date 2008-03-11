@@ -16,7 +16,6 @@ heading: show heading if set to true.
 <%
 
 pages ||= @pages
-sections ||= @sections
 columns ||= (@columns || [:icon, :title, :updated_by, :updated_at, :contributors_count])
 heading ||= false
 checkbox ||= false
@@ -38,6 +37,4 @@ checkbox ||= false
 <% end -%>
 </table>
 
-<%= pagination 'section', sections if sections%>
 <%= will_paginate(@pages, :param_name => :section) if @pages.respond_to?(:page_count) %>
-

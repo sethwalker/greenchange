@@ -24,5 +24,11 @@ describe "SocialUser" do
     @user.all_group_ids.should == [ group.id ]
   end
 
+  it "should be able to access pending pages" do
+    p = create_valid_page
+    @user.pages << p
+    @user.participations.detect {|up| up.page_id = p.id }.update_attribute :resolved, false
+    @user.pages_pending.should include(p)
+  end
 
 end

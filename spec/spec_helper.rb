@@ -66,14 +66,15 @@ Spec::Runner.configure do |config|
     valid_group = Group.create({:name => 'valid_group'}.merge(options))
   end
 
-  def create_valid_group
-    valid_group = Group.create :name => 'valid_group'
-  end
-
   def login_valid_user( options = {} )
     current_user = create_valid_user( options )
-    User.current = current_user
-    controller.stub!(:current_user).and_return(current_user)
+    login_user(current_user)
+    current_user
+  end
+
+  def login_user(user)
+    User.current = user
+    controller.stub!(:current_user).and_return(user)
   end
 end
 

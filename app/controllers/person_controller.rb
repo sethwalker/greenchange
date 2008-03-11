@@ -23,8 +23,7 @@ class PersonController < ApplicationController
   end
 
   def search
-    options = options_for_participation_by(@user)
-    @pages, @sections = Page.find_and_paginate_by_path params[:path], options
+    @pages = @user.pages.allowed(current_user).paginate(:page => params[:section])
     @columns = [:icon, :title, :group, :updated_by, :updated_at, :contributors]
   end
 

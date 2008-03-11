@@ -129,15 +129,28 @@ class GroupsController < ApplicationController
   
   def search
     if request.post?
-      path = build_filter_path(params[:search])
-      redirect_to groups_url(:id => @group, :action => 'search') + path   
+      return redirect_to(groups_url(:id => @group, :action => 'search') + 
+        build_filter_path(params[:search]))
+    end
+
+    path = (params[:path].dup if params[:path]) || []
+    should_be_starred = path.delete('starred')
+    should_be_pending = path.delete('pending')
+    options = Hash[*path.flatten]
+
+    @pages = @group.pages.allowed(current_user).
+      starred?(should_be_starred).
+      pending?(should_be_pending).
+      page_type(options['type']).
+      created_by(options['person']).
+      created_in_month(options['month']).
+      created_in_year(options['year']).
+      text(options['text'])
+
+    if parsed_path.sort_arg?('created_at') or parsed_path.sort_arg?('created_by_login')    
+      @columns = [:icon, :title, :created_by, :created_at, :contributors_count]
     else
-      @pages, @sections = Page.find_and_paginate_by_path(params[:path], options_for_group(@group))
-      if parsed_path.sort_arg?('created_at') or parsed_path.sort_arg?('created_by_login')    
-        @columns = [:icon, :title, :created_by, :created_at, :contributors_count]
-      else
-        @columns = [:icon, :title, :updated_by, :updated_at, :contributors_count]
-      end
+      @columns = [:icon, :title, :updated_by, :updated_at, :contributors_count]
     end
 
     handle_rss :title => @group.name, :description => @group.summary,
@@ -146,9 +159,7 @@ class GroupsController < ApplicationController
   end
   
   def tags
-    tags = params[:path] || []
-    path = tags.collect{|a|['tag',a]}.flatten
-    @pages, @sections = Page.find_and_paginate_by_path(path, options_for_group(@group))
+    @pages = @group.pages.allowed(current_user).tagged(params[:path]).paginate(:page => params[:section])
   end
 
   def tasks

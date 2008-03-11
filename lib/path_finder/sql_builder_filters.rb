@@ -156,7 +156,8 @@ class PathFinder::SqlBuilder < PathFinder::Builder
       @conditions << "taggings#{@tag_count}.tag_id = ?"
       @values << tag.id
     else
-      @conditions << "FALSE"
+      @conditions << "?"
+      @values << false
     end
   end
   

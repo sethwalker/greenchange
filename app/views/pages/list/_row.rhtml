@@ -6,12 +6,11 @@
   columns ||= [:icon, :title, :updated_by, :updated_at, :contributors_count]
   page = row
   upart = page.flag[:user_participation]
-  gpart = page.flag[:group_participation]
   color = cycle('shade-odd', 'shade-even')
 -%>
 <tr class="<%= color %> <%= 'unread' if upart and !upart.viewed? %>">
 <% columns.each do |column| -%>
-  <td><%= page_list_cell(page, column, upart || gpart) %></td>
+  <td><%= page_list_cell(page, column, upart) %></td>
 <% end -%>
 </tr>
 <% if upart and upart.notice -%>

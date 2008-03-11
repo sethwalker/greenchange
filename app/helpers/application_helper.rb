@@ -6,7 +6,6 @@ module ApplicationHelper
   include Formy                 # helps create forms
   include LayoutHelper
   include LinkHelper
-  include WindowedPaginationHelper
   include TimeHelper
   include PathFinder::Options   # for Page.find_by_path options
     
@@ -167,9 +166,6 @@ module ApplicationHelper
       title += " " + image_tag("emblems/star.png", :size => "11x11", :title => 'star') if participation.star?
     else
       title += " " + image_tag("emblems/pending.png", :size => "11x11", :title => 'pending') unless page.resolved?
-    end
-    if page.flag[:new]
-      title += " <span class='newpage'>#{'new'.t}</span>"
     end
     return title
   end

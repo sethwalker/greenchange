@@ -9,10 +9,23 @@ class InboxController < ApplicationController
       update
     else
       path = params[:path]
-      path = ['starred','or','unread','or','pending'] if path.first == 'vital'
-      path << 'descending' << 'updated_at'
-      @pages, @sections = Page.find_and_paginate_by_path(path, options_for_inbox)
-      add_user_participations(@pages)
+
+      if path.first == 'unread'
+        @pages = current_user.pages_unread.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC", :include => :user_participations)
+      elsif path.first == 'pending'
+        @pages = current_user.pages_pending.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")
+      elsif path.first == 'starred'
+        @pages = current_user.pages_starred.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC", :include => :user_participations)
+      elsif path.first == 'vital'
+        @pages = current_user.vital_pages.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC", :include => :user_participations)
+      elsif path.first == 'type'
+        @pages = current_user.pages.page_type(Page.class_group_to_class_names(path[1])).paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")
+      else
+        @pages = current_user.pages.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC", :include => :user_participations)
+      end
+
+      @pages.each { |page| page.flag[:user_participation] = page.user_participations.first }
+
       handle_rss  :title => 'Crabgrass Inbox', :link => '/me/inbox',
                  :image => avatar_url(:id => @user.avatar_id||0, :size => 'huge')
     end
@@ -60,18 +73,4 @@ class InboxController < ApplicationController
     me_context('large')
     add_context 'inbox'.t, url_for(:controller => 'inbox', :action => 'index')
   end
-  
-  # given an array of pages, find the corresponding user_participation records
-  # and associate each participtions with the correct page.
-  # afterwards, page.flag[:user_participation] should hold current_user's
-  # participation for page.
-  def add_user_participations(pages)
-    pages_by_id = {}
-    pages.each{|page|pages_by_id[page.id] = page}
-    uparts = UserParticipation.find(:all, :conditions => ['user_id = ? AND page_id IN (?)',current_user.id,pages_by_id.keys])
-    uparts.each do |part|
-      pages_by_id[part.page_id].flag[:user_participation] = part
-    end
-  end
-  
 end

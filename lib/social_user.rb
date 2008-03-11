@@ -412,11 +412,11 @@ module SocialUser
       base.instance_eval do
         has_many :participations, :class_name => 'UserParticipation', 
           :after_add => :update_tag_cache, :after_remove => :update_tag_cache
-        has_many :pages, :through => :participations do
-          def pending
-            find(:all, :conditions => ['resolved = ?',false], :order => 'happens_at' )
-          end
-        end
+        has_many :pages, :through => :participations
+        has_many :pages_pending, :through => :participations, :source => :page, :conditions => ["user_participations.resolved = ?", false]
+        has_many :pages_unread, :through => :participations, :source => :page, :conditions => ["user_participations.viewed = ?", false]
+        has_many :pages_starred, :through => :participations, :source => :page, :conditions => ["user_participations.star = ?", true]
+        has_many :vital_pages, :through => :participations, :source => :page, :conditions => ["user_participations.star = ? OR user_participations.resolved = ? OR user_participations.viewed = ?", true, false, false]
         
         has_many :pages_created,
           :class_name => "Page", :foreign_key => :created_by_id 

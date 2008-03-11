@@ -10,19 +10,31 @@ class MeController < ApplicationController
     
   def search
     if request.post?
-      path = build_filter_path(params[:search])
-      redirect_to me_url(:action => 'search') + path   
-    else
-      @pages, @sections = Page.find_and_paginate_by_path(params[:path], options_for_me)
-      if parsed_path.sort_arg?('created_at') or parsed_path.sort_arg?('created_by_login')    
-        @columns = [:icon, :title, :group, :created_by, :created_at, :contributors_count]
-      else
-        @columns = [:icon, :title, :group, :updated_by, :updated_at, :contributors_count]
-      end
-      full_url = me_url(:action => 'search') + '/' + String(parsed_path)
-      handle_rss :title => full_url, :link => full_url,
-                 :image => avatar_url(:id => @user.avatar_id||0, :size => 'huge')
+      return redirect_to(me_url(:action => 'search') + build_filter_path(params[:search]))
     end
+
+    path = (params[:path].dup if params[:path]) || []
+    should_be_starred = path.delete('starred')
+    should_be_pending = path.delete('pending')
+    options = Hash[*path.flatten]
+    @pages = current_user.pages.
+      starred?(should_be_starred).
+      pending?(should_be_pending).
+      created_by(options['person']).
+      viewable_in_group(options['group'], current_user).
+      created_in_month(options['month']).
+      created_in_year(options['year']).
+      text(options['text']).
+      paginate(:page => params[:section])
+
+    if parsed_path.sort_arg?('created_at') or parsed_path.sort_arg?('created_by_login')    
+      @columns = [:icon, :title, :group, :created_by, :created_at, :contributors_count]
+    else
+      @columns = [:icon, :title, :group, :updated_by, :updated_at, :contributors_count]
+    end
+    full_url = me_url(:action => 'search') + '/' + String(parsed_path)
+    handle_rss :title => full_url, :link => full_url,
+               :image => avatar_url(:id => @user.avatar_id||0, :size => 'huge')
   end
   
   def dashboard
