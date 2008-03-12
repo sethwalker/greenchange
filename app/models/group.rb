@@ -245,7 +245,8 @@ class Group < ActiveRecord::Base
 
       AuthorizedSystem::Role.new # default role
     else
-      AuthorizedSystem::Role.new( membership_for(user).role )
+      membership = membership_for(user)
+      AuthorizedSystem::Role.new( membership.nil? ? '' : membership.role )
     end
   end
 
