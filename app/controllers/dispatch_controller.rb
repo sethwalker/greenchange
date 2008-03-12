@@ -148,7 +148,7 @@ class DispatchController < ApplicationController
     else
       options = options_for_public_pages
     end
-    Page.find_by_path ["name",name], options
+    Page.allowed(current_user).find_all_by_name(name)
   end
   
   def controller_for_list_of_pages(name)

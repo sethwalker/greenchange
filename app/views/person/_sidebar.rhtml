@@ -89,7 +89,7 @@ offline
 <div class='sidesection'>
 <div class='sidehead'>Bookmarks/Favorites</div>
 
-<% faves = Page.find_by_path('starred/descending/starts_at/limit/5', options_for_participation_by(@user))
+<% faves = @user.pages_starred.allowed(current_user).find(:all, :order => "starts_at DESC", :limit => 5)
 columns = [:icon, :title]
 %>
 <%= render :partial => 'pages/list/table', :locals => {:pages => faves, :columns => columns} %>

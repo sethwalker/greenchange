@@ -52,12 +52,12 @@ class MeController < ApplicationController
 
   def page_list
     return false unless request.xhr?
-    @pages = Page.find_by_path('descending/updated_at/ascending/group_name/limit/40', options_for_me)
+    @pages = Page.in_network(current_user).allowed(current_user).find(:all, :order => "updated_at DESC, group_name ASC", :limit => 40)
     render :layout => false
   end
   
   def files
-    @pages = Page.find_by_path('type/asset', options_for_me)
+    @pages = Page.in_network(current_user).allowed(current_user).page_type('asset')
     @assets = @pages.collect {|page| page.data }
   end
 
@@ -66,15 +66,15 @@ class MeController < ApplicationController
     filter = params[:id] || 'my-pending'
     if filter =~ /^all-(.*)/
       completed = $1 == 'completed'
-      @pages = Page.find_by_path('type/task', options_for_me)
+      @pages = Page.in_network(current_user).allowed(current_user).page_type('task')
       @task_lists = @pages.collect{|page|page.data}
       @show_user = 'all'
       @show_status = completed ? 'completed' : 'pending'
     elsif filter =~ /^group-(.*)/
       # show tasks from a particular group
       groupid = $1
-      options = options_for_pages_viewable_by(current_user)
-      @pages = Page.find_by_path("type/task/group/#{groupid}", options_for_me)
+      @group = Group.find groupid
+      @pages = @group.pages.page_type('task').allowed(current_user)
       @task_lists = @pages.collect{|page|page.data}
       @show_user = 'all'
       @show_status = 'pending'

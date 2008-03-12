@@ -29,10 +29,7 @@ class PersonController < ApplicationController
 
   def tasks
     @stylesheet = 'tasks'
-    options = options_for_participation_by(@user)
-    options[:conditions] += " AND user_participations.resolved = ?"
-    options[:values] << false
-    @pages = Page.find_by_path(['type','task-list'], options)
+    @pages = Page.in_network(@user).allowed(current_user).page_type('task-list').find(:all, :conditions => ["user_participations.resolved = ?", false])
     @task_lists = @pages.collect{|p|p.data}
   end
     

@@ -12,8 +12,15 @@ class Page < ActiveRecord::Base
   has_finder :allowed, 
     Proc.new { |user,perm| 
       allowed_collectings = Collecting.allowed(user,perm).find( :all, :conditions => [ 'collectable_type = ?', self.name] )
-      { :conditions => ["pages.id IN (?)", allowed_collectings.map(&:collectable_id) ] }
+      { :conditions => ["pages.public = ? OR pages.id IN (?)", true, allowed_collectings.map(&:collectable_id) ] }
     }
+
+
+  has_finder :in_network,
+    lambda {|user| {:include => [:group_participations, :user_participations], :conditions => ["user_participations.user_id = ? OR group_participations.group_id IN (?)", user.id, user.all_group_ids]}}
+
+
+  has_finder :changed, {:conditions => "pages.updated_at > pages.created_at"}
 
   #note, don't use finders that depend on user_participations for a specific users starred pages, use user.pages_starred, etc instead
   has_finder :starred?, 
