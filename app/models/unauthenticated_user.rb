@@ -25,7 +25,7 @@ class UnauthenticatedUser
 
   def method_missing(method, *args)
     return false if method.to_s =~ /^may/
-    raise PermissionDenied
+    raise PermissionDenied, "#{method} not allowed for #{self.class}"
   end
 
   def contacts

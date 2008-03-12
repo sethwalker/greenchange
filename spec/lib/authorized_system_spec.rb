@@ -5,6 +5,7 @@ describe "AuthorizedSystem" do
   before do
     @user = create_valid_user
     @group = create_valid_group
+    @auth = AuthorizedSystem.access_policy
   end
 
   it "should issue anonymous access by default" do
@@ -47,5 +48,14 @@ describe "AuthorizedSystem" do
 
     wiki = Page.make :wiki, {:user => @user, :group => @group, :name => 'TestWikiResource'}
     policy.allows?(:view, wiki).should be_true
+  end
+
+  it "should recognize assets as page resources" do
+    page = create_valid_page :data => create_valid_asset, :type => 'Tool::Asset'
+    @auth.normalize_resource( page ).should == :page
+  end
+  it "should recognize wikis as page resources" do
+    wiki = Page.make :wiki, {:user => @user, :group => @group, :name => 'TestWikiResource'}
+    @auth.normalize_resource( wiki ).should == :wiki
   end
 end

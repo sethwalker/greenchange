@@ -84,20 +84,22 @@ class CommitteeTest < Test::Unit::TestCase
     g = Group.create :name => 'riseup'
     c = Committee.create :name => 'outreach'
     g.committees << c
-    u = User.create :login => 'user'
-    c.memberships.create :user => u
-    c.save
+    u = User.create :login => 'user', :password => 'jjjj', :password_confirmation => 'jjjj', :email => 'jjj@jjjj.com' 
+    u.profiles.build( :first_name => 'cheese', :last_name => 'mouser', :friend => true )
+    u.save!
+    c.memberships.create! :user => u
+    c.save!
 
     group_page = Page.create :title => 'a group page', :public => false
     group_page.add(g, :access => :admin)
-    group_page.save
+    group_page.save!
     committee_page = Page.create :title => 'a committee page', :public => false, :group => c
     committee_page.add(c, :access => :admin)
-    committee_page.save
+    committee_page.save!
 
     # of course, this doesn't seem to be the way we do it anyway
-    assert c.may?(:view, committee_page), "should be able to view committee page"
-    assert !c.may?(:view, group_page), "should not be able to view group page"
+    assert u.may?(:view, committee_page), "should be able to view committee page"
+    assert !u.may?(:view, group_page), "should not be able to view group page"
   end
 end
 

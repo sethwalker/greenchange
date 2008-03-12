@@ -27,6 +27,7 @@ class Tool::AssetControllerTest < Test::Unit::TestCase
     page = create_page :data => asset
     page.data.uploaded_data = fixture_file_upload(File.join('files','photos.png'), 'image/png')
     page.data.save
+    assert_equal page.class_display_name, 'file'
     assert File.exists?(page.data.full_filename)
     assert File.exists?(version_filename = page.data.versions.find_by_version(1).full_filename)
     

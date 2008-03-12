@@ -48,12 +48,14 @@ module AuthorizedSystem
         resource = :system
       elsif resource.is_a? Group
         resource = :group
-      elsif resource.respond_to? :class_display_name
+      elsif resource.try( :class_display_name ) #and resource.class_display_name
         resource = resource.class_display_name
+      elsif resource.is_a? Page
+        resource = :page
       end
+      resource = :system if resource.nil?
 
-      resource = resource.to_sym if not resource.is_a? Symbol
-      resource
+      resource.to_sym
     end
 
     # add an action to the list of allowed actions on given resource
