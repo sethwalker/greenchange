@@ -5,6 +5,6 @@ class CollectionsForAll < ActiveRecord::Migration
   end
 
   def self.down
-    Collection.delete_all :conditions => ['user_id IS NOT ? OR group_id IS NOT ?', nil, nil ]
+    Collection.find( :all, :conditions => ['user_id IS NOT ? OR group_id IS NOT ?', nil, nil ]).each(&:destroy)
   end
 end

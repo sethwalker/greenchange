@@ -19,7 +19,7 @@ describe ProfileController do
   end
 
   it "should allow group admin to edit group profile" do
-    @group = mock_model(Group)
+    @group = mock_model(Group, :role_for => AuthorizedSystem::Role.new( :member ))
     stub_login {|u| u.should_receive(:member_of?).with(@group).and_return(true) }
     setup_profile do |p| 
       p.should_receive(:entity).and_return(@group)
@@ -30,7 +30,7 @@ describe ProfileController do
   end
 
   it "should not allow non group admin to edit group profile" do
-    @group = mock_model(Group)
+    @group = mock_model(Group, :role_for => AuthorizedSystem::Role.new( :member ))
     stub_login {|u| u.should_receive(:member_of?).with(@group).and_return(false) }
     setup_profile do |p|
       p.should_receive(:entity).and_return(@group)

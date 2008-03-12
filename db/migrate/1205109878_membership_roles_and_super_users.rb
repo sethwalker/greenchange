@@ -1,6 +1,6 @@
 class MembershipRolesAndSuperUsers < ActiveRecord::Migration
   def self.up
-    add_column :memberships,    :role,          :string,    :limit => 20
+    add_column :memberships,    :role,          :string,    :limit => 20, :default => 'member'
     add_column :users,          :superuser,     :boolean,   :default => 0
   end
 

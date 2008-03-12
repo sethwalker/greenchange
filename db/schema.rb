@@ -239,7 +239,7 @@ ActiveRecord::Schema.define(:version => 1205176570) do
     t.integer  "user_id"
     t.integer  "page_id"
     t.datetime "created_at"
-    t.string   "role",       :limit => 20
+    t.string   "role",       :limit => 20, :default => "member"
   end
 
   add_index "memberships", ["group_id", "user_id", "page_id"], :name => "index_memberships"
