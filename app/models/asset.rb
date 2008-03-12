@@ -70,7 +70,7 @@ class Asset < ActiveRecord::Base
   end
 
   def update_access
-    if is_public?
+    if public?
       FileUtils.ln_s(full_dirpath, public_dirpath) unless File.exists?(public_dirpath)
     else
       remove_symlink
@@ -82,10 +82,11 @@ class Asset < ActiveRecord::Base
     FileUtils.rm_f(public_dirpath) if File.exists?(public_dirpath)
   end
   
-  def is_public?
+  def public?
     return true unless page
     return page.public?
   end
+  alias :is_public? :public?
 
   def public_filename(thumbnail = nil)
     "/assets/#{id}/#{thumbnail_name_for(thumbnail)}"
