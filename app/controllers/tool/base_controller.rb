@@ -88,7 +88,8 @@ class Tool::BaseController < ApplicationController
   # this needs to be fleshed out for each action
   def authorized?
     if @page
-      current_user.may?(:admin, @page)
+      #current_user.may?(:admin, @page)
+      current_role.allows? action_name, @page
     else
       true
     end

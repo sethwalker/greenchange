@@ -48,9 +48,11 @@ class GroupsController < ApplicationController
     raise 'must call new' if request.get?
 
     @parent = Group.find(params[:parent_id]) if params[:parent_id]
-    if @parent and not current_user.member_of?(@parent)
-      message( :error => 'you do not have permission to do that'.t, :later => true )
-      redirect_to url_for_group(@parent)
+    unless current_user.superuser?
+      if @parent and not current_user.member_of?(@parent)
+        message( :error => 'you do not have permission to do that'.t, :later => true )
+        redirect_to url_for_group(@parent)
+      end
     end
 
     if @parent
@@ -66,7 +68,9 @@ class GroupsController < ApplicationController
     end
 
     message :success => 'Group was successfully created.'.t
-    @group.memberships.create :user => current_user, :group => @group
+
+    # group creator is its default administrator (TODO: is this assumption true???)
+    @group.memberships.create :user => current_user, :group => @group, :role => 'administrator'
     redirect_to url_for_group(@group)
   end
 
@@ -206,15 +210,15 @@ class GroupsController < ApplicationController
   end
   
   def authorized?
-
     non_members_post_allowed = %w(archive search tags tasks create)
     non_members_get_allowed = %w(new show members) + non_members_post_allowed
+
     if request.get? and non_members_get_allowed.include? params[:action]
       return true
     elsif request.post? and non_members_post_allowed.include? params[:action]
       return true
     else
-      return(logged_in? and current_user.member_of? @group)
+      return(logged_in? and @group.allows?(current_user, params[:action]))
     end
   end    
   

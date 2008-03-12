@@ -121,6 +121,10 @@ class User < ActiveRecord::Base
   def online?
     last_seen_at > 10.minutes.ago if last_seen_at
   end
+
+  def superuser?
+    superuser == 1
+  end
   
   def time_zone
     read_attribute(:time_zone) || DEFAULT_TZ

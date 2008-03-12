@@ -28,7 +28,11 @@ class MembershipController < ApplicationController
     
     unless @group.users.any?
       # if the group has no users, then let the first person join.
-      @group.memberships.create :user => current_user
+
+      # TODO: how could this happen if users are auto-added to groups they create?
+      # just in case, first user to join a group becomes its admin
+      @group.memberships.create :user => current_user, :group => @group, :role => 'administrator'
+
       message :success => 'You are the first person in this group'
       redirect_to :action => 'show', :id => @group
       return
@@ -45,7 +49,7 @@ class MembershipController < ApplicationController
       render :action => 'show'
     end
   end
-  
+
   ###### MEMBER ACTIONS #########################################################
   
   # leave this group

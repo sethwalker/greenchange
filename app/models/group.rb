@@ -32,11 +32,6 @@
 
 class Group < ActiveRecord::Base
 
-  def allows?(user, perm)
-    logger.warn("'Group#allows?' not yet implemented")
-    return publicly_visible_group || user.member_of?(self)
-  end
-
   #track_changes :name
   acts_as_modified
 
@@ -216,6 +211,9 @@ class Group < ActiveRecord::Base
     page.changed :groups
   end
   
+=begin
+  # not really used, and now superseded by the role/policy based
+  # authorization
   def may?(perm, page)
     begin
        may!(perm,page)
@@ -230,6 +228,32 @@ class Group < ActiveRecord::Base
     gparts = page.participation_for_groups(group_and_committee_ids)
     return true if gparts.any?
     raise PermissionDenied
+  end
+=end
+
+  # the group is responsible for a given user's membership
+  def membership_for(user)
+    memberships.find(:first,
+        :conditions => ["user_id = ? AND group_id = ?", user.id, id]
+    )
+  end
+
+  def role_for(user)
+    unless user.direct_member_of? self
+      # TODO: a special role for indirect memberships?
+      # user.member_of? self
+
+      AuthorizedSystem::Role.new # default role
+    else
+      AuthorizedSystem::Role.new( membership_for(user).role )
+    end
+  end
+
+  # check if user has permission to perform action. the optional resource
+  # will be used if given, otherwise the :group resource is used.
+  def allows?(user, action, resource = nil)
+    return true if user.superuser?
+    role_for(user).allows?(action, resource.nil? ? :group : resource)
   end
 
   def months_with_pages_viewable_by_user(user)

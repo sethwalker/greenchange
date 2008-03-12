@@ -15,6 +15,10 @@ class UnauthenticatedUser
     false
   end
 
+  def superuser?
+    false
+  end
+
   def method_missing(method, *args)
     return false if method.to_s =~ /^may/
     raise PermissionDenied

@@ -129,11 +129,21 @@ module SocialUser
         end
       end
 
-      # eventually, we will have group admins.
-      # for now, we can just make this return true
-      # for all members
+      # determine if user has the right to admin the given group.
+      # it's bass ackwards to ask the user if they may admin anything
+      # but it works, for now.
       def may_admin?(group)
-        member_of?(group)
+        # super users can do anything
+        return true if superuser?
+
+        # otherwise, user must be a direct group member...
+        if direct_member_of? group
+          # ...and have an administrator role
+          return true if group.role_for(self) == 'administrator'
+        end
+
+        # all other cases, no can do.
+        return false
       end
         
       def check_duplicate_memberships(membership)
@@ -433,7 +443,7 @@ module SocialUser
         return false
       end
     end
-    
+
     # basic permissions:
     #   :view or :read -- user can see the page.
     #   :edit or :change -- user can participate.
