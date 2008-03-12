@@ -28,4 +28,19 @@ describe MeController do
       assigns[:pages].should_not be_nil
     end
   end
+
+  describe "counts" do
+    before do
+      xhr :get, :counts
+    end
+    it "should set request count" do
+      assigns[:request_count].should_not be_nil
+    end
+    it "should set unread count" do
+      assigns[:unread_count].should_not be_nil
+    end
+    it "should set pending count" do
+      assigns[:pending_count].should_not be_nil
+    end
+  end
 end

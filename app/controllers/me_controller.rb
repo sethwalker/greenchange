@@ -42,11 +42,9 @@ class MeController < ApplicationController
 
   def counts
     return false unless request.xhr?
-    options = options_for_me(:flow => [:membership,:contacts])
-    path = "/type/request/pending/not_created_by/#{current_user.id}"
-    @request_count = Page.count_by_path(path, options)
-    @unread_count  = Page.count_by_path('unread',  options_for_inbox)
-    @pending_count = Page.count_by_path('pending', options_for_inbox)
+    @request_count = Page.in_network(current_user).pending?.page_type('Tool::Request').count :conditions => ["pages.flow IN (?) AND pages.created_by_id <> ?", [FLOW[:memberships], FLOW[:contacts]], current_user.id]
+    @unread_count = current_user.pages_unread.count
+    @pending_count = current_user.pages_pending.count
     render :layout => false
   end
 

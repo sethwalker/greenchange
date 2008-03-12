@@ -143,11 +143,6 @@ class DispatchController < ApplicationController
   end
   
   def find_pages_with_unknown_context(name)
-    if logged_in?
-      options = options_for_me
-    else
-      options = options_for_public_pages
-    end
     Page.allowed(current_user).find_all_by_name(name)
   end
   
