@@ -14,7 +14,7 @@ class RequestsController < ApplicationController
 
   before_filter :login_required
   before_filter :fetch_user
-  layout 'me'
+  #layout 'me'
 
   def index
     @my_pages = current_user.pages_created.find(:all, :conditions => ["pages.flow IN (?)", [FLOW[:contacts], FLOW[:membership]]], :order => "pages.created_at DESC", :limit => 20)

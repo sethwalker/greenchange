@@ -1,3 +1,4 @@
+@import colors
 .handle
   :cursor move
 
@@ -161,26 +162,25 @@ ul.tabset.left
 ul.tabset.top
   :font-size 11px
   :padding 0 0 0 0.75em
-  li
-    :height 1.7em
-    :padding 2px
-    :list-style url(http://www.greenchange.org/img/arrow-bullet.gif)
+  :display block
+  :border-top = 2px solid !topmenu_container_bg
   li.tab
     :float left
-    :padding 1px
     :margin 0
-  li.tab.selected
-    :border 1px solid #999
+    :list-style none
   a.tab-link
+    :background url(/images/arrow-bullet.gif)  no-repeat 2px 3px #b3b3b3
+    :float left
     :display block
     :text-decoration none
     :padding 0 1em
-    :color white
+    :color = !topmenu_container_border
     :text-transform uppercase
+    :font-weight bold
   a.selected
+    :border 1px solid #999
     :outline 1px solid white
     :color black
-    :height 2em
 
 table.layout
   :margin-top 2em

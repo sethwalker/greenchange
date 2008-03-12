@@ -55,10 +55,10 @@ class GroupsControllerTest < Test::Unit::TestCase
 
   def test_get_create
     login_as :gerrard
-    get :create
+    get :new
 
     assert_response :success
-    assert_template 'create'
+    assert_template 'new'
     assert_select "form#createform"
   end
 

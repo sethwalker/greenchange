@@ -29,7 +29,6 @@ class Tool::MessageController < Tool::BaseController
   
   def setup_view
     @show_reply = true
-    @show_attach = true
   end
   
 end

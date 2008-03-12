@@ -2,7 +2,7 @@ class InboxController < ApplicationController
  
   before_filter :login_required
  
-  layout 'me'
+  #layout 'me'
 
   def index
     if request.post?

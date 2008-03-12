@@ -18,6 +18,10 @@ class Tool::Request < Page
       end 
     end
   end
+
+  def accepts_tags?
+    false 
+  end
   
 end
 

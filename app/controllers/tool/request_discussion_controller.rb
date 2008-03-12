@@ -9,9 +9,7 @@ class Tool::RequestDiscussionController < Tool::BaseController
   
   def setup_view
     @show_reply = true
-    @show_attach = false
     @show_links = false
-    @show_tags = false
   end
   
 end

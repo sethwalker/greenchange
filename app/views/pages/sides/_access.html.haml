@@ -1,0 +1,6 @@
+.sidesection
+  .sidehead
+    access
+  = render :partial => 'pages/shared/access'
+  = link_to 'access details', {:controller => 'pages', :action => 'access', :id => @page.id}, :title => 'edit page access', :class => 'sidedetails'
+

@@ -394,4 +394,20 @@ class Page < ActiveRecord::Base
     PageStork.send(function, options)
   end
 
+  #######################################
+  ## USER behavior
+  def starred_by?( user )
+    !user_participations.find( :first, "user_id = ? and starred IS NOT ?", user, nil ).nil?
+  end
+
+  # is this page taggable
+  def accepts_tags?
+    true
+  end
+
+  # does this page allow attachments?
+  def accepts_attachments?
+    [ Event, Wiki, Message, Discussion, Blog ].any? { |klass| self.data && self.data.is_a?( klass ) }
+  end
+
 end

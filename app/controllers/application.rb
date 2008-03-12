@@ -55,7 +55,7 @@ class ApplicationController < ActionController::Base
         flash.now[:error] = _("Changes could not be saved.")
         flash.now[:text] ||= ""
         flash.now[:text] += "<p>#{_('There are problems with the following fields')}:</p>"
-        flash.now[:text] += "<ul>" + object.errors.full_messages.collect { |msg| "<li>#{msg}</li>"} + "</ul>"
+        flash.now[:text] += "<ul>" + object.errors.full_messages.collect { |msg| "<li>#{msg}</li>"}.join(' ') + "</ul>"
         flash.now[:errors] = object.errors
       end
     end

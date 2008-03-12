@@ -46,8 +46,6 @@ class Tool::RequestController < Tool::BaseController
   end
   
   def setup_view
-    @show_tags = false
-    @show_attach = false
     @show_links = false
   end
   

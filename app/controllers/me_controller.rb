@@ -3,6 +3,7 @@ class MeController < ApplicationController
   before_filter :login_required
   before_filter :fetch_user
   stylesheet 'me'
+  layout 'application'
 
   def index
     redirect_to :action => 'dashboard'

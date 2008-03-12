@@ -3,8 +3,12 @@
     = render :partial => 'shared/location'
     #titlebox
       = yield :title
+
     = yield
+
+    = render :partial => 'shared/content_footer'
 
   #bar
     = render 'layouts/sidebar'
+
   %br.clear

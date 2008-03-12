@@ -19,4 +19,16 @@ class UnauthenticatedUser
     return false if method.to_s =~ /^may/
     raise PermissionDenied
   end
+
+  def contacts
+    BlankAssociation.new
+  end
+  alias :groups :contacts
+
+  class BlankAssociation < Array
+    def find( *args )
+      return nil unless ( args[0] == :all )
+      []
+    end
+  end
 end

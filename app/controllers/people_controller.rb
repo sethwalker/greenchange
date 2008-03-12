@@ -10,6 +10,7 @@ For processing a single user, see PersonController.
 =end
 
 class PeopleController < ApplicationController
+  layout 'application'
   
   def index
     list

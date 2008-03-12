@@ -1,12 +1,14 @@
-<%  online = person.respond_to?(:online?) && person.online? ? 'online' : '' %>
-<div class='iconboxes'>
- <div class='iconbox inline <%=online%>'>
-    <%= link_to avatar_for(person, 'xsmall', :class=>'iconbox'), url_for_user(person) %>
-    <div class='hover'>
-      <%= link_to avatar_for(person, 'small', :class=>'bigiconbox'), url_for_user(person) %>
-      <div class='text'>
-        <span><%= link_to person.display_name, url_for_user(person) %></span>
+<% if person %>
+  <%  online = person.respond_to?(:online?) && person.online? ? 'online' : '' %>
+  <div class='iconboxes'>
+   <div class='iconbox inline <%=online%>'>
+      <%= link_to avatar_for(person, 'xsmall', :class=>'iconbox'), url_for_user(person) %>
+      <div class='hover'>
+        <%= link_to avatar_for(person, 'small', :class=>'bigiconbox'), url_for_user(person) %>
+        <div class='text'>
+          <span><%= link_to person.display_name, url_for_user(person) %></span>
+        </div>
       </div>
     </div>
-  </div>
- </div>
+   </div>
+<% end %>

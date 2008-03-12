@@ -2,7 +2,7 @@
 <!-- <div class='sidehead'>Navigation</div> -->
 
 <div class='sidelink'>
-<% if @is_contact -%>
+<% if current_user.contacts.include? @user -%>
 <%= link_to_icon 'remove from my contacts', 'actions/minus.png',  url_for(:controller => 'contact', :action => 'remove', :id => @user) %>
 <% elsif logged_in? and !current_user.contacts.include?(@user) -%>
   <%= link_to_icon 'add to my contacts', 'actions/plus.png', url_for(:controller => 'contact', :action => 'add', :id => @user) %>

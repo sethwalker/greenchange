@@ -22,5 +22,9 @@ module GroupsContentHelper
   def pages_by_month
   end
 
+  def promo_for(group)
+    group.pages.find(:first, :order => "updated_at DESC") if group
+  end
+
 end
 

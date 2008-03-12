@@ -95,7 +95,6 @@ class Tool::WikiController < Tool::BaseController
   end
   
   def setup_view
-    @show_attach = true
   end
   
 end

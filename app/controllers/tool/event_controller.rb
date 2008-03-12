@@ -99,7 +99,6 @@ class Tool::EventController < Tool::BaseController
   end
   
   def setup_view
-    @show_attach = true
   end
   
   # set the right time format for the event

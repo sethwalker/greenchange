@@ -1,2 +1,7 @@
 - if @group
   = render :partial => 'groups/banner_large'
+- if %w- me requests inbox my_calendar -.include? controller.controller_name
+  = render :partial => 'me/tabs'
+- if @page
+  - content_for :title do
+    = render :partial => 'pages/title'

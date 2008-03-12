@@ -41,5 +41,11 @@ class Discussion < ActiveRecord::Base
 #  def editable_by?(user)
 #    user && (user.id == user_id || user.admin? || user.moderator_of?(forum_id))
 #  end
+  def accepts_tags?
+    (page && page.accepts_tags? )
+  end
   
+  def accepts_attachments?
+    (page && page.accepts_attachments? )
+  end
 end

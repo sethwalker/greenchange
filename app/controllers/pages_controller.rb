@@ -33,6 +33,7 @@ class PagesController < ApplicationController
   
   before_filter :login_required, :except => 'search'
   prepend_before_filter :fetch_page
+  layout 'application'
 
   # if this controller is called by DispatchController,
   # then we may be passed some objects that are already loaded.

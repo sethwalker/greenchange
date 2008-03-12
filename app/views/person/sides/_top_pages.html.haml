@@ -1,0 +1,7 @@
+.sidesection
+  .sidehead
+    Bookmarks/Favorites
+  - faves = Page.find_by_path('starred/descending/starts_at/limit/5', options_for_participation_by(@user))
+  - columns = [:icon, :title]
+  = render :partial => 'pages/list/table', :locals => {:pages => faves, :columns => columns}
+

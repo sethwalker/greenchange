@@ -1,4 +1,4 @@
-  <% if @show_attach -%>
+  <% if @page.accepts_attachments? -%>
     <% if @page.assets.any? -%>
       <div class='sidesection'>
       <div class='sidehead'>attachments</div>

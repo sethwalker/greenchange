@@ -132,11 +132,6 @@ class MembershipController < ApplicationController
     end
   end
   
-  before_filter :setup_sidebar
-  def setup_sidebar
-    @leftbar = 'sidebar'
-  end
-  
   def authorized?
     non_members_post_allowed = %w(join)
     non_members_get_allowed = %w(list) + non_members_post_allowed

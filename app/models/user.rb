@@ -33,11 +33,17 @@ class User < ActiveRecord::Base
   #TODO this make this reflect real policies
   def restricted_collection_ids(perm=:view)
     if perm == :view 
-      ( [ private_collection.id, social_collection.id ] + 
-        contacts.map{ |c| c.social_collection.id }  +
-        groups.map    { |g| g.member_collection.id } ) 
+      collection_ids = []
+      collection_ids << private_collection.id if private_collection
+      collection_ids << social_collection.id if social_collection
+      collection_ids +
+        (
+        ( ( self.contacts.inject([]){ |collection_ids, c| collection_ids << c.social_collection.id if c.social_collection })  || [] )  +
+        (( self.groups.inject([]){ |collection_ids, g| collection_ids << g.member_collection.id if g.member_collection } ) || [] ) 
+        )
     else
-      User.collections.map{ |name, accessor| send(accessor).id }
+      self.collections.map(&:id)
+      #User.collections.inject{ |name, accessor| send(accessor).id }
     end
   end
 

@@ -54,7 +54,6 @@ class Tool::AssetController < Tool::BaseController
   end
   
   def setup_view
-    @show_attach = false
     @show_posts = true
   end
   

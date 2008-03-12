@@ -1,2 +1,23 @@
 - if @group
-  = render :partial => 'groups/sidebar'
+  = render :partial => 'groups/sides/members'
+  = render :partial => 'groups/sides/chat'
+  = render :partial => 'groups/sides/media'
+  = render :partial => 'groups/sides/tools'
+  = render :partial => 'groups/sides/admin'
+
+- if @issue
+  = render :partial => 'issues/sides/groups'
+  = render :partial => 'issues/sides/media'
+
+- if @page
+  = render :partial => 'pages/sides/access', :locals => { :page => @page }
+  = render :partial => 'pages/sides/contributors', :locals => { :page => @page }
+  = render :partial => 'pages/sides/tags', :locals => { :page => @page }
+  = render :partial => 'pages/sides/assets', :locals => { :page => @page }
+
+- if @user
+  = render :partial => 'person/sides/tools'
+  = render :partial => 'person/sides/contacts'
+  = render :partial => 'person/sides/groups'
+  = render :partial => 'person/sides/media'
+  = render :partial => 'person/sides/top_pages'

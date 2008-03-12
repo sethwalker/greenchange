@@ -10,7 +10,7 @@ see PeopleController.
 
 class PersonController < ApplicationController
   helper ProfileHelper
-  layout 'person'
+  layout 'application'
   
   def initialize(options={})
     super()
@@ -45,7 +45,6 @@ class PersonController < ApplicationController
   prepend_before_filter :fetch_user
   def fetch_user 
     @user ||= User.find_by_login params[:id] if params[:id]
-    @is_contact = (logged_in? and current_user.contacts.include?(@user))
     true
   end
   

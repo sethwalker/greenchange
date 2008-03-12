@@ -1,5 +1,4 @@
 class MyCalendarController < ApplicationController
-  layout 'me'
   before_filter :login_required
   
   def index

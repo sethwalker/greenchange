@@ -158,27 +158,26 @@ ul.tabset.left {
 
 ul.tabset.top {
   font-size: 11px;
-  padding: 0 0 0 0.75em; }
-  ul.tabset.top li {
-    height: 1.7em;
-    padding: 2px;
-    list-style: url(http://www.greenchange.org/img/arrow-bullet.gif); }
+  padding: 0 0 0 0.75em;
+  display: block;
+  border-top: 2px solid #a8cb1c; }
   ul.tabset.top li.tab {
     float: left;
-    padding: 1px;
-    margin: 0; }
-  ul.tabset.top li.tab.selected {
-    border: 1px solid #999; }
+    margin: 0;
+    list-style: none; }
   ul.tabset.top a.tab-link {
+    background: url(/images/arrow-bullet.gif)  no-repeat 2px 3px #b3b3b3;
+    float: left;
     display: block;
     text-decoration: none;
     padding: 0 1em;
-    color: white;
-    text-transform: uppercase; }
+    color: #8a9316;
+    text-transform: uppercase;
+    font-weight: bold; }
   ul.tabset.top a.selected {
+    border: 1px solid #999;
     outline: 1px solid white;
-    color: black;
-    height: 2em; }
+    color: black; }
 
 table.layout {
   margin-top: 2em; }

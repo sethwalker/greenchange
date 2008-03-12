@@ -29,6 +29,10 @@ module Crabgrass
         end
       end
 
+      def collections
+        self.class.collections.inject([]) { |all, name, accessor | all << self.send( accessor ) if self.send(accessor) }
+      end
+
     end
   end
 end
