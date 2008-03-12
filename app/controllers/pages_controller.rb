@@ -44,6 +44,17 @@ class PagesController < ApplicationController
   ##############################################################
   ## PUBLIC ACTIONS
   
+  def search
+    unless @pages
+      if logged_in?
+        options = options_for_me
+      else
+        options = options_for_public_pages
+      end
+      @pages, @page_sections = Page.find_and_paginate_by_path(params[:path], options)
+    end
+  end
+
   # a simple form to allow the user to select which type of page
   # they want to create. the actual create form is handled by
   # Tool::BaseController (or overridden by the particular tool). 
