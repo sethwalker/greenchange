@@ -1,5 +1,4 @@
-require File.dirname(__FILE__) + '/../test_helper'
-require 'spec'
+require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "Document Types" do
 
