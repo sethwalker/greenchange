@@ -14,7 +14,7 @@ class PersonController < ApplicationController
   
   def initialize(options={})
     super()
-    @user = options[:user]   # the user context, if any
+    @person = options[:user]   # the user context, if any
   end
   
   def show
@@ -23,13 +23,13 @@ class PersonController < ApplicationController
   end
 
   def search
-    @pages = @user.pages.allowed(current_user).paginate(:page => params[:section])
+    @pages = @person.pages.allowed(current_user).paginate(:page => params[:section])
     @columns = [:icon, :title, :group, :updated_by, :updated_at, :contributors]
   end
 
   def tasks
     @stylesheet = 'tasks'
-    @pages = Page.in_network(@user).allowed(current_user).page_type('task-list').find(:all, :conditions => ["user_participations.resolved = ?", false])
+    @pages = Page.in_network(@person).allowed(current_user).page_type('task-list').find(:all, :conditions => ["user_participations.resolved = ?", false])
     @task_lists = @pages.collect{|p|p.data}
   end
     
@@ -38,13 +38,13 @@ class PersonController < ApplicationController
   def context
     person_context
     unless ['show'].include? params[:action]
-      add_context params[:action], people_url(:action => params[:action], :id => @user)
+      add_context params[:action], people_url(:action => params[:action], :id => @person )
     end
   end
   
   prepend_before_filter :fetch_user
   def fetch_user 
-    @user ||= User.find_by_login params[:id] if params[:id]
+    @person ||= User.find_by_login params[:id] if params[:id]
     true
   end
   

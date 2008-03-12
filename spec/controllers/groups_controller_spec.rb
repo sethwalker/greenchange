@@ -39,21 +39,32 @@ describe GroupsController do
       describe "when a member" do
         before do
           @group.memberships.create(:user => @user)
-          user = stub_everything
-          user.stub!(:member_of?).and_return(true)
-          controller.stub!(:current_user).and_return(user)
+          @user.stub!(:member_of?).and_return(true)
+          @group.stub!(:allows?).and_return(true)
+          Group.stub!(:get_by_name).and_return(@group)
+          controller.stub!(:current_user).and_return(@user)
+        end
+        def act
           get :archive, :id => @group.name
         end
+        it "should not redirect" do
+          act
+          response.should_not be_redirect
+        end
         it "should be successful" do
+          act
           response.should be_success
         end
         it "should render archive template" do
+          act
           response.should render_template('groups/archive')
         end
         it "should have a valid group" do
+          act
           assigns[:group].should be_valid
         end
         it "months should not be nil" do
+          act
           assigns[:months].should_not be_nil
         end
       end

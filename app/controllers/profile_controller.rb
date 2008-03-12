@@ -2,7 +2,7 @@ class ProfileController < ApplicationController
 
   before_filter :login_required
   prepend_before_filter :fetch_profile
-  layout :choose_layout
+  #layout :choose_layout
   stylesheet 'profile'
   
   def show
@@ -65,7 +65,7 @@ class ProfileController < ApplicationController
     @profile = Profile.find params[:id]
     @entity = @profile.entity
     if @entity.is_a?(User)
-      @user = @entity
+      @profile = @entity
     elsif @entity.is_a?(Group)
       @group = @entity
     else
@@ -86,15 +86,6 @@ class ProfileController < ApplicationController
     end
   end
   
-  def choose_layout
-    if @user
-      return 'me'
-    elsif @group
-      return 'group'
-    else
-      return 'application'
-    end
-  end
   
   def context
     me_context('large')

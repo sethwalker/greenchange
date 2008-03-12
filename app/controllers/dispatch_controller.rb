@@ -41,7 +41,7 @@ class DispatchController < ApplicationController
     begin
       find_controller.process(request, response)
     rescue NameError
-      @user = current_user
+      #@user = current_user
       render :action => "not_found", :status => :not_found
     end
   end
@@ -70,7 +70,7 @@ class DispatchController < ApplicationController
         context.sub!(' ','+')
       end
       @group = Group.get_by_name(context) 
-      @user  = User.find_by_login(context) unless @group
+      #@user  = User.find_by_login(context) unless @group
     end
 
     if page_handle.nil?

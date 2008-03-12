@@ -6,7 +6,6 @@ class GroupsController < ApplicationController
   helper :profile
 
   
-  layout :choose_layout
   stylesheet 'groups'
   
   prepend_before_filter :find_group, :except => ['list','new','create','index']
@@ -182,11 +181,6 @@ class GroupsController < ApplicationController
   end
 
   protected
-  
-  def choose_layout
-     return 'application' if ['list','index', 'new'].include? params[:action]
-     return 'groups'
-  end
   
   def context
     group_context

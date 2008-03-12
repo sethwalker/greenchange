@@ -3,8 +3,6 @@
 class Tool::BaseController < ApplicationController
   include ToolCreation
 
-  layout :choose_layout
-  
   prepend_before_filter :fetch_page_data
   append_before_filter :login_or_public_page_required
   append_before_filter :setup_default_view
@@ -15,7 +13,7 @@ class Tool::BaseController < ApplicationController
   # via this initialize method.
   def initialize(options={})
     super()
-    @user = options[:user]   # the user context, if any
+    #@user = options[:user]   # the user context, if any
     @group = options[:group] # the group context, if any
     @page = options[:page]   # the page object, if already fetched
 
@@ -53,10 +51,6 @@ class Tool::BaseController < ApplicationController
 
   protected
 
-  def choose_layout
-    return 'application' if params[:action] == 'create'
-    return 'page'
-  end
   
   def update_participation
     if logged_in? and @page and params[:action] == 'show'
@@ -123,7 +117,7 @@ class Tool::BaseController < ApplicationController
   def context
     return true if request.xhr?
     @group ||= Group.find_by_id(params[:group_id]) if params[:group_id]
-    @user ||= User.find_by_id(params[:user_id]) if params[:user_id]
+    @person ||= User.find_by_id(params[:user_id]) if params[:user_id]
     @user ||= current_user 
     page_context
     true
