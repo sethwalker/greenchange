@@ -17,10 +17,6 @@ module LayoutHelper
     @breadcrumbs.first.first if @breadcrumbs.any?
   end
  
-  def first_context
-    @context.first.first if @context.any?
-  end
-
   #########################################
   # TITLE
   

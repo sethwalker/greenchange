@@ -24,6 +24,7 @@ class Tool::MessageController < Tool::BaseController
       redirect_to page_url(page)
     end
   end
+  alias :create :new
     
   protected
   

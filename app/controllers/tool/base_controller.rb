@@ -24,7 +24,7 @@ class Tool::BaseController < ApplicationController
     
   # the form to create this type of page
   # can be overridden by the subclasses
-  def create
+  def new 
     @page_class = Page.display_name_to_class(params[:id])
     if request.post?
       @page = create_new_page
@@ -36,6 +36,7 @@ class Tool::BaseController < ApplicationController
     end
     render :template => 'tool/base/create'
   end
+  alias :create :new
   
   def title
     return(redirect_to page_url(@page, :action => :show)) unless request.post?

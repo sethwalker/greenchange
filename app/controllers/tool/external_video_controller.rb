@@ -1,5 +1,5 @@
 class Tool::ExternalVideoController < Tool::BaseController
-  def create
+  def new 
     @page_class = Tool::ExternalVideo
     return unless request.post?
     @page = build_new_page
@@ -14,4 +14,5 @@ class Tool::ExternalVideoController < Tool::BaseController
 #      embed = klass.sanitize(params[:embed])
 #    end
   end
+  alias :create :new
 end

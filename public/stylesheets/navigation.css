@@ -1,61 +1,69 @@
 #topmenu {
   margin: 0;
   padding: 0;
-  list-style: none; }
+  list-style: none;
+  border-top: 1px solid;
+  border-color: #555500; }
   #topmenu ul {
     padding: 0;
     margin: 0;
     list-style: none; }
   #topmenu li {
-    padding: 4px 0 4px 0; }
-    #topmenu li span a {
+    padding: 0px 0 0px 0; }
+    #topmenu li a.menu-top {
       display: block;
-      color: #ffffff;
+      color: #e3edb9;
       text-decoration: none;
       text-transform: uppercase;
-      padding: 2px 6px;
-      font-weight: bold;
-      border: 1px solid transparent;
-      border-bottom: 0; }
+      margin-top: -1px;
+      padding: 5px 6px 4px 6px;
+      font-weight: bold; }
+    #topmenu li a.menu:hover {
+      background: #6a7b12;
+      color: #ffffff; }
     #topmenu li ul {
       position: absolute;
       left: -999em;
       z-index: 100;
-      background: #acd20e;
-      padding: 0 4em 2px 0; }
+      background: #80a010;
+      padding: 0;
+      border-bottom: 4px solid;
+      border-color: #6a7b12; }
       #topmenu li ul li {
         margin: 0 0 -2px 0;
-        padding: 2px 4px; }
+        padding: 0; }
         #topmenu li ul li a {
-          color: !topmenu_text;
+          color: #e3edb9;
           font-weight: bold;
-          padding: 4px;
+          padding: 4px 1.5em 4px 1em;
           display: block;
-          text-decoration: none; }
+          width: 8em;
+          text-decoration: none;
+          border-top: 1px solid;
+          border-color: #6a7b12; }
   #topmenu > li {
     float: left;
     margin: 0 4px;
-    position: relative;
-    top: 1px; }
+    position: relative; }
+    #topmenu > li.first {
+      margin-left: 10px; }
   #topmenu li:hover ul {
     left: auto; }
-    #topmenu li:hover ul li:hover {
-      background-color: #787824; }
-  #topmenu li:hover span a {
-    background: #787824;
+  #topmenu a.selected {
     color: #ffffff;
-    border-color: #ffffff; }
-  #topmenu li.selected span a {
-    color: #757e0f; }
-  #topmenu li.selected:hover span a {
+    background-color: #6a7b12;
+    border-top: 0;
+    border-left: 1px solid;
+    border-right: 1px solid;
+    border-color: #555500; }
+  #topmenu a.selected:hover {
     color: #ffffff;
-    background: #000000; }
+    background: #6a7b12; }
 
 #toprule {
-  border-top: 4px solid #8a9316;
-  background-color: #a8cb1c;
-  margin: 4px;
-  padding-left: 10px; }
+  border-top: 4px solid #6a7b12;
+  background-color: #80a010;
+  margin: 4px 4px 0px 4px; }
 
 div#banner {
   padding: 4px 10px;

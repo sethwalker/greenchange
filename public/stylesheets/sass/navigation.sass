@@ -3,61 +3,73 @@
   :margin 0
   :padding 0
   :list-style none
+  :border
+    :top 1px solid
+    :color = !topmenu_selected_border
   ul
     :padding 0
     :margin 0
     :list-style none
   li
-    :padding 4px 0 4px 0
-    span a
+    :padding 0px 0 0px 0
+    a.menu-top
       :display block
       :color = !topmenu_text
       :text-decoration none
       :text-transform uppercase
-      :padding 2px 6px
+      :margin-top -1px
+      :padding 5px 6px 4px 6px
       :font-weight bold
-      :border 1px solid transparent
-      :border-bottom 0
+    a.menu:hover
+      :background = !topmenu_bg_hover
+      :color = !topmenu_selected_text
     ul
       :position absolute
       :left -999em
       :z-index 100
       :background = !topmenu_bg
-      :padding 0 4em 2px 0
+      :padding 0 
+      :border
+        :bottom 4px solid
+        :color = !topmenu_container_border
       li
         :margin 0 0 -2px 0
-        :padding 2px 4px
+        :padding 0 
         a
-          :color !topmenu_text
+          :color = !topmenu_text
           :font-weight bold
-          :padding 4px
+          :padding 4px 1.5em 4px 1em
           :display block
+          :width 8em
           :text-decoration none
+          :border
+            :top 1px solid
+            :color = !topmenu_container_border
   > li
     :float left
     :margin 0 4px
     :position relative
-    :top 1px
+    &.first 
+      :margin-left 10px
   li:hover
     ul
       :left auto
-      li:hover
-        :background-color =  !topmenu_bg_hover
-    span a
-      :background = !topmenu_bg_hover
-      :color = !topmenu_text
-      :border-color = !topmenu_text
-  li.selected span a
+  a.selected 
     :color = !topmenu_selected_text
-  li.selected:hover span a
+    :background-color =  !topmenu_bg_hover
+    :border
+      :top 0
+      :left 1px solid
+      :right 1px solid
+      :color = !topmenu_selected_border
+  a.selected:hover
     :color = !topmenu_selected_text_hover 
     :background = !topmenu_selected_bg_hover 
 
 #toprule
   :border-top = 4px solid !topmenu_container_border
   :background-color = !topmenu_container_bg
-  :margin 4px
-  :padding-left 10px
+  :margin 4px 4px 0px 4px
 
 div#banner
   :padding 4px 10px

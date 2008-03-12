@@ -1,6 +1,6 @@
 %ul.tabset.top
   %li.tab
-    - selected = ( %w[ dashboard index ].include?(controller.action_name)) ? " selected" : ''  
+    - selected = ( controller.controller_name == 'me' and %w[ dashboard index ].include?(controller.action_name)) ? " selected" : ''  
     = link_to 'Dashboard', {:controller => 'me', :action => 'dashboard'}, :class => 'tab-link' + selected
   %li.tab
     - selected = ( controller.controller_name == 'inbox' ) ? ' selected' : ''
@@ -17,4 +17,4 @@
   %li.tab
     - selected = ( controller.action_name == 'edit' )   ? ' selected' : ''
     = link_to 'My Profile', { :controller => 'me', :action => 'edit' }, :class => 'tab-link' + selected
-
+.clear

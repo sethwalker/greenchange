@@ -5,7 +5,7 @@ class Tool::AssetController < Tool::BaseController
   end
 
   # note, massive duplication both here and in the view
-  def create
+  def new 
     @page_class = Tool::Asset
     if request.post?
       @page = create_new_page(@page_class)
@@ -24,6 +24,7 @@ class Tool::AssetController < Tool::BaseController
       end
     end
   end
+  alias :create :new
 
   def update
     @page.data.uploaded_data = params[:asset]

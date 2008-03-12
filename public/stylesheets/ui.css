@@ -158,26 +158,34 @@ ul.tabset.left {
 
 ul.tabset.top {
   font-size: 11px;
-  padding: 0 0 0 0.75em;
+  padding: .3em 0 .3em 0;
+  margin-top: .25em;
   display: block;
-  border-top: 2px solid #a8cb1c; }
+  border-top: 2px solid #80a010;
+  border-bottom: 2px solid #80a010;
+  float: left;
+  width: 100%; }
   ul.tabset.top li.tab {
     float: left;
-    margin: 0;
+    margin: 0 .5em;
     list-style: none; }
   ul.tabset.top a.tab-link {
-    background: url(/images/arrow-bullet.gif)  no-repeat 2px 3px #b3b3b3;
+    background: no-repeat 2px 3px;
+    background-image: url(/images/arrow-bullet-dark.gif);
     float: left;
     display: block;
     text-decoration: none;
-    padding: 0 1em;
-    color: #8a9316;
+    padding: 0 .8em 0 1.25em;
+    color: #6a7b12;
     text-transform: uppercase;
     font-weight: bold; }
+    ul.tabset.top a.tab-link:hover {
+      background-color: #e3edb9; }
   ul.tabset.top a.selected {
-    border: 1px solid #999;
-    outline: 1px solid white;
-    color: black; }
+    border-left: 1px solid;
+    border-right: 1px solid;
+    border-color: #6a7b12;
+    background-color: #e3edb9; }
 
 table.layout {
   margin-top: 2em; }

@@ -59,8 +59,9 @@ class PagesController < ApplicationController
   # a simple form to allow the user to select which type of page
   # they want to create. the actual create form is handled by
   # Tool::BaseController (or overridden by the particular tool). 
-  def create
+  def new
   end
+  alias :create :new
      
   def tag
     return unless request.xhr?

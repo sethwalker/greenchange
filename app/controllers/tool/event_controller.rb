@@ -2,7 +2,7 @@ require 'calendar_date_select'
 
 class Tool::EventController < Tool::BaseController
   append_before_filter :fetch_event
-  before_filter :login_required, :only => ['create', 'edit']
+  before_filter :login_required, :only => ['create', 'edit', 'new']
   
   #stylesheet 'event'
   
@@ -33,7 +33,7 @@ class Tool::EventController < Tool::BaseController
   end
 
 
-  def create
+  def new 
     @page_class = Tool::Event
     @event = ::Event.new   
     if request.post?
@@ -60,6 +60,7 @@ class Tool::EventController < Tool::BaseController
       end
     end
   end
+  alias :create :new
  
  def set_event_description
    @event.description =  params[:value]
