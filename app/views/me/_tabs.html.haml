@@ -1,20 +1,20 @@
 %ul.tabset.top
   %li.tab
     - selected = ( %w[ dashboard index ].include?(controller.action_name)) ? " selected" : ''  
-    = link_to 'Dashboard', 'me/dashboard', :class => 'tab-link' + selected
+    = link_to 'Dashboard', {:controller => 'me', :action => 'dashboard'}, :class => 'tab-link' + selected
   %li.tab
     - selected = ( controller.controller_name == 'inbox' ) ? ' selected' : ''
-    = link_to 'Inbox', 'me/inbox', :class => 'tab-link' + selected
+    = link_to 'Inbox', { :controller => 'inbox', :action => 'index'}, :class => 'tab-link' + selected
   %li.tab
     - selected = ( controller.action_name == 'tasks' )    ? ' selected' : ''
-    = link_to 'Tasks', 'me/tasks', :class => 'tab-link' + selected
+    = link_to 'Tasks', { :controller => 'me', :action => 'tasks' } , :class => 'tab-link' + selected
   %li.tab
     - selected = ( controller.action_name == 'search' )   ? ' selected' : ''
-    = link_to 'Search', 'me/search', :class => 'tab-link' + selected
+    = link_to 'Search', { :controller => 'me', :action => 'search' }, :class => 'tab-link' + selected
   %li.tab
     - selected = ( controller.controller_name == 'requests' ) ? ' selected' : ''
-    = link_to 'Requests', 'me/requests', :class => 'tab-link' + selected
+    = link_to 'Requests', { :controller => 'requests', :action => 'index' }, :class => 'tab-link' + selected
   %li.tab
     - selected = ( controller.action_name == 'edit' )   ? ' selected' : ''
-    = link_to 'My Profile', 'me/edit', :class => 'tab-link' + selected
+    = link_to 'My Profile', { :controller => 'me', :action => 'edit' }, :class => 'tab-link' + selected
 
