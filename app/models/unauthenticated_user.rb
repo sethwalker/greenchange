@@ -1,4 +1,8 @@
 class UnauthenticatedUser
+  def id
+    raise PermissionDenied
+  end
+
   def may?(perm, page)
     if self.respond_to?(method = "may_#{perm}?")
       return self.send(method, page)
