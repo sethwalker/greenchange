@@ -1,4 +1,4 @@
-module Tool::ToolCreation
+module ToolCreation
 
   def create_new_page(page_class=nil)
     page_type = page_class || get_page_type
