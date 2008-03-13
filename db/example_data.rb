@@ -59,8 +59,8 @@ module FixtureReplacement
     
 	end
 
-  attributes_for :page do |a|
-    
+  attributes_for :page do |p|
+    p.title                 = 'atitle'
 	end
 
   attributes_for :post do |a|
