@@ -71,8 +71,8 @@ module FixtureReplacement
     
 	end
 
-  attributes_for :tagging do |a|
-    
+  attributes_for :tagging do |t|
+    t.taggable_type         = 'Page'
 	end
 
   attributes_for :tag do |a|
