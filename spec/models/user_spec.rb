@@ -74,7 +74,7 @@ describe User, "when forgetting a password" do
 
 end
 
-describe User do
+describe User, "with issues" do
   it "should have issues" do
     User.new.should respond_to(:issues)
   end
@@ -93,14 +93,6 @@ describe User do
     u.issues.should include(i)
   end
 
-  it "should respond to bookmarks" do
-    u = User.new
-    u.should respond_to(:bookmarks)
-  end
-  it "should respond to bookmarked_pages" do
-    u = User.new
-    u.should respond_to(:bookmarked_pages)
-  end
 end
 
 describe User, "with privileges" do
@@ -134,6 +126,23 @@ describe User, "with bookmarks" do
     p = create_valid_page
     u.bookmark!(p)
     u.bookmarked?(p).should_not be_false
+  end
+
+  it "should respond to bookmarked_pages" do
+    u = User.new
+    u.should respond_to(:bookmarked_pages)
+  end
+end
+
+describe User, "in a namespace" do
+
+  before do
+    @user = create_valid_user :login => 'evil_scientist'
+    @group = create_valid_group:name => 'robot_army'
+  end
+
+  it "does not allow users with the same name as groups" do
+    lambda { user2 = create_valid_user :login => 'robot_army' }.should raise_error
   end
 
 end
