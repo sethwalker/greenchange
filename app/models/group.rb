@@ -102,6 +102,7 @@ class Group < ActiveRecord::Base
   def display_name; full_name.any? ? full_name : name; end
   def short_name; name; end
   def cut_name; name[0..20]; end
+  def full_name; name; end
 
   # visual identity
   def banner_style
@@ -363,7 +364,7 @@ class Group < ActiveRecord::Base
       update_group_name_of_pages  # update cached group name in pages
       Wiki.clear_all_html(self)   # in case there were links using the old name
       # update all committees (this will also trigger the after_save of committees)
-      committees.each {|c| c.parent_name_change }
+      committees.each {|c| c.update_parent(self)}
     end
   end
    

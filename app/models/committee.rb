@@ -1,4 +1,5 @@
 class Committee < Group
+  before_save :update_parent
   
   # NAMING
   # the name of a committee includes the name of the parent, 
@@ -6,14 +7,20 @@ class Committee < Group
   # we want to just display the committee name without the parent name.
   
   # parent name + committee name
+  # over time we should move parent name into its own column and use the combined name for display
   def full_name
-    read_attribute(:name)
+    names = [ ]
+    names << parent_name if parent_name
+    names << short_name if short_name
+    names.join "+"
   end
+  alias :name :full_name
+
   # committee name without parent
   def short_name
-    (read_attribute(:name)||'').sub(/^.*\+/,'')
+    read_attribute(:name)
   end
-  
+
   # what we show to the user
   def display_name
     read_attribute(:display_name) || short_name
@@ -25,10 +32,10 @@ class Committee < Group
   #  groups.first if groups.any?
   #end
 
-  # called when the parent's name has change
-  def parent_name_change
-    name = short_name
-    update_attribute(:name, name)
+  # called at save and when parent saves
+  def update_parent(p=nil)
+    p ||= self.parent
+    self.parent_name = p.full_name unless parent_name == p.full_name if p
   end
   
   # custom name setter so that we can ensure that the parent's
@@ -36,7 +43,7 @@ class Committee < Group
   def name=(str)
     if parent
       name_without_parent = str.sub(/^#{parent.name}\+/,'').gsub('+','-')
-      write_attribute(:name, parent.name + '+' + name_without_parent)
+      write_attribute(:name, name_without_parent)
     else
       write_attribute(:name, str.gsub('+','-'))
     end
@@ -46,8 +53,8 @@ class Committee < Group
   # custom setter so that we can ensure that the the committee's
   # name includes the parent's name.
   def parent=(p)
-    update_attribute(:parent_id, p.id)
-    parent_name_change
+    update_parent p
+    super p
   end
 
 end

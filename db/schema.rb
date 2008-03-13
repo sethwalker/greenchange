@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1205176570) do
+ActiveRecord::Schema.define(:version => 1205369252) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(:version => 1205176570) do
   add_index "assets", ["page_id"], :name => "index_assets_page_id"
 
   create_table "avatars", :force => true do |t|
-    t.binary  "data"
+    t.binary  "data",   :default => "",    :null => false
     t.boolean "public", :default => false
   end
 
@@ -185,6 +185,7 @@ ActiveRecord::Schema.define(:version => 1205176570) do
     t.datetime "updated_at"
     t.integer  "avatar_id"
     t.string   "style"
+    t.string   "parent_name"
   end
 
   add_index "groups", ["name"], :name => "index_groups_on_name"
@@ -237,8 +238,8 @@ ActiveRecord::Schema.define(:version => 1205176570) do
   create_table "memberships", :force => true do |t|
     t.integer  "group_id"
     t.integer  "user_id"
-    t.datetime "created_at"
     t.integer  "page_id"
+    t.datetime "created_at"
     t.string   "role",       :limit => 20, :default => "member"
   end
 
@@ -430,7 +431,7 @@ ActiveRecord::Schema.define(:version => 1205176570) do
   end
 
   add_index "tasks", ["task_list_id"], :name => "index_tasks_task_list_id"
-  add_index "tasks", ["task_list_id", "position"], :name => "index_tasks_completed_positions"
+  add_index "tasks", ["task_list_id", "completed_at", "position"], :name => "index_tasks_completed_positions"
 
   create_table "tasks_users", :id => false, :force => true do |t|
     t.integer "user_id"
