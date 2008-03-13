@@ -45,7 +45,9 @@ Spec::Runner.configure do |config|
   end
 
   def create_valid_page(options = {})
-    @page = Page.create({:title => 'valid_page'}.merge(options))
+    options[:title] ||= ( options[:name] || ( 'valid_page' + rand(90000).to_s) )
+    Page.delete_all :title => options[:title]
+    Page.create!( { :title => 'valid_page'}.merge( options))
   end
 
   def create_valid_asset

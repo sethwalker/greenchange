@@ -138,7 +138,7 @@ describe Page do
   it "has_finder should not find pages in other months" do
     p = create_valid_page(:created_at => Date.new(2008, 2))
     p2 = create_valid_page(:created_at => Date.new(2008, 3))
-    pages = Page.created_in_year('2008').created_in_month('2')
+    pages = Page.created_in_year('2008').created_in_month('2').find :all
     pages.should include(p)
     pages.should_not include(p2)
   end
@@ -169,5 +169,124 @@ describe Page do
       end
     end
     
+  end
+
+  describe "tool creation" do
+    before do
+      @page.data = (@poll = Poll::Poll.create )
+      @page.save
+    end
+    it "can attach a tool" do
+      @poll.pages.first.should == @page
+      
+    end
+  end
+  describe "discussion creation" do
+    before do
+      @page.discussion = (@discussion = Discussion.create!)
+      @page.save
+    end
+    it "can attach a discussion" do
+      @discussion.page.should == @page
+    end
+  end
+
+  describe "participation" do
+    before do
+      @page = create_valid_page :title => 'zebra'
+      @user = create_valid_user
+      @group = create_valid_group
+      @page.add(@user, :star => true )
+      @page.add @group
+    end
+
+    it "should be connected to a user" do
+      @page.users.should include(@user)
+    end
+    it "should find the participation using the user id" do
+      @page.user_participations.find_by_user_id(@user.id).should be_star
+    end
+
+    it "connects a user to the page" do
+      @user.pages.should include(@page)
+    end
+
+    it "should be connected to the group" do
+      @page.groups.should include(@group)
+    end
+
+    it "connects a group to the page" do
+      @group.pages.should include(@page)
+    end
+
+    it "loads associations from db" do
+      new_page = Page.find( @page.id )
+      new_page.users.should include(@user)
+    end
+
+    it "drops user from collection on remove" do
+      @page.remove(@user)
+      @page.users.should_not include(@user)
+    end
+
+    it "drops group from collection on remove" do
+      @page.remove(@group)
+      @page.groups.should_not include(@group)
+    end
+
+    it "includes a copy of the group name" do
+      @page.save
+      pending "TODO explain why the name of a randomly chosen group from page.groups is important"
+      @page.group_name.should == @group.name
+    end
+
+  end
+
+  describe "with links" do
+    before do
+      @red = create_valid_page :name =>'red-fish'
+      @blue = create_valid_page :name =>'blle-fish'
+      @two = create_valid_page :name =>'two-fish'
+      @red.add_link @blue
+    end
+
+    it "should have a mutual links collection" do
+      @red.links.size.should == 1
+      @blue.links.size.should == 1
+    end
+
+    it "should link to the targetted page" do
+      @red.links.first.name.should == @blue.name
+      @blue.links.first.name.should == @red.name
+    end
+
+    it "should accept new links" do
+      @red.add_link @two
+      @red.links.size.should == 2
+    end
+    it "should not assign new links to linked pages" do
+      @red.add_link @two
+      @blue.links.size.should == 1
+    end
+
+    it "should not accept multiple links to the same page" do
+      @red.add_link @blue
+      @red.links.size.should == 1
+    end
+
+    it "should remove a link when the linked page is destroyed" do
+      @blue.destroy
+      @red.links.size.should == 0
+    end
+
+    
+  end
+
+  describe "associations" do
+    it "loads correctly" do
+      %w- groups group_participations links users user_participations data discussion assets created_by updated_by -.map(&:to_sym).each do |assoc|
+        lambda { @page.send assoc }.should_not raise_error 
+      end
+    end
   end
 end
