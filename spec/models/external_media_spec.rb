@@ -1,6 +1,6 @@
-require File.dirname(__FILE__) + '/../test_helper'
+require File.dirname(__FILE__) + '/../spec_helper'
 
-class ExternalMediaTest < Test::Unit::TestCase
+describe ExternalMedia do
   SAMPLE_YOUTUBE_EMBED = %Q[
   <object width="425" height="355"><param name="movie" value="http://www.youtube.com/v/6VdNcCcweL0&rel=1"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/6VdNcCcweL0&rel=1" type="application/x-shockwave-flash" wmode="transparent" width="425" height="355"></embed></object>
   ]
@@ -17,17 +17,14 @@ class ExternalMediaTest < Test::Unit::TestCase
   SAMPLE_BLIP_TV_URL = "http://blip.tv/file/522086/"
 
 
-  def test_youtube
+  it "should extract uri from embed" do
     yt = ExternalMedia::Youtube.new
     uri = yt.extract_uri_from_embed(SAMPLE_YOUTUBE_EMBED)
-    assert_equal 'http://www.youtube.com/v/6VdNcCcweL0&rel=1', uri
-    embed = yt.build_embed(uri)
+    uri.should == 'http://www.youtube.com/v/6VdNcCcweL0&rel=1'
   end
 
-  def test_create_youtube
-    yt = ExternalMedia::Youtube.create :media_embed => SAMPLE_YOUTUBE_EMBED
-    assert yt.valid?
-    yt = ExternalMedia::Youtube.find(yt)
-    assert yt
+  it "should create a valid youtube from embed" do
+    yt = ExternalMedia::Youtube.create! :media_embed => SAMPLE_YOUTUBE_EMBED
+    yt.should be_valid
   end
 end

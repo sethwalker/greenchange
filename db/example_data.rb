@@ -39,8 +39,8 @@ module FixtureReplacement
     
 	end
 
-  attributes_for :group do |a|
-    
+  attributes_for :group do |g|
+    g.name                  = 'grouply'
 	end
 
   attributes_for :link do |a|
@@ -83,9 +83,19 @@ module FixtureReplacement
     
 	end
 
-  attributes_for :user do |a|
-    
+  attributes_for :user do |u|
+    u.login                 = 'auser'
+    u.password              = 'password'
+    u.password_confirmation = 'password'
+    u.email                 = 'auser@email.com'
+    u.profiles              = [default_profile]
 	end
+
+  attributes_for :profile do |p|
+    p.first_name            = 'a'
+    p.last_name             = 'user'
+    p.friend                = true
+  end
 
   attributes_for :wiki do |a|
     
