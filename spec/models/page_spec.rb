@@ -149,4 +149,25 @@ describe Page do
     lambda {Page.allowed(u)}.should_not raise_error
     lambda {Page.allowed(u, :view)}.should_not raise_error
   end
+
+  describe "while making" do
+    describe "a request to join a group" do
+      before do
+        @page = Page.make :request_to_join_group, :user => create_valid_user, :group => ( @group = create_valid_group)
+      end
+      it "should be a request" do
+        @page.data.should be_an_instance_of(Poll::Request)
+      end
+      it "has an add to group action" do
+        @page.data.possible.action.should be_an_instance_of(Actions::AddToGroup)
+      end
+      it "is included in the group's pages" do  
+        @group.pages.should include(@page)
+      end
+      it "includes only the target group in the page's groups" do
+        @page.groups.should == [ @group ]
+      end
+    end
+    
+  end
 end
