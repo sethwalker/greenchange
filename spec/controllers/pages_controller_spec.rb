@@ -1,6 +1,30 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe PagesController do
+  describe "create" do
+    before do
+      login_user create_user
+      get :create
+    end
+    it "should be success" do
+      response.should be_success
+    end
+    it "should render template create" do
+      response.should render_template('pages/create')
+    end
+  end
+
+  describe "protected methods" do
+    before do
+      @page = create_page
+    end
+    [:tag, :notify, :access, :move, :destroy].each do |action|
+      it "should require login for #{action.to_s}" do
+        lambda {get action, :id => @page.id}.should require_login
+      end
+    end
+  end
+
   describe "when saving tags" do
     before do
       stub_login
