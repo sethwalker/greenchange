@@ -238,8 +238,8 @@ ActiveRecord::Schema.define(:version => 1205369252) do
   create_table "memberships", :force => true do |t|
     t.integer  "group_id"
     t.integer  "user_id"
-    t.integer  "page_id"
     t.datetime "created_at"
+    t.integer  "page_id"
     t.string   "role",       :limit => 20, :default => "member"
   end
 

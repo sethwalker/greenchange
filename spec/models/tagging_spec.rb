@@ -54,7 +54,8 @@ describe Tagging do
     before do
       @page1.tag_with("pale")
       @page2.tag_with("pale imperial")
-      @tag1 = Tag.find(1)  
+      @tag2 = Tag.find_by_name "imperial"
+      @tag1 = Tag.find_by_name "pale"
     end
 
     it "should add tags with _add_tags" do
@@ -74,12 +75,12 @@ describe Tagging do
 
     it "should add tags with _add_tags by id" do
       @page1._add_tags "porter longneck"
-      @page1._add_tags [2]
+      @page1._add_tags [@tag2.id]
       @page1.tag_list.should == "imperial longneck pale porter"
     end
     
     it "should remove tags with _remove_tags" do
-      @page2._remove_tags ["2", @tag1]
+      @page2._remove_tags [@tag2.id, @tag1]
       @page2.tags.should be_empty
     end
   end
