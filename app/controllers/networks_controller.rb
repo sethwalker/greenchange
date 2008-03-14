@@ -1,2 +1,0 @@
-class NetworksController < ApplicationController
-end
