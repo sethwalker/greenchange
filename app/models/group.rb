@@ -270,7 +270,7 @@ class Group < ActiveRecord::Base
     sql = "SELECT #{dates}, count(pages.id) " +
      "FROM pages JOIN group_participations ON pages.id = group_participations.page_id " +
      "WHERE group_participations.group_id = #{id}"
-    unless allows?(user, :view)
+    unless allows?(user, :view, :page)
       sql += " AND pages.public = 1"
     end
     sql += " GROUP BY year, month ORDER BY year, month"

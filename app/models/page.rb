@@ -410,4 +410,22 @@ class Page < ActiveRecord::Base
     [ Event, Wiki, Message, Discussion, Blog ].any? { |klass| self.data && self.data.is_a?( klass ) }
   end
 
+  # check if user has permission to perform the action on this page
+  def allows?(user, action)
+    return true if user.superuser?
+
+    # abide by group policy if the page belongs to a group
+    unless self.group.nil?
+      return self.group.role_for(user).allows?(action, self)
+    else
+      # do the participation dance
+      upart = self.participation_for_user(user)
+      return true if upart
+
+      gparts = self.participation_for_groups(user.all_group_ids)
+      return true if gparts.any?
+    end
+
+    return false
+  end
 end
