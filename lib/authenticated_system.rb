@@ -2,7 +2,7 @@ module AuthenticatedSystem
 
   # Accesses the current user from the session.
   def current_user
-    @current_user ||= (session[:user] && load_user(session[:user])) || UnauthenticatedUser.new
+    @current_user ||= (session[:user] && load_user(session[:user])) || user_from_cookie || UnauthenticatedUser.new
   end
 
   def load_user(id)
@@ -25,6 +25,7 @@ module AuthenticatedSystem
     
     # Store the given user in the session.
     def current_user=(new_user)
+      return if new_user.is_a?(UnauthenticatedUser)
       session[:user] = (new_user.nil? || new_user.is_a?(Symbol)) ? nil : new_user.id
       @current_user = new_user
     end
@@ -110,16 +111,16 @@ module AuthenticatedSystem
       base.send :helper_method, :current_user, :logged_in?
     end
 
-    # When called with before_filter :login_from_cookie will check for an :auth_token
+    # When called :user_from_cookie will check for an :auth_token
     # cookie and log the user back in if apropriate
-    def login_from_cookie
-      return unless cookies[:auth_token] && !logged_in?
-      user = User.find_by_remember_token(cookies[:auth_token])
+    def user_from_cookie
+      return unless cookies["auth_token"] 
+      user = User.find_by_remember_token(cookies["auth_token"])
       if user && user.remember_token?
+        # update the remember_me cookie
         user.remember_me
-        self.current_user = user
-        cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
-        flash[:notice] = "Logged in successfully"
+        cookies["auth_token"] = { :value => user.remember_token , :expires => user.remember_token_expires_at }
+        user
       end
     end
 
