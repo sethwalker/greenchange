@@ -43,4 +43,10 @@ describe MeController do
       assigns[:pending_count].should_not be_nil
     end
   end
+
+  describe "tasks" do
+    it "shouldn't raise an error" do
+      lambda { get :tasks }.should_not raise_error
+    end
+  end
 end
