@@ -10,4 +10,15 @@ describe DispatchController do
       pages.should include(p)
     end
   end
+
+  describe "find_controller" do
+    it "finds page by id when handle has a space" do
+      controller.should_receive(:find_page_by_id).with('5')
+      get :dispatch, :_page => 'garble 5'
+    end
+    it "finds page by id when handle has a plus" do
+      controller.should_receive(:find_page_by_id).with('5')
+      get :dispatch, :_page => 'garble+5'
+    end
+  end
 end
