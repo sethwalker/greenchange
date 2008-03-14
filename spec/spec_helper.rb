@@ -120,11 +120,11 @@ class Allows
   end
 
   def failure_message
-    "expected #{@resource.inspect} to allow #{@user.login} to #{@act} #{@on_resource}"
+    "expected #{@resource.inspect} to allow #{@user.login} to #{@act} #{@resource}"
   end
 
   def negative_failure_message
-    "expected #{@resource.inspect} not to allow #{@user.login} to #{@act} #{@on_resource}"
+    "expected #{@resource.inspect} not to allow #{@user.login} to #{@act} #{@resource}"
   end
 end
 
@@ -133,5 +133,5 @@ def be_allowed_to(act, on_resource)
 end
 
 def allows(user, act)
-  Allows.new(act, on_resource)
+  Allows.new(user, act)
 end
