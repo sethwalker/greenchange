@@ -85,3 +85,53 @@ end
 def asset_fixture_path(filename)
   File.join(RAILS_ROOT, 'test', 'fixtures', 'files', filename)
 end
+
+# user permissions matcher
+class BeAllowed
+  def initialize(act, on_resource)
+    @act = act
+    @on_resource = on_resource
+  end
+
+  def matches?(user)
+    @user = user
+    @user.may?(@act, @on_resource).eql? true
+  end
+
+  def failure_message
+    "expected #{@user.login} to be allowed to #{@act} #{@on_resource}"
+  end
+
+  def negative_failure_message
+    "expected #{@user.login} not to be allowed to #{@act} #{@on_resource}"
+  end
+end
+
+# resource permissions matcher
+class Allows
+  def initialize(user, act)
+    @act = act
+    @user = user
+  end
+
+  def matches?(resource)
+    @resource = resource
+    @resource.allows?(@user, @act).eql? true
+  end
+
+  def failure_message
+    "expected #{@resource.inspect} to allow #{@user.login} to #{@act} #{@on_resource}"
+  end
+
+  def negative_failure_message
+    "expected #{@resource.inspect} not to allow #{@user.login} to #{@act} #{@on_resource}"
+  end
+end
+
+def be_allowed_to(act, on_resource)
+  BeAllowed.new(act, on_resource)
+end
+
+def allows(user, act)
+  Allows.new(act, on_resource)
+end

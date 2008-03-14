@@ -436,9 +436,9 @@ module SocialUser
       end
     end
 
-    def may?(perm, page)
+    def may?(act, on)
       begin
-        return may!(perm,page)
+        return may!(act, on)
       rescue PermissionDenied
         return false
       end
@@ -456,14 +456,34 @@ module SocialUser
     # :view should only return true if the user has access to view the page
     # because of participation objects, NOT because the page is public.
     #
-    def may!(perm, page)
-      upart = page.participation_for_user(self)
-      return true if upart
-      gparts = page.participation_for_groups(all_group_ids)
-      return true if gparts.any?
+    def may!(act, on)
+      unless on.nil?
+        return on.allows?(self, act) if on.respond_to?(:allows?)
+      end
       raise PermissionDenied
     end
-    
+
+    # handles methods of the form may_xxx? and may_xxx!, the xxx? flavor simply answers
+    # the question, while the xxx! one throws a PermissionDenied error if the the user
+    # is not allowed to act on the given resource
+    def self.method_missing(method, *args)
+      if method.to_s =~ /^may_([^\?!]+)([\?!]*)$/
+        act = $1
+        postfix = $2
+        on_resource = args[0]
+
+        if postfix == '?'
+          self.may? act, on_resource
+        elsif postfix == '!'
+          self.may! act, on_resource
+        else
+          raise NoMethodError, "undefined method '#{method}' on #{self.class}"
+        end
+      else
+        raise NoMethodError, "undefined method '#{method}' on #{self.class}"
+      end
+    end
+ 
     ##
     ## makes self a participant of a page. 
     ## this method is not called directly. instead, page.add(user)

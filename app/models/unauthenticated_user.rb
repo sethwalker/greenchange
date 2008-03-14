@@ -3,19 +3,38 @@ class UnauthenticatedUser
     raise PermissionDenied
   end
 
-  def may?(perm, page)
-    if self.respond_to?(method = "may_#{perm}?")
-      return self.send(method, page)
+  def may?(action, resource)
+    if self.respond_to?(method = "may_#{action}?")
+      return self.send(method, resource)
+    elsif resource.respond_to :allows?
+      return resource.allows?(self, action)
     end
+
     false
   end
 
-  def may_view?(page)
-    return page.public?
+  def may_view?(resource)
+    return false if resource.nil?
+
+    if resource.respond_to? :public?
+      return resource.public?
+    elsif resource.respond_to :allows?
+      return resource.allows?(self, action)
+    end
+    return false
   end
   alias :may_read? :may_view?
 
+  def may_delete?(resource)
+    false
+  end
+  alias :may_remove? :may_delete?
+
   def member_of?(group)
+    false
+  end
+
+  def direct_member_of?(group)
     false
   end
 
@@ -24,8 +43,19 @@ class UnauthenticatedUser
   end
 
   def method_missing(method, *args)
-    return false if method.to_s =~ /^may/
-    raise PermissionDenied, "#{method} not allowed for #{self.class}"
+    if method.to_s =~ /^may_([^\?!]+)([\?!]*)$/
+      act = $1
+      on = args[0]
+
+      case $2 
+        when '?'
+          return false
+        when '!'
+          raise PermissionDenied, "#{self.class} is not allowed to #{act} #{on.class}"
+      end
+    end
+
+    raise NoMethodError, "undefined method '#{method}' on #{self.class}"
   end
 
   def contacts

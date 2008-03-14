@@ -163,13 +163,3 @@ describe "SocialUser" do
     
 end
 
-describe "SocialUser" do
-  
-  before do
-    @user = create_valid_user
-    
-  end
-
-
-end
-

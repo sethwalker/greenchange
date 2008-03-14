@@ -24,15 +24,19 @@ describe "AuthorizedSystem" do
 
   it "should return the correct policy" do
     policy = AuthorizedSystem.access_policy :anonymous
+    policy.class.should == AuthorizedSystem::AnonymousAccess
     policy.name.should == 'anonymous'
 
-    policy = AuthorizedSystem.access_policy :public
-    policy.name.should == 'public'
+    policy = AuthorizedSystem.access_policy :user
+    policy.class.should == AuthorizedSystem::AuthenticatedAccess
+    policy.name.should == 'user'
 
     policy = AuthorizedSystem.access_policy :member
+    policy.class.should == AuthorizedSystem::MembershipAccess
     policy.name.should == 'member'
 
     policy = AuthorizedSystem.access_policy :administrator
+    policy.class.should == AuthorizedSystem::AdministrativeAccess
     policy.name.should == 'administrator'
   end
 
@@ -44,8 +48,8 @@ describe "AuthorizedSystem" do
   end
 
   it "should recognize page resources by class name" do
-    policy = AuthorizedSystem.access_policy :public
-
+    policy = AuthorizedSystem.access_policy :user
+  
     wiki = Page.make :wiki, {:user => @user, :group => @group, :name => 'TestWikiResource'}
     policy.allows?(:view, wiki).should be_true
   end
@@ -56,6 +60,6 @@ describe "AuthorizedSystem" do
   end
   it "should recognize wikis as page resources" do
     wiki = Page.make :wiki, {:user => @user, :group => @group, :name => 'TestWikiResource'}
-    @auth.normalize_resource( wiki ).should == :wiki
+    @auth.normalize_resource( wiki ).should == :page
   end
 end
