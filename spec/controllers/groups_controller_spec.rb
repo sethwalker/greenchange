@@ -76,19 +76,22 @@ describe GroupsController do
           get :archive, :id => @group.name
         end
         it "should be successful" do
-          pending "groups controller rendering doesn't work"
+          pending "groups controller rendering doesn't work" do
           response.should be_success
+          end
         end
         it "should render archive template" do
-          pending "groups controller rendering doesn't work"
+          pending "groups controller rendering doesn't work" do
           response.should render_template('groups/archive')
+          end
         end
         it "should have a valid group" do
           assigns[:group].should be_valid
         end
         it "months should not be nil" do
-          pending "groups controller rendering doesn't work"
+          pending "groups controller rendering doesn't work" do
           assigns[:months].should_not be_nil
+          end
         end
       end
 
@@ -99,25 +102,28 @@ describe GroupsController do
           get :archive, :id => @group.name
         end
         it "should render show_nothing" do
-          pending "groups controller rendering doesn't work"
+          pending "groups controller rendering doesn't work" do
           response.should render_template('groups/show_nothing')
+          end
         end
       end
     end
     describe "when not logged in" do
       it "should be sucess for a public group" do
-        pending "groups controller rendering doesn't work"
         @group.profile.may_see = true
         @group.profile.save
         get :archive, :id => @group.name
+        pending "groups controller rendering doesn't work" do
         response.should render_template('groups/archive')
+        end
       end
       it "should show nothing for a private group" do
-        pending "groups controller rendering doesn't work"
         @group.profile.may_see = false
         @group.profile.save
         get :archive, :id => @group.name
+        pending "groups controller rendering doesn't work" do
         response.should render_template('groups/show_nothing')
+        end
       end
     end
 
@@ -186,6 +192,165 @@ describe GroupsController do
     it "should be a paginated collection" do
       get :tags, :id => @group.name, :path => ['tagish']
       assigns[:pages].should be_a_kind_of(WillPaginate::Collection)
+    end
+  end
+end
+
+
+
+#from functional test
+describe GroupsController do
+  before do
+    @group = create_group(:name => 'rainbow')
+  end
+  describe "when logged in" do
+    before do
+      @user = create_user
+      login_user @user
+    end
+
+    describe "index" do
+      before { get :index }
+      it "should be success" do
+        assert_response :success
+      end
+      it "should render list template" do
+        assert_template 'list'
+      end
+    end
+
+    describe "list" do
+      before { get :list }
+
+      it "should be success" do
+        assert_response :success
+      end
+      it "should render list template" do
+        assert_template 'list'
+      end
+      it "should set @groups" do
+        assert_not_nil assigns[:groups]
+      end
+    end
+
+    describe "show" do
+      before { get :show, :id => @group.name }
+
+      it "should be success" do
+        assert_response :success
+      end
+      it "should render template show" do
+        assert_template 'show'
+      end
+      it "should set @group" do
+        assert_not_nil assigns[:group]
+      end
+      it "@group should be valid" do
+        assert assigns[:group].valid?
+      end
+    end
+
+    describe "new" do
+      before do
+        get :new
+      end
+      it "should be success" do
+        assert_response :success
+      end
+      it "should render template new" do
+        assert_template 'new'
+      end
+    end
+
+    describe "create" do
+      before { post :create, :group => {:name => 'test-create-group'} }
+
+      it "should redirect" do
+        assert_response :redirect
+      end
+      it "should redirect to the groups url" do
+        assert_redirected_to controller.url_for_group(assigns[:group], :action => 'show')
+      end
+      it "should create group" do
+        assert_equal assigns[:group].name, 'test-create-group'
+      end
+    end
+    
+    describe "edit" do
+      before { get :edit, :id => @group.name }
+
+      it "should be success" do
+        assert_response :success
+      end
+      it "should render template edit" do
+        assert_template 'edit'
+      end
+      it "should set @group" do
+        assert_not_nil assigns[:group]
+      end
+      it "@group should be valid" do
+        assert assigns[:group].valid?
+      end
+    end
+
+    describe "update" do
+      before { post :update, :id => @group.name }
+      it "should be redirect" do
+        assert_response :redirect
+      end
+      it "should be redirected to show" do
+        assert_redirected_to :action => 'show', :id => @group.name
+      end
+    end
+
+    describe "destroy" do
+      before do
+        @group.memberships.create :user => @user
+        post :destroy, :id => @group.name 
+      end
+      it "should be destroyed" do
+        lambda { Group.find @group.id }.should raise_error(ActiveRecord::RecordNotFound)
+      end
+      it "should redirect to list" do
+        assert_redirected_to :action => 'list'    
+      end
+    end
+
+    it "should get blog" do
+      @group.pages << (page = Tool::Blog.create(:title => 'a blog'))
+      lambda { get :blog, :id => @group.name }.should_not raise_error
+    end
+
+    it "should get events" do
+      @group.pages << (page = Tool::Event.create( :title => 'arts nite', :starts_at => 1.day.from_now, :ends_at => (1.day + 1.hour).from_now))
+      pending do
+        lambda { get :events, :id => @group.name}.should_not raise_error
+      end
+    end
+  end
+
+  describe "when not logged in" do
+    describe "show" do
+      before do
+        @group.name = 'private'
+        @group.should_receive(:allows?).with(an_instance_of(UnauthenticatedUser), :view).and_return(false)
+        Group.should_receive(:get_by_name).and_return(@group)
+        get :show, :id => @group.name
+      end
+      it "should be success" do
+        assert_response :success
+      end
+      it "should render show_nothing" do
+        assert_template 'show_nothing'
+      end
+    end
+
+    describe "when accessing protected methods" do
+      [:create, :edit, :destroy, :update].each do |action|
+        it "should require login for #{action.to_s}" do
+          lambda { get action, :id => @group.name }.should require_login
+        end
+      end
     end
   end
 end
