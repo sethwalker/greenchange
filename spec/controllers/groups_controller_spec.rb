@@ -76,22 +76,16 @@ describe GroupsController do
           get :archive, :id => @group.name
         end
         it "should be successful" do
-          pending "groups controller rendering doesn't work" do
           response.should be_success
-          end
         end
         it "should render archive template" do
-          pending "groups controller rendering doesn't work" do
           response.should render_template('groups/archive')
-          end
         end
         it "should have a valid group" do
           assigns[:group].should be_valid
         end
         it "months should not be nil" do
-          pending "groups controller rendering doesn't work" do
           assigns[:months].should_not be_nil
-          end
         end
       end
 
@@ -102,9 +96,7 @@ describe GroupsController do
           get :archive, :id => @group.name
         end
         it "should render show_nothing" do
-          pending "groups controller rendering doesn't work" do
           response.should render_template('groups/show_nothing')
-          end
         end
       end
     end
@@ -113,17 +105,13 @@ describe GroupsController do
         @group.profile.may_see = true
         @group.profile.save
         get :archive, :id => @group.name
-        pending "groups controller rendering doesn't work" do
         response.should render_template('groups/archive')
-        end
       end
       it "should show nothing for a private group" do
         @group.profile.may_see = false
         @group.profile.save
         get :archive, :id => @group.name
-        pending "groups controller rendering doesn't work" do
         response.should render_template('groups/show_nothing')
-        end
       end
     end
 
@@ -136,29 +124,32 @@ describe GroupsController do
         @group.pages << (p2 = create_valid_page(:created_at => Date.new(2008, 2)))
         @group.member_collection << p1
         @group.member_collection << p2
+        @group.should_receive(:allows?).any_number_of_times.and_return(true)
+        Group.stub!(:get_by_name).and_return(@group)
       end
-      it "should render archive" do
-        get :archive, :id => @group.name
-        response.should render_template('groups/archive')
-      end
-      it "should populate months with the months and years pages were created" do
-        get :archive, :id => @group.name
-        assigns[:months].length.should == 2
-      end
-      it "should populate months with the months and years pages were created" do
-        get :archive, :id => @group.name
-        assigns[:months][0]['month'].should == '12'
-        assigns[:months][0]['year'].should == '2007'
-      end
-      it "should populate months with the months and years pages were created" do
-        get :archive, :id => @group.name
-        assigns[:months][1]['month'].should == '2'
-        assigns[:months][1]['year'].should == '2008'
-      end
-      it "should populate pages with a paginated collection" do
-        get :archive, :id => @group.name
-        assigns[:pages].should_not be_empty
-        assigns[:pages].all? {|p| p.created_at.year == 2008}.should be_true
+      describe "archive" do
+        before do
+          get :archive, :id => @group.name
+        end
+        it "should render archive" do
+          get :archive, :id => @group.name
+          response.should render_template('groups/archive')
+        end
+        it "should populate months with the months and years pages were created" do
+          assigns[:months].length.should == 2
+        end
+        it "should populate months with the months and years pages were created" do
+          assigns[:months][0]['month'].should == '12'
+          assigns[:months][0]['year'].should == '2007'
+        end
+        it "should populate months with the months and years pages were created" do
+          assigns[:months][1]['month'].should == '2'
+          assigns[:months][1]['year'].should == '2008'
+        end
+        it "should populate pages with a paginated collection" do
+          assigns[:pages].should_not be_empty
+          assigns[:pages].all? {|p| p.created_at.year == 2008}.should be_true
+        end
       end
     end
   end
@@ -234,7 +225,11 @@ describe GroupsController do
     end
 
     describe "show" do
-      before { get :show, :id => @group.name }
+      before do
+        @group.should_receive(:allows?).and_return(true)
+        Group.stub!(:get_by_name).and_return(@group)
+        get :show, :id => @group.name
+      end
 
       it "should be success" do
         assert_response :success
@@ -277,7 +272,11 @@ describe GroupsController do
     end
     
     describe "edit" do
-      before { get :edit, :id => @group.name }
+      before do
+        @group.should_receive(:allows?).with(@user, 'edit').and_return(true)
+        Group.stub!(:get_by_name).and_return(@group)
+        get :edit, :id => @group.name
+      end
 
       it "should be success" do
         assert_response :success
@@ -294,7 +293,11 @@ describe GroupsController do
     end
 
     describe "update" do
-      before { post :update, :id => @group.name }
+      before do
+        @group.should_receive(:allows?).with(@user, 'update').and_return(true)
+        Group.stub!(:get_by_name).and_return(@group)
+        post :update, :id => @group.name
+      end
       it "should be redirect" do
         assert_response :redirect
       end
@@ -305,7 +308,9 @@ describe GroupsController do
 
     describe "destroy" do
       before do
-        @group.memberships.create :user => @user
+        @group.memberships.create(:user => @user)
+        @group.should_receive(:allows?).with(@user, 'destroy').and_return(true)
+        Group.should_receive(:get_by_name).with(@group.name).and_return(@group)
         post :destroy, :id => @group.name 
       end
       it "should be destroyed" do
@@ -323,9 +328,7 @@ describe GroupsController do
 
     it "should get events" do
       @group.pages << (page = Tool::Event.create( :title => 'arts nite', :starts_at => 1.day.from_now, :ends_at => (1.day + 1.hour).from_now))
-      pending do
-        lambda { get :events, :id => @group.name}.should_not raise_error
-      end
+      lambda { get :events, :id => @group.name}.should_not raise_error
     end
   end
 
