@@ -202,7 +202,7 @@ module AuthorizedSystem
     def assume_role
       # unathenticated users get the anonymous role
       if current_user.is_a?(UnauthenticatedUser)
-        @current_role = Role.new :administrator
+        @current_role = Role.new :anonymous
       else
         if @group
           # got a group and a user, use the membership's role
