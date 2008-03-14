@@ -6,8 +6,12 @@ describe AccountController do
   end
 
   describe "signin" do
-    def act!
-      post :login, :login => @user.login, :password => 'test'
+    before do
+    end
+
+    def act!( options = {} )
+      login_options = { :login => @user.login, :password => 'test' }.merge options
+      post :login, login_options
     end
     def second_act!
       get :index
@@ -35,6 +39,42 @@ describe AccountController do
       act!
       second_act!
       response.should redirect_to( me_url )
+    end
+
+    it "should not redirect if the wrong password is given" do
+      act! :password => 'badtest'
+      response.should_not be_redirect
+    end
+
+    it "should set a cookie if the user requests rememeber_me" do
+      act! :remember_me => "1"
+      cookies["auth_token"].should_not be_nil
+    end
+    it "sets no cookie without the users request" do
+      act! :remember_me => 0
+      cookies["auth_token"].should be_nil
+    end
+
+    it "allows login via cookie" do
+      @user.remember_me
+      request.cookies["auth_token"] = mock_auth_token @user.remember_token
+      get :index
+      response.should redirect_to( me_url )
+    end
+
+    it "fails to log in expired cookies" do
+      @user.remember_me
+      @user.update_attribute :remember_token_expires_at, 5.minutes.ago
+      request.cookies["auth_token"] = mock_auth_token @user.remember_token
+      get :index
+      response.should render_template('index')
+    end
+
+    it "fails to log in invalid cookie" do
+      @user.remember_me
+      request.cookies["auth_token"] = "blah blah blah"
+      get :index
+      response.should render_template('index')
     end
   end
 
@@ -105,7 +145,39 @@ describe AccountController do
         controller.should_receive(:current_user=)
         act!
       end
+
+      describe "attempt to use the same username" do
+        it "should fail" do
+          act!
+          post :create, :user => { :login => "JaneSmiegel", :password => "Monas", :password_confirmation => "Monas", :email => "mane@addiction.com" }, :agreed_to_terms => true, :profile => { :first_name => "mane", :last_name => "miegel"}
+          response.should render_template('account/signup')
+        end
+      end
     end
 
   end
+
+  describe "logout" do
+    before do
+      post :login, :login => @user.login, :password => 'test'
+      get :logout
+    end
+
+    it "should remove the user from the session" do
+      session[:user].should be_nil
+    end
+    it "should redirect" do
+      response.should be_redirect
+    end
+    it "deletes the remember_me token" do
+      post :login, :login => @user.login, :password => 'test', :rememeber_me => "1"
+      get :logout
+      cookies["remember_me"].should be_nil
+    end
+
+  end
+  def mock_auth_token(token)
+    CGI::Cookie.new('name' => 'auth_token', 'value' => token)
+  end
+  
 end

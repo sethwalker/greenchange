@@ -4,7 +4,7 @@ class AccountController < ApplicationController
 
   def index
     if logged_in?
-      redirect_to me_url
+      redirect_to me_url and return
     end
   end
 
@@ -14,7 +14,7 @@ class AccountController < ApplicationController
     if logged_in?
       if params[:remember_me] == "1"
         self.current_user.remember_me
-        cookies[:auth_token] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
+        cookies["auth_token"] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
       end
       redirect_to params[:redirect] || {:controller => '/me', :action => 'index'}
     else
