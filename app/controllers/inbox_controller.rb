@@ -19,7 +19,7 @@ class InboxController < ApplicationController
       elsif path.first == 'vital'
         @pages = current_user.vital_pages.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")#, :include => :user_participations)
       elsif path.first == 'type'
-        @pages = current_user.pages.page_type(Page.class_group_to_class_names(path[1])).paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")
+        @pages = current_user.pages.page_type(path[1]).paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")
       else
         @pages = current_user.pages.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")#, :include => :user_participations)
       end

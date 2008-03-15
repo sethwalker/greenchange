@@ -1,8 +1,7 @@
-class Tool::ExternalVideo < Page
+class Tool::ExternalVideo < Tool::Video
   controller 'external_video'
   class_display_name 'external video'
   class_description 'a video from an external service'
-  class_group 'video'
 
   def icon_path
     data.thumbnail_url

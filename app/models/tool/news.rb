@@ -4,5 +4,4 @@ class Tool::News < Page
   icon 'news.png'
   class_display_name 'news'
   class_description 'A news article'
-  class_group 'news'
 end

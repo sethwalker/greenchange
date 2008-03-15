@@ -4,7 +4,6 @@ class Tool::ActionAlert < Page
   icon 'page_white_lightning.png'
   class_display_name 'action alert'
   class_description 'An action alert'
-  class_group 'action_alert'
 
   def self.icon_path
     "/extensions/crabgrass_document_types/images/pages/#{self.icon}"
