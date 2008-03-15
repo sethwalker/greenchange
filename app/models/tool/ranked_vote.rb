@@ -5,7 +5,6 @@ class Tool::RankedVote < Page
   icon 'ballot.png'
   class_display_name 'ranked vote'
   class_description 'Rank possibilities in order of preference.'
-  class_group 'vote'
     
   def initialize(*args)
     super(*args)

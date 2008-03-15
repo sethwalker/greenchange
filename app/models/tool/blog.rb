@@ -4,5 +4,4 @@ class Tool::Blog < Page
   icon 'wiki.png'
   class_display_name 'blog'
   class_description 'A blog'
-  class_group 'blog'
 end
