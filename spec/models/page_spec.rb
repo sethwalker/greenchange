@@ -150,6 +150,39 @@ describe Page do
     lambda {Page.allowed(u, :view)}.should_not raise_error
   end
 
+  describe "page_type finder" do
+    before { create_page :type => 'Tool::Image' }
+    it "accepts class names as strings" do
+      Page.page_type('Tool::Image').should_not be_empty
+    end
+    it "accepts class names as symbols" do
+      Page.page_type(:image).should_not be_empty
+    end
+    it "finds subclasses" do
+      Page.page_type(:asset).should_not be_empty
+    end
+    it "finds wikis" do
+      create_page :type => 'Tool::TextDoc'
+      Page.page_type(:wiki).should_not be_empty
+    end
+    it "finds tasks" do
+      create_page :type => 'Tool::TaskList'
+      Page.page_type(:task).should_not be_empty
+    end
+    it "finds ranked vote" do
+      create_page :type => 'Tool::RankedVote'
+      Page.page_type(:vote).should_not be_empty
+    end
+    it "finds rate many" do
+      create_page :type => 'Tool::RateMany'
+      Page.page_type(:poll).should_not be_empty
+    end
+    it "finds subclasses of subclasses" do
+      p = create_page :type => 'Tool::ExternalVideo'
+      Page.page_type(:asset).map(&:id).should include(p.id)
+    end
+  end
+
   describe "while making" do
     describe "a request to join a group" do
       before do

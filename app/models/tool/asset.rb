@@ -5,7 +5,6 @@ class Tool::Asset < Page
 
   class_display_name 'file'
   class_description 'an uploaded file'
-  class_group 'asset'
 
   def icon
     return asset.small_icon if asset
