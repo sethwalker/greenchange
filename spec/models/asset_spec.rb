@@ -167,3 +167,21 @@ describe Asset, "when updating" do
     }.should_not raise_error
   end
 end
+
+describe Asset do
+  before do
+    @asset = Asset.new
+  end
+  it "should respond to image?" do
+    @asset.should respond_to(:image?)
+  end
+  it "should respond to audio?" do
+    @asset.should respond_to(:audio?)
+  end
+  it "should respond to video?" do
+    @asset.should respond_to(:video?)
+  end
+  it "should respond to document?" do
+    @asset.should respond_to(:document?)
+  end
+end
