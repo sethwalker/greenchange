@@ -85,33 +85,6 @@ describe Page do
     end
   end
 
-  describe "when finding by path" do
-    it "finds by tag" do
-      p = Page.create :title => 'page1'
-      p.tag_with 'tag1'
-      pages = Page.find_by_path("/tag/tag1")
-      pages.should include(p)
-    end
-
-    it "finds by multiple tags" do
-      p = Page.create :title => 'page1'
-      p.tag_with 'tag1 tag2'
-      p2 = Page.create :title => 'page2'
-      p2.tag_with 'tag2 tag3'
-      p3 = Page.create :title => 'page3'
-      p3.tag_with 'tag3 tag4'
-
-      pages = Page.find_by_path("/tag/tag1/tag/tag2")
-      pages.should include(p)
-      pages.should_not include(p3)
-      pages.each do |page|
-        page.tag_list.should include('tag1')
-        page.tag_list.should include('tag2')
-        page.tag_list.should_not include('tag4')
-      end
-    end
-  end
-
   it "should respond to bookmarks" do
     p = Page.new
     p.should respond_to(:bookmarks)
