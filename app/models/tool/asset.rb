@@ -19,6 +19,13 @@ class Tool::Asset < Page
     'package.png'
   end
   
+  before_save :update_type
+  def update_type
+    if data && data.image?
+      self.type = "Tool::Image"
+    end
+  end
+
   after_save :update_access
   def update_access
     asset.update_access if asset
