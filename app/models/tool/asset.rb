@@ -7,8 +7,6 @@ class Tool::Asset < Page
   class_description 'an uploaded file'
   class_group 'asset'
 
-  belongs_to :asset_data, :foreign_key => "data_id", :class_name => '::Asset'
-
   def icon
     return asset.small_icon if asset
     return 'package.png' 
@@ -19,12 +17,7 @@ class Tool::Asset < Page
     'package.png'
   end
   
-  before_save :update_type
-  def update_type
-    if data && data.image?
-      self.type = "Tool::Image"
-    end
-  end
+  delegate :image?, :movie?, :video?, :audio?, :other?, :pdf?, :document?, :to => :data
 
   after_save :update_access
   def update_access

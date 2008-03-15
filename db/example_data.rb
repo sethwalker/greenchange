@@ -1,5 +1,7 @@
 module FixtureReplacement
   attributes_for :asset do |a|
+    fixture_path = RAILS_ROOT + '/spec/fixtures/'
+    a.uploaded_data         = ActionController::TestUploadedFile.new(fixture_path  + File.join('files','image.png'), 'image/png', :binary)
     
 	end
 
