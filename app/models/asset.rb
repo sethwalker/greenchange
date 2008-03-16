@@ -1,4 +1,35 @@
 class Asset < ActiveRecord::Base
+  # thanks mephisto
+  # used for extra mime types that dont follow the convention
+  @@extra_content_types = { :audio => ['application/ogg'], :movie => ['application/x-shockwave-flash'], :pdf => ['application/pdf'] }.freeze
+  cattr_reader :extra_content_types
+
+  class << self
+    def movie?(content_type)
+      content_type.to_s =~ /^video/ || extra_content_types[:movie].include?(content_type)
+    end
+    alias :video? :movie?
+
+    def audio?(content_type)
+      content_type.to_s =~ /^audio/ || extra_content_types[:audio].include?(content_type)
+    end
+
+    def other?(content_type)
+      ![:image, :movie, :audio].any? { |a| send("#{a}?", content_type) }
+    end
+
+    def pdf?(content_type)
+      extra_content_types[:pdf].include? content_type
+    end
+
+    def document?(content_type)
+      content_type.to_s =~ /^text/
+    end
+  end
+
+  [:movie, :video, :audio, :other, :pdf, :document].each do |content|
+    define_method("#{content}?") { self.class.send("#{content}?", content_type) }
+  end
 
   ## associations #####################################
 
@@ -53,8 +84,6 @@ class Asset < ActiveRecord::Base
       asset_without_parent || parent.asset
     end
     alias_method_chain :asset, :parent
-    # fixes warning: toplevel constant Asset referenced by Asset::Asset
-    Asset = ::Asset
   end
 
 

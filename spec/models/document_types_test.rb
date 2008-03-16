@@ -16,7 +16,7 @@ describe "Document Types" do
       @blog = Tool::Blog.create :title => 'blogish title', :public => true
       @alert = Tool::ActionAlert.create :title => 'action alertish title', :public => true
 
-      pages = Page.find_by_path('/type/news/or/type/blog', @controller.options_for_public_pages)
+      pages = Page.page_type(:news, :blog).find(:all, :conditions => ["pages.public = ?", true])
       @page_ids = pages.map(&:id)
     end
 
@@ -37,7 +37,7 @@ describe "Document Types" do
     before do
       @news = Tool::News.create :title => 'newsish title', :public => true
       @alert = Tool::ActionAlert.create :title => 'action alertish title', :public => true
-      pages = Page.find_by_path('/type/action_alert/or/type/news', @controller.options_for_public_pages)
+      pages = Page.page_type(:action_alert, :news).find(:all, :conditions => ["pages.public = ?", true])
       @page_ids = pages.map(&:id)
     end
 
@@ -57,7 +57,7 @@ describe "Document Types" do
       @news.add(g)
       @blog.add(g)
       # apparently in this case, find_pages actually returns GroupParticipation array.  unexpected.
-      pages = Page.find_by_path('/type/news/or/type/blog', @controller.options_for_group(g))
+      pages = g.pages.page_type(:news, :blog)
       @page_ids = pages.map(&:id)
     end
 

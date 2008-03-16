@@ -8,7 +8,6 @@ class Tool::TextDoc < Page
   icon       'wiki.png'
   class_display_name 'wiki'
   class_description 'A free-form text document.'
-  class_group 'wiki'
    
   #def before_create
   #  self.name = self.title.nameize

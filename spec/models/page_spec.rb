@@ -85,33 +85,6 @@ describe Page do
     end
   end
 
-  describe "when finding by path" do
-    it "finds by tag" do
-      p = Page.create :title => 'page1'
-      p.tag_with 'tag1'
-      pages = Page.find_by_path("/tag/tag1")
-      pages.should include(p)
-    end
-
-    it "finds by multiple tags" do
-      p = Page.create :title => 'page1'
-      p.tag_with 'tag1 tag2'
-      p2 = Page.create :title => 'page2'
-      p2.tag_with 'tag2 tag3'
-      p3 = Page.create :title => 'page3'
-      p3.tag_with 'tag3 tag4'
-
-      pages = Page.find_by_path("/tag/tag1/tag/tag2")
-      pages.should include(p)
-      pages.should_not include(p3)
-      pages.each do |page|
-        page.tag_list.should include('tag1')
-        page.tag_list.should include('tag2')
-        page.tag_list.should_not include('tag4')
-      end
-    end
-  end
-
   it "should respond to bookmarks" do
     p = Page.new
     p.should respond_to(:bookmarks)
@@ -148,6 +121,39 @@ describe Page do
     lambda {Page.allowed}.should_not raise_error
     lambda {Page.allowed(u)}.should_not raise_error
     lambda {Page.allowed(u, :view)}.should_not raise_error
+  end
+
+  describe "page_type finder" do
+    before { create_page :type => 'Tool::Image' }
+    it "accepts class names as strings" do
+      Page.page_type('Tool::Image').should_not be_empty
+    end
+    it "accepts class names as symbols" do
+      Page.page_type(:image).should_not be_empty
+    end
+    it "finds subclasses" do
+      Page.page_type(:asset).should_not be_empty
+    end
+    it "finds wikis" do
+      create_page :type => 'Tool::TextDoc'
+      Page.page_type(:wiki).should_not be_empty
+    end
+    it "finds tasks" do
+      create_page :type => 'Tool::TaskList'
+      Page.page_type(:task).should_not be_empty
+    end
+    it "finds ranked vote" do
+      create_page :type => 'Tool::RankedVote'
+      Page.page_type(:vote).should_not be_empty
+    end
+    it "finds rate many" do
+      create_page :type => 'Tool::RateMany'
+      Page.page_type(:poll).should_not be_empty
+    end
+    it "finds subclasses of subclasses" do
+      p = create_page :type => 'Tool::ExternalVideo'
+      Page.page_type(:asset).map(&:id).should include(p.id)
+    end
   end
 
   describe "while making" do

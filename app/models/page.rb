@@ -61,8 +61,28 @@ class Page < ActiveRecord::Base
     }
 
   has_finder :page_type, 
-    Proc.new {|page_type| 
-      page_types = [page_type].flatten.map {|t| t =~ /^Tool::/ ? t : Page.class_group_to_class_names(t) }.flatten
+    lambda {|*page_types| 
+      page_types = page_types.flatten.map do |t| 
+        #"class_group" used to do this
+        t = 'task_list'     if t.to_s == 'task'
+        t = 'text_doc'      if t.to_s == 'wiki'
+        t = 'ranked_vote'   if t.to_s == 'vote'
+        t = 'rate_many'     if t.to_s == 'poll'
+
+        #can pass constants, strings, symbols, strings and symbols don't have to be prefixed with tool
+        #e.g. Page.page_type(Tool::Asset), Page.page_type(:asset), Page.page_type('asset'), Page.page_type('Tool::Asset'), Page.page_type(:image, :video), Page.page_type([:image, :video])
+        klass = if t.is_a?(Class) && t < Page
+                  t
+                elsif t =~ /^Tool::/ && t.constantize < Page
+                  t.constantize 
+                else
+                  Tool.const_get(t.to_s.classify) if Tool.const_get(t.to_s.classify) < Page
+                end
+        raise 'invalid page type' unless klass
+
+        [klass.to_s] + klass.subclasses.map {|c| c.to_s}
+      end.compact.flatten.uniq
+      raise 'invalid page type(s)' unless page_types.any?
       page_types.any? ? {:conditions => ["pages.type IN (?)", page_types]} : {}
     }
 
@@ -324,7 +344,7 @@ class Page < ActiveRecord::Base
 
   # to be set by subclasses (ie tools)
   class_attribute :controller, :model, :icon, :internal?,
-    :class_description, :class_display_name, :class_group
+    :class_description, :class_display_name
 
   def self.icon_path
     "/images/pages/#{self.icon}"
@@ -346,10 +366,6 @@ class Page < ActiveRecord::Base
   def self.display_name_to_class(display_name)
     dn = display_name.nameize
     Page.subclasses.detect{|t|t.class_display_name.nameize == dn if t.class_display_name}
-  end 
-  # return an array of page classes that are members of class_group
-  def self.class_group_to_class_names(class_group)
-    Page.subclasses.collect{|t|t.to_s if t.class_group == class_group and t.class_group}.compact
   end 
 
   #######################################################################
