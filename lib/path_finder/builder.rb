@@ -56,6 +56,15 @@ class PathFinder::Builder
     'starts' => 0,
     'before' => 1,
     'after' => 1,
+    
+    # greenchange_note: event specific filter keywords
+
+    'event_starts' => 0,
+    'event_starts_after' => 1,
+    'event_starts_before' => 1,
+    'event_ends' => 0,
+    'event_ends_after' => 1,
+    'event_ends_before' => 1,
 
     # limit
     'limit' => 1,

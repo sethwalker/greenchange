@@ -91,7 +91,7 @@ function lcs(ielem) {
 	
 	// First check date is valid
 	curdt=ielem.value;
-	curdtarr=curdt.split('/');
+	curdtarr=curdt.split('-');
 	isdt=true;
 	for(var k=0;k<curdtarr.length;k++) {
 		if (isNaN(curdtarr[k]))
@@ -99,8 +99,8 @@ function lcs(ielem) {
 	}
 	if (isdt&(curdtarr.length==3)) {
 		ccm=curdtarr[1]-1;
-		ccy=curdtarr[2];
-		prepcalendar(curdtarr[0],curdtarr[1]-1,curdtarr[2]);
+		ccy=curdtarr[0];
+		prepcalendar(curdtarr[2],curdtarr[1]-1,curdtarr[0]);
 	}
 	
 }
@@ -188,7 +188,7 @@ function prepcalendar(hd,cm,cy) {
 			getObj('v'+parseInt(d)).onclick=(dip)?null:cs_click;
 			
 			getObj('v'+parseInt(d)).innerHTML=d-cd;	
-			calvalarr[d]=''+(d-cd)+'/'+(cm-(-1))+'/'+cy;
+			calvalarr[d]=''+cy+'-'+(cm-(-1))+'-'+(d-cd);
 		}
 		else {
 			getObj('v'+d).innerHTML='&nbsp;';

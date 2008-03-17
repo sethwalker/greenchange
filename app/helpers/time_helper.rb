@@ -33,7 +33,7 @@ module TimeHelper
   def full_time(time)
     time = to_local time
     #'%s %s %s %s' % [time.loc('%A'), time.loc('%d/%b/%Y'), time.loc('%I:%M'), time.period.abbreviation]
-    '%s %s %s' % [time.loc('%A'), time.loc('%d/%b/%Y'), time.loc('%I:%M')]
+    '%s %s %s' % [time.loc('%A'), time.loc('%d/%b/%Y'), time.loc('%I:%M %p')]
   end
 
   def to_local(time)
