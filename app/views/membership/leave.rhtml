@@ -2,7 +2,7 @@
 		
 <blockquote>
 
-<% form_tag(:action => 'leave', :id => @group) do -%>
+<% form_tag(:action => 'destroy', :id => @group) do -%>
 
 <p>Are you sure you wish to end your membership in <b><%= @group.name %></b>? This action cannot be undone.</p>
 <%= submit_tag 'Leave' %>

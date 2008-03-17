@@ -17,31 +17,26 @@ class RequestsController < ApplicationController
   #layout 'me'
 
   def index
-    @my_pages = current_user.pages_created.find(:all, :conditions => ["pages.flow IN (?)", [FLOW[:contacts], FLOW[:membership]]], :order => "pages.created_at DESC", :limit => 20)
-    @my_columns = [:title, :created_at, :contributors_count]
+    @my_contact_requests_sent = current_user.contact_requests_sent.pending.find(:all, :order => "created_at DESC", :limit => 20)
+    @my_contact_requests_received = current_user.contact_requests_received.pending.find(:all, :order => "created_at DESC", :limit => 20)
 
-    @contact_pages = current_user.pages.page_type('Tool::Request').find(:all, :conditions => ["pages.flow = ? AND pages.created_by_id <> ?", FLOW[:contacts], current_user.id], :order => "pages.created_at DESC", :limit => 20)
-    @contact_columns = [:title, :discuss, :created_by, :created_at, :contributors_count]
+    @my_membership_requests = current_user.membership_requests.pending.find(:all, :order => "created_at DESC", :limit => 20)
 
-    @membership_pages = current_user.pages.page_type('Tool::Request').find(:all, :conditions => ["pages.flow = ? AND pages.created_by_id <> ?", FLOW[:membership], current_user.id], :order => "pages.created_at DESC", :limit => 20)
-    @membership_columns = [:title, :group, :discuss, :created_by, :created_at, :contributors_count]
+    @my_groups_membership_requests = MembershipRequest.pending.find(:all, :conditions => ["group_id IN (?)", current_user.groups_administering], :order => "created_at DESC", :limit => 20)
   end
 
   def mine
-    @pages = current_user.pages_created.paginate(:page => params[:section], :conditions => ["pages.flow IN (?)", [FLOW[:contacts], FLOW[:membership]]], :order => "pages.created_at DESC")
-    @columns = [:title, :created_at, :contributors_count]
+    @requests = current_user.contact_requests_sent.pending.paginate(:page => params[:section], :order => "created_at DESC")
     render :action => 'more'
   end
   
   def contacts
-    @pages = current_user.pages.page_type('Tool::Request').paginate(:page => params[:section], :conditions => ["pages.flow = ? AND pages.created_by_id <> ?", FLOW[:contacts], current_user.id], :order => "pages.created_at DESC")
-    @columns = [:title, :discuss, :created_by, :created_at, :contributors_count]
+    @requests = current_user.contact_requests_received.pending.paginate(:page => params[:section], :order => "created_at DESC")
     render :action => 'more'
   end
 
   def memberships
-    @pages = current_user.pages.page_type('Tool::Request').paginate(:page => params[:section], :conditions => ["pages.flow = ? AND pages.created_by_id <> ?", FLOW[:membership], current_user.id], :order => "pages.created_at DESC")
-    @columns = [:title, :group, :discuss, :created_by, :created_at, :contributors_count]
+    @requests = MembershipRequest.pending.paginate(:all, :page => params[:section], :conditions => ["group_id IN (?)", current_user.groups_administering], :order => "created_at DESC")
     render :action => 'more'
   end
 

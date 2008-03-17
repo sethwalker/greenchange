@@ -70,6 +70,8 @@ module SocialUser
           :after_add => :update_membership_cache,
           :after_remove => :update_membership_cache
         
+        has_many :membership_requests
+
         has_many :groups, :foreign_key => 'user_id', :through => :memberships do
           def <<(*dummy)
             raise Exception.new("don't call << on user.groups");
@@ -93,6 +95,10 @@ module SocialUser
         #this seems to be the only way to override the A/R created method
         remove_method :all_group_ids
         remove_method :group_ids
+      end
+
+      def groups_administering
+        groups.select {|g| g.allows?(self, :admin) }
       end
     end
 
@@ -172,12 +178,15 @@ module SocialUser
           :before_add => :check_duplicate_contacts,
           :after_add => :reciprocate_add,
           :after_remove => :reciprocate_remove} do
-          def online
-            find( :all, 
-              :conditions => ['users.last_seen_at > ?',10.minutes.ago],
-              :order => 'users.last_seen_at DESC' )
+            def online
+              find( :all, 
+                :conditions => ['users.last_seen_at > ?',10.minutes.ago],
+                :order => 'users.last_seen_at DESC' )
+            end
           end
-        end
+
+        has_many :contact_requests_sent, :class_name => 'ContactRequest'
+        has_many :contact_requests_received, :class_name => 'ContactRequest', :foreign_key => 'contact_id'
       end
     end
 

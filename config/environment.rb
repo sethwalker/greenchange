@@ -16,12 +16,6 @@ ACCESS = {
  :read => 3
 }.freeze
 
-# types of page flows
-FLOW = {
- :membership => 1,
- :contacts => 2,
-}.freeze
-
 # do this early because environments/*.rb need it
 require 'crabgrass_config'
 Crabgrass::Config.host = 'greenchange.staging.radicaldesigns.org'
