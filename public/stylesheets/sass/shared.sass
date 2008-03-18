@@ -68,8 +68,10 @@ ul.tab-block.active
   :height = !tab_block_height
   :border 2px solid
     :color = !tab_block_title_border
-  .tab-content.active
+  .tab-content
+    :overflow hidden
     :height = !tab_block_height
+  .tab-content.active
     :overflow-y scroll
     :overflow-x hidden
   .tab-title
