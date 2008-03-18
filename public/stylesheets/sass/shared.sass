@@ -1,5 +1,10 @@
 @import colors
 
+.landing
+  .tab-block
+    .blurb
+      :width 475px
+
 .list-item
   :display block
   :overflow hidden
@@ -55,8 +60,7 @@ ul.tab-block
     :margin-right .1em
 
   .tab-content
-    //:position absolute
-    :width = !main_column_width - 10px
+    :width = !main_column_width 
     :float left
     :clear both
 
@@ -66,7 +70,8 @@ ul.tab-block.active
     :color = !tab_block_title_border
   .tab-content.active
     :height = !tab_block_height
-    :overflow hidden
+    :overflow-y scroll
+    :overflow-x hidden
   .tab-title
     :border 2px solid
       :color = !tab_block_title_border
