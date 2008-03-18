@@ -124,7 +124,6 @@ class GroupsController < ApplicationController
         created_in_year(@year).
         created_in_month(@month).
         paginate(:all, 
-                 :conditions => 'pages.flow IS NULL', 
                  :order => 'updated_at DESC', 
                  :page => params[:page])
     end

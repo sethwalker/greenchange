@@ -289,29 +289,6 @@ class Page < ActiveRecord::Base
   end
 
   #######################################################################
-  ## RELATIONSHIP TO OTHER PAGES
-  
-  # reciprocal links between pages
-  has_and_belongs_to_many :links,
-    :class_name => "Page",
-    :join_table => "links",
-    :association_foreign_key => "other_page_id",
-    :foreign_key => "page_id",
-    :uniq => true,
-    :after_add => :reciprocate_add,
-    :after_remove => :reciprocate_remove
-  def reciprocate_add(other_page)
-    other_page.links << self unless other_page.links.include?(self)
-  end
-  def reciprocate_remove(other_page)
-    other_page.links.delete(self) rescue nil
-  end
-  def add_link(page)
-    links << page unless links.include?(page)
-  end
-   
- 
-  #######################################################################
   ## RELATIONSHIP TO ENTITIES
     
   # add a group or user participation to this page
@@ -343,7 +320,7 @@ class Page < ActiveRecord::Base
   ## SUPPORT FOR PAGE SUBCLASSING
 
   # to be set by subclasses (ie tools)
-  class_attribute :controller, :model, :icon, :internal?,
+  class_attribute :controller, :model, :icon,
     :class_description, :class_display_name
 
   def self.icon_path
@@ -414,11 +391,6 @@ class Page < ActiveRecord::Base
   ## USER behavior
   def starred_by?( user )
     !user_participations.find( :first, "user_id = ? and starred IS NOT ?", user, nil ).nil?
-  end
-
-  # is this page taggable
-  def accepts_tags?
-    true
   end
 
   # does this page allow attachments?
