@@ -60,9 +60,11 @@
   </td>
 </tr>
 <% end %>
+<% if logged_in? %>
 <tr>
 <td>
 	 <%= render :partial => 'participation' %>
  </td>
 </tr>
+<% end %>
 </table>
