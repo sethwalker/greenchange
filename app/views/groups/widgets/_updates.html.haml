@@ -1,0 +1,25 @@
+-#
+  %h2
+    = link_to image_tag('/images/actions/rss.png', :align => "right"), groups_url(:action => 'update_rss', :id => @group)
+    News, Updates and Actions
+%ul.tab-block
+  %li
+    .tab-title
+      Blogs &amp; News
+    %ul.tab-content.list
+      = render :partial => 'pages/list/page', :collection => @group.pages.page_type(:news, :blog, :wiki, :action_alert)
+  %li
+    .tab-title
+      Discussions
+    %ul#apple.tab-content.list
+      = render :partial => 'pages/list/discussion', :collection => @group.pages.page_type(:discussion)
+  %li
+    .tab-title
+      Events &amp; Actions
+    %ul.tab-content.list
+      = render :partial => 'pages/list/page', :collection => @group.pages.page_type(:action_alert, :event)
+  %li
+    .tab-title.create
+      = link_to 'Create', {:controller => '/pages', :action => 'create', :group_id => @group.id}
+
+- load_javascript_tabs

@@ -1,110 +1,100 @@
-div#leftbar
-  :float left
-  :width 170px
-  :margin-left -191px
-  div.sidesection
-    :border-right 0
-    :xbackground #f9f9f9 url(/images/shadows/small-left-a.png) repeat-y left
-    :-moz-border-radius-topleft 4px
-    :-moz-border-radius-bottomleft 4px
-  div.sidehead
-    :border-right 0
-    :-moz-border-radius-topleft 4px
-    :xbackground #a5cc7a url(/images/shadows/small-topleft-a.png) no-repeat top left
-
-#maincolumn.leftbar
-  :margin-left 170px
-
-div#rightbar
-  :float right
-  :width 210px
-  :margin-right -231px
-  div.sidesection
-    :border-left 0
-    :-moz-border-radius-topright 4px
-    :-moz-border-radius-bottomright 4px
-    :xbackground #f9f9f9 url(/images/shadows/small-right-a.png) repeat-y right
-  div.sidehead
-    :border-left 0
-    :-moz-border-radius-topright 4px
-    :xbackground #a5cc7a url(/images/shadows/small-topright-a.png) no-repeat top right
-
-#maincolumn.rightbar
-  :margin-right 230px
-
-div.sidesection
-  :margin-bottom 1em
-  :border 1px solid white
-  :background #eee
-  :padding-bottom 4px
-  img
-    :vertical-align top
-
-div.sidehead
-  :font-weight bold
-  :color white
-  :padding 4px 4px 4px 9px
-
-div.sideline
-  :padding 3px 0 3px 9px
-  a
-    :text-decoration none
-  a:hover
-    :text-decoration underline
-
-.sidelink 
-  :padding 3px 0 3px 9px
-  a
-    :text-decoration none
-  a:hover
-    :text-decoration underline
-  &:selected
-    :font-weight bold
-  &:hover
-    :background #cdf
-
-div.sidesection
-  a.action
-    :padding 3px 0 3px 9px
-    :text-decoration none
-    :display block
-    &:hover
-      :text-decoration underline
-      :background #cdf
-    &:selected
-      :font-weight bold
-
-div.sidesubhead
-  :border-bottom 1px dotted #999
-  :padding 4px
-  :padding-bottom 0px
-  :margin-top 4px
-  :font-weight bold
-  :color #666
-
-a.sidedetails
-  :font-size 0.8em
-  :display block
-  :text-align right
-  :padding-right 4px
-
-div.sideinfo
-  :font-size 0.9em
-  :line-height 1.2em
-  :color black
-
-div.sidesubarea
-  :padding 0.5em
-  :background #cdf
-  :border 1px solid white
-  :border-right 0
-  :border-left 0
-  :color #669
-  textarea, select
-    :width 190px
+@import colors
 
 #assets div.busy
   :background transparent url(/images/spinner.gif) no-repeat 9px
   span
     :visibility hidden
+
+#bar
+  .sidesection, .section
+    :border-left 0
+    :-moz-border-radius-topright 4px
+    :-moz-border-radius-bottomright 4px
+    :xbackground #f9f9f9 url(/images/shadows/small-right-a.png) repeat-y right
+    :margin-bottom 1em
+    :border 1px solid white
+    :background #eee
+    :padding-bottom 4px
+    a.action
+      :padding 3px 0 3px 9px
+      :text-decoration none
+      :display block
+    a.action:hover
+      :text-decoration underline
+      :background #cdf
+    a.action:selected
+      :font-weight bold
+    img
+      :vertical-align top
+
+  .sidehead, .header
+    :border-top 4px solid
+    :border-color = !bar_header_border
+    :font-weight bold
+    :color white
+    :padding 4px 4px 4px 9px
+    :background-color = !bar_header_bg 
+  
+  a.header
+    :background url(/images/arrow-bullet.gif) no-repeat 97% 45%
+    :background-color = !bar_header_bg 
+    :display block
+    &:hover
+      :background-color = !bar_header_bg_hover
+
+
+  .sideline, .line
+    :padding 3px 0 3px 9px
+    a
+      :text-decoration none
+    a:hover
+      :text-decoration underline
+
+//
+  .section
+  div.sidehead
+
+
+  .sidelink
+    :padding 3px 0 3px 9px
+    a
+      :text-decoration none
+    a:hover
+      :text-decoration underline
+
+  .sidelink:selected
+    :font-weight bold
+
+  .sidelink:hover
+    :background #cdf
+
+  div.sidesubhead
+    :border-bottom 1px dotted #999
+    :padding 4px
+    :padding-bottom 0px
+    :margin-top 4px
+    :font-weight bold
+    :color #666
+
+  a.sidedetails
+    :font-size 0.8em
+    :display block
+    :text-align right
+    :padding-right 4px
+
+  div.sideinfo
+    :font-size 0.9em
+    :line-height 1.2em
+    :color black
+
+  div.sidesubarea
+    :padding 0.5em
+    :background #cdf
+    :border 1px solid white
+    :border-right 0
+    :border-left 0
+    :color #669
+    textarea, select
+      :width 190px
+
 

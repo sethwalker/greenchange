@@ -1,0 +1,13 @@
+- @rightbar ||= 'groups/sidebar'
+- inside_layout 'application' do
+
+  #maincolumn
+    #content
+      = render :partial => 'banner_large'
+      #titlebox
+        = yield :title
+      = yield
+
+    #bar
+      = render 'layouts/sidebar'
+    %br{ :clear => "all" }

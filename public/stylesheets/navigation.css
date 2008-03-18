@@ -63,7 +63,9 @@
 #toprule {
   border-top: 4px solid #6a7b12;
   background-color: #80a010;
-  margin: 4px 4px 0px 4px; }
+  margin: 4px 4px 0px 4px;
+  float: left;
+  width: 100%; }
 
 div#banner {
   padding: 4px 10px;
@@ -148,9 +150,44 @@ div.iconbox.left div.hover div.text {
     border: 1px solid #929292;
     color: #929292; }
 
-span#top-login-form label {
-  color: #ffffff;
-  font-size: 9px; }
-span#top-login-form input {
-  width: 8em;
-  font-size: 9px; }
+#top-login-prompt a {
+  display: block;
+  float: right;
+  margin: .5em; }
+  #top-login-prompt a:hover {
+    background-color: #4e6956;
+    color: #ffffff; }
+
+#top-login-prompt a,
+#top-login-form .submit input {
+  background-color: transparent;
+  color: #4e6956;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  border: 1px groove;
+  border-color: #4e6956;
+  padding: .15em .75em .15em .75em; }
+
+#top-login-form {
+  float: right;
+  margin: .5em; }
+  #top-login-form label {
+    color: #000000;
+    font-size: 9px; }
+  #top-login-form input {
+    width: 8em;
+    font-size: 9px; }
+  #top-login-form p {
+    float: left;
+    margin-left: .5em; }
+  #top-login-form p.submit input {
+    width: auto; }
+
+#user-menu {
+  float: right;
+  text-align: right; }
+  #user-menu #login-name {
+    margin-top: .75em;
+    color: #4e6956;
+    font-style: italic; }
