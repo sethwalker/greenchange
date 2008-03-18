@@ -122,6 +122,9 @@ class Group < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy,
     :before_add => :check_duplicate_memberships,
     :after_add => :membership_changed, :after_remove => :membership_changed  
+
+  has_many :membership_requests
+
   has_many :users, :through => :memberships do
     def <<(*dummy)
       raise Exception.new("don't call << on group.users");

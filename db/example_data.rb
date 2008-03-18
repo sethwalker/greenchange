@@ -86,7 +86,7 @@ module FixtureReplacement
 	end
 
   attributes_for :user do |u|
-    u.login                 = 'auser'
+    u.login                 = String.random
     u.password              = 'password'
     u.password_confirmation = 'password'
     u.email                 = 'auser@email.com'

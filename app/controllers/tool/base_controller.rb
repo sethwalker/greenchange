@@ -61,7 +61,6 @@ class Tool::BaseController < ApplicationController
   def setup_default_view
     @show_posts = (%w(show title).include?params[:action]) # default, only show comment posts for the 'show' action
     @show_reply = @posts.any? # by default, don't show the reply box if there are no posts
-    @show_links = true
     @sidebar = true
     @html_title = @page.title if @page
     setup_view # allow subclass to override view
