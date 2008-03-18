@@ -40,7 +40,7 @@ var Crabgrass = function() {
 
             //copy all list entries to the "all" list
             var all_list = document.createElement('ul');
-            all_list.addClassName('tab-content list');
+            all_list.addClassName('tab-content list active');
             ul.select('.list-item').each( 
               function(entry) { all_list.appendChild( entry.cloneNode(true) ); } 
             );

@@ -12,7 +12,7 @@ module LayoutHelper
   end
 
   def css_page_type(page)
-    css_class = page.class.name.demodulize.underscore
+    css_class = page.class.name.demodulize.underscore.to_sym
 
     translations = { :wiki => [ :text_doc ], :video => [ :external_video ] }
     translated_page_type = translations.detect { | css, tool_types | css if tool_types.include? css_class }.first
