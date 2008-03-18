@@ -1,4 +1,30 @@
 module LayoutHelper
+  ##########################################
+  # PAGE ICONS
+  def icon_for(page, html_options = {})
+    primary_image = page.assets.detect { |a| a.image? }
+    primary_image = page.data if page.is_a?(Tool::Image)
+    custom_icon_url = primary_image ? primary_image.public_filename(:thumb) : nil
+    html_options[:class] ||= ''
+    html_options[:class] << " big icon page #{css_page_type(page)}"
+    html_options[:class].strip!
+    content_tag 'div', '&nbsp;', html_options
+  end
+
+  def css_page_type(page)
+    css_class = page.class.name.demodulize.underscore
+
+    translations = { :wiki => [ :text_doc ], :video => [ :external_video ] }
+    translated_page_type = translations.detect { | css, tool_types | css if tool_types.include? css_class }.first
+    css_class = translated_page_type if translated_page_type
+
+    allowed_types = [ :asset, :page, :news, :video, :action_alert, :wiki, :blog ]
+    if allowed_types.include? css_class
+      css_class.to_s.gsub('_', '-')
+    else
+      'page'
+    end
+  end
 
   ##########################################
   # BREADCRUMBS and CONTEXT

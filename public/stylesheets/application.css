@@ -23,6 +23,11 @@ p, ol, ul, td {
     color: #eeeeff;
     text-decoration: none; }
 
+#bar {
+  float: left;
+  width: 250px;
+  margin: .5em 0 .5em .5em; }
+
 body {
   margin: 0;
   padding: 0;
@@ -49,27 +54,8 @@ body {
   text-align: left;
   margin: 0 auto; }
 
-.link-line a {
-  border-left: 1px solid #000000;
-  padding: 0 .5em 0 .5em; }
-.link-line a.first {
-  border: 0; }
-
-#main {
-  padding: 0px 4px 10px 4px;
-  background-color: =!main_bg; }
-
-#maincolumn {
-  padding: 0px;
-  background: #ffffff; }
-
-#maincolumn.leftbar #content {
-  float: left;
-  width: 100%; }
-
-#maincolumn.rightbar #content {
-  float: right;
-  width: 100%; }
+#content {
+  float: left; }
 
 #footer {
   text-align: center;
@@ -85,22 +71,46 @@ body {
       #footer .links a.first {
         border-left: 0; }
 
+form .comment {
+  font-size: 50%; }
+
+#header {
+  width: 100%;
+  float: left; }
+
 img {
   border: 0; }
 
-#masthead {
-  border-collapse: collapse;
-  width: 100%;
-  background-color: #cccc99; }
-  #masthead div {
-    vertical-align: bottom; }
+.link-line a {
+  border-left: 1px solid #000000;
+  padding: 0 .5em 0 .5em; }
+.link-line a.first {
+  border: 0; }
+
+#main {
+  padding: 0px 0px 10px 4px;
+  background-color: =!main_bg;
+  float: left;
+  width: 100%; }
+
+#maincolumn {
+  padding: 0px;
+  background: #ffffff;
+  float: left;
+  width: 592px;
+  margin: .5em; }
 
 .normal {
   font-size: 13px;
   font-weight: normal; }
 
-.sidehead {
-  background: #1c9bc9; }
+.screen-reader {
+  padding-bottom: 2px;
+  height: 2px;
+  width: 2px;
+  float: right;
+  overflow: hidden;
+  display: block; }
 
 table {
   margin: 0;
@@ -117,9 +127,7 @@ table {
   font-size: 0.8em;
   margin: 1em; }
 
-#titlebox {
-  margin: -20px;
-  margin-bottom: 20px;
-  padding: 10px 20px; }
-  #titlebox .h1 {
-    color: #666699; }
+#titlebox .h1 {
+  padding: 10px 20px 10px 20px;
+  margin: 1em;
+  color: #666699; }

@@ -176,7 +176,8 @@ module AuthorizedSystem
     def initialize(name = 'member')
       super name
       @@resource_rules.merge!({
-        :page               => [:view, :edit, :comment]
+        :page               => [:view, :edit, :comment],
+        :group              => [:view, :edit]
       })
     end
   end
