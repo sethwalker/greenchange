@@ -14,6 +14,8 @@ class MembershipController < ApplicationController
     
   before_filter :login_required, :except => ['list']
 
+  verify :method => :post, :only => [:approve, :reject]
+
   ###### PUBLIC ACTIONS #########################################################
   
   def list
@@ -24,8 +26,9 @@ class MembershipController < ApplicationController
   
   # request to join this group
   def join
-    return unless request.post? # just show form on get.
-    
+  end
+
+  def create
     unless @group.users.any?
       # if the group has no users, then let the first person join.
 
@@ -34,18 +37,15 @@ class MembershipController < ApplicationController
       @group.memberships.create :user => current_user, :group => @group, :role => 'administrator'
 
       message :success => 'You are the first person in this group'
-      redirect_to :action => 'show', :id => @group
-      return
+      return redirect_to(:action => 'show', :id => @group)
     end
-    page = Page.make :request_to_join_group, :user => current_user, :group => @group
-    if page.save
+    req = MembershipRequest.find_or_initialize_by_user_id_and_group_id current_user.id, @group.id
+    req.message = params[:message]
+    if req.save
       message :success => 'Your request to join this group has been sent.'
-      discussion = Page.make :join_discussion, :user => current_user, :group => @group, :message => params[:message]
-      discussion.save
-      page.add_link discussion
       redirect_to url_for(:controller => 'requests')
     else
-      message :object => page
+      message :object => req
       render :action => 'show'
     end
   end
@@ -54,8 +54,9 @@ class MembershipController < ApplicationController
   
   # leave this group
   def leave
-    return unless request.post? # show form on get
-    
+  end
+
+  def destroy
     current_user.groups.delete(@group)
     message :success => 'You have been removed from %s' / @group.name
     redirect_to url_for_group(@group)
@@ -87,14 +88,9 @@ class MembershipController < ApplicationController
     params[:users].split(/\s/).each do |login|
       next if login.empty?
       if user = User.find_by_login(login)
-        page = Page.make :invite_to_join_group, :group => @group,
-          :user => user, :from => current_user
-        if page.save
-          discussion = Page.make :invite_discussion, :group => @group,
-            :user => user, :from => current_user, :message => params[:message]
-          discussion.save
-          page.add_link discussion
-        end
+        req = MembershipRequest.find_or_initialize_by_user_id_and_group_id user.id, @group.id
+        req.approved_by = current_user
+        req.save
         sent << login
       else
         wrong << login
@@ -109,14 +105,38 @@ class MembershipController < ApplicationController
   end
   
   def requests
-    @pages = @group.pages.
-      allowed(current_user).
-      paginate(:page => params[:section], 
-               :order => "created_at DESC", 
-               :conditions => ["pages.flow = ?", FLOW[:membership]])
-    @columns = [:title, :created_by, :created_at, :contributors_count]
+    @requests = @group.membership_requests.paginate(:page => params[:section],
+                                                    :order => "created_at DESC")
   end
   
+  def view_request
+    @membership_request = MembershipRequest.find(params[:id])
+  end
+
+  def approve
+    @membership_request = MembershipRequest.find(params[:id])
+    @membership_request.approved_by = current_user
+    if @membership_request.approve!
+      message :text => 'request approved'
+      redirect_to :action => 'requests' #or ajax, or somewhere that makes sense
+    else
+      message :object => @membership_request
+      render :action => 'requests'
+    end
+  end
+
+  def reject
+    @membership_request = MembershipRequest.find(params[:id])
+    return access_denied unless @membership_request.group.allows?(current_user, :admin)
+    if @membership_request.reject!
+      message :text => 'request rejected'
+      redirect_to :action => 'requests' #or ajax, or somewhere that makes sense
+    else
+      message :object => @membership_request
+      render :action => 'requests'
+    end
+  end
+
   protected
     
   def context

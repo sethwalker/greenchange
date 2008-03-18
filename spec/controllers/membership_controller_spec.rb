@@ -12,11 +12,11 @@ describe MembershipController do
     end
     it "assigns pages" do
       get :requests, :id => @group.name
-      assigns[:pages].should_not be_nil
+      assigns[:requests].should_not be_nil
     end
     it "should be a paginated collection" do
       get :requests, :id => @group.name
-      assigns[:pages].should be_a_kind_of(WillPaginate::Collection)
+      assigns[:requests].should be_a_kind_of(WillPaginate::Collection)
     end
   end
 end
