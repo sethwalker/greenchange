@@ -5,4 +5,4 @@
     = render :partial => 'avatars/boxes', :locals => {:people => @group.users, :side => "left"}
     %br.clear
     .link-line
-      = more_members_link :class => 'first'
+      = link_to 'view all', "more_members_link", :class => 'first'
