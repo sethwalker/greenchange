@@ -156,27 +156,6 @@ describe Page do
     end
   end
 
-  describe "while making" do
-    describe "a request to join a group" do
-      before do
-        @page = Page.make :request_to_join_group, :user => create_valid_user, :group => ( @group = create_valid_group)
-      end
-      it "should be a request" do
-        @page.data.should be_an_instance_of(Poll::Request)
-      end
-      it "has an add to group action" do
-        @page.data.possible.action.should be_an_instance_of(Actions::AddToGroup)
-      end
-      it "is included in the group's pages" do  
-        @group.pages.should include(@page)
-      end
-      it "includes only the target group in the page's groups" do
-        @page.groups.should == [ @group ]
-      end
-    end
-    
-  end
-
   describe "tool creation" do
     before do
       @page.data = (@poll = Poll::Poll.create )
@@ -248,49 +227,9 @@ describe Page do
 
   end
 
-  describe "with links" do
-    before do
-      @red = create_valid_page :name =>'red-fish'
-      @blue = create_valid_page :name =>'blle-fish'
-      @two = create_valid_page :name =>'two-fish'
-      @red.add_link @blue
-    end
-
-    it "should have a mutual links collection" do
-      @red.links.size.should == 1
-      @blue.links.size.should == 1
-    end
-
-    it "should link to the targetted page" do
-      @red.links.first.name.should == @blue.name
-      @blue.links.first.name.should == @red.name
-    end
-
-    it "should accept new links" do
-      @red.add_link @two
-      @red.links.size.should == 2
-    end
-    it "should not assign new links to linked pages" do
-      @red.add_link @two
-      @blue.links.size.should == 1
-    end
-
-    it "should not accept multiple links to the same page" do
-      @red.add_link @blue
-      @red.links.size.should == 1
-    end
-
-    it "should remove a link when the linked page is destroyed" do
-      @blue.destroy
-      @red.links.size.should == 0
-    end
-
-    
-  end
-
   describe "associations" do
     it "loads correctly" do
-      %w- groups group_participations links users user_participations data discussion assets created_by updated_by -.map(&:to_sym).each do |assoc|
+      %w- groups group_participations users user_participations data discussion assets created_by updated_by -.map(&:to_sym).each do |assoc|
         lambda { @page.send assoc }.should_not raise_error 
       end
     end

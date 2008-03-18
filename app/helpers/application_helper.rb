@@ -122,10 +122,6 @@ module ApplicationHelper
       return page_icon(page)
     elsif column == :checkbox
       check_box('page_checked', page.id, {}, 'checked', '')
-    elsif column == :discuss
-      if page.links.any?
-        return( link_to 'discuss'.t, page_url(page.links.first) )
-      end
     elsif column == :title
       return page_list_title(page, column, participation)    
     elsif column == :updated_by or column == :updated_by_login
@@ -173,7 +169,7 @@ module ApplicationHelper
   def page_list_heading(column=nil)
     if column == :group or column == :group_name
       list_heading 'group'.t, 'group_name'
-    elsif column == :icon or column == :checkbox or column == :discuss
+    elsif column == :icon or column == :checkbox
       "<th></th>"
     elsif column == :updated_by or column == :updated_by_login
       list_heading 'updated by'.t, 'updated_by_login'

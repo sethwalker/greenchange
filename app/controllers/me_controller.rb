@@ -43,7 +43,7 @@ class MeController < ApplicationController
 
   def counts
     return false unless request.xhr?
-    @request_count = Page.in_network(current_user).pending?(true).page_type('Tool::Request').count :conditions => ["pages.flow IN (?) AND pages.created_by_id <> ?", [FLOW[:memberships], FLOW[:contacts]], current_user.id]
+    @request_count = current_user.contact_requests_received.pending.count  + current_user.groups_administering.sum {|g| g.membership_requests.pending.count }
     @unread_count = current_user.pages_unread.count
     @pending_count = current_user.pages_pending.count
     render :layout => false
