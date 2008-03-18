@@ -12,6 +12,7 @@
   <%= stylesheet_link_tag 'navigation' %>
   <%= stylesheet_link_tag 'page' %>
   <%= stylesheet_link_tag 'ui' %>
+  <%= stylesheet_link_tag 'shared' %>
   <%= stylesheet_link_tag 'sidebar' %>
   <%= stylesheet_link_tag 'print', :media => 'print' %>
   <%= stylesheet_link_tag stylesheet if stylesheet %>
@@ -27,15 +28,34 @@
   <div id="container">
 
     <div id="header">
-      <%= render 'layouts/masthead' %>
-      <%= render 'layouts/menu' %>
+      <%= render 'layouts/login' -%>
+      <%= link_to "skip navigation", "#content", :class => 'screen-reader' -%>
+      <div id="logo"></div>
+      <%= render 'layouts/menu' -%>
     </div>
 
     <div id="main">
+      <div id="maincolumn">
         <%= render :partial => 'shared/messages' %>
-        <%= render 'layouts/main' %>
+        <%= render :partial => 'shared/location' %>
+        <div id="content">
+          <div id="titlebox">
+            <%= yield :title %>
+          </div>
+
+          <%= yield %>
+          
+          <%= render :partial => 'shared/content_footer' %>
+          
+        </div>
+      </div>
+      <div id="bar">
+        <%= render 'layouts/sidebar' %> 
+      </div>
+      <br class="clear"/>
     </div>
 
+    <br class="clear"/>
     <div id="footer">
       <%= render 'layouts/footer' %>
     </div>

@@ -214,5 +214,20 @@ module ApplicationHelper
     html_options[:class] = "remote #{html_options.delete(:class)}".strip
     link_to(name, options, html_options)
   end
+
+  def jquery_javascript_includes
+    javascript_include_tag( 'jquery/jquery' ) +
+    javascript_include_tag( 'jquery/jquery.dimensions.js' )+
+    javascript_include_tag( 'jquery/enchant/fx' )+
+    javascript_tag( 'jQuery.noConflict();' )+
+    javascript_include_tag( 'jquery/enchant/fx.slide.js' )
+  end
+
+  def load_javascript_tabs
+    content_for :javascript, jquery_javascript_includes +
+      javascript_include_tag('tabs') +
+      javascript_tag( 'Event.observe( document, "dom:loaded", Crabgrass.Tabs.initialize_tab_blocks);' )
+    
+  end
   
 end

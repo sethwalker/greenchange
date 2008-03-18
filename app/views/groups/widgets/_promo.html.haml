@@ -1,0 +1,5 @@
+- if promo = promo_for(@group)
+  %h2
+    Featured Content
+  %ul.promos
+    = render :partial => 'pages/list/page', :locals => { :page => promo }

@@ -1,0 +1,26 @@
+%li.list-item
+  .list-thumb
+    = link_to icon_for(page), page_url(page), :class => 'icon'
+  .list-description
+    %h3
+      = link_to page.title, page_url(page) 
+    %p
+      = page.summary
+    .byline
+      by
+      = link_to_user(page.created_by)
+    .date
+      posted
+      = friendly_date(page.created_at)
+    %ul.page-attachments
+      - unless page.tags.empty?
+        %li
+          Tags:
+          = render :partial => 'shared/tag', :collection => page.tags
+      - if page.discussion and !page.discussion.posts.empty?
+        %li
+          = "Comments(#{page.discussion.posts.count})"
+      -# unless page.issues.empty?
+        %li
+          Issues:
+          -#= render :partial => 'shared/issue', :collection => page.issues

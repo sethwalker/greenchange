@@ -1,6 +1,6 @@
 - if @group.members.any?
-  .sidesection
-    .sidehead
+  .section
+    .header
       Featured Members
     = render :partial => 'avatars/boxes', :locals => {:people => @group.users, :side => "left"}
     %br.clear

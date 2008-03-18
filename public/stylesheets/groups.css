@@ -1,3 +1,30 @@
+.group-title h1 {
+  padding-top: 10px;
+  width: 460px;
+  float: left;
+  margin: .25em 0 0 0; }
+.group-title .title-menu {
+  padding: 1em;
+  margin-top: 1em;
+  float: left; }
+
+.group-profile {
+  padding: .25em;
+  margin: .5em;
+  float: left; }
+  .group-profile .avatar {
+    float: right;
+    margin: .5em; }
+  .group-profile .plainlist {
+    float: left;
+    margin-right: 1em; }
+
+.landing-group {
+  float: left; }
+  .landing-group .section {
+    margin: .5em 0 .5em 0;
+    float: left; }
+
 table.archive-calendar {
   color: #999;
   border: 1px solid #ccc;
@@ -95,32 +122,6 @@ div#content h2 {
   padding: 5px;
   border-top: 4px solid #8a9343;
   margin-top: 5px; }
-
-div.list-item {
-  display: block;
-  overflow: hidden;
-  margin-top: 12px;
-  width: auto;
-  padding: 4px 4px 4px 4px;
-  background-color: #eee; }
-
-div.list-thumb {
-  float: left;
-  margin-right: 1em; }
-
-.list-thumb img {
-  width: 75px; }
-
-div.list-description {
-  width: 85%;
-  float: left;
-  position: relative;
-  font-size: 11px; }
-  div.list-description p {
-    font-size: 11px;
-    margin-bottom: 2px; }
-  div.list-description img {
-    float: right; }
 
 div.iconboxes div.iconbox {
   height: 95px; }
