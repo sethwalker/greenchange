@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   
   before_filter :pre_clean
   around_filter :rescue_authentication_errors
-  before_filter :breadcrumbs, :context
+  before_filter :context
   before_filter :assume_role, :except => :login  # after context
   around_filter :set_timezone
   session :session_secure => true if Crabgrass::Config.https_only
