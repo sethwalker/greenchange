@@ -13,6 +13,7 @@ class MembershipController < ApplicationController
   helper 'groups', 'application'
     
   before_filter :login_required, :except => ['list']
+  prepend_before_filter :fetch_group, :except => [:approve, :reject, :view_request]
 
   verify :method => :post, :only => [:approve, :reject]
 
@@ -144,7 +145,6 @@ class MembershipController < ApplicationController
     add_context 'membership', url_for(:controller=>'membership', :action => 'list', :id => @group)
   end
   
-  prepend_before_filter :fetch_group
   def fetch_group
     @group = Group.get_by_name params[:id].sub(' ','+') if params[:id]
     if @group
@@ -157,8 +157,8 @@ class MembershipController < ApplicationController
   end
   
   def authorized?
-    non_members_post_allowed = %w(join)
-    non_members_get_allowed = %w(list) + non_members_post_allowed
+    non_members_post_allowed = %w(create)
+    non_members_get_allowed = %w(list join) + non_members_post_allowed
     if request.get? and non_members_get_allowed.include? params[:action]
       return true
     elsif request.post? and non_members_post_allowed.include? params[:action]
