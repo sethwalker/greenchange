@@ -8,7 +8,8 @@
   %h2
     policies
   .policies
-    - current_user.collections.each do |collection|
+    - current_user.collections.each do |collection_policy, collection_accessor|
+      - collection = current_user.send( collection_accessor )
       %label{ :for => "policy_#{collection.name}" }
-      = check_box_tag "#{collection.name}", 1, collection.includes?(@page), :id => "policy_#{collection.name}"
+      = check_box_tag "#{collection.name}", 1, collection.include?(@page), :id => "policy_#{collection.name}"
       / also include javascript code for updates

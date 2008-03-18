@@ -1,0 +1,83 @@
+@import colors
+
+.list-item
+  :display block
+  :overflow hidden
+  :margin-bottom 12px
+  :width = !main_column_width
+  :padding 4px 4px 4px 4px
+  :background-color #eee
+  :float left
+
+.list-thumb
+  :float left
+  :margin-right 1em
+
+.list-description
+  :float left
+  :font-size 11px
+  :padding-top 5px
+  p
+    :font-size 11px
+    :margin-bottom 2px
+  h3
+    :margin 0
+
+ul.promos
+  :list-style none
+  :padding 0
+  :margin 0
+  :width 100%
+  :float left
+
+ul.tab-block
+  :list-style none
+  :padding 0
+  :margin 0
+  :float left
+  :width = !main_column_width
+  :margin-top 30px
+  li
+    :width 100%
+    :float left
+    :clear both
+  .tab-titlebar
+    :background = !tab_block_title_bg
+    :margin-top -27px
+  .tab-title
+    :text-transform uppercase
+    :background = !tab_block_title_bg
+    :font-size 14px
+    :font-weight bold
+    :color = !tab_block_title
+    :float left
+    :padding .25em
+    :margin-right .1em
+
+  .tab-content
+    //:position absolute
+    :width = !main_column_width - 10px
+    :float left
+    :clear both
+
+ul.tab-block.active
+  :height = !tab_block_height
+  :border 2px solid
+    :color = !tab_block_title_border
+  .tab-content.active
+    :height = !tab_block_height
+  .tab-title
+    :border 2px solid
+      :color = !tab_block_title_border
+      :bottom 0
+    &:hover
+      :background = !tab_block_title_border
+      :color = !tab_block_title_bg
+      :cursor pointer
+  .tab-title.disabled
+    :color = !tab_block_disabled
+    :border-color = !tab_block_disabled_border
+    &:hover
+      :background = !tab_block_title_bg
+      :color = !tab_block_disabled
+      :cursor auto

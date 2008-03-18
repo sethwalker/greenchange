@@ -1,8 +1,8 @@
 - if @group.members.any?
-  .sidesection
-    .sidehead
+  .section
+    .header
       Featured Members
     = render :partial => 'avatars/boxes', :locals => {:people => @group.users, :side => "left"}
     %br.clear
     .link-line
-      = more_members_link :class => 'first'
+      = "more_members_link :class => 'first'"

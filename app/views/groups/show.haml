@@ -1,3 +1,15 @@
+- content_for :title do
+  .group-title
+    -#= avatar_for @group, 'medium'
+    %h1.avatar.avatar-medium{ :style => "background-image: url(#{ avatar_url( :id => @group.avatar, :size => 'medium')});" }
+      = link_to_group @group, :display_name => true
+    .title-menu
+      - if current_user.member_of? @group
+        = link_to "Leave", "group_membership_url( @group.membership_for current_user )", :method => :delete, :class => 'action'
+      - else 
+        = link_to "Join", "new_group_membership_url( @group )", :class => 'action'
+
+
 .landing.landing-group
   .group_widget.section.profile
     =render :partial => 'groups/widgets/info'

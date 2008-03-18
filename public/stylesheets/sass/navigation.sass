@@ -70,6 +70,8 @@
   :border-top = 4px solid !topmenu_container_border
   :background-color = !topmenu_container_bg
   :margin 4px 4px 0px 4px
+  :float left
+  :width 100%
 
 div#banner
   :padding 4px 10px
@@ -156,12 +158,46 @@ div.iconbox.left div.hover div.text
     :padding 0 5px 1px 5px
     :border = 1px solid !pagination_disable_border
     :color = !pagination_disable_text 
+#top-login-prompt
+  a 
+    :display block
+    :float right
+    :margin .5em
+    &:hover
+      :background-color = !body_bg
+      :color = !main_bg
 
-span#top-login-form
+#top-login-prompt a, 
+#top-login-form .submit input
+  :background-color transparent
+  :color = !body_bg
+  :text-decoration none
+  :text-transform uppercase
+  :font-weight bold
+  :border 1px groove
+  :border-color = !body_bg
+  :padding .15em .75em .15em .75em
+
+#top-login-form
+  :float right
+  :margin .5em
   label
     :color = !login_form_text
     :font-size 9px
   input
     :width 8em
     :font-size 9px
+  p
+    :float left
+    :margin-left .5em
+  p.submit input
+    :width auto
+
+#user-menu
+  :float right
+  :text-align right
+  #login-name
+    :margin-top .75em
+    :color = !body_bg
+    :font-style italic
 

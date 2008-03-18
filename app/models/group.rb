@@ -247,6 +247,7 @@ class Group < ActiveRecord::Base
       AuthorizedSystem::Role.new # default role
     else
       membership = membership_for(user)
+      RAILS_DEFAULT_LOGGER.debug "### found membership and role is #{membership.role}"
       AuthorizedSystem::Role.new( membership.nil? ? '' : membership.role )
     end
   end
