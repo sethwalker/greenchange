@@ -62,29 +62,4 @@
             = link_to 'Requests', '/me/requests', :class => 'menu'
           %li
             = link_to 'Edit Profile', '/me/edit', :class => 'menu'
-      %li
-        = link_to "Logout".t, { :controller => '/account', :action => 'logout'}, :class => 'menu menu-top'
-      %li
-        #top-login-form
-          logged in as
-          = current_user.display_name
-            
-    - else
-      %li
-        #top-login-prompt
-          = link_to "Login".t, :controller => '/account', :action => 'login', :redirect => ( params[:redirect] || request.request_uri )
-      %li
-        #top-login-form
-          - form_tag :controller => 'account', :action => 'login' do
-            %label{ :for => "username" }
-              = _("Username")
-            = text_field_tag 'login'
-            %label{ :for => "password" }
-              = _("Password")
-            = password_field_tag 'password'
-            = submit_tag _('Log in')
-            = hidden_field_tag 'redirect', params[:redirect] || request.request_uri
   .clear
-- content_for :javascript do
-  = javascript_tag "$('top-login-form').hide();"
-  = javascript_tag "document.observe( 'dom:loaded', function(e) { $('top-login-prompt').observe( 'click', function(ev) { $('top-login-form').toggle(); Field.focus('login'); ev.stop(); } ); });"

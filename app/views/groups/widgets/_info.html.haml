@@ -1,0 +1,24 @@
+.group-profile
+  = avatar_for @group, 'huge'
+  %p
+    = h @group.summary
+  %ul.plainlist
+    %li
+      Founded 
+      = time_ago_in_words( @group.created_at ) + " ago"
+    %li
+      Members:
+      = @group.members.count
+      -#      by
+      -#      = @group.user_founded
+      -#    %li
+      -#      Location:
+      -#      - #= @group.location
+    - unless @group.issues.empty?
+      %li
+        Issues:
+        = render :partial => 'shared/issue_icon', :collection => @group.issues
+    - unless @group.tags.empty?
+      %li
+        Tags:
+        = @group.tags.map { |tag| render :partial => 'shared/tag', :locals => { :tag => tag } }.join(', ')

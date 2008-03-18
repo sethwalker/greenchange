@@ -1,108 +1,79 @@
-div#leftbar {
-  float: left;
-  width: 170px;
-  margin-left: -191px; }
-  div#leftbar div.sidesection {
-    border-right: 0;
-    xbackground: #f9f9f9 url(/images/shadows/small-left-a.png) repeat-y left;
-    -moz-border-radius-topleft: 4px;
-    -moz-border-radius-bottomleft: 4px; }
-  div#leftbar div.sidehead {
-    border-right: 0;
-    -moz-border-radius-topleft: 4px;
-    xbackground: #a5cc7a url(/images/shadows/small-topleft-a.png) no-repeat top left; }
+#assets div.busy {
+  background: transparent url(/images/spinner.gif) no-repeat 9px; }
+  #assets div.busy span {
+    visibility: hidden; }
 
-#maincolumn.leftbar {
-  margin-left: 170px; }
-
-div#rightbar {
-  float: right;
-  width: 210px;
-  margin-right: -231px; }
-  div#rightbar div.sidesection {
-    border-left: 0;
-    -moz-border-radius-topright: 4px;
-    -moz-border-radius-bottomright: 4px;
-    xbackground: #f9f9f9 url(/images/shadows/small-right-a.png) repeat-y right; }
-  div#rightbar div.sidehead {
-    border-left: 0;
-    -moz-border-radius-topright: 4px;
-    xbackground: #a5cc7a url(/images/shadows/small-topright-a.png) no-repeat top right; }
-
-#maincolumn.rightbar {
-  margin-right: 230px; }
-
-div.sidesection {
+#bar .sidesection, #bar .section {
+  border-left: 0;
+  -moz-border-radius-topright: 4px;
+  -moz-border-radius-bottomright: 4px;
+  xbackground: #f9f9f9 url(/images/shadows/small-right-a.png) repeat-y right;
   margin-bottom: 1em;
   border: 1px solid white;
   background: #eee;
   padding-bottom: 4px; }
-  div.sidesection img {
-    vertical-align: top; }
-
-div.sidehead {
-  font-weight: bold;
-  color: white;
-  padding: 4px 4px 4px 9px; }
-
-div.sideline {
-  padding: 3px 0 3px 9px; }
-  div.sideline a {
-    text-decoration: none; }
-  div.sideline a:hover {
-    text-decoration: underline; }
-
-.sidelink {
-  padding: 3px 0 3px 9px; }
-  .sidelink a {
-    text-decoration: none; }
-  .sidelink a:hover {
-    text-decoration: underline; }
-  .sidelink:selected {
-    font-weight: bold; }
-  .sidelink:hover {
-    background: #cdf; }
-
-div.sidesection a.action {
-  padding: 3px 0 3px 9px;
-  text-decoration: none;
-  display: block; }
-  div.sidesection a.action:hover {
+  #bar .sidesection a.action, #bar .section a.action {
+    padding: 3px 0 3px 9px;
+    text-decoration: none;
+    display: block; }
+  #bar .sidesection a.action:hover, #bar .section a.action:hover {
     text-decoration: underline;
     background: #cdf; }
-  div.sidesection a.action:selected {
+  #bar .sidesection a.action:selected, #bar .section a.action:selected {
     font-weight: bold; }
-
-div.sidesubhead {
+  #bar .sidesection img, #bar .section img {
+    vertical-align: top; }
+#bar .sidehead, #bar .header {
+  border-top: 4px solid;
+  border-color: #116c90;
+  font-weight: bold;
+  color: white;
+  padding: 4px 4px 4px 9px;
+  background-color: #1c9bca; }
+#bar a.header {
+  background: url(/images/arrow-bullet.gif) no-repeat 97% 45%;
+  background-color: #1c9bca;
+  display: block; }
+  #bar a.header:hover {
+    background-color: #178bba; }
+#bar .sideline, #bar .line {
+  padding: 3px 0 3px 9px; }
+  #bar .sideline a, #bar .line a {
+    text-decoration: none; }
+  #bar .sideline a:hover, #bar .line a:hover {
+    text-decoration: underline; }
+#bar .sidelink {
+  padding: 3px 0 3px 9px; }
+  #bar .sidelink a {
+    text-decoration: none; }
+  #bar .sidelink a:hover {
+    text-decoration: underline; }
+#bar .sidelink:selected {
+  font-weight: bold; }
+#bar .sidelink:hover {
+  background: #cdf; }
+#bar div.sidesubhead {
   border-bottom: 1px dotted #999;
   padding: 4px;
   padding-bottom: 0px;
   margin-top: 4px;
   font-weight: bold;
   color: #666; }
-
-a.sidedetails {
+#bar a.sidedetails {
   font-size: 0.8em;
   display: block;
   text-align: right;
   padding-right: 4px; }
-
-div.sideinfo {
+#bar div.sideinfo {
   font-size: 0.9em;
   line-height: 1.2em;
   color: black; }
-
-div.sidesubarea {
+#bar div.sidesubarea {
   padding: 0.5em;
   background: #cdf;
   border: 1px solid white;
   border-right: 0;
   border-left: 0;
   color: #669; }
-  div.sidesubarea textarea, div.sidesubarea select {
+  #bar div.sidesubarea textarea, #bar div.sidesubarea select {
     width: 190px; }
-
-#assets div.busy {
-  background: transparent url(/images/spinner.gif) no-repeat 9px; }
-  #assets div.busy span {
-    visibility: hidden; }

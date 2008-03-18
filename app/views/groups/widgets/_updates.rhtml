@@ -5,20 +5,20 @@
 		<div class='tab-title'>Blogs & News</div>
 		<ul class= 'tab-content list'>
 
-<%= render :partial => 'pages/list/page', :collection => @group.pages.page_type(['Tool::News', 'Tool::Blog', 'Tool::TextDoc']) %>
+<%= render :partial => 'pages/list/page', :collection => @group.pages.page_type(:news, :blog, :wiki, :action_alert) %>
 
 		</ul>
 	</li>	
 	<li>
 		<div class='tab-title'>Discussions</div>
 		<ul class= 'tab-content list'>
-			<%= render :partial => 'pages/list/discussion', :collection => @group.pages.page_type('Tool::Discussion') %>
+			<%= render :partial => 'pages/list/discussion', :collection => @group.pages.page_type(:discussion) %>
 		</ul>
 	</li>
 	<li>
 		<div class='tab-title'>Events & Actions</div>
 		<ul class= 'tab-content list'>
-			<%= render :partial => 'pages/list/page', :collection => @group.pages.page_type(['Tool::ActionAlert', 'Tool::Event']) %>
+			<%= render :partial => 'pages/list/page', :collection => @group.pages.page_type(:action_alert, :event) %>
 			<li></li>
 		</ul>
 	</li>
