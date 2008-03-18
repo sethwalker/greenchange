@@ -19,9 +19,11 @@ var Crabgrass = function() {
             var items_to_hide = to_check.select( function( item ) { return item.visible(); } )
             
             if ( !( self.segments[key].visible() && items_to_hide.all( function(item){ return !item.visible(); } ) )) { 
-              self.segments[key].addClassName( 'active');
+              self.segments.each( function(e) { e.removeClassName( 'active'); } );
               jQuery(items_to_hide).hide('slide', { duration: 150, direction: 'left', callback: function(){ 
-                jQuery(self.segments[key]).show('slide', { duration: 150, direction: 'right' }) 
+                jQuery(self.segments[key]).show('slide', { duration: 150, direction: 'right', callback: function() { 
+                    self.segments[key].addClassName( 'active');
+                  } }) 
                 }} );
             }
             self.triggers.each( function( item ) { item.removeClassName( 'active');});
