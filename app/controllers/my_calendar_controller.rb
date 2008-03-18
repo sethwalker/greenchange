@@ -35,7 +35,7 @@ class MyCalendarController < ApplicationController
     datestring = @date.to_s
 
     options = options_for_me(:public => true)
-    @events = Page.find_by_path(build_day_path(datestring,datestring2),options)
+    @events = Page.find_by_path(build_day_path(datestring),options)
   end
   
   def list_by_week
@@ -103,7 +103,7 @@ class MyCalendarController < ApplicationController
   end
 
   # builds simpler case when resolution is one day
-  def build_day_path(datestring,datestring2)
+  def build_day_path(datestring)
     event_path + "event_starts/event_starts_before/#{datestring.to_date}/event_ends/event_ends_after/#{datestring.to_date}"
   end
 
