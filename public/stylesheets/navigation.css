@@ -82,7 +82,11 @@ div#banner {
     width: 100%; }
 
 div.iconboxes img {
-  border: 1px solid #ffffff; }
+  border: 1px solid #ffffff;
+  float: left; }
+div.iconboxes a {
+  display: block;
+  float: left; }
 div.iconboxes div.iconbox {
   position: relative;
   width: 24px;
