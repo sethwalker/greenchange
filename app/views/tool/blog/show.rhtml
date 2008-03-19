@@ -23,11 +23,11 @@ div.wikiedit a:hover {text-decoration: underline;}
   <%= @wiki.body_html %>
   <% if @wiki.editable_by? current_user -%>
     <div class='wikiedit'><span>
-       <%= link_to '<u>e</u>dit', page_url(@page,:action=>'edit'), :accesskey => 'e' %>
+       <%= link_to '<u>e</u>dit', edit_blog_url(@page), :accesskey => 'e' %>
        &nbsp;
-       <%= link_to 'versions', page_url(@page,:action=>'versions') %>
+       <%= link_to 'versions', versions_blog_url(@page) %>
        &nbsp;
-       <%= link_to 'last change', page_url(@page, :action=>'diff', :from => @wiki.version.to_i-1, :to => @wiki.version) if @wiki.version > 1 %>
+       <%= link_to 'last change', diff_blog_url(@page, :from => @wiki.version.to_i-1, :to => @wiki.version) if @wiki.version > 1 %>
     </span></div>
   <% end -%>
   <br style='clear: both' />

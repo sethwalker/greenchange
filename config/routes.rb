@@ -58,6 +58,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :actions, :controller => 'tool/action_alert', :member => {:versions => :get, :diff => :get}
   map.resources :assets, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
+  map.resources :blogs, :controller => 'tool/blog', :member => {:versions => :get, :diff => :get}
 
   ##### DISPATCHER ROUTES ###################################
   

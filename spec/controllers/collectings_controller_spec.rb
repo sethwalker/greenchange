@@ -3,6 +3,7 @@ describe CollectingsController, "RESTFUL" do
 
   before do
     login_valid_user
+    controller.stub!(:authorized?).and_return(true)
   end
   def collectings(name)
     Collecting.create! :collection => Collection.create!( :page => create_valid_page ), :collectable => create_valid_asset

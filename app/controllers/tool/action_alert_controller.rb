@@ -14,7 +14,7 @@ class Tool::ActionAlertController < Tool::WikiController
       return redirect_to(action_url(@page))
     end
     save_edits
-    redirect_to (@page)
+    redirect_to action_url(@page)
   end
 
   protected
