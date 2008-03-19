@@ -124,7 +124,7 @@ ul.tab-block.active
       :color = !tab_block_title_border
       :bottom 0
     &:hover
-      :background = !tab_block_title_border + !highlight_lighter
+      :background = !tab_block_title_border + !highlight_lighter 
       :color = !tab_block_title
       :cursor pointer
   .tab-title.active
@@ -142,3 +142,28 @@ ul.tab-block.active
     div.tab-title.active
       :overflow hidden
 
+ul.tab-block
+  .toolbar
+    :float right
+
+.toolbar
+  .icon
+    :float left
+    :overflow hidden
+    :width 22px
+    :height 22px
+    :margin-right 3px
+    &:hover
+      :background-color = !toolbar_bg_hover
+    a.action
+      :padding 22px 0
+      :display block
+      :float left
+      :background-repeat no-repeat 
+    a.create
+      :background-position -5px -6px
+      :background-image url(/images/actions/list-add.png)  
+    a.subscribe
+      :background-position 2px 2px
+      :background-image url(/images/actions/rss.png)  
+  
