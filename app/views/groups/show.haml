@@ -8,11 +8,11 @@
         = link_to "Leave", "group_membership_url( @group.membership_for current_user )", :method => :delete, :class => 'action'
       - else 
         = link_to "Join", "new_group_membership_url( @group )", :class => 'action'
+    .group_widget.section.profile
+      =render :partial => 'groups/widgets/info'
 
 
 .landing.landing-group
-  .group_widget.section.profile
-    =render :partial => 'groups/widgets/info'
   .group_widget.section.promo
     = render :partial => 'groups/widgets/promo'
   .group_widget.section

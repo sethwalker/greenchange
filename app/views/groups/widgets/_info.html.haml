@@ -5,7 +5,7 @@
   %ul.plainlist
     %li
       Founded 
-      = time_ago_in_words( @group.created_at ) + " ago"
+      = friendly_date( @group.created_at )
     %li
       Members:
       = @group.members.count
