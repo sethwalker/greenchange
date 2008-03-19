@@ -23,10 +23,11 @@
       color: #ffffff; }
     #topmenu li ul {
       position: absolute;
-      left: -999em;
-      z-index: 100;
+      display: none;
+      z-index: 4000;
       background: #80a010;
       padding: 0;
+      width: 10.5em;
       border-bottom: 4px solid;
       border-color: #6a7b12; }
       #topmenu li ul li {
@@ -41,14 +42,14 @@
           text-decoration: none;
           border-top: 1px solid;
           border-color: #6a7b12; }
-  #topmenu > li {
+  #topmenu li {
     float: left;
     margin: 0 4px;
     position: relative; }
-    #topmenu > li.first {
+    #topmenu li.first {
       margin-left: 10px; }
   #topmenu li:hover ul {
-    left: auto; }
+    display: block; }
   #topmenu a.selected {
     color: #ffffff;
     background-color: #6a7b12;
@@ -191,3 +192,6 @@ div.iconbox.left div.hover div.text {
     margin-top: .75em;
     color: #4e6956;
     font-style: italic; }
+
+body.ie6 #toprule li.hover ul {
+  display: block; }

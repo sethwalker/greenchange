@@ -108,10 +108,15 @@ img.avatar {
 .avatar {
   background: no-repeat top left; }
 
-.avatar-medium {
+.avatar.medium {
   min-height: 48px;
   min-width: 48px;
   padding-left: 55px; }
+  .avatar.medium a.name-link {
+    padding: 10px 0 10px 0;
+    min-height: 48px; }
+  body.ie6 .avatar.medium {
+    height: 48px; }
 
 ul.plainlist {
   padding: 0;

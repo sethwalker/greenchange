@@ -91,7 +91,6 @@ ActiveRecord::Schema.define(:version => 1205730391) do
     t.integer  "created_by"
     t.integer  "position"
     t.string   "collectable_type"
-    t.string   "permission"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -329,6 +328,11 @@ ActiveRecord::Schema.define(:version => 1205730391) do
   end
 
   add_index "phone_numbers", ["profile_id"], :name => "phone_numbers_profile_id_index"
+
+  create_table "plugin_schema_info", :force => true do |t|
+    t.datetime "created_at"
+    t.string   "plugin_name"
+  end
 
   create_table "polls", :force => true do |t|
     t.string "type"

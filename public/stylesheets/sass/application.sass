@@ -27,8 +27,10 @@ p, ol, ul, td
 
 #bar
   :float left
-  :width 250px
   :margin .5em 0 .5em .5em
+  :width = !side_column_width
+  body.ie6 &
+    :width = !side_column_width - !ie_padding_offset
 
 body
   :margin 0
@@ -101,8 +103,10 @@ img
   :padding 0px
   :background = !main_bg
   :float left
-  :width = !main_column_width
   :margin .5em
+  :width = !main_column_width
+  body.ie6 &
+    :width = !main_column_width - !ie_padding_offset
 
 
 .normal

@@ -25,13 +25,15 @@
       :color = !topmenu_selected_text
     ul
       :position absolute
-      :left -999em
-      :z-index 100
+      :display none
+      :z-index 4000
       :background = !topmenu_bg
       :padding 0 
+      :width 10.5em
       :border
         :bottom 4px solid
         :color = !topmenu_container_border
+      //:left -999em
       li
         :margin 0 0 -2px 0
         :padding 0 
@@ -45,7 +47,7 @@
           :border
             :top 1px solid
             :color = !topmenu_container_border
-  > li
+  li
     :float left
     :margin 0 4px
     :position relative
@@ -53,7 +55,8 @@
       :margin-left 10px
   li:hover
     ul
-      :left auto
+      :display block
+      //:left auto
   a.selected 
     :color = !topmenu_selected_text
     :background-color =  !topmenu_bg_hover
@@ -65,6 +68,7 @@
   a.selected:hover
     :color = !topmenu_selected_text_hover 
     :background = !topmenu_selected_bg_hover 
+
 
 #toprule
   :border-top = 4px solid !topmenu_container_border
@@ -201,3 +205,8 @@ div.iconbox.left div.hover div.text
     :color = !body_bg
     :font-style italic
 
+body.ie6
+  #toprule
+    li.hover
+      ul
+        :display block

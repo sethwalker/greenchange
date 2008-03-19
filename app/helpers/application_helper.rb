@@ -226,7 +226,7 @@ module ApplicationHelper
   def load_javascript_tabs
     content_for :javascript, jquery_javascript_includes +
       javascript_include_tag('tabs') +
-      javascript_tag( 'Event.observe( document, "dom:loaded", Crabgrass.Tabs.initialize_tab_blocks);' )
+      javascript_tag( 'Event.observe( document, "dom:loaded", function() { Crabgrass.Tabs.initialize_tab_blocks(); });' )
     
   end
   

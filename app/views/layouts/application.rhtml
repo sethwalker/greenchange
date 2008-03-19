@@ -7,7 +7,6 @@
   <link rel="icon" href="/favicon.ico" type="image/x-icon" />
   <title><%=h title_from_context %></title>
   <%= javascript_include_tag :defaults %>
-  <%= render :partial => 'shared/ie6' %>
   <%= stylesheet_link_tag 'application' %>
   <%= stylesheet_link_tag 'navigation' %>
   <%= stylesheet_link_tag 'page' %>
@@ -62,4 +61,5 @@
   </div>
 </body>
 <%= yield :javascript %>
+<%= render :partial => 'shared/ie' %>
 </html>

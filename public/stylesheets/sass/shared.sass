@@ -3,15 +3,26 @@
 .landing
   .tab-block
     .blurb
-      :width 475px
+      :width = !main_column_width - 120px
+      body.ie6 &
+        :width = !main_column_width - 120px - !ie_padding_offset
+
+  .list-item
+    :margin-bottom 12px
+    :padding 4px 4px 4px 4px
+    :background-color = !section_bg
+    :width = !main_column_width - 8px
+    body.ie6 &
+      :width = !main_column_width - !ie_padding_offset - 8px
+
+  .section
+    :width = !main_column_width
+    body.ie6 &
+      :width = !main_column_width - !ie_padding_offset
 
 .list-item
   :display block
   :overflow hidden
-  :margin-bottom 12px
-  :width = !main_column_width
-  :padding 4px 4px 4px 4px
-  :background-color #eee
   :float left
 
 .list-thumb
@@ -32,23 +43,31 @@ ul.promos
   :list-style none
   :padding 0
   :margin 0
-  :width 100%
   :float left
+  :width = !main_column_width
+  body.ie6 &
+    :width = !main_column_width - !ie_padding_offset
 
 ul.tab-block
   :list-style none
   :padding 0
   :margin 0
   :float left
+  :margin-top = !tab_block_title_offset + 3px
   :width = !main_column_width
-  :margin-top 30px
+  body.ie6 &
+    :width = !main_column_width - !ie_padding_offset
+  body.ie7 &
+    :padding-bottom = !tab_block_title_offset
   li
     :width 100%
     :float left
     :clear both
   .tab-titlebar
     :background = !tab_block_title_bg
-    :margin-top -27px
+    :margin-top = 0 - !tab_block_title_offset
+    body.ie6 &
+      :margin-top 0
   .tab-title
     :text-transform uppercase
     :background = !tab_block_title_bg
@@ -60,17 +79,27 @@ ul.tab-block
     :margin-right .1em
 
   .tab-content
-    :width = !main_column_width 
     :float left
     :clear both
+    :width = !main_column_width 
+    body.ie6 &
+      :width = !main_column_width - !ie_padding_offset
+    body.ie7 &
+      .tab-content
+        :margin-left 0px
 
 ul.tab-block.active
   :height = !tab_block_height
   :border 2px solid
     :color = !tab_block_title_border
+  body.ie6 &
+    :border 0px
   .tab-content
     :overflow hidden
     :height = !tab_block_height
+    body.ie6 &
+      :border 2px
+      :margin-left 0px
   .tab-content.active
     :overflow-y scroll
     :overflow-x hidden
@@ -89,3 +118,7 @@ ul.tab-block.active
       :background = !tab_block_title_bg
       :color = !tab_block_disabled
       :cursor auto
+  body.ie6 &
+    div.tab-title.active
+      :overflow hidden
+

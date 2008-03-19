@@ -1,7 +1,7 @@
 - content_for :title do
   .group-title
     -#= avatar_for @group, 'medium'
-    %h1.avatar.avatar-medium{ :style => "background-image: url(#{ avatar_url( :id => @group.avatar, :size => 'medium')});" }
+    %h1.avatar.medium{ :style => "background-image: url(#{ avatar_url( :id => @group.avatar, :size => 'medium')});" }
       = link_to_group @group, :display_name => true
     .title-menu
       - if current_user.member_of? @group
