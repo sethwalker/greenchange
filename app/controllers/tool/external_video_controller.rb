@@ -1,11 +1,14 @@
 class Tool::ExternalVideoController < Tool::BaseController
   def new 
     @page_class = Tool::ExternalVideo
-    return unless request.post?
+  end
+
+  def create
+    @page_class = Tool::ExternalVideo
     @page = build_new_page
     @page.data = ExternalMedia::Youtube.new(params[:external_media])
     if @page.save
-      return redirect_to(page_url(@page))
+      return redirect_to(video_url(@page))
     else
       message :object => @page
     end
@@ -14,5 +17,4 @@ class Tool::ExternalVideoController < Tool::BaseController
 #      embed = klass.sanitize(params[:embed])
 #    end
   end
-  alias :create :new
 end

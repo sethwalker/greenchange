@@ -60,6 +60,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :assets, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
   map.resources :blogs, :controller => 'tool/blog', :member => {:versions => :get, :diff => :get}
   map.resources :events, :controller => 'tool/event'
+  map.resources :videos, :controller => 'tool/external_video' #for now
 
   ##### DISPATCHER ROUTES ###################################
   
