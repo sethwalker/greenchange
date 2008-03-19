@@ -36,7 +36,7 @@ class Tool::RankedVoteController < Tool::BaseController
 	before_filter :find_possibles, :only => [:show, :edit] 
      
   def show
-    redirect_to(page_url(@page, :action => 'edit')) unless @poll.possibles.any?
+    redirect_to(edit_poll_url(@page)) unless @poll.possibles.any?
 
     array_of_votes, @who_voted_for = build_vote_arrays    
     @result = BordaVote.new( array_of_votes ).result
@@ -45,11 +45,10 @@ class Tool::RankedVoteController < Tool::BaseController
 
   # ajax or post
   def add_possible
-    return if request.get?
     @possible = @poll.possibles.create params[:possible]
     if @poll.valid? and @possible.valid?
       @page.unresolve
-      redirect_to page_url(@page) unless request.xhr?
+      redirect_to poll_url(@page) unless request.xhr?
     else
       @poll.possibles.delete(@possible)
       message :object => @possible unless @possible.valid?
@@ -84,18 +83,18 @@ class Tool::RankedVoteController < Tool::BaseController
   
   def update_possible
     return unless request.xhr?
-    @possible = @poll.possibles.find(params[:id])
+    @possible = @poll.possibles.find(params[:possible_id])
     params[:possible].delete('name')
     @possible.update_attributes(params[:possible])
   end
     
   def edit_possible
     return unless request.xhr?
-    @possible = @poll.possibles.find(params[:id])
+    @possible = @poll.possibles.find(params[:possible_id])
   end
 
   def destroy_possible    
-    possible = @poll.possibles.find(params[:id])
+    possible = @poll.possibles.find(params[:possible_id])
     possible.destroy
     render :nothing => true
   end
