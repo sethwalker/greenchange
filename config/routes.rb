@@ -56,12 +56,15 @@ ActionController::Routing::Routes.draw do |map|
   # a generic route for tool controllers 
   map.connect 'tool/:controller/:action/:id'
 
-  map.resources :actions, :controller => 'tool/action_alert', :member => {:versions => :get, :diff => :get}
+  map.with_options :member => {:version => :get, :versions => :get, :diff => :get, :break_lock => :post, :print => :get} do |wikis|
+    wikis.resources :wikis, :controller => 'tool/wiki'
+    wikis.resources :actions, :controller => 'tool/action_alert'
+    wikis.resources :blogs, :controller => 'tool/blog'
+    wikis.resources :news, :controller => 'tool/news'
+  end
   map.resources :assets, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
-  map.resources :blogs, :controller => 'tool/blog', :member => {:versions => :get, :diff => :get}
   map.resources :events, :controller => 'tool/event'
   map.resources :videos, :controller => 'tool/external_video' #for now
-  map.resources :wikis, :controller => 'tool/wiki', :member => {:version => :get, :versions => :get, :diff => :get, :break_lock => :post, :print => :get}
   map.resources :messages, :controller => 'tool/message'
 
   ##### DISPATCHER ROUTES ###################################

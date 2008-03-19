@@ -52,11 +52,11 @@ div.block {
   <% if @news.editable_by? current_user -%>
   <br style='clear: both' />
     <div class='wikiedit'><span>
-       <%= link_to '<u>e</u>dit', page_url(@page,:action=>'edit'), :accesskey => 'e' %>
+       <%= link_to '<u>e</u>dit', edit_news_url(@page), :accesskey => 'e' %>
        &nbsp;
-       <%= link_to 'versions', page_url(@page,:action=>'versions') %>
+       <%= link_to 'versions', versions_news_url(@page,:action=>'versions') %>
        &nbsp;
-       <%= link_to 'last change', page_url(@page, :action=>'diff', :from => @news.version.to_i-1, :to => @new.version) if @news.version > 1 %>
+       <%= link_to 'last change', diff_news_url(@page, :action=>'diff', :from => @news.version.to_i-1, :to => @new.version) if @news.version > 1 %>
     </span></div>
   <% end -%>
   <br style='clear: both' />
