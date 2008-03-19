@@ -26,7 +26,7 @@ class Tool::EventController < Tool::BaseController
     @page.attributes = params[:page]
     @event.attributes = params[:event]
     if @page.save and @event.save
-      return redirect_to(page_url(@page))
+      return redirect_to(event_url(@page))
     else
       message :object => @page
     end
@@ -36,31 +36,31 @@ class Tool::EventController < Tool::BaseController
   def new 
     @page_class = Tool::Event
     @event = ::Event.new   
-    if request.post?
-      @page = create_new_page @page_class
+  end
 
-      d = params[:date_start].split("/")
-      params[:date_start] = [d[1], d[0], d[2]].join("/")
-      params[:time_start] =  params[:date_start] + " "+ params[:hour_start]
+  def create
+    @page = create_new_page @page_class
 
-      @page.starts_at = TzTime.zone.local_to_utc(params[:time_start].to_time)
+    d = params[:date_start].split("/")
+    params[:date_start] = [d[1], d[0], d[2]].join("/")
+    params[:time_start] =  params[:date_start] + " "+ params[:hour_start]
 
-      d = params[:date_end].split("/")
-      params[:date_end] = [d[1], d[0], d[2]].join("/")
+    @page.starts_at = TzTime.zone.local_to_utc(params[:time_start].to_time)
 
-      params[:time_end] =  params[:date_end] + " " + params[:hour_end]
-      @page.ends_at = TzTime.zone.local_to_utc(params[:time_end].to_time)
-      @event = ::Event.new params[:event]
-      @page.data = @event
-      if @page.save
-        add_participants!(@page, params)
-        return redirect_to(page_url(@page))
-      else
-        message :object => @page
-      end
+    d = params[:date_end].split("/")
+    params[:date_end] = [d[1], d[0], d[2]].join("/")
+
+    params[:time_end] =  params[:date_end] + " " + params[:hour_end]
+    @page.ends_at = TzTime.zone.local_to_utc(params[:time_end].to_time)
+    @event = ::Event.new params[:event]
+    @page.data = @event
+    if @page.save
+      add_participants!(@page, params)
+      return redirect_to(event_url(@page))
+    else
+      message :object => @page
     end
   end
-  alias :create :new
  
  def set_event_description
    @event.description =  params[:value]
