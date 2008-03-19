@@ -90,12 +90,12 @@ class Tool::BaseController < ApplicationController
   end
   
   def fetch_page_data
-    return true unless @page or params[:page_id]
+    return true unless @page or params[:id]
     unless @page
       # typically, @page will be loaded by the dispatch controller. 
       # however, in some cases (like ajax) we bypass the dispatch controller
       # and need to grab the page here.
-      @page = Page.find(params[:page_id])
+      @page = Page.find(params[:id])
     end
     return true if request.xhr?
     if logged_in?
