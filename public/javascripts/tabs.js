@@ -57,8 +57,7 @@ var Crabgrass = function() {
             //create tab-titlebar
             var titlebar = Element.extend( document.createElement('div'));
             titlebar.addClassName('tab-titlebar');
-            ul.select('.tab-title').each( 
-              function(title) {
+            ul.select('.tab-title').each( function(title) { //add tab-titles
                 if( title.next('.tab-content') && title.next('.tab-content').down('li')) {
                   ul_tabs.add( title.next('.tab-content'), title );
                 } else {
@@ -73,6 +72,9 @@ var Crabgrass = function() {
             all_title.addClassName('tab-title');
             all_title.insert('All');
             titlebar.insert( { top: all_title } );
+
+            //move toolbar into titlebar
+            ul.select('.toolbar').each( function(toolbar) { titlebar.insert( {bottom: toolbar.remove() } ) } );
   
             //setup 'all' list as a tab
             ul_tabs.add( all_list, all_title );
