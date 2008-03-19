@@ -2,7 +2,7 @@
   .group-title
     -#= avatar_for @group, 'medium'
     %h1.avatar.medium{ :style => "background-image: url(#{ avatar_url( :id => @group.avatar, :size => 'medium')});" }
-      = link_to_group @group, :display_name => true
+      = link_to_group @group
     .title-menu
       - if current_user.member_of? @group
         = link_to "Leave", "group_membership_url( @group.membership_for current_user )", :method => :delete, :class => 'action'
