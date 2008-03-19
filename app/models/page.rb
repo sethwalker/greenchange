@@ -146,6 +146,10 @@ class Page < ActiveRecord::Base
     "#{s}+#{id}"
   end
 
+  def to_param
+    "#{id}+#{title.nameize}"
+  end
+
   # returns true if self's unique page name is already in use.
   # what pages are in the namespace? all pages connected to all
   # groups connected to this page (include the group's committees too).

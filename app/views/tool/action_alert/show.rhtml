@@ -30,14 +30,14 @@ div.block {
 
 <div class='wiki'>
   <div>
-    <% if @action_alert.creator > '' -%>
+    <% unless @action_alert.creator.blank? -%>
       <div class="meta">
-        By: <%= @action_alert.creator_url > '' ? link_to(@action_alert.creator, @action_alert.creator_url ) : @action_alert.creator %>
+        By: <%= !@action_alert.creator_url.blank? ? link_to(@action_alert.creator, @action_alert.creator_url ) : @action_alert.creator %>
       </div>
     <% end -%>
     <% if @action_alert.source -%>
       <div class="meta">
-        Source: <%= @action_alert.source_url > '' ? link_to( @action_alert.source, @action_alert.source_url ) : @action_alert.source %>
+        Source: <%= !@action_alert.source_url.blank? ? link_to( @action_alert.source, @action_alert.source_url ) : @action_alert.source %>
       </div>
     <% end -%>
     <% if @wiki.source -%>
@@ -52,11 +52,11 @@ div.block {
   <% if @action_alert.editable_by? current_user -%>
   <br style='clear: both' />
     <div class='wikiedit'><span>
-       <%= link_to '<u>e</u>dit', page_url(@page,:action=>'edit'), :accesskey => 'e' %>
+       <%= link_to '<u>e</u>dit', edit_action_url(@page), :accesskey => 'e' %>
        &nbsp;
-       <%= link_to 'versions', page_url(@page,:action=>'versions') %>
+       <%= link_to 'versions', versions_action_url(@page) %>
        &nbsp;
-       <%= link_to 'last change', page_url(@page, :action=>'diff', :id => "#{@action_alert.version.to_i-1}-#{@action_alert.version}") if @action_alert.version > 1 %>
+       <%= link_to 'last change', diff_action_url(@page, :from => @action_alert.version.to_i-1, :to => @action_alert.version) if @action_alert.version > 1 %>
     </span></div>
   <% end -%>
   <br style='clear: both' />

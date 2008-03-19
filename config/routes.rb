@@ -56,6 +56,8 @@ ActionController::Routing::Routes.draw do |map|
   # a generic route for tool controllers 
   map.connect 'tool/:controller/:action/:id'
 
+  map.resources :actions, :controller => 'tool/action_alert', :member => {:versions => :get, :diff => :get}
+
   ##### DISPATCHER ROUTES ###################################
   
   # our default route is sent to the dispatcher

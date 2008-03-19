@@ -27,7 +27,7 @@ div.wikiedit a:hover {text-decoration: underline;}
        &nbsp;
        <%= link_to 'versions', page_url(@page,:action=>'versions') %>
        &nbsp;
-       <%= link_to 'last change', page_url(@page, :action=>'diff', :id => "#{@wiki.version.to_i-1}-#{@wiki.version}") if @wiki.version > 1 %>
+       <%= link_to 'last change', page_url(@page, :action=>'diff', :from => @wiki.version.to_i-1, :to => @wiki.version) if @wiki.version > 1 %>
     </span></div>
   <% end -%>
   <br style='clear: both' />

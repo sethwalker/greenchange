@@ -3,17 +3,20 @@ class Tool::ActionAlertController < Tool::WikiController
   helper FormHelper
   
   def edit
+    @wiki.lock(Time.now, current_user)
+    # FIXME this should be automagic?
+    @document_meta = @wiki.document_meta
+  end
+
+  def update
     if params[:cancel]
       @wiki.unlock
-      return(redirect_to page_url(@page, :action => 'show'))
-    elsif request.post?
-      save_edits
-    elsif request.get?
-      @wiki.lock(Time.now, current_user)
-      # FIXME this should be automagic?
-      @document_meta = @wiki.document_meta
+      return redirect_to(action_url(@page))
     end
+    save_edits
+    redirect_to (@page)
   end
+
   protected
   
   def save_edits

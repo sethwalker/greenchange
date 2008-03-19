@@ -56,7 +56,7 @@ div.block {
        &nbsp;
        <%= link_to 'versions', page_url(@page,:action=>'versions') %>
        &nbsp;
-       <%= link_to 'last change', page_url(@page, :action=>'diff', :id => "#{@news.version.to_i-1}-#{@news.version}") if @news.version > 1 %>
+       <%= link_to 'last change', page_url(@page, :action=>'diff', :from => @news.version.to_i-1, :to => @new.version) if @news.version > 1 %>
     </span></div>
   <% end -%>
   <br style='clear: both' />

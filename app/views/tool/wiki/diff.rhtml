@@ -30,12 +30,12 @@ to
 
 <p>
 <% if @old.version.to_i != 1 %>
-<%= link_to 'prev change', page_url(@page, :action => 'diff', :id => "#{@old.version.to_i-1}-#{@old.version}") %>
+<%= link_to 'prev change', page_url(@page, :action => 'diff', :from => @old.version.to_i-1, :to => @old.version) %>
 <% else %>
 prev change
 <% end %>
 <% if @wiki.versions.last.version != @new.version %>
-<%= link_to 'next change', page_url(@page, :action => 'diff', :id => "#{@new.version}-#{@new.version.to_i+1}") %>
+<%= link_to 'next change', page_url(@page, :action => 'diff', :from => @new.version, :to => @new.version.to_i+1) %>
 <% else %>
 next change
 <% end %>

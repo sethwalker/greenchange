@@ -29,7 +29,8 @@ class Tool::BlogController < Tool::BaseController
   end
   
   def diff
-    old_id, new_id = params[:id].split('-')
+    old_id = params[:from]
+    new_id = params[:to]
     @old = @wiki.find_version(old_id)
     @new = @wiki.find_version(new_id)
     @old_markup = @old.body || ''
