@@ -61,6 +61,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :blogs, :controller => 'tool/blog', :member => {:versions => :get, :diff => :get}
   map.resources :events, :controller => 'tool/event'
   map.resources :videos, :controller => 'tool/external_video' #for now
+  map.resources :wikis, :controller => 'tool/wiki', :member => {:version => :get, :versions => :get, :diff => :get, :break_lock => :post, :print => :get}
 
   ##### DISPATCHER ROUTES ###################################
   

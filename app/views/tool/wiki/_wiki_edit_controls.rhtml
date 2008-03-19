@@ -1,16 +1,16 @@
 <div class='edit-tab'><span>
   <% if @wiki.editable_by? current_user -%>
-    <%= link_to '<u>e</u>dit', page_url(@page,:action=>'edit'), :accesskey => 'e' %>
+    <%= link_to '<u>e</u>dit', edit_wiki_url(@page), :accesskey => 'e' %>
   <% else -%>
     locked by <%= link_to_user(@wiki.locked_by_id) %>
-    (<%= link_to 'break_lock', page_url(@page,:action=>'break_lock'), :method => :post %>)
+    (<%= link_to 'break_lock', break_lock_wiki_url(@page), :method => :post %>)
   <% end %>
   &nbsp;
-  <%= link_to '<u>p</u>rint', page_url(@page, :action=>'print'), :accesskey => 'p' %>
+  <%= link_to '<u>p</u>rint', print_wiki_url(@page), :accesskey => 'p' %>
   &nbsp;
-  <%= link_to 'versions', page_url(@page,:action=>'versions') %>
+  <%= link_to 'versions', versions_wiki_url(@page) %>
   &nbsp;
-  <%= link_to 'last change', page_url(@page, :action=>'diff', :from => @wiki.version.to_i-1, :to => @wiki.version) if @wiki.version > 1 %>
+  <%= link_to 'last change', diff_wiki_url(@page, :from => @wiki.version.to_i-1, :to => @wiki.version) if @wiki.version > 1 %>
 </span></div>
 <br style='clear: both' />
 
