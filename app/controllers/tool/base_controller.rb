@@ -37,11 +37,11 @@ class Tool::BaseController < ApplicationController
   end
   
   def title
-    return(redirect_to page_url(@page, :action => :show)) unless request.post?
+    return redirect_to(page_url(@page)) unless request.post?
     @page.title = params[:page][:title]
     @page.name = params[:page][:name].to_s.nameize if params[:page][:name].any?
     if @page.save
-      redirect_to page_url(@page, :action => 'show')
+      redirect_to page_url(@page)
     else
       message :object => @page
       @page.name = @page.original_name

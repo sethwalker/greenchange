@@ -2,22 +2,27 @@ require 'cgi'
 
 module PageUrlHelper
    
-  #
-  # build a url of the form:
-  #  
-  #    /:context/:page/:action/:id
-  #
-  # what is the :context? the order of precedence: 
-  #   1. current group name if set in the url and it has access to the page
-  #   2. name of the page's primary group if it exists
-  #   3. the user login that created the page
-  #   4. 'page'
-  #
-  # what is :page? it will be the page name if it exists and the context
-  # is a group. Otherwise, :page will have a friendly url that starts
-  # with the page id.
-  # 
-  def page_url(page,options={})
+  def page_url(page,*args)
+    url_helper = case page
+    when Tool::Asset, Tool::Blog, Tool::News, Tool::Event, Tool::Message
+      "#{page.class.to_s.demodulize.downcase}_url"
+    when Tool::TextDoc
+      'wiki_url'
+    when Tool::ActionAlert
+      'action_url'
+    when Tool::RankedVote
+      'poll_url'
+    when Tool::RateMany
+      'survey_url'
+    when Tool::TaskList
+      'task_url'
+    else
+      return "/pages/#{page.to_param}"
+    end
+    self.__send__ url_helper, @page, *args
+  end
+
+  def old_page_url(page,options={})
     options.delete(:action) if options[:action] == 'show' and not options[:id]
     if @group and @group.is_a?(Group) and page.group_ids.include?(@group.id)
       path = page_path(@group.name, page.name_url, options)

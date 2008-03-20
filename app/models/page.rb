@@ -119,12 +119,7 @@ class Page < ActiveRecord::Base
   end
 
   extend PathFinder::FindByPath
-  include PageUrlHelper
 
-  def url
-    page_url(self)
-  end
-  
   #######################################################################
   ## PAGE NAMING
   
