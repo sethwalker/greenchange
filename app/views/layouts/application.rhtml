@@ -33,7 +33,7 @@
       <%= render 'layouts/menu' -%>
     </div>
 
-    <div id="main">
+    <div id="main" class="<%= "wideside" if extended_sidebar? %>">
       <div id="maincolumn">
         <%= render :partial => 'shared/messages' %>
         <%= render :partial => 'shared/location' %>

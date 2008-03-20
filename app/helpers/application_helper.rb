@@ -224,10 +224,16 @@ module ApplicationHelper
   end
 
   def load_javascript_tabs
+    #return if @@tabs_loaded
+    #@@tabs_loaded = true
     content_for :javascript,
       jquery_javascript_includes + 
       javascript_include_tag('tabs') + 
       javascript_tag( 'Event.observe( document, "dom:loaded", function() { Crabgrass.Tabs.initialize_tab_blocks(); });' )
+  end
+
+  def extended_sidebar?
+    ( controller.controller_name == 'groups' and controller.action_name == 'show' )
   end
   
 end

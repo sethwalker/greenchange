@@ -11,25 +11,34 @@
   margin-bottom: 1em;
   border: 1px solid white;
   background: #eee;
-  padding-bottom: 4px; }
-  #bar .sidesection a.action, #bar .section a.action {
-    padding: 3px 0 3px 9px;
-    text-decoration: none;
-    display: block; }
-  #bar .sidesection a.action:hover, #bar .section a.action:hover {
-    text-decoration: underline;
-    background: #cdf; }
-  #bar .sidesection a.action:selected, #bar .section a.action:selected {
-    font-weight: bold; }
+  padding-bottom: 4px;
+  float: left; }
   #bar .sidesection img, #bar .section img {
     vertical-align: top; }
+    #bar .sidesection img a.action, #bar .section img a.action {
+      padding: 3px 0 3px 9px;
+      text-decoration: none;
+      display: block; }
+    #bar .sidesection img a.action:hover, #bar .section img a.action:hover {
+      text-decoration: underline;
+      background: #cdf; }
+    #bar .sidesection img a.action:selected, #bar .section img a.action:selected {
+      font-weight: bold; }
 #bar .sidehead, #bar .header {
   border-top: 4px solid;
   border-color: #116c90;
   font-weight: bold;
   color: white;
   padding: 4px 4px 4px 9px;
-  background-color: #1c9bca; }
+  background-color: #1c9bca;
+  display: block;
+  width: 230px; }
+  body.ie6 #bar .sidehead, body.ie6 #bar .header {
+    width: 220px; }
+  #main.wideside #bar .sidehead, #main.wideside #bar .header {
+    width: 355px; }
+    body.ie6 #main.wideside #bar .sidehead, body.ie6 #main.wideside #bar .header {
+      width: 345px; }
 #bar a.header {
   background: url(/images/arrow-bullet.gif) no-repeat 97% 45%;
   background-color: #1c9bca;

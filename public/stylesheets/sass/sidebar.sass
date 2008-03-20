@@ -15,17 +15,19 @@
     :border 1px solid white
     :background #eee
     :padding-bottom 4px
-    a.action
-      :padding 3px 0 3px 9px
-      :text-decoration none
-      :display block
-    a.action:hover
-      :text-decoration underline
-      :background #cdf
-    a.action:selected
-      :font-weight bold
+    :float left
     img
       :vertical-align top
+    //
+      a.action
+        :padding 3px 0 3px 9px
+        :text-decoration none
+        :display block
+      a.action:hover
+        :text-decoration underline
+        :background #cdf
+      a.action:selected
+        :font-weight bold
 
   .sidehead, .header
     :border-top 4px solid
@@ -34,6 +36,16 @@
     :color white
     :padding 4px 4px 4px 9px
     :background-color = !bar_header_bg 
+    :display block
+    :width = !side_column_width - 20px
+    body.ie6 &
+      :width = !side_column_width - !ie_padding_offset - 20px 
+    #main.wideside &
+      :width = !side_column_wideside_width -20px
+      body.ie6 &
+        :width = !side_column_wideside_width - !ie_padding_offset -20px
+      
+      
   
   a.header
     :background url(/images/arrow-bullet.gif) no-repeat 97% 45%

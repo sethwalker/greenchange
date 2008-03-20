@@ -7,6 +7,10 @@
       :width = !main_column_width - 120px
       body.ie6 &
         :width = !main_column_width - 120px - !ie_padding_offset
+      #main.wideside &
+        :width = !main_column_wideside_width - 120px
+        body.ie6 &
+          :width = !main_column_wideside_width - 120px - !ie_padding_offset
 
   .list-item
     :margin-bottom 12px
@@ -15,11 +19,19 @@
     :width = !main_column_width - 8px
     body.ie6 &
       :width = !main_column_width - !ie_padding_offset - 8px
+    #main.wideside &
+      :width = !main_column_wideside_width - 8px
+      body.ie6 &
+        :width = !main_column_wideside_width - !ie_padding_offset - 8px
 
   .section
     :width = !main_column_width
     body.ie6 &
       :width = !main_column_width - !ie_padding_offset
+    #main.wideside &
+      :width = !main_column_wideside_width
+      body.ie6 &
+        :width = !main_column_wideside_width - !ie_padding_offset
 
 .list-item
   :display block
@@ -58,9 +70,10 @@ ul.promos
   :padding 0
   :margin 0
   :float left
-  :width = !main_column_width
-  body.ie6 &
-    :width = !main_column_width - !ie_padding_offset
+  #main.wideside &
+    :width = !main_column_width
+    body.ie6 &
+      :width = !main_column_width - !ie_padding_offset
 
 ul.tab-block
   :list-style none
@@ -68,9 +81,19 @@ ul.tab-block
   :margin 0
   :float left
   :margin-top = !tab_block_title_offset + 3px
+
   :width = !main_column_width
   body.ie6 &
     :width = !main_column_width - !ie_padding_offset
+  #main.wideside #maincolumn &
+    :width = !main_column_wideside_width
+    body.ie6 &
+      :width = !main_column_wideside_width - !ie_padding_offset
+  #main.wideside #bar & 
+    :width = !side_column_wideside_width - 15px
+    body.ie6 &
+      :width = !side_column_wideside_width - !ie_padding_offset
+
   body.ie7 &
     :padding-bottom = !tab_block_title_offset
   li
@@ -95,22 +118,36 @@ ul.tab-block
   .tab-content
     :float left
     :clear both
-    :width = !main_column_width 
-    body.ie6 &
-      :width = !main_column_width - !ie_padding_offset
     body.ie7 &
       .tab-content
         :margin-left 0px
+
+    :width = !main_column_width 
+    body.ie6 &
+      :width = !main_column_width - !ie_padding_offset
+    #main.wideside #maincolumn &
+      :width = !main_column_wideside_width 
+      body.ie6 &
+        :width = !main_column_wideside_width - !ie_padding_offset
+    #main.wideside #bar & 
+      :width = !side_column_wideside_width - 15px
+      body.ie6 &
+        :width = !side_column_wideside_width - !ie_padding_offset
+
 
 ul.tab-block.active
   :height = !tab_block_height
   :border 2px solid
     :color = !tab_block_title_border
+  #bar &
+    :height = !tab_block_sidebar_height
   body.ie6 &
     :border 0px
   .tab-content
     :overflow hidden
     :height = !tab_block_height
+    #bar &
+      :height = !tab_block_sidebar_height
     body.ie6 &
       :border 2px
       :margin-left 0px
