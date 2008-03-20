@@ -34,7 +34,7 @@ class Tool::RateManyController < Tool::BaseController
   
   def vote_one
     new_value = params[:value].to_i
-    @possible = @poll.possibles.find(params[:id])
+    @possible = @poll.possibles.find(params[:possible_id])
     @poll.delete_votes_by_user_and_possible(current_user,@possible)
     @possible.votes.create :user => current_user, :value => new_value
     current_user.updated(@page, :resolved => true)

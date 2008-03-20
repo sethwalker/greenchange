@@ -35,13 +35,6 @@ module PageUrlHelper
     [context, name, options.delete(:action), options.delete(:id)].compact.join('/')
   end
   
-  # like page_url, but it returns a direct URL that bypasses the dispatch
-  # controller. intended for use with ajax calls. 
-  def page_xurl(page,options={})
-    hash = {:page_id => page.id, :id => 0, :action => 'show', :controller => 'tool/' + page.controller}
-    direct_url(hash.merge(options))
-  end
-  
   # a helper for links that are destined for the PagesController, not the
   # Tool::BaseController or its decendents
   def pages_url(page,options={})

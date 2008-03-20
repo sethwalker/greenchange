@@ -47,9 +47,6 @@ ActionController::Routing::Routes.draw do |map|
   map.forgot_password '/forgot_password',     :controller => 'passwords',   :action =>  'new'
   map.reset_password  '/reset_password/:id',  :controller => 'passwords',   :action =>  'edit'
   
-  # used for ajax calls to make a direct request bypassing the dispatcher
-  map.direct 'page-direct/:page_id/:action/:id/:controller', :controller => /.*/
- 
   # typically, this is the default route
   map.connect ':controller/:action/:id'
  
@@ -63,7 +60,7 @@ ActionController::Routing::Routes.draw do |map|
     wikis.resources :news, :controller => 'tool/news'
   end
   map.resources :assets, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
-  map.resources :events, :controller => 'tool/event'
+  map.resources :events, :controller => 'tool/event', :member => {:participation => :post, :set_event_description => :post}
   map.resources :videos, :controller => 'tool/external_video' #for now
   map.resources :messages, :controller => 'tool/message'
   map.resources :polls, :controller => 'tool/ranked_vote', :member => {:add_possible => :post, :sort => :post, :update_possible => :put, :edit_possible => :get, :destroy_possible => :destroy}

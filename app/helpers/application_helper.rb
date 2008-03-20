@@ -1,7 +1,7 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
     
-  include PageUrlHelper         # provides page_url() and page_xurl()
+  include PageUrlHelper         # provides page_url()
   include UrlHelper
   include Formy                 # helps create forms
   include LayoutHelper
