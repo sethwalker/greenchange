@@ -24,17 +24,17 @@ class Tool::BaseController < ApplicationController
   # can be overridden by the subclasses
   def new 
     @page_class = Page.display_name_to_class(params[:id])
-    if request.post?
-      @page = create_new_page
-      if @page.valid?
-        return redirect_to(page_url(@page))
-      else
-        message :object => @page
-      end
-    end
-    render :template => 'tool/base/create'
   end
-  alias :create :new
+
+  def create
+    @page = create_new_page
+    if @page.valid?
+      return redirect_to(page_url(@page))
+    else
+      message :object => @page
+      render :template => 'tool/base/new'
+    end
+  end
   
   def title
     return(redirect_to page_url(@page, :action => :show)) unless request.post?

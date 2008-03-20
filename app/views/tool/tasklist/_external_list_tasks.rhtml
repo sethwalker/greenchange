@@ -28,13 +28,13 @@
        end
      end
   -%>
-  <div><b><%= link_to @page.title, page_url(@page) %></b> <%= "(#{link_to_group(@page.group_name, :action => 'tasks')})" if @page.group_name %></div>
+  <div><b><%= link_to @page.title, task_url(@page) %></b> <%= "(#{link_to_group(@page.group_name, :action => 'tasks')})" if @page.group_name %></div>
   <ul id='<%=sort_list_id%>' class='task_list'>
     <%= render :partial => 'tool/tasklist/task', :collection => tasks %>
   </ul>
 <% end -%>
 <%= sortable_lists.collect do |id, page|
-  sortable_element id, :handle => 'handle', :url => page_xurl(page, :action=>'sort'), :containment => sortable_lists.keys
+  sortable_element id, :handle => 'handle', :url => sort_task_url(page), :method => :post, :containment => sortable_lists.keys
 end %>
 
 <%# this is just here so that we don't get an ajax error when a task is marked completed or pending -%>
