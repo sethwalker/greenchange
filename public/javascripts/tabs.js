@@ -1,41 +1,45 @@
 var Crabgrass = function() {
   return {
     Tabs: function() {
-      var self = {
-        triggers : new Array( ),
-        segments : new Array( ),
-        segment_count: 0,
-        create: function(){ return self; },
-        add: function( element, trigger  ) {
-            self.segments[ self.segment_count ] = $( element );
-            self.triggers[ self.segment_count ] = $( trigger );
-            Event.observe( $( trigger ), 'click', function( ){ self.show( $( element ) ); }, self ) ;
-            ++self.segment_count;
-            },
-        show: function( element ) {
-            var key = self.segments.indexOf( element );
-            var trigger =  self.triggers[key];
-            var to_check = self.segments.without(self.segments[key]);
-            var items_to_hide = to_check.select( function( item ) { return item.visible(); } )
-            
-            if ( !( self.segments[key].visible() && items_to_hide.all( function(item){ return !item.visible(); } ) )) { 
-              self.segments.each( function(e) { e.removeClassName( 'active'); } );
-              jQuery(items_to_hide).hide('slide', { duration: 150, direction: 'left', callback: function(){ 
-                jQuery(self.segments[key]).show('slide', { duration: 150, direction: 'right', callback: function() { 
-                    self.segments[key].addClassName( 'active');
-                  } }) 
-                }} );
-            }
-            self.triggers.each( function( item ) { item.removeClassName( 'active');});
-            trigger.addClassName( 'active');
-          },
-        collapse: function( ) {
-            self.segments.each( function( item ) { if (item.visible()) new Effect.SwitchOff( item );});
-          },
-        expand: function( ) {
-            self.segments.each( function( item ) { if (!item.visible()) new Effect.Appear( item );});
-          },
-        initialize_tab_blocks: function( ) {
+      return {
+        create: function() {
+          var self = {
+            triggers : new Array( ),
+            segments : new Array( ),
+            segment_count: 0,
+            add: function( element, trigger  ) {
+                self.segments[ self.segment_count ] = $( element );
+                self.triggers[ self.segment_count ] = $( trigger );
+                Event.observe( $( trigger ), 'click', function( ){ self.show( $( element ) ); }, self ) ;
+                ++self.segment_count;
+                },
+            show: function( element ) {
+                var key = self.segments.indexOf( element );
+                var trigger =  self.triggers[key];
+                var to_check = self.segments.without(self.segments[key]);
+                var items_to_hide = to_check.select( function( item ) { return item.visible(); } )
+                
+                if ( !( self.segments[key].visible() && items_to_hide.all( function(item){ return !item.visible(); } ) )) { 
+                  self.segments.each( function(e) { e.removeClassName( 'active'); } );
+                  jQuery(items_to_hide).hide('slide', { duration: 150, direction: 'left', callback: function(){ 
+                    jQuery(self.segments[key]).show('slide', { duration: 150, direction: 'right', callback: function() { 
+                        self.segments[key].addClassName( 'active');
+                      } }) 
+                    }} );
+                }
+                self.triggers.each( function( item ) { item.removeClassName( 'active');});
+                trigger.addClassName( 'active');
+              },
+            collapse: function( ) {
+                self.segments.each( function( item ) { if (item.visible()) new Effect.SwitchOff( item );});
+              },
+            expand: function( ) {
+                self.segments.each( function( item ) { if (!item.visible()) new Effect.Appear( item );});
+              }
+          };
+          return self;
+        },
+        initialize_tab_blocks: function( )  {
           $$("ul.tab-block").each( function(ul) { 
             var ul_tabs = Crabgrass.Tabs.create();
 
@@ -79,13 +83,13 @@ var Crabgrass = function() {
             //setup 'all' list as a tab
             ul_tabs.add( all_list, all_title );
             ul.addClassName('active');
+            alert('showing all_list');
             ul_tabs.show( all_list );
-            } );
-          }
-        };
-      return self;
+          } );
+        }
+      }
     }()
-  };
-
+  }
 }();
+
 
