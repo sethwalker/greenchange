@@ -67,6 +67,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :videos, :controller => 'tool/external_video' #for now
   map.resources :messages, :controller => 'tool/message'
   map.resources :polls, :controller => 'tool/ranked_vote', :member => {:add_possible => :post, :sort => :post, :update_possible => :put, :edit_possible => :get, :destroy_possible => :destroy}
+  map.resources :surveys, :controller => 'tool/rate_many', :member => {:add_possible => :post, :edit_possible => :get, :destroy_possible => :destroy, :vote_one => :post, :vote => :post, :clear_votes => :destroy, :sort => :post}
 
   ##### DISPATCHER ROUTES ###################################
   

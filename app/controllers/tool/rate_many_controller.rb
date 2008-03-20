@@ -11,7 +11,7 @@ class Tool::RateManyController < Tool::BaseController
     @possible = @poll.possibles.create params[:possible]
     if @poll.valid? and @possible.valid?
       @page.unresolve
-      redirect_to page_url(@page) unless request.xhr?
+      redirect_to survey_url(@page) unless request.xhr?
     else
       @poll.possibles.delete(@possible)
       message :object => @possible unless @possible.valid?
@@ -27,9 +27,9 @@ class Tool::RateManyController < Tool::BaseController
       
   def destroy_possible
     return unless @poll
-    possible = @poll.possibles.find(params[:possible])
+    possible = @poll.possibles.find(params[:possible_id])
     possible.destroy
-    redirect_to page_url(@page, :action => 'show')
+    redirect_to survey_url(@page)
   end
   
   def vote_one
@@ -52,12 +52,12 @@ class Tool::RateManyController < Tool::BaseController
       possible.votes.create :user => current_user, :value => weight if weight
     end
     current_user.updated(@page, :resolved => true)
-    redirect_to page_url(@page, :action => 'show')
+    redirect_to survey_url(@page)
   end
 
   def clear_votes
     @poll.votes.clear
-    redirect_to page_url(@page, :action => 'show')
+    redirect_to survey_url(@page)
   end
     
   # ajax only, returns nothing
