@@ -22,46 +22,10 @@ module PageUrlHelper
     self.__send__ url_helper, @page, *args
   end
 
-  def old_page_url(page,options={})
-    options.delete(:action) if options[:action] == 'show' and not options[:id]
-    if @group and @group.is_a?(Group) and page.group_ids.include?(@group.id)
-      path = page_path(@group.name, page.name_url, options)
-    elsif page.group_name
-      path = page_path(page.group_name, page.name_url, options)
-    elsif page.created_by_id
-      path = page_path(page.created_by_login, page.friendly_url, options)
-    else
-      path = page_path('page', page.friendly_url, options)
-    end
-    '/' + path + build_query_string(options)
-  end
-  
-  def page_path(context,name,options)
-    [context, name, options.delete(:action), options.delete(:id)].compact.join('/')
-  end
-  
   # a helper for links that are destined for the PagesController, not the
   # Tool::BaseController or its decendents
   def pages_url(page,options={})
     url_for({:controller => 'pages',:id => page.id}.merge(options))
-  end
-  
-  def create_page_link(text,options={})
-    url = url_for :controller => '/pages', :action => 'create'
-    ret = ""
-    ret += "<form class='link' method='post' action='#{url}'>"
-    options.each do |key,value|
-      ret += hidden_field_tag(key,value)
-    end
-    ret += link_to_function(text, 'event.target.parentNode.submit()')
-    ret += "</form>"
-    #link_to(text, {:controller => '/pages', :action => 'create'}.merge(options), :method => :post)  
-  end
-
-  def create_page_url(page_class, options={})
-    controller = "tool/" + page_class.controller 
-    id = page_class.class_display_name.nameize
-    "/#{controller}/create/#{id}" + build_query_string(options)
   end
   
   # 
@@ -88,33 +52,6 @@ module PageUrlHelper
     url_for :controller => url[0], :action => url[1], :id => url[2]
   end
   
-  #
-  # lifted from active_record's routing.rb
-  # 
-  # Build a query string from the keys of the given hash. If +only_keys+
-  # is given (as an array), only the keys indicated will be used to build
-  # the query string. The query string will correctly build array parameter
-  # values.
-  def build_query_string(hash, only_keys=nil)
-    elements = [] 
-    
-    only_keys ||= hash.keys
-    
-    only_keys.each do |key|
-      value = hash[key] or next
-      key = CGI.escape key.to_s
-      if value.class == Array
-        key <<  '[]'
-      else
-        value = [ value ]
-      end
-      value.each { |val| elements << "#{key}=#{CGI.escape(val.to_param.to_s)}" }
-    end
-    
-    query_string = "?#{elements.join("&")}" unless elements.empty?
-    query_string || ""
-  end
-      
   def filter_path
     @path ||= (params[:path] || [])
   end
