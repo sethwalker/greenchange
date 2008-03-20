@@ -224,8 +224,6 @@ module ApplicationHelper
   end
 
   def load_javascript_tabs
-    #return if @@tabs_loaded
-    #@@tabs_loaded = true
     content_for :javascript,
       jquery_javascript_includes + 
       javascript_include_tag('tabs') + 
