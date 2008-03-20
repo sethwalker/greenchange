@@ -23,12 +23,6 @@ class Profile < ActiveRecord::Base
   def user; entity; end
   def group; entity; end
     
-  before_create :fix_polymorphic_single_table_inheritance
-  def fix_polymorphic_single_table_inheritance
-    self.entity_type = 'User' if self.entity_type =~ /User/
-    self.entity_type = 'Group' if self.entity_type =~ /Group/
-  end
-
   validate :validate_user_info
   
   def validate_user_info
@@ -69,41 +63,4 @@ class Profile < ActiveRecord::Base
   has_many   :websites,        :dependent => :destroy, :order=>"preferred desc"
   has_many   :notes,           :dependent => :destroy, :order=>"preferred desc"
 
-  # takes a huge params hash that includes sub hashes for dependent collections
-  # and saves it all to the database.
-  def save_from_params(profile_params)
-    valid_params = ['first_name', 'middle_name', 'last_name', 'role', 'organization']
-    collections = {
-      'phone_numbers'   => PhoneNumber,   'locations' => Location,
-      'email_addresses' => EmailAddress,  'websites'  => Website,
-      'im_addresses'    => ImAddress,     'notes'     => Note
-    }
-    
-    profile_params.stringify_keys!
-    params = profile_params.limit_keys_to(valid_params)
-    # save nil if value is an empty string:
-    params.each do |key,value|
-      params[key] = nil unless value.any?
-    end
-    
-    # build objects from params
-    collections.each do |collection_name, collection_class|
-      params[collection_name] = profile_params[collection_name].collect do |key,value|
-        # puts "%s.new ( %s )" % [collection_class, value.inspect]
-        collection_class.new( value.merge('profile_id' => self.id.to_i) )
-      end || [] rescue []
-    end
-
-    self.update_attributes( params )
-    self.reload    
-    self
-  end
-
-  def create_wiki
-    return wiki unless wiki.nil?
-    wiki = Wiki.create :profile => self
-    save
-    wiki
-  end
-    
-end # class
+end

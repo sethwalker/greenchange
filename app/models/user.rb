@@ -9,7 +9,7 @@ class User < ActiveRecord::Base
   validates_handle :login
   acts_as_modified
 
-  validate                 :validate_profiles
+  #validate                 :validate_profiles
   validates_presence_of    :email
   validates_format_of      :email, :with => /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
   validates_length_of      :email,    :within => 6..100
@@ -57,12 +57,10 @@ class User < ActiveRecord::Base
   end
 
   belongs_to :avatar
-  has_many :profiles, :as => 'entity', :dependent => :destroy, :extend => Profile::Methods
+  #has_many :profiles, :as => 'entity', :dependent => :destroy#, :extend => Profile::Methods
+  has_one :public_profile, :as => 'entity', :dependent => :destroy, :class_name => 'Profile', :conditions => ['stranger = ?', true ]
+  has_one :private_profile, :as => 'entity', :dependent => :destroy, :class_name => 'Profile', :conditions => [ 'friend = ?', true ]
 
-  # this is a hack to get 'has_many :profiles' to polymorph
-  # on User instead of AuthenticatedUser
-  #def self.base_class; User; end
-  
   validates_format_of :login, :with => /^[a-z0-9]+([-_\.]?[a-z0-9]+){1,17}$/
   before_validation :clean_names
   
@@ -136,6 +134,25 @@ class User < ActiveRecord::Base
       self.errors.add :profiles, "User must have at least a private profile"
     end
 
+  end
+
+  # returns the profile appropriate to the viewer's relationship to the user
+  def profile_for( person )
+    return private_profile if contacts.include? person #find :first, :conditions => ['contact_id = ?', person ]
+    public_profile
+  end
+
+  # TODO: remove this transitional hack
+  def profiles
+    items = [ public_profile, private_profile ].compact
+    class << items
+      def build( *args )
+        Profile.new( { :entity => user }.merge(args.extract_options!) )
+      end
+      attr_accessor :user
+    end
+    items.user = self
+    items
   end
 
     

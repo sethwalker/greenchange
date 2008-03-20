@@ -1,31 +1,34 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe User, "when forgetting a password" do
+describe User do
 
   before do
     @user = create_valid_user
   end
 
-  it "should find a user by email address" do
-    User.find_for_forget("aviary@birdcage.com").should be_an_instance_of(User)
-  end
+  describe "when forgetting a password" do
 
-  it "should create a password reset code" do
-    @user.__send__ :make_password_reset_code
-    @user.password_reset_code.should_not be_nil
-  end
+    it "should find a user by email address" do
+      User.find_for_forget("aviary@birdcage.com").should be_an_instance_of(User)
+    end
 
-  it "should be have a general forgot password method" do
-    @user.forgot_password
-    @user.recently_forgot_password?.should be_true 
-  end
+    it "should create a password reset code" do
+      @user.__send__ :make_password_reset_code
+      @user.password_reset_code.should_not be_nil
+    end
 
-  it "should allow resetting the password" do
-    @user.forgot_password
-    @user.save!
-    user = User.find @user.id
-    user.reset_password
-    user.password_reset_code.should be_blank
+    it "should be have a general forgot password method" do
+      @user.forgot_password
+      @user.recently_forgot_password?.should be_true 
+    end
+
+    it "should allow resetting the password" do
+      @user.forgot_password
+      @user.save!
+      user = User.find @user.id
+      user.reset_password
+      user.password_reset_code.should be_blank
+    end
   end
 
   describe "when saving with a profile" do
@@ -48,6 +51,7 @@ describe User, "when forgetting a password" do
     end
 
     it "requires a profile" do
+      pending "profile validations"
       @user.should have_at_least(1).errors_on(:profiles)
     end
 
@@ -65,11 +69,27 @@ describe User, "when forgetting a password" do
     end
 
     it "should have errors on user unless the profile is valid" do
+      pending "profile validations"
       profile = @user.profiles.build :friend => true, :entity => @user
       @user.should_not be_valid
       @user.should have_at_least(1).errors_on(:profiles)
     end
 
+  end
+
+  describe User, "profile actions" do
+    before do
+      @person = create_valid_user
+    end
+
+    it "should show the public profile to any user" do
+      @user.profile_for( @person ).should == @user.public_profile
+    end
+
+    it "should show the private profile to contacts" do
+      @user.contacts << @person
+      @user.profile_for( @person ).should == @user.private_profile
+    end
   end
 
 end
