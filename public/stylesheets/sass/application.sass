@@ -29,6 +29,10 @@ p, ol, ul, td
   :float left
   :margin .5em 0 .5em .5em
   :width = !side_column_width
+  #main.wideside &
+    :width = !side_column_wideside_width
+    body.ie6 &
+      :width = !side_column_wideside_width - !ie_padding_offset
   body.ie6 &
     :width = !side_column_width - !ie_padding_offset
 
@@ -107,6 +111,10 @@ img
   :width = !main_column_width
   body.ie6 &
     :width = !main_column_width - !ie_padding_offset
+  #main.wideside &
+    :width = !main_column_wideside_width
+    body.ie6 &
+      :width = !main_column_wideside_width - !ie_padding_offset
 
 
 .normal

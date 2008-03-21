@@ -22,10 +22,8 @@ module TimeHelper
       str = local.strftime("%I:%M<span style='font-size: 80%'>%p</span>")
     elsif today > date and (today-date) < 7
       str = local.strftime("%A")
-    elsif date.year != today.year
-      str = date.loc("%d/%b/%Y")
     else
-      str = date.loc('%d/%b')
+      str = date.loc('%m.%d.%Y')
     end
     "<label title='#{ full_time(time) }'>#{str}</label>"
   end

@@ -8,11 +8,9 @@
       = page.summary
     .byline
       .label
-        By:
+        Posted By:
       = link_to_user(page.created_by)
     .date
-      .label
-        Posted:
       = friendly_date(page.created_at)
     %ul.page-attachments
       - unless page.tags.empty?
@@ -22,9 +20,8 @@
           = render :partial => 'shared/tag', :collection => page.tags
       - if page.discussion and !page.discussion.posts.empty?
         %li
-          .label
-            Comments:
           = page.discussion.posts.count
+          comments
       -# unless page.issues.empty?
         %li
           .label

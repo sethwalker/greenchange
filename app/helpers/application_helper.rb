@@ -148,10 +148,10 @@ module ApplicationHelper
   end
 
   def page_list_owner_with_icon(page)
-    if page.group_id
-      return link_to_group(page.group_id, :avatar => 'xsmall')
+    if page.group
+      return link_to_group page.group
     elsif page.created_by
-      return link_to_user(page.created_by, :avatar => 'xsmall')
+      return link_to_user page.created_by
     end
   end
   
@@ -228,6 +228,10 @@ module ApplicationHelper
       jquery_javascript_includes + 
       javascript_include_tag('tabs') + 
       javascript_tag( 'Event.observe( document, "dom:loaded", function() { Crabgrass.Tabs.initialize_tab_blocks(); });' )
+  end
+
+  def extended_sidebar?
+    ( controller.controller_name == 'groups' and controller.action_name == 'show' )
   end
   
 end

@@ -58,8 +58,11 @@ Spec::Runner.configure do |config|
 
   def create_valid_user( options = {} )
     User.delete_all :login => ( options[:login] || 'jones' )
+    profile_options = options[:profile] ? options[:profile].delete : {}
     valid_user = User.new( { :login => "jones", :email => "aviary@birdcage.com", :password => "joke", :password_confirmation => "joke"}.merge( options ))
-    valid_user.profiles.build :first_name => "Plus", :last_name => "Ca Change", :friend => true
+    valid_user.build_private_profile({ :first_name => "Plus", :last_name => "Ca Change", :friend => true }.merge( profile_options) )
+    valid_user.build_public_profile({ :first_name => "Plus", :last_name => "Ca Change", :stranger => true }.merge( profile_options) )
+    #valid_user.profiles.build({ :first_name => "Plus", :last_name => "Ca Change", :friend => true }.merge( profile_options) )
     valid_user.save!
     valid_user
   end

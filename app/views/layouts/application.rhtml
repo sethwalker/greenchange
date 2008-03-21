@@ -27,13 +27,13 @@
   <div id="container">
 
     <div id="header">
+      <%= link_to "skip navigation", "#maincolumn", :class => 'screen-reader' -%>
       <%= render 'layouts/login' -%>
-      <%= link_to "skip navigation", "#content", :class => 'screen-reader' -%>
       <div id="logo"></div>
       <%= render 'layouts/menu' -%>
     </div>
 
-    <div id="main">
+    <div id="main" class="<%= "wideside" if extended_sidebar? %>">
       <div id="maincolumn">
         <%= render :partial => 'shared/messages' %>
         <%= render :partial => 'shared/location' %>
@@ -60,6 +60,6 @@
     </div>
   </div>
 </body>
-<%= yield :javascript %>
 <%= render :partial => 'shared/ie' %>
+<%= yield :javascript %>
 </html>

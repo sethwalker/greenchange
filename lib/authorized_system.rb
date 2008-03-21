@@ -166,7 +166,7 @@ module AuthorizedSystem
       super name
       @@resource_rules.merge!({
         :page               => [:view, :comment],
-        :vote               => [:view, :comment],
+        :vote               => [:view, :comment]
       })
     end
   end
