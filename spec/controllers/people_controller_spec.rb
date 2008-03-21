@@ -6,7 +6,6 @@ describe PeopleController do
   end
   describe "index" do
     before do
-      login_user create_user
       get :index
     end
     it "should be success" do

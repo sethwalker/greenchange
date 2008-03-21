@@ -196,7 +196,7 @@ describe GroupsController do
   end
   describe "when logged in" do
     before do
-      @user = create_user
+      @user = create_valid_user
       login_user @user
     end
 

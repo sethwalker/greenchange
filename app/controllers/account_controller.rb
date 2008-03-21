@@ -29,14 +29,15 @@ class AccountController < ApplicationController
 
   def create
     @user = User.new params[:user] 
-    @profile = @user.profiles.build params[:profile].merge(:friend => true, :entity => @user )
+    @profile = @user.build_private_profile params[:profile].merge(:friend => true, :entity => @user )
+    @public_profile = @user.build_public_profile params[:profile].merge(:stranger=> true, :entity => @user )
 
     unless params[:agreed_to_terms] 
       flash[:error] = "You must agree to the terms and conditions to sign up"
       render :action => 'signup' and return 
     end
 
-    if @user.save && @profile.save
+    if @user.save && @profile.save && @public_profile.save
       self.current_user = @user
       send_welcome_message(current_user)
       flash[:notice] = "Thanks for signing up!"

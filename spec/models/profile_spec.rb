@@ -29,7 +29,7 @@ describe "Profile::Profile" do
   end
 
   it "validates first_name when built by the user" do
-    profile = @user.profiles.build :friend => true, :entity => @user 
+    profile = @user.build_private_profile :friend => true, :entity => @user 
     profile.should have_at_least(1).errors_on(:last_name)
   end
 end
