@@ -90,7 +90,7 @@ module FixtureReplacement
     u.password              = 'password'
     u.password_confirmation = 'password'
     u.email                 = 'auser@email.com'
-    u.profiles              = [default_profile]
+    u.private_profile       = default_profile
 	end
 
   attributes_for :profile do |p|

@@ -216,7 +216,7 @@ class GroupsController < ApplicationController
   end    
   
   def edit_profile
-    @profile = @group.profiles.public
+    @profile = @group.public_profile
     @profile.save_from_params(params[:profile]) if request.post?
   end
 end

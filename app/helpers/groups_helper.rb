@@ -63,7 +63,7 @@ module GroupsHelper
   end
   
   def group_location(group)
-    location = group.profiles.public.locations.first
+    location = group.public_profile.locations.first
     return 'not set' unless location
     display_location = [location.city, location.state].compact.join(', ')
     display_location.empty? ? 'not set' : display_location

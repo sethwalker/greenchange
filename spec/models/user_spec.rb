@@ -52,25 +52,25 @@ describe User do
 
     it "requires a profile" do
       pending "profile validations"
-      @user.should have_at_least(1).errors_on(:profiles)
+      @user.should have_at_least(1).errors_on(:private_profile)
     end
 
     it "should not save a new profile if the profile is invalid" do
       lambda do
-        @user.profiles.build {}
+        @user.build_private_profile {}
         @user.save 
       end.should_not change(Profile, :count )
     end
 
     it "should have errors on profile unless the profile is valid" do
-      profile = @user.profiles.build :friend => true, :entity => @user
+      profile = @user.build_private_profile :friend => true, :entity => @user
       profile.should_not be_valid
       profile.should have_at_least(1).errors_on(:first_name)
     end
 
     it "should have errors on user unless the profile is valid" do
       pending "profile validations"
-      profile = @user.profiles.build :friend => true, :entity => @user
+      profile = @user.build_private_profile :friend => true, :entity => @user
       @user.should_not be_valid
       @user.should have_at_least(1).errors_on(:profiles)
     end

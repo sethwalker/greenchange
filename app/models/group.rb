@@ -376,7 +376,7 @@ class Group < ActiveRecord::Base
   def update_name
     if name_modified?
       update_group_name_of_pages  # update cached group name in pages
-      Wiki.clear_all_html(self)   # in case there were links using the old name
+      #Wiki.clear_all_html(self)   # in case there were links using the old name
       # update all committees (this will also trigger the after_save of committees)
       committees.each {|c| c.update_parent(self)}
     end

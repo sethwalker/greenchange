@@ -58,17 +58,17 @@ class WikiController < ApplicationController
   def authorized?
     
     # common objects used by most actions
-    @group = Group.find(params[:group_id])
-    @profile = @group.profiles.find(params[:profile_id])
-    @public = @group.profiles.public.wiki || @group.profiles.public.create_wiki
-    @private = @group.profiles.private.wiki || @group.profiles.private.create_wiki
+    #@group = Group.find(params[:group_id])
+    #@profile = @group.public_profile #@group.profiles.find(params[:profile_id])
+    #@public = @group.profiles.public.wiki || @group.profiles.public.create_wiki
+    #@private = @group.profiles.private.wiki || @group.profiles.private.create_wiki
     
     # some actions are keyed on either the private or public wiki.
-    if params[:access] == 'private'
-      @wiki = @private
-    elsif params[:access] == 'public'
-      @wiki = @public
-    end
+    #if params[:access] == 'private'
+    #  @wiki = @private
+    #elsif params[:access] == 'public'
+    #  @wiki = @public
+    #end
     
     logged_in? and current_user.member_of?(@group)
   end    
