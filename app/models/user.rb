@@ -155,5 +155,9 @@ class User < ActiveRecord::Base
     items
   end
 
+  def unread_messages
+    []
+  end
+
     
 end

@@ -148,10 +148,10 @@ module ApplicationHelper
   end
 
   def page_list_owner_with_icon(page)
-    if page.group_id
-      return link_to_group(page.group_id, :avatar => 'xsmall')
+    if page.group
+      return link_to_group page.group
     elsif page.created_by
-      return link_to_user(page.created_by, :avatar => 'xsmall')
+      return link_to_user page.created_by
     end
   end
   

@@ -5,9 +5,10 @@
       = link_to_group @group
     .title-menu
       - if current_user.member_of? @group
-        = link_to "Leave", "group_membership_url( @group.membership_for current_user )", :method => :delete, :class => 'action'
+        = link_to "Join Chat", "chat_url( @group )", :class => 'action chat'
+        = link_to "Leave", "group_membership_url( @group.membership_for current_user )", :method => :delete, :class => 'action delete'
       - else 
-        = link_to "Join", "new_group_membership_url( @group )", :class => 'action'
+        = link_to "Join", "new_group_membership_url( @group )", :class => 'action join'
     .group_widget.section.profile
       =render :partial => 'groups/widgets/info'
 

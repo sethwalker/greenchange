@@ -4,9 +4,6 @@
     = h @group.summary
   %ul.plainlist
     %li
-      Founded 
-      = friendly_date( @group.created_at )
-    %li
       Members:
       = @group.members.count
       -#      by
