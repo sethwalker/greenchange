@@ -9,12 +9,66 @@
 class Page < ActiveRecord::Base
   acts_as_modified
 
-  has_finder :allowed, 
-    Proc.new { |user,perm| 
-      allowed_collectings = Collecting.allowed(user,perm).find( :all, :conditions => [ 'collectable_type = ?', self.name] )
-      { :conditions => ["pages.public = ? OR pages.id IN (?)", true, allowed_collectings.map(&:collectable_id) ] }
+  has_many :permissions, :as => 'resource'
+
+  #allowed_collectings = Collecting.allowed(user,perm).find( :all, :conditions => [ 'collectable_type = ?', self.name] )
+  #has_finder :allowed, 
+  #  Proc.new { |user, perm| 
+  #    return {} if not [:view, :edit, :participate, :admin].include? perm
+  #    { :include => :permissions, :conditions => 
+  #      [
+  #        "pages.public = ? OR pages.created_by_id = ? "+
+  #        "OR ("+
+  #            "permissions.grantee_type = 'User' AND "+
+  #            "permissions.grantee_id = ? AND " +
+  #            "permissions.#{perm} = 1 "+
+  #        ")",
+  #        true, user.id, user.id
+  #      ],
+  #    }
+  #  }
+
+  has_finder :permitted_for, 
+    Proc.new { |user, perm| 
+      { :joins => :permissions, :conditions => 
+        [
+          "("+
+              "permissions.grantee_type = 'User' AND "+
+              "permissions.grantee_id = ? AND " +
+              "permissions.#{perm} = 1 "+
+          ")",
+          user.id
+        ],
+      }
     }
 
+  def Page.allowed(user, perm)
+    # unknown actions allow nothing
+    return [] if not [:view, :edit, :participate, :admin].include? perm
+
+    by_permission   = permitted_for(user, perm)
+    by_creation     = created_by(user)
+
+    user_groups = []
+
+    if perm == :admin
+      by_public = []
+      user_groups << user.admin_of_group_ids 
+    else
+      by_public = self.public
+    end
+
+    user_groups << user.contributes_to_group_ids  if perm == :edit 
+    user_groups << user.member_of_group_ids       if perm == :view or perm == :participate
+
+    by_memberships = find(:all, :conditions => ["group_id IN(?) ", user_groups.uniq!])
+
+    # all together now
+    by_public +
+      by_creation +
+      by_permission +
+      by_memberships
+  end
 
   has_finder :in_network,
     lambda {|user| {:include => [:group_participations, :user_participations], :conditions => ["user_participations.user_id = ? OR group_participations.group_id IN (?)", user.id, user.all_group_ids]}}
@@ -402,16 +456,18 @@ class Page < ActiveRecord::Base
   def allows?(user, action)
     return true if user.superuser?
 
+    permissions.find(:first,
+      :conditions => [
+        "grantee_type = 'User' AND "+
+        "grantee_id = ? AND "+
+        "#{action} = ?",
+        user.id, true
+      ]
+    )
+
     # abide by group policy if the page belongs to a group
     unless self.group.nil?
       return self.group.role_for(user).allows?(action, self)
-    else
-      # do the participation dance
-      upart = self.participation_for_user(user)
-      return true if upart
-
-      gparts = self.participation_for_groups(user.all_group_ids)
-      return true if gparts.any?
     end
 
     return false

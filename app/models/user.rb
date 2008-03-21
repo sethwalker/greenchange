@@ -14,6 +14,36 @@ class User < ActiveRecord::Base
   validates_format_of      :email, :with => /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
   validates_length_of      :email,    :within => 6..100
 
+  has_many :gives_permissions,  :as => 'grantor', :class_name => 'Permission'
+  has_many :given_permissions,  :as => 'grantee', :class_name => 'Permission'
+
+  has_many :memberships
+  def admin_of_group_ids
+    memberships.find(:all, :conditions => ["role = 'administrator'"]).map(&:group_id).uniq!
+  end
+
+  def contributes_to_group_ids
+    memberships.find(:all,:conditions => [
+      "role = 'contributor' OR role = 'administrator'"
+    ]).map(&:group_id).uniq!
+  end
+
+  def member_of_group_ids
+    memberships.find(:all).map(&:group_id).uniq!
+  end
+
+  def has_permission_to(act, on_resource)
+    perm = given_permissions.find(:all,
+      :conditions => [
+        "#{act} = ? AND "+
+        "resource_type = '#{on_resource.class}' AND "+
+        "resource_id = ? ",
+        true, on_resource.id
+      ]
+    )
+    return perm.length > 0
+  end
+
   #########################################################    
   # my identity
 
