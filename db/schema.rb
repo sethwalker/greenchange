@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1205730391) do
+ActiveRecord::Schema.define(:version => 1205959922) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -91,6 +91,7 @@ ActiveRecord::Schema.define(:version => 1205730391) do
     t.integer  "created_by"
     t.integer  "position"
     t.string   "collectable_type"
+    t.string   "permission"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -319,6 +320,19 @@ ActiveRecord::Schema.define(:version => 1205730391) do
   add_index "pages", ["starts_at"], :name => "index_pages_on_starts_at"
   add_index "pages", ["ends_at"], :name => "index_pages_on_ends_at"
 
+  create_table "permissions", :force => true do |t|
+    t.string  "resource_type", :limit => 64
+    t.integer "resource_id"
+    t.string  "grantor_type",  :limit => 64
+    t.integer "grantor_id"
+    t.string  "grantee_type",  :limit => 64
+    t.integer "grantee_id"
+    t.boolean "view"
+    t.boolean "edit"
+    t.boolean "participate"
+    t.boolean "admin"
+  end
+
   create_table "phone_numbers", :force => true do |t|
     t.integer "profile_id"
     t.boolean "preferred",         :default => false
@@ -328,11 +342,6 @@ ActiveRecord::Schema.define(:version => 1205730391) do
   end
 
   add_index "phone_numbers", ["profile_id"], :name => "phone_numbers_profile_id_index"
-
-  create_table "plugin_schema_info", :force => true do |t|
-    t.datetime "created_at"
-    t.string   "plugin_name"
-  end
 
   create_table "polls", :force => true do |t|
     t.string "type"
