@@ -15,7 +15,8 @@ describe 'Login with webrat' do
     it "can log in" do
       @webrat.reset!
       login_test_user
-      @webrat.response.body.should match(/Dashboard/)
+      User.authenticate(@test_user.login, @test_user.password).should == @test_user
+      @webrat.response.body.should_not match(/incorrect/)
     end
     
     it "shows the dashboard" do
@@ -32,11 +33,11 @@ describe 'Login with webrat' do
   end
 
   def login_test_user
-    normal_user = create_valid_user
-    @webrat.visits "/account/login"
-    @webrat.fills_in "login", :with => normal_user.login
-    @webrat.fills_in "password", :with => normal_user.password
-    @webrat.clicks_button "Log in"
+    @test_user ||= create_valid_user
+    @webrat.visits "account/login"
+    @webrat.fills_in "login", :with => @test_user.login
+    @webrat.fills_in "password", :with => @test_user.password
+    @webrat.clicks_button "Login"
   end
 end
 
