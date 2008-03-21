@@ -103,4 +103,12 @@ module FixtureReplacement
     
 	end
 
+  attributes_for :possible, :class => Poll::Possible do |p|
+    p.name                  = String.random
+  end
+
+  attributes_for :task, :class => Task::Task do |t|
+
+  end
+
 end

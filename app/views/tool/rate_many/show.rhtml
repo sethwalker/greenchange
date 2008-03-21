@@ -26,7 +26,7 @@ div#new_possible {background: #eee; padding: 1em; margin: 1em;}
 <p>
 
 
-<% form_tag(page_xurl(@page,:action=>'vote')) do -%>
+<% form_tag(vote_survey_url(@page)) do -%>
 	<div id='non-ajax-form' style="text-align: right">
 	<%= submit_tag 'Save my choices' if @possibles.any? %>
 	</div>
@@ -44,7 +44,7 @@ div#new_possible {background: #eee; padding: 1em; margin: 1em;}
 </div> 
 
 <!--
-<% form_tag(page_url(@page,:action=>'new_possible')) do -%>
+<% form_tag(add_possible_survey_url(@page)) do -%>
   Create a new possibility:</br>
   <%= text_field 'possible','name' %>
   <%= submit_tag "Create" %>
@@ -53,6 +53,6 @@ div#new_possible {background: #eee; padding: 1em; margin: 1em;}
 
 </p>
 <% content_for :javascript do %>
-  <%= sortable_element 'sort_list', :handle => 'handle', :url => page_xurl(@page, :action=>'sort') %>
+<%= sortable_element 'sort_list', :handle => 'handle', :url => sort_survey_url(@page), :method => :post %>
   <%= javascript_tag "Element.hide('non-ajax-form')" %>
 <% end %>

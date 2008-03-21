@@ -8,7 +8,7 @@
     </span>
   </div>
   <div id='title_editor' style='<%=title_editor_style%>'>
-    <% form_tag(page_url(@page, :action => 'title')) do %>
+    <% form_tag(:controller => 'tool/base', :action => 'title', :id => @page) do %>
       display title:<br/>
       <%= text_field 'page', 'title', :style => 'width: 100%', :class => 'h1' %><br/>
       optional unique name:<br/>

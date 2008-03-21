@@ -7,42 +7,43 @@ class Tool::AssetController < Tool::BaseController
   # note, massive duplication both here and in the view
   def new 
     @page_class = Tool::Asset
-    if request.post?
-      @page = create_new_page(@page_class)
-      @asset = Asset.new params[:asset]
-      @page.data = @asset
-      if @page.title.any?
-        @asset.filename = @page.title + @asset.suffix
-      else
-        @page.title = @asset.basename
-      end
-      if @page.save
-        add_participants!(@page, params)
-        return redirect_to(page_url(@page))
-      else
-        message :object => @page
-      end
+  end
+
+  def create
+    @page_class = Tool::Asset
+    @page = create_new_page(@page_class)
+    @asset = Asset.new params[:asset]
+    @page.data = @asset
+    if @page.title.any?
+      @asset.filename = @page.title + @asset.suffix
+    else
+      @page.title = @asset.basename
+    end
+    if @page.save
+      add_participants!(@page, params)
+      return redirect_to(asset_url(@page))
+    else
+      message :object => @page
     end
   end
-  alias :create :new
 
   def update
     @page.data.uploaded_data = params[:asset]
     @page.data.filename = @page.title + @page.data.suffix
     if @page.data.save
-      return redirect_to(page_url(@page))
+      return redirect_to(asset_url(@page))
     else
       message :object => @page
     end
   end
 
   def destroy_version
-    asset_version = @page.data.versions.find_by_version(params[:id])
+    asset_version = @page.data.versions.find_by_version(params[:version])
     asset_version.destroy
     respond_to do |format|
       format.html do
         message(:success => "file version deleted")
-        redirect_to(page_url(@page))
+        redirect_to(asset_url(@page))
       end
       format.js { render(:update) {|page| page.visual_effect :fade, "asset_#{asset_version.asset_id}_version_#{asset_version.version}", :duration => 0.5} }
     end

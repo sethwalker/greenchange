@@ -33,7 +33,6 @@ module ContextHelper
   ## SETTING THE CONTEXT
   
   # before filter that may be overridden by controllers
-  def breadcrumbs; end
   def context; end
     
   def add_context(text, url)
@@ -112,7 +111,6 @@ module ContextHelper
       else
         breadcrumbs_from_context(false)
       end
-      # add_breadcrumb( @page.title, page_url(@page, :action => 'show') )
     else    
       # there is no page, but for some reason we are still using a page
       # context. so, we just use what we are given.

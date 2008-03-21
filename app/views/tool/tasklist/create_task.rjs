@@ -2,4 +2,4 @@
 page.insert_html :bottom, 'sort_list_pending', :partial => 'task', :locals => {:task => @task}
 
 # makes sure the new one is sortable
-page.sortable 'sort_list_pending', :handle => 'handle', :url => page_url(@page, :action=>'sort')
+page.sortable 'sort_list_pending', :handle => 'handle', :url => sort_survey_url(@page)

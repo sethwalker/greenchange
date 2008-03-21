@@ -173,12 +173,7 @@ class Page < ActiveRecord::Base
   end
 
   extend PathFinder::FindByPath
-  include PageUrlHelper
 
-  def url
-    page_url(self)
-  end
-  
   #######################################################################
   ## PAGE NAMING
   
@@ -198,6 +193,10 @@ class Page < ActiveRecord::Base
     s = title.nameize
     s = s[0..40].sub(/-([^-])*$/,'') if s.length > 42     # limit name length, and remove any half-cut trailing word
     "#{s}+#{id}"
+  end
+
+  def to_param
+    "#{id}+#{title.nameize}"
   end
 
   # returns true if self's unique page name is already in use.

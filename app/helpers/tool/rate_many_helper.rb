@@ -19,7 +19,7 @@ module Tool::RateManyHelper
       map(value),               # value
       value == map(vote.value), # checked?
        :onclick => remote_function(
-         :url => page_xurl(@page,:action => 'vote_one', :id => possible.id, :value => map(value)),
+         :url => vote_one_survey_url(@page, :possible_id => possible.id, :value => map(value)),
          :loading => show_spinner("possible_%s" % possible.id)
        )
     )

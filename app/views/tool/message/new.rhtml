@@ -3,7 +3,7 @@
 <div class='workarea'>
 <%= header_for_page_create Tool::Message %>
 
-<% form_tag({:action => 'create'}, :multipart => true) do %>
+<% form_tag(messages_url, :multipart => true) do %>
 <table class='create'>
 <tr>
   <td align='right'><b>subject</b></td>

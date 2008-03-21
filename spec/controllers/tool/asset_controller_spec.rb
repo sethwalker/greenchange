@@ -15,5 +15,63 @@ describe Tool::AssetController do
     response.should be_redirect
     @asset.filename.should == 'pagetitle.jpg'
   end
-end
 
+  describe "new" do
+    before do
+      login_valid_user
+    end
+    it 'should be successful' do
+      get :new
+      response.should be_success
+    end
+  end
+
+  describe "create" do
+    before do
+      login_valid_user
+    end
+    it 'should be successful' do
+      post :create, :page => {:title => 'assetpage'}, :asset => {:filename => 'file.jpg'}
+      response.should be_success
+    end
+  end
+
+  describe "update" do
+    before do
+      login_valid_user
+      @page = create_page(:type => 'Tool::Asset', :data => create_asset)
+    end
+    it 'should be successful' do
+      controller.stub!(:authorized?).and_return(true)
+      Page.should_receive(:find).with(@page.to_param).and_return(@page)
+      put :update, :id => @page.to_param
+      response.redirect_url.should == asset_url(@page)
+    end
+  end
+
+  describe "destroy_version" do
+    before do
+      login_valid_user
+      @page = create_page(:type => 'Tool::Asset', :data => create_asset)
+    end
+    it 'should be successful' do
+      controller.stub!(:authorized?).and_return(true)
+      delete :destroy_version, :id => @page.to_param, :version => 1
+      response.redirect_url.should == asset_url(@page)
+    end
+  end
+
+  describe "routes" do
+    before do
+      get :new
+      User.current = nil
+    end
+    it "should recognize asset_url" do
+      new_asset_path.should == '/assets/new'
+    end
+    it "should recognize destroy_version_asset_path" do
+      page = Tool::Asset.create(:title => 'asset')
+      destroy_version_asset_path(page, :version => 1).should == "/assets/#{page.to_param}/destroy_version?version=1"
+    end
+  end
+end

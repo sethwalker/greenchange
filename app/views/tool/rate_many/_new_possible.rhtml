@@ -9,8 +9,8 @@
 <div id='new_possible_form_container' style='<%= hide ? "display:none" : "" %>'>
   <h4><%= 'New Possibility'.t %></h4>
 <% form_remote_tag(
-  :url      => page_xurl(@page, :action=>'add_possible'),
-  :html     => {:action => page_url(@page, :action=>'add_possible'), :id => 'new_possible_form'}, # non-ajax fallback
+  :url      => add_possible_survey_url(@page),
+  :html     => {:action => add_possible_survey_url(@page), :id => 'new_possible_form'}, # non-ajax fallback
   :loading  => show_spinner('new_possible_loading'),
   :complete => hide_spinner('new_possible_loading'),
   :success => "$('new_possible_form').reset()"

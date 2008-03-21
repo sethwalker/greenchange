@@ -10,7 +10,7 @@ details_id         = "#{possible_id}_details"
 possible_show_id   = "#{possible_id}_show"
 possible_edit_id   = "#{possible_id}_edit"
 possible_edit_form = "#{possible_edit_id}_form"
-edit_url           = page_xurl(@page, :action=>'edit_possible', :id=>possible.id)
+edit_url           = edit_possible_survey_url(@page, :possible_id => possible.id)
 edit_function      = remote_function(:url => edit_url)
 edit_click = "$('#{possible_show_id}', '#{possible_edit_id}').invoke('toggle');" +
              "if ($('#{possible_edit_form}')==null) {#{edit_function}}"
@@ -28,7 +28,7 @@ end
 <div style="background-color: #<%=possible.color%>; padding: 2px;" >
   <div id='<%=possible_show_id%>'>
     <div style="float:right; width:5em; text-align:right;">
-       <%= link_to "delete", page_url(@page, :action=>'destroy_possible', :possible => possible) %>
+       <%= link_to "delete", destroy_possible_survey_url(@page, :possible_id => possible) %>
     </div>
     
     <div class='name'>

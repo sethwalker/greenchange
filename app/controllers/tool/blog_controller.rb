@@ -4,8 +4,7 @@ class Tool::BlogController < Tool::BaseController
   
   def show
     unless @wiki.version > 0
-      redirect_to page_url(@page, :action => 'edit')
-      return
+      return redirect_to(edit_blog_url(@page))
     end
     if @upart and !@upart.viewed? and @wiki.version > 1
       last_seen = @wiki.first_since( @upart.viewed_at )
@@ -14,22 +13,24 @@ class Tool::BlogController < Tool::BaseController
   end
 
   def edit
+    @wiki.lock(Time.now, current_user)
+  end
+
+  def update
     if params[:cancel]
       @wiki.unlock
-      return(redirect_to page_url(@page, :action => 'show'))
-    elsif request.post?
-      save_edits
-    elsif request.get?
-      @wiki.lock(Time.now, current_user)
+      return redirect_to(blog_url(@page))
     end
+    save_edits
   end
   
   def version
-    @version = @wiki.versions.find_by_version(params[:id])
+    @version = @wiki.versions.find_by_version(params[:version])
   end
   
   def diff
-    old_id, new_id = params[:id].split('-')
+    old_id = params[:from]
+    new_id = params[:to]
     @old = @wiki.find_version(old_id)
     @new = @wiki.find_version(new_id)
     @old_markup = @old.body || ''
@@ -43,7 +44,7 @@ class Tool::BlogController < Tool::BaseController
   
   def break_lock
     @wiki.unlock
-    redirect_to page_url(@page, :action => 'show')
+    redirect_to blog_url(@page)
   end
     
   protected
@@ -59,7 +60,7 @@ class Tool::BlogController < Tool::BaseController
       if save_revision(@wiki)
         current_user.updated(@page)
         @wiki.unlock
-        redirect_to page_url(@page, :action => 'show')
+        redirect_to blog_url(@page)
       else
         message :object  => @wiki
       end

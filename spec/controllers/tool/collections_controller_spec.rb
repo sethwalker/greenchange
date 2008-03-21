@@ -3,6 +3,7 @@ describe Tool::CollectionsController, "RESTFUL" do
 
   before do
     login_valid_user
+    controller.stub!(:authorized?).and_return(true)
   end
   def collections(name)
     Collection.create! :page => create_valid_page

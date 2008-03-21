@@ -1,4 +1,4 @@
-<%= return_to_page(@page) %>
+<p><%= link_to('&laquo; return to <b>%s</b>' % @page.title, wiki_url(@page)) %></p>
 
 <% unless @version %>
   There is no version <%=params[:version]%>

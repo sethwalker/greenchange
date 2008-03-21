@@ -39,7 +39,7 @@ class Tool::TasklistController < Tool::BaseController
   # ajax only, returns rjs
   def mark_task_complete
     return unless request.xhr?
-    @task = @list.tasks.find(params[:id])
+    @task = @list.tasks.find(params[:task_id])
     @task.completed = true
     @task.move_to_bottom # also saves task
   end
@@ -47,7 +47,7 @@ class Tool::TasklistController < Tool::BaseController
   # ajax only, returns rjs
   def mark_task_pending
     return unless request.xhr?
-    @task = @list.tasks.find(params[:id])
+    @task = @list.tasks.find(params[:task_id])
     @task.completed = false
     @task.move_to_bottom # also saves task
   end
@@ -55,7 +55,7 @@ class Tool::TasklistController < Tool::BaseController
   # ajax only, returns nothing
   def destroy_task
     return unless request.xhr?
-    @task = @list.tasks.find(params[:id])
+    @task = @list.tasks.find(params[:task_id])
     @task.remove_from_list
     @task.destroy
     render :nothing => true
@@ -64,14 +64,14 @@ class Tool::TasklistController < Tool::BaseController
   # ajax only, returns rjs
   def update_task
     return unless request.xhr?
-    @task = @list.tasks.find(params[:id])
+    @task = @list.tasks.find(params[:task_id])
     @task.update_attributes(params[:task])
   end
   
   # ajax only, returns rjs
   def edit_task
     return unless request.xhr?
-    @task = @list.tasks.find(params[:id])
+    @task = @list.tasks.find(params[:task_id])
   end
 
   protected

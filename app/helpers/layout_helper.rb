@@ -105,10 +105,6 @@ module LayoutHelper
     end
   end
   
-  def http_plain
-    'http://' + controller.request.host_with_port
-  end
-  
   ############################################
   # JAVASCRIPT
   
