@@ -123,6 +123,8 @@ class Group < ActiveRecord::Base
     :before_add => :check_duplicate_memberships,
     :after_add => :membership_changed, :after_remove => :membership_changed  
 
+  has_many :membership_requests
+
   has_many :gives_permissions,  :as => 'grantor'
   has_many :given_permissions,  :as => 'grantee'
 
