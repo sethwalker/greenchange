@@ -59,10 +59,10 @@ module ContextHelper
   # group, person, or page context. 
 
   def group_context(size='large', update_breadcrumbs=true)
-    add_context 'groups', groups_url(:action => 'list')
+    add_context 'groups', groups_url
     if @group
       if @group.instance_of? Committee
-        add_context @group.parent.short_name, groups_url(:id => @group.parent, :action => 'show')
+        add_context @group.parent.short_name, group_url(@group.parent)
       end
       add_context @group.short_name, url_for_group(@group, :action => 'show')
       set_banner "groups/banner_#{size}", @group.banner_style

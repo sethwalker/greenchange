@@ -28,6 +28,7 @@ class MembershipController < ApplicationController
   # request to join this group
   def join
   end
+  alias :new :join
 
   def create
     unless @group.users.any?

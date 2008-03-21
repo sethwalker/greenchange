@@ -149,9 +149,9 @@ module ApplicationHelper
 
   def page_list_owner_with_icon(page)
     if page.group
-      return link_to_group page.group
+      return link_to_group(page.group)
     elsif page.created_by
-      return link_to_user page.created_by
+      return link_to_user(page.created_by)
     end
   end
   
