@@ -37,9 +37,7 @@ describe Tool::NewsController do
       params_from(:get, "/news/#{@page.to_param}/versions").should == {:controller => 'tool/news', :action => 'versions', :id => @page.to_param}
     end
     it "should generate" do
-      pending do
       route_for(:controller => 'tool/news', :action => 'versions', :id => @page).should == "/news/#{@page.to_param}/versions"
-      end
     end
     it "should be named" do
       get :show, :id => @page #hack to set up controller

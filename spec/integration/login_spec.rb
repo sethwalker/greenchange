@@ -36,7 +36,7 @@ describe 'Login with webrat' do
     @webrat.visits "/account/login"
     @webrat.fills_in "login", :with => normal_user.login
     @webrat.fills_in "password", :with => normal_user.password
-    @webrat.clicks_button "Log in"
+    @webrat.clicks_button "Login"
   end
 end
 

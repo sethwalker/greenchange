@@ -127,9 +127,7 @@ describe Page, "finding with permissions enabled" do
 
   it "should find correct number of pages allowed for editing by the user" do
     # 1 public, 1 'owned', and 2 explicity permitted to edit
-    pending do
     Page.allowed(@user, :edit).size.should be(4)
-    end
   end
 
   it "should find correct number of pages allowed for participation by the user" do
@@ -141,8 +139,6 @@ describe Page, "finding with permissions enabled" do
 
   it "should find correct number of pages allowed for administration by the user" do
     # 1 explicity permitted to admin, 1 thru group role
-    pending do
     Page.allowed(@user, :admin).size.should be(2)
-    end
   end
 end

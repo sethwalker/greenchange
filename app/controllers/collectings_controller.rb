@@ -1,4 +1,4 @@
-class CollectingsController < Tool::BaseController
+class CollectingsController < ApplicationController #Tool::BaseController
   def index
     @collectings = Collecting.find(:all)
 

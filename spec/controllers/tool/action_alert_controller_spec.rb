@@ -37,9 +37,7 @@ describe Tool::ActionAlertController do
       params_from(:get, "/actions/#{@page.to_param}/versions").should == {:controller => 'tool/action_alert', :action => 'versions', :id => @page.to_param}
     end
     it "should generate" do
-      pending do
       route_for(:controller => 'tool/action_alert', :action => 'versions', :id => @page).should == "/actions/#{@page.to_param}/versions"
-      end
     end
     it "should be named" do
       get :show, :id => @page #hack to set up controller
