@@ -206,21 +206,7 @@ describe GroupsController do
         assert_response :success
       end
       it "should render list template" do
-        assert_template 'list'
-      end
-    end
-
-    describe "list" do
-      before { get :list }
-
-      it "should be success" do
-        assert_response :success
-      end
-      it "should render list template" do
-        assert_template 'list'
-      end
-      it "should set @groups" do
-        assert_not_nil assigns[:groups]
+        assert_template 'index'
       end
     end
 

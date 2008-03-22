@@ -24,7 +24,7 @@ class Page < ActiveRecord::Base
         user_groups << user.admin_of_group_ids        if perm == :admin
 
         membership_condition = self.__send__(:sanitize_sql_for_conditions, ["pages.group_id IN (?)", user_groups.flatten.uniq]) unless user_groups.empty?
-      { :joins => :permissions,
+      { :include => :permissions,
         :conditions => 
         [
           conditions = [
@@ -45,7 +45,7 @@ class Page < ActiveRecord::Base
 
   has_finder :permitted_for, 
     Proc.new { |user, perm| 
-      { :joins => :permissions, :conditions => 
+      { :include => :permissions, :conditions => 
         [
           "("+
               "permissions.grantee_type = 'User' AND "+

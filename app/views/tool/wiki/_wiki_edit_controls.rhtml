@@ -2,7 +2,7 @@
   <% if @wiki.editable_by? current_user -%>
     <%= link_to '<u>e</u>dit', edit_wiki_url(@page), :accesskey => 'e' %>
   <% else -%>
-    locked by <%= link_to_user(@wiki.locked_by_id) %>
+    locked by <%= link_to_user(@wiki.locked_by) %>
     (<%= link_to 'break_lock', break_lock_wiki_url(@page), :method => :post %>)
   <% end %>
   &nbsp;

@@ -5,6 +5,7 @@ describe "wiki/_wiki_edit_controls" do
     template.stub!(:current_user).and_return(@user = create_user)
     assigns[:page] = @page = create_page(:type => 'Tool::TextDoc')
     assigns[:wiki] = @wiki = Wiki.new
+    @wiki.locked_by = @user
   end
   it "should render" do
     render "tool/wiki/_wiki_edit_controls"
