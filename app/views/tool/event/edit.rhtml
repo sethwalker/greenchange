@@ -4,7 +4,7 @@
 
 <div class='workarea'>
 
-	<% form_tag(page_url(@page,:action => 'update'), :multipart => true) do %>
+  <% form_tag(event_url(@page), :method => :put, :multipart => true) do %>
 <table class='create'>
 <tr>
   <td align='right'><b>what</b></td>

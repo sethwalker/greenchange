@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1205959922) do
+ActiveRecord::Schema.define(:version => 1206147629) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -261,7 +261,8 @@ ActiveRecord::Schema.define(:version => 1205959922) do
     t.string   "role",       :limit => 20, :default => "member"
   end
 
-  add_index "memberships", ["group_id", "user_id", "page_id"], :name => "index_memberships"
+  add_index "memberships", ["group_id", "user_id", "role"], :name => "index_group_user_role", :unique => true
+  add_index "memberships", ["user_id", "group_id", "role"], :name => "index_user_group_role", :unique => true
 
   create_table "messages", :force => true do |t|
     t.datetime "created_at"

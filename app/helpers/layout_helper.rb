@@ -2,14 +2,27 @@ module LayoutHelper
   ##########################################
   # PAGE ICONS
   def icon_for(page, html_options = {})
-    primary_image = page.assets.detect { |a| a.image? }
-    primary_image = page.data if page.is_a?(Tool::Image)
-    custom_icon_url = primary_image ? primary_image.public_filename(:thumb) : nil
     html_options[:class] ||= ''
     html_options[:class] << " big icon page #{css_page_type(page)}"
     html_options[:class].strip!
+
+    if custom_icon_url = ( ( icon_url_for_image( page ) or icon_url_for_youtube( page )))
+      html_options[:style] = "background-image: url( #{custom_icon_url});"
+      html_options[:class] << " youtube-thumbnail" if icon_url_for_youtube page 
+    end
     content_tag 'div', '&nbsp;', html_options
   end
+
+  def icon_url_for_image( page )
+    return unless image = ( page.assets.detect { |a| a.image? } || page.data if page.is_a?(Tool::Image) )
+    image.public_filename(:thumb)  
+  end
+
+  def icon_url_for_youtube(page)
+    return unless page.is_a?(Tool::ExternalVideo) and page.data and page.data.thumbnail_url
+    page.data.thumbnail_url 
+  end
+
 
   def css_page_type(page)
     css_class = page.class.name.demodulize.underscore.to_sym
@@ -90,10 +103,6 @@ module LayoutHelper
     else
       controller.class.stylesheet # set for this controller
     end
-  end
-  
-  def http_plain
-    'http://' + controller.request.host_with_port
   end
   
   ############################################

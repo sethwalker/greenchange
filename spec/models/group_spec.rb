@@ -20,11 +20,6 @@ describe Group do
       @u.should be_a_member_of(@g)
     end
 
-    it "should call check_duplicate_memberships when membership is created" do
-      @g.should_receive(:check_duplicate_memberships)
-      @g.memberships.create :user => @u, :role => :member
-    end
-
     it "should call membership_changed when membership is created" do
       @g.should_receive(:membership_changed)
       @g.memberships.create :user => @u, :role => :member

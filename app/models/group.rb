@@ -120,10 +120,19 @@ class Group < ActiveRecord::Base
   has_one :admin_group, :class_name => 'Group', :foreign_key => 'admin_group_id'
     
   has_many :memberships, :dependent => :destroy,
-    :before_add => :check_duplicate_memberships,
     :after_add => :membership_changed, :after_remove => :membership_changed  
 
   has_many :membership_requests
+
+  has_many :gives_permissions,  :as => 'grantor'
+  has_many :given_permissions,  :as => 'grantee'
+
+  def admins_ids
+    admins.map(&:user_id)
+  end
+
+  has_many :admins, :through => :memberships,
+           :conditions => ["role = 'administrator'"], :source => :user
 
   has_many :users, :through => :memberships do
     def <<(*dummy)

@@ -8,7 +8,7 @@ describe UrlHelper do
 
   it "should generate name based URLs for groups" do
     url = url_for_group(@group)
-    url.should == '/groups/show/linked'
+    url.should == '/groups/linked'
 
     url = url_for_group(@group, :action => 'link')
     url.should == '/groups/link/linked'

@@ -21,8 +21,9 @@ describe Bookmark do
     end
   end
 
+  include PageUrlHelper
   it "should show the url if url" do
     b = Bookmark.create :page => (p = create_valid_page(:title => 'pagey'))
-    b.url.should == p.url
+    b.url.should == page_url(p)
   end
 end

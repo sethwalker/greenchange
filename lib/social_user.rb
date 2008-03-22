@@ -66,7 +66,6 @@ module SocialUser
       base.instance_eval do
         has_many :memberships, :foreign_key => 'user_id',
           :dependent => :destroy,
-          :before_add => :check_duplicate_memberships,
           :after_add => :update_membership_cache,
           :after_remove => :update_membership_cache
         
@@ -150,10 +149,6 @@ module SocialUser
 
         # all other cases, no can do.
         return false
-      end
-        
-      def check_duplicate_memberships(membership)
-        raise AssociationError.new('you cannot have duplicate membership') if self.group_ids.include?(membership.group_id)
       end
     #end
   end

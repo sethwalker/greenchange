@@ -43,7 +43,7 @@ describe "SocialUser" do
       end
   
       it "does not allow duplicate memberships" do
-        lambda { @user.memberships.create :group => @group }.should raise_error(AssociationError)
+        lambda { @user.memberships.create :group => @group }.should raise_error(ActiveRecord::StatementInvalid)
       end
     end
 

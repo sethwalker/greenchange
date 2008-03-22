@@ -39,6 +39,7 @@ describe Committee do
     it "does not grant membership by default" do
       assert(!@user.member_of?(@group), 'user should not be member yet')
       @user.memberships.create :group => @group
+      @user.update_membership_cache #have to call explicitly???
 
       assert @user.member_of?(@group), 'user should be member of group'
       assert @user.member_of?(@committee_1), 'user should also be a member of committee'

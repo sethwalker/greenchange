@@ -2,9 +2,16 @@
   .sidesection
     .sidehead
       contributors
-    - @page.contributors.each do |u|
-      .sideline
-        = avatar_for u, 'xsmall'
-        = link_to_user u
-  = link_to 'contribution details', {:controller => 'pages', :action => 'participation', :id => @page}, :title => 'view contribution detail', :class => 'sidedetails'
+    -if @page.contributors.size > 1
+      = render :partial => 'avatars/boxes', :locals => {:people => @page.contributors, :side => "left"}
+    -elsif author = @page.contributors.first
+      = avatar_for author, 'huge'
+      .text
+        = link_to author.display_name, url_for_user(author)
+    -#
+      - @page.contributors.each do |u|
+        .sideline
+          = avatar_for u, 'xsmall'
+          = link_to_user u
+      -#= link_to 'contribution details', {:controller => 'pages', :action => 'participation', :id => @page}, :title => 'view contribution detail', :class => 'sidedetails'
 

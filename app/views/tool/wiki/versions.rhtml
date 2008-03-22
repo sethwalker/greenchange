@@ -1,10 +1,10 @@
-<%= return_to_page(@page) %>
+<p><%= link_to('&laquo; return to <b>%s</b>' % @page.title, wiki_url(@page)) %></p>
 
 <ul>
   <% for version in @wiki.versions %>
   <li>
-    <%=link_to "version %s"%version.version, page_url(@page, :action => "version", :id => version.version) %>
-    <%=link_to "(diff)", page_url(@page, :action=>'diff', :id => "#{version.version.to_i-1}-#{version.version}") if version.version > 1 %>,
+    <%=link_to "version %s"%version.version, version_wiki_url(@page, :version => version.version) %>
+    <%=link_to "(diff)", diff_wiki_url(@page, :from => version.version.to_i-1, :to => version.version) if version.version > 1 %>,
     created <i><%= full_time version.updated_at %></i> by <b><%= link_to_user(version.user_id)%></b>
   </li>
   <% end %>

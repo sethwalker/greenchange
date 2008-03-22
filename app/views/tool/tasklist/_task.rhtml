@@ -17,8 +17,8 @@ mark_action  = "mark_task_#{alt_status}"
 edit_action  = "edit_task"
 check_click  = "Element.hide('#{checkbox_id}');" +
                show_spinner(spinner_done) +
-               remote_function(:url => page_xurl(@page, :action=>mark_action, :id=>task.id))
-edit_function = remote_function(:url => page_xurl(@page, :action=>edit_action, :id=>task.id))                
+               remote_function(:url => self.send("#{mark_action}_task_url", @page, :task_id=>task.id))
+edit_function = remote_function(:url => self.send("#{edit_action}_task_url", @page, :task_id=>task.id))
 edit_click   = "$('#{task_show_id}', '#{task_edit_id}').invoke('toggle');" +
                "if ($('#{task_edit_form}')==null) {#{edit_function}}"
 %>

@@ -1,7 +1,7 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
     
-  include PageUrlHelper         # provides page_url() and page_xurl()
+  include PageUrlHelper         # provides page_url()
   include UrlHelper
   include Formy                 # helps create forms
   include LayoutHelper
@@ -148,10 +148,10 @@ module ApplicationHelper
   end
 
   def page_list_owner_with_icon(page)
-    if page.group_id
-      return link_to_group(page.group_id, :avatar => 'xsmall')
+    if page.group
+      return link_to_group(page.group)
     elsif page.created_by
-      return link_to_user(page.created_by, :avatar => 'xsmall')
+      return link_to_user(page.created_by)
     end
   end
   
@@ -224,8 +224,6 @@ module ApplicationHelper
   end
 
   def load_javascript_tabs
-    #return if @@tabs_loaded
-    #@@tabs_loaded = true
     content_for :javascript,
       jquery_javascript_includes + 
       javascript_include_tag('tabs') + 

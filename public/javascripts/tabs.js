@@ -83,7 +83,6 @@ var Crabgrass = function() {
             //setup 'all' list as a tab
             ul_tabs.add( all_list, all_title );
             ul.addClassName('active');
-            alert('showing all_list');
             ul_tabs.show( all_list );
           } );
         }

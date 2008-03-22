@@ -23,11 +23,6 @@ class GroupsController < ApplicationController
   end  
   
   def index
-    list
-    render :action => 'list'
-  end
-
-  def list
     @groups = Group.find :all, :conditions => 'type IS NULL'
     set_banner "groups/banner_search", Style.new(:background_color => "#1B5790", :color => "#eef")
   end
@@ -131,7 +126,7 @@ class GroupsController < ApplicationController
   
   def search
     if request.post?
-      return redirect_to(groups_url(:id => @group, :action => 'search') + 
+      return redirect_to(search_group_url(@group) + 
         build_filter_path(params[:search]))
     end
 

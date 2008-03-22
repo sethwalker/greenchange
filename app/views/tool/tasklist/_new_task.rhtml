@@ -12,8 +12,8 @@
 
 <div id='new-task-form-container' style='display:none'>
 <% form_remote_tag(
-  :url      => page_xurl(@page, :action=>'create_task'),
-  :html     => {:action => page_url(@page, :action=>'create_task'), :id => 'new-task-form'}, # non-ajax fallback
+  :url      => create_task_task_url(@page),
+  :html     => {:action => create_task_task_url(@page), :id => 'new-task-form'}, # non-ajax fallback
   :loading  => "$('new-task-loading').show()",
   :complete => "$('new-task-loading').hide()",
   :success => "$('new-task-form').reset()"

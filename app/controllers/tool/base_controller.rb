@@ -24,24 +24,24 @@ class Tool::BaseController < ApplicationController
   # can be overridden by the subclasses
   def new 
     @page_class = Page.display_name_to_class(params[:id])
-    if request.post?
-      @page = create_new_page
-      if @page.valid?
-        return redirect_to(page_url(@page))
-      else
-        message :object => @page
-      end
-    end
-    render :template => 'tool/base/create'
   end
-  alias :create :new
+
+  def create
+    @page = create_new_page
+    if @page.valid?
+      return redirect_to(page_url(@page))
+    else
+      message :object => @page
+      render :template => 'tool/base/new'
+    end
+  end
   
   def title
-    return(redirect_to page_url(@page, :action => :show)) unless request.post?
+    return redirect_to(page_url(@page)) unless request.post?
     @page.title = params[:page][:title]
     @page.name = params[:page][:name].to_s.nameize if params[:page][:name].any?
     if @page.save
-      redirect_to page_url(@page, :action => 'show')
+      redirect_to page_url(@page)
     else
       message :object => @page
       @page.name = @page.original_name
@@ -90,12 +90,12 @@ class Tool::BaseController < ApplicationController
   end
   
   def fetch_page_data
-    return true unless @page or params[:page_id]
+    return true unless @page or params[:id]
     unless @page
       # typically, @page will be loaded by the dispatch controller. 
       # however, in some cases (like ajax) we bypass the dispatch controller
       # and need to grab the page here.
-      @page = Page.find(params[:page_id])
+      @page = Page.find(params[:id])
     end
     return true if request.xhr?
     if logged_in?

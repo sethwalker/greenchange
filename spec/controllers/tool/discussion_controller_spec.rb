@@ -20,19 +20,19 @@ describe Tool::DiscussionController do
     end
 
     it "shows show page" do
-      get 'show', :page_id => 'mock'
+      get 'show', :id => 'mock'
       response.should render_template('tool/discussion/show')
     end
 
     it "paginates posts correctly" do
       pending "test creates malformed output, unknown reason"
-      get 'show', :page_id => 'mock'
+      get 'show', :id => 'mock'
       response.should have_tag('div.pagination')
     end
     
     it "continues to paginate posts correctly" do
       pending "test creates malformed output, unknown reason"
-      get 'show', :page_id => 'mock', :posts => 2
+      get 'show', :id => 'mock', :posts => 2
       response.should have_tag('div.pagination')
     end
   end

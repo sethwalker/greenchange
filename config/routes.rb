@@ -37,10 +37,32 @@ ActionController::Routing::Routes.draw do |map|
   map.people 'people/:action/:id', :controller => 'people'
   map.connect 'person/:action/:id/*path', :controller => 'person'
   
-  map.groups  'groups/:action/:id', :controller => 'groups'
-  map.group   'groups/:action/:id', :controller => 'groups'
   map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|calendar|search/
-    
+
+  def page_routes(parent)
+    parent.with_options :member => {:version => :get, :versions => :get, :diff => :get, :break_lock => :post, :print => :get} do |wikis|
+      wikis.resources :wikis, :controller => 'tool/wiki'
+      wikis.resources :actions, :controller => 'tool/action_alert'
+      wikis.resources :blogs, :controller => 'tool/blog'
+      wikis.resources :news, :controller => 'tool/news'
+    end
+    parent.resources :assets, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
+    parent.resources :events, :controller => 'tool/event', :member => {:participation => :post, :set_event_description => :post}
+    parent.resources :videos, :controller => 'tool/external_video' #for now
+    parent.resources :messages, :controller => 'tool/message'
+    parent.resources :polls, :controller => 'tool/ranked_vote', :member => {:add_possible => :post, :sort => :post, :update_possible => :put, :edit_possible => :get, :destroy_possible => :destroy}
+    parent.resources :surveys, :controller => 'tool/rate_many', :member => {:add_possible => :post, :edit_possible => :get, :destroy_possible => :destroy, :vote_one => :post, :vote => :post, :clear_votes => :destroy, :sort => :post}
+    parent.resources :tasks, :controller => 'tool/tasklist', :member => {:sort => :post, :create_task => :post, :mark_task_complete => :post, :mark_task_pending => :post, :destroy_task => :destroy, :update_task => :put, :edit_task => :get}
+  end
+
+  map.resources :groups, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |group|
+    group.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
+    group.resources :pages
+    page_routes(group)
+  end
+  map.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
+  page_routes(map)
+
   map.connect 'pages/search/*path', :controller => 'pages', :action => 'search'
             
   map.connect '', :controller => "account"
@@ -48,9 +70,6 @@ ActionController::Routing::Routes.draw do |map|
   map.forgot_password '/forgot_password',     :controller => 'passwords',   :action =>  'new'
   map.reset_password  '/reset_password/:id',  :controller => 'passwords',   :action =>  'edit'
   
-  # used for ajax calls to make a direct request bypassing the dispatcher
-  map.direct 'page-direct/:page_id/:action/:id/:controller', :controller => /.*/
- 
   # typically, this is the default route
   map.connect ':controller/:action/:id'
  

@@ -3,8 +3,9 @@
     #top-login-prompt
       = link_to "Logout".t, { :controller => '/account', :action => 'logout'} 
     #login-name
-      logged in as
-      = current_user.display_name
+      Hi,
+      = link_to current_user.display_name, 'me/dashboard'
+      = "-- you have #{current_user.unread_messages.size} messages" unless current_user.unread_messages.empty? 
         
 - else
   #user-menu
