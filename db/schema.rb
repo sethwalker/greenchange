@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1205730391) do
+ActiveRecord::Schema.define(:version => 1205959922) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -319,6 +319,19 @@ ActiveRecord::Schema.define(:version => 1205730391) do
   add_index "pages", ["updated_at"], :name => "index_pages_on_updated_at"
   add_index "pages", ["starts_at"], :name => "index_pages_on_starts_at"
   add_index "pages", ["ends_at"], :name => "index_pages_on_ends_at"
+
+  create_table "permissions", :force => true do |t|
+    t.string  "resource_type", :limit => 64
+    t.integer "resource_id"
+    t.string  "grantor_type",  :limit => 64
+    t.integer "grantor_id"
+    t.string  "grantee_type",  :limit => 64
+    t.integer "grantee_id"
+    t.boolean "view"
+    t.boolean "edit"
+    t.boolean "participate"
+    t.boolean "admin"
+  end
 
   create_table "phone_numbers", :force => true do |t|
     t.integer "profile_id"

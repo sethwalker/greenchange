@@ -92,7 +92,7 @@ class MeController < ApplicationController
     if request.post? 
       if @user.update_attributes(params[:user])
         redirect_to :action => 'edit'
-        message :success => 'Your profile was successfully updated.'
+        flash[:notice] = 'Your profile was successfully updated.'
       else
         message :object => @user
       end

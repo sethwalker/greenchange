@@ -1,4 +1,4 @@
-<% @profile = ( @user and @user.private_profile ) || ( @group and @group.public_profile )
+<% @profile = ( @user and @user.private_profile ) || ( @group and @group.public_profile ) %>
 <%= Formy.tabs('class' => 'left') do |f|
   f.tab do |t|
     t.label 'Settings'.t
@@ -9,8 +9,8 @@
   f.tab do |t|
     t.label 'Profile'.t
     t.icon 'actions/profile-private.png'
-    t.link url_for(:controller => 'profile', :action => 'edit', :id => @profile.id)
-    t.selected params[:controller] == 'profile' && params[:id] == @profile.id.to_s
+    t.link "nowhere town" #url_for(:controller => 'profile', :action => 'edit', :id => @profile.id)
+    t.selected true #params[:controller] == 'profile' && params[:id] == @profile.id.to_s
   end
 end
 %>
