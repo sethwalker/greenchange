@@ -12,21 +12,36 @@ class Page < ActiveRecord::Base
   has_many :permissions, :as => 'resource'
 
   #allowed_collectings = Collecting.allowed(user,perm).find( :all, :conditions => [ 'collectable_type = ?', self.name] )
-  #has_finder :allowed, 
-  #  Proc.new { |user, perm| 
-  #    return {} if not [:view, :edit, :participate, :admin].include? perm
-  #    { :include => :permissions, :conditions => 
-  #      [
-  #        "pages.public = ? OR pages.created_by_id = ? "+
-  #        "OR ("+
-  #            "permissions.grantee_type = 'User' AND "+
-  #            "permissions.grantee_id = ? AND " +
-  #            "permissions.#{perm} = 1 "+
-  #        ")",
-  #        true, user.id, user.id
-  #      ],
-  #    }
-  #  }
+  has_finder :allowed, 
+    Proc.new { |user, perm| 
+      if not [:view, :edit, :participate, :admin].include? perm
+        {} 
+      else
+        public_condition = (perm != :admin) ? self.__send__(:sanitize_sql_for_conditions, ["pages.public = ?", true]) : nil 
+        user_groups = []
+        user_groups << user.contributes_to_group_ids  if perm == :edit 
+        user_groups << user.member_of_group_ids       if perm == :view or perm == :participate
+        user_groups << user.admin_of_group_ids        if perm == :admin
+
+        membership_condition = self.__send__(:sanitize_sql_for_conditions, ["pages.group_id IN (?)", user_groups.flatten.uniq]) unless user_groups.empty?
+      { :joins => :permissions,
+        :conditions => 
+        [
+          conditions = [
+            public_condition, 
+            membership_condition,
+            "pages.created_by_id = ? "+
+            "OR ("+
+                "permissions.grantee_type = 'User' AND "+
+                "permissions.grantee_id = ? AND " +
+                "permissions.#{perm} = ? "+
+            ")"
+          ].compact.join(' OR '),
+          user.id, user.id, true
+        ],
+      }
+      end
+    }
 
   has_finder :permitted_for, 
     Proc.new { |user, perm| 
@@ -35,14 +50,15 @@ class Page < ActiveRecord::Base
           "("+
               "permissions.grantee_type = 'User' AND "+
               "permissions.grantee_id = ? AND " +
-              "permissions.#{perm} = 1 "+
+              "permissions.#{perm} = ? "+
           ")",
-          user.id
+          user.id, true
         ],
       }
     }
 
-  def Page.allowed(user, perm)
+=begin
+  def Page.allowed(user, perm=:view)
     # unknown actions allow nothing
     return [] if not [:view, :edit, :participate, :admin].include? perm
 
@@ -61,7 +77,7 @@ class Page < ActiveRecord::Base
     user_groups << user.contributes_to_group_ids  if perm == :edit 
     user_groups << user.member_of_group_ids       if perm == :view or perm == :participate
 
-    by_memberships = find(:all, :conditions => ["group_id IN(?) ", user_groups.uniq!])
+    by_memberships = find(:all, :conditions => ["pages.group_id IN(?) ", user_groups.uniq!])
 
     # all together now
     by_public +
@@ -69,6 +85,7 @@ class Page < ActiveRecord::Base
       by_permission +
       by_memberships
   end
+=end
 
   has_finder :in_network,
     lambda {|user| {:include => [:group_participations, :user_participations], :conditions => ["user_participations.user_id = ? OR group_participations.group_id IN (?)", user.id, user.all_group_ids]}}

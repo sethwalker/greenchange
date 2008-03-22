@@ -19,17 +19,17 @@ class User < ActiveRecord::Base
 
   has_many :memberships
   def admin_of_group_ids
-    memberships.find(:all, :conditions => ["role = 'administrator'"]).map(&:group_id).uniq!
+    memberships.find(:all, :conditions => ["role = 'administrator'"]).map(&:group_id).uniq
   end
 
   def contributes_to_group_ids
     memberships.find(:all,:conditions => [
       "role = 'contributor' OR role = 'administrator'"
-    ]).map(&:group_id).uniq!
+    ]).map(&:group_id).uniq
   end
 
   def member_of_group_ids
-    memberships.find(:all).map(&:group_id).uniq!
+    memberships.map(&:group_id)
   end
 
   def has_permission_to(act, on_resource)
