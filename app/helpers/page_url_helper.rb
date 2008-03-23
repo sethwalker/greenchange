@@ -4,8 +4,10 @@ module PageUrlHelper
    
   def page_url(page,*args)
     url_helper = case page
+    when Tool::Video
+      'video_url'
     when Tool::Asset, Tool::Blog, Tool::News, Tool::Event, Tool::Message
-      "#{page.class.to_s.demodulize.downcase}_url"
+      "#{page.class.to_s.demodulize.underscore}_url"
     when Tool::TextDoc
       'wiki_url'
     when Tool::ActionAlert
@@ -19,7 +21,7 @@ module PageUrlHelper
     else
       return "/pages/show/#{page.to_param}"
     end
-    self.__send__ url_helper.to_sym, @page, *args
+    self.__send__ url_helper.to_sym, page, *args
   end
 
   
