@@ -1,8 +1,6 @@
 require 'svg/svg' 
 
 class GroupsController < ApplicationController
-  include GroupsHelper
-  helper 'groups_content'
   helper :profile
 
   
@@ -45,7 +43,7 @@ class GroupsController < ApplicationController
     unless current_user.superuser?
       if @parent and not current_user.member_of?(@parent)
         message( :error => 'you do not have permission to do that'.t, :later => true )
-        redirect_to url_for_group(@parent)
+        redirect_to group_url(@parent)
       end
     end
 
@@ -65,7 +63,7 @@ class GroupsController < ApplicationController
 
     # group creator is its default administrator (TODO: is this assumption true???)
     @group.memberships.create :user => current_user, :group => @group, :role => 'administrator'
-    redirect_to url_for_group(@group)
+    redirect_to group_url(@group)
   end
 
   # login required
@@ -96,7 +94,7 @@ class GroupsController < ApplicationController
     else
       @group.destroy
       if @group.parent
-        redirect_to url_for_group(@group.parent)
+        redirect_to group_url(@group.parent)
       else
         redirect_to :action => 'list'
       end
@@ -151,7 +149,7 @@ class GroupsController < ApplicationController
     end
 
     handle_rss :title => @group.name, :description => @group.summary,
-               :link => url_for_group(@group),
+               :link => group_url(@group),
                :image => avatar_url(:id => @group.avatar_id||0, :size => 'huge')
   end
   
@@ -167,7 +165,7 @@ class GroupsController < ApplicationController
   def visualize
     unless logged_in? and current_user.member_of?(@group)
       message( :error => 'you do not have permission to do that', :later => true )
-      redirect_to url_for_group(@group)
+      redirect_to group_url(@group)
     end
 
     # return xhtml so that svg content is rendered correctly --- only works for firefox (?)    

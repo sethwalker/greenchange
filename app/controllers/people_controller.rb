@@ -12,6 +12,10 @@ For processing a single user, see PersonController.
 class PeopleController < ApplicationController
   layout 'application'
   
+  def show
+    @person = User.find_by_login params[:id]
+  end
+
   def index
     list
     render :action => 'list'

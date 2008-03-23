@@ -10,14 +10,16 @@ class ContactController < ApplicationController
   #layout 'person'  
   
   def add
+    load_context
   end
 
   def create
+    load_context
     req = ContactRequest.find_or_initialize_by_user_id_and_contact_id(current_user.id, @person.id)
     req.message = params[:message] if params[:message]
     if req.save
       message :success => 'Your contact request has been sent to %s.' / @person.login
-      redirect_to url_for_user(@person)
+      redirect_to person_url(@person)
     else
       message :object => req
       render :action => 'add'
@@ -30,7 +32,7 @@ class ContactController < ApplicationController
   def destroy
     current_user.contacts.delete(@person)
     message :success => '%s has been removed from your contact list.' / @person.login
-    redirect_to url_for_user(@person)
+    redirect_to person_url(@person)
   end
 
   def requests

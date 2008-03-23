@@ -10,7 +10,7 @@ including join requests.
 class MembershipController < ApplicationController
   #layout 'groups'
   stylesheet 'groups'
-  helper 'groups', 'application'
+  #helper 'application'
     
   before_filter :login_required, :except => ['list']
   prepend_before_filter :fetch_group, :except => [:approve, :reject, :view_request]
@@ -61,7 +61,7 @@ class MembershipController < ApplicationController
   def destroy
     current_user.groups.delete(@group)
     message :success => 'You have been removed from %s' / @group.name
-    redirect_to url_for_group(@group)
+    redirect_to group_url(@group)
   end
   
   ###### ADMIN ACTIONS #########################################################

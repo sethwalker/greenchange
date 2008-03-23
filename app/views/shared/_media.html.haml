@@ -1,0 +1,6 @@
+- if !source.pages.allowed(current_user).page_type(:media).empty? and extended_sidebar?
+  .section
+    .header
+      Media
+    = render :partial => 'pages/list/media', :locals => { :source => source }
+

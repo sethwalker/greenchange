@@ -1,27 +1,24 @@
-%ul.tab-block
-  .toolbar
-    .icon
-      = link_to 'Create Media', {:controller => '/pages', :action => 'new', :group_id => @group.id, :type => 'media' }, :class => 'create action', :title => 'Create Media'
-    .icon
-      = link_to 'Subscribe to Updates', "formatted_group_pages_url(@group.id, :format => :rss )", :class => 'subscribe action', :title => 'Subscribe to Updates'
+- if source.pages.allowed(current_user).page_type(:media) and extended_sidebar?
+  %ul.tab-block
+    = render :partial => context_path('pages_toolbar'), :locals => { :source => source }
 
-  %li
-    .tab-title
-      Photos
-    %ul.tab-content.list
-      = render :partial => 'pages/list/page', :collection => source.pages.page_type(:image);
-  %li
-    .tab-title
-      Video
-    %ul.tab-content.list
-      = render :partial => 'pages/list/page', :collection => source.pages.page_type(:video) ;
-  %li
-    .tab-title
-      Audio
-    %ul.tab-content.list
-      = render :partial => 'pages/list/page', :collection => source.pages.page_type(:audio) ;
-  %li
-    %ul.tab-content.list
-      = render :partial => 'pages/list/page', :collection => source.pages.page_type(:asset) ;
+    %li
+      .tab-title
+        Photos
+      %ul.tab-content.list
+        = render :partial => 'pages/list/page', :collection => source.pages.allowed(current_user).page_type(:image)
+    %li
+      .tab-title
+        Video
+      %ul.tab-content.list
+        = render :partial => 'pages/list/page', :collection => source.pages.allowed(current_user).page_type(:video) 
+    %li
+      .tab-title
+        Audio
+      %ul.tab-content.list
+        = render :partial => 'pages/list/page', :collection => source.pages.allowed(current_user).page_type(:audio) 
+    %li
+      %ul.tab-content.list
+        = render :partial => 'pages/list/page', :collection => source.pages.allowed(current_user).page_type(:asset) 
 
--#- load_javascript_tabs
+  - load_javascript_tabs

@@ -1,8 +1,8 @@
-- if @group.members.any?
+- if group.members.any?
   .section
     .header
       Featured Members
-    = render :partial => 'avatars/boxes', :locals => {:people => @group.users, :side => "left"}
+    = render :partial => 'avatars/boxes', :locals => {:people => group.users, :side => "left"}
     %br.clear
     .link-line
-      = link_to 'view all', "more_members_link", :class => 'first'
+      = link_to 'view all', group_memberships_url(group), :class => 'first'

@@ -57,6 +57,11 @@ class Page < ActiveRecord::Base
       }
     }
 
+  has_finder :by_group, lambda {|*groups|
+      groups.any? ? { :conditions => [ 'group_id in (?)', groups ] } : {}
+    }
+  has_finder :by_issue, {} #lambda {|*issues| }
+  has_finder :by_person, {} #lambda {|*people| }
 =begin
   def Page.allowed(user, perm=:view)
     # unknown actions allow nothing
@@ -133,6 +138,7 @@ class Page < ActiveRecord::Base
 
   has_finder :page_type, 
     lambda {|*page_types| 
+      page_types = [:audio,:video,:image,:asset] if page_types==[:media]
       page_types = page_types.flatten.map do |t| 
         #"class_group" used to do this
         t = 'task_list'     if t.to_s == 'task'
@@ -470,22 +476,23 @@ class Page < ActiveRecord::Base
 
   # check if user has permission to perform the action on this page
   def allows?(user, action)
-    return true if user.superuser?
+    user.superuser? ||
 
-    permissions.find(:first,
+    # user is page owner
+    ( self.created_by == user ) ||
+
+    # explicit permissions grant
+    !permissions.find(:first,
       :conditions => [
         "grantee_type = 'User' AND "+
         "grantee_id = ? AND "+
         "#{action} = ?",
         user.id, true
       ]
-    )
+    ).nil? ||
 
     # abide by group policy if the page belongs to a group
-    unless self.group.nil?
-      return self.group.role_for(user).allows?(action, self)
-    end
+    ( !self.group.nil? and self.group.role_for(user).allows?(action, self) )
 
-    return false
   end
 end

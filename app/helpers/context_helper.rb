@@ -27,6 +27,32 @@ this module is included in application.rb
 
 module ContextHelper
 
+  # method to add a context-based parameter to a given hash - not needed yet
+#  def in_context( options = {} )
+#    if @group
+#      options.merge :group_id => @group.to_param 
+#    elsif @issue
+#      options.merge :issue_id => @issue.to_param  
+#    elsif @person
+#      options.merge :person_id => @person.to_param 
+#    end
+#  end
+#
+  # CONTEXT_USAGE
+  # method to call a custom partial based on the current "context"
+  def context_path(path)
+    if @group
+      "groups/#{path}"
+    elsif @issue
+      "issues/#{path}"
+    elsif @person
+      "people/#{path}"
+    else
+      "shared/#{path}"
+    end
+  end
+
+
   protected
 
   ############################################################
@@ -64,7 +90,7 @@ module ContextHelper
       if @group.instance_of? Committee
         add_context @group.parent.short_name, group_url(@group.parent)
       end
-      add_context @group.short_name, url_for_group(@group, :action => 'show')
+      add_context @group.short_name, group_url(@group)
       set_banner "groups/banner_#{size}", @group.banner_style
     end
     breadcrumbs_from_context if update_breadcrumbs
@@ -73,7 +99,7 @@ module ContextHelper
   def person_context(size='large', update_breadcrumbs=true)
     add_context 'people', people_url
     if @user
-      add_context @user.login, url_for_user(@user, :action => 'show')
+      add_context @user.login, person_url(@user)
       set_banner "person/banner_#{size}", @user.banner_style
     end
     breadcrumbs_from_context if update_breadcrumbs

@@ -1,0 +1,6 @@
+- unless source.groups.empty?
+  .section
+    .header
+      Groups
+    = render :partial => 'avatars/boxes', :locals => {:groups => source.groups, :side => 'left'}
+

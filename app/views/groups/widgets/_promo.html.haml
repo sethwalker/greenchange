@@ -1,5 +1,5 @@
-- if promo = promo_for(@group)
+- if @group and !featured_pages(@group).empty?
   %h2
     Featured Content
   %ul.promos
-    = render :partial => 'pages/list/page', :locals => { :page => promo }
+    = render :partial => 'pages/list/page', :locals => { :page => featured_pages(@group).first}

@@ -1,0 +1,4 @@
+.section
+  .header
+    - source.users.each do |person|
+      = link_to avatar_for( person ) + person.name, person_url(person)

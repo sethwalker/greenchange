@@ -37,6 +37,12 @@ class PagesController < ApplicationController
     @pages = options[:pages] # a list of pages, if already fetched
   end  
 
+  def show
+    short_name = @page.class.to_s.demodulize.downcase
+    @wiki = @page.data
+    render :action => "../tool/#{short_name}/show" or raise NameError
+  end
+
   ##############################################################
   ## PUBLIC ACTIONS
   
@@ -196,7 +202,7 @@ class PagesController < ApplicationController
   
   def remove_from_my_pages
     @upart.destroy
-    redirect_to from_url(@page)
+    redirect_to me_url
   end
   
   def add_to_my_pages
@@ -230,10 +236,10 @@ class PagesController < ApplicationController
     
   def destroy
     return unless request.post?
-    url = from_url(@page)
+    #url = from_url(@page)
     @page.data.destroy if @page.data # can this be in page?
     @page.destroy
-    redirect_to url
+    redirect_to me_url
   end
 
   protected

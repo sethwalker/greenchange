@@ -4,9 +4,6 @@ Inbox of pages I am actively participating in or watching for changes. <%= link_
 </div>
 
 <div id='page-holder'>
-  <div id='folders'>
-    <%= render :partial => 'folders', :locals => {:mode => 'me', :users => @user.contacts, :groups => @user.groups} %>
-  </div>
   
   <% form_tag({:controller => 'inbox', :action => 'index', :path => params[:path]}, {:id => 'inbox_form'}) do -%>  
   <div id='page-list'>
@@ -16,11 +13,11 @@ Inbox of pages I am actively participating in or watching for changes. <%= link_
   </div>
 
   <p id='inbox_buttons'>
-    <%= function_button '[T]oggle selection'.t, "$('inbox_form').getInputs('checkbox').invoke('click')" %>  
-    <%= submit_button '[R]emove from inbox'.t, :name => 'remove' %>  
+    <%= submit_tag 'Remove from inbox', :name => 'remove', :class => 'button' %>  
   </p>
   
-  <% end # form -%>
+  <% end # form 
+  -%>
 </div>
 
 

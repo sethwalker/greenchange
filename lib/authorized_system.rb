@@ -191,35 +191,35 @@ module AuthorizedSystem
     end
   end
 
-  protected 
-    # return the effective role assigned to current user
-    def current_role
-      @current_role ||= assume_role
-    end
-
-    # authorization filter. called from app controller after #context has
-    # been called. determines the appropriate role for the current user
-    # based on current context.
-    def assume_role
-      # unathenticated users get the anonymous role
-      if current_user.is_a?(UnauthenticatedUser)
-        @current_role = Role.new :anonymous
-      else
-        if @group
-          # got a group and a user, use the membership's role
-          @current_role = @group.role_for current_user
-        else
-          # if no specific group is identified, user gets
-          # authenticated access 
-          @current_role = Role.new :user
-        end
-      end
-
-      @current_role
-    end
-
-    # add #current_role as a view helper
-    def self.included(base)
-      base.send :helper_method, :current_role
-    end
+#  protected 
+#    # return the effective role assigned to current user
+#    def current_role
+#      @current_role ||= assume_role
+#    end
+#
+#    # authorization filter. called from app controller after #context has
+#    # been called. determines the appropriate role for the current user
+#    # based on current context.
+#    def assume_role
+#      # unathenticated users get the anonymous role
+#      if current_user.is_a?(UnauthenticatedUser)
+#        @current_role = Role.new :anonymous
+#      else
+#        if @group
+#          # got a group and a user, use the membership's role
+#          @current_role = @group.role_for current_user
+#        else
+#          # if no specific group is identified, user gets
+#          # authenticated access 
+#          @current_role = Role.new :user
+#        end
+#      end
+#
+#      @current_role
+#    end
+#
+#    # add #current_role as a view helper
+#    def self.included(base)
+#      base.send :helper_method, :current_role
+#    end
 end

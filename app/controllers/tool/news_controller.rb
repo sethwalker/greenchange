@@ -1,6 +1,5 @@
 class Tool::NewsController < Tool::WikiController
   append_before_filter :fetch_wiki
-  helper FormHelper
   
   def edit
     @wiki.lock(Time.now, current_user)

@@ -6,7 +6,7 @@
         f.tab do |t|
           t.label 'Settings'.t
           t.icon 'actions/settings.png'
-          t.link url_for_group(@group, :action => 'edit')
+          t.link group_url(@group, :action => 'edit')
         end
         f.tab do |t|
           t.label 'Profile'.t

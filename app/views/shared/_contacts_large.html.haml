@@ -1,0 +1,6 @@
+- if source.contacts.any?
+  .sidesection
+    .sidehead
+      Contacts
+    = render :partial => 'avatars/boxes', :locals => {:people => source.contacts, :side => 'left'}
+    %br.clear

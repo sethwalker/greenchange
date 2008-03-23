@@ -1,5 +1,5 @@
 <tr>
-  <td><%= link_to_user membership.user, :avatar => 'xsmall' %></td>
+  <td><%= link_to avatar_for( membership.user, 'xsmall' ) + membership.user.login, person_url( membership.user) %></td>
   <td><%= friendly_date membership.created_at %></td>
 </tr>
 

@@ -146,14 +146,20 @@ div.tab-area
 ul.tabset
   :list-style-type none
   :margin 0
-  a.tab-link:hover
-    :text-decoration underline
-    :text-decoration underline
+  .tab
+    a:hover
+      :text-decoration underline
+      :text-decoration underline
 
 ul.tabset.left
   :padding 0 20px 0 0
   li.tab
     :border 1px solid transparent
+    a
+      :display block
+      :text-decoration none
+      :padding 1.5em
+      :padding-left 56px
   li.tab.selected
     :background #eef
     :border-top 1px solid #ccc
@@ -162,11 +168,6 @@ ul.tabset.left
     :background #ffc
     :border-top 1px solid #ccc
     :border-bottom 1px solid #ccc
-  a.tab-link
-    :display block
-    :text-decoration none
-    :padding 1.5em
-    :padding-left 56px
 
 ul.tabset.top
   :font-size 11px
@@ -181,24 +182,24 @@ ul.tabset.top
     :float left
     :margin 0 .5em
     :list-style none
-  a.tab-link
-    //:background url(/images/arrow-bullet-dark.gif)  no-repeat 2px 3px 
-    :background no-repeat 2px 3px 
-    :background-image = !tabmenu_arrow
-    :float left
-    :display block
-    :text-decoration none
-    :padding 0 .8em 0 1.25em
-    :color = !tabmenu_text
-    :text-transform uppercase
-    :font-weight bold
-    &:hover
+    a
+      //:background url(/images/arrow-bullet-dark.gif)  no-repeat 2px 3px 
+      :background no-repeat 2px 3px 
+      :background-image = !tabmenu_arrow
+      :float left
+      :display block
+      :text-decoration none
+      :padding 0 .8em 0 1.25em
+      :color = !tabmenu_text
+      :text-transform uppercase
+      :font-weight bold
+      &:hover
+        :background-color = !tabmenu_selected_bg
+    a.selected
+      :border-left = 1px solid 
+      :border-right= 1px solid 
+      :border-color = !tabmenu_selected_border
       :background-color = !tabmenu_selected_bg
-  a.selected
-    :border-left = 1px solid 
-    :border-right= 1px solid 
-    :border-color = !tabmenu_selected_border
-    :background-color = !tabmenu_selected_bg
 
 table.layout
   :margin-top 2em
