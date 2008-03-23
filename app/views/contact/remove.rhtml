@@ -6,7 +6,7 @@ If you remove <b><%= @person.name %></b> as a contact, you will not be able to s
 <p>Are you sure you wish to break contact with <b><%= @person.name %></b>?</p>
 
 <% form_tag :action => 'destroy' do -%>
-<%= submit_tag 'Remove Contact', :name => 'remove' %> or <%= link_to 'Cancel', url_for_user(@person) %>
+<%= submit_tag 'Remove Contact', :name => 'remove' %> or <%= link_to 'Cancel', person_url(@person) %>
 <% end %>
 
 </blockquote>

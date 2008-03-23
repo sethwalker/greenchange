@@ -17,40 +17,11 @@ module PageUrlHelper
     when Tool::TaskList
       'task_url'
     else
-      return "/pages/#{page.to_param}"
+      return "/pages/show/#{page.to_param}"
     end
-    self.__send__ url_helper, @page, *args
+    self.__send__ url_helper.to_sym, @page, *args
   end
 
-  # a helper for links that are destined for the PagesController, not the
-  # Tool::BaseController or its decendents
-  def pages_url(page,options={})
-    url_for({:controller => 'pages',:id => page.id}.merge(options))
-  end
-  
-  # 
-  # returns the url that this page was 'from'.
-  # used when deleting this page, and other cases where we redirect back to 
-  # some higher containing context.
-  # 
-  def from_url(page=nil)
-    if page and (url = url_for_page_context(page))
-      return url
-    elsif @group
-      url = ['/groups', 'show', @group]
-    elsif @user == current_user
-      url = ['/me',     nil,    nil]
-    elsif @user
-      url = ['/people', 'show', @user]
-    elsif logged_in?
-      url = ['/me',     nil,    nil]
-    elsif page and page.group_name
-      url = ['/groups', 'show', page.group_name]
-    else
-      raise "From url cannot be determined" # i don't know what to do here.
-    end
-    url_for :controller => url[0], :action => url[1], :id => url[2]
-  end
   
   def filter_path
     @path ||= (params[:path] || [])

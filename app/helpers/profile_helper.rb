@@ -1,5 +1,7 @@
 module ProfileHelper
 
+  #app/views/person/_profile.rhtml
+  #app/views/profile/show.rhtml
   def photo(profile)
     avatar_for(profile.entity, 'xlarge')
   end
@@ -40,10 +42,6 @@ module ProfileHelper
 
     content
 =end
-  end
-  
-  def option_array(types)
-    types.collect{|a| [a.t, a] }
   end
   
   def select_tag_with_id(name, option_tags = nil, options = {})

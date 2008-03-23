@@ -5,7 +5,10 @@
 <% end -%>
 <br style='clear:both'/>
 <div class='link-line'>
-  <%= more_members_link( :class => 'first') %>
-  <%= invite_link %>
+  <%= link_to 'More Members', group_memberships_url(@group), :class => 'first' %>
+  <% if current_user.may_admin?(@group) -%>
+    <%= link_to 'send invites'.t, url_for(:controller => 'membership', :action => 'invite', :id => @group), html_options %>
+    <%= link_to 'view requests'.t, url_for(:controller => 'membership', :action => 'requests', :id => @group), html_options %>
+  <% end -%>
   <%= requests_link %>
 </div>

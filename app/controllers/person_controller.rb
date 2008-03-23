@@ -18,6 +18,7 @@ class PersonController < ApplicationController
   end
   
   def show
+    load_context
     params[:path] ||= "descending/updated_at"
     search
   end

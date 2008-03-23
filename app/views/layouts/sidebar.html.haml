@@ -1,14 +1,14 @@
 = render :partial => 'shared/sides/donate'
 - if @group
-  = render :partial => 'groups/sides/members'
-  -#= render :partial => 'groups/sides/chat'
-  = render :partial => 'groups/sides/media'
+  = render :partial => 'groups/sides/members',  :locals => { :group => @group }
+  = render :partial => 'shared/media',      :locals => { :source => @group }
   = render :partial => 'groups/sides/tools'
   = render :partial => 'groups/sides/admin'
+  -#= render :partial => 'groups/sides/chat'
 
 - if @issue
-  = render :partial => 'issues/sides/groups'
-  = render :partial => 'issues/sides/media'
+  = render :partial => 'shared/groups_large',   :locals => { :source => @issue }
+  = render :partial => 'shared/media',          :locals => { :source => @issue }
 
 - if @page
   = render :partial => 'pages/sides/contributors', :locals => { :page => @page }
@@ -19,11 +19,11 @@
   = render :partial => 'pages/sides/assets', :locals => { :page => @page }
 
 - if @person
-  = render :partial => 'person/sides/tools'
-  = render :partial => 'person/sides/contacts'
-  = render :partial => 'person/sides/groups'
-  = render :partial => 'person/sides/media'
-  = render :partial => 'person/sides/top_pages'
+  = render :partial => 'person/sides/tools',        :locals => { :target => @person }
+  = render :partial => 'shared/contacts_large',     :locals => { :source => @person }
+  = render :partial => 'shared/groups_large',       :locals => { :source => @person }
+  = render :partial => 'shared/media',              :locals => { :source => @person }
+  = render :partial => 'person/sides/top_pages',    :locals => { :source => @person }
 
 - if @user and logged_in?
   = render :partial => 'me/sides/inbox'
@@ -32,3 +32,7 @@
   = render :partial => 'shared/contacts', :locals => { :source => @user }
   = render :partial => 'shared/issues',   :locals => { :source => @user }
   
+-#- if @tag
+  -#= render :partial => 'shared/groups_large',   :locals => { :source => @tag }
+  -#= render :partial => 'shared/media',          :locals => { :source => @tag }
+

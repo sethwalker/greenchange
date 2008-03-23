@@ -250,7 +250,7 @@ describe GroupsController do
         assert_response :redirect
       end
       it "should redirect to the groups url" do
-        assert_redirected_to controller.url_for_group(assigns[:group], :action => 'show')
+        assert_redirected_to group_url(assigns[:group])
       end
       it "should create group" do
         assert_equal assigns[:group].name, 'test-create-group'

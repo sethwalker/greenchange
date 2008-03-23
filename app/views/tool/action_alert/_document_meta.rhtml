@@ -11,18 +11,18 @@
 }
 <% end -%>
     <div class='meta'>
-       <%= label_for :document_meta, :creator, 'Author' %>
+       <%= label :document_meta, :creator, 'Author' %>
        <%= text_field :document_meta, :creator %>
-       <%= label_for :document_meta, :creator_url, 'Url' %>
+       <%= label :document_meta, :creator_url, 'Url' %>
        <%= text_field :document_meta, :creator_url, :size => 70 %>
     </div>
     <div class='meta'>
-       <%= label_for :document_meta, :source, 'Source' %>
+       <%= label :document_meta, :source, 'Source' %>
        <%= text_field :document_meta, :source %>
-       <%= label_for :document_meta, :source_url, 'Url' %>
+       <%= label :document_meta, :source_url, 'Url' %>
        <%= text_field :document_meta, :source_url, :size => 70 %>
     </div>
     <div class='meta'>
-       <%= label_for :document_meta, :published_at, 'Publication Date' %>
+       <%= label :document_meta, :published_at, 'Publication Date' %>
        <%= date_select :document_meta, :published_at, :order => [:month, :day, :year ] %>
     </div>

@@ -34,9 +34,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :profile
   map.me 'me/:action/:id', :controller => 'me'
   
-  map.people 'people/:action/:id', :controller => 'people'
-  map.connect 'person/:action/:id/*path', :controller => 'person'
-  
   map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|calendar|search/
 
   def page_routes(parent)
@@ -46,10 +43,16 @@ ActionController::Routing::Routes.draw do |map|
       wikis.resources :blogs, :controller => 'tool/blog'
       wikis.resources :news, :controller => 'tool/news'
     end
+    parent.media 'media', :controller => 'tool/base', :page_type => 'media', :action => 'index'
+    parent.tools 'tools', :controller => 'tool/base', :page_type => 'tools', :action => 'index'
+    parent.involvements 'involvements', :controller => 'tool/base', :page_type => 'involvements', :action => 'index'
+    parent.updates 'updates', :controller => 'tool/base', :page_type => 'updates', :action => 'index'
+
     parent.resources :assets, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
     parent.resources :events, :controller => 'tool/event', :member => {:participation => :post, :set_event_description => :post}
     parent.resources :videos, :controller => 'tool/external_video' #for now
     parent.resources :messages, :controller => 'tool/message'
+    parent.resources :discussions, :controller => 'tool/discussion'
     parent.resources :polls, :controller => 'tool/ranked_vote', :member => {:add_possible => :post, :sort => :post, :update_possible => :put, :edit_possible => :get, :destroy_possible => :destroy}
     parent.resources :surveys, :controller => 'tool/rate_many', :member => {:add_possible => :post, :edit_possible => :get, :destroy_possible => :destroy, :vote_one => :post, :vote => :post, :clear_votes => :destroy, :sort => :post}
     parent.resources :tasks, :controller => 'tool/tasklist', :member => {:sort => :post, :create_task => :post, :mark_task_complete => :post, :mark_task_pending => :post, :destroy_task => :destroy, :update_task => :put, :edit_task => :get}
@@ -63,6 +66,15 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
   page_routes(map)
 
+  map.resources :people, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |person|
+    person.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
+    person.resources :pages
+    page_routes(person)
+  end
+
+  map.people 'people/:action/:id', :controller => 'people'
+  map.connect 'person/:action/:id/*path', :controller => 'person'
+  
   map.connect 'pages/search/*path', :controller => 'pages', :action => 'search'
             
   map.connect '', :controller => "account"

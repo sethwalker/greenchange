@@ -94,6 +94,11 @@ ul.tab-block
     body.ie6 &
       :width = !side_column_wideside_width - !ie_padding_offset
 
+  #main #bar & 
+    :width = !side_column_width - 15px
+    body.ie6 &
+      :width = !side_column_width - !ie_padding_offset
+
   body.ie7 &
     :padding-bottom = !tab_block_title_offset
   li
@@ -133,6 +138,10 @@ ul.tab-block
       :width = !side_column_wideside_width - 15px
       body.ie6 &
         :width = !side_column_wideside_width - !ie_padding_offset
+    #main #bar & 
+      :width = !side_column_width - 15px
+      body.ie6 &
+        :width = !side_column_width - !ie_padding_offset
 
 
 ul.tab-block.active

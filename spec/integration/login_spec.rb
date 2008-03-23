@@ -15,8 +15,7 @@ describe 'Login with webrat' do
     it "can log in" do
       @webrat.reset!
       login_test_user
-      User.authenticate(@test_user.login, @test_user.password).should == @test_user
-      @webrat.response.body.should_not match(/incorrect/)
+      @webrat.response.body.should match(/Inbox/)
     end
     
     it "shows the dashboard" do

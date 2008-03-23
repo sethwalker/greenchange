@@ -1,17 +1,18 @@
 - if logged_in?
-  .sidesection
-    .sidelink
-      - if current_user.contacts.find( :first, :conditions => [ 'user_id = ?', @user ] )
-        = link_to_icon 'remove from my contacts', 'actions/minus.png',  url_for(:controller => 'contact', :action => 'remove', :id => @user), :class => 'action'
+  .section
+    .link
+      - if current_user.contacts.find( :first, :conditions => [ 'user_id = ?', target ] )
+        = link_to_icon 'remove from my contacts', 'actions/minus.png',  url_for(:controller => 'contact', :action => 'remove', :id => target), :class => 'action'
       - else
-        = link_to_icon 'add to my contacts', 'actions/plus.png', url_for(:controller => 'contact', :action => 'add', :id => @user), :class => 'action'
+        = link_to_icon 'add to my contacts', 'actions/plus.png', url_for(:controller => 'contact', :action => 'add', :id => target), :class => 'action'
 
-    .sidelink
-      = link_to_icon 'send message', 'pages/message.png', url_for(:controller => 'tool/message', :action => 'create', :to => @user.login), :class => 'action'
-    .sidelink
-      = link_to_icon 'star this person', 'actions/star.png', url_for_user(@user, :action => 'star'), :method => :post, :class => 'action'
-    - if @user.online?
-      .sidelink
+    .link
+      = link_to_icon 'send message', 'pages/message.png', url_for(:controller => 'tool/message', :action => 'create', :to => target.login), :class => 'action'
+    -# can't find a star action for person
+      .link
+        = link_to_icon 'star this person', 'actions/star.png', 'star_person_url(target)', :method => :post, :class => 'action'
+    - if target.online?
+      .link
         currently online
         = link_to '(chat)', {:controller => 'tool/message' }, :class => 'action'
 

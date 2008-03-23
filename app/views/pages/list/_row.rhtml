@@ -10,6 +10,7 @@
 -%>
 <tr class="<%= color %> <%= 'unread' if upart and !upart.viewed? %>">
 <% columns.each do |column| -%>
+  <% RAILS_DEFAULT_LOGGER.debug "### #{column}" %>
   <td><%= page_list_cell(page, column, upart) %></td>
 <% end -%>
 </tr>

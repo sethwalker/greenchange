@@ -7,7 +7,8 @@
 <p>Tell <b><%= @person.login %></b> why you want to be their contact:</p>
 <% form_tag :action => 'create' do -%>
 <%= text_area_tag 'message', params[:message], :size => '50x5' %><br/>
-<%= submit_tag 'Send', :name => 'send' %> or <%= link_to 'Cancel', url_for_user(@person) %>
+<%= hidden_field_tag 'person_id', @person.login %>
+<%= submit_tag 'Send', :name => 'send' %> or <%= link_to 'Cancel', person_url(@person) %>
 <% end %>
 
 </blockquote>

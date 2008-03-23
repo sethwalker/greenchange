@@ -1,6 +1,6 @@
 .section
-  .header
+  %h2.header
     Contacts for 
     = source.name
   - source.contacts.each do |person|
-    = link_to avatar_for( person, 'small'), person
+    = link_to avatar_for( person, 'small'), person_url(person)

@@ -1,0 +1,6 @@
+- if @group
+  = render :partial => 'shared/people', :locals => { :source => @group }
+- elsif @person
+  = render :partial => 'shared/groups', :locals => { :source => @person }
+- elsif @user
+  = render :partial => 'shared/groups', :locals => { :source => @user }

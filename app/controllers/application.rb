@@ -4,9 +4,8 @@ class ApplicationController < ActionController::Base
   include AuthenticatedSystem
   include AuthorizedSystem
   include PageUrlHelper
-  include UrlHelper
   include ContextHelper
-  include TimeHelper
+  #include TimeHelper
 
   include PathFinder::Options
       
@@ -15,8 +14,8 @@ class ApplicationController < ActionController::Base
   
   before_filter :pre_clean
   around_filter :rescue_authentication_errors
-  before_filter :context
-  before_filter :assume_role, :except => :login  # after context
+  #before_filter :context
+  #before_filter :assume_role, :except => :login  # after context
   around_filter :set_timezone
   session :session_secure => true if Crabgrass::Config.https_only
 
@@ -87,4 +86,14 @@ class ApplicationController < ActionController::Base
   rescue PermissionDenied
     access_denied
   end
+
+  # CONTEXT USAGE
+  def load_context
+    @group = Group.find_by_name params[:group_id] if params[:group_id]
+    @issue = Issue.find_by_name params[:issue_id] if params[:issue_id]
+    @tag =   Tag.find_by_name  params[:tag_id]    if params[:tag_id]
+    @person= User.find_by_login params[:person_id] if params[:person_id]
+  end
+
+    
 end

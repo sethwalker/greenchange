@@ -7,7 +7,7 @@
     -elsif author = @page.contributors.first
       = avatar_for author, 'huge'
       .text
-        = link_to author.display_name, url_for_user(author)
+        = link_to author.display_name, person_url(author)
     -#
       - @page.contributors.each do |u|
         .sideline

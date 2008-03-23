@@ -442,9 +442,9 @@ module SocialUser
 
     def may?(act, on)
       begin
-        return may!(act, on)
+        may!(act, on)
       rescue PermissionDenied
-        return false
+        false
       end
     end
 
@@ -461,10 +461,7 @@ module SocialUser
     # because of participation objects, NOT because the page is public.
     #
     def may!(act, on)
-      unless on.nil?
-        return on.allows?(self, act) if on.respond_to?(:allows?)
-      end
-      raise PermissionDenied
+      ( on and on.respond_to?(:allows?) and on.allows?(self, act)) or raise PermissionDenied
     end
 
     # handles methods of the form may_xxx? and may_xxx!, the xxx? flavor simply answers

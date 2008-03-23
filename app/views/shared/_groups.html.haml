@@ -1,6 +1,6 @@
 .section
-  .header
+  %h2.header
     Groups
   - source.groups.each do |group|
-    = link_to avatar_for( group, 'small'), group
+    = link_to avatar_for( group, 'small'), group_url(group)
 

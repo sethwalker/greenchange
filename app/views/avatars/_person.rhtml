@@ -2,11 +2,11 @@
   <%  online = person.respond_to?(:online?) && person.online? ? 'online' : '' %>
   <div class='iconboxes'>
    <div class='iconbox inline <%=online%>'>
-      <%= link_to avatar_for(person, 'xsmall', :class=>'iconbox'), url_for_user(person) %>
+      <%= link_to avatar_for(person, 'xsmall', :class=>'iconbox'), person_url(person) %>
       <div class='hover'>
-        <%= link_to avatar_for(person, 'small', :class=>'bigiconbox'), url_for_user(person) %>
+        <%= link_to avatar_for(person, 'small', :class=>'bigiconbox'), person_url(person) %>
         <div class='text'>
-          <span><%= link_to person.display_name, url_for_user(person) %></span>
+          <span><%= link_to person.display_name, person_url(person) %></span>
         </div>
       </div>
     </div>

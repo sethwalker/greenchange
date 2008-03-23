@@ -3,14 +3,14 @@
   f.tab do |t|
     t.label 'Settings'.t
     t.icon 'actions/settings.png'
-    t.link( @user ? me_url(:action => 'edit') : url_for_group(@group, :action => 'edit') )
+    t.link( @user ? me_url(:action => 'edit') : edit_group_url(@group) )
     t.selected params[:action] == 'edit' && params[:controller] == 'me'
   end
   f.tab do |t|
     t.label 'Profile'.t
     t.icon 'actions/profile-private.png'
-    t.link "nowhere town" #url_for(:controller => 'profile', :action => 'edit', :id => @profile.id)
-    t.selected true #params[:controller] == 'profile' && params[:id] == @profile.id.to_s
+    t.link "nowhere"#url_for(:controller => 'profile', :action => 'edit', :id => @profile.id)
+    t.selected false#params[:controller] == 'profile' && params[:id] == @profile.id.to_s
   end
 end
 %>

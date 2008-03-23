@@ -42,7 +42,7 @@ class MeController < ApplicationController
   end
 
   def counts
-    return false unless request.xhr?
+    redirect_to :action => :index and return false unless request.xhr?
     @request_count = current_user.contact_requests_received.pending.count  + current_user.groups_administering.sum {|g| g.membership_requests.pending.count }
     @unread_count = current_user.pages_unread.count
     @pending_count = current_user.pages_pending.count

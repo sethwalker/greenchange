@@ -24,7 +24,8 @@
       background: #cdf; }
     #bar .sidesection img a.action:selected, #bar .section img a.action:selected {
       font-weight: bold; }
-#bar .sidehead, #bar .header {
+#bar .sidehead, #bar .header, #bar h2.header {
+  font-size: 12px;
   border-top: 4px solid;
   border-color: #116c90;
   font-weight: bold;
@@ -33,11 +34,11 @@
   background-color: #1c9bca;
   display: block;
   width: 230px; }
-  body.ie6 #bar .sidehead, body.ie6 #bar .header {
+  body.ie6 #bar .sidehead, body.ie6 #bar .header, body.ie6 #bar h2.header {
     width: 220px; }
-  #main.wideside #bar .sidehead, #main.wideside #bar .header {
+  #main.wideside #bar .sidehead, #main.wideside #bar .header, #main.wideside #bar h2.header {
     width: 355px; }
-    body.ie6 #main.wideside #bar .sidehead, body.ie6 #main.wideside #bar .header {
+    body.ie6 #main.wideside #bar .sidehead, body.ie6 #main.wideside #bar .header, body.ie6 #main.wideside #bar h2.header {
       width: 345px; }
 #bar a.header {
   background: url(/images/arrow-bullet.gif) no-repeat 97% 45%;

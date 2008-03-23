@@ -19,7 +19,31 @@ class Tool::BaseController < ApplicationController
 
     @javascript_extra = true
   end  
-    
+
+  def page_type
+    return controller_name.demodulize.downcase.to_sym unless params[:page_type]
+    case params[:page_type]
+      when 'updates' 
+        [:news, :blog]
+      when 'media'
+        [:image, :video, :audio]
+      when 'involvements'
+        [:event, :action_alert]
+      when 'tools'
+        [:discussion, :rate_many, :ranked_vote, :task_list ]
+      else
+        params[:page_type]
+    end
+  end
+
+  def index
+    load_context
+    @pages = Page.allowed(current_user).page_type( page_type ).by_group( params[:group_id]).by_issue( params[:issue_id ]).by_person( params[:person_id])
+    unless !Dir.glob( "#{RAILS_ROOT}/app/views/tool/#{page_type}/index*").empty?  and  render :action => "index" 
+       render :action => '../shared/index'
+    end
+  end
+
   # the form to create this type of page
   # can be overridden by the subclasses
   def new 
@@ -61,8 +85,8 @@ class Tool::BaseController < ApplicationController
   def setup_default_view
     @show_posts = (%w(show title).include?params[:action]) # default, only show comment posts for the 'show' action
     @show_reply = @posts.any? # by default, don't show the reply box if there are no posts
-    @sidebar = true
-    @html_title = @page.title if @page
+    #@sidebar = true
+    #@html_title = @page.title if @page
     setup_view # allow subclass to override view
     true
   end
@@ -83,7 +107,8 @@ class Tool::BaseController < ApplicationController
   def authorized?
     if @page
       #current_user.may?(:admin, @page)
-      current_role.allows? action_name, @page
+      #current_role.allows? action_name, @page
+      @page.allows? current_user, action_name
     else
       true
     end

@@ -1,0 +1,16 @@
+<% if @request_count && @request_count > 0 -%>
+  <%= image_tag 'emblems/wand.png' -%> 
+  <%= link_to "#{@request_count} pending requests", :controller => 'requests' -%>
+  <br/>
+<% end -%>
+<% if @unread_count && @unread_count > 0 -%>
+  <%= image_tag 'emblems/glasses.png' %> 
+  <%= link_to "#{@unread_count} unread messages", :controller => 'inbox', :action => 'index', :path => 'unread' -%>
+  <br/>
+<% end -%>
+<% if @pending_count && @pending_count > 0 -%>
+  <%= image_tag 'emblems/pending.png' %> 
+  <%= link_to "#{pending_count} pending items in your inbox", :controller => 'inbox', :action => 'index', :path => 'pending' %>
+<% end -%>
+
+

@@ -1,0 +1,10 @@
+.landing.landing-group
+  .person_widget.section.info
+    = avatar_for @person, 'medium'
+    = link_to @person.name, person_url(@person)
+  .person_widget.section.profile
+    -#=render :partial => 'profile/show'
+  .person_widget.section
+    -#= render :partial => 'person/widgets/updates'
+
+
