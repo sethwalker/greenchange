@@ -6,7 +6,7 @@ class MyCalendarController < ApplicationController
   helper :date
   helper :event_time
   
-  layout 'me'
+#  layout 'me'
   before_filter :login_required
 
   # events / calendar code - most of these actions adapted from
@@ -34,8 +34,7 @@ class MyCalendarController < ApplicationController
     end  
     datestring = @date.to_s
 
-    options = options_for_me(:public => true)
-    @events = Page.find_by_path(build_day_path(datestring),options)
+    @events = current_user.pages.page_type(:event).occurs_on_day(datestring).find(:all, :order => "pages.starts_at ASC")
   end
   
   def list_by_week
