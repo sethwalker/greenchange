@@ -34,8 +34,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :profile
   map.me 'me/:action/:id', :controller => 'me'
   
-  map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|calendar|search/
-
   def page_routes(parent)
     parent.with_options :member => {:version => :get, :versions => :get, :diff => :get, :break_lock => :post, :print => :get} do |wikis|
       wikis.resources :wikis, :controller => 'tool/wiki'

@@ -195,6 +195,17 @@ class Page < ActiveRecord::Base
     end
   end
 
+  has_finder :occurs_on_day, lambda {|datestring|
+    year, month, day = datestring.split('-')
+    date = Time.utc(year, month, day)
+    case connection.adapter_name
+    when "SQLite"
+      {:conditions => ["STRFTIME('%Y-%m-%d',pages.starts_at) <= :day AND STRFTIME('%Y-%m-%d',pages.ends_at) >= :day", {:day => date.loc('%Y-%m-%d')}]}
+    when "MySQL"
+      {:conditions => ["DATE_FORMAT(pages.starts_at,'%Y-%m-%d') <= :day AND DATE_FORMAT(pages.ends_at,'%Y-%m-%d') >= :day", {:day => date.loc('%Y-%m-%d')}]}
+    end
+  }
+
   extend PathFinder::FindByPath
 
   #######################################################################

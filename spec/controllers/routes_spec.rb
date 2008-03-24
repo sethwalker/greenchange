@@ -42,6 +42,6 @@ describe "Routes" do
   end
   it "should know about participate route for events" do
     event = Tool::Event.create :title => 'eventish'
-    participate_event_path(event).should == "/groups/#{event.to_param}/participate"
+    participate_event_path(event).should == "/events/#{event.to_param}/participate"
   end
 end

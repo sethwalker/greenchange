@@ -185,6 +185,19 @@ describe GroupsController do
       assigns[:pages].should be_a_kind_of(WillPaginate::Collection)
     end
   end
+
+  describe "group calendar" do
+    before do
+      @group = create_valid_group
+      @page = Tool::Event.create :title => 'anevent', :group_id => @group.id
+    end
+    describe "list_by_day" do
+      it "should be successful" do
+        get :list_by_day, :id => @group.to_param
+        response.should be_success
+      end
+    end
+  end
 end
 
 

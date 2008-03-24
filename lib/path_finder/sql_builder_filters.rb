@@ -195,7 +195,8 @@ class PathFinder::SqlBuilder < PathFinder::Builder
   ####
   
   def filter_type(page_class_group)
-    page_classes = Page.class_group_to_class_names(page_class_group)
+#    page_classes = Page.class_group_to_class_names(page_class_group)
+    page_classes = ['Tool::Event']
     @conditions << 'pages.type IN (?)'
     @values << page_classes
   end
