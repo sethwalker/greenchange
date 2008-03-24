@@ -234,4 +234,181 @@ describe Page do
       end
     end
   end
+
+  describe "find pages with Page.allowed" do
+
+    before do
+      @user = create_valid_user(:login => 'guinea_pig')
+
+      # groups the user belongs to, 1 as an admin and 1 as a member
+      @admins_group = create_valid_group(:name => 'admin_group')
+      @member_group = create_valid_group(:name => 'member_group')
+
+      # a group granting permission to the user (non-member)
+      @granting_group = create_valid_group(:name => 'granting_group')
+
+      # user memberships
+      Membership.create(:group => @admins_group, :user => @user, :role => 'administrator')
+      Membership.create(:group => @member_group, :user => @user, :role => 'member')
+
+      # the user should be able to view these without any special permissions
+      @public_page      = create_valid_page( :title => 'public', :public => true )
+      @owned_page       = create_valid_page( :title => 'user', :public => false, :created_by_id => @user.id )
+
+      # group membership pages
+      @group_admin_page   = create_valid_page( :title => 'group_admin', :public => false, :group => @admins_group )
+      @member_page        = create_valid_page( :title => 'member', :public => false, :group => @member_group )
+
+      # explicit permission pages 
+      @view_page        = create_valid_page( :title => 'view_page', :public => false )
+      @view_edit_page   = create_valid_page( :title => 'view_edit_page', :public => false )
+      @participate_page = create_valid_page( :title => 'participate_page', :public => false )
+      @admin_page       = create_valid_page( :title => 'admin_page', :public => false, :group => @granting_group )
+
+      # a private page that doesn't belong to the user and should not be viewable, or
+      # anything else for that matter
+      @private_page     = create_valid_page( :title => 'private_page', :public => false )
+
+      # grant user permissions
+      Permission.grant(:view,         @view_page,         @granting_group, @user)
+      Permission.grant(:participate,  @participate_page,  @granting_group, @user)
+      Permission.grant(:edit,         @view_edit_page,    @granting_group, @user)
+      Permission.grant(:admin,        @admin_page,        @granting_group, @user)
+    end
+
+    it "should be set up" do
+      Page.count.should be(10) # includes the top global @page
+      Permission.count.should be(4)
+
+      @user.memberships.count.should be(2)
+
+      @user.has_permission_to(:view, @view_page).should be_true
+      @user.has_permission_to(:view, @view_edit_page).should be_true
+      @user.has_permission_to(:edit, @view_edit_page).should be_true
+    end
+
+    it "Page.permitted should only find explicitly permitted pages for the user" do
+      # 4, 1 view only, 1 view/edit, 1 view/edit/participate, and 1 admin
+      Page.permitted_for(@user, :view       ).size.should be(4)
+      Page.permitted_for(@user, :participate).size.should be(3)
+      Page.permitted_for(@user, :edit       ).size.should be(2)
+      Page.permitted_for(@user, :admin      ).size.should be(1)
+    end
+
+    describe "when searching for allowed to :view" do
+      before do
+        @pages = Page.allowed(@user, :view)
+      end
+
+      it "should find correct number of allowed pages" do
+        # 1 public, 1 'owned', 4 explicity permitted, 2 thru membership
+        @pages.size.should be(8)
+      end
+
+      it "should include all expected pages" do
+        @pages.should include(@public_page)
+        @pages.should include(@owned_page)
+        @pages.should include(@view_page)
+        @pages.should include(@view_edit_page)
+        @pages.should include(@participate_page)
+        @pages.should include(@admin_page)
+        @pages.should include(@group_admin_page)
+        @pages.should include(@member_page)
+      end
+
+      it "should not include any unexpected pages" do
+        @pages.should_not include(@private_page)
+      end
+    end
+
+    describe "when searching for allowed to :participate" do
+      before do
+        @pages = Page.allowed(@user, :participate)
+      end
+
+      it "should find the correct count of allowed pages" do
+        # 1 public, 1 'owned', 3 explicity permitted, 2 thru role
+        @pages.size.should be(7)
+      end
+
+      it "should include all expected pages" do
+        @pages.should include(@public_page)
+        @pages.should include(@owned_page)
+        @pages.should include(@participate_page)
+        @pages.should include(@view_edit_page)
+        @pages.should include(@admin_page)
+        @pages.should include(@member_page)
+        @pages.should include(@group_admin_page)
+      end
+
+      it "should not include any unexpected pages" do
+        @pages.should_not include(@private_page)
+        @pages.should_not include(@view_page)
+        @pages.should_not include(@page)
+      end
+    end
+
+    describe "when searching for allowed to :edit" do
+      before do
+        @pages = Page.allowed(@user, :edit)
+      end
+
+      it "should find the correct count of allowed pages" do
+        # 1 public, 1 'owned', 2 explicity permitted, 1 thru role
+        @pages.size.should be(5)
+      end
+
+      it "should include all expected pages" do
+        @pages.should include(@public_page)
+        @pages.should include(@owned_page)
+        @pages.should include(@view_edit_page)
+        @pages.should include(@admin_page)
+        @pages.should include(@group_admin_page)
+      end
+
+      it "should not include any unexpected pages" do
+        @pages.should_not include(@private_page)
+        @pages.should_not include(@view_page)
+        @pages.should_not include(@participate_page)
+        @pages.should_not include(@member_page)
+      end
+    end
+
+    describe "when searching for allowed to :admin" do
+      before do
+        @pages = Page.allowed(@user, :admin)
+      end
+
+      it "should find the correct count of allowed pages" do
+        # 1 'owned', 1 explicity permitted to admin, 1 thru group role
+        @pages.size.should be(3)
+      end
+
+      it "should include all expected pages" do
+        @pages.should include(@owned_page)
+        @pages.should include(@admin_page)
+        @pages.should include(@group_admin_page)
+      end
+
+      it "should not include any unexpected pages" do
+        @pages.should_not include(@public_page)
+        @pages.should_not include(@private_page)
+        @pages.should_not include(@view_page)
+        @pages.should_not include(@participate_page)
+        @pages.should_not include(@view_edit_page)
+        @pages.should_not include(@member_page)
+      end
+    end
+  end
+
+  describe "checking permissions with allows" do
+    before do
+      @user = create_valid_user(:login => 'subject')
+    end
+
+    it "should check it, yo" do
+      @page.allows?(@user, :view).should be_false
+    end
+  end
+
 end

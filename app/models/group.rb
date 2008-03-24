@@ -253,12 +253,10 @@ class Group < ActiveRecord::Base
 
   def role_for(user)
     unless user.direct_member_of? self
-      # TODO: a special role for indirect memberships?
-      # user.member_of? self
-
       AuthorizedSystem::Role.new # default role
     else
       membership = membership_for(user)
+      RAILS_DEFAULT_LOGGER.debug "### found membership and role is #{membership.role}"
       AuthorizedSystem::Role.new( membership.nil? ? '' : membership.role )
     end
   end
@@ -267,7 +265,8 @@ class Group < ActiveRecord::Base
   # will be used if given, otherwise the :group resource is used.
   def allows?(user, action, resource = nil)
     return true if user.superuser?
-    role_for(user).allows?(action, resource.nil? ? :group : resource)
+    return true if role_for(user).allows?(action, resource.nil? ? :group : resource)
+    return Permission.exists(action, resource, self, user)
   end
 
   def months_with_pages_viewable_by_user(user)
