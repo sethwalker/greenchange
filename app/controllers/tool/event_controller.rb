@@ -8,10 +8,10 @@ class Tool::EventController < Tool::BaseController
   before_filter :login_required, :only => ['set_event_description', 'create', 'edit', 'new', 'update']
   
   def show
-    @user_participation= UserParticipation.find(:first, :conditions => {:page_id => @page.id, :user_id => @current_user.id})  
+    @user_participation= UserParticipation.find(:first, :conditions => {:page_id => @page.id, :user_id => current_user.id})  
     if @user_participation.nil?
       @user_participation = UserParticipation.new
-      @user_participation.user_id = @current_user.id
+      @user_participation.user_id = current_user.id
       @user_participation.page_id = @page.id
       @user_participation.save
     end    
@@ -27,41 +27,40 @@ class Tool::EventController < Tool::BaseController
     # greenchange_note: currently, you aren't able to change a group
     # if one has already been set during event creation
     
-    if request.post?
-      @page.attributes = params[:page]
-      @event.attributes = params[:event]
+    @page.attributes = params[:page]
+    @event.attributes = params[:event]
 
-      # greenchange_note: HACK: all day events will be put in as UTC
-      # noon (note: there is no 'UTC' timezone available, so we are
-      # going to use 'London' for zero GMT offset as a hack for now)
-      # so that when viewed in calendars or lists, the events will
-      # always show up on the appropriate day ie, St. Patrick's day
-      # should always be on the 17th of March regardless of my frame
-      # of reference.  Also, since we have a programmatic flag to
-      # identify all day events, this hack can be removed / migrated
-      # later to any required handling of all day events that might be
-      # more complex on the fetching side.
-      if params[:event][:is_all_day] == '1'
-        @event.time_zone = 'London' # greenchange_note: HACK: see above comment
-        params[:time_start] =  params[:date_start] + " 12:00"
-        params[:time_end] =  params[:date_start] + " 12:00"
-      else
-        params[:time_start] =  params[:date_start] + " "+ params[:hour_start]
-        params[:time_end] =  params[:date_end] + " " + params[:hour_end]
-      end
+    # greenchange_note: HACK: all day events will be put in as UTC
+    # noon (note: there is no 'UTC' timezone available, so we are
+    # going to use 'London' for zero GMT offset as a hack for now)
+    # so that when viewed in calendars or lists, the events will
+    # always show up on the appropriate day ie, St. Patrick's day
+    # should always be on the 17th of March regardless of my frame
+    # of reference.  Also, since we have a programmatic flag to
+    # identify all day events, this hack can be removed / migrated
+    # later to any required handling of all day events that might be
+    # more complex on the fetching side.
+    if params[:event][:is_all_day] == '1'
+      @event.time_zone = 'London' # greenchange_note: HACK: see above comment
+      params[:time_start] =  params[:date_start] + " 12:00"
+      params[:time_end] =  params[:date_start] + " 12:00"
+    else
+      params[:time_start] =  params[:date_start] + " "+ params[:hour_start]
+      params[:time_end] =  params[:date_end] + " " + params[:hour_end]
+    end
 
-      @page.starts_at = TzTime.new(params[:time_start].to_time,TimeZone[@event.time_zone]).utc
-      @page.ends_at = TzTime.new(params[:time_end].to_time,TimeZone[@event.time_zone]).utc
+    @page.starts_at = TzTime.new(params[:time_start].to_time,TimeZone[@event.time_zone]).utc
+    @page.ends_at = TzTime.new(params[:time_end].to_time,TimeZone[@event.time_zone]).utc
 
-      if @event.state == 'Other'
-        @event.state = params[:state_other]
-      end
+    if @event.state == 'Other'
+      @event.state = params[:state_other]
+    end
 
-      if @page.save and @event.save
-        return redirect_to(page_url(@page))
-      else
-        message :object => @page
-      end
+    if @page.save and @event.save
+      return redirect_to(event_url(@page))
+    else
+      message :object => @page
+      render :action => 'edit'
     end
   end
 
@@ -110,6 +109,7 @@ class Tool::EventController < Tool::BaseController
       return redirect_to(event_url(@page))
     else
       message :object => @page
+      render :action => 'new'
     end
   end
  
@@ -120,7 +120,7 @@ class Tool::EventController < Tool::BaseController
   end
 
   def participate
-    @user_participation = UserParticipation.find(:first, :conditions => {:page_id => @page.id, :user_id => @current_user.id})
+    @user_participation = UserParticipation.find(:first, :conditions => {:page_id => @page.id, :user_id => current_user.id})
     if !params[:user_participation_watch].nil? 
       @user_participation.watch = params[:user_participation_watch]
       @user_participation.attend = false
@@ -146,7 +146,7 @@ class Tool::EventController < Tool::BaseController
 
   def fetch_event
     return true unless @page
-    @page.data ||= Event.new(:body => 'new page', :page => @page)
+    @page.data ||= ::Event.new(:description => 'new event', :page => @page)
     @event = @page.data
   end
   

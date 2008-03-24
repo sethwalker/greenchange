@@ -40,4 +40,8 @@ describe "Routes" do
       new_group_message_path(@g).should == "/groups/#{@g.to_param}/messages/new"
     end
   end
+  it "should know about participate route for events" do
+    event = Tool::Event.create :title => 'eventish'
+    participate_event_path(event).should == "/groups/#{event.to_param}/participate"
+  end
 end

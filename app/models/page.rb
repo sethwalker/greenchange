@@ -219,7 +219,7 @@ class Page < ActiveRecord::Base
   end
 
   def to_param
-    "#{id}+#{title.nameize}"
+    "#{id}-#{title.nameize}"
   end
 
   # returns true if self's unique page name is already in use.
