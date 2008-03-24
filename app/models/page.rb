@@ -14,7 +14,7 @@ class Page < ActiveRecord::Base
   #allowed_collectings = Collecting.allowed(user,perm).find( :all, :conditions => [ 'collectable_type = ?', self.name] )
   has_finder :allowed, 
     Proc.new { |user, perm| 
-      if not [:view, :edit, :participate, :admin].include? perm
+      unless [:view, :edit, :participate, :admin].include? perm
         {} 
       else
         public_condition = (perm != :admin) ? self.__send__(:sanitize_sql_for_conditions, ["pages.public = ?", true]) : nil 
@@ -476,23 +476,28 @@ class Page < ActiveRecord::Base
 
   # check if user has permission to perform the action on this page
   def allows?(user, action)
+    unless [:view, :edit, :participate, :admin].include? action
+      action = Permission.alias_for( action )
+    end
     user.superuser? ||
 
     # user is page owner
     ( self.created_by == user ) ||
 
     # explicit permissions grant
-    !permissions.find(:first,
+    ( action and permissions.find(:first,
       :conditions => [
         "grantee_type = 'User' AND "+
         "grantee_id = ? AND "+
         "#{action} = ?",
         user.id, true
       ]
-    ).nil? ||
+    )) ||
 
     # abide by group policy if the page belongs to a group
-    ( !self.group.nil? and self.group.role_for(user).allows?(action, self) )
+    #( !self.group.nil? and self.group.role_for(user).allows?(action, self) )
+    ( !self.group_participations.empty? and self.group_participations.any? { |gpart|
+        gpart.group.role_for(user).allows?(action, self ) } )
 
   end
 end
