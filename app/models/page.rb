@@ -118,6 +118,7 @@ class Page < ActiveRecord::Base
 
   has_finder :page_type, 
     lambda {|*page_types| 
+      page_types << [:image, :audio, :video] if page_types.delete(:media)
       page_types = page_types.flatten.map do |t| 
         #"class_group" used to do this
         t = 'task_list'     if t.to_s == 'task'
