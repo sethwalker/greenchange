@@ -64,13 +64,6 @@ class Page < ActiveRecord::Base
         }
       end
     }
-      
-  has_finder :by_group, lambda {|*groups|
-    groups.any? ? { :conditions => [ 'group_id in (?)', groups ] } : {}
-  }
-
-  has_finder :by_issue, {} #lambda {|*issues| }
-  has_finder :by_person, {} #lambda {|*people| }
 
   has_finder :in_network,
     lambda {|user| {:include => [:group_participations, :user_participations], :conditions => ["user_participations.user_id = ? OR group_participations.group_id IN (?)", user.id, user.all_group_ids]}}
@@ -455,27 +448,27 @@ class Page < ActiveRecord::Base
 
   # check if user has permission to perform the action on this page
   def allows?(user, action)
-    unless [:view, :edit, :participate, :admin].include? action
-        action = Permission.alias_for( action )
+    return true if user.superuser?
+
+    allowed = false
+
+    # abide by group policy if the page belongs to a group
+    unless self.group.nil?
+      allowed = self.group.role_for(user).allows?(action, self)
     end
 
-    user.superuser? ||
-    
-    # user is page owner
-    ( self.created_by == user ) ||
-    
-    # explicit permissions grant
-    ( action and permissions.find(:first,
-         :conditions => [
-           "grantee_type = 'User' AND "+
-           "grantee_id = ? AND "+
-           "#{action} = ?",
-           user.id, true
-         ]
-    )) ||
-    
-    # abide by group policy if the page belongs to a group
-    ( !self.group_participations.empty? and self.group_participations.any? { |gpart|
-    gpart.group.role_for(user).allows?(action, self ) } ) 
+    #unless allowed
+    #  permission = permissions.find(:first,
+    #    :conditions => [
+    #      "grantee_type = ? AND grantee_id = ? AND "+
+    #      "#{action} = ?",
+    #      user.class.base_class.name, user.id,
+    #      true
+    #    ]
+    #  )
+    #  allowed = permission.nil? ? false : true
+    #end
+
+    allowed
   end
 end
