@@ -124,8 +124,8 @@ class Group < ActiveRecord::Base
 
   has_many :membership_requests
 
-  has_many :gives_permissions,  :as => 'grantor'
-  has_many :given_permissions,  :as => 'grantee'
+  has_many :gives_permissions,  :as => 'grantor', :class_name => 'Permission'
+  has_many :given_permissions,  :as => 'grantee', :class_name => 'Permission'
 
   def admins_ids
     admins.map(&:user_id)
@@ -224,26 +224,6 @@ class Group < ActiveRecord::Base
     page.changed :groups
   end
   
-=begin
-  # not really used, and now superseded by the role/policy based
-  # authorization
-  def may?(perm, page)
-    begin
-       may!(perm,page)
-    rescue PermissionDenied
-       false
-    end
-  end
-  
-  # perm one of :view, :edit, :admin
-  # this is still a basic stub. see User.may!
-  def may!(perm, page)
-    gparts = page.participation_for_groups(group_and_committee_ids)
-    return true if gparts.any?
-    raise PermissionDenied
-  end
-=end
-
   # the group is responsible for a given user's membership
   def membership_for(user)
     memberships.find(:first,
@@ -251,6 +231,18 @@ class Group < ActiveRecord::Base
     )
   end
 
+  # return all permissions granted by this group to the given user
+  def permissions_for(user)
+    gives_permissions.find(:all,
+        :conditions => [
+          "permissions.grantee_type = 'User' AND "+
+          "permissions.grantee_id = ? ",
+          user.id
+        ]
+    )
+  end
+
+  # return the user's membership role in this group
   def role_for(user)
     unless user.direct_member_of? self
       AuthorizedSystem::Role.new # default role
@@ -266,7 +258,7 @@ class Group < ActiveRecord::Base
   def allows?(user, action, resource = nil)
     return true if user.superuser?
     return true if role_for(user).allows?(action, resource.nil? ? :group : resource)
-    return Permission.exists(action, resource, self, user)
+    return Permission.granted?(action, resource, self, user)
   end
 
   def months_with_pages_viewable_by_user(user)
