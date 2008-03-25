@@ -23,7 +23,7 @@ ActionController::Routing::Routes.draw do |map|
   # bundled_assets plugin:
   map.connect 'bundles/:version/:names.:ext', :controller => 'assets_bundle', :action => 'fetch', :ext => /css|js/, :names => /[^.]*/
   
-  map.avatar 'avatars/:id/:size.jpg', :action => 'show', :controller => 'avatars'
+  map.avatar 'avatars/:id/:size.jpg', :action => 'show', :controller => 'avatars', :defaults => {:id => "images/default"}
   map.connect 'latex/*path', :action => 'show', :controller => 'latex'
 
   ##### REGULAR ROUTES ####################################
@@ -34,8 +34,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :profile
   map.me 'me/:action/:id', :controller => 'me'
   
-  map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|calendar|search/
-
   def page_routes(parent)
     parent.with_options :member => {:version => :get, :versions => :get, :diff => :get, :break_lock => :post, :print => :get} do |wikis|
       wikis.resources :wikis, :controller => 'tool/wiki'
@@ -49,7 +47,7 @@ ActionController::Routing::Routes.draw do |map|
     parent.updates 'updates', :controller => 'tool/base', :page_type => 'updates', :action => 'index'
 
     parent.resources :assets, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
-    parent.resources :events, :controller => 'tool/event', :member => {:participation => :post, :set_event_description => :post}
+    parent.resources :events, :controller => 'tool/event', :member => {:participate => :post, :set_event_description => :post}
     parent.resources :videos, :controller => 'tool/external_video' #for now
     parent.resources :messages, :controller => 'tool/message'
     parent.resources :discussions, :controller => 'tool/discussion'
@@ -63,6 +61,7 @@ ActionController::Routing::Routes.draw do |map|
     group.resources :pages
     page_routes(group)
   end
+  map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|search|calendar_month|list_by_day|list_by_week|list_by_month/
   map.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
   page_routes(map)
 

@@ -1,0 +1,92 @@
+<%= hidden_field_tag 'page_class', @page_class %>
+<table class='create'>
+<tr>
+  <td align='right'><b>what</b></td>
+  <td><%= text_field 'page', 'title', :size => 80 %></td>
+</tr>
+
+<!--<tr>
+  <td align='right'><b>when</b></td>
+   <td><%# calendar_date_select_tag 'time_start', nil, :time => true %> <span id="to">to <%# calendar_date_select_tag "time_end", nil, :time => true %></span></td>
+</tr>
+-->
+<tr>
+  <td align='right'><b>when</b></td>
+  <% timezone = @event.time_zone %>
+  <% date_start = @page ? event_to_local(@page.starts_at,timezone).loc('%Y-%m-%d') : 'yyyy-mm-dd' %>
+  <% date_end = @page ? event_to_local(@page.ends_at,timezone).loc('%Y-%m-%d') : 'yyyy-mm-dd' %>
+  <% hour_start = @page ? event_to_local(@page.starts_at,timezone).loc('%I:%M %p') : '9:00 AM' %>
+  <% hour_end = @page ? event_to_local(@page.ends_at,timezone).loc('%I:%M %p') : '5:00 PM' %>
+  <td><%= text_field_tag 'date_start',date_start, :size => 10, :onfocus => "this.select();lcs(this)", :onclick => "event.cancelBubble=true;this.select();lcs(this)" -%>
+	  <span id="full-datetime" <%= @event.is_all_day? ? 'style="display:none"' : '' %>>
+      <%= text_field_tag 'hour_start', hour_start, :size => 8 %> 
+	  to
+          <%= text_field_tag 'date_end',date_end, :size => 10, :onfocus => "this.select();lcs(this)", :onclick => "event.cancelBubble=true;this.select();lcs(this)" %>
+      <%= text_field_tag 'hour_end', hour_end, :size => 8 %> 
+          </span>
+</tr>
+	<td></td>
+	<td><b>all day</b> <%= check_box('event', 'is_all_day',:onclick => "if ($('event_is_all_day').checked) {$('full-datetime').hide(); $('timezone').hide();} else {$('full-datetime').show(); $('timezone').show();}") %><span id="timezone" <%= @event.is_all_day? ? 'style="display:none"' : '' %>> <b>time zone</b> <%= time_zone_select 'event', 'time_zone' %></span></td>
+</tr>
+<tr>
+<!--  <tr>
+	<td></td>
+	<td><b>repeats</b>
+
+<%# select_tag('repeat_drop', options_for_select([['does not repeat',  0], ['daily',1],['weekly',2], ['monthly',3],[ 'yearly',4]])) %>
+	
+	</td>
+</tr>
+-->
+<tr>
+	<td align='right'><b>where</b></td>
+	<td>
+	  Street Address 1:<br /><%= text_field 'event', 'address1', :size =>50 %><br />
+	  Street Address 2:<br /><%= text_field 'event', 'address2', :size =>50 %><br />
+	  City:<br /><%= text_field 'event', 'city', :size => 20 %><br />
+	  State/Province:<br />
+
+	  <% other_state = !((ActionView::Helpers::FormOptionsHelper::US_STATES + ActionView::Helpers::FormOptionsHelper::CANADA_STATES).include?(@event.state) || @event.state.blank?) %>
+	  
+	  <%= select_tag('event[state]',options_for_select([['','']]) + state_options_for_select(@event.state, 'US') + state_options_for_select(@event.state, 'CANADA') + options_for_select([['',''],['Other', 'Other']], other_state ? 'Other' : @event.state)) -%><br />
+
+	  Other State/Province:<br />
+	  <%= text_field_tag 'state_other', other_state ? @event.state : '', :size => 40 %><br />
+
+	  Postal Code:<br /><%= text_field 'event', 'postal_code', :size => 20 %><br />
+	  Country:<br />
+
+	  <%= country_select 'event', 'country', ['United States','Canada','United Kingdom'], :include_blank => true -%><br />
+	</td>  
+</tr>
+<tr>
+  <td align='right'><b>description</b></td>
+  <td>
+	  <%= text_area 'event', 'description', :rows => 10, :cols => 50 %>
+  </td>
+</tr>
+
+<tr>
+  <td align='right'><b>directions</b></td>
+  <td>
+	  <%= text_area 'event', 'directions', :rows => 10, :cols => 50 %>
+  </td>
+</tr>
+
+<% unless @page %>
+<!-- Which group-->
+<div id="group">
+<tr>
+	<td><b>groups</b></td>
+	<td>
+	 <%= select_tag 'group_id', options_for_select([['','']] + current_user.all_groups.to_select(:name), @page ? @page.group_id.to_s : params[:group_id]) %>
+	</td>
+</tr>
+</div>
+<% end %>
+<tr>
+  <td align='center' colspan="2">
+    <%= submit_tag "Submit".t %>
+  </td>
+</tr>
+</table>

@@ -1,0 +1,15 @@
+<%= calendar_date_select_includes "blue" %>
+<script src="/javascripts/calendar.js"></script>
+
+<h2><%= "Create a new".t %> <b><%= @page_class.class_display_name.t %></b></h2>
+
+<div class='workarea'>
+<%= header_for_page_create(@page_class) %>
+
+<% form_tag({:action => 'create'}, :multipart => true) do %>
+
+<%= render :partial => 'form' %>
+
+<% end %>
+</div>
+
