@@ -469,25 +469,27 @@ class Page < ActiveRecord::Base
   def allows?(user, action)
     return true if user.superuser?
 
-    allowed = false
-
-    # abide by group policy if the page belongs to a group
-    unless self.group.nil?
-      allowed = self.group.role_for(user).allows?(action, self)
+    unless [:view, :edit, :participate, :admin].include? action
+        action = Permission.alias_for( action )
     end
 
-    #unless allowed
-    #  permission = permissions.find(:first,
-    #    :conditions => [
-    #      "grantee_type = ? AND grantee_id = ? AND "+
-    #      "#{action} = ?",
-    #      user.class.base_class.name, user.id,
-    #      true
-    #    ]
-    #  )
-    #  allowed = permission.nil? ? false : true
-    #end
+    user.superuser? ||
 
-    allowed
+    # user is page owner
+    ( self.created_by == user ) ||
+
+    # explicit permissions grant
+    ( action and permissions.find(:first,
+        :conditions => [
+          "grantee_type = 'User' AND "+
+          "grantee_id = ? AND "+
+          "#{action} = ?",
+          user.id, true
+      ]
+    )) ||
+
+    # abide by group policy if the page belongs to a group
+    ( !self.group_participations.empty? and self.group_participations.any? { |gpart|
+    gpart.group.role_for(user).allows?(action, self ) } ) 
   end
 end
