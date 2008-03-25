@@ -65,6 +65,13 @@ class Page < ActiveRecord::Base
       end
     }
 
+  has_finder :by_group, lambda {|*groups|
+    groups.any? ? { :conditions => [ 'group_id in (?)', groups ] } : {}
+  }
+ 
+  has_finder :by_issue, {} #lambda {|*issues| }
+  has_finder :by_person, {} #lambda {|*people| }
+
   has_finder :in_network,
     lambda {|user| {:include => [:group_participations, :user_participations], :conditions => ["user_participations.user_id = ? OR group_participations.group_id IN (?)", user.id, user.all_group_ids]}}
 
