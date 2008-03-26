@@ -8,5 +8,4 @@ class IssuesController < ApplicationController
     load_context
   end
 
-
 end

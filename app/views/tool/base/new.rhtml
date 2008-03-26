@@ -29,6 +29,12 @@
   <td><%= text_field_tag 'tag_list', '', :size => 30 %></td>
 </tr>
 <tr>
+  <td align='right'><b>issues</b></td>
+  <td>
+    <%= issue_selector(@page) %>
+  </td>
+</tr>
+<tr>
   <td align='right' colspan="2">
     <%= submit_tag "Create page".t, :name => 'create' %>
   </td>
