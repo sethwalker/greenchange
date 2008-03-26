@@ -197,11 +197,10 @@ class GroupsController < ApplicationController
   
   def list_one_week(date)
     @date = date
-    datestring = @date.to_s
-    datestring2 = (@date + 6).to_s
+    start_datestring  = @date.to_s
+    end_datestring    = (@date + 6).to_s
 
-    options = options_for_group(@group)
-    @events = Page.find_by_path(build_complex_path(datestring,datestring2),options)
+    @events = @group.pages.page_type(:event).occurs_between_dates(start_datestring, end_datestring).find(:all, :order => "pages.starts_at ASC")
   end
 
   def list_by_month
@@ -214,15 +213,14 @@ class GroupsController < ApplicationController
       month = params[:date].split("-")[1].to_i
     end  
     @date = Date.new(year,month)
-    datestring = @date.to_s
+    start_datestring = @date.to_s
     if @date.month < 12  # look for year rollover
-      datestring2 = (Date.new(@date.year,@date.month+1)).to_s
+      end_datestring = (Date.new(@date.year,@date.month+1)).to_s
     else
-      datestring2 = (Date.new(@date.year+1, 1)).to_s
+      end_datestring = (Date.new(@date.year+1, 1)).to_s
     end
 
-    options = options_for_group(@group)
-    @events = Page.find_by_path(build_complex_path(datestring,datestring2),options)
+    @events = @group.pages.page_type(:event).occurs_between_dates(start_datestring, end_datestring).find(:all, :order => "pages.starts_at ASC")
   end
 
   def calendar_month
