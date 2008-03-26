@@ -186,6 +186,29 @@ class Page < ActiveRecord::Base
     end
   }
 
+  has_finder :occurs_between_dates, lambda {|start_datestring, end_datestring|
+    start_year, start_month, start_day  = start_datestring.split('-')
+    end_year, end_month, end_day        = end_datestring.split('-')
+
+    start_date  = Time.utc(start_year, start_month, start_day)
+    end_date    = Time.utc(end_year, end_month, end_day)
+
+    case connection.adapter_name
+    when "SQLite"
+      { :conditions => [
+          "STRFTIME('%Y-%m-%d',pages.starts_at) >= :start_day AND STRFTIME('%Y-%m-%d',pages.ends_at) <= :end_day",
+          {:start_day => start_date.loc('%Y-%m-%d'), :end_day => end_date.loc('%Y-%m-%d')}
+        ]
+      }
+    when "MySQL"
+      { :conditions => [
+          "DATE_FORMAT(pages.starts_at,'%Y-%m-%d') >= :start_day AND DATE_FORMAT(pages.ends_at,'%Y-%m-%d') <= :end_day",
+          {:start_day => start_date.loc('%Y-%m-%d'), :end_day => end_date.loc('%Y-%m-%d')}
+        ]
+      }
+    end
+  }
+
   extend PathFinder::FindByPath
 
   #######################################################################
