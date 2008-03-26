@@ -12,7 +12,7 @@ class Wiki < ActiveRecord::Base
   belongs_to :user
 
   # a wiki can be used in multiple places: pages or profiles
-  has_many :pages, :as => :data
+  has_one :page, :as => :data
   has_one :profile
   
   acts_as_versioned :version_column => :lock_version
@@ -158,16 +158,4 @@ class Wiki < ActiveRecord::Base
       'page'
     end
   end
-  
-  #### RELATIONSHIP TO PAGES ########
-    
-  # we do this so that we can access the page even before page or wiki are saved
-  def page
-    return pages.first if pages.any?
-    return @page
-  end
-  def page=(p)
-    @page = p
-  end
-  
 end

@@ -1,9 +1,9 @@
 require 'asset'
 class Tool::Asset < Page
-  model ::Asset
 
   class_display_name 'file'
   class_description 'an uploaded file'
+  belongs_to :data, :class_name => '::Asset'
 
   def icon
     return asset.small_icon if asset
