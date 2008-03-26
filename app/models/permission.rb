@@ -9,16 +9,18 @@ class Permission < ActiveRecord::Base
   validates_presence_of :grantee_type,  :grantee_id
 
   ACTION_ALIASES = {
-    :view           => [ :read, :show ],
+    :view           => [:read, :show],
     :participate    => [:comment, :vote],
-    :admin          => [ :delete ]
+    :edit           => [:change],
+    :admin          => [:delete]
   }
 
   # fetch the permission record for the given resource, grantor, and grantee
   def Permission.fetch(resource, grantor, grantee)
-    return nil if resource.nil?
+    return nil if resource.nil? or resource.is_a? Symbol
     return nil if grantor.nil?
     return nil if grantee.nil?
+
     permission = Permission.find(:first,
       :conditions => [
         "resource_type = ? AND resource_id = ? AND "+
@@ -44,7 +46,10 @@ class Permission < ActiveRecord::Base
   def Permission.granted?(action, resource, grantor, grantee)
     permission = Permission.fetch(resource, grantor, grantee)
     return false if permission.nil?
+
+    action = Permission.alias_for(action)
     return permission.send(action) if permission.respond_to? action
+
     false
   end
 
@@ -58,6 +63,8 @@ class Permission < ActiveRecord::Base
         :grantee => grantee
       )
     end
+
+    action = Permission.alias_for(action)
 
     if action == :admin
       permission.admin        = true
@@ -87,6 +94,8 @@ class Permission < ActiveRecord::Base
   def Permission.revoke(action, resource, grantor, grantee)
     permission = Permission.fetch(resource, grantor, grantee)
     unless permission.nil?
+
+      action = Permission.alias_for(action)
 
       if action == :view
         permission.view         = false
@@ -128,6 +137,7 @@ class Permission < ActiveRecord::Base
   def self.alias_for( aliased_action )
     logger.debug "### checking aliases for #{aliased_action}"
     ACTION_ALIASES.each do | action, aliases |
+        return action if action == aliased_action
         return action if aliases.include? aliased_action
     end
     false

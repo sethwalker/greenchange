@@ -258,7 +258,8 @@ class Group < ActiveRecord::Base
   def allows?(user, action, resource = nil)
     return true if user.superuser?
     return true if role_for(user).allows?(action, resource.nil? ? :group : resource)
-    return Permission.granted?(action, resource, self, user)
+    return Permission.granted?(action, resource, self, user) unless resource.is_a? Symbol
+    return false
   end
 
   def months_with_pages_viewable_by_user(user)
