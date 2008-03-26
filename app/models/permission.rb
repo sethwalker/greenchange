@@ -8,6 +8,12 @@ class Permission < ActiveRecord::Base
   validates_presence_of :grantor_type,  :grantor_id
   validates_presence_of :grantee_type,  :grantee_id
 
+  ACTION_ALIASES = {
+    :view           => [ :read, :show ],
+    :participate    => [:comment, :vote],
+    :admin          => [ :delete ]
+  }
+
   # fetch the permission record for the given resource, grantor, and grantee
   def Permission.fetch(resource, grantor, grantee)
     return nil if resource.nil?
@@ -117,5 +123,13 @@ class Permission < ActiveRecord::Base
   # returns true if no actions are granted
   def empty?
     not self.any?
+  end
+
+  def self.alias_for( aliased_action )
+    logger.debug "### checking aliases for #{aliased_action}"
+    ACTION_ALIASES.each do | action, aliases |
+        return action if aliases.include? aliased_action
+    end
+    false
   end
 end
