@@ -2,6 +2,6 @@
   = render :partial => 'groups/tabs'
 - if %w- me requests inbox my_calendar -.include? controller.controller_name
   = render :partial => 'me/tabs'
-- if @page
+- if @page && !@page.new_record?
   - content_for :title do
     = render :partial => 'pages/title'
