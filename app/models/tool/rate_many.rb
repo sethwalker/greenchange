@@ -2,7 +2,6 @@ require 'poll/poll'
 
 class Tool::RateMany < Page
 
-  controller 'rate_many'
   model Poll::Poll
   icon 'rate-many.png'
   class_display_name 'approval vote'

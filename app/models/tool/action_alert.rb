@@ -1,5 +1,4 @@
 class Tool::ActionAlert < Page
-  controller 'action_alert'
   model ::ActionAlert
   icon 'page_white_lightning.png'
   class_display_name 'action alert'

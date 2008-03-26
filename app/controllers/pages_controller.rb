@@ -30,13 +30,6 @@ class PagesController < ApplicationController
   prepend_before_filter :fetch_page
   layout 'application'
 
-  # if this controller is called by DispatchController,
-  # then we may be passed some objects that are already loaded.
-  def initialize(options={})
-    super()
-    @pages = options[:pages] # a list of pages, if already fetched
-  end  
-
   def show
     short_name = @page.class.to_s.demodulize.downcase
     @wiki = @page.data

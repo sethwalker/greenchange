@@ -8,18 +8,6 @@ class Tool::BaseController < ApplicationController
   append_before_filter :setup_default_view
   append_after_filter :update_participation
   
-  # if the tool controller is call by our custom DispatchController, 
-  # objects which have already been loaded will be passed to the tool
-  # via this initialize method.
-  def initialize(options={})
-    super()
-    #@user = options[:user]   # the user context, if any
-    @group = options[:group] # the group context, if any
-    @page = options[:page]   # the page object, if already fetched
-
-    @javascript_extra = true
-  end  
-
   def page_type
     return controller_name.demodulize.downcase.to_sym unless params[:page_type]
     case params[:page_type]

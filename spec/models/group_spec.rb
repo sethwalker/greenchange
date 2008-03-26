@@ -28,20 +28,13 @@ describe Group do
 
   it "should require a name" do
     g = Group.create
-    g.should have(1).error_on(:name)
+    g.should have_at_least(1).error_on(:name)
   end
 
   it "should have a unique name" do
     g2 = new_group(:name => 'fruits')
     g2.save
     g2.should have(1).error_on(:name)
-  end
-
-  it "should have a name unique to both groups and users" do
-    u = create_user
-    g = new_group :name => u.login
-    g.save
-    g.should have(1).error_on(:name)
   end
 end
 

@@ -1,6 +1,5 @@
 require 'asset'
 class Tool::Asset < Page
-  controller 'asset'
   model ::Asset
 
   class_display_name 'file'

@@ -1,6 +1,5 @@
 class Tool::RankedVote < Page
 
-  controller 'ranked_vote'
   model Poll::Poll
   icon 'ballot.png'
   class_display_name 'ranked vote'

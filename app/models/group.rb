@@ -38,11 +38,13 @@ class Group < ActiveRecord::Base
   ####################################################################
   ## about this group
 
-  include CrabgrassDispatcher::Validations
   include Crabgrass::ActiveRecord::Collector
 
-  validates_handle :name
   before_validation :clean_names
+  validates_presence_of :name
+  validates_uniqueness_of :name, :scope => :parent_id
+  validates_format_of :name, :with => /^[a-z0-9]+([-\+_]*[a-z0-9]+){1,49}$/, :message => 'may only contain letters, numbers, underscores, and hyphens'
+  validates_length_of :name, :in => 3..50, :message => 'must be at least 3 and no more than 50 characters'
 
   has_collections :admin, :member, :public, :unrestricted
 

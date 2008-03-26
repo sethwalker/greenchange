@@ -2,11 +2,14 @@
 class User < ActiveRecord::Base
 
   include AuthenticatedUser
-  include CrabgrassDispatcher::Validations
   include SocialUser
   include Crabgrass::ActiveRecord::Collector
 
-  validates_handle :login
+  validates_presence_of :login
+  validates_uniqueness_of :login
+  validates_format_of :login, :with => /^[a-z0-9]+([-\+_]*[a-z0-9]+){1,49}$/, :message => 'may only contain letters, numbers, underscores, and hyphens'
+  validates_length_of :login, :in => 3..50, :message => 'must be at least 3 and no more than 50 characters'
+
   acts_as_modified
 
   #validate                 :validate_profiles

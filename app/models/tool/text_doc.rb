@@ -3,7 +3,6 @@ class Tool::TextDoc < Page
 
   #before_save :assign_name
   
-  controller 'wiki'
   model      Wiki
   icon       'wiki.png'
   class_display_name 'wiki'

@@ -19,11 +19,6 @@ class GroupsController < ApplicationController
   verify :method => :post,
     :only => [:create, :update, :destroy]
 
-  def initialize(options={})
-    super()
-    @group = options[:group] # the group context, if any
-  end  
-  
   def index
     @groups = Group.find :all, :conditions => 'type IS NULL'
     set_banner "groups/banner_search", Style.new(:background_color => "#1B5790", :color => "#eef")

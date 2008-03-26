@@ -12,11 +12,6 @@ class PersonController < ApplicationController
   helper ProfileHelper
   layout 'application'
   
-  def initialize(options={})
-    super()
-    @person = options[:user]   # the user context, if any
-  end
-  
   def show
     load_context
     params[:path] ||= "descending/updated_at"
