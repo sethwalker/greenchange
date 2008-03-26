@@ -50,11 +50,10 @@ class MyCalendarController < ApplicationController
   
   def list_one_week(date)
     @date = date
-    datestring = @date.to_s
-    datestring2 = (@date + 6).to_s
+    start_datestring = @date.to_s
+    end_datestring = (@date + 6).to_s
 
-    options = options_for_me(:public => true)
-    @events = Page.find_by_path(build_complex_path(datestring,datestring2),options)
+    @events = current_user.pages.page_type(:event).occurs_between_dates(start_datestring, end_datestring).find(:all, :order => "pages.starts_at ASC")
   end
 
   def list_by_month
@@ -66,16 +65,16 @@ class MyCalendarController < ApplicationController
       year = params[:date].split("-")[0].to_i
       month = params[:date].split("-")[1].to_i
     end  
+
     @date = Date.new(year,month)
-    datestring = @date.to_s
+    start_datestring = @date.to_s
     if @date.month < 12  # look for year rollover
-      datestring2 = (Date.new(@date.year,@date.month+1)).to_s
+      end_datestring = (Date.new(@date.year,@date.month+1)).to_s
     else
-      datestring2 = (Date.new(@date.year+1, 1)).to_s
+      end_datestring = (Date.new(@date.year+1, 1)).to_s
     end
 
-    options = options_for_me(:public => true)
-    @events = Page.find_by_path(build_complex_path(datestring,datestring2),options)
+    @events = current_user.pages.page_type(:event).occurs_between_dates(start_datestring, end_datestring).find(:all, :order => "pages.starts_at ASC")
   end
 
   def calendar_month
@@ -93,42 +92,42 @@ class MyCalendarController < ApplicationController
     date
   end
   
-  def event_path
-    # greenchange_note: bypass current bug in sql builder per elijah's
-    # instructions.. need to revisit these perms for crabgrass trunk
+ #def event_path
+ #  # greenchange_note: bypass current bug in sql builder per elijah's
+ #  # instructions.. need to revisit these perms for crabgrass trunk
 
-    #    "/type/event/#{params[:participate]||'interesting'}/ascending/starts_at/starts/"
-    "/type/event/ascending/starts_at/"
-  end
+ #  #    "/type/event/#{params[:participate]||'interesting'}/ascending/starts_at/starts/"
+ #  "/type/event/ascending/starts_at/"
+ #end
 
-  # builds simpler case when resolution is one day
-  def build_day_path(datestring)
-    event_path + "event_starts/event_starts_before/#{datestring.to_date}/event_ends/event_ends_after/#{datestring.to_date}"
-  end
+ ## builds simpler case when resolution is one day
+ #def build_day_path(datestring)
+ #  event_path + "event_starts/event_starts_before/#{datestring.to_date}/event_ends/event_ends_after/#{datestring.to_date}"
+ #end
 
-  # greenchange_note: not sure how your system will work below, but there
-  # are four types of cases to test for and this could probably be refactored
-  # once there is more time for analysis, this does work though.
+ ## greenchange_note: not sure how your system will work below, but there
+ ## are four types of cases to test for and this could probably be refactored
+ ## once there is more time for analysis, this does work though.
 
-  # builds complex case when resolution greater than one day and you need
-  # to detect up to four distinct types of event time intersections with
-  # the resolution bounds
-  def build_complex_path(datestring,datestring2)
+ ## builds complex case when resolution greater than one day and you need
+ ## to detect up to four distinct types of event time intersections with
+ ## the resolution bounds
+ #def build_complex_path(datestring,datestring2)
 
-    # event start/end at resolution bounds or within
-    type1 = "event_starts/event_starts_after/#{datestring.to_date}/event_starts_before/#{datestring2.to_date}/event_ends/event_ends_after/#{datestring.to_date}/event_ends_before/#{datestring2.to_date}/"
+ #  # event start/end at resolution bounds or within
+ #  type1 = "event_starts/event_starts_after/#{datestring.to_date}/event_starts_before/#{datestring2.to_date}/event_ends/event_ends_after/#{datestring.to_date}/event_ends_before/#{datestring2.to_date}/"
 
-    # event start/end spanning start of resolution bounds
-    type2 = "or/event_starts_before/#{datestring.to_date}/event_starts_before/#{datestring2.to_date}/event_ends_after/#{datestring.to_date}/event_ends_before/#{datestring2.to_date}/"
+ #  # event start/end spanning start of resolution bounds
+ #  type2 = "or/event_starts_before/#{datestring.to_date}/event_starts_before/#{datestring2.to_date}/event_ends_after/#{datestring.to_date}/event_ends_before/#{datestring2.to_date}/"
 
-    # event start/end spanning end of resolution bounds
-    type3 = "or/event_starts_after/#{datestring.to_date}/event_starts_before/#{datestring2.to_date}/event_ends_after/#{datestring.to_date}/event_ends_after/#{datestring2.to_date}/"
+ #  # event start/end spanning end of resolution bounds
+ #  type3 = "or/event_starts_after/#{datestring.to_date}/event_starts_before/#{datestring2.to_date}/event_ends_after/#{datestring.to_date}/event_ends_after/#{datestring2.to_date}/"
 
-    # event start/end is larger then resolution bounds
-    type4 = "or/event_starts_before/#{datestring.to_date}/event_starts_before/#{datestring2.to_date}/event_ends_after/#{datestring.to_date}/event_ends_after/#{datestring2.to_date}"
+ #  # event start/end is larger then resolution bounds
+ #  type4 = "or/event_starts_before/#{datestring.to_date}/event_starts_before/#{datestring2.to_date}/event_ends_after/#{datestring.to_date}/event_ends_after/#{datestring2.to_date}"
 
-    event_path + type1 + type2 + type3 + type4
-  end
+ #  event_path + type1 + type2 + type3 + type4
+ #end
 
   append_before_filter :fetch_user
   def fetch_user
