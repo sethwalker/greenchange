@@ -10,7 +10,7 @@ class Me::EmailAddressesController < ApplicationController
 
   def destroy
     @email = Profile::EmailAddress.find params[:id]
-    #@email.destroy   
+    @email.destroy   
     
     
     respond_to do |format|
@@ -18,10 +18,8 @@ class Me::EmailAddressesController < ApplicationController
         flash[:notice] = "#{@email.email_address} deleted"
         redirect_to me_profile_path
       end 
-      #format.xml  { head :ok }
-      #format.json { head :ok }
-      format.xml  { render :xml  => [ 'bad', 'bad', 'bad'], :status => :unprocessable_entity }
-      format.json { render :json => [ 'bad', 'bad', 'bad'], :status => :unprocessable_entity }
+      format.xml  { head :ok }
+      format.json { head :ok }
     end
   end
 end

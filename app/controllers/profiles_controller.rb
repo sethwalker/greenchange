@@ -32,7 +32,7 @@ class ProfilesController < ApplicationController
   end
 
   def update
-    if update_dependencies and @profile.update_attributes params[:profile]
+    if @profile.update_attributes params[:profile] and update_dependencies
       respond_to do |format|
         format.html do
           flash[:notice] = "Saved your profile changes"
@@ -53,7 +53,7 @@ class ProfilesController < ApplicationController
     
     if params[:email_addresses] 
       ( if new_addresses = params[:email_addresses].delete('new') and !new_addresses.all?{ |n| n['email_address'].blank? }
-        @profile.email_addresses.create( new_addresses.select{ |n| !n['email_addresses'].blank?} )
+        @profile.email_addresses.create( new_addresses.select{ |n| !n['email_address'].blank?} )
       else
         true
       end ) &&

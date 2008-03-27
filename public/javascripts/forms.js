@@ -43,6 +43,7 @@ Crabgrass.Forms = function() {
           }
           if(el.hasClassName('delete')) {
             request_options.onSuccess = function( response ){ self.delete_successful(el); };
+            request_options.method = 'delete'
           }
           if(el.hasClassName('new')) {
             request_options.onSuccess = function( response ){ self.new_successful(el, response ); };
@@ -67,7 +68,7 @@ Crabgrass.Forms = function() {
       insert_block = new Element( 'div' ).update(response.responseText);
       insert_block.hide();
       
-      el.insert( { before: insert_block } );
+      el.up('.toolbar').insert( { before: insert_block } );
       new Effect.Appear( insert_block );
     }
 
