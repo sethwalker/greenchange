@@ -168,6 +168,7 @@ class User < ActiveRecord::Base
 
   # returns the profile appropriate to the viewer's relationship to the user
   def profile_for( person )
+    return private_profile || build_private_profile if person == self
     return private_profile if contacts.include? person #find :first, :conditions => ['contact_id = ?', person ]
     public_profile
   end
@@ -187,6 +188,13 @@ class User < ActiveRecord::Base
 
   def unread_messages
     []
+  end
+
+  def allows?( user, action, resource = nil )
+    user.superuser? ||
+    action == :view ||
+    user == self
+    
   end
 
     

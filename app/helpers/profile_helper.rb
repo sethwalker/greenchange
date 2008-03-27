@@ -1,4 +1,12 @@
 module ProfileHelper
+  NOTES = Crabgrass::Config.profile_note_types.map(&:first)
+  NOTE_TYPE_NAMES = Hash[ *Crabgrass::Config.profile_note_types.flatten ]
+  EMAIL_TYPES = { 
+    'personal' => 'Personal',
+    'work' =>  'Work',
+    'school' => 'School',
+    'other'  => 'Other'
+    }
 
   #app/views/person/_profile.rhtml
   #app/views/profile/show.rhtml
@@ -22,7 +30,6 @@ module ProfileHelper
   # set the clicked star in a 'radio-button'-like group to selected
   # sets a hidden field with the value of true/false
   def mark_as_primary(object, object_name, method_name, index)
-=begin
     content = ''
 
     id              = "#{object_name}_#{method_name}_#{index}_preferred"
@@ -41,7 +48,6 @@ module ProfileHelper
     content << javascript_tag("Event.observe('#{id + '_div'}', 'click', function(event){People.markAsPrimary('#{id + '_div'}', '#{collection_name}');});")
 
     content
-=end
   end
   
   def select_tag_with_id(name, option_tags = nil, options = {})

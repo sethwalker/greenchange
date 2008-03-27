@@ -1,0 +1,16 @@
+.section.emails
+  %h2
+    Email Addresses
+  #email-addresses-block.behavior-block.list
+    - for email_address in profile.email_addresses
+      = render :partial => 'email_address', :locals => { :email_address => email_address, :f => f }
+    = render :partial => 'email_address', :locals => { :email_address => profile.email_addresses.build, :f => f }
+    .toolbar
+      = link_to 'Add Email Address', new_me_profile_email_address_path, :class => 'remote new action'
+  -#= add_row_link 'Add Email Address'.t, 'add_email_address'
+
+- content_for :javascript do 
+  = javascript_include_tag 'forms'
+- content_for :javascript_onload do 
+  Crabgrass.Forms.initialize_radio_behavior(); 
+  Crabgrass.Forms.initialize_remote_actions(); 

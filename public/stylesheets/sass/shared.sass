@@ -1,5 +1,20 @@
 @import colors
 
+#titlebox
+  :float left
+  :width 100%
+  .avatar
+    :float left
+  h1
+    :padding-top 10px
+    :width 300px
+    :float left
+    :margin .25em 0 0 0
+  .title-menu
+    :padding 1em
+    :margin-top 1em
+    :float left
+
 .landing
   .section .list-item
     :background-image none
@@ -188,11 +203,18 @@ ul.tab-block.active
     div.tab-title.active
       :overflow hidden
 
-ul.tab-block
+ul.tab-block, #titlebox
   .toolbar
     :float right
 
 .toolbar
+  .offset-row.admin
+    :clear both
+    :padding-bottom .5em
+    :background-color = !admin_toolbar_bg
+    :border 1px solid
+      :color = !admin_toolbar_border
+    :float left 
   .icon
     :float left
     :overflow hidden
@@ -201,15 +223,37 @@ ul.tab-block
     :margin-right 3px
     &:hover
       :background-color = !toolbar_bg_hover
-    a.action
-      :padding 22px 0
+    .action
+      :padding 22px 0 0 0
       :display block
       :float left
       :background-repeat no-repeat 
+    input.action
+      :height 50px
+      :outline 0
+      :border 0
+      :background-color transparent
+      :background-position 2px 2px
     a.create
       :background-position -5px -6px
       :background-image url(/images/actions/list-add.png)  
     a.subscribe
       :background-position 2px 2px
       :background-image url(/images/actions/rss.png)  
+    a.edit
+      :background-position 2px 2px
+      :background-image url(/images/actions/edit.png)  
+    a.invite
+      :background-image url(/images/actions/announce.png)  
+    .delete
+      :background-image url(/images/actions/minus.png)  
+  .add, .new
+    :background-position 2px 2px
+    :background-image url(/images/actions/plus.png)  
   
+  a.action
+    :padding 0 0 0 22px
+    :float left
+    :background-repeat no-repeat 
+    &:hover
+      :background-color = !toolbar_bg_hover

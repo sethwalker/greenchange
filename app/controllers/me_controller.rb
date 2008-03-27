@@ -2,8 +2,8 @@ class MeController < ApplicationController
 
   before_filter :login_required
   before_filter :fetch_user
-  stylesheet 'me'
-  layout 'application'
+  #stylesheet 'me'
+  #layout 'application'
 
   def index
     redirect_to :action => 'dashboard'
@@ -11,7 +11,7 @@ class MeController < ApplicationController
     
   def search
     if request.post?
-      return redirect_to(me_url(:action => 'search') + build_filter_path(params[:search]))
+      return redirect_to search_me_url(:path => build_filter_path(params[:search]))
     end
 
     path = (params[:path].dup if params[:path]) || []
@@ -33,7 +33,7 @@ class MeController < ApplicationController
     else
       @columns = [:icon, :title, :group, :updated_by, :updated_at, :contributors_count]
     end
-    full_url = me_url(:action => 'search') + '/' + String(parsed_path)
+    full_url = search_me_url + '/' + String(parsed_path)
     handle_rss :title => full_url, :link => full_url,
                :image => avatar_url(:id => @user.avatar_id||0, :size => 'huge')
   end
@@ -111,15 +111,16 @@ class MeController < ApplicationController
     @user = current_user
   end
   
-  def context
-    me_context('large')
-    unless ['show','index'].include?(params[:action])
-      # url_for is used here instead of me_url so we can include the *path in the link
-      # (it might be a bug in me_url that this is not included, or it might be a bug in url_for
-      # that it is. regardless, we want it.)
-      add_context params[:action], url_for(:controller => 'me', :action => params[:action])
-    end
-  end
+
+#  def context
+#    me_context('large')
+#    unless ['show','index'].include?(params[:action])
+#      # url_for is used here instead of me_url so we can include the *path in the link
+#      # (it might be a bug in me_url that this is not included, or it might be a bug in url_for
+#      # that it is. regardless, we want it.)
+#      add_context params[:action], url_for(:controller => 'me', :action => params[:action])
+#    end
+#  end
   
 end
 

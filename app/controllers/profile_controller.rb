@@ -61,12 +61,15 @@ class ProfileController < ApplicationController
   protected
  
   def fetch_profile
-    return true unless params[:id]
-    @profile = Profile.find params[:id]
-    @entity = @profile.entity
-    if @entity.is_a?(User)
-      @profile = @entity
-    elsif @entity.is_a?(Group)
+    #return true unless params[:id]
+    if params[:me]
+      @entity = @user = current_user
+      @profile = current_user.private_profile || current_user.build_private_profile
+    end
+    #@entity = @profile.entity
+    #if @entity.is_a?(User)
+    #  @user = @entity
+    if @entity.is_a?(Group)
       @group = @entity
     else
       raise Exception.new("could not determine entity type for profile: #{@profile.inspect}")
@@ -75,6 +78,7 @@ class ProfileController < ApplicationController
   
   # always have access to self
   def authorized?
+    RAILS_DEFAULT_LOGGER.debug "### #authorizing in #{controller_name}"
     if @entity.is_a?(User) and current_user == @entity
       return true
     elsif @entity.is_a?(Group)
@@ -92,16 +96,5 @@ class ProfileController < ApplicationController
     add_context 'inbox'.t, url_for(:controller => 'inbox', :action => 'index')
   end
   
-  #try to make it easier to add or edit profile sections from plugins
-  def profile_sections
-    ['description_section', 'phone_number_section', 'email_address_section', 'location_section', 'im_address_section', 'website_section']
-  end
-  helper_method :profile_sections
-
-  protected
-  def profile_sections_with_issues
-    ['issues_section'] + profile_sections_without_issues
-  end
-  alias_method_chain :profile_sections, :issues
 
 end

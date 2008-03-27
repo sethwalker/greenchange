@@ -57,6 +57,11 @@ class String
     s = Iconv.iconv(translation_to, translation_from, self).to_s
     s.titleize
   end
+
+  # placeholder method for globalize 2.0
+  def t
+    self
+  end
 end 
 
 class Array

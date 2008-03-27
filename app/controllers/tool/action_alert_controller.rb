@@ -52,7 +52,6 @@ class Tool::ActionAlertController < Tool::WikiController
   def fetch_wiki
     return true unless @page
     @page.data ||= ActionAlert.new(:body => 'new page', :page => @page)
-    logger.debug( '###' + @page.data.id.to_s)
     @action_alert = @wiki = @page.data
   end
   

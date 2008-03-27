@@ -1,3 +1,9 @@
+#titlebox {
+  padding: .5em;
+  border: 1px solid;
+  border-color: #6a7b12;
+  margin-top: .5em; }
+
 .group-title {
   float: left;
   padding: .5em;

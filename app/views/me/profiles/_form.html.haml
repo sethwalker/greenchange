@@ -1,0 +1,25 @@
+= error_messages_for '', :object => [ profile, profile.notes, profile.email_addresses ], :object_name => 'profile'
+.section
+  %h2
+    General Info
+  .row
+    %p
+      = f.text_field 'first_name', 'size' => 15, 'maxlength' => 100, 'style' => 'width:100px'
+      = f.label 'first_name', "first name"
+    %p
+      = f.text_field 'middle_name', 'size' => 9, 'maxlength' => 100, 'style' => 'width:50px'
+      = f.label 'middle_name', "middle "
+    %p
+      = f.text_field 'last_name', 'size' => 15, 'maxlength' => 100, 'style' => 'width:111px'
+      = f.label 'last_name', "last"
+  .row
+    %p
+      = f.text_field 'organization', 'size' => 40, 'maxlength' => 100, 'style' => 'width:285px'
+      = f.label 'organization', "organization"
+  .row
+    %p
+      = f.text_field 'role', 'size' => 40, 'maxlength' => 100, 'style' => 'width:285px'
+      = f.label 'role', "organizational role"
+
+- partials_in('me/profiles/sections').each do |section|
+  = render :partial => "me/profiles/sections/#{section}", :locals => {:profile => profile, :f => f }

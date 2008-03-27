@@ -61,6 +61,10 @@ class Profile < ActiveRecord::Base
   has_many   :im_addresses,    :dependent => :destroy, :order=>"preferred desc"
   has_many   :phone_numbers,   :dependent => :destroy, :order=>"preferred desc"
   has_many   :websites,        :dependent => :destroy, :order=>"preferred desc"
-  has_many   :notes,           :dependent => :destroy, :order=>"preferred desc"
+  has_many   :notes,           :dependent => :destroy, :order=>"preferred desc" do
+    def [] ( note_type )
+      find_or_create_by_note_type note_type.to_s
+    end
+  end
 
 end

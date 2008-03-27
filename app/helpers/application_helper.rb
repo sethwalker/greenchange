@@ -28,4 +28,19 @@ module ApplicationHelper
     options[:class] = ((options[:class] || '') << "name_link").strip
     link_to user.login, person_url(user), options
   end
+
+  def partials_in( path, filename_pattern = nil )
+    full_path = "#{RAILS_ROOT}/app/views/#{path}"
+    Dir.entries( full_path ).inject([]) do |matches, f| 
+      if ( File.file? full_path + '/' + f ) && ( match = f.match( /_([^.]*)/  ))
+        matches << match[1] if filename_pattern.nil? || match[1].match(filename_pattern )
+      end
+      matches
+    end.uniq.sort
+  end
+
+  # placeholder method for globalize 2.0
+  def _(value)
+    value
+  end
 end

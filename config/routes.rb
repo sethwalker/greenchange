@@ -28,14 +28,36 @@ ActionController::Routing::Routes.draw do |map|
 
   ##### REGULAR ROUTES ####################################
   
-  map.connect 'me/requests/:action/*path', :controller => 'requests'
-  map.connect 'me/inbox/*path', :controller => 'inbox', :action => 'index'
-  map.connect 'me/search/*path', :controller => 'me', :action => 'search'
-  map.resource :profile
-  map.me 'me/:action/:id', :controller => 'me'
+  #map.connect 'me/inbox/*path', :controller => 'inbox', :action => 'index'
+  #map.connect 'me/search/*path', :controller => 'me', :action => 'search'
   
-  map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|calendar|search/
+  #me routes
+  #map.resource :profile
+  map.namespace :me do |me|
+    me.resource :profile do |profile|
+      profile.resources :email_addresses
+    end
+    me.inbox    'inbox',   :controller => 'inbox', :action => 'index'
+    me.network  'network', :controller => 'network'#, :me => true
+    me.content  'content', :controller => 'tool/base'#, :me => true
+    me.events   'events',  :controller => 'tool/event'#, :me => true
+    me.resources 'contacts', :controller => 'contacts'
+  end
+  #map.resource :profile, :controller => 'profiles', :path_prefix => 'me/', :name_prefix => 'my'
+  map.resource :me, :controller => 'me', :member => { :dashboard => :get, :search => :get, :counts => :get, :page_list => :get, :files => :get, :tasks => :get } #do |me|
+    #me.inbox 'inbox/:path', :controller => 'inbox', :action => 'index'
+    #me.inbox 'inbox', :controller => 'inbox', :action => 'index'
+    #me.resource :profile, :controller => 'profiles'#, :me => true #, :action => 'show'
+    #me.requests 'requests/:action/*path', :controller => 'requests'
+    #me.network 'network', :controller => 'network', :me => true
+    #me.content 'content', :controller => 'tool/base', :me => true
+    #me.events 'events', :controller => 'tool/event', :me => true
+  #end
+  #map.me 'me/:action/:id', :controller => 'me'
+  
+  #map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|calendar|search/
 
+  # this method adds the scope of an existing route to the page controllers
   def page_routes(parent)
     parent.with_options :member => {:version => :get, :versions => :get, :diff => :get, :break_lock => :post, :print => :get} do |wikis|
       wikis.resources :wikis, :controller => 'tool/wiki'
@@ -91,9 +113,9 @@ ActionController::Routing::Routes.draw do |map|
   ##### DISPATCHER ROUTES ###################################
   
   # our default route is sent to the dispatcher
-  map.connect 'page/:_page/:_page_action/:id', :controller => 'dispatch', :action => 'dispatch', :_page_action => 'show', :id => nil
-  map.connect ':_context/:_page/:_page_action/:id', :controller => 'dispatch', :action => 'dispatch', :_page_action => 'show', :id => nil
-  map.connect ':_context', :controller => 'dispatch', :action => 'dispatch', :_page => nil
+  #map.connect 'page/:_page/:_page_action/:id', :controller => 'dispatch', :action => 'dispatch', :_page_action => 'show', :id => nil
+  #map.connect ':_context/:_page/:_page_action/:id', :controller => 'dispatch', :action => 'dispatch', :_page_action => 'show', :id => nil
+  #map.connect ':_context', :controller => 'dispatch', :action => 'dispatch', :_page => nil
 
   #### RESTFUL ROUTES #######################################
   map.resources :collectings
