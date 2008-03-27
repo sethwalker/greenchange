@@ -1,12 +1,10 @@
-%h2
-  = "Create a new".t
-  %b= @page.class.class_display_name.t
+- @show_posts = false
 
-- form_for(:page, @page, :url => wikis_path) do |f|
+- form_for(:page, @page, :url => action_path(@page), :html => {:method => :put}) do |f|
   .workarea
-    = header_for_page_create(@page.class)
     = render :partial => 'pages/form', :locals => {:f => f}
   .formbox
     - fields_for(:wiki, @wiki) do |wiki|
       = render :partial => 'form', :locals => {:f => wiki}
   = submit_tag 'Save', :name => 'save'
+  = link_to 'Cancel', break_lock_action_url(@page), :method => :post

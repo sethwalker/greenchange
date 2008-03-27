@@ -53,6 +53,10 @@ class Tool::WikiController < Tool::BaseController
   def version
     @version = @wiki.versions.find_by_version(params[:version])
   end
+
+  def versions
+    render :template => "/tool/wiki/versions"
+  end
   
   def diff
     old_id = params[:from]

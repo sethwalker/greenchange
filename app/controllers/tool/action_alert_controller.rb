@@ -1,6 +1,27 @@
 class Tool::ActionAlertController < Tool::WikiController
   append_before_filter :fetch_wiki
   
+  def new
+    @page = Tool::ActionAlert.new :group_id => params[:group_id]
+    @wiki = @page.build_data :body => 'new page'
+  end
+
+  def create
+    @page = Tool::ActionAlert.new params[:page]
+    @page.created_by = current_user
+    if @page.save
+      if save_edits
+        @page.tag_with(params[:tag_list]) if params[:tag_list]
+        redirect_to(action_url(@page))
+      else
+        render :action => 'new'
+      end
+    else
+      message :object => @page
+      render :action => 'new'
+    end
+  end
+
   def edit
     @wiki.lock(Time.now, current_user)
     # FIXME this should be automagic?
@@ -21,7 +42,7 @@ class Tool::ActionAlertController < Tool::WikiController
   def save_edits
     begin
       super
-      save_meta @action_alert
+      save_meta @wiki
       #@wiki.document_meta.save
     rescue
       raise
@@ -37,22 +58,14 @@ class Tool::ActionAlertController < Tool::WikiController
     wiki.create_document_meta params[:document_meta]
   end
   
-  # save the wiki, and make a new version only if the last
-  # version was not recently saved by current_user
-  def save_revision(wiki)
-    if wiki.recent_edit_by?(current_user)
-      wiki.save_without_revision
-      wiki.find_version(wiki.version).update_attributes(:body => wiki.body, :body_html => wiki.body_html, :updated_at => Time.now)
-    else
-      wiki.user = current_user
-      wiki.save
-    end  
-  end
-  
   def fetch_wiki
     return true unless @page
     @page.data ||= ActionAlert.new(:body => 'new page', :page => @page)
     @action_alert = @wiki = @page.data
+  end
+
+  def wiki_url(page)
+    action_url(page)
   end
   
 end

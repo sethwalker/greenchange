@@ -2,7 +2,7 @@
   = "Create a new".t
   %b= @page.class.class_display_name.t
 
-- form_for(:page, @page, :url => wikis_path) do |f|
+- form_for(:page, @page, :url => actions_path) do |f|
   .workarea
     = header_for_page_create(@page.class)
     = render :partial => 'pages/form', :locals => {:f => f}
