@@ -13,8 +13,8 @@ ActionController::Routing::Routes.draw do |map|
   ##### ASSET ROUTES ######################################
   
   map.with_options :controller => 'asset', :action => 'show' do |m|
-    m.asset_version 'assets/:id/versions/:version/*filename'
-    m.assets 'assets/:id/*filename'
+    m.connect 'assets/:id/versions/:version/*filename'
+    m.connect 'assets/:id/*filename'
   end
 
   # unobtrusive javascript
@@ -74,7 +74,7 @@ ActionController::Routing::Routes.draw do |map|
     parent.involvements 'involvements', :controller => 'tool/base', :page_type => 'involvements', :action => 'index'
     parent.updates 'updates', :controller => 'tool/base', :page_type => 'updates', :action => 'index'
 
-    parent.resources :assets, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
+    parent.resources :uploads, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
     parent.resources :events, :controller => 'tool/event', :member => {:participate => :post, :set_event_description => :post}
     parent.resources :videos, :controller => 'tool/external_video' #for now
     parent.resources :messages, :controller => 'tool/message'

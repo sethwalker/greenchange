@@ -59,7 +59,7 @@
   <tr id="asset_<%= @asset.id %>_version_<%= version.version %>">
     <td>
       <% unless version.version == @asset.version %>
-      <span><%= link_to_remote(image_tag('actions/trash.png'), {:url => destroy_version_asset_path(@page, :version => version.version), :confirm => 'are you sure you want to delete this version?', :before => "$($(this).up('td')).addClassName('busy')", :failure => "$($(this).up('td')).removeClassName('busy')"}, {:href => url_for(:controller => 'asset', :action => 'destroy', :id => @asset.id)}) %></span>
+      <span><%= link_to_remote(image_tag('actions/trash.png'), {:url => destroy_version_upload_path(@page, :version => version.version), :confirm => 'are you sure you want to delete this version?', :before => "$($(this).up('td')).addClassName('busy')", :failure => "$($(this).up('td')).removeClassName('busy')"}, {:href => url_for(:controller => 'asset', :action => 'destroy', :id => @asset.id)}) %></span>
       <% end %>
     </td>
     <td><%= version.image? ? image_tag(version.public_filename(:thumb)) : image_tag(version.small_icon) %></td>
@@ -71,7 +71,7 @@
 <br/>
 
 <div id="upload-new" style="display: none;">
-  <% form_tag asset_path(@page), :method => :put, :multipart => true do -%>
+  <% form_tag upload_path(@page), :method => :put, :multipart => true do -%>
     <%= file_field_tag 'asset' %>
     <%= submit_tag 'upload' %>
   <% end %>
