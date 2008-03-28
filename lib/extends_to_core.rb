@@ -143,3 +143,18 @@ class Module
    end
  end
 end
+# doncha wish we had one of these?
+module LocalizedTime
+  def loc(format)
+    self.strftime(format)
+  end
+end
+class Time 
+  include LocalizedTime 
+end
+class Date
+  include LocalizedTime 
+end
+class DateTime
+  include LocalizedTime 
+end
