@@ -38,11 +38,13 @@ class Group < ActiveRecord::Base
   ####################################################################
   ## about this group
 
-  include CrabgrassDispatcher::Validations
   include Crabgrass::ActiveRecord::Collector
 
-  validates_handle :name
   before_validation :clean_names
+  validates_presence_of :name
+  validates_uniqueness_of :name, :scope => :parent_id
+  validates_format_of :name, :with => /^[a-z0-9]+([-\+_]*[a-z0-9]+){1,49}$/, :message => 'may only contain letters, numbers, underscores, and hyphens'
+  validates_length_of :name, :in => 3..50, :message => 'must be at least 3 and no more than 50 characters'
 
   has_collections :admin, :member, :public, :unrestricted
 
@@ -124,8 +126,8 @@ class Group < ActiveRecord::Base
 
   has_many :membership_requests
 
-  has_many :gives_permissions,  :as => 'grantor'
-  has_many :given_permissions,  :as => 'grantee'
+  has_many :gives_permissions,  :as => 'grantor', :class_name => 'Permission'
+  has_many :given_permissions,  :as => 'grantee', :class_name => 'Permission'
 
   def admins_ids
     admins.map(&:user_id)
@@ -224,26 +226,6 @@ class Group < ActiveRecord::Base
     page.changed :groups
   end
   
-=begin
-  # not really used, and now superseded by the role/policy based
-  # authorization
-  def may?(perm, page)
-    begin
-       may!(perm,page)
-    rescue PermissionDenied
-       false
-    end
-  end
-  
-  # perm one of :view, :edit, :admin
-  # this is still a basic stub. see User.may!
-  def may!(perm, page)
-    gparts = page.participation_for_groups(group_and_committee_ids)
-    return true if gparts.any?
-    raise PermissionDenied
-  end
-=end
-
   # the group is responsible for a given user's membership
   def membership_for(user)
     memberships.find(:first,
@@ -251,14 +233,24 @@ class Group < ActiveRecord::Base
     )
   end
 
+  # return all permissions granted by this group to the given user
+  def permissions_for(user)
+    gives_permissions.find(:all,
+        :conditions => [
+          "permissions.grantee_type = 'User' AND "+
+          "permissions.grantee_id = ? ",
+          user.id
+        ]
+    )
+  end
+
+  # return the user's membership role in this group
   def role_for(user)
     unless user.direct_member_of? self
-      # TODO: a special role for indirect memberships?
-      # user.member_of? self
-
       AuthorizedSystem::Role.new # default role
     else
       membership = membership_for(user)
+      RAILS_DEFAULT_LOGGER.debug "### found membership and role is #{membership.role}"
       AuthorizedSystem::Role.new( membership.nil? ? '' : membership.role )
     end
   end
@@ -267,7 +259,9 @@ class Group < ActiveRecord::Base
   # will be used if given, otherwise the :group resource is used.
   def allows?(user, action, resource = nil)
     return true if user.superuser?
-    role_for(user).allows?(action, resource.nil? ? :group : resource)
+    return true if role_for(user).allows?(action, resource.nil? ? :group : resource)
+    return Permission.granted?(action, resource, self, user) unless resource.is_a? Symbol
+    return false
   end
 
   def months_with_pages_viewable_by_user(user)

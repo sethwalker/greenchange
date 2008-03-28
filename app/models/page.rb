@@ -11,86 +11,66 @@ class Page < ActiveRecord::Base
 
   has_many :permissions, :as => 'resource'
 
-  #allowed_collectings = Collecting.allowed(user,perm).find( :all, :conditions => [ 'collectable_type = ?', self.name] )
   has_finder :allowed, 
     Proc.new { |user, perm| 
-      unless [:view, :edit, :participate, :admin].include? perm
+      if not [:view, :edit, :participate, :admin].include? perm
         {} 
       else
-        public_condition = (perm != :admin) ? self.__send__(:sanitize_sql_for_conditions, ["pages.public = ?", true]) : nil 
+        public_condition = (perm != :admin) ?
+          self.__send__(:sanitize_sql_for_conditions, ["pages.public = ?", true]) : nil
+
         user_groups = []
         user_groups << user.contributes_to_group_ids  if perm == :edit 
-        user_groups << user.member_of_group_ids       if perm == :view or perm == :participate
-        user_groups << user.admin_of_group_ids        if perm == :admin
+        user_groups << user.member_of_group_ids       if [:view, :participate].include? perm
+        user_groups << user.admin_of_group_ids        if [:admin, :edit, :view, :participate].include? perm
 
-        membership_condition = self.__send__(:sanitize_sql_for_conditions, ["pages.group_id IN (?)", user_groups.flatten.uniq]) unless user_groups.empty?
-      { :include => :permissions,
-        :conditions => 
-        [
-          conditions = [
-            public_condition, 
-            membership_condition,
-            "pages.created_by_id = ? "+
-            "OR ("+
-                "permissions.grantee_type = 'User' AND "+
-                "permissions.grantee_id = ? AND " +
-                "permissions.#{perm} = ? "+
-            ")"
-          ].compact.join(' OR '),
-          user.id, user.id, true
-        ],
-      }
+        membership_condition = self.__send__(
+          :sanitize_sql_for_conditions,
+          ["pages.group_id IN (?)", user_groups.flatten.uniq]) unless user_groups.empty?
+
+        { :include => :permissions,
+          :conditions => [
+            conditions = [
+              public_condition, 
+              membership_condition,
+              "pages.created_by_id = ? "+
+              "OR ("+
+                  "permissions.grantee_type = 'User' AND "+
+                  "permissions.grantee_id = ? AND "+
+                  "permissions.#{perm} = ? "+
+              ")"
+            ].compact.join(' OR '),
+            user.id, user.id, true
+          ],
+        }
       end
     }
 
+  # finds pages on which the user has been explicitly granted perm 
   has_finder :permitted_for, 
     Proc.new { |user, perm| 
-      { :include => :permissions, :conditions => 
-        [
-          "("+
-              "permissions.grantee_type = 'User' AND "+
-              "permissions.grantee_id = ? AND " +
-              "permissions.#{perm} = ? "+
-          ")",
-          user.id, true
-        ],
-      }
+      if not [:view, :edit, :participate, :admin].include? perm
+        {} 
+      else
+        { :include => :permissions, :conditions => 
+          [
+            "("+
+                "permissions.grantee_type = 'User' AND "+
+                "permissions.grantee_id = ? AND " +
+                "permissions.#{perm} = ? "+
+            ")",
+            user.id, true
+          ],
+        }
+      end
     }
 
   has_finder :by_group, lambda {|*groups|
-      groups.any? ? { :conditions => [ 'group_id in (?)', groups ] } : {}
-    }
+    groups.any? ? { :conditions => [ 'group_id in (?)', groups ] } : {}
+  }
+ 
   has_finder :by_issue, {} #lambda {|*issues| }
   has_finder :by_person, {} #lambda {|*people| }
-=begin
-  def Page.allowed(user, perm=:view)
-    # unknown actions allow nothing
-    return [] if not [:view, :edit, :participate, :admin].include? perm
-
-    by_permission   = permitted_for(user, perm)
-    by_creation     = created_by(user)
-
-    user_groups = []
-
-    if perm == :admin
-      by_public = []
-      user_groups << user.admin_of_group_ids 
-    else
-      by_public = self.public
-    end
-
-    user_groups << user.contributes_to_group_ids  if perm == :edit 
-    user_groups << user.member_of_group_ids       if perm == :view or perm == :participate
-
-    by_memberships = find(:all, :conditions => ["pages.group_id IN(?) ", user_groups.uniq!])
-
-    # all together now
-    by_public +
-      by_creation +
-      by_permission +
-      by_memberships
-  end
-=end
 
   has_finder :in_network,
     lambda {|user| {:include => [:group_participations, :user_participations], :conditions => ["user_participations.user_id = ? OR group_participations.group_id IN (?)", user.id, user.all_group_ids]}}
@@ -138,7 +118,7 @@ class Page < ActiveRecord::Base
 
   has_finder :page_type, 
     lambda {|*page_types| 
-      page_types = [:audio,:video,:image,:asset] if page_types==[:media]
+      page_types << [:image, :audio, :video] if page_types.delete(:media)
       page_types = page_types.flatten.map do |t| 
         #"class_group" used to do this
         t = 'task_list'     if t.to_s == 'task'
@@ -195,6 +175,40 @@ class Page < ActiveRecord::Base
     end
   end
 
+  has_finder :occurs_on_day, lambda {|datestring|
+    year, month, day = datestring.split('-')
+    date = Time.utc(year, month, day)
+    case connection.adapter_name
+    when "SQLite"
+      {:conditions => ["STRFTIME('%Y-%m-%d',pages.starts_at) <= :day AND STRFTIME('%Y-%m-%d',pages.ends_at) >= :day", {:day => date.loc('%Y-%m-%d')}]}
+    when "MySQL"
+      {:conditions => ["DATE_FORMAT(pages.starts_at,'%Y-%m-%d') <= :day AND DATE_FORMAT(pages.ends_at,'%Y-%m-%d') >= :day", {:day => date.loc('%Y-%m-%d')}]}
+    end
+  }
+
+  has_finder :occurs_between_dates, lambda {|start_datestring, end_datestring|
+    start_year, start_month, start_day  = start_datestring.split('-')
+    end_year, end_month, end_day        = end_datestring.split('-')
+
+    start_date  = Time.utc(start_year, start_month, start_day)
+    end_date    = Time.utc(end_year, end_month, end_day)
+
+    case connection.adapter_name
+    when "SQLite"
+      { :conditions => [
+          "STRFTIME('%Y-%m-%d',pages.starts_at) >= :start_day AND STRFTIME('%Y-%m-%d',pages.ends_at) <= :end_day",
+          {:start_day => start_date.loc('%Y-%m-%d'), :end_day => end_date.loc('%Y-%m-%d')}
+        ]
+      }
+    when "MySQL"
+      { :conditions => [
+          "DATE_FORMAT(pages.starts_at,'%Y-%m-%d') >= :start_day AND DATE_FORMAT(pages.ends_at,'%Y-%m-%d') <= :end_day",
+          {:start_day => start_date.loc('%Y-%m-%d'), :end_day => end_date.loc('%Y-%m-%d')}
+        ]
+      }
+    end
+  }
+
   extend PathFinder::FindByPath
 
   #######################################################################
@@ -219,7 +233,7 @@ class Page < ActiveRecord::Base
   end
 
   def to_param
-    "#{id}+#{title.nameize}"
+    "#{id}-#{title.nameize}"
   end
 
   # returns true if self's unique page name is already in use.
@@ -396,7 +410,7 @@ class Page < ActiveRecord::Base
   ## SUPPORT FOR PAGE SUBCLASSING
 
   # to be set by subclasses (ie tools)
-  class_attribute :controller, :model, :icon,
+  class_attribute :model, :icon,
     :class_description, :class_display_name
 
   def self.icon_path
@@ -476,9 +490,12 @@ class Page < ActiveRecord::Base
 
   # check if user has permission to perform the action on this page
   def allows?(user, action)
+    return true if user.superuser?
+
     unless [:view, :edit, :participate, :admin].include? action
-      action = Permission.alias_for( action )
+        action = Permission.alias_for( action )
     end
+
     user.superuser? ||
 
     # user is page owner
@@ -486,18 +503,16 @@ class Page < ActiveRecord::Base
 
     # explicit permissions grant
     ( action and permissions.find(:first,
-      :conditions => [
-        "grantee_type = 'User' AND "+
-        "grantee_id = ? AND "+
-        "#{action} = ?",
-        user.id, true
+        :conditions => [
+          "grantee_type = 'User' AND "+
+          "grantee_id = ? AND "+
+          "#{action} = ?",
+          user.id, true
       ]
     )) ||
 
     # abide by group policy if the page belongs to a group
-    #( !self.group.nil? and self.group.role_for(user).allows?(action, self) )
     ( !self.group_participations.empty? and self.group_participations.any? { |gpart|
-        gpart.group.role_for(user).allows?(action, self ) } )
-
+    gpart.group.role_for(user).allows?(action, self ) } ) 
   end
 end

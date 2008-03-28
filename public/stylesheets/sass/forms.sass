@@ -1,0 +1,67 @@
+@import colors
+
+#ajax-message
+  :position absolute
+  :z-index 36000
+  :left 0
+  :top 0
+  :width 100%
+  :text-align center
+  div
+    :margin 0 auto
+    :text-align left
+    :padding .25em
+    :font-weight bold
+    :display inline 
+  .error
+    :background = !ajax_error_bg
+    :color = !ajax_error_text
+  .message
+    :background = !ajax_message_bg
+    :color = !ajax_message_text
+    
+
+.edit form
+  :float left
+
+.busy
+  :background url(/images/spinner.gif) no-repeat
+  :display block
+  :float left
+  :width 16px
+  :height 16px
+  
+
+form
+  .submit
+    :text-align center
+  .section
+    :float left
+    :width 100%
+  .row
+    :width 100%
+    :float left
+  .toolbar 
+    :float left
+  p
+    :float left
+    :margin-right 1em
+    input
+      :clear both
+      :display block
+    label
+      :display block
+
+  .behavior-block
+    & > .toolbar
+      :margin
+        :left 250px
+        :bottom 25px
+    
+    p
+      :margin .25em .5em .25em 0
+      :font-size 10px
+    .row
+      .toolbar
+        :margin 0
+        :padding 0

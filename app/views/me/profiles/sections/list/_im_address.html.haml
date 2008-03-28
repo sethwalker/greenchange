@@ -1,0 +1,11 @@
+.section.im_addresses
+  %h2
+    IM Addresses
+  .behavior-block.list
+    - for im_address in im_addresses
+      = render :partial => 'me/profiles/sections/im_address', :locals => { :im_address => im_address, :f => f }
+    = render :partial => 'me/profiles/sections/im_address', :locals => { :im_address => profile.im_addresses.build, :f => f }
+
+    .toolbar
+      = link_to 'Add IM Address', new_me_profile_im_address_path, :class => 'remote new action'
+

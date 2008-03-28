@@ -1,0 +1,18 @@
+= render :partial => 'me/profiles/sections/list_item_default', :locals => { :item => im_address, :item_type => :im_address, :item_type_field => :im_type, :item_types_collection => ProfileHelper::IM_TYPES, :item_type_label => 'IM username' } 
+
+-# fields_target = im_address.new_record? ? "im_addresses[new][]" : :im_addresses
+-#-# fields_for fields_target, im_address do |ff|
+-#  - index = im_address.try(:id) || ''
+-#  .row
+-#    -#%p
+-#      -#= ff.check_box :preferred, { :index => index, :class => 'behavior-radio'}, 1
+-#    %p
+-#      = ff.select :im_type, ProfileHelper::IM_TYPES, {}, :index => index
+-#    %p
+-#      = ff.text_field :im_address, :size => 20, :maxlength => 100, :index => index 
+-#      = ff.label "#{index}_im_address", 'IM username'
+-#    - unless im_address.new_record?
+-#      .toolbar
+-#        .icon
+-#          = button_to 'Delete', me_profile_im_address_path(im_address), :method => :delete , :class => 'remote confirm delete action', :remote_url => formatted_me_profile_im_address_path(im_address, :xml )
+-#

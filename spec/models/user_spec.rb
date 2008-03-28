@@ -153,16 +153,3 @@ describe User, "with bookmarks" do
     u.should respond_to(:bookmarked_pages)
   end
 end
-
-describe User, "in a namespace" do
-
-  before do
-    @user = create_valid_user :login => 'evil_scientist'
-    @group = create_valid_group:name => 'robot_army'
-  end
-
-  it "does not allow users with the same name as groups" do
-    lambda { user2 = create_valid_user :login => 'robot_army' }.should raise_error
-  end
-
-end

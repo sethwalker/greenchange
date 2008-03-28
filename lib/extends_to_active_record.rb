@@ -154,7 +154,3 @@ class ActionView::Base
   alias_method_chain :link_to, :pretty_plus_signs
   
 end
-
-
-
-#validates_handle was moved to crabgrass_dispatcher.rb

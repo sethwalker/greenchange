@@ -11,6 +11,8 @@
   <%= stylesheet_link_tag 'navigation' %>
   <%= stylesheet_link_tag 'page' %>
   <%= stylesheet_link_tag 'ui' %>
+  <%= stylesheet_link_tag 'errors' %>
+  <%= stylesheet_link_tag 'forms' %>
   <%= stylesheet_link_tag 'shared' %>
   <%= stylesheet_link_tag 'sidebar' %>
   <%= stylesheet_link_tag 'print', :media => 'print' %>
@@ -62,4 +64,9 @@
 </body>
 <%= render :partial => 'shared/ie' %>
 <%= yield :javascript %>
+<script type='text/javascript'>
+  Event.observe( document, 'dom:loaded', function() {
+    <%= yield :javascript_onload %>
+  } );
+</script>
 </html>

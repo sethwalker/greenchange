@@ -1,6 +1,4 @@
-var Crabgrass = function() {
-  return {
-    Tabs: function() {
+Crabgrass.Tabs =  function() {
       return {
         create: function() {
           var self = {
@@ -87,8 +85,8 @@ var Crabgrass = function() {
           } );
         }
       }
-    }()
-  }
-}();
+    }();
+  //}
+//}();
 
 

@@ -72,6 +72,76 @@ class PathFinder::SqlBuilder < PathFinder::Builder
      @conditions << "pages.#{@date_field} <= ?"
      @values << date.to_s(:db)
   end
+
+  # greenchange_note:  Needed more complex events specific filters for multiday events
+  # need to fetch events based on UTC, we then display in local frame of reference
+  
+  def filter_event_starts
+    @start_date_field = "starts_at"
+  end
+
+  def filter_event_ends
+    @ends_date_field = "ends_at"
+  end
+
+  def filter_event_starts_after(date)
+    if date == 'now'
+       date = Time.now
+    else
+       if date == 'today'
+          date = Time.now.to_date
+       else
+         # UTC
+         year, month, day = date.split('-')
+         date = Time.utc(year, month, day)
+       end
+    end
+    @conditions << "DATE_FORMAT(pages.#{@start_date_field},'%Y-%m-%d') >= ?" #"
+    @values << date.loc('%Y-%m-%d')
+  end
+
+  def filter_event_starts_before(date)
+     if date == 'now'
+       date = Time.now
+     else
+       # UTC
+       year, month, day = date.split('-')
+       date = Time.utc(year, month, day)
+     end
+    @conditions << "DATE_FORMAT(pages.#{@start_date_field},'%Y-%m-%d') <= ?" #"
+    @values << date.loc('%Y-%m-%d')
+  end
+
+
+  def filter_event_ends_after(date)
+    if date == 'now'
+       date = Time.now
+    else
+       if date == 'today'
+          date = Time.now.to_date
+       else
+         # UTC
+         year, month, day = date.split('-')
+         date = Time.utc(year, month, day)
+       end
+    end
+    @conditions << "DATE_FORMAT(pages.#{@ends_date_field},'%Y-%m-%d') >= ?"  #"
+    @values << date.loc('%Y-%m-%d')
+  end
+
+  def filter_event_ends_before(date)
+     if date == 'now'
+       date = Time.now
+     else
+       # UTC
+       year, month, day = date.split('-')
+       date = Time.utc(year, month, day)
+     end
+    @conditions << "DATE_FORMAT(pages.#{@ends_date_field},'%Y-%m-%d') <= ?" #"
+    @values << date.loc('%Y-%m-%d')
+  end
+
+  # end event specific filters
   
   def filter_changed
     @conditions << 'pages.updated_at > pages.created_at'
@@ -125,7 +195,8 @@ class PathFinder::SqlBuilder < PathFinder::Builder
   ####
   
   def filter_type(page_class_group)
-    page_classes = Page.class_group_to_class_names(page_class_group)
+#    page_classes = Page.class_group_to_class_names(page_class_group)
+    page_classes = ['Tool::Event']
     @conditions << 'pages.type IN (?)'
     @values << page_classes
   end

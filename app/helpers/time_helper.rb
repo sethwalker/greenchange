@@ -23,7 +23,8 @@ module TimeHelper
     elsif today > date and (today-date) < 7
       str = local.strftime("%A")
     else
-      str = date.loc('%m.%d.%Y')
+      #str = date.loc('%m.%d.%Y')
+      str = date.to_s('%m.%d.%Y')
     end
     "<label title='#{ full_time(time) }'>#{str}</label>"
   end
@@ -33,7 +34,7 @@ module TimeHelper
   def full_time(time)
     time = to_local time
     #'%s %s %s %s' % [time.loc('%A'), time.loc('%d/%b/%Y'), time.loc('%I:%M'), time.period.abbreviation]
-    '%s %s %s' % [time.loc('%A'), time.loc('%d/%b/%Y'), time.loc('%I:%M')]
+    '%s %s %s' % [time.strftime('%A'), time.strftime('%d/%b/%Y'), time.strftime('%I:%M %p')]
   end
 
   def to_local(time)

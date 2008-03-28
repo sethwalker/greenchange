@@ -300,7 +300,7 @@ describe ProfilesController, "RESTFUL" do
       #it_redirects_to { profile_path(@collecting) }
       it "redirects to saved item" do
         act!
-        response.should redirect_to( :controller => 'profiles', :action => 'show' )
+        response.should redirect_to( me_profile_url )
       end
     end
 
@@ -490,6 +490,90 @@ describe ProfilesController do
       assigns[:profile].should == @target_user.private_profile
     end
     
+  end
+end
+
+describe ProfilesController do
+  describe "when updating a dependent collection" do
+    before do
+      @user = create_valid_user
+      login_user @user
+      @profile = @user.private_profile
+      @profile_attributes = @profile.attributes
+      @attributes = { :new => [] }
+    end
+
+    def act!
+      put :update, :profile => @profile.attributes, :email_addresses => @attributes, :phone_numbers => {} 
+    end
+
+    it "should create new items" do
+      @profile.email_addresses.delete_all
+      @attributes[:new] << { :email_address => 'jan@jorgen.com', :email_type => 'personal' }
+      @attributes[:new] << { :email_address => 'gjan@jorgen.com', :email_type => 'personal' }
+      act!
+      @profile.email_addresses.size.should == 2
+    end
+    it "should not save invalid items" do
+      @profile.email_addresses.delete_all
+      @attributes[:new] << { :email_address => 'jorgen.com', :email_type => 'personal' }
+      act!
+      response.should render_template( :edit )
+    end
+    it "should have errors on invalid items" do
+      pending "a plan for categorizing new-but-invald items on re-render"
+      @profile.email_addresses.delete_all
+      @attributes[:new] << { :email_address => 'jorgen.com', :email_type => 'personal' }
+      act!
+      @profile.email_addresses.all?(&:valid).should be_false 
+    end
+
+    it "should update existing items" do
+      new_item = @profile.email_addresses.create :email_address => 'jo@jo.com', :email_type => 'other'
+      @attributes[ new_item.id ] = { :email_address => 'bratt@jo.com', :email_type => 'personal' }
+      act!
+      @profile.email_addresses.first.email_address.should == 'bratt@jo.com'
+    end
+
+    describe "submitting a new blank item" do
+      before do
+        @attributes[ :new ] = [{ :email_address => '', :email_type => 'personal' }]
+      end
+
+      it "should not add a record" do
+        @profile.email_addresses.delete_all
+        act!
+        @profile.email_addresses.size.should == 0
+      end
+
+      it "should show the result" do
+        act!
+        response.should redirect_to( me_profile_path )
+      end
+    end
+
+    describe "invalid update to an existing item" do
+      before do
+        new_item = @profile.email_addresses.create :email_address => 'jo@jo.com', :email_type => 'other'
+        @attributes[ new_item.id ] = { :email_address => 'jo', :email_type => 'personal' }
+      end
+      it "register to the item" do
+        act!
+        assigns[:email_addresses].first.email_address.should == 'jo'
+      end
+
+      it "create errors" do
+        act!
+        assigns[:email_addresses].first.should_not be_valid
+      end
+
+      it "re-render the edit template" do
+        act!
+        response.should render_template( :edit )
+      end
+
+    end
+
   end
 end
 
