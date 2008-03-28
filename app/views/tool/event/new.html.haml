@@ -1,0 +1,14 @@
+<%= calendar_date_select_includes "blue" %>
+<script src="/javascripts/calendar.js"></script>
+%h2
+  = "Create a new".t
+  %b= @page.class.class_display_name.t
+
+- form_for(:page, @page, :url => events_path) do |f|
+  .workarea
+    = header_for_page_create(@page.class)
+    = render :partial => 'pages/form', :locals => {:f => f}
+  .formbox
+    - fields_for(:event, @event) do |event|
+      = render :partial => 'form', :locals => {:f => event}
+  = submit_tag 'Save', :name => 'save'
