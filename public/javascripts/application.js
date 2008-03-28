@@ -67,4 +67,21 @@ $$("a.remote").invoke( "observe", 'click', function(event) {
   return false;
 });
 
+var Crabgrass = function() {
+  return { };
+}
+//    namespace: function( ) {
+//       var a=arguments, o=null, i, j, d;
+//        for (i=0; i<a.length; i=i+1) {
+//            d=a[i].split(".");
+//            o=Crabgrass; 
+//            // YAHOO is implied, so it is ignored if it is included
+//            for (j=(d[0] == "Crabgrass") ? 1 : 0; j<d.length; j=j+1) {
+//                o[d[j]]=o[d[j]] || {};
+//                o=o[d[j]];
+//            }
+//        }
+//    return o; },
+//  };
+//}
 

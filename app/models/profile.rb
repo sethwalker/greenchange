@@ -56,11 +56,17 @@ class Profile < ActiveRecord::Base
   #belongs_to :photo
   #belongs_to :layout
   
-  has_many   :locations,       :dependent => :destroy, :order=>"preferred desc"
-  has_many   :email_addresses, :dependent => :destroy, :order=>"preferred desc"
-  has_many   :im_addresses,    :dependent => :destroy, :order=>"preferred desc"
-  has_many   :phone_numbers,   :dependent => :destroy, :order=>"preferred desc"
-  has_many   :websites,        :dependent => :destroy, :order=>"preferred desc"
-  has_many   :notes,           :dependent => :destroy, :order=>"preferred desc"
+  has_many   :locations,       :dependent => :destroy#, :order=>"preferred desc"
+  has_many   :email_addresses, :dependent => :destroy#, :order=>"preferred desc"
+  has_many   :im_addresses,    :dependent => :destroy###, :order=>"preferred desc"
+  has_many   :phone_numbers,   :dependent => :destroy#, :order=>"preferred desc"
+  has_many   :websites,        :dependent => :destroy#, :order=>"preferred desc"
+  has_many   :notes,           :dependent => :destroy do #, :order=>"preferred desc" do
+    def [] ( note_type )
+      find_or_create_by_note_type note_type.to_s
+    end
+  end
+
+  #validates_associated :email_addresses
 
 end

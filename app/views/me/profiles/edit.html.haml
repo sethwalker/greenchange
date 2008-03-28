@@ -1,0 +1,5 @@
+.profile.edit
+  - form_for :profile, @profile, :url => { :action => :update }, :html => { :method => :put }  do |f|
+    = render :partial => 'form', :locals => { :f => f, :profile => @profile }
+    %p.submit
+      = f.submit 'Save Changes'.t, :name => 'update', :class => 'submit'

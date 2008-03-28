@@ -1,0 +1,6 @@
+.profile.new
+  - form_for :profile,  @profile  do |f|
+    = render :partial => 'form', :locals => { :f => f, :profile => @profile }
+    %p.submit
+      = f.submit 'Create', :name => 'create', :class => 'submit'
+

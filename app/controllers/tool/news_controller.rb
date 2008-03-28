@@ -51,7 +51,6 @@ class Tool::NewsController < Tool::WikiController
   def fetch_wiki
     return true unless @page
     @page.data ||= News.new(:body => 'new page', :page => @page)
-    logger.debug( '###' + @page.data.id.to_s)
     @news = @wiki = @page.data
   end
   

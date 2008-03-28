@@ -1,4 +1,5 @@
-= render :partial => 'shared/sides/donate'
+- unless controller.controller_name == 'accounts'
+  = render :partial => 'shared/sides/donate'
 - if @group
   = render :partial => 'groups/sides/members',  :locals => { :group => @group }
   = render :partial => 'shared/media',      :locals => { :source => @group }

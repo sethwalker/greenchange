@@ -1,20 +1,19 @@
-table.activity {
+body.me table.activity {
   border-collapse: collapse; }
-  table.activity td {
+  body.me table.activity td {
     padding: 5px;
     text-decoration: none; }
-    table.activity td a {
+    body.me table.activity td a {
       padding: 5px;
       text-decoration: none; }
-    table.activity td a:hover {
+    body.me table.activity td a:hover {
       text-decoration: underline; }
-  table.activity tr.odd {
+  body.me table.activity tr.odd {
     background-color: #F2F2F2; }
-  table.activity tr.even {
+  body.me table.activity tr.even {
     background-color: white; }
-  table.activity th {
+  body.me table.activity th {
     padding-top: 20px;
     text-align: left; }
-
-#inbox_buttons {
+body.me #inbox_buttons {
   text-align: right; }
