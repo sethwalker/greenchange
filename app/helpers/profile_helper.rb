@@ -8,6 +8,11 @@ module ProfileHelper
     'other'  => 'Other'
     }
 
+  IM_TYPES =
+    ['Jabber', 'IRC', 'Silc', 'Gizmo', 'AIM',
+    'Google Talk', 'MSN', 'Skype', 'Yahoo', 'Other']
+  
+  PHONE_TYPES = %w[Home Fax Mobile Other Pager Work]
   #app/views/person/_profile.rhtml
   #app/views/profile/show.rhtml
   def photo(profile)

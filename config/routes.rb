@@ -34,9 +34,14 @@ ActionController::Routing::Routes.draw do |map|
   #me routes
   #map.resource :profile
   map.namespace :me do |me|
-    me.resource :profile do |profile|
+    me.namespace :profile do |profile|
       profile.resources :email_addresses
+      profile.resources :im_addresses
+      profile.resources :phone_numbers
+      profile.resources :websites
+      profile.resources :locations
     end
+    me.resource :profile
     me.inbox    'inbox',   :controller => 'inbox', :action => 'index'
     me.network  'network', :controller => 'network'#, :me => true
     me.content  'content', :controller => 'tool/base'#, :me => true

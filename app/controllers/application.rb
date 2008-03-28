@@ -54,9 +54,9 @@ class ApplicationController < ActionController::Base
     elsif opts[:object]
       object = opts[:object]
       unless object.errors.empty?
-        flash.now[:error] = _("Changes could not be saved.")
+        flash.now[:error] = "Changes could not be saved."
         flash.now[:text] ||= ""
-        flash.now[:text] += "<p>#{_('There are problems with the following fields')}:</p>"
+        flash.now[:text] += "<p>#{'There are problems with the following fields'}:</p>"
         flash.now[:text] += "<ul>" + object.errors.full_messages.collect { |msg| "<li>#{msg}</li>"}.join(' ') + "</ul>"
         flash.now[:errors] = object.errors
       end

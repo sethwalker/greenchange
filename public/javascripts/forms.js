@@ -59,7 +59,7 @@ Crabgrass.Forms = function() {
       if(to_delete) {
         new Effect.DropOut( to_delete );
         to_delete.byebye = to_delete.remove.bindAsEventListener( to_delete );
-        setTimeout( to_delete.byebye , 3000 );
+        setTimeout( to_delete.byebye , 1000 );
       }
     },
 

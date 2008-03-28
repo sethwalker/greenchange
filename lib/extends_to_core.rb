@@ -62,6 +62,10 @@ class String
   def t
     self
   end
+  
+  def /(*args)
+    self % args
+  end
 end 
 
 class Array

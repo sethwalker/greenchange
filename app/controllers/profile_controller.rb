@@ -62,32 +62,44 @@ class ProfileController < ApplicationController
  
   def fetch_profile
     #return true unless params[:id]
-    if params[:me]
+    if params[:group_id]
+      @entity = @group = Group.find(params[:group_id])
+      @profile = @group.profile
+    else
       @entity = @user = current_user
       @profile = current_user.private_profile || current_user.build_private_profile
     end
     #@entity = @profile.entity
     #if @entity.is_a?(User)
     #  @user = @entity
-    if @entity.is_a?(Group)
-      @group = @entity
-    else
-      raise Exception.new("could not determine entity type for profile: #{@profile.inspect}")
-    end
+    #if @entity.is_a?(Group)
+    #  @group = @entity
+    #else
+    #  raise Exception.new("could not determine entity type for profile: #{@profile.inspect}")
+    #end
   end
   
   # always have access to self
   def authorized?
-    RAILS_DEFAULT_LOGGER.debug "### #authorizing in #{controller_name}"
     if @entity.is_a?(User) and current_user == @entity
       return true
     elsif @entity.is_a?(Group)
       return true if action_name == 'show'
-      return true if logged_in? and current_user.member_of?(@entity)
+      return true if logged_in? and current_user.may?( :admin, @entity)
       return false
     elsif action_name =~ /add_/
      return true # TODO: this is the right way to do this
     end
+#    RAILS_DEFAULT_LOGGER.debug "### #authorizing in #{controller_name}"
+#    if @entity.is_a?(User) and current_user == @entity
+#      return true
+#    elsif @entity.is_a?(Group)
+#      return true if action_name == 'show'
+#      return true if logged_in? and current_user.member_of?(@entity)
+#      return false
+#    elsif action_name =~ /add_/
+#     return true # TODO: this is the right way to do this
+#    end
   end
   
   

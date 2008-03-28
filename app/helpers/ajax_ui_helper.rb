@@ -24,5 +24,13 @@ module AjaxUiHelper
     @javascript_tabs_loaded = true
   end
 
+  def load_ajax_form_behaviors
+    return if @ajax_form_behavior_loaded
+    content_for :javascript, javascript_include_tag( 'forms' )
+    content_for :javascript_onload,  
+      'Crabgrass.Forms.initialize_radio_behavior(); Crabgrass.Forms.initialize_remote_actions();'
+    @ajax_form_behavior_loaded = true
+  end
+
 
 end
