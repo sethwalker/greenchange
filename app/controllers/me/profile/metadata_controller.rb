@@ -20,7 +20,7 @@ class Me::Profile::MetadataController < ApplicationController
     respond_to do |format|
       format.html do
         flash[:notice] = "#{@item} deleted"
-        redirect_to me_profile_path
+        redirect_to edit_me_profile_path
       end 
       format.xml  { head :ok }
       format.json { head :ok }
