@@ -1,0 +1,12 @@
+<br />
+<% if (@date == nil) %>
+    <%= link_to (image_tag ('/images/calendar/date.png')), :action => 'calendar' %> <%= link_to "calendar view",  :action => 'calendar' %>
+    <%= link_to (image_tag ('/images/calendar/calendar_view_month.png')), :action => 'month' %> <%= link_to "month list", :action => 'month' %>
+    <%= link_to (image_tag ('/images/calendar/calendar_view_week.png')), :action => 'week' %> <%= link_to "week list", :action => 'week' %>
+    <%= link_to (image_tag ('/images/calendar/calendar_view_day.png')), :action => 'day' %> <%= link_to "day list", :action => 'day' %>
+<% else %>
+    <%= link_to (image_tag ('/images/calendar/date.png')), :action => 'calendar', :date => @date %> <%= link_to "calendar view", :action => 'calendar', :date => @date %>
+    <%= link_to (image_tag ('/images/calendar/calendar_view_month.png')), :action => 'month', :date => @date %> <%= link_to "month list", :action => 'month', :date => @date %>
+    <%= link_to (image_tag ('/images/calendar/calendar_view_week.png')), :action => 'week', :date => @date %> <%= link_to "week list", :action => 'week', :date => @date %>
+    <%= link_to (image_tag ('/images/calendar/calendar_view_day.png')), :action => 'day', :date => @date %> <%= link_to "day list", :action => 'day', :date => @date %>
+<% end %>
