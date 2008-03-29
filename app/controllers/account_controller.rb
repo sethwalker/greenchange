@@ -39,9 +39,9 @@ class AccountController < ApplicationController
 
     if @user.save && @profile.save && @public_profile.save
       self.current_user = @user
-      send_welcome_message(current_user)
+      message = send_welcome_message(current_user)
       flash[:notice] = "Thanks for signing up!"
-      redirect_to params[:redirect] || { :controller => '/account', :action => 'welcome' }
+      redirect_to params[:redirect] || message_url(message)
     else
       render :action => 'signup' and return
     end
@@ -55,14 +55,14 @@ class AccountController < ApplicationController
     redirect_to :controller => '/account', :action => 'index'
   end
 
-  def welcome
-    render :text => GreenCloth.new(WELCOME_TEXT_MARKUP).to_html, :layout => 'me'
-  end
+  #def welcome
+  #end
 
   protected
   def send_welcome_message(user)
     page = Page.make :private_message, :to => user, :from => user, :title => "Welcome to #{Crabgrass::Config.site_name}!", :body => WELCOME_TEXT_MARKUP
     page.save
+    page
   end
 
   # TODO: move this to an e-mail

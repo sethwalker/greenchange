@@ -1,0 +1,7 @@
+= f.hidden_field 'version'
+= f.textile_editor 'body', :size => '80x35'
+= render :partial => 'document_meta', :object => @wiki.document_meta
+%div
+  %a{:style => "float: right", :href => "javascript:quickRedReference();"} formatting reference
+
+= textile_editor_initialize

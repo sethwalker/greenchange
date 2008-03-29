@@ -5,7 +5,7 @@
   <li>
     <%=link_to "version %s"%version.version, version_wiki_url(@page, :version => version.version) %>
     <%=link_to "(diff)", diff_wiki_url(@page, :from => version.version.to_i-1, :to => version.version) if version.version > 1 %>,
-    created <i><%= full_time version.updated_at %></i> by <b><%= link_to_user(version.user_id)%></b>
+    created <i><%= full_time version.updated_at %></i> by <b><%= link_to_user(User.find(version.user_id))%></b>
   </li>
   <% end %>
 </ul>

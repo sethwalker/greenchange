@@ -1,9 +1,9 @@
 class Tool::RankedVote < Page
 
-  model Poll::Poll
   icon 'ballot.png'
   class_display_name 'ranked vote'
   class_description 'Rank possibilities in order of preference.'
+  belongs_to :data, :class_name => 'Poll::Poll'
     
   def initialize(*args)
     super(*args)

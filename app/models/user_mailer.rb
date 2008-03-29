@@ -1,13 +1,13 @@
 class UserMailer < ActionMailer::Base
   def forgot_password(user)
     setup_email(user)
-    @subject += _('You have requested a change of password')
+    @subject += 'You have requested a change of password'
     @body[:url] = "http://#{Crabgrass::Config.host}/reset_password/#{user.password_reset_code}"
   end
 
   def reset_password(user)
     setup_email(user)
-    @subject += _('Your password has been reset')
+    @subject += 'Your password has been reset'
   end
 
   protected

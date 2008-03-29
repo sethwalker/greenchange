@@ -1,0 +1,7 @@
+- note = profile.notes[ note_type ]
+- fields_for :notes, note do |ff|
+  %h3
+    = ProfileHelper::NOTE_TYPE_NAMES[ note_type ]
+  = ff.text_area :body, :index => note_type
+  = ff.hidden_field :note_type, :index => note_type
+

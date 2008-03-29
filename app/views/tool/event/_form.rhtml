@@ -13,10 +13,10 @@
 <tr>
   <td align='right'><b>when</b></td>
   <% timezone = @event.time_zone %>
-  <% date_start = @page ? event_to_local(@page.starts_at,timezone).loc('%Y-%m-%d') : 'yyyy-mm-dd' %>
-  <% date_end = @page ? event_to_local(@page.ends_at,timezone).loc('%Y-%m-%d') : 'yyyy-mm-dd' %>
-  <% hour_start = @page ? event_to_local(@page.starts_at,timezone).loc('%I:%M %p') : '9:00 AM' %>
-  <% hour_end = @page ? event_to_local(@page.ends_at,timezone).loc('%I:%M %p') : '5:00 PM' %>
+  <% date_start = @page.starts_at ? event_to_local(@page.starts_at,timezone) : 'yyyy-mm-dd' %>
+  <% date_end = @page.ends_at ? event_to_local(@page.ends_at,timezone).loc('%Y-%m-%d') : 'yyyy-mm-dd' %>
+  <% hour_start = @page.starts_at ? event_to_local(@page.starts_at,timezone).loc('%I:%M %p') : '9:00 AM' %>
+  <% hour_end = @page.ends_at ? event_to_local(@page.ends_at,timezone).loc('%I:%M %p') : '5:00 PM' %>
   <td><%= text_field_tag 'date_start',date_start, :size => 10, :onfocus => "this.select();lcs(this)", :onclick => "event.cancelBubble=true;this.select();lcs(this)" -%>
 	  <span id="full-datetime" <%= @event.is_all_day? ? 'style="display:none"' : '' %>>
       <%= text_field_tag 'hour_start', hour_start, :size => 8 %> 

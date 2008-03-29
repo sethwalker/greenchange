@@ -1,0 +1,7 @@
+%ul.tabset.left
+  - selected = params[:action] == 'edit' && params[:controller] == 'me' ? " selected" : ""
+  %li.tab{ :class => selected }
+    = link_to 'Settings', edit_me_url, :class => "tab-link#{selected}", :style => 'background-image: url( /images/actions/settings.png );'
+  - selected = " "
+  %li.tab{ :class => selected }
+    = link_to "Profile", 'nowhere', :class => "tab-link#{selected}", :style => 'background-image: url( /images/actions/profile-private.png );'

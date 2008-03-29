@@ -1,11 +1,9 @@
 div.fieldWithErrors {
-  border: 2px solid red;
+  border-top: 2px solid red;
+  border-bottom: 2px solid red;
   display: table-cell;
-  border: 2px solid red;
-  display: table-cell; }
-  div.fieldWithErrors + div.fieldWithErrors {
-    display: none;
-    display: none; }
+  background-color: #ff9e9e;
+  padding: .5em; }
 
 input[type="hidden"] {
   display: none;

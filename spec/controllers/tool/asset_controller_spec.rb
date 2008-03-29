@@ -45,7 +45,7 @@ describe Tool::AssetController do
       controller.stub!(:authorized?).and_return(true)
       Page.should_receive(:find).with(@page.to_param).and_return(@page)
       put :update, :id => @page.to_param
-      response.redirect_url.should == asset_url(@page)
+      response.redirect_url.should == upload_url(@page)
     end
   end
 
@@ -57,7 +57,7 @@ describe Tool::AssetController do
     it 'should be successful' do
       controller.stub!(:authorized?).and_return(true)
       delete :destroy_version, :id => @page.to_param, :version => 1
-      response.redirect_url.should == asset_url(@page)
+      response.redirect_url.should == upload_url(@page)
     end
   end
 
@@ -66,12 +66,12 @@ describe Tool::AssetController do
       get :new
       User.current = nil
     end
-    it "should recognize asset_url" do
-      new_asset_path.should == '/assets/new'
+    it "should recognize upload_url" do
+      new_upload_path.should == '/uploads/new'
     end
-    it "should recognize destroy_version_asset_path" do
+    it "should recognize destroy_version_upload_path" do
       page = Tool::Asset.create(:title => 'asset')
-      destroy_version_asset_path(page, :version => 1).should == "/assets/#{page.to_param}/destroy_version?version=1"
+      destroy_version_upload_path(page, :version => 1).should == "/uploads/#{page.to_param}/destroy_version?version=1"
     end
   end
 end

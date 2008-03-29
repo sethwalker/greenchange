@@ -410,7 +410,7 @@ class Page < ActiveRecord::Base
   ## SUPPORT FOR PAGE SUBCLASSING
 
   # to be set by subclasses (ie tools)
-  class_attribute :model, :icon,
+  class_attribute :icon,
     :class_description, :class_display_name
 
   def self.icon_path

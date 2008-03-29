@@ -3,10 +3,10 @@ class Tool::TextDoc < Page
 
   #before_save :assign_name
   
-  model      Wiki
   icon       'wiki.png'
   class_display_name 'wiki'
   class_description 'A free-form text document.'
+  belongs_to :data, :class_name => 'Wiki'
    
   #def before_create
   #  self.name = self.title.nameize

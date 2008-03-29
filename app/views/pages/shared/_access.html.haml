@@ -1,7 +1,7 @@
 %h2
   owners 
 .owners
-  - @page.collections.each do |owner|
+  -# @page.collections.each do |owner|
     = link_to owner.name, 'collector_url_for(owner)', :class => 'avatar-tiny', :style => "background-image: url( #{avatar_url(owner.avatar, :size => :tiny)})"
 
 - if logged_in? and current_user.may?(:admin, @page)

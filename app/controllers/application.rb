@@ -6,14 +6,15 @@ class ApplicationController < ActionController::Base
   include PageUrlHelper
   include ContextHelper
   #include TimeHelper
+  #
 
   include PathFinder::Options
       
+  rescue_from PermissionDenied, :with => :access_denied
   # don't allow passwords in the log file.
   filter_parameter_logging "password"
   
   before_filter :pre_clean
-  around_filter :rescue_authentication_errors
   #before_filter :context
   #before_filter :assume_role, :except => :login  # after context
   around_filter :set_timezone
@@ -53,9 +54,9 @@ class ApplicationController < ActionController::Base
     elsif opts[:object]
       object = opts[:object]
       unless object.errors.empty?
-        flash.now[:error] = _("Changes could not be saved.")
+        flash.now[:error] = "Changes could not be saved."
         flash.now[:text] ||= ""
-        flash.now[:text] += "<p>#{_('There are problems with the following fields')}:</p>"
+        flash.now[:text] += "<p>#{'There are problems with the following fields'}:</p>"
         flash.now[:text] += "<ul>" + object.errors.full_messages.collect { |msg| "<li>#{msg}</li>"}.join(' ') + "</ul>"
         flash.now[:errors] = object.errors
       end
@@ -76,15 +77,10 @@ class ApplicationController < ActionController::Base
   end
 
   def set_timezone
-    TzTime.zone = logged_in? && current_user.time_zone ? TimeZone[current_user.time_zone] : TimeZone[DEFAULT_TZ]
+    TzTime.zone = TimeZone[DEFAULT_TZ]
+    TzTime.zone = TimeZone[current_user.time_zone] if logged_in? && current_user.time_zone 
     yield
     TzTime.reset!
-  end
-
-  def rescue_authentication_errors
-    yield
-  rescue PermissionDenied
-    access_denied
   end
 
   # CONTEXT USAGE

@@ -16,11 +16,20 @@ module AjaxUiHelper
 
   # load the javascript tabs.  redefine the method when you're done so it can't be called again
   def load_javascript_tabs
-    class << self; def load_javascript_tabs; end; end
+    return if @javascript_tabs_loaded
     content_for :javascript,
       jquery_javascript_includes + 
       javascript_include_tag('tabs') + 
       javascript_tag( 'Event.observe( document, "dom:loaded", function() { Crabgrass.Tabs.initialize_tab_blocks(); });' )
+    @javascript_tabs_loaded = true
+  end
+
+  def load_ajax_form_behaviors
+    return if @ajax_form_behavior_loaded
+    content_for :javascript, javascript_include_tag( 'forms' )
+    content_for :javascript_onload,  
+      'Crabgrass.Forms.initialize_radio_behavior(); Crabgrass.Forms.initialize_remote_actions();'
+    @ajax_form_behavior_loaded = true
   end
 
 

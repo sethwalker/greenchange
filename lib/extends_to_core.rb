@@ -57,6 +57,15 @@ class String
     s = Iconv.iconv(translation_to, translation_from, self).to_s
     s.titleize
   end
+
+  # placeholder method for globalize 2.0
+  def t
+    self
+  end
+  
+  def /(*args)
+    self % args
+  end
 end 
 
 class Array
@@ -133,4 +142,19 @@ class Module
      end
    end
  end
+end
+# doncha wish we had one of these?
+module LocalizedTime
+  def loc(format)
+    self.strftime(format)
+  end
+end
+class Time 
+  include LocalizedTime 
+end
+class Date
+  include LocalizedTime 
+end
+class DateTime
+  include LocalizedTime 
 end
