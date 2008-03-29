@@ -65,7 +65,7 @@ class Tool::EventController < Tool::BaseController
   end
 
   def new 
-    @page_class = Tool::Event
+    @page = Tool::Event.new :group_id => params[:group_id]
     @event = ::Event.new(:time_zone => current_user.time_zone)   
   end
 

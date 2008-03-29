@@ -57,4 +57,25 @@ describe Tool::WikiController do
       params_from(:post, "/wikis/#{@page.to_param}/break_lock").should == {:controller => 'tool/wiki', :action => 'break_lock', :id => @page.to_param}
     end
   end
+  describe "new" do
+    it "should set @page" do
+      get :new
+      assigns[:page].should be_a_kind_of(Tool::TextDoc)
+    end
+    it "should set @wiki" do
+      get :new
+      assigns[:wiki].should be_a_kind_of(Wiki)
+    end
+  end
+  describe "create" do
+    before do
+      post :create, :page => {:title => 'thetitle'}, :wiki => {:body => "thebody"}
+    end
+    it "should create page" do
+      assigns[:page].should be_valid
+    end
+    it "should create wiki" do
+      assigns[:page].data.body.should == 'thebody'
+    end
+  end
 end

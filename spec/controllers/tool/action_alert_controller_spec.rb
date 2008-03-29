@@ -31,6 +31,19 @@ describe Tool::ActionAlertController do
       response.should be_success
     end
   end
+  describe "break_lock" do
+    it "should redirect to action_url" do
+      post :break_lock, :id => @page
+      response.should redirect_to(action_url(@page))
+    end
+  end
+
+  describe "versions" do
+    it "should be successful" do
+      get :versions, :id => @page
+      response.should be_success
+    end
+  end
 
   describe "versions route" do
     it "should recognize" do

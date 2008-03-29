@@ -2,10 +2,10 @@ require 'poll/poll'
 
 class Tool::RateMany < Page
 
-  model Poll::Poll
   icon 'rate-many.png'
   class_display_name 'approval vote'
   class_description "Approve or disapprove of each possibility."
+  belongs_to :data, :class_name => 'Poll::Poll'
     
   def initialize(*args)
     super(*args)

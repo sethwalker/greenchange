@@ -23,7 +23,7 @@ describe PageUrlHelper do
     end
     it "should work for assets" do
       @page = Tool::Asset.create :title => 'title'
-      page_url(@page).should == asset_url(@page)
+      page_url(@page).should == upload_url(@page)
     end
     it "should work for events" do
       @page = Tool::Event.create :title => 'title'

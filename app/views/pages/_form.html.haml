@@ -1,0 +1,23 @@
+%table{:cellpadding => '4'}
+  %tr
+    %td{:align => 'right'}
+      %b title
+    %td= f.text_field 'title', :size => 30
+  %tr
+    %td{:align => 'right'}
+      %b summary
+    %td= f.text_area 'summary', :size => '30x3'
+  - if current_user.all_groups.any?
+    %tr
+      %td{:align => 'right'}
+        %b group
+      %td
+        = f.select 'group_id', current_user.all_groups.map {|g| [g.name, g.id]}, :include_blank => true
+  %tr
+    %td{:align => 'right'}
+      %b tags
+    %td
+      = text_field_tag 'tag_list', @page.tag_list, :size => 30
+
+- content_for :javascript do
+  = javascript_tag '$("page_title").focus();'

@@ -7,6 +7,7 @@ class ExternalMedia::Youtube < ExternalMedia::Base
   DEFAULT_HEIGHT = 355
 
   def extract_uri_from_embed(embed)
+    return unless embed
     uri = URI.extract(embed).detect {|u| (u =~ /^(https?:?\/\/)?(www.)?youtube.com\/v\/.*/)}
   end
 
