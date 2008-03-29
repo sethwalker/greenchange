@@ -1,10 +1,11 @@
 .landing.landing-group
   .person_widget.section.info
-    = avatar_for @person, 'medium'
+    = avatar_for @person, 'large'
     = link_to @person.name, person_url(@person)
   .person_widget.section.profile
     -#=render :partial => 'profile/show'
   .person_widget.section
     -#= render :partial => 'person/widgets/updates'
+    = render :partial => 'shared/pages_block', :locals => {:source => @person }
 
 
