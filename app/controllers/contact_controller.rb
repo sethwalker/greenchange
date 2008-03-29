@@ -62,7 +62,7 @@ class ContactController < ApplicationController
 
   def find_contact_request
     @contact_request = ContactRequest.find(params[:id])
-    return access_denied unless @contact_request.user == current_user
+    return access_denied unless @contact_request.contact == current_user
   end
   
   def fetch_person

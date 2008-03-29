@@ -44,7 +44,10 @@ class AssetController < ApplicationController
 
   def initialize_asset
     @asset = Asset.new params[:asset]
-    message(:error => "Invalid file") and redirect_to(:back) and return false unless @asset.valid?
+    unless @asset.valid?
+      flash[:error] = "Invalid file" 
+      redirect_to(:back) and return false
+    end
     @asset.filename = params[:asset_title]+@asset.suffix if params[:asset_title].any?
     true
   end
