@@ -1,11 +1,36 @@
 require 'google_map'
 require 'google_map_marker'
+require 'calendar_dates/month_display.rb'
+require 'calendar_dates/week.rb'
 
 class Tool::EventController < Tool::BaseController
+
+  helper :date
   helper :event_time 
 
   append_before_filter :fetch_event
   before_filter :login_required, :only => ['set_event_description', 'create', 'edit', 'new', 'update']
+
+  def day
+    load_context
+    list
+  end
+
+  def week
+    load_context
+    list
+  end
+
+  def month
+    load_context
+    list
+  end
+
+  def calendar
+    load_context
+    list
+    @month_display = MonthDisplay.new(@date)
+  end
   
   def show
     @user_participation= UserParticipation.find(:first, :conditions => {:page_id => @page.id, :user_id => current_user.id})  
@@ -163,6 +188,50 @@ class Tool::EventController < Tool::BaseController
       return current_user.may?(:admin, @page)
     else
       return true
+    end
+  end
+
+  def request_dates
+      if params[:date]
+        year = params[:date].split("-")[0].to_i
+        month = params[:date].split("-")[1].to_i
+        day = params[:date].split("-")[2].to_i
+
+        @date = Date.new(year,month, day)
+      else
+        @date = Date.today
+      end
+
+      if params[:by] == 'month'
+        start_date  = @date.beginning_of_month
+        end_date    = @date.end_of_month
+      elsif params[:by] == 'day'
+        start_date  = @date
+        end_date    = start_date
+      else # week is the default
+        start_date  = @date.beginning_of_week 
+        end_date    = @date.beginning_of_week + 6 
+      end
+
+      [start_date, end_date]
+  end
+
+  # returns array of events for the current user or group, depending on context
+  def list
+    @start_date, @end_date = request_dates
+    if @group
+      @events = @group.pages.page_type(:event).occurs_between_dates(
+        @start_date.to_s, @end_date.to_s
+      ).find(:all, :order => "pages.starts_at ASC")
+    elsif @person
+      @events = @person.pages.page_type(:event).occurs_between_dates(
+        @start_date.to_s, @end_date.to_s
+      ).find(:all, :order => "pages.starts_at ASC")
+    else
+      # TODO: will this ever be called? show public events? 
+      @events = Page.public.page_type(:event).occurs_between_dates(
+        @start_date.to_s, @end_date.to_s
+      ).find(:all, :order => "pages.starts_at ASC")
     end
   end
 end

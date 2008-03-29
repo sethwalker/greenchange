@@ -4,6 +4,7 @@ describe '/posts/_list.rhtml' do
   describe "when paginating" do
 
     before do
+      Post.destroy_all
       20.times do 
         p = Post.new :body => 'post'
         p.stub!(:group_name).and_return('grouple')
@@ -27,7 +28,7 @@ describe '/posts/_list.rhtml' do
       end
     end
 
-    it "should render pagination correctly on page 10" do
+    it "should render pagination correctly on page 5" do
       assigns[:posts] = Post.paginate(:all, :page => 5, :per_page => 2)
       template.stub_render 'posts/_post'
       render "/posts/_list"
@@ -44,7 +45,7 @@ describe '/posts/_list.rhtml' do
       end
     end
 
-    it "should render pagination correctly on page 50" do
+    it "should render pagination correctly on page 10" do
       assigns[:posts] = Post.paginate(:all, :page => 10, :per_page => 2)
       template.stub_render 'posts/_post'
       render "/posts/_list"

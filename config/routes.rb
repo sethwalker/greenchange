@@ -73,9 +73,8 @@ ActionController::Routing::Routes.draw do |map|
     parent.tools 'tools', :controller => 'tool/base', :page_type => 'tools', :action => 'index'
     parent.involvements 'involvements', :controller => 'tool/base', :page_type => 'involvements', :action => 'index'
     parent.updates 'updates', :controller => 'tool/base', :page_type => 'updates', :action => 'index'
-
     parent.resources :uploads, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
-    parent.resources :events, :controller => 'tool/event', :member => {:participate => :post, :set_event_description => :post}
+    parent.resources :events, :controller => 'tool/event', :member => {:participate => :post, :set_event_description => :post}, :collection => {:day => :get, :week => :get, :month => :get, :calendar => :get}
     parent.resources :videos, :controller => 'tool/external_video' #for now
     parent.resources :messages, :controller => 'tool/message'
     parent.resources :discussions, :controller => 'tool/discussion'
