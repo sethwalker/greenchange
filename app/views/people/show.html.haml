@@ -1,9 +1,12 @@
+- content_for :title do
+  = avatar_for @person, 'large'
+  = link_to @person.name, person_url(@person)
+  = render :partial => 'title_menu', :locals => { :target => @person }
+  
 .landing.landing-group
   .person_widget.section.info
-    = avatar_for @person, 'large'
-    = link_to @person.name, person_url(@person)
   .person_widget.section.profile
-    -#=render :partial => 'profile/show'
+    =render :partial => 'profile', :locals => { :profile => @person.profile_for( current_user ) }
   .person_widget.section
     -#= render :partial => 'person/widgets/updates'
     = render :partial => 'shared/pages_block', :locals => {:source => @person }

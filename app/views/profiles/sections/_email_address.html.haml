@@ -1,0 +1,12 @@
+.section
+  %table
+    %tr
+      %td.label{ :valign => "top" }
+        = _('Email Addresses')
+      %td.form
+        %table
+          %tbody#profile_email_addresses
+            - profile.email_addresses.each_with_index do |email_address, index|
+            = render :partial => 'email_address', :locals => { :email_address => email_address, :index => index }
+            - end
+        = add_row_link 'Add Email Address'.t, 'add_email_address'

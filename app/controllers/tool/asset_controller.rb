@@ -10,9 +10,10 @@ class Tool::AssetController < Tool::BaseController
   end
 
   def create
-    @page_class = Tool::Asset
-    @page = create_new_page(@page_class)
+    #@page_class = Tool::Asset
     @asset = Asset.new params[:asset]
+    @page_class = Tool.const_get( @asset.display_class )#page_class_from_asset( @asset ))
+    @page = create_new_page(@page_class)
     @page.data = @asset
     if @page.title.any?
       @asset.filename = @page.title + @asset.suffix

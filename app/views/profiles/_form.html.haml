@@ -1,0 +1,24 @@
+.section
+  %h2
+    General Info
+  .row
+    %p
+      = f.text_field 'first_name', 'size' => 15, 'maxlength' => 100, 'style' => 'width:100px'
+      = f.label 'first_name', "first name"
+    %p
+      = f.text_field 'middle_name', 'size' => 9, 'maxlength' => 100, 'style' => 'width:50px'
+      = f.label 'middle_name', "middle "
+    %p
+      = f.text_field 'last_name', 'size' => 15, 'maxlength' => 100, 'style' => 'width:111px'
+      = f.label 'last_name', "last"
+  .row
+    %p
+      = f.text_field 'organization', 'size' => 40, 'maxlength' => 100, 'style' => 'width:285px'
+      = f.label 'organization', "organization"
+  .row
+    %p
+      = f.text_field 'role', 'size' => 40, 'maxlength' => 100, 'style' => 'width:285px'
+      = f.label 'role', "organizational role"
+-#['description_section', 'phone_number_section', 'email_address_section', 'location_section', 'im_address_section', 'website_section', 'issues_section' ].each do |section|
+- Dir.entries("#{RAILS_ROOT}/app/views/profile").select{|f| File.file? f }.each do |section|
+  = render :partial => "sections/#{section}", :locals => {:profile => @profile, :f => f }

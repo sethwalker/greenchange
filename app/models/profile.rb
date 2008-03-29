@@ -63,10 +63,18 @@ class Profile < ActiveRecord::Base
   has_many   :websites,        :dependent => :destroy#, :order=>"preferred desc"
   has_many   :notes,           :dependent => :destroy do #, :order=>"preferred desc" do
     def [] ( note_type )
+      detect { |n| n.note_type == note_type } or
       find_or_create_by_note_type note_type.to_s
     end
   end
 
   #validates_associated :email_addresses
+  def sanitized
+    p = Profile.new 
+    p.attributes= self.attributes
+    notes.each { |n| p.notes.build n.attributes }
+    p.readonly!
+    p
+  end
 
 end

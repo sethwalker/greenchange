@@ -1,0 +1,7 @@
+.profile.new
+  = error_messages_for :profile
+  - form_for :profile,  @profile  do |f|
+    = render :partial => 'form', :locals => { :f => f }
+    %p.submit
+      = f.submit 'Create', :name => 'create', :class => 'submit'
+

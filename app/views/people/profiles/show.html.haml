@@ -1,0 +1,74 @@
+- content_for :title do
+  = avatar_for @profile.entity, 'huge'
+  %h1
+    = @profile.full_name
+  =render :partial => 'me/profiles/title_menu', :locals => { :person => @profile.entity }
+
+%div
+  = [@profile.organization, @profile.role].reject(&:blank?).join(', ')
+
+%dl
+  - unless @profile.phone_numbers.empty?
+    %dt
+      = _('Phone')
+      \:
+    - @profile.phone_numbers.each do |phone_number|
+      %dd
+        = h(phone_number.phone_number)
+        %em
+          = h(_(phone_number.phone_number_type))
+
+  - unless @profile.email_addresses.empty?
+    %dt
+      = _('Email')
+      \:
+    - @profile.email_addresses.each do |email_address|
+      %dd
+        = mail_to h(email_address.email_address)
+        %em
+          = h(_(email_address.email_type))
+
+  - unless @profile.locations.empty?
+    %dt
+      = _('Location')
+      \:
+    - @profile.locations.each do |location|
+      %dd
+        = h(location.street)
+        %em
+          = h(_(location.location_type))
+        %br/
+        = h(location.city)
+        ,
+        = h(location.state)
+        = h(location.postal_code)
+        %br
+
+  - unless @profile.im_addresses.empty?
+    %dt
+      = _('Instant Messaging')
+      \:
+    - @profile.im_addresses.each do |im|
+      %dd
+        = im.im_address
+        %em
+          = h(im.im_type)
+
+  - unless @profile.websites.empty?
+    %dt
+      = _('Websites')
+      \:
+    - @profile.websites.each do |website|
+      %dd
+        %a{ :href => "<haml:loud> website.site_url </haml:loud>", :target => "_blank" }
+          = h(website.site_title.length > 0 ? website.site_title : website.site_url)
+
+  - unless @profile.notes.empty?
+    - ProfileHelper::NOTES.each do |note_type| 
+      - next unless note = @profile.notes[ note_type] and note.body
+      %dt
+        = ProfileHelper::NOTE_TYPE_NAMES[note_type]
+        \:
+      %dd
+        = h note.body
+

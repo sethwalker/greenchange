@@ -226,6 +226,7 @@ module SocialUser
     end
 
     def may_pester?(entity)
+      return true if entity.is_a? Group
       entity.may_be_pestered_by? self
     end
 

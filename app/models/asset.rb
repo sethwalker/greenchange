@@ -23,12 +23,18 @@ class Asset < ActiveRecord::Base
     end
 
     def document?(content_type)
-      content_type.to_s =~ /^text/
+      content_type.to_s =~ /^text/ || pdf?
     end
   end
 
   [:movie, :video, :audio, :other, :pdf, :document].each do |content|
     define_method("#{content}?") { self.class.send("#{content}?", content_type) }
+  end
+
+  def display_class
+    %w[ video image audio document ].find( lambda{ raise 'unknown asset type' } ) do |type_check| 
+      send("#{type_check}?") 
+    end.classify
   end
 
   ## associations #####################################
