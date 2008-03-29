@@ -46,7 +46,7 @@ ActionController::Routing::Routes.draw do |map|
     me.network  'network', :controller => 'network'#, :me => true
     me.content  'content', :controller => 'tool/base'#, :me => true
     me.events   'events',  :controller => 'tool/event'#, :me => true
-    me.resources 'contacts', :controller => 'contacts'
+    me.resources 'contacts', :controller => 'contact', :member => { :approve => :post, :reject => :post }
   end
   #map.resource :profile, :controller => 'profiles', :path_prefix => 'me/', :name_prefix => 'my'
   map.resource :me, :controller => 'me', :member => { :dashboard => :get, :search => :get, :counts => :get, :page_list => :get, :files => :get, :tasks => :get } #do |me|
@@ -95,6 +95,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :people, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |person|
     person.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
+    person.resources 'contacts', :controller => 'contact'#, :member => { :approve => :post, :reject => :post }
     person.resources :pages
     page_routes(person)
   end

@@ -45,7 +45,7 @@ module LayoutHelper
 
   # boolean. does this page have a widened sidebar block?
   def extended_sidebar?
-    ( controller.controller_name == 'groups' and controller.action_name == 'show' )
+    ( controller.controller_name =~ /groups|people|issues/ and controller.action_name == 'show' )
   end
   
   # returns avatar divs for people or groups

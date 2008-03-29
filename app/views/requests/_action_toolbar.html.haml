@@ -1,0 +1,8 @@
+- if approval_type
+  .toolbar
+    - if approval_type == 'contacts'
+      = link_to 'approve', approve_me_contact_path(req), :method => :post, :class => 'action add'
+      = link_to 'reject',  reject_me_contact_path(req ), :method => :post, :class => 'action delete'
+    - elsif approval_type == 'groups'
+      = link_to 'approve', approve_group_membership_path(req.group, req ), :method => :post, :class => 'action add'
+      = link_to 'reject',  reject_groups_membership_path(req.group, req ), :method => :post, :class => 'action delete'

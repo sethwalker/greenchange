@@ -1,0 +1,13 @@
+- approval_type ||= false
+.page-list
+  - unless requests.any?
+    no requests
+  - else
+    - requests.each do |req|
+      %div{ :class => cycle('shade-odd','shade-even') }
+        = req.contact.login
+        = render :partial => 'action_toolbar', :locals => {:req => req, :approval_type => approval_type }
+
+  = link_to 'more &raquo;', more_requests_url
+
+
