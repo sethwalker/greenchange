@@ -175,7 +175,7 @@ class User < ActiveRecord::Base
       return private_profile || build_private_profile if person == self
       return private_profile if contacts.include? person #find :first, :conditions => ['contact_id = ?', person ]
     end
-    private_profile.sanitized
+    public_profile
   end
 
   # TODO: remove this transitional hack

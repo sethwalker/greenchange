@@ -1,17 +1,2 @@
-- if logged_in?
-  .toolbar
-    - if current_user.contacts.find( :first, :conditions => [ 'user_id = ?', target ] )
-
-      .icon
-        = link_to 'send message', new_message_url( :person_id => target.login), :class => 'action message'
-
-      - if target.online
-        .icon
-          = link_to 'chat', 'request_chat_person_url(target)', :class => 'action chat online', :title => 'Currently Online'
-
-      .offset
-        .icon
-          = link_to 'remove from my contacts', remove_me_contacts_path(target), :class => 'action delete'
-
-    - else 
-      = link_to 'add to my contacts', add_me_contacts_path(target), :class => 'action add'
+.toolbar.title-menu
+  = render :partial => 'menu', :locals => { :person => person }

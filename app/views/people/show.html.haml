@@ -1,7 +1,7 @@
 - content_for :title do
   = avatar_for @person, 'large'
   = link_to @person.name, person_url(@person)
-  = render :partial => 'title_menu', :locals => { :target => @person }
+  = render :partial => 'title_menu', :locals => { :person => @person }
   
 .landing.landing-group
   .person_widget.section.info

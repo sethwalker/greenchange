@@ -9,9 +9,11 @@ class ContactController < ApplicationController
   before_filter :find_contact_request, :only => [:requests, :approve, :reject]
   #layout 'person'  
   
-  def add
+  def new
     load_context
+    render :action => 'add'
   end
+  alias :add :new 
 
   def create
     load_context

@@ -14,7 +14,7 @@
     #top-login-form
       - form_tag :controller => 'account', :action => 'login' do
         %p
-          = link_to "Want to Sign Up?", :controller => 'account', :action => 'signup'
+          = link_to "Want to Sign Up?", signup_account_url #:controller => 'account', :action => 'signup'
         %p
           %label{ :for => "username" }
             = _("Username")

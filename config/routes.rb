@@ -46,7 +46,7 @@ ActionController::Routing::Routes.draw do |map|
     me.network  'network', :controller => 'network'#, :me => true
     me.content  'content', :controller => 'tool/base'#, :me => true
     me.events   'events',  :controller => 'tool/event'#, :me => true
-    me.resources 'contacts', :controller => 'contact', :member => { :approve => :post, :reject => :post }
+    me.resources 'contacts', :controller => 'contact', :member => { :approve => :post, :reject => :post, :add => :get }
   end
   #map.resource :profile, :controller => 'profiles', :path_prefix => 'me/', :name_prefix => 'my'
   map.resource :me, :controller => 'me', :member => { :dashboard => :get, :search => :get, :counts => :get, :page_list => :get, :files => :get, :tasks => :get } #do |me|
@@ -106,6 +106,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'pages/search/*path', :controller => 'pages', :action => 'search'
             
   map.connect '', :controller => "account"
+  map.resource :account, :controller => 'account', :member => { :signup => :get }
   map.login   'account/login',   :controller => 'account',   :action => 'login'
   map.forgot_password '/forgot_password',     :controller => 'passwords',   :action =>  'new'
   map.reset_password  '/reset_password/:id',  :controller => 'passwords',   :action =>  'edit'

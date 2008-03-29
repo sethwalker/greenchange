@@ -8,6 +8,7 @@ class MeController < ApplicationController
   def index
     redirect_to :action => 'dashboard'
   end
+  alias :show :index
     
   def search
     if request.post?
