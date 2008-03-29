@@ -64,9 +64,11 @@
 </body>
 <%= render :partial => 'shared/ie' %>
 <%= yield :javascript %>
-<script type='text/javascript'>
-  Event.observe( document, 'dom:loaded', function() {
-    <%= yield :javascript_onload %>
-  } );
-</script>
+<% if onload_script = yield( :javascript_onload )-%>
+  <script type='text/javascript'>
+    Event.observe( document, 'dom:loaded', function() {
+      <%= onload_script %>
+    } );
+  </script>
+<% end -%>
 </html>

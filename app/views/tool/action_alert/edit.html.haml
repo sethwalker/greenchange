@@ -1,10 +1,10 @@
 - @show_posts = false
-
-- form_for(:page, @page, :url => action_path(@page), :html => {:method => :put}) do |f|
-  .workarea
-    = render :partial => 'pages/form', :locals => {:f => f}
-  .formbox
-    - fields_for(:wiki, @wiki) do |wiki|
-      = render :partial => 'form', :locals => {:f => wiki}
-  = submit_tag 'Save', :name => 'save'
-  = link_to 'Cancel', break_lock_action_url(@page), :method => :post
+.edit
+  - form_for(:page, @page, :url => action_path(@page), :html => {:method => :put}) do |f|
+    .workarea
+      = render :partial => 'pages/form', :locals => {:f => f}
+    .formbox
+      - fields_for(:wiki, @wiki) do |wiki|
+        = render :partial => 'form', :locals => {:f => wiki}
+    = submit_tag 'Save', :name => 'save'
+    = link_to 'Cancel', break_lock_action_url(@page), :method => :post

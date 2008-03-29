@@ -40,17 +40,17 @@
       = link_to "Create", '/pages/new', :class => 'menu menu-top' + selected
       %ul
         %li
-          = link_to "Posts", '/pages/new?type=post', :class => 'menu'
+          = link_to "Posts", 'new_post_path', :class => 'menu'
         %li
-          = link_to "Media", '/pages/new?type=media', :class => 'menu'
+          = link_to "Media", 'new_media_path', :class => 'menu'
         %li
-          = link_to "Event", '/events/new', :class => 'menu'
+          = link_to "Event", new_event_path, :class => 'menu'
         %li
-          = link_to "Action", '/pages/new?type=action', :class => 'menu'
+          = link_to "Action", new_action_path, :class => 'menu'
         %li
-          = link_to "Discussion", '/pages/new?type=discussion', :class => 'menu'
+          = link_to "Discussion", new_discussion_path, :class => 'menu'
         %li
-          = link_to "Group", '/groups/new', :class => 'menu'
+          = link_to "Group", new_group_path, :class => 'menu'
 
     %li
       - selected = ( %w- action -.include? controller.controller_name) ? ' selected' : ''

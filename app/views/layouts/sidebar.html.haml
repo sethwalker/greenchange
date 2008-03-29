@@ -1,4 +1,4 @@
-- unless controller.controller_name =~ /account/
+- unless controller.controller_name =~ /account/ || controller.action_name == 'new'
   = render :partial => 'shared/sides/donate'
   - if @group
     = render :partial => 'groups/sides/members',  :locals => { :group => @group }
