@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1206147629) do
+ActiveRecord::Schema.define(:version => 1206830324) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -316,6 +316,8 @@ ActiveRecord::Schema.define(:version => 1206147629) do
     t.string   "created_by_login"
     t.datetime "starts_at"
     t.datetime "ends_at"
+    t.boolean  "public_edit"
+    t.boolean  "public_participate"
   end
 
   add_index "pages", ["name"], :name => "index_pages_on_name"

@@ -7,7 +7,7 @@ class ProfilesController < ApplicationController
 
   def show
     @person = params[:person_id] ?  User.find_by_login( params[:person_id] ) : current_user
-    access_denied unless @person.is_a?(AuthenticatedUser) and @profile = @person.profile_for(current_user)
+    raise PermissionDenied unless @person.is_a?(AuthenticatedUser) and @profile = @person.profile_for(current_user) 
     initialize_profile_collections
   end
 

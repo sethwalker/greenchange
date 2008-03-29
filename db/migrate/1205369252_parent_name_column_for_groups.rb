@@ -14,6 +14,6 @@ class ParentNameColumnForGroups < ActiveRecord::Migration
     Group.find(:all, :conditions => [ 'parent_name IS NOT ?', nil ]).each do |group|
       group.update_attribute :name, "#{group.parent_name}+#{group.read_attribute :name}"
     end
-    remove_column :groups, :parent_name, :string
+    remove_column :groups, :parent_name
   end
 end

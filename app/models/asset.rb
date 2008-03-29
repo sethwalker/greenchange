@@ -23,7 +23,7 @@ class Asset < ActiveRecord::Base
     end
 
     def document?(content_type)
-      content_type.to_s =~ /^text/ || pdf?
+      content_type.to_s =~ /^text/ || pdf?( content_type )
     end
   end
 
@@ -32,7 +32,7 @@ class Asset < ActiveRecord::Base
   end
 
   def display_class
-    %w[ video image audio document ].find( lambda{ raise 'unknown asset type' } ) do |type_check| 
+    %w[ video image audio document ].find( lambda{ 'Asset' } ) do |type_check| 
       send("#{type_check}?") 
     end.classify
   end

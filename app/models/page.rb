@@ -497,6 +497,14 @@ class Page < ActiveRecord::Base
     end
 
     user.superuser? ||
+  
+    # page is publicly viewable
+    ( self.public? and action == :view) ||
+
+    # page allows public actions
+    ( user.is_a?(AuthenticatedUser)  and 
+      (( self.public_edit? and action == :edit ) ||
+      ( self.public_participate? and action == :participate ) )) ||
 
     # user is page owner
     ( self.created_by == user ) ||
