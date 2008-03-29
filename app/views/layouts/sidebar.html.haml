@@ -1,6 +1,6 @@
-- unless controller.controller_name =~ /account/ || controller.action_name == 'new'
-  = render :partial => 'shared/sides/donate'
+- unless controller.controller_name =~ /account/ || controller.action_name == 'new' 
   - if @group
+    = render :partial => 'shared/sides/donate'
     = render :partial => 'groups/sides/members',  :locals => { :group => @group }
     = render :partial => 'shared/media',      :locals => { :source => @group }
     = render :partial => 'groups/sides/tools'
@@ -9,10 +9,12 @@
     -#= render :partial => 'groups/sides/chat'
 
   - if @issue
+    = render :partial => 'shared/sides/donate'
     = render :partial => 'shared/groups_large',   :locals => { :source => @issue }
     = render :partial => 'shared/media',          :locals => { :source => @issue }
 
   - if @page && !@page.new_record?
+    = render :partial => 'shared/sides/donate'
     = render :partial => 'pages/sides/contributors', :locals => { :page => @page }
     = render :partial => 'pages/sides/access', :locals => { :page => @page }
     = render :partial => 'pages/sides/tags', :locals => { :page => @page }
@@ -21,6 +23,7 @@
     = render :partial => 'pages/sides/assets', :locals => { :page => @page }
 
   - if @person
+    = render :partial => 'shared/sides/donate'
     = render :partial => 'person/sides/tools',        :locals => { :target => @person }
     = render :partial => 'shared/contacts_large',     :locals => { :source => @person }
     = render :partial => 'shared/groups_large',       :locals => { :source => @person }
@@ -28,6 +31,7 @@
     = render :partial => 'person/sides/top_pages',    :locals => { :source => @person }
 
   - if @user and logged_in?
+    = render :partial => 'shared/sides/donate'
     = render :partial => 'me/sides/inbox'
     = render :partial => 'me/sides/invite'
     = render :partial => 'shared/groups',   :locals => { :source => @user }
@@ -35,6 +39,7 @@
     = render :partial => 'shared/issues',   :locals => { :source => @user }
     
   -#- if @tag
+    = render :partial => 'shared/sides/donate'
     -#= render :partial => 'shared/groups_large',   :locals => { :source => @tag }
     -#= render :partial => 'shared/media',          :locals => { :source => @tag }
 
