@@ -8,10 +8,11 @@ class MeController < ApplicationController
   def index
     redirect_to :action => 'dashboard'
   end
+  alias :show :index
     
   def search
     if request.post?
-      return redirect_to search_me_url(:path => build_filter_path(params[:search]))
+      return redirect_to(search_me_url(:path => build_filter_path(params[:search])))
     end
 
     path = (params[:path].dup if params[:path]) || []

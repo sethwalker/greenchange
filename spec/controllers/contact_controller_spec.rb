@@ -52,7 +52,7 @@ describe ContactController do
 
   describe "approve" do
     it "should receive approved!" do
-      req = ContactRequest.new :user => @current_user
+      req = ContactRequest.new :contact => @current_user
       req.should_receive(:approve!)
       ContactRequest.should_receive(:find).with('2').and_return(req)
       post :approve, :id => 2
@@ -61,7 +61,7 @@ describe ContactController do
 
   describe "reject" do
     it "should receive reject!" do
-      req = ContactRequest.new :user => @current_user
+      req = ContactRequest.new :contact => @current_user
       req.should_receive(:reject!)
       ContactRequest.should_receive(:find).with('2').and_return(req)
       post :reject, :id => 2

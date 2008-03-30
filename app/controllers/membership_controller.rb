@@ -129,7 +129,7 @@ class MembershipController < ApplicationController
 
   def reject
     @membership_request = MembershipRequest.find(params[:id])
-    return access_denied unless @membership_request.group.allows?(current_user, :admin)
+    raise PermissionDenied unless @membership_request.group.allows?(current_user, :admin)
     if @membership_request.reject!
       message :text => 'request rejected'
       redirect_to :action => 'requests' #or ajax, or somewhere that makes sense

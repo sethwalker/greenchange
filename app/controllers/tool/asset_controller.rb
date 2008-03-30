@@ -10,9 +10,10 @@ class Tool::AssetController < Tool::BaseController
   end
 
   def create
-    @page_class = Tool::Asset
-    @page = create_new_page(@page_class)
+    #@page_class = Tool::Asset
     @asset = Asset.new params[:asset]
+    @page_class = Tool.const_get( @asset.display_class )#page_class_from_asset( @asset ))
+    @page = create_new_page(@page_class)
     @page.data = @asset
     if @page.title.any?
       @asset.filename = @page.title + @asset.suffix
@@ -20,6 +21,10 @@ class Tool::AssetController < Tool::BaseController
       @page.title = @asset.basename
     end
     if @page.save
+      @page.tag_with(params[:tag_list]) if params[:tag_list]
+      params[:issues].each do |issue_id|
+        @page.issue_identifications.create :issue_id => issue_id
+      end
       add_participants!(@page, params)
       return redirect_to(upload_url(@page))
     else

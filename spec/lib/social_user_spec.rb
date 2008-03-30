@@ -142,12 +142,20 @@ describe "SocialUser" do
       @user1 = create_valid_user :login => 'pest'
       @user2 = create_valid_user :login => 'aff'
     end
-    it "allows mutual pestering by default" do
+    it "does not allows pestering by strangers" do
+      @user1.may_pester?(@user2).should be_false
+      #@user2.may_be_pestered_by?(@user1).should be_true
+    end
+    it "only allows pestering by contacts" do
+      @user1.contacts << @user2
       @user1.may_pester?(@user2).should be_true
-      @user2.may_be_pestered_by?(@user1).should be_true
+    end
+    it "groups may be pestered by all" do
+      @group = create_valid_group
+      @user1.may_pester?(@group).should be_true
     end
     it "pestering can be stopped" do
-      pending "pestering is still globally allowed" 
+      pending "pestering is still globally allowed to contacts ( no ban list )" 
     end
   end
 

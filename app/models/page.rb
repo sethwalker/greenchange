@@ -252,6 +252,9 @@ class Page < ActiveRecord::Base
   #######################################################################
   ## RELATIONSHIP TO PAGE DATA
   
+  has_many :issue_identifications, :as => :issue_identifying, :dependent => :destroy
+  has_many :issues, :through => :issue_identifications
+
   belongs_to :data, :polymorphic => true
   has_one :discussion, :dependent => :destroy
   has_many :assets, :dependent => :destroy
@@ -497,6 +500,14 @@ class Page < ActiveRecord::Base
     end
 
     user.superuser? ||
+  
+    # page is publicly viewable
+    ( self.public? and action == :view) ||
+
+    # page allows public actions
+    ( user.is_a?(AuthenticatedUser)  and 
+      (( self.public_edit? and action == :edit ) ||
+      ( self.public_participate? and action == :participate ) )) ||
 
     # user is page owner
     ( self.created_by == user ) ||

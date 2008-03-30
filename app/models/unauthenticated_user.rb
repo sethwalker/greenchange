@@ -6,7 +6,7 @@ class UnauthenticatedUser
   def may?(action, resource)
     if self.respond_to?(method = "may_#{action}?")
       return self.send(method, resource)
-    elsif resource.respond_to :allows?
+    elsif resource.respond_to? :allows?
       return resource.allows?(self, action)
     end
 
@@ -18,7 +18,7 @@ class UnauthenticatedUser
 
     if resource.respond_to? :public?
       return resource.public?
-    elsif resource.respond_to :allows?
+    elsif resource.respond_to? :allows?
       return resource.allows?(self, action)
     end
     return false

@@ -1,0 +1,9 @@
+.section
+  %table
+    %tr
+      %td.label{ :valign => "top" }
+        = _('Issues')
+      %td.form
+        %table
+          %tbody#profile_websites
+            = issue_selector(@entity)

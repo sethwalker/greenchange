@@ -7,6 +7,9 @@ module ToolCreation
       if page.valid?
         add_participants!(page, params)
         page.tag_with(params[:tag_list]) if params[:tag_list]
+        params[:issues].each do |issue_id|
+          page.issue_identifications.create :issue_id => issue_id
+        end
       end
       page
     end
@@ -46,8 +49,10 @@ module ToolCreation
   end
   
   def get_page_type
-    raise Exception.new('page type required') unless params[:id]
-    return Page.display_name_to_class(params[:id])
+    return Page.display_name_to_class(params[:id]) if params[:id]
+    return Tool.const_get(controller_name.classify)
+  rescue
+    raise Exception.new('page type required')
   end
 
 end

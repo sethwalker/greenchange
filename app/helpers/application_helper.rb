@@ -14,9 +14,10 @@ module ApplicationHelper
   include NetworkContentHelper
   #include PathFinder::Options   # for Page.find_by_path options
     
-  #this should go away when we have working issue routes
-  def issue_url(issue)
-  	issue 
+  def issue_selector(thing_that_has_issues)
+    Issue.find(:all).inject('') do |selector, issue|
+      selector << "<label>" << check_box_tag('issues[]', issue.id, thing_that_has_issues.issues.include?(issue)) << "#{issue.name}</label>" 
+    end
   end
 
   def link_to_group(group, options = {})

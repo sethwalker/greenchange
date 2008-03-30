@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe ProfilesController, "RESTFUL" do
 
   before do
+    User.delete_all
     login_valid_user
   end
 
@@ -17,15 +18,15 @@ describe ProfilesController, "RESTFUL" do
 
     before do
       @person = create_valid_user
-      @person_id = @person.id
+      @person_id = @person.login
       #User.stub!(:find).and_return(@person)
     end
     
     #it_assigns :profile
-      it "assigns profile" do
-        act!
-        assigns[:profile].should_not be_nil
-      end
+    it "assigns profile" do
+      act!
+      assigns[:profile].should_not be_nil
+    end
     #it_renders :template, :show
     it "renders the show template" do
       act!
@@ -521,11 +522,11 @@ describe ProfilesController do
       response.should render_template( :edit )
     end
     it "should have errors on invalid items" do
-      pending "a plan for categorizing new-but-invald items on re-render"
+      #pending "a plan for categorizing new-but-invald items on re-render"
       @profile.email_addresses.delete_all
       @attributes[:new] << { :email_address => 'jorgen.com', :email_type => 'personal' }
       act!
-      @profile.email_addresses.all?(&:valid).should be_false 
+      assigns[:email_addresses].all?(&:valid?).should be_false 
     end
 
     it "should update existing items" do

@@ -16,6 +16,8 @@ Order of profile presidence (user sees the first one that matches):
 =end
 
 class Profile < ActiveRecord::Base
+  
+  after_save :save_public_version
 
   ### relationship to user or group #########################################
   
@@ -63,10 +65,20 @@ class Profile < ActiveRecord::Base
   has_many   :websites,        :dependent => :destroy#, :order=>"preferred desc"
   has_many   :notes,           :dependent => :destroy do #, :order=>"preferred desc" do
     def [] ( note_type )
+      detect { |n| n.note_type == note_type } or
       find_or_create_by_note_type note_type.to_s
     end
   end
 
   #validates_associated :email_addresses
+
+  def save_public_version
+    if friend? and entity.respond_to? :public_profile
+      public_version = entity.public_profile || entity.build_public_profile
+      public_version.attributes = self.attributes.merge( :friend => false, :stranger => true )
+      notes.each { |n| public_version.notes[n.note_type].update_attribute :body, n.body }
+      public_version.save
+    end
+  end
 
 end

@@ -9,6 +9,10 @@ class Tool::DiscussionController < Tool::BaseController
     @page.created_by = current_user
     if @page.save
       @page.tag_with(params[:tag_list]) if params[:tag_list]
+      params[:issues].each do |issue_id|
+        @page.issue_identifications.create :issue_id => issue_id
+      end
+      add_participants!(@page, params)
       redirect_to(discussion_url(@page))
     else
       message :object => @page

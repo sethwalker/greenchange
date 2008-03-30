@@ -9,9 +9,11 @@ class ContactController < ApplicationController
   before_filter :find_contact_request, :only => [:requests, :approve, :reject]
   #layout 'person'  
   
-  def add
+  def new
     load_context
+    render :action => 'add'
   end
+  alias :add :new 
 
   def create
     load_context
@@ -62,7 +64,7 @@ class ContactController < ApplicationController
 
   def find_contact_request
     @contact_request = ContactRequest.find(params[:id])
-    return access_denied unless @contact_request.user == current_user
+    raise PermissionDenied unless @contact_request.contact == current_user
   end
   
   def fetch_person

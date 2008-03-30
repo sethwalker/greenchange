@@ -14,7 +14,7 @@ class Tool::BaseController < ApplicationController
       when 'updates' 
         [:news, :blog]
       when 'media'
-        [:image, :video, :audio]
+        [:image, :video, :audio, :asset]
       when 'involvements'
         [:event, :action_alert]
       when 'tools'
@@ -26,7 +26,7 @@ class Tool::BaseController < ApplicationController
 
   def index
     load_context
-    @pages = Page.allowed(current_user).page_type( page_type ).by_group( params[:group_id]).by_issue( params[:issue_id ]).by_person( params[:person_id])
+    @pages = Page.allowed(current_user).page_type( page_type ).by_group( @group ).by_issue( params[:issue_id ]).by_person( @person )
     unless !Dir.glob( "#{RAILS_ROOT}/app/views/tool/#{page_type}/index*").empty?  and  render :action => "index" 
        render :action => '../shared/index'
     end
@@ -35,7 +35,11 @@ class Tool::BaseController < ApplicationController
   # the form to create this type of page
   # can be overridden by the subclasses
   def new 
-    @page_class = Page.display_name_to_class(params[:id])
+    @page_class ||= Tool.const_get(controller_name.classify)
+    @page = @page_class.new
+    unless !Dir.glob( "#{RAILS_ROOT}/app/views/tool/#{page_type}/new*").empty?  and  render :action => "new" 
+       render :action => "../base/new"
+    end
   end
 
   def create

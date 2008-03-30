@@ -171,9 +171,11 @@ class User < ActiveRecord::Base
 
   # returns the profile appropriate to the viewer's relationship to the user
   def profile_for( person )
-    return private_profile || build_private_profile if person == self
-    return private_profile if contacts.include? person #find :first, :conditions => ['contact_id = ?', person ]
-    public_profile
+    if person.is_a? AuthenticatedUser
+      self.private_profile ||= build_private_profile
+      return private_profile if person == self or contacts.include? person #find :first, :conditions => ['contact_id = ?', person ]
+    end
+    self.public_profile ||= build_public_profile
   end
 
   # TODO: remove this transitional hack

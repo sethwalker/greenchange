@@ -6,8 +6,8 @@ class ProfilesController < ApplicationController
   helper :profile
 
   def show
-    @person = params[:person_id] ?  User.find( params[:person_id] ) : current_user
-    access_denied unless @person.is_a?(AuthenticatedUser) and @profile = @person.profile_for(current_user)
+    @person = params[:person_id] ?  User.find_by_login( params[:person_id] ) : current_user
+    raise PermissionDenied unless @person.is_a?(AuthenticatedUser) and @profile = @person.profile_for(current_user) 
     initialize_profile_collections
   end
 
@@ -64,6 +64,11 @@ class ProfilesController < ApplicationController
         params[:notes].each do |note_type, note_params|
           @profile.notes[note_type].update_attributes!( note_params )
         end  
+    end
+  
+    if params[:issue_ids]
+      success = success &&
+        @profile.entity.update_attributes( :issue_ids => params[:issue_ids] )
     end
     
     success = success &&

@@ -1,5 +1,5 @@
 require File.dirname(__FILE__) + '/../spec_helper'
-describe ProfileHelper do
+describe ApplicationHelper do
   it "should show all available issues" do
     first = mock('first_issue', :id => 1)
     first.should_receive(:name).and_return('first issue')
