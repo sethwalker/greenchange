@@ -11,6 +11,11 @@ class Tool::EventController < Tool::BaseController
   append_before_filter :fetch_event
   before_filter :login_required, :only => ['set_event_description', 'create', 'edit', 'new', 'update']
 
+  def index
+    calendar
+    render :action => :calendar
+  end
+
   def day
     load_context
     list
