@@ -126,6 +126,7 @@ ActionController::Routing::Routes.draw do |map|
   #### RESTFUL ROUTES #######################################
   map.resources :collectings
   map.resources :collections
+
 end
 
 # debug routes

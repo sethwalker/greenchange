@@ -28,7 +28,7 @@
       \:
     - @profile.email_addresses.each do |email_address|
       %dd
-        = mail_to h(email_address.email_address)
+        = mail_to h(email_address.email_address), nil, :encode => "javascript"
         %em
           = h(_(email_address.email_type))
 

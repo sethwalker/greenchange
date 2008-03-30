@@ -1,0 +1,17 @@
+- content_for :title do
+  %h1
+    Oops, we goofed!
+
+.landing.error
+  .section
+    Do us a favor and let us know:
+    .clear
+    = mail_to "help@radicaldesigns.org", "Send a problem report", :body => "Thanks for reporting!  If you have additional information about what you were trying to do when this problem came up, please write it here:\n\n\n\n------\n Problem report by _#{logged_in? ? current_user.login : "an anonymous user"}_ from _#{request.request_uri}_. \n\n  Raised by _#{controller.class}_\n\n  The params were: _#{params.inspect}_.\n\n  The error was #{@exception.inspect}. \n\n Trace:\n #{@exception.backtrace}", :encode => "javascript"
+    -if request.env['HTTP_REFERER']
+      #go_back
+        = link_to "Go Back", request.env['HTTP_REFERER']
+    .clear
+    = image_tag 'gc/error.jpg'
+    .clear
+    = link_to 'Credit: markwitton', 'http://flickr.com/photos/markwitton/504177622/', :target => 'top', :class => 'external license-by-sa'
+
