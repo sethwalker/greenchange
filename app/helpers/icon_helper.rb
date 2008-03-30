@@ -13,11 +13,13 @@ module IconHelper
 
   def html_options_for_icon_of( item, html_options = {} )
     item_type = ''
-    %w[ Page Issue ].each do |type_check|
-      item_type = type_check.downcase if item.is_a?( Object.const_get(type_check) )
-      RAILS_DEFAULT_LOGGER.debug "### checking type #{type_check} for #{item.name} type #{item_type}" 
-      custom_options = "html_options_for_icon_of_#{item_type}"
-      html_options.merge!( send( custom_options, item, html_options )) if respond_to? custom_options
+    %w[ Page Issue Group User ].each do |type_check|
+      if item.is_a?( Object.const_get(type_check) )
+        item_type = type_check.downcase 
+        #RAILS_DEFAULT_LOGGER.debug "### checking type #{type_check} for #{item.name} type #{item_type}" 
+        custom_options = "html_options_for_icon_of_#{item_type}"
+        html_options.merge!( send( custom_options, item, html_options )) if respond_to? custom_options
+      end
     end
     size_option = html_options.delete(:size) || 'standard'
     new_class = [ (html_options[:class] ||= ''), "icon", item_type, size_option.to_s ]
@@ -41,6 +43,20 @@ module IconHelper
 
   def html_options_for_icon_of_issue( issue, html_options ={} )
     html_options[:class] = [ (html_options[:class]||''), issue.name.downcase.gsub(' ', '-') ].join(' ').strip
+    html_options
+  end
+
+  def html_options_for_icon_of_user( user, html_options ={} )
+    html_options.merge html_options_for_avatar( group, html_options )
+  end
+
+  def html_options_for_icon_of_group( group, html_options ={} )
+    html_options.merge html_options_for_avatar( group, html_options )
+  end
+
+  def html_options_for_avatar( item, html_options ={} )
+    avatar_size_option = html_options[:avatar_size] || html_options[:size] || 'standard'
+    html_options[:style] = [ (html_options[:style]||nil), "background-image: url(#{ avatar_url( :id => ( item.avatar || 0 ), :size => avatar_size_option )})"].compact.join(';')
     html_options
   end
 
