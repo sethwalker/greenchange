@@ -1,23 +1,22 @@
 module IconHelper
 
-  # supplies default css for page icons by type
+  # supplies default css for icons by type
   # includes a dynamic background image for page types that should have one
+  # returns a div with styling as dictated by html_options_for_icon_for
   def icon_for(item, html_options = {})
-    content_tag 'div', '&nbsp;', html_options_for_icon_of(item, html_options )
-    #return icon_for_page(item, html_options) if item.is_a? Page
-    #return icon_for_issue(item, html_options) if item.is_a? Issue
+    content_tag 'div', '&nbsp;', html_options_for_icon_for(item, html_options )
   end
 
-  def icon_for_page( page, html_options = {} )
-  end
-
-  def html_options_for_icon_of( item, html_options = {} )
+  # returns a hash of html options to add an icon to the element to which they are applied
+  def html_options_for_icon_for( item, html_options = {} )
     item_type = ''
-    %w[ Page Issue ].each do |type_check|
-      item_type = type_check.downcase if item.is_a?( Object.const_get(type_check) )
-      RAILS_DEFAULT_LOGGER.debug "### checking type #{type_check} for #{item.name} type #{item_type}" 
-      custom_options = "html_options_for_icon_of_#{item_type}"
-      html_options.merge!( send( custom_options, item, html_options )) if respond_to? custom_options
+    %w[ Page Issue Group User ].each do |type_check|
+      if item.is_a?( Object.const_get(type_check) )
+        item_type = type_check.downcase 
+        #RAILS_DEFAULT_LOGGER.debug "### checking type #{type_check} for #{item.name} type #{item_type}" 
+        custom_options = "extra_html_options_for_icon_for_#{item_type}"
+        html_options.merge!( send( custom_options, item, html_options )) if respond_to? custom_options
+      end
     end
     size_option = html_options.delete(:size) || 'standard'
     new_class = [ (html_options[:class] ||= ''), "icon", item_type, size_option.to_s ]
@@ -26,22 +25,15 @@ module IconHelper
 
   end
 
-  def html_options_for_icon_of_page( page, html_options ={} )
-    html_options[:class] = [ (html_options[:class] || ''), css_page_type(page) ].join(' ').strip
-    if custom_icon_url = ( ( icon_url_for_image( page ) or icon_url_for_youtube( page )))
-      html_options[:style] = "background-image: url( #{custom_icon_url});"
-      html_options[:class] << " youtube-thumbnail" if icon_url_for_youtube page 
-    end
+  def html_options_for_avatar_for( item, html_options ={} )
+    avatar_size_option = html_options[:avatar_size] || html_options[:size] || 'standard'
+    html_options[:style] = [ (html_options[:style]||nil), "background-image: url(#{ avatar_url( :id => ( item.avatar || 0 ), :size => avatar_size_option )})"].compact.join(';')
     html_options
   end
 
-  def css_class_for_icon_of( item, html_options = {} )
-    html_options_for_icon_of(item, html_options )[:class]
-  end
-
-  def html_options_for_icon_of_issue( issue, html_options ={} )
-    html_options[:class] = [ (html_options[:class]||''), issue.name.downcase.gsub(' ', '-') ].join(' ').strip
-    html_options
+  # returns a css class to add an icon to the applied element
+  def css_class_for_icon_for( item, html_options = {} )
+    html_options_for_icon_for(item, html_options )[:class]
   end
 
   # returns the url for the image thumbnail if the page is an image
@@ -72,5 +64,28 @@ module IconHelper
       'page'
     end
   end
+
+  protected
+    def extra_html_options_for_icon_for_page( page, html_options ={} )
+      html_options[:class] = [ (html_options[:class] || ''), css_page_type(page) ].join(' ').strip
+      if custom_icon_url = ( ( icon_url_for_image( page ) or icon_url_for_youtube( page )))
+        html_options[:style] = "background-image: url( #{custom_icon_url});"
+        html_options[:class] << " youtube-thumbnail" if icon_url_for_youtube page 
+      end
+      html_options
+    end
+
+    def extra_html_options_for_icon_for_issue( issue, html_options ={} )
+      html_options[:class] = [ (html_options[:class]||''), issue.name.downcase.gsub(' ', '-') ].join(' ').strip
+      html_options
+    end
+
+    def extra_html_options_for_icon_for_user( user, html_options ={} )
+      html_options.merge html_options_for_avatar_for( group, html_options )
+    end
+
+    def extra_html_options_for_icon_for_group( group, html_options ={} )
+      html_options.merge html_options_for_avatar_for( group, html_options )
+    end
 
 end

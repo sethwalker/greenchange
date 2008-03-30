@@ -18,7 +18,8 @@ class Avatar < FlexImage::Model
       when 'xsmall'; '22x22'
       when 'small' ; '32x32'
       when 'medium'; '48x48'
-      when 'large' ; '64x64'
+      when 'standard'; '64x64'
+      when 'large' ; '96x96'
       else; '96x96'
     end
   end

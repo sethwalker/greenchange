@@ -1,7 +1,4 @@
 .group-profile
-  = avatar_for @group, 'huge'
-  %p
-    = h @group.summary
   %ul.plainlist
     %li
       Members:
@@ -14,8 +11,10 @@
     - unless @group.issues.empty?
       %li
         Issues:
-        = render :partial => 'shared/issue_icon', :collection => @group.issues
+        = render :partial => 'shared/icon/issue', :collection => group.issues
     - unless @group.tags.empty?
       %li
         Tags:
         = @group.tags.map { |tag| render :partial => 'shared/tag', :locals => { :tag => tag } }.join(', ')
+  .clear
+  = simple_format @group.summary
