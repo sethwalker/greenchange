@@ -30,6 +30,17 @@
         body.ie6 &
           :width = !main_column_wideside_width - 120px - !ie_padding_offset
 
+  .column,
+  .column .section
+    :float left
+    :width = !main_column_width / 2
+      body.ie6 &
+        :width = ( !main_column_width - !ie_padding_offset ) / 2
+      #main.wideside &
+        :width = ( !main_column_wideside_width ) / 2
+        body.ie6 &
+          :width = ( !main_column_wideside_width - !ie_padding_offset ) / 2
+
   .list-item
     :margin-bottom 12px
     :padding 4px 4px 4px 4px
