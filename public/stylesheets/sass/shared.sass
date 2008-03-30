@@ -9,13 +9,16 @@
     :padding-top 10px
     :width 300px
     :float left
-    :margin .25em 0 0 0
+    :margin 3px
   .title-menu
     :padding 1em
     :margin-top 1em
     :float left
+  .section
+    :float left
 
 .landing
+  :float left
   .section .list-item
     :background-image none
     .list-description
@@ -40,6 +43,7 @@
         :width = !main_column_wideside_width - !ie_padding_offset - 8px
 
   .section
+    :float left
     :width = !main_column_width
     body.ie6 &
       :width = !main_column_width - !ie_padding_offset

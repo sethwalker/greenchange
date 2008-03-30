@@ -22,6 +22,7 @@ class PeopleController < ApplicationController
   end
 
   def list
+    load_context
     if logged_in?
       @contacts = current_user.contacts
       @peers = current_user.peers

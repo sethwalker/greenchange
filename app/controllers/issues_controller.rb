@@ -1,10 +1,11 @@
 class IssuesController < ApplicationController
-  before_filter { raise PermissionDenied unless action_name =~ /show|index/ }
 
   def show
+    @issue = Issue.find_by_name params[:id].gsub '-', ' '
   end
 
   def index
+    load_context
   end
 
 

@@ -1,12 +1,15 @@
 - content_for :title do
   = avatar_for @profile.entity, 'huge'
-  %h1
-    = @profile.full_name
-  = render :partial => 'shared/icons/issue', :collection => @profile.entity.issues
+  .section
+    %h1
+      = @profile.full_name
+    .section.clear
+      .icon-only.issues
+        = render :partial => 'shared/icons/issue', :collection => @profile.entity.issues
+      .section.clear
+        = [@profile.organization, @profile.role].reject(&:blank?).join(', ')
   =render :partial => 'me/profiles/title_menu', :locals => { :person => @profile.entity }
 
-%div
-  = [@profile.organization, @profile.role].reject(&:blank?).join(', ')
 
 %dl
   - unless @profile.phone_numbers.empty?
