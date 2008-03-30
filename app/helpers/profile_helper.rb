@@ -59,10 +59,4 @@ module ProfileHelper
     tag_id = options.has_key?(:id) ? options[:id] : name
     content_tag :select, option_tags, { "name" => name, "id" => tag_id }.update(options.stringify_keys)
   end
-
-  def issue_selector(thing_that_has_issues)
-    Issue.find(:all).inject('') do |selector, issue|
-      selector << "<label>" << check_box_tag('issues[]', issue.id, thing_that_has_issues.issues.include?(issue)) << "#{issue.name}</label>" 
-    end
-  end
 end

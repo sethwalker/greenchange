@@ -35,7 +35,11 @@ class Tool::BaseController < ApplicationController
   # the form to create this type of page
   # can be overridden by the subclasses
   def new 
-    @page_class = Page.display_name_to_class(params[:id])
+    @page_class ||= Tool.const_get(controller_name.classify)
+    @page = @page_class.new
+    unless !Dir.glob( "#{RAILS_ROOT}/app/views/tool/#{page_type}/new*").empty?  and  render :action => "new" 
+       render :action => "../base/new"
+    end
   end
 
   def create

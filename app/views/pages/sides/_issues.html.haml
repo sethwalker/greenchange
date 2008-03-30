@@ -1,0 +1,5 @@
+.sidesection
+  .sidehead
+    issues
+  .sideline
+    = @page.issues.collect {|issue| link_to issue.name, issue_url(issue)} * " "

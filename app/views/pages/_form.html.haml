@@ -12,6 +12,9 @@
     %p
       = text_field_tag 'tag_list', @page.tag_list, :size => 30
       = f.label 'tags', 'tags'
+    %p
+      = issue_selector(@page)
+      = f.label 'issues', 'issues'
 
 - content_for :javascript do
   = javascript_tag '$("page_title").focus();'

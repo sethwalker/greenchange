@@ -252,6 +252,9 @@ class Page < ActiveRecord::Base
   #######################################################################
   ## RELATIONSHIP TO PAGE DATA
   
+  has_many :issue_identifications, :as => :issue_identifying, :dependent => :destroy
+  has_many :issues, :through => :issue_identifications
+
   belongs_to :data, :polymorphic => true
   has_one :discussion, :dependent => :destroy
   has_many :assets, :dependent => :destroy
