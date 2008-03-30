@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1206147629) do
+ActiveRecord::Schema.define(:version => 1206835544) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -158,7 +158,16 @@ ActiveRecord::Schema.define(:version => 1206147629) do
     t.boolean "is_all_day",       :default => false
     t.boolean "is_cancelled",     :default => false
     t.boolean "is_tentative",     :default => true
-    t.string  "location"
+    t.string  "address1"
+    t.string  "address2"
+    t.string  "city"
+    t.string  "state"
+    t.string  "postal_code"
+    t.string  "country"
+    t.text    "directions"
+    t.string  "time_zone"
+    t.float   "latitude"
+    t.float   "longitude"
   end
 
   create_table "external_medias", :force => true do |t|
@@ -307,6 +316,8 @@ ActiveRecord::Schema.define(:version => 1206147629) do
     t.string   "created_by_login"
     t.datetime "starts_at"
     t.datetime "ends_at"
+    t.boolean  "public_edit"
+    t.boolean  "public_participate"
   end
 
   add_index "pages", ["name"], :name => "index_pages_on_name"

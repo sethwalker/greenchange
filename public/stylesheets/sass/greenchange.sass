@@ -7,42 +7,141 @@
     :height 80px
     :display block
 
-.icon.big
-  :height 80px
-  :width 80px
+.icon.large, 
+.icon.small, 
+.icon.standard
   :display block
   :float left
   :background no-repeat top left
+  :height 64px
+  :width 64px
+
+.icon.large
+  :height 92px
+  :width 92px
+
+.icon.small
+  :height 32px
+  :width 32px
 
 .icon.youtube-thumbnail
   :background-position -25px -8px
 
-.icon.asset
+.icon.page.asset
   :background-image url(/images/gc/icons/pages/standard/asset.png)
 .icon.page
   :background-image url(/images/gc/icons/pages/standard/wiki.png)
-.icon.discussion
+.icon.page.discussion
   :background-image url(/images/gc/icons/pages/standard/discussion.png)
-.icon.event
+.icon.page.event
   :background-image url(/images/gc/icons/pages/standard/event.png)
-.icon.gallery
+.icon.page.gallery
   :background-image url(/images/gc/icons/pages/standard/gallery.png)
-.icon.news
+.icon.page.news
   :background-image url(/images/gc/icons/pages/standard/news.png)
-.icon.video
+.icon.page.video
   :background-image url(/images/gc/icons/pages/standard/video.png)
-.icon.image
+.icon.page.image
   :background-image url(/images/gc/icons/pages/standard/image.png)
-.icon.audio
+.icon.page.audio
   :background-image url(/images/gc/icons/pages/standard/audio.png)
-.icon.action-alert
+.icon.page.action-alert
   :background-image url(/images/gc/icons/pages/standard/action_alert.png)
-.icon.poll
+.icon.page.poll
   :background-image url(/images/gc/icons/pages/standard/poll.png)
-.icon.wiki
+.icon.page.wiki
   :background-image url(/images/gc/icons/pages/standard/wiki.png)
-.icon.blog
-  :background-image url(/images/gc/icons/pages/standard/blog.jpg)
+.icon.page.blog
+  :background-image url(/images/gc/icons/pages/standard/blog.png)
+
+!issue_icon_path = "/images/gc/icons/issues/"
+!issue_icon_file = "corporate_power.gif"
+.icon.issue.corporate-power
+  &.small
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + ")"
+  &.large
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + ")"
+
+!issue_icon_file = "climate_crisis.gif"
+.icon.issue.climate-crisis
+  &.small
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + ")"
+  &.large
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + ")"
+
+!issue_icon_file = "economic_justice.gif"
+.icon.issue.economic-justice
+  &.small
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + ")"
+  &.large
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + ")"
+
+!issue_icon_file = "environment.gif"
+.icon.issue.environment
+  &.small
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + ")"
+  &.large
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + ")"
+
+!issue_icon_file = "human_rights.gif"
+.icon.issue.human-rights
+  &.small
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + ")"
+  &.large
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + ")"
+
+!issue_icon_file = "politics.gif"
+.icon.issue.politics
+  &.small
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + ")"
+  &.large
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + ")"
+
+!issue_icon_file = "social_justice.gif"
+.icon.issue.social-justice
+  &.small
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + ")"
+  &.large
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + ")"
+
+!issue_icon_file = "war_and_peace.gif"
+.icon.issue.war-and-peace
+  &.small
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + ")"
+  &.large
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + ")"
+
+.edit
+  .issues
+    input
+      :float left
+    label.icon.small
+      :padding 1px 
+      :font-size 12px
+      :padding-left 28px
+      :width auto
+      :display block
+      :float left
+    .column
+      :width 150px
+      :float left
+
 
 .donate
   :text-align center

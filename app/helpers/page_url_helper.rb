@@ -6,7 +6,9 @@ module PageUrlHelper
     url_helper = case page
     when Tool::Video
       'video_url'
-    when Tool::Asset, Tool::Blog, Tool::News, Tool::Event, Tool::Message
+    when Tool::Asset
+      'asset_url'
+    when Tool::Blog, Tool::News, Tool::Event, Tool::Message
       "#{page.class.to_s.demodulize.underscore}_url"
     when Tool::TextDoc
       'wiki_url'
