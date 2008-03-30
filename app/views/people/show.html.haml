@@ -2,6 +2,7 @@
   = avatar_for @person, 'large'
   = link_to @person.name, person_url(@person)
   = render :partial => 'title_menu', :locals => { :person => @person }
+  = render :partial => 'shared/icons/issue', :collection => @person.issues
   
 .landing.landing-group
   .person_widget.section.info

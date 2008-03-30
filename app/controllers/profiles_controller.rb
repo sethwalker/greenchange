@@ -65,6 +65,11 @@ class ProfilesController < ApplicationController
           @profile.notes[note_type].update_attributes!( note_params )
         end  
     end
+  
+    if params[:issue_ids]
+      success = success &&
+        @profile.entity.update_attributes( :issue_ids => params[:issue_ids] )
+    end
     
     success = success &&
       [ :email_addresses, :im_addresses, :phone_numbers ].all? do |collection| 

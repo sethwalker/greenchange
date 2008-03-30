@@ -2,6 +2,7 @@
   = avatar_for @profile.entity, 'huge'
   %h1
     = @profile.full_name
+  = render :partial => 'shared/icons/issue', :collection => @profile.entity.issues
   =render :partial => 'me/profiles/title_menu', :locals => { :person => @profile.entity }
 
 %div

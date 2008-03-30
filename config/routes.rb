@@ -102,6 +102,12 @@ ActionController::Routing::Routes.draw do |map|
 
   map.people 'people/:action/:id', :controller => 'people'
   map.connect 'person/:action/:id/*path', :controller => 'person'
+
+  map.resources :issues do |issue|
+    issue.resources :people
+    issue.resources :groups
+    page_routes( issue )
+  end
   
   map.connect 'pages/search/*path', :controller => 'pages', :action => 'search'
             

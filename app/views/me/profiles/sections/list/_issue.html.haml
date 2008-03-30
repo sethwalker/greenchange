@@ -3,11 +3,10 @@
     Issues
   .behavior-block
     - entries ||= []
-    - Issue.find(:all).each_with_index do |current_issue, index|
-      - entries[index] = render :partial => 'me/profiles/sections/issue', :locals => { :issue => current_issue, :profile => profile }
+    - all_issues = Issue.find(:all)
         
     .column
-      = entries[0..3].join
+      = render :partial => 'me/profiles/sections/issue', :locals => { :profile => profile }, :collection => all_issues[0, (all_issues.size/2)]
     .column
-      = entries[4..8].join
+      = render :partial => 'me/profiles/sections/issue', :locals => { :profile => profile }, :collection => all_issues[(all_issues.size/2),all_issues.size]
     
