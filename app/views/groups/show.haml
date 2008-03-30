@@ -2,9 +2,8 @@
   .group-title
     = icon_for( @group, :size => 'large' ) 
     %h1
+      = render :partial => 'title_menu', :locals => { :group => @group }
       = @group.name
-    = render :partial => 'title_menu', :locals => { :group => @group }
-    .title-menu
     =render :partial => 'groups/widgets/info', :locals => { :group => @group }
 
 
