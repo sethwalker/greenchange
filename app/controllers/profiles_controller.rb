@@ -114,7 +114,7 @@ class ProfilesController < ApplicationController
   private
     def fetch_profile
       if params[:group_id]
-        @entity = @group = Group.find(params[:group_id])
+        @entity = @group = Group.find_by_name(params[:group_id])
         @profile = @group.profile
       else
         @entity = @user = current_user

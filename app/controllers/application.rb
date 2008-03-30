@@ -40,6 +40,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def rescue_action_in_public(*args)
+    @exception = args.shift
+    render :file => 'shared/problem_report', :use_full_path => true, :layout => true, :status => :not_found 
+  end
+
 
   # a one stop shopping function for flash messages
   def message(opts)    
@@ -90,6 +95,7 @@ class ApplicationController < ActionController::Base
     @tag =   Tag.find_by_name  params[:tag_id]    if params[:tag_id]
     @person= User.find_by_login params[:person_id] if params[:person_id]
   end
+
 
     
 end
