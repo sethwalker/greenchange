@@ -1,13 +1,2 @@
-.toolbar.title-menu
-  -if current_user.may? :admin, person
-    .offset-row.admin
-      .icon
-        = link_to 'Edit', edit_me_profile_url, :class => 'action edit'
-    .clear
-  -else
-    - unless current_user.contacts.include? person
-      .icon
-        = link_to 'Add to Contacts', new_me_contact_url( :person_id => person ), :class => 'action add add-contact'
-    - if current_user.may_pester? person
-      .icon
-        = link_to 'Invite to Group', 'invite_person_membership_url(person)', :class => 'action add invite'
+.toolbar.title_menu
+  = render :partial => 'menu', :locals => { :group => group }
