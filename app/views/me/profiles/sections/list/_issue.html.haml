@@ -2,11 +2,10 @@
   %h2
     Issues
   .behavior-block
-    - entries ||= []
     - all_issues = Issue.find(:all)
         
     .column
-      = render :partial => 'me/profiles/sections/issue', :locals => { :profile => profile }, :collection => all_issues[0, (all_issues.size/2)]
+      = render :partial => 'me/profiles/sections/issue', :locals => { :profile => profile }, :collection => column_1_of_2(all_issues)
     .column
-      = render :partial => 'me/profiles/sections/issue', :locals => { :profile => profile }, :collection => all_issues[(all_issues.size/2),all_issues.size]
+      = render :partial => 'me/profiles/sections/issue', :locals => { :profile => profile }, :collection => column_2_of_2(all_issues)
     
