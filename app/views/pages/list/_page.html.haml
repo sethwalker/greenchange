@@ -1,6 +1,6 @@
 %li.list-item.page
   .list-thumb
-    = link_to icon_for(page), page_url(page), :class => 'icon'
+    = link_to icon_for(page), page_url(page)#, :class => 'icon'
   .list-description
     %h3
       = link_to page.title, page_url(page) 

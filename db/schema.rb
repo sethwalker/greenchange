@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1206830324) do
+ActiveRecord::Schema.define(:version => 1206835544) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"

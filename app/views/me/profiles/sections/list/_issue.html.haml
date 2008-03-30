@@ -1,0 +1,13 @@
+.section.issues
+  %h2
+    Issues
+  .behavior-block
+    - entries ||= []
+    - Issue.find(:all).each_with_index do |current_issue, index|
+      - entries[index] = render :partial => 'me/profiles/sections/issue', :locals => { :issue => current_issue, :profile => profile }
+        
+    .column
+      = entries[0..3].join
+    .column
+      = entries[4..8].join
+    
