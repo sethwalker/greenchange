@@ -50,7 +50,7 @@ ActionController::Routing::Routes.draw do |map|
     parent.resources :events, :controller => 'tool/event', :member => {:participate => :post, :set_event_description => :post}, :collection => {:day => :get, :week => :get, :month => :get, :calendar => :get}
     parent.resources :videos, :controller => 'tool/external_video' #for now
     parent.resources :audio, :controller => 'tool/audio'
-    parent.resources :images, :controller => 'tool/image' 
+    parent.resources :photos, :controller => 'tool/image' 
     parent.resources :messages, :controller => 'tool/message'
     parent.resources :discussions, :controller => 'tool/discussion'
     parent.resources :polls, :controller => 'tool/ranked_vote', :member => {:add_possible => :post, :sort => :post, :update_possible => :put, :edit_possible => :get, :destroy_possible => :destroy}
@@ -93,7 +93,6 @@ ActionController::Routing::Routes.draw do |map|
   #end
   
   #map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|calendar|search/
-
 
   map.resources :groups, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |group|
     group.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
