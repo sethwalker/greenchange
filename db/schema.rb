@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(:version => 1206835544) do
   add_index "assets", ["page_id"], :name => "index_assets_page_id"
 
   create_table "avatars", :force => true do |t|
-    t.binary  "data",   :default => "",    :null => false
+    t.binary  "data"
     t.boolean "public", :default => false
   end
 
@@ -91,9 +91,9 @@ ActiveRecord::Schema.define(:version => 1206835544) do
     t.integer  "created_by"
     t.integer  "position"
     t.string   "collectable_type"
-    t.string   "permission"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "permission"
   end
 
   create_table "collections", :force => true do |t|
@@ -222,8 +222,8 @@ ActiveRecord::Schema.define(:version => 1206835544) do
   add_index "im_addresses", ["profile_id"], :name => "im_addresses_profile_id_index"
 
   create_table "issue_identifications", :force => true do |t|
-    t.integer "issue_id",               :default => 0,  :null => false
-    t.integer "issue_identifying_id",   :default => 0,  :null => false
+    t.integer "issue_id",                               :null => false
+    t.integer "issue_identifying_id",                   :null => false
     t.string  "issue_identifying_type", :default => "", :null => false
   end
 
@@ -266,8 +266,8 @@ ActiveRecord::Schema.define(:version => 1206835544) do
   create_table "memberships", :force => true do |t|
     t.integer  "group_id"
     t.integer  "user_id"
-    t.integer  "page_id"
     t.datetime "created_at"
+    t.integer  "page_id"
     t.string   "role",       :limit => 20, :default => "member"
   end
 
@@ -355,6 +355,11 @@ ActiveRecord::Schema.define(:version => 1206835544) do
   end
 
   add_index "phone_numbers", ["profile_id"], :name => "phone_numbers_profile_id_index"
+
+  create_table "plugin_schema_info", :force => true do |t|
+    t.datetime "created_at"
+    t.string   "plugin_name"
+  end
 
   create_table "polls", :force => true do |t|
     t.string "type"
