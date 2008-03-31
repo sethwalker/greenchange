@@ -2,7 +2,7 @@
   %li.tab
     = link_to 'People', group_memberships_url(@group), selected_if( request.url == group_memberships_url(@group))
   %li.tab
-    = link_to 'News &amp; Blogs', group_updates_url(@group), selected_if( params[:page_type] == 'updates' )
+    = link_to 'Blogs &amp; News', group_updates_url(@group), selected_if( params[:page_type] == 'updates' )
   %li.tab
     = link_to 'Events &amp; Actions', group_involvements_url(@group), selected_if( params[:page_type] == 'involvements' )
   %li.tab

@@ -39,6 +39,11 @@ class PagesController < ApplicationController
   ##############################################################
   ## PUBLIC ACTIONS
   
+  def index
+    load_context
+    @pages = Page.allowed(current_user).by_group( @group ).by_issue( params[:issue_id ]).by_person( @person )
+  end
+  
   def search
     unless @pages
       if logged_in?

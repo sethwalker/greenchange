@@ -1,0 +1,14 @@
+%ul.tabset.top
+  %li.tab
+    = link_to 'Contacts', person_contacts_url(@person), selected_if( request.url == person_contacts_url(@person))
+  %li.tab
+    = link_to 'Groups', person_memberships_url(@person), selected_if( request.url == person_memberships_url(@person))
+  %li.tab
+    = link_to 'Blogs &amp; News', person_updates_url(@person), selected_if( params[:page_type] == 'updates' )
+  %li.tab
+    = link_to 'Events &amp; Actions', person_involvements_url(@person), selected_if( params[:page_type] == 'involvements' )
+  %li.tab
+    = link_to 'Media', person_media_url(@person), selected_if( params[:page_type] == 'media' )
+  %li.tab
+    = link_to 'Discuss', person_tools_url(@person), selected_if( params[:page_type] == 'tools' )
+

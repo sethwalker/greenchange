@@ -7,7 +7,7 @@
     = link_to 'Network', me_network_url , :class => 'tab-link' + selected
   %li.tab
     - selected = ( controller.action_name == 'search' )   ? ' selected' : ''
-    = link_to 'Content', me_content_url, :class => 'tab-link' + selected
+    = link_to 'Content', me_pages_url, :class => 'tab-link' + selected
   %li.tab
     - selected = ( controller.action_name == 'search' )   ? ' selected' : ''
     = link_to 'Events', me_events_url, :class => 'tab-link' + selected

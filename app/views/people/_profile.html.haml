@@ -1,8 +1,8 @@
 .section.profile
   - for note in profile.notes
-    - next unless note.body
-    .note_title
-      = ProfileHelper::NOTE_TYPE_NAMES[ note.note_type ]
-    = simple_format( truncate( note.body, 150 )) if note.body
+    -unless note.body.blank?
+      .note_title
+        = ProfileHelper::NOTE_TYPE_NAMES[ note.note_type ]
+      = simple_format( truncate( note.body, 150 )) if note.body
   .toolbar
     = link_to 'View Full Profile', person_profile_url( profile.entity )
