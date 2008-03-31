@@ -17,22 +17,18 @@ class Tool::EventController < Tool::BaseController
   end
 
   def day
-    load_context
     list
   end
 
   def week
-    load_context
     list
   end
 
   def month
-    load_context
     list
   end
 
   def calendar
-    load_context
     list
     @month_display = MonthDisplay.new(@date)
   end
