@@ -84,10 +84,44 @@ describe Page do
       @page.tag_list.should include("soup")
     end
     it "can update tags with tag_list=" do
-      @page.tags.should be_empty
       @page.tag_list= "rag tag"
       @page.save
       @page.tag_list.should =~ /rag/
+    end
+    it "should fail to save if tag save fails" do
+      @page.should_receive(:taggable?).and_raise('an error')
+      @page.tag_list= "rag"
+      @page.should_not be_valid
+    end
+    it "should update tags with tag_list= on a page with tags" do
+      @page.save
+      @page.tag_with "rag tag"
+      @page = Page.find @page
+      @page.tag_list= "dig dug"
+      @page.save
+      @page.tag_list.should =~ /dig/
+      @page.tag_list.should_not =~ /rag/
+    end
+  end
+
+  describe "when adding issues" do
+    before do
+      @issue = create_issue
+    end
+    it "should save issues with issue_ids= on a new page" do
+      @page.issue_ids= [@issue.id]
+      @page.save
+      @page = Page.find @page
+      @page.issues.should include(@issue)
+    end
+    it "should replace issues with issue_ids= on a existing page" do
+      @page.save
+      @page.issues << (issue = create_issue)
+      @page.issue_ids = [@issue.id]
+      @page.save
+      @page = Page.find(@page)
+      @page.issues.should_not include(issue)
+      @page.issues.should include(@issue)
     end
   end
 

@@ -269,15 +269,24 @@ class Page < ActiveRecord::Base
     @new_tags = tag_list
   end
 
+  validate :validate_new_tags
+  def validate_new_tags
+    return true unless @new_tags
+    begin
+      taggable?(true)
+      tag_cast_to_string(@new_tags)
+    rescue Exception => e
+      errors.add("tag_list", e.message)
+    end
+  end
+
   after_save :update_tags
   def update_tags
     tag_with @new_tags if @new_tags
-    true
   end
 
   def issue_ids=(new_issue_ids)
     if new_record?
-      issue_identifications.clear
       new_issue_ids.each {|issue_id| issue_identifications.build :issue_id => issue_id }
     else
       @new_issues = new_issue_ids
@@ -288,9 +297,8 @@ class Page < ActiveRecord::Base
   def update_issues
     if @new_issues
       issue_identifications.clear
-      issues = Issue.find @new_issues
+      issues << Issue.find(@new_issues)
     end
-    true
   end
 
   has_many :issue_identifications, :as => :issue_identifying, :dependent => :destroy
