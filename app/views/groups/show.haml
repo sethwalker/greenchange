@@ -4,12 +4,12 @@
     %h1
       = render :partial => 'title_menu', :locals => { :group => @group }
       = @group.name
-    =render :partial => 'groups/widgets/info', :locals => { :group => @group }
+    =render :partial => 'info', :locals => { :group => @group }
 
 
 .landing.landing-group
-  .group_widget.section.promo
-    = render :partial => 'groups/widgets/promo'
-  .group_widget.section
-    = render :partial => 'groups/widgets/updates'
+  .section.promo
+    = render :partial => 'pages/shared/promo',  :locals => {:source => @group }
+  .section
+    = render :partial => 'pages/shared/main',   :locals => {:source => @group }
 

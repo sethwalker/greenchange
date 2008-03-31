@@ -81,7 +81,7 @@ module IconHelper
     end
 
     def extra_html_options_for_icon_for_user( user, html_options ={} )
-      html_options.merge html_options_for_avatar_for( group, html_options )
+      html_options.merge html_options_for_avatar_for( user, html_options )
     end
 
     def extra_html_options_for_icon_for_group( group, html_options ={} )
