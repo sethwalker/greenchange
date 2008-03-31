@@ -77,6 +77,8 @@ ActionController::Routing::Routes.draw do |map|
     parent.resources :uploads, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
     parent.resources :events, :controller => 'tool/event', :member => {:participate => :post, :set_event_description => :post}, :collection => {:day => :get, :week => :get, :month => :get, :calendar => :get}
     parent.resources :videos, :controller => 'tool/external_video' #for now
+    parent.resources :audio, :controller => 'tool/audio'
+    parent.resources :images, :controller => 'tool/image' 
     parent.resources :messages, :controller => 'tool/message'
     parent.resources :discussions, :controller => 'tool/discussion'
     parent.resources :polls, :controller => 'tool/ranked_vote', :member => {:add_possible => :post, :sort => :post, :update_possible => :put, :edit_possible => :get, :destroy_possible => :destroy}
@@ -112,7 +114,16 @@ ActionController::Routing::Routes.draw do |map|
   end
   
   map.connect 'pages/search/*path', :controller => 'pages', :action => 'search'
-            
+  
+  map.new_media 'pages/new/media', :controller => 'pages', :action => 'new_media'       
+  map.new_post 'pages/new/post', :controller => 'pages', :action => 'new_post'       
+  map.new_tool 'pages/new/tool', :controller => 'pages', :action => 'new_tool'       
+  map.new_action 'pages/new/action', :controller => 'pages', :action => 'new_action'    
+
+  map.takeaction 'takeaction', :controller => 'tool/action_alert', :action => 'landing'
+  
+  
+     
   map.connect '', :controller => "account"
   map.resource :account, :controller => 'account', :member => { :signup => :get }
   map.login   'account/login',   :controller => 'account',   :action => 'login'

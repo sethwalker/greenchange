@@ -1,0 +1,13 @@
+%h2 Media
+.section
+  =link_to icon_for(Tool::Video.new), new_video_url
+  %h4
+    =link_to 'Video', new_video_url   
+.section
+  =link_to icon_for(Tool::Image.new), new_upload_url
+  %h4
+    =link_to 'Photos', new_upload_url
+.section
+  =link_to icon_for(Tool::Audio.new), new_upload_url
+  %h4
+    =link_to 'Audio', new_upload_url

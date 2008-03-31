@@ -151,7 +151,19 @@ class PagesController < ApplicationController
   def participation
     
   end
+ 
+  def new_media
+  end
   
+  def new_action
+  end
+  
+  def new_tool
+  end
+  
+  def new_post 
+	end 
+	
   def history
   
   end
@@ -234,6 +246,7 @@ class PagesController < ApplicationController
     @page.destroy
     redirect_to me_url
   end
+
 
   protected
   

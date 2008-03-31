@@ -6,6 +6,8 @@ class IssuesController < ApplicationController
 
   def index
     load_context
+    @issues = Issue.find :all
   end
+
 
 end

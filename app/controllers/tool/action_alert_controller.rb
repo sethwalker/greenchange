@@ -41,6 +41,9 @@ class Tool::ActionAlertController < Tool::WikiController
     redirect_to action_url(@page)
   end
 
+  def landing
+  end
+  
   protected
   
   def save_edits
@@ -72,5 +75,6 @@ class Tool::ActionAlertController < Tool::WikiController
     action_url(page)
   end
   
+
 end
 
