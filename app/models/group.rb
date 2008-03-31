@@ -78,6 +78,8 @@ class Group < ActiveRecord::Base
     end
   end
 
+  has_finder :by_issue, lambda {|*issues| issues.any? ? {:include => :issue_identifications, :conditions => ["issue_identifications.issue_id in(?)", issues]} : {} }
+
   belongs_to :avatar
   has_one :public_profile, :as => 'entity', :dependent => :destroy, :conditions => ["stranger = ?", true], :class_name => 'Profile'
   def profile
@@ -87,17 +89,6 @@ class Group < ActiveRecord::Base
   def page
     profile.create_wiki
   end
-  
-  has_many :tags, :finder_sql => %q[
-    SELECT DISTINCT tags.* FROM tags INNER JOIN taggings ON tags.id = taggings.tag_id
-    WHERE taggings.taggable_type = 'Page' AND taggings.taggable_id IN
-      (SELECT pages.id FROM pages INNER JOIN group_participations ON pages.id = group_participations.page_id
-      WHERE group_participations.group_id = #{id})],
-    :counter_sql => %q[
-    SELECT COUNT(*) FROM tags INNER JOIN taggings ON tags.id = taggings.tag_id
-    WHERE taggings.taggable_type = 'Page' AND taggings.taggable_id IN
-      (SELECT pages.id FROM pages INNER JOIN group_participations ON pages.id = group_participations.page_id
-      WHERE group_participations.group_id = #{id})]
   
   # name stuff
   def to_param; name; end
@@ -133,15 +124,31 @@ class Group < ActiveRecord::Base
     admins.map(&:user_id)
   end
 
-  has_many :admins, :through => :memberships,
-           :conditions => ["role = 'administrator'"], :source => :user
-
-  has_many :users, :through => :memberships do
-    def <<(*dummy)
-      raise Exception.new("don't call << on group.users");
+  has_many :admin_memberships, 
+           :conditions => ["role = 'administrator'"], :class_name => 'Membership', :after_add => :set_admin_role do
+  end
+  has_many :admins, :through => :admin_memberships, :source => :user do
+    def << ( *args )
+      args.map { |new_member| @owner.admin_memberships.create :user => new_member }
     end
   end
+
+  def set_admin_role(membership)
+    membership.update_attribute :role, :administrator
+  end
+
+  has_many :users, :through => :memberships do
+    #def <<(*dummy)
+    #  raise Exception.new("don't call << on group.users");
+    #end
+  end
   alias :members :users
+  alias :people :users
+
+  has_finder :by_person, lambda {|*people|  
+    people.any? ? { :include => :memberships, :conditions => [ "memberships.user_id in(?)", people ]  } : {}
+    }
+
   
   def user_ids
     @user_ids ||= memberships.collect{|m|m.user_id}
@@ -225,6 +232,24 @@ class Group < ActiveRecord::Base
     page.groups.delete(self)
     page.changed :groups
   end
+  
+  has_many :tags, :finder_sql => %q[
+    SELECT DISTINCT tags.* FROM tags INNER JOIN taggings ON tags.id = taggings.tag_id
+    WHERE taggings.taggable_type = 'Page' AND taggings.taggable_id IN
+      (SELECT pages.id FROM pages INNER JOIN group_participations ON pages.id = group_participations.page_id
+      WHERE group_participations.group_id = #{id})],
+    :counter_sql => %q[
+    SELECT COUNT(*) FROM tags INNER JOIN taggings ON tags.id = taggings.tag_id
+    WHERE taggings.taggable_type = 'Page' AND taggings.taggable_id IN
+      (SELECT pages.id FROM pages INNER JOIN group_participations ON pages.id = group_participations.page_id
+      WHERE group_participations.group_id = #{id})]
+
+  has_many :taggings, :through => :pages
+
+  #results from this one are read-only
+  has_finder :by_tag, lambda{|*tags| tags.any? ? { :include => [:pages, :participations], :joins => 
+      "RIGHT JOIN taggings on ( taggings.taggable_id = pages.id or taggings.taggable_id = group_participations.page_id )", :conditions => ["taggings.tag_id in (?)", tags] } : {} }
+  
   
   # the group is responsible for a given user's membership
   def membership_for(user)

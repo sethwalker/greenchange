@@ -421,4 +421,116 @@ describe Page do
       Page.find(@page).data.should be_a_kind_of(ActionAlert)
     end
   end
+
+  describe "find by_person" do
+    before do
+      @page = create_valid_page
+      @user = create_valid_user
+      @grantor = create_valid_group
+    end 
+
+    it "should find created_by pages" do
+      @page.created_by_id = @user.id
+      @page.save
+      Page.by_person(@user).find(:all).should include(@page)
+    end
+
+    it "should find granted pages" do
+      Permission.grant( :view, @page, @grantor, @user )
+      Page.by_person(@user).should include(@page)
+    end
+  
+    it "should find bookmarked pages" do
+      @user.bookmarks.create! :page => @page
+      Page.by_person(@user).should include(@page)
+    end
+  
+    it "accepts a nil value and returns no criteria" do
+      Page.by_person(@brody).should include(@page)
+    end
+
+    it "accepts multiple users" do
+      user2 = create_valid_user
+      user3 = create_valid_user
+      Permission.grant( :view, @page, @grantor, user3 )
+      Page.by_person( @user, user2, user3 ).should include(@page)
+      
+    end
+  end
+
+  describe "find by_group" do
+    before do
+      @page = create_valid_page
+      @user = create_valid_user
+      @group = create_valid_group
+    end 
+
+    it "should find created_by pages" do
+      @page.group_id = @group.id
+      @page.save
+      Page.by_group(@group).find(:all).should include(@page)
+    end
+
+    it "should find granted pages" do
+      Permission.grant( :view, @page, @user, @group )
+      Page.by_group(@group).should include(@page)
+    end
+
+    it "accepts a nil value and returns no criteria" do
+      Page.by_group(@nihilists).should include(@page)
+    end
+
+    it "accepts multiple groups" do
+      group2 = create_valid_group
+      group3 = create_valid_group
+      Permission.grant( :view, @page, @user, group2 )
+      Page.by_group( @group, group2, group3).should include(@page)
+    end
+
+  
+  end
+
+  describe "find by_tag" do
+    before do
+      @user = create_valid_user
+      @tag = Tag.create :name => "netneutrality"
+      @page = create_valid_page
+      @page.tags << @tag
+    end 
+
+    it "should find pages by tag" do
+      Page.by_tag(@tag).should include( @page )
+    end
+
+    it "should not find other pages" do
+      tag2 = Tag.create :name => "net-knitting"
+      Page.by_tag(tag2).should_not include( @page )
+      
+    end
+  end
+  describe "find by_issue" do
+    before do
+      @page = create_valid_page
+      @issue = Issue.create :name => 'Open Access'
+    end
+
+    it "should find pages identified with the issue" do
+      @page.issues << @issue
+      Page.by_issue(@issue).should include(@page)
+    end
+    it "should find not find other pages" do
+      issue2 = Issue.create :name => 'Tubes'
+      Page.by_issue(@issue).should_not include(@page)
+    end
+
+    it "should accept nil values and return no criteria" do
+      Page.by_issue(@stevens).should include(@page)
+    end
+
+    it "should accept multiple targets" do
+      issue2 = Issue.create :name => 'Tubes'
+      @page.issues << issue2
+      Page.by_issue(@issue, issue2).should include(@page)
+    end
+  end
 end
