@@ -1,0 +1,13 @@
+%h2 Organize and Discuss
+.section
+  =link_to icon_for(Tool::Discussion.new), new_discussion_url
+  %h4
+    =link_to 'Discussion', new_discussion_url   
+.section
+  =link_to icon_for(Tool::RankedVote.new), new_poll_url
+  %h4
+    =link_to 'Poll', new_poll_url
+.section
+  =link_to icon_for(Tool::TaskList.new), new_task_url
+  %h4
+    =link_to 'Task List', new_task_url

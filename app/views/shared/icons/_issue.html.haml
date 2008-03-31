@@ -1,2 +1,2 @@
 .icon.small
-  = link_to issue.name, issue_url(issue), :class => css_class_for_icon_of(issue, :size => 'small' ), :title => issue.name
+  = link_to issue.name, issue_url(issue), html_options_for_icon_for(issue, :size => 'small', :title => issue.name )

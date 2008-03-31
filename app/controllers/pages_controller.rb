@@ -39,6 +39,11 @@ class PagesController < ApplicationController
   ##############################################################
   ## PUBLIC ACTIONS
   
+  def index
+    load_context
+    @pages = Page.allowed(current_user).by_group( @group ).by_issue( params[:issue_id ]).by_person( @person )
+  end
+  
   def search
     unless @pages
       if logged_in?
@@ -151,7 +156,19 @@ class PagesController < ApplicationController
   def participation
     
   end
+ 
+  def new_media
+  end
   
+  def new_action
+  end
+  
+  def new_tool
+  end
+  
+  def new_post 
+	end 
+	
   def history
   
   end
@@ -234,6 +251,7 @@ class PagesController < ApplicationController
     @page.destroy
     redirect_to me_url
   end
+
 
   protected
   

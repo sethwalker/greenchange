@@ -1,21 +1,14 @@
 - content_for :title do
   .group-title
-    -#= avatar_for @group, 'medium'
-    %h1.avatar.medium{ :style => "background-image: url(#{ avatar_url( :id => @group.avatar, :size => 'medium')});" }
-      = link_to_group @group
-    .title-menu
-      - if current_user.member_of? @group
-        = link_to "Join Chat", "chat_url( @group )", :class => 'action chat'
-        = link_to "Leave", "group_membership_url( @group.membership_for current_user )", :method => :delete, :class => 'action delete'
-      - else 
-        = link_to "Join", "new_group_membership_url( @group )", :class => 'action join'
-    .group_widget.section.profile
-      =render :partial => 'groups/widgets/info'
-
+    = icon_for( @group, :size => 'large' ) 
+    %h1
+      = render :partial => 'title_menu', :locals => { :group => @group }
+      = @group.name
+    = render :partial => 'info', :locals => { :group => @group }
 
 .landing.landing-group
-  .group_widget.section.promo
-    = render :partial => 'groups/widgets/promo'
-  .group_widget.section
-    = render :partial => 'groups/widgets/updates'
+  .section.promo
+    = render :partial => 'pages/shared/promo',  :locals => {:source => @group }
+  .section
+    = render :partial => 'pages/shared/main',   :locals => {:source => @group }
 

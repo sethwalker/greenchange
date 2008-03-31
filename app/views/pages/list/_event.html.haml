@@ -1,0 +1,30 @@
+%li.list-item.event
+  .list-thumb
+    = link_to icon_for(event), event_url(event)#, :class => 'icon'
+  .list-description
+    %h3
+      = link_to event.title, event_url(event) 
+    %p.blurb
+      = event.summary
+    %p.location
+      = event.data.city
+      = event.data.state
+    .byline
+      .label
+        Posted By:
+      = link_to_user(event.created_by)
+    .date
+      = event.starts_at
+    %ul.event-attachments
+      - unless event.tags.empty?
+        %li
+          .label
+            Tags:
+          = render :partial => 'shared/tag', :collection => event.tags
+      -# unless event.issues.empty?
+        %li
+          .label
+            Issues:
+          -#= render :partial => 'shared/issue', :collection => event.issues
+
+

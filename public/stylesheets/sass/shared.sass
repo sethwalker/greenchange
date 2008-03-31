@@ -30,6 +30,17 @@
         body.ie6 &
           :width = !main_column_wideside_width - 120px - !ie_padding_offset
 
+  .column,
+  .column .section
+    :float left
+    :width = !main_column_width / 2
+    body.ie6 &
+      :width = ( !main_column_width - !ie_padding_offset ) / 2
+    #main.wideside &
+      :width = ( !main_column_wideside_width ) / 2
+      body.ie6 &
+        :width = ( !main_column_wideside_width - !ie_padding_offset ) / 2
+
   .list-item
     :margin-bottom 12px
     :padding 4px 4px 4px 4px
@@ -255,6 +266,8 @@ ul.tab-block, #titlebox
       :background-image url(/images/actions/announce.png)  
     .delete
       :background-image url(/images/actions/minus.png)  
+    .chat
+      :background-image url(/images/actions/bullhorn.png)  
   .add, .new
     :background-position 2px 2px
     :background-image url(/images/actions/plus.png)  
@@ -265,3 +278,7 @@ ul.tab-block, #titlebox
     :background-repeat no-repeat 
     &:hover
       :background-color = !toolbar_bg_hover
+
+a.icon.standard.name-bottom
+  :padding-top 64px
+  :height 20px

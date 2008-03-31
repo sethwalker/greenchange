@@ -1,0 +1,13 @@
+%h2 Posts
+.section
+  =link_to icon_for(Tool::Blog.new), new_blog_url
+  %h4
+    =link_to 'Blog', new_blog_url   
+.section
+  =link_to icon_for(Tool::News.new), new_news_url
+  %h4
+    =link_to 'News', new_news_url
+.section
+  =link_to icon_for(Tool::TextDoc.new), new_wiki_url
+  %h4
+    =link_to 'Wiki', new_wiki_url

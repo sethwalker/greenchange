@@ -2,7 +2,7 @@
   .section
     .header
       Featured Members
-    = render :partial => 'avatars/boxes', :locals => {:people => group.users, :side => "left"}
+    = render :partial => 'shared/list/person', :collection => featured_users(group)
     %br.clear
     .link-line
       = link_to 'view all', group_memberships_url(group), :class => 'first'

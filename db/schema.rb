@@ -230,7 +230,8 @@ ActiveRecord::Schema.define(:version => 1206835544) do
   add_index "issue_identifications", ["issue_id", "issue_identifying_id", "issue_identifying_type"], :name => "index_issue_identifications", :unique => true
 
   create_table "issues", :force => true do |t|
-    t.string "name", :default => "", :null => false
+    t.string "name",        :default => "", :null => false
+    t.text   "description"
   end
 
   add_index "issues", ["name"], :name => "index_issues_on_name", :unique => true

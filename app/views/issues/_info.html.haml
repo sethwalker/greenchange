@@ -1,0 +1,9 @@
+.summary
+  = simple_format issue.description
+%dl.plainlist
+  %dt Number of Supporters:
+  %dd 
+    = link_to issue.users.count, issue_people_url(issue)
+  %dt Groups Working on this:
+  %dd 
+    = link_to issue.groups.count, issue_groups_url(issue)

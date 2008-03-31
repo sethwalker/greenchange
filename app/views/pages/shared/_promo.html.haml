@@ -1,0 +1,5 @@
+- unless featured_pages(source).empty?
+  %h2
+    Featured Content
+  %ul.promos
+    = render :partial => 'pages/list/page', :locals => { :page => featured_pages(source).first}

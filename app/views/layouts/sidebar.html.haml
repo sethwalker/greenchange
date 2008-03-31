@@ -10,8 +10,9 @@
 
   - if @issue
     = render :partial => 'shared/sides/donate'
-    = render :partial => 'shared/groups_large',   :locals => { :source => @issue }
-    = render :partial => 'shared/media',          :locals => { :source => @issue }
+    = render :partial => 'shared/sides/featured/people',    :locals => { :source => @issue }
+    = render :partial => 'shared/groups_large',             :locals => { :source => @issue }
+    = render :partial => 'shared/media',                    :locals => { :source => @issue }
 
   - if @page && !@page.new_record?
     = render :partial => 'shared/sides/donate'
@@ -30,7 +31,7 @@
     = render :partial => 'shared/media',              :locals => { :source => @person }
     = render :partial => 'person/sides/top_pages',    :locals => { :source => @person }
 
-  - if @user and logged_in?
+  - if @me 
     = render :partial => 'shared/sides/donate'
     = render :partial => 'me/sides/inbox'
     = render :partial => 'me/sides/invite'
