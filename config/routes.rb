@@ -76,6 +76,7 @@ ActionController::Routing::Routes.draw do |map|
     me.inbox    'inbox',   :controller => 'inbox', :action => 'index'
     me.network  'network', :controller => 'network'#, :me => true
     me.events   'events',  :controller => 'tool/event'#, :me => true
+    me.content  'pages', :controller => 'tool/base'
     me.resources 'contacts', :controller => 'contact', :member => { :approve => :post, :reject => :post, :add => :get }
     me.resources :people
     me.resources :groups   

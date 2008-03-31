@@ -20,7 +20,7 @@ class GroupsController < ApplicationController
     :only => [:create, :update, :destroy]
 
   def index
-    @groups = Group.by_person(( @me || @person)).by_issue(@issue).by_tag(@tag)
+    @groups = Group.allowed( current_user, :view ).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag)
     #set_banner "groups/banner_search", Style.new(:background_color => "#1B5790", :color => "#eef")
   end
 

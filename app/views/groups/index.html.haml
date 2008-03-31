@@ -1,17 +1,21 @@
 %h1 Groups
--if logged_in?
-  = link_to_icon 'Create a new group', 'actions/plus.png', :action => 'new' 
-.clear
-%h3 My groups
-.workarea
-  -if current_user.groups
-    =render :partial => 'group', :collection => current_user.groups
+.landing.groups
+  -if logged_in?
+    = link_to_icon 'Create a new group', 'actions/plus.png', :action => 'new' 
     .clear
-  -else
-    You have no groups
+
+  - unless @me
+    - groups_overlapping = current_user.groups & @groups
+    - if groups_overlapping
+      -# CONTEXT_USAGE
+      %h3 
+        = scoped_by_context? ? "Groups you share" : "My groups"
+      .workarea
+        =render :partial => 'group', :collection => ( current_user.groups | @groups )
+        .clear
+      .clear    
+
+  %h3 Groups
+  .workarea
+    =render :partial => 'group', :collection => @groups
     .clear
-.clear    
-%h3 All groups
-.workarea
-  =render :partial => 'group', :collection => @groups.select {|g| g.publicly_visible_group }
-  .clear
