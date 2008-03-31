@@ -66,11 +66,24 @@ class Page < ActiveRecord::Base
     }
 
   has_finder :by_group, lambda {|*groups|
-    groups.any? ? { :conditions => [ 'group_id in (?)', groups ] } : {}
+    is_owner = "pages.group_id in (?)"
+    is_grantee = "( permissions.grantee_type = 'Group' and permissions.grantee_id in (?))"
+    groups.any? ? { :include => :permissions, :conditions => [ [ is_owner, is_grantee].join(' OR '), groups, groups ] } : {}
   }
  
-  has_finder :by_issue, {} #lambda {|*issues| }
-  has_finder :by_person, {} #lambda {|*people| }
+  has_finder :by_issue, lambda {|*issues| issues.any? ? {:include => :issue_identifications, :conditions => ["issue_identifications.issue_id in(?)", issues]} : {} }
+
+  has_finder :by_person, lambda {|*people|  
+    is_owner = "pages.created_by_id in (?)"
+    is_grantee = "( permissions.grantee_type = 'User' and permissions.grantee_id in (?))"
+    has_bookmark = "bookmarks.user_id in(?)"
+    people.any? ? { :include => [:permissions,:bookmarks], :conditions => [ [ is_grantee, is_owner, has_bookmark ].compact.join(' OR '), people, people, people ]  } : {}
+    }
+
+  has_finder :by_tag, lambda {|*tags|
+    tags.any? ?
+      { :include => :taggings, :conditions => ["taggings.tag_id in(?)", tags] } : {}
+  }
 
   has_finder :in_network,
     lambda {|user| {:include => [:group_participations, :user_participations], :conditions => ["user_participations.user_id = ? OR group_participations.group_id IN (?)", user.id, user.all_group_ids]}}
