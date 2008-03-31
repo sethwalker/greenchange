@@ -1,0 +1,5 @@
+%h1 Your Contacts
+-if @contacts
+  =render :partial => 'user', :collection => @contacts
+-else
+  You have no contacts

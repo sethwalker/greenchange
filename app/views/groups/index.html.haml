@@ -1,0 +1,17 @@
+%h1 Groups
+-if logged_in?
+  = link_to_icon 'Create a new group', 'actions/plus.png', :action => 'new' 
+.clear
+%h3 My groups
+.workarea
+  -if current_user.groups
+    =render :partial => 'group', :collection => current_user.groups
+    .clear
+  -else
+    You have no groups
+    .clear
+.clear    
+%h3 All groups
+.workarea
+  =render :partial => 'group', :collection => @groups.select {|g| g.publicly_visible_group }
+  .clear
