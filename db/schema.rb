@@ -478,7 +478,7 @@ ActiveRecord::Schema.define(:version => 1206835544) do
   end
 
   add_index "tasks", ["task_list_id"], :name => "index_tasks_task_list_id"
-  add_index "tasks", ["task_list_id", "completed_at", "position"], :name => "index_tasks_completed_positions"
+  add_index "tasks", ["task_list_id", "position"], :name => "index_tasks_completed_positions"
 
   create_table "tasks_users", :id => false, :force => true do |t|
     t.integer "user_id"
