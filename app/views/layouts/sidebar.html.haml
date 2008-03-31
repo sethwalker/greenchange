@@ -10,6 +10,7 @@
 
   - if @issue
     = render :partial => 'shared/sides/donate'
+    = render :partial => 'shared/sides/featured/people',   :locals => { :source => @issue }
     = render :partial => 'shared/groups_large',   :locals => { :source => @issue }
     = render :partial => 'shared/media',          :locals => { :source => @issue }
 

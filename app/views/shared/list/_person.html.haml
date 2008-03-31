@@ -1,0 +1,3 @@
+.icon{ :class => (person.online?? 'online':'')}
+  = link_to icon_for( person, :size => (size||'standard') ) + person.name, person_url(person)
+

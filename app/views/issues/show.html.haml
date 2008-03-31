@@ -1,11 +1,11 @@
-= icon_for( @issue,:size => 'large' )
-Hi, 
-= @issue.name
--#.landing.landing-issue
-  .issue_widget.section.profile
-    =render :partial => 'issues/widgets/info'
+- content_for :title do
+  = icon_for( @issue,:size => 'large' )
+  %h1
+    = @issue.name
+  = render :partial => 'info', :locals => { :issue => @issue }
+ 
+.landing.landing-issue
   .issue_widget.section.promo
-    = render :partial => 'issues/widgets/promo'
+    = render :partial => 'pages/shared/promo',  :locals => { :source => @issue }
   .issue_widget.section
-    = render :partial => 'issues/widgets/updates'
-
+    = render :partial => 'pages/shared/main',   :locals => { :source => @issue }

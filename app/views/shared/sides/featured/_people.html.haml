@@ -1,0 +1,5 @@
+- unless featured_users(source).empty?
+  .section
+    .header
+      Featured Members
+    = render :partial => 'shared/list/person', :collection => featured_users(source)
