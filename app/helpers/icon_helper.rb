@@ -53,11 +53,11 @@ module IconHelper
   def css_page_type(page)
     css_class = page.class.name.demodulize.underscore.to_sym
 
-    translations = { :wiki => [ :text_doc ], :video => [ :external_video ] }
+    translations = { :wiki => [ :text_doc ], :video => [ :external_video ], :poll => [:ranked_vote] }
     translated_page_type = translations.detect { | css, tool_types | css if tool_types.include? css_class }.first
     css_class = translated_page_type if translated_page_type
 
-    allowed_types = [ :asset, :page, :news, :video, :action_alert, :wiki, :blog ]
+    allowed_types = [ :asset, :page, :news, :video, :action_alert, :wiki, :blog, :event, :gallery, :image, :audio, :poll, :discussion, :task_list, :petition ]
     if allowed_types.include? css_class
       css_class.to_s.gsub('_', '-')
     else

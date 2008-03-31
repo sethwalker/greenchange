@@ -1,6 +1,5 @@
-- if source.contacts.any?
-  .sidesection
-    .sidehead
-      Contacts
-    = render :partial => 'avatars/boxes', :locals => {:people => source.contacts, :side => 'left'}
-    %br.clear
+.section
+  .header
+    Contacts 
+  = render :partial => 'shared/list/person', :collection => source.contacts.find( :all, :limit => 6 )
+  = link_to "view all", person_contacts_url(source)

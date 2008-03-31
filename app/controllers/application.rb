@@ -15,7 +15,7 @@ class ApplicationController < ActionController::Base
   filter_parameter_logging "password"
   
   before_filter :pre_clean
-  #before_filter :context
+  before_filter :load_context
   #before_filter :assume_role, :except => :login  # after context
   around_filter :set_timezone
   session :session_secure => true if Crabgrass::Config.https_only
@@ -90,10 +90,14 @@ class ApplicationController < ActionController::Base
 
   # CONTEXT USAGE
   def load_context
-    @group = Group.find_by_name params[:group_id] if params[:group_id]
-    @issue = Issue.find_by_name params[:issue_id].gsub( '-', ' ') if params[:issue_id]
-    @tag =   Tag.find_by_name  params[:tag_id]    if params[:tag_id]
-    @person= User.find_by_login params[:person_id] if params[:person_id]
+    @group ||= Group.find_by_name params[:group_id] if params[:group_id]
+    @issue ||= Issue.find_by_name params[:issue_id].gsub( '-', ' ') if params[:issue_id]
+    @tag ||=   Tag.find_by_name  params[:tag_id]    if params[:tag_id]
+    @person ||= User.find_by_login params[:person_id] if params[:person_id]
+    if logged_in?
+      @me ||= current_user if request.request_uri =~ /^\/me/ 
+      @user ||= current_user 
+    end
   end
 
 

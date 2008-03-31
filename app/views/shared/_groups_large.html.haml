@@ -2,5 +2,6 @@
   .section
     .header
       Groups
-    = render :partial => 'avatars/boxes', :locals => {:groups => source.groups, :side => 'left'}
+    = render :partial => 'shared/list/group', :collection => source.groups.find( :all, :limit => 6 )
+    -#= render :partial => 'avatars/boxes', :locals => {:groups => source.groups, :side => 'left'}
 

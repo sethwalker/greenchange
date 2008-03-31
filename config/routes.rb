@@ -70,6 +70,7 @@ ActionController::Routing::Routes.draw do |map|
       wikis.resources :blogs, :controller => 'tool/blog'
       wikis.resources :news, :controller => 'tool/news'
     end
+
     parent.media 'media', :controller => 'tool/base', :page_type => 'media', :action => 'index'
     parent.tools 'tools', :controller => 'tool/base', :page_type => 'tools', :action => 'index'
     parent.involvements 'involvements', :controller => 'tool/base', :page_type => 'involvements', :action => 'index'
@@ -78,7 +79,7 @@ ActionController::Routing::Routes.draw do |map|
     parent.resources :events, :controller => 'tool/event', :member => {:participate => :post, :set_event_description => :post}, :collection => {:day => :get, :week => :get, :month => :get, :calendar => :get}
     parent.resources :videos, :controller => 'tool/external_video' #for now
     parent.resources :audio, :controller => 'tool/audio'
-    parent.resources :images, :controller => 'tool/image' 
+    parent.resources :photos , :controller => 'tool/image' 
     parent.resources :messages, :controller => 'tool/message'
     parent.resources :discussions, :controller => 'tool/discussion'
     parent.resources :polls, :controller => 'tool/ranked_vote', :member => {:add_possible => :post, :sort => :post, :update_possible => :put, :edit_possible => :get, :destroy_possible => :destroy}
@@ -86,7 +87,7 @@ ActionController::Routing::Routes.draw do |map|
     parent.resources :tasks, :controller => 'tool/tasklist', :member => {:sort => :post, :create_task => :post, :mark_task_complete => :post, :mark_task_pending => :post, :destroy_task => :destroy, :update_task => :put, :edit_task => :get}
   end
 
-  map.resources :groups, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |group|
+    map.resources :groups, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |group|
     group.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
     group.resource :profile, :controller => 'group/profiles'
     group.resources :pages
