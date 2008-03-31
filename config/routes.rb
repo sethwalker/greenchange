@@ -31,6 +31,36 @@ ActionController::Routing::Routes.draw do |map|
   
   #map.connect 'me/inbox/*path', :controller => 'inbox', :action => 'index'
   #map.connect 'me/search/*path', :controller => 'me', :action => 'search'
+
+
+  # this method adds the scope of an existing route to the page controllers
+  def page_routes(parent)
+    parent.with_options :member => {:version => :get, :versions => :get, :diff => :get, :break_lock => :post, :print => :get} do |wikis|
+      wikis.resources :wikis, :controller => 'tool/wiki'
+      wikis.resources :actions, :controller => 'tool/action_alert'
+      wikis.resources :blogs, :controller => 'tool/blog'
+      wikis.resources :news, :controller => 'tool/news'
+    end
+    parent.media 'media', :controller => 'tool/media', :page_type => 'media', :action => 'index'
+    parent.tools 'tools', :controller => 'tool/tools', :page_type => 'tools', :action => 'index'
+    parent.involvements 'involvements', :controller => 'tool/involvements', :page_type => 'involvements', :action => 'index'
+    parent.updates 'updates', :controller => 'tool/updates', :page_type => 'updates', :action => 'index'
+    parent.resources :pages
+    parent.resources :uploads, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
+    parent.resources :events, :controller => 'tool/event', :member => {:participate => :post, :set_event_description => :post}, :collection => {:day => :get, :week => :get, :month => :get, :calendar => :get}
+    parent.resources :videos, :controller => 'tool/external_video' #for now
+    parent.resources :audio, :controller => 'tool/audio'
+    parent.resources :images, :controller => 'tool/image' 
+    parent.resources :messages, :controller => 'tool/message'
+    parent.resources :discussions, :controller => 'tool/discussion'
+    parent.resources :polls, :controller => 'tool/ranked_vote', :member => {:add_possible => :post, :sort => :post, :update_possible => :put, :edit_possible => :get, :destroy_possible => :destroy}
+    parent.resources :surveys, :controller => 'tool/rate_many', :member => {:add_possible => :post, :edit_possible => :get, :destroy_possible => :destroy, :vote_one => :post, :vote => :post, :clear_votes => :destroy, :sort => :post}
+    parent.resources :tasks, :controller => 'tool/tasklist', :member => {:sort => :post, :create_task => :post, :mark_task_complete => :post, :mark_task_pending => :post, :destroy_task => :destroy, :update_task => :put, :edit_task => :get}
+
+  end
+  page_routes(map)
+
+
   
   #me routes
   #map.resource :profile
@@ -64,31 +94,6 @@ ActionController::Routing::Routes.draw do |map|
   
   #map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|calendar|search/
 
-  # this method adds the scope of an existing route to the page controllers
-  def page_routes(parent)
-    parent.with_options :member => {:version => :get, :versions => :get, :diff => :get, :break_lock => :post, :print => :get} do |wikis|
-      wikis.resources :wikis, :controller => 'tool/wiki'
-      wikis.resources :actions, :controller => 'tool/action_alert'
-      wikis.resources :blogs, :controller => 'tool/blog'
-      wikis.resources :news, :controller => 'tool/news'
-    end
-    parent.media 'media', :controller => 'tool/media', :page_type => 'media', :action => 'index'
-    parent.tools 'tools', :controller => 'tool/tools', :page_type => 'tools', :action => 'index'
-    parent.involvements 'involvements', :controller => 'tool/involvements', :page_type => 'involvements', :action => 'index'
-    parent.updates 'updates', :controller => 'tool/updates', :page_type => 'updates', :action => 'index'
-    parent.resources :pages
-    parent.resources :uploads, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
-    parent.resources :events, :controller => 'tool/event', :member => {:participate => :post, :set_event_description => :post}, :collection => {:day => :get, :week => :get, :month => :get, :calendar => :get}
-    parent.resources :videos, :controller => 'tool/external_video' #for now
-    parent.resources :audio, :controller => 'tool/audio'
-    parent.resources :images, :controller => 'tool/image' 
-    parent.resources :messages, :controller => 'tool/message'
-    parent.resources :discussions, :controller => 'tool/discussion'
-    parent.resources :polls, :controller => 'tool/ranked_vote', :member => {:add_possible => :post, :sort => :post, :update_possible => :put, :edit_possible => :get, :destroy_possible => :destroy}
-    parent.resources :surveys, :controller => 'tool/rate_many', :member => {:add_possible => :post, :edit_possible => :get, :destroy_possible => :destroy, :vote_one => :post, :vote => :post, :clear_votes => :destroy, :sort => :post}
-    parent.resources :tasks, :controller => 'tool/tasklist', :member => {:sort => :post, :create_task => :post, :mark_task_complete => :post, :mark_task_pending => :post, :destroy_task => :destroy, :update_task => :put, :edit_task => :get}
-
-  end
 
   map.resources :groups, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |group|
     group.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
@@ -97,7 +102,6 @@ ActionController::Routing::Routes.draw do |map|
   end
   map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|search|calendar_month|list_by_day|list_by_week|list_by_month/
   map.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
-  page_routes(map)
 
   map.resources :people, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |person|
     person.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
