@@ -9,12 +9,12 @@ module NetworkContentHelper
   def featured_users( source )
     # TODO: network content sorting
     return [] unless source.respond_to?(:users) && source.users.any?
-    [ source.users.find(:all, :limit => 6, :order => "updated_at DESC") ].compact
+    source.users.find(:all, :limit => 6, :order => "updated_at DESC") 
   end
 
   def featured_groups( source )
     # TODO: network content sorting
     return [] unless source.respond_to?(:groups) && source.groups.any?
-    [ source.groups.find(:all, :limit => 6, :order => "updated_at DESC") ].compact
+    source.groups.find(:all, :limit => 6, :order => "updated_at DESC")
   end
 end

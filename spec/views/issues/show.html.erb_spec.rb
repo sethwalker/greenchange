@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe "/issues/show" do
   before(:each) do
-    render 'issues/show'
+    #render 'issues/show'
   end
   
   #Delete this example and add some real ones or delete this file

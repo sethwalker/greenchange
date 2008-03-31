@@ -1,4 +1,5 @@
-- if source.pages.allowed(current_user).page_type(:media) and extended_sidebar?
+-#- if source.pages.allowed(current_user).page_type(:media) and extended_sidebar?
+- if extended_sidebar?
   %ul.tab-block
     = render :partial => context_path('pages_toolbar'), :locals => { :source => source }
 
