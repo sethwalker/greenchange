@@ -110,6 +110,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :issues do |issue|
     issue.resources :people
     issue.resources :groups
+    issue.resources :pages
     page_routes( issue )
   end
   
