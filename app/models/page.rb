@@ -265,6 +265,34 @@ class Page < ActiveRecord::Base
   #######################################################################
   ## RELATIONSHIP TO PAGE DATA
   
+  def tag_list=(tag_list)
+    @new_tags = tag_list
+  end
+
+  after_save :update_tags
+  def update_tags
+    tag_with @new_tags if @new_tags
+    true
+  end
+
+  def issue_ids=(new_issue_ids)
+    if new_record?
+      issue_identifications.clear
+      new_issue_ids.each {|issue_id| issue_identifications.build :issue_id => issue_id }
+    else
+      @new_issues = new_issue_ids
+    end
+  end
+
+  after_save :update_issues
+  def update_issues
+    if @new_issues
+      issue_identifications.clear
+      issues = Issue.find @new_issues
+    end
+    true
+  end
+
   has_many :issue_identifications, :as => :issue_identifying, :dependent => :destroy
   has_many :issues, :through => :issue_identifications
 

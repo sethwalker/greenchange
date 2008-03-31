@@ -83,6 +83,12 @@ describe Page do
       @page.tag_with "noodles soup"
       @page.tag_list.should include("soup")
     end
+    it "can update tags with tag_list=" do
+      @page.tags.should be_empty
+      @page.tag_list= "rag tag"
+      @page.save
+      @page.tag_list.should =~ /rag/
+    end
   end
 
   it "should respond to bookmarks" do

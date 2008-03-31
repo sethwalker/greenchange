@@ -45,6 +45,10 @@ module FixtureReplacement
     g.name                  = 'grouply'
 	end
 
+  attributes_for :issue do |i|
+    i.name                  = String.random 
+	end
+
   attributes_for :link do |a|
     
 	end

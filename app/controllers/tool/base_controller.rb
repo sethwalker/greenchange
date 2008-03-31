@@ -43,8 +43,12 @@ class Tool::BaseController < ApplicationController
   end
 
   def create
-    @page = create_new_page
-    if @page.valid?
+    @page = Page.new params[:page]
+#    @data = @page.build_data params[:data]
+    if @page.save
+      # move to model
+      #add_participants!(page, params)
+      # end move to model
       return redirect_to(page_url(@page))
     else
       message :object => @page

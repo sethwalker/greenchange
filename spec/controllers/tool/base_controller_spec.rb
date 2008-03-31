@@ -1,5 +1,9 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + '/shared'
+
 describe Tool::BaseController do
+  it_should_behave_like "a tool controller"
+
   describe "when creating a new page" do
     TOOLS.each do |tool|
       it "should instantiate #{tool} from params[:id] == '#{tool.class_display_name}'" do

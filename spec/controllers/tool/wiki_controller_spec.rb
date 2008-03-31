@@ -1,6 +1,9 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + '/shared'
 
 describe Tool::WikiController do
+#  it_should_behave_like "a tool controller"
+
   before do
     login_valid_user
     controller.stub!(:fetch_page_data)
