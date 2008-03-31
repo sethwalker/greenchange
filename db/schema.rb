@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(:version => 1206835544) do
   add_index "assets", ["page_id"], :name => "index_assets_page_id"
 
   create_table "avatars", :force => true do |t|
-    t.binary  "data",   :default => "",    :null => false
+    t.binary  "data"
     t.boolean "public", :default => false
   end
 
@@ -222,15 +222,16 @@ ActiveRecord::Schema.define(:version => 1206835544) do
   add_index "im_addresses", ["profile_id"], :name => "im_addresses_profile_id_index"
 
   create_table "issue_identifications", :force => true do |t|
-    t.integer "issue_id",               :default => 0,  :null => false
-    t.integer "issue_identifying_id",   :default => 0,  :null => false
+    t.integer "issue_id",                               :null => false
+    t.integer "issue_identifying_id",                   :null => false
     t.string  "issue_identifying_type", :default => "", :null => false
   end
 
   add_index "issue_identifications", ["issue_id", "issue_identifying_id", "issue_identifying_type"], :name => "index_issue_identifications", :unique => true
 
   create_table "issues", :force => true do |t|
-    t.string "name", :default => "", :null => false
+    t.string "name",        :default => "", :null => false
+    t.text   "description"
   end
 
   add_index "issues", ["name"], :name => "index_issues_on_name", :unique => true
@@ -265,8 +266,8 @@ ActiveRecord::Schema.define(:version => 1206835544) do
   create_table "memberships", :force => true do |t|
     t.integer  "group_id"
     t.integer  "user_id"
-    t.integer  "page_id"
     t.datetime "created_at"
+    t.integer  "page_id"
     t.string   "role",       :limit => 20, :default => "member"
   end
 
@@ -472,7 +473,7 @@ ActiveRecord::Schema.define(:version => 1206835544) do
   end
 
   add_index "tasks", ["task_list_id"], :name => "index_tasks_task_list_id"
-  add_index "tasks", ["task_list_id", "completed_at", "position"], :name => "index_tasks_completed_positions"
+  add_index "tasks", ["task_list_id", "position"], :name => "index_tasks_completed_positions"
 
   create_table "tasks_users", :id => false, :force => true do |t|
     t.integer "user_id"
