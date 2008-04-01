@@ -7,6 +7,8 @@
 # 
 
 ActionController::Routing::Routes.draw do |map|
+  map.exceptions 'logged_exceptions', :controller => 'logged_exceptions'
+
   map.resources :bookmarks, :belongs_to => :page
   map.resources :issues
   

@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   Tag # need this to reload has_many_polymorphs in development mode
 
+  include ExceptionLoggable
+
   include AuthenticatedSystem
   include AuthorizedSystem
   include PageUrlHelper
