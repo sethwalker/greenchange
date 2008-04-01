@@ -1,8 +1,6 @@
 - if group.members.any?
   .section
-    .header
-      Featured Members
-    = render :partial => 'shared/list/person', :collection => featured_users(group)
-    %br.clear
-    .link-line
-      = link_to 'view all', group_memberships_url(group), :class => 'first'
+    = link_to 'Featured Members', group_memberships_url(group), :class => 'header'  
+    .icon-box  
+      = render :partial => 'shared/list/person', :collection => featured_users(group)
+

@@ -13,7 +13,7 @@
     :xbackground #f9f9f9 url(/images/shadows/small-right-a.png) repeat-y right
     :margin-bottom 1em
     :border 1px solid white
-    :background #eee
+    -#:background #eee
     :padding-bottom 4px
     :float left
     img
@@ -109,5 +109,8 @@
     :color #669
     textarea, select
       :width 190px
-
+  
+  .media
+    :border-color = !bar_media_header_border
+    :background-color = !bar_media_header_bg 
 
