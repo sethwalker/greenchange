@@ -7,7 +7,6 @@
 # 
 
 ActionController::Routing::Routes.draw do |map|
-  map.exceptions 'logged_exceptions', :controller => 'logged_exceptions'
 
   map.resources :bookmarks, :belongs_to => :page
   map.resources :issues
@@ -148,6 +147,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :collectings
   map.resources :collections
 
+  map.exceptions 'logged_exceptions/:action/:id', :controller => 'logged_exceptions'
 end
 
 # debug routes

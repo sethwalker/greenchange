@@ -42,9 +42,11 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def rescue_action_in_public(*args)
-    @exception = args.shift
-    render :file => 'shared/problem_report', :use_full_path => true, :layout => true, :status => :not_found 
+  def rescue_action_in_public(exception)
+    status = response_code_for_rescue(exception)
+    @logged_exception = log_exception(exception) if status != :not_found
+    @exception = exception
+    render :file => 'shared/problem_report', :use_full_path => true, :layout => true, :status => status
   end
 
 
