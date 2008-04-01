@@ -247,9 +247,16 @@ class Group < ActiveRecord::Base
   has_many :taggings, :through => :pages
 
   #results from this one are read-only
-  has_finder :by_tag, lambda{|*tags| tags.any? ? { :include => [:pages, :participations], :joins => 
-      "RIGHT JOIN taggings on ( taggings.taggable_id = pages.id or taggings.taggable_id = group_participations.page_id )", :conditions => ["taggings.tag_id in (?)", tags] } : {} }
+  has_finder :by_tag, lambda{|*tags| tags.any? ? { :include => [:pages, :participations], :joins => joins_for_by_tag, :conditions => ["taggings.tag_id in (?)", tags] } : {} }
   
+  def self.joins_for_by_tag
+    case connection.adapter_name
+    when "SQLite"
+      "INNER JOIN taggings on ( taggings.taggable_id = pages.id or taggings.taggable_id = group_participations.page_id )"
+    when "MySQL"
+      "RIGHT JOIN taggings on ( taggings.taggable_id = pages.id or taggings.taggable_id = group_participations.page_id )"
+    end
+  end
   
   # the group is responsible for a given user's membership
   def membership_for(user)
