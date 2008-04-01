@@ -258,7 +258,7 @@ class PagesController < ApplicationController
   def authorized?
     # see BaseController::authorized?
     if @page
-      return current_user.may?(:admin, @page)
+      return current_user.may?(:view, @page)
     else
       return true
     end

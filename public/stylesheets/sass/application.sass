@@ -27,7 +27,7 @@ p, ol, ul, td
 
 #bar
   :float left
-  :margin .5em 0 .5em .5em
+  :margin .5em 0 .5em 2em
   :width = !side_column_width
   #main.wideside &
     :width = !side_column_wideside_width
@@ -55,9 +55,9 @@ body
   :clear both
 
 #container
-  :width 860px
-  :padding-left 10px
-  :padding-right 10px
+  :width = !container_width
+  :padding-left 20px
+  :padding-right 20px
   :background-color = !main_bg
   :text-align left
   :margin 0 auto
@@ -69,18 +69,22 @@ body
   :text-align center
   :background-color = !footer_bg
   :border-top = 2px solid !footer_border
+  :border-bottom 10px solid white
+  :height 25px
   :width 100%
   .links
-    :padding 1em 0 1em 0
+    :padding .2em 0 1em 0
     a
-      :border-left = 1px solid #000000
-      :height 30px
+      :border-left = 1px solid #666666
       :padding 0 .5em 0 .5em
+      :color #666666
+      :font-sie 11px
+      :text-decoration none
       &.first
         :border-left 0
 
 form .comment
-  :font-size 50%
+  :font-size 10px
 
 #header
   :width 100%
