@@ -74,13 +74,23 @@
 
 .list-description
   :float left
-  :font-size 11px
+  :font-size 12px
+  :color #555555
   :padding-top 5px
   p
     :font-size 11px
     :margin-bottom 2px
   h3
-    :margin 0
+    :margin-bottom -8px
+    :margin-top -5px
+    a
+      :font-size 14px
+      :font-weight bold
+      :text-decoration none
+      :color black
+      &:hover
+        :text-decoration underline
+        :color green
   .label
     :font-weight bold
     :float left
@@ -147,7 +157,7 @@ ul.tab-block
     :text-transform uppercase
     :background = !tab_block_title_bg
     :color = !tab_block_title
-    :font-size 14px
+    :font-size 13px
     :font-weight bold
     :float left
     :padding .25em
@@ -180,7 +190,7 @@ ul.tab-block
 
 ul.tab-block.active
   :height = !tab_block_height
-  :border 2px solid
+  :border 1px solid
     :color = !tab_block_title_border
   #bar &
     :height = !tab_block_sidebar_height
@@ -192,7 +202,7 @@ ul.tab-block.active
     #bar &
       :height = !tab_block_sidebar_height
     body.ie6 &
-      :border 2px
+      :border 1px
       :margin-left 0px
   .tab-content.active
     :overflow-y scroll
@@ -200,7 +210,7 @@ ul.tab-block.active
   .tab-title
     :background = !tab_block_title_border
     :color = !tab_block_title_bg
-    :border 2px solid
+    :border 1px solid
       :color = !tab_block_title_border
       :bottom 0
     &:hover
@@ -282,3 +292,7 @@ ul.tab-block, #titlebox
 a.icon.standard.name-bottom
   :padding-top 64px
   :height 20px
+
+.icon-box
+  .icon
+    :margin 10px

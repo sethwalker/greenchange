@@ -17,22 +17,18 @@ class Tool::EventController < Tool::BaseController
   end
 
   def day
-    load_context
     list
   end
 
   def week
-    load_context
     list
   end
 
   def month
-    load_context
     list
   end
 
   def calendar
-    load_context
     list
     @month_display = MonthDisplay.new(@date)
   end
@@ -228,6 +224,7 @@ class Tool::EventController < Tool::BaseController
   # returns array of events for the current user or group, depending on context
   def list
     @start_date, @end_date = request_dates
+
     if @group
       @events = @group.pages.page_type(:event).occurs_between_dates(
         @start_date.to_s, @end_date.to_s
@@ -242,5 +239,7 @@ class Tool::EventController < Tool::BaseController
         @start_date.to_s, @end_date.to_s
       ).find(:all, :order => "pages.starts_at ASC")
     end
+
+    @events.uniq!
   end
 end

@@ -1,5 +1,4 @@
 .section
-  .header
-    Contacts 
-  = render :partial => 'shared/list/person', :collection => source.contacts.find( :all, :limit => 6 )
-  = link_to "view all", person_contacts_url(source)
+  = link_to 'Contacts', person_contacts_url(source), :class => 'header'
+  .icon-box 
+    = render :partial => 'shared/list/person', :collection => source.contacts.find( :all, :limit => 8 )
