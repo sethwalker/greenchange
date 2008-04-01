@@ -21,6 +21,7 @@ module ApplicationHelper
   end
 
   def link_to_group(group, options = {})
+    group = Group.find_by_name(group) if group.is_a? String
     options[:class] = ((options[:class] || '') << "name_link").strip
     link_to group.full_name, group_url(group), options
   end

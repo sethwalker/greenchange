@@ -11,9 +11,9 @@ describe Group do
       @u = create_user(:login => 'blue')
     end
 
-    it "should raise an error when using << (WHY???)" do
-      lambda { @g.users << @u }.should raise_error
-    end
+    #it "should raise an error when using << (WHY???)" do
+    #  lambda { @g.users << @u }.should raise_error
+    #end
 
     it "member_of? should return true if member" do
       @g.memberships.create :user => @u, :role => :member
@@ -121,4 +121,94 @@ describe Group do
       @recently_commented.should_not include(@p3)
     end
   end
+
+  describe "adding members with <<" do
+    before do
+      @user = create_valid_user
+      @group = create_valid_group
+    end 
+    it 'should be a-ok to add people with <<' do
+      @group.members << @user
+      @user.should be_member_of( @group)
+    end
+
+    it 'should have the default role member' do
+      @group.members << @user
+      @group.membership_for( @user ).role.should == :member
+    end
+
+    it "should also work to add admins with <<" do
+      @group.admins << @user
+      @group.membership_for( @user ).role.should == :administrator
+    end
+  end
+
+  describe "find by_person" do
+    before do
+      @user = create_valid_user
+      @group = create_valid_group
+    end 
+
+    it "should find members" do
+      @group.members << @user
+      Group.by_person(@user).should include(@group)
+    end
+
+  end
+
+  describe "find by_issue" do
+    before do
+      @user = create_valid_user
+      @group = create_valid_group
+      @issue = Issue.create :name => "net neutrality"
+    end 
+
+    it "should find groups identified with the issue" do
+      @group.issues << @issue
+      Group.by_issue(@issue).should include(@group)
+    end
+    it "should not find other groups" do
+      new_issue = Issue.create :name => 'pet spas'
+      @group.issues << @issue
+      Group.by_issue(new_issue).should_not include(@group)
+    end
+  end
+
+  describe "find by_tag" do
+    before do
+      Tag.delete_all
+      Group.delete_all
+      @user = create_valid_user
+      @group = create_valid_group
+      @tag = Tag.create :name => "netneutrality"
+      @page = create_valid_page
+      @page.tags << @tag
+    end 
+
+    it "should find groups by tag" do
+      #pending "a better group tagging framework"
+      @group.add_page( @page, {} )
+        #Group.by_tag(@tag).size.should == 1
+      result = Group.by_tag(@tag)
+      result.map(&:id).should include( @group.id )
+    end
+
+    it "should not find other groups" do
+      tag2 = Tag.create! :name => 'bankruptcy'
+      new_page = create_valid_page
+      new_page.tag_with( 'bankruptcy' )
+      new_page.save!
+      
+      Group.by_tag(tag2).should_not include(@group)
+    end
+
+    it "might be readonly" do
+      @group.add_page( @page, {} )
+      found_group = Group.by_tag(@tag).first
+      lambda { found_group.save! }.should raise_error
+      found_group.should be_readonly
+    end
+    
+  end
+
 end
