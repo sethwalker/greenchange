@@ -1,4 +1,23 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + '/shared'
+
+describe Tool::DiscussionController do
+  it_should_behave_like "a tool controller"
+
+  describe "create" do
+    before do
+      @user = login_valid_user
+      post :create, :page => {:title => 'thetitle'}
+    end
+    it "should make a discussion" do
+      assigns[:page].should be_a_kind_of(Tool::Discussion)
+    end
+    it "should redirect_to discussion_url" do
+      response.should redirect_to(discussion_url(assigns[:page]))
+    end
+  end
+end
+
 describe Tool::DiscussionController do
   describe "when displaying a page" do
     integrate_views

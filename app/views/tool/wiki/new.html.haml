@@ -7,6 +7,6 @@
     = header_for_page_create(@page.class)
     = render :partial => 'pages/form', :locals => {:f => f}
   .formbox
-    - fields_for(:wiki, @wiki) do |wiki|
-      = render :partial => 'form', :locals => {:f => wiki}
+    - fields_for(:data, @data) do |data|
+      = render :partial => 'form', :locals => {:f => data}
   = submit_tag 'Save', :name => 'save'

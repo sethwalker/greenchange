@@ -2,7 +2,12 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 require File.dirname(__FILE__) + '/shared'
 
 describe Tool::BaseController do
-  it_should_behave_like "a tool controller"
+  describe "generally" do
+    before do
+      controller.stub!(:page_class).and_return(Tool::TextDoc)
+    end
+    it_should_behave_like "a tool controller"
+  end
 
   describe "when creating a new page" do
     TOOLS.each do |tool|

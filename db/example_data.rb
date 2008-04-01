@@ -103,8 +103,8 @@ module FixtureReplacement
     p.friend                = true
   end
 
-  attributes_for :wiki do |a|
-    
+  attributes_for :wiki do |w|
+    w.body                  = String.random
 	end
 
   attributes_for :possible, :class => Poll::Possible do |p|

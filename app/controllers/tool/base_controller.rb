@@ -42,9 +42,17 @@ class Tool::BaseController < ApplicationController
     end
   end
 
+  def page_class
+    klass = Tool.const_get(controller_name.classify)
+    return klass if klass < Page
+    return Page
+  rescue
+    Page
+  end
+
   def create
-    @page = Page.new params[:page]
-#    @data = @page.build_data params[:data]
+    @page = page_class.new params[:page]
+    @data = @page.build_data params[:data] if params[:data]
     if @page.save
       # move to model
       #add_participants!(page, params)

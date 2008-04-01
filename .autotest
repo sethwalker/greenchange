@@ -2,7 +2,7 @@ Autotest.add_hook :initialize do |at|
   at.remove_mapping(%r%^spec/(models|controllers|views|helpers|lib)/.*rb$%)
   at.add_mapping(%r%^spec/controllers/tool/shared.rb$%) do |f, m|
 #    at.files_matching %r%^spec/controllers/tool/.*_spec.rb$%
-    ["spec/controllers/tool/wiki_controller_spec.rb", "spec/controllers/tool/base_controller_spec.rb"]
+    ["spec/controllers/tool/discussion_controller_spec.rb", "spec/controllers/tool/base_controller_spec.rb"]
   end
   at.add_mapping(%r%^spec/(models|controllers|views|helpers|lib)/.*rb$%) { |filename, _|
     filename

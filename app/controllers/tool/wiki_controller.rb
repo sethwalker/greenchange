@@ -4,7 +4,7 @@ class Tool::WikiController < Tool::BaseController
 
   def new
     @page = Tool::TextDoc.new :group_id => params[:group_id]
-    @wiki = @page.build_data :body => 'new page'
+    @data = @page.build_data :body => 'new page'
   end
 
   def create
@@ -90,8 +90,8 @@ class Tool::WikiController < Tool::BaseController
   def save_edits
     @wiki = @page.data || @page.build_data
     begin
-      @wiki.body = params[:wiki][:body]
-      if @wiki.version > params[:wiki][:version].to_i
+      @wiki.body = params[:data][:body]
+      if @wiki.version > params[:data][:version].to_i
         raise ErrorMessage.new("can't save your data, someone else has saved new changes first.")
       elsif not @wiki.editable_by? current_user
         raise ErrorMessage.new("can't save your data, someone else has locked the page.")
@@ -118,7 +118,7 @@ class Tool::WikiController < Tool::BaseController
   def save_revision(wiki)
     if wiki.recent_edit_by?(current_user)
       wiki.save_without_revision
-      wiki.versions.find_by_version(wiki.version).update_attributes(:body => wiki.body, :body_html => wiki.body_html, :updated_at => Time.now)
+      wiki.versions.find_by_version(wiki.version).update_attributes(:body => wiki.body, :body_html => wiki.body_html)
     else
       wiki.user = current_user
       wiki.save
