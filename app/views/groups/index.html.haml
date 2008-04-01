@@ -11,7 +11,7 @@
       %h3 
         = scoped_by_context? ? "Groups you share" : "My groups"
       .workarea
-        =render :partial => 'group', :collection => ( current_user.groups | @groups )
+        =render :partial => 'group', :collection => groups_overlapping 
         .clear
       .clear    
 

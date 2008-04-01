@@ -16,7 +16,7 @@ describe Asset do
   end
 
   it "should have versions for thumbnails" do
-    Asset::Version.count.should == 3
+    Asset::Version.count.should == 6
   end
 
   describe "after saving" do
@@ -27,7 +27,7 @@ describe Asset do
     end
 
     it "should save another set of versions for thumbnails" do
-      Asset::Version.count.should == 6
+      Asset::Version.count.should == 12 
     end
 
     it "version should be class Asset::Version" do
@@ -39,11 +39,11 @@ describe Asset do
     end
 
     it "should remember the old thumbnail filenames" do
-      assert_equal @version.thumbnail_name_for(:thumb), 'image_thumb.png'
+      @version.thumbnail_name_for(:small).should == 'image_small.png'
     end
 
     it "should know the version is an image" do
-      assert @version.image?
+      @version.should be_image
     end
 
     it "should look for file in a version folder" do
@@ -59,7 +59,7 @@ describe Asset do
     end
 
     it "version thumbnails should exist" do
-      File.exists?(@version.full_filename(:thumb)).should be_true
+      File.exists?(@version.full_filename(:small)).should be_true
     end
 
     it "asset and version should have the same number of thumbnails" do

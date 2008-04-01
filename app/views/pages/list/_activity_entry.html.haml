@@ -1,0 +1,25 @@
+- page.created_at ||= Time.now; page.updated_at ||= Time.now
+.row{ :class => cycle( 'odd', 'even', :name => 'activity_entry_cycle' )}
+  .owner.row-block.first
+    - owner, owner_path = page.group, group_path( page.group ) if page.group
+    - owner, owner_path = page.created_by, person_path( page.created_by ) if page.created_by
+    - if owner
+      = link_to icon_for(owner, :size => :small), owner_path
+      = link_to owner.name, owner_path, :class => 'name'
+  .page_icon.row-block
+    = icon_for(page, :size => :medium)
+  .row-block
+    .title.row-block
+      = link_to page.title, page_url(page)#page_list_cell(page, :title)
+    .clear
+    .changes.row-block
+      - if page.updated_at > page.created_at + 1.hour
+        Updated by
+        = link_to_user(page.updated_by)
+        = time_ago_in_words(page.updated_at)
+        ago.
+      - else
+        Created by
+        = link_to_user(page.created_by)
+        = time_ago_in_words(page.created_at)
+        ago.

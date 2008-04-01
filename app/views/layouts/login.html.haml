@@ -4,7 +4,7 @@
       = link_to "Logout".t, { :controller => '/account', :action => 'logout'} 
     #login-name
       Hi,
-      = link_to current_user.display_name, '/me/dashboard'
+      = link_to current_user.display_name, me_url
       = "-- you have #{current_user.unread_messages.size} messages" unless current_user.unread_messages.empty? 
         
 - else

@@ -77,18 +77,18 @@
     - if logged_in?
       %li
         - selected = ( %w- inbox me requests -.include? controller.controller_name) ? ' selected' : ''
-        = link_to 'You', '/me/dashboard', :class => 'menu menu-top' + selected
+        = link_to 'You', me_path, :class => 'menu menu-top' + selected
         %ul
           %li
-            = link_to 'Inbox', '/me/inbox', :class => 'menu'
+            = link_to 'Inbox', me_inbox_path, :class => 'menu'
           %li
-            = link_to 'Contacts', '/me/people', :class => 'menu'
+            = link_to 'Contacts', me_contacts_url, :class => 'menu'
           %li
-            = link_to 'Your Content', '/me/pages', :class => 'menu'
+            = link_to 'Your Content', me_pages_url, :class => 'menu'
           %li
-            = link_to 'Groups', '/me/groups', :class => 'menu'
+            = link_to 'Groups', me_groups_url, :class => 'menu'
           %li
-            = link_to 'Network', '/me/network', :class => 'menu'
+            = link_to 'Network', me_network_url, :class => 'menu'
           %li
-            = link_to 'Profile', '/me/profile', :class => 'menu'
+            = link_to 'Profile', me_profile_url, :class => 'menu'
   .clear

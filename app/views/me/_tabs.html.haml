@@ -15,9 +15,6 @@
     - selected = ( controller.controller_name == 'profile' )   ? ' selected' : ''
     = link_to 'Profile', me_profile_url, :class => 'tab-link' + selected
   -#%li.tab
-    - selected = ( controller.controller_name == 'me' and %w[ dashboard index ].include?(controller.action_name)) ? " selected" : ''  
-    = link_to 'Dashboard', me_url, :class => 'tab-link' + selected
-  -#%li.tab
     - selected = ( controller.controller_name == 'requests' ) ? ' selected' : ''
     = link_to 'Requests', me_requests_url, :class => 'tab-link' + selected
 .clear

@@ -1,0 +1,16 @@
+- content_for :title do
+  .section
+    %h2
+      = @me.name
+    .section.clear
+      .issues.icon-only
+        = render :partial => 'shared/icons/issue', :collection => @me.issues
+    = render :partial => 'info'
+  = render :partial => 'title_menu'
+
+.landing
+  #page_list
+    = render :partial => 'pages/list/activity_log', :locals => {:pages => @pages} 
+    = link_to 'more ...', me_content_url
+
+

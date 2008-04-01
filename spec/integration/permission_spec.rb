@@ -44,6 +44,7 @@ describe 'check page access with webrat' do
         @webrat.response.body.should match( /do not have sufficient permission/)
       end
       it 'public page should be viewable' do
+        pending "public page is viewable by all"
         @webrat.visits page_url(@public_page)
         #@webrat.response.should be_success
         @webrat.response.body.should_not match( /do not have sufficient permission/)

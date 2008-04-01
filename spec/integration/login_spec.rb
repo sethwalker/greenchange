@@ -19,12 +19,12 @@ describe 'Login with webrat' do
     end
     
     it "shows the dashboard" do
-      @webrat.visits "/me/dashboard"
+      @webrat.visits '/me'
       @webrat.response.should be_success
     end
     it "shows the dashboard and the inbox" do
-      @webrat.visits "/me/dashboard"
-      @webrat.visits "/me/inbox"
+      @webrat.visits '/me'
+      @webrat.visits '/me/inbox'
       @webrat.response.should be_success
     end
 
@@ -33,7 +33,7 @@ describe 'Login with webrat' do
 
   def login_test_user
     @test_user ||= create_valid_user
-    @webrat.visits "account/login"
+    @webrat.visits( '/account/login' )
     @webrat.fills_in "login", :with => @test_user.login
     @webrat.fills_in "password", :with => @test_user.password
     @webrat.clicks_button "Login"

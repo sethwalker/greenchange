@@ -51,7 +51,7 @@ class Asset < ActiveRecord::Base
   acts_as_versioned do
     def self.included(klass)
       klass.has_attachment :storage => :file_system, :max_size => 3.megabytes,
-        :thumbnails => {:thumb => "22x22>", :preview => "128x128>"}
+        :thumbnails => {:small => "24x24>", :medium => '48x48>', :standard => "64x64>", :large => "92x92>", :preview => "128x128>"}
       klass.validates_as_attachment
     end
   end

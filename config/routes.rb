@@ -84,7 +84,7 @@ ActionController::Routing::Routes.draw do |map|
     me.resources :groups   
   end
   #map.resource :profile, :controller => 'profiles', :path_prefix => 'me/', :name_prefix => 'my'
-  map.resource :me, :controller => 'me', :member => { :dashboard => :get, :search => :get, :counts => :get, :page_list => :get, :files => :get, :tasks => :get } do |me|  page_routes me
+  map.resource :me, :controller => 'me', :member => { :search => :get, :files => :get, :tasks => :get } do |me|  page_routes me
   end
     #me.inbox 'inbox/:path', :controller => 'inbox', :action => 'index'
     #me.inbox 'inbox', :controller => 'inbox', :action => 'index'

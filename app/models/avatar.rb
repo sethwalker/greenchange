@@ -16,7 +16,7 @@ class Avatar < FlexImage::Model
     case size
       when 'tiny';   '12x12'
       when 'xsmall'; '22x22'
-      when 'small' ; '32x32'
+      when 'small' ; '24x24'
       when 'medium'; '48x48'
       when 'standard'; '64x64'
       when 'large' ; '96x96'

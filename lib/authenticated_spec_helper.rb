@@ -18,11 +18,11 @@ module AuthenticatedSpecHelper
     def matches?(target)
       @target = target
       @target.call
-      response.redirect? && response.redirect_url == login_url(:redirect => request.request_uri)
+      response.redirect? && response.redirect_url == login_url#(:redirect => request.request_uri)
     end
 
     def failure_message
-      "expected #{response.redirect_url} to be #{login_url(:redirect => request.request_uri)}"
+      "expected #{response.redirect_url} to be #{login_url}"#(:redirect => request.request_uri)}"
     end
   end
 

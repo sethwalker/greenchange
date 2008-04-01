@@ -80,10 +80,10 @@ module AuthenticatedSystem
         accepts.html do
           if logged_in?
             flash[:error]='You do not have sufficient permission to perform that action.' 
-            redirect_to dashboard_me_url
+            redirect_to me_path
           else
             flash[:error]= 'Please login to perform that action.'
-            redirect_to :controller => '/account', :action => 'login', :redirect => request.request_uri
+            redirect_to login_path, :redirect => request.request_uri
           end
         end
         accepts.xml do

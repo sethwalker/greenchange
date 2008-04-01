@@ -5,10 +5,10 @@ class MeController < ApplicationController
   #stylesheet 'me'
   #layout 'application'
 
-  def index
-    redirect_to :action => 'dashboard'
+  def show 
+    @pages = Page.in_network(current_user).allowed(current_user).find(:all, :order => "updated_at DESC", :limit => 40)
   end
-  alias :show :index
+  #alias :show :index
     
   def search
     if request.post?
@@ -40,22 +40,9 @@ class MeController < ApplicationController
   end
   
   def dashboard
+    redirect_to :action => 'show'
   end
 
-  def counts
-    redirect_to :action => :index and return false unless request.xhr?
-    @request_count = current_user.contact_requests_received.pending.count  + current_user.groups_administering.sum {|g| g.membership_requests.pending.count }
-    @unread_count = current_user.pages_unread.count
-    @pending_count = current_user.pages_pending.count
-    render :layout => false
-  end
-
-  def page_list
-    return false unless request.xhr?
-    @pages = Page.in_network(current_user).allowed(current_user).find(:all, :order => "updated_at DESC, group_name ASC", :limit => 40)
-    render :layout => false
-  end
-  
   def files
     @pages = Page.in_network(current_user).allowed(current_user).page_type('asset')
     @assets = @pages.collect {|page| page.data }

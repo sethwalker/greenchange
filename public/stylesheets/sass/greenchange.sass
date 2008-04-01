@@ -9,6 +9,7 @@
 
 .icon.large, 
 .icon.small, 
+.icon.medium,
 .icon.standard
   :display block
   :float left
@@ -21,43 +22,183 @@
   :height 92px
   :width 92px
 
+.icon.medium
+  :height 48px
+  :width 48px
+
 .icon.small
-  :height 32px
-  :width 32px
+  :height 24px
+  :width 24px
 
 .icon.youtube-thumbnail
   :background-position -25px -8px
 
+!page_icon_path = "/images/gc/icons/pages/"
+!page_icon_file = "asset.png"
 .icon.page.asset
-  :background-image url(/images/gc/icons/pages/standard/asset.png)
+  &.small
+    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+  &.medium
+    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+  &.large
+    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
+!page_icon_file = "wiki.png"
 .icon.page
-  :background-image url(/images/gc/icons/pages/standard/wiki.png)
+  &.small
+    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+  &.medium
+    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+  &.large
+    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
+!page_icon_file = "discussion.png"
 .icon.page.discussion
-  :background-image url(/images/gc/icons/pages/standard/discussion.png)
+  &.small
+    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+  &.medium
+    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+  &.large
+    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
+!page_icon_file = "event.png"
 .icon.page.event
-  :background-image url(/images/gc/icons/pages/standard/event.png)
+  &.small
+    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+  &.medium
+    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+  &.large
+    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
+!page_icon_file = "gallery.png"
 .icon.page.gallery
-  :background-image url(/images/gc/icons/pages/standard/gallery.png)
+  &.small
+    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+  &.medium
+    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+  &.large
+    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
+!page_icon_file = "news.png"
 .icon.page.news
-  :background-image url(/images/gc/icons/pages/standard/news.png)
+  &.small
+    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+  &.medium
+    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+  &.large
+    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
+!page_icon_file = "video.png"
 .icon.page.video
-  :background-image url(/images/gc/icons/pages/standard/video.png)
+  &.small
+    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+  &.medium
+    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+  &.large
+    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
+!page_icon_file = "image.png"
 .icon.page.image
-  :background-image url(/images/gc/icons/pages/standard/image.png)
+  &.small
+    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+  &.medium
+    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+  &.large
+    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
+!page_icon_file = "audio.png"
 .icon.page.audio
-  :background-image url(/images/gc/icons/pages/standard/audio.png)
+  &.small
+    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+  &.medium
+    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+  &.large
+    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
+!page_icon_file = "action_alert.png"
 .icon.page.action-alert
-  :background-image url(/images/gc/icons/pages/standard/action_alert.png)
+  &.small
+    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+  &.medium
+    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+  &.large
+    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
+!page_icon_file = "action_poll.png"
 .icon.page.poll
-  :background-image url(/images/gc/icons/pages/standard/poll.png)
+  &.small
+    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+  &.medium
+    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+  &.large
+    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
+!page_icon_file = "wiki.png"
 .icon.page.wiki
-  :background-image url(/images/gc/icons/pages/standard/wiki.png)
+  &.small
+    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+  &.medium
+    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+  &.large
+    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
+!page_icon_file = "blog.png"
 .icon.page.blog
-  :background-image url(/images/gc/icons/pages/standard/blog.png)
+  &.small
+    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+  &.medium
+    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+  &.large
+    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
+!page_icon_file = "tasklist.png"
 .icon.page.task-list
-  :background-image url(/images/gc/icons/pages/standard/tasklist.png)
+  &.small
+    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+  &.medium
+    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+  &.large
+    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
+!page_icon_file = "petition.png"
 .icon.page.petition
-  :background-image url(/images/gc/icons/pages/standard/petition.png)
+  &.small
+    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+  &.medium
+    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+  &.standard
+    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+  &.large
+    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
 
 !issue_icon_path = "/images/gc/icons/issues/"
 !issue_icon_file = "corporate_power.gif"

@@ -2,9 +2,9 @@
 - if current_user.may? :admin, group
   .offset-row.admin
     .icon 
-      = link_to "Invite new members", invite_group_memberships_url(group) , :class => 'action invite-member add'
+      = link_to "Invite new members", invite_group_memberships_url(group) , :class => 'action invite-member add', :title => 'Invite New Members'
     .icon
-      = link_to "Edit group profile", edit_group_profile_url(group), :class => 'action edit'
+      = link_to "Edit group profile", edit_group_profile_url(group), :class => 'action edit', :title => 'Edit this group'
   .clear
   
 -#member menu

@@ -192,7 +192,11 @@ class User < ActiveRecord::Base
   end
 
   def unread_messages
-    []
+    pages_unread
+  end
+
+  def pending_items
+    pages_pending
   end
 
   def allows?( user, action, resource = nil )

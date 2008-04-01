@@ -1,0 +1,21 @@
+- content_for :title do
+  %h1 Your Network
+
+.landing.network
+  %h2 Contacts
+  .section
+    -if @me.contacts
+      =render :partial => 'shared/list/person', :collection => @me.contacts
+    -else
+      You have no contacts
+    .clear
+
+  %h2 Groups
+  .section
+    -if @me.groups
+      =render :partial => 'shared/list/group', :collection => @me.groups
+      .clear
+    -else
+      You have no groups
+      .clear
+  .clear    

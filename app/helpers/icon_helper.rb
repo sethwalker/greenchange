@@ -19,6 +19,7 @@ module IconHelper
       end
     end
     size_option = html_options.delete(:size) || 'standard'
+    html_options.delete(:avatar_size) 
     new_class = [ (html_options[:class] ||= ''), "icon", item_type, size_option.to_s ]
     html_options[:class] = new_class.join(' ').strip
     html_options
@@ -37,13 +38,14 @@ module IconHelper
   end
 
   # returns the url for the image thumbnail if the page is an image
-  def icon_url_for_image( page )
+  def icon_url_for_image( page, html_options = {} )
     return unless image = ( page.assets.detect { |a| a.image? } || page.data if page.is_a?(Tool::Image) )
-    image.public_filename(:preview)  
+    filename_size_option = html_options[:size] || :standard
+    image.public_filename( filename_size_option)  
   end
 
   # returns the url for the video thumbnail if the page is a youtube video 
-  def icon_url_for_youtube(page)
+  def icon_url_for_youtube(page, html_options = {})
     return unless page.is_a?(Tool::ExternalVideo) and page.data and page.data.thumbnail_url
     page.data.thumbnail_url 
   end
@@ -68,9 +70,12 @@ module IconHelper
   protected
     def extra_html_options_for_icon_for_page( page, html_options ={} )
       html_options[:class] = [ (html_options[:class] || ''), css_page_type(page) ].join(' ').strip
-      if custom_icon_url = ( ( icon_url_for_image( page ) or icon_url_for_youtube( page )))
+      if custom_icon_url = ( ( icon_url_for_image( page, html_options ) or icon_url_for_youtube( page, html_options )))
         html_options[:style] = "background-image: url( #{custom_icon_url});"
         html_options[:class] << " youtube-thumbnail" if icon_url_for_youtube page 
+        html_options[:class] << " image-thumbnail" if icon_url_for_image page 
+      else
+        html_options[:class] << " page-default"
       end
       html_options
     end
