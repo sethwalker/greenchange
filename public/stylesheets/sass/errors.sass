@@ -2,18 +2,18 @@ div.fieldWithErrors
   :border 
     :top 2px solid red
     :bottom 2px solid red
-  :display table-cell
+  :display inline
   :background-color #ff9e9e
-  :padding .5em
+  :padding .75em
 
 input[type="hidden"]
   :display none
   :display none
 
 div.notice
-  :width 35em
+  -#:width 35em
   :padding 7px
-  :padding-bottom 1em
+  :padding-bottom .6em
   :margin-bottom 2em
   :background-color #eee
   h2
@@ -39,7 +39,7 @@ div.notice
 
 #message
   div.info
-    :background-image url("notice/info.png")
+    :background-image url("/images/notice/info.png") 0 50% no-repeat
     :border 2px solid green
     :color #090
     h2
@@ -47,12 +47,12 @@ div.notice
       :border 0
 
   div.error
-    :background-image url("notice/error.png")
+    :background-image url("/images/notice/error.png") 0 50% no-repeat
     :border 2px solid red
     :color #900
 
   div.update
-    :background-image url("notice/update.png")
+    :background-image url("/imagesnotice/update.png") 0 50% no-repeat
     :border 2px solid blue
     :color #009
 
