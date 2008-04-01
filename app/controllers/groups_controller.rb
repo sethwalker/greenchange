@@ -25,7 +25,7 @@ class GroupsController < ApplicationController
   end
 
   def show
-    return render(:template => 'groups/show_nothing') unless @group.allows?(current_user, :view)
+    #return render(:template => 'groups/show_nothing') unless @group.allows?(current_user, :view)
     @pages = @group.pages.allowed(current_user, :view).find(:all, :order => 'pages.updated_at DESC', :limit => 20)
     @profile = @group.profile
     @wiki = @group.page
