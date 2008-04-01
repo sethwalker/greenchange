@@ -43,10 +43,6 @@ class Tool::WikiController < Tool::BaseController
   end
 
   def update
-    if params[:cancel]
-      @wiki.unlock
-      return redirect_to(wiki_url(@page))
-    end
     if save_edits
       return redirect_to(wiki_url(@page))
     else
@@ -126,8 +122,6 @@ class Tool::WikiController < Tool::BaseController
   end
   
   def fetch_wiki
-    return true unless @page
-    @page.data ||= Wiki.new(:body => 'new page', :page => @page)
     @wiki = @page.data
   end
   

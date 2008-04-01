@@ -208,15 +208,5 @@ describe Tool::WikiController do
       controller.should_receive(:save_edits)
       put :update, :id => @page.to_param
     end
-    describe "when canceling" do
-      it "should unlock" do
-        @wiki.should_receive(:unlock)
-        put :update, :id => @page.to_param, :cancel => true
-      end
-      it "should redirect to wiki url" do
-        put :update, :id => @page.to_param, :cancel => true
-        response.redirect_url.should == wiki_url(@page)
-      end
-    end
   end
 end
