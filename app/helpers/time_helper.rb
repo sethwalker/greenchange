@@ -22,10 +22,12 @@ module TimeHelper
       str = local.strftime("%I:%M<span style='font-size: 80%'>%p</span>")
     elsif today > date and (today-date) < 7
       str = local.strftime("%A")
+      str = "Last #{str}" if date < today.at_beginning_of_week
     else
       str = date.loc('%m.%d.%Y')
     end
-    "<label title='#{ full_time(time) }'>#{str}</label>"
+    #"<label title='#{ full_time(time) }'>#{str}</label>"
+    label nil, nil, str, :title => full_time(time)
   end
   
   # formats a time, in full detail

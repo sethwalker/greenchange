@@ -3,11 +3,14 @@
     Inbox
   .toolbar.title-menu
     .icon
-      = link_to 'Send a message', new_message_url, :class => 'action message'
+      = link_to 'Send new message', new_message_url, :class => 'action message'
 
 .landing.inbox
   #page-list
-    = render :partial => 'pages/list/table', :locals => {:heading => true, :checkbox => true, :columns => [:checkbox, :icon, :title, :group, :updated_by, :updated_at, :contributors]};
+    %table.page-list
+      = render :partial => 'inbox/list/headers'
+      = render :partial => 'inbox/list/item', :collection => @pages
+    -#= render :partial => 'pages/list/table', :locals => {:heading => true, :checkbox => true, :columns => [:checkbox, :icon, :title, :group, :updated_by, :updated_at, :contributors]};
 -#page-holder
 -#- form_tag({:controller => 'inbox', :action => 'index', :path => params[:path]}, {:id => 'inbox_form'}) do
 

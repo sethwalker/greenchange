@@ -7,7 +7,7 @@ module PageListHelper
   #
   def page_list_cell(page, column, participation=nil)
     if column == :icon
-      return page_icon(page)
+      return icon_for page, :size => :small
     elsif column == :checkbox
       check_box('page_checked', page.id, {}, 'checked', '')
     elsif column == :title
@@ -84,6 +84,34 @@ module PageListHelper
     content_for :javascript do 
       javascript_tag("Event.observe( document, 'dom:loaded', function() { Event.observe( $('inbox-toggle-selection'), 'click', function() { $('inbox_form').getInputs('checkbox').invoke('click'); } ); } ); ");
     end 
+  end
+
+  # used to create the page list headings
+  # set member variable @path beforehand if you want 
+  # the links to take it into account instead of params[:path]
+  def list_heading(text, action, select_by_default=false)
+    path = filter_path
+    parsed = parsed_path
+    selected = false
+    arrow = ''
+    if parsed.keyword?('ascending')
+      link = page_path_link(text,"descending/#{action}")
+      if parsed.first_arg_for('ascending') == action
+        selected = true
+        arrow = image_tag('ui/sort-asc.png')
+      end
+    elsif parsed.keyword?('descending')
+      link = page_path_link(text,"ascending/#{action}")
+      if parsed.first_arg_for('descending') == action
+        selected = true
+        arrow = image_tag('ui/sort-desc.png')
+      end
+    else
+      link = page_path_link(text, "ascending/#{action}")
+      selected = select_by_default
+      arrow = image_tag('ui/sort-desc.png') if selected
+    end
+    "<th nowrap class='#{selected ? 'selected' : ''}'>#{link} #{arrow}</th>"
   end
 
 end
