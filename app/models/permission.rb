@@ -11,7 +11,7 @@ class Permission < ActiveRecord::Base
   ACTION_ALIASES = {
     :view           => [:read, :show],
     :participate    => [:comment, :vote],
-    :edit           => [:change],
+    :edit           => [:change, :update],
     :admin          => [:delete]
   }
 

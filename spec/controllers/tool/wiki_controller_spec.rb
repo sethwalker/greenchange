@@ -4,7 +4,6 @@ require File.dirname(__FILE__) + '/shared'
 describe "an unsuccessful update", :shared => true do
   it "should render edit" do
     act!
-    response.should be_success
     response.should render_template('tool/wiki/edit')
   end
   it "should not have saved the page" do
@@ -25,11 +24,8 @@ describe Tool::WikiController do
     controller.stub!(:fetch_page_data)
     controller.stub!(:fetch_wiki)
     #now jump thru some hoops to get the page type we want while still using fixture_replacement
-    @page = new_page(:type => 'Tool::TextDoc', :title => 'awiki')
-    @page.type = 'Tool::TextDoc'
-    @page.save
-    @page = Page.find(@page)
-    @wiki = Wiki.new
+    @page = Tool::TextDoc.create :title => 'awiki'
+    @wiki = @page.build_data
     controller.instance_variable_set(:@page, @page)
     controller.instance_variable_set(:@wiki, @wiki)
     controller.stub!(:login_or_public_page_required).and_return(true)
@@ -90,11 +86,11 @@ describe Tool::WikiController do
       @wiki.body = "oldbody"
       @wiki.page = @page
       @wiki.save
-      @page.stub!(:data).and_return(@wiki)
+      @page.data = @wiki
     end
     describe "with valid params" do
       before do
-        put :update, :id => @page.to_param, :page => {:title => 'updated'}, :data => {:body => 'newbody', :version => @wiki.version}
+        put :update, :id => @page.to_param, :page => {:title => 'updated', :page_data => {:body => 'newbody', :lock_version => @wiki.version}}
       end
       it "should redirect to wiki show" do
         response.should be_redirect
@@ -102,10 +98,11 @@ describe Tool::WikiController do
     end
 
     describe "with old lock version" do
+      self.use_transactional_fixtures = false
       it_should_behave_like "an unsuccessful update"
 
       def act!
-        put :update, :id => @page.to_param, :page => {:title => 'updated'}, :data => {:body => 'newbody', :version => @wiki.version - 1} 
+        put :update, :id => @page.to_param, :page => {:title => 'updated', :page_data => {:body => 'newbody', :lock_version => @wiki.lock_version - 1} }
       end
 
       it "should show a message" do
@@ -116,25 +113,29 @@ describe Tool::WikiController do
     end
 
     describe "without being locked" do
+      self.use_transactional_fixtures = false
       def act!
-        put :update, :id => @page.to_param, :page => {:title => 'updated'}, :data => {:body => 'newbody', :version => @wiki.version}
+        put :update, :id => @page.to_param, :page => {:title => 'updated', :page_data => {:body => 'newbody', :lock_version => @wiki.version}}
       end
       describe "when save fails" do
         before do
-          @wiki.should_receive(:recent_edit_by?).and_return(false)
-          @wiki.should_receive(:save).and_return(false)
+          @page.should_receive(:update_data).and_raise
+          @page.data.should_receive(:valid?).and_return(true, false)
         end
         it_should_behave_like "an unsuccessful update"
 
         it "should message the object" do
           controller.should_receive(:message).with({:object => @wiki})
+          controller.should_receive(:message)
           act!
         end
       end
 
       describe "recent edit update success" do
+        self.use_transactional_fixtures = false
         before do
-          @wiki.stub!(:recent_edit_by?).and_return(true)
+          @wiki.updater = controller.current_user
+          @wiki.should_receive(:recent_edit_by?).and_return(true)
           @old_version_number = @wiki.version
           @old_version = @wiki.versions.find_by_version(@wiki.version)
           @old_version_updated_at = 1.day.ago
@@ -186,27 +187,21 @@ describe Tool::WikiController do
     end
 
     describe "without being able to edit because i didn't lock it" do
+      self.use_transactional_fixtures = false
       before do
-        @wiki.stub!(:locked?).and_return(true)
+        @wiki.should_receive(:locked?).and_return(true)
         @wiki.stub!(:locked_by).and_return(User.new)
       end
-
-      it_should_behave_like "an unsuccessful update"
-
       def act!
-        put :update, :id => @page.to_param, :page => {:title => 'updated'}, :data => {:body => 'newbody', :version => @wiki.version} 
+        put :update, :id => @page.to_param, :page => {:title => 'updated', :page_data => {:body => 'newbody', :lock_version => @wiki.version} }
       end
+      it_should_behave_like "an unsuccessful update"
 
       it "should show a message" do
         controller.__send__(:flash).should_receive(:now).and_return(mock_now = mock('now'))
         mock_now.should_receive(:[]=).with(:error, /someone else has locked the page/)
         act!
       end
-    end
-
-    it "should call save_edits" do
-      controller.should_receive(:save_edits)
-      put :update, :id => @page.to_param
     end
   end
 end

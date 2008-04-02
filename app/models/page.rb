@@ -305,6 +305,21 @@ class Page < ActiveRecord::Base
   has_many :issues, :through => :issue_identifications
 
   belongs_to :data, :polymorphic => true
+  attr_writer :page_data
+  after_save :update_data
+  def update_data
+    if @page_data
+      if data
+        data.update_attributes @page_data
+      else
+        create_data @page_data
+      end
+    end
+  rescue Exception => e
+    errors.add_to_base e.message
+    raise e
+  end
+
   has_one :discussion, :dependent => :destroy
   has_many :assets, :dependent => :destroy
       
@@ -555,7 +570,7 @@ class Page < ActiveRecord::Base
 
     # page allows public actions
     ( user.is_a?(AuthenticatedUser)  and 
-      (( self.public_edit? and action == :edit ) ||
+      (( self.public_edit? and [:edit, :update].include?(action)) ||
       ( self.public_participate? and action == :participate ) )) ||
 
     # user is page owner

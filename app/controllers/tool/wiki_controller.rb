@@ -1,6 +1,6 @@
 class Tool::WikiController < Tool::BaseController
   include HTMLDiff
-  append_before_filter :fetch_wiki
+  append_before_filter :fetch_wiki, :except => [:new, :create]
 
   def new
     @page = Tool::TextDoc.new :group_id => params[:group_id]
@@ -43,11 +43,15 @@ class Tool::WikiController < Tool::BaseController
   end
 
   def update
-    if save_edits
+    @page.attributes = params[:page]
+    @page.data.updater = current_user
+    if @page.save
       return redirect_to(wiki_url(@page))
-    else
-      render :action => 'edit'
     end
+  rescue Exception => e
+    message :object => @page.data unless @page.data.valid?
+    message :error => e.message
+    render :action => 'edit'
   end
   
   def version
@@ -85,13 +89,15 @@ class Tool::WikiController < Tool::BaseController
   
   def save_edits
     @wiki = @page.data || @page.build_data
+    if @wiki.version > params[:data][:version].to_i
+      message :error => "can't save your data, someone else has saved new changes first."
+      return false
+    elsif not @wiki.editable_by? current_user
+      message :error => "can't save your data, someone else has locked the page."
+      return false
+    end
     begin
       @wiki.body = params[:data][:body]
-      if @wiki.version > params[:data][:version].to_i
-        raise ErrorMessage.new("can't save your data, someone else has saved new changes first.")
-      elsif not @wiki.editable_by? current_user
-        raise ErrorMessage.new("can't save your data, someone else has locked the page.")
-      end
       if save_revision(@wiki)
         current_user.updated(@page)
         @wiki.unlock
@@ -103,8 +109,6 @@ class Tool::WikiController < Tool::BaseController
       # this exception is created by optimistic locking. 
       # it means that @wiki has change since we fetched it from the database
       message :error => "locking error. can't save your data, someone else has saved new changes first."
-    rescue ErrorMessage => exc
-      message :error => exc.to_s
     end
     return false
   end
@@ -122,7 +126,7 @@ class Tool::WikiController < Tool::BaseController
   end
   
   def fetch_wiki
-    @wiki = @page.data
+    @wiki = @page.data 
   end
   
   def setup_view

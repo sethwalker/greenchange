@@ -112,7 +112,7 @@ class Tool::BaseController < ApplicationController
     if @page
       #current_user.may?(:admin, @page)
       #current_role.allows? action_name, @page
-      @page.allows? current_user, action_name
+      @page.allows? current_user, action_name.to_sym
     else
       true
     end
