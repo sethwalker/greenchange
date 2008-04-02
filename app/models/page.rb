@@ -558,6 +558,7 @@ class Page < ActiveRecord::Base
   # check if user has permission to perform the action on this page
   def allows?(user, action)
     return true if user.superuser?
+    action = action.to_sym
 
     unless [:view, :edit, :participate, :admin].include? action
         action = Permission.alias_for( action )
@@ -570,7 +571,7 @@ class Page < ActiveRecord::Base
 
     # page allows public actions
     ( user.is_a?(AuthenticatedUser)  and 
-      (( self.public_edit? and [:edit, :update].include?(action)) ||
+      (( self.public_edit? and action == :edit) ||
       ( self.public_participate? and action == :participate ) )) ||
 
     # user is page owner
