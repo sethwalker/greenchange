@@ -1,0 +1,26 @@
+-# 
+-# =begin
+-# Example usage:
+-# render :partial => "pages/list/row", :collection => pages, :locals {:columns => columns}
+-# =end
+- columns ||= [:icon, :title, :updated_by, :updated_at, :contributors_count]
+- page = row
+- upart = page.flag[:user_participation]
+- color = cycle('shade-odd', 'shade-even')
+%tr{ :class => (( ( upart && !upart.viewed?) ? 'unread' : '') +' '+color) }
+  - columns.each do |column|
+    %td
+      = page_list_cell(page, column, upart)
+
+- if upart and upart.notice
+  - upart.notice.each do |notice|
+    - next unless notice.is_a? Hash
+    %tr.page_info{ :class => color }
+      %td/
+      %td/
+      %td{ :colspan => "100" }
+        = 'page sent by %s on %s'.t % [link_to_user(notice[:user_login]), friendly_date(notice[:time])]
+        - if notice[:message].any?
+          = 'with message'.t
+          %i
+            = h notice[:message]

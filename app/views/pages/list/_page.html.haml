@@ -6,11 +6,12 @@
       = link_to page.title, page_url(page) 
     %p.blurb
       = page.summary
-    .byline
-      .label
-        Posted By:
-      = link_to_user(page.created_by)
-    .date
+    - if page.created_by
+      .byline
+        .label
+          Posted By:
+        = link_to page.created_by.login, people_url(page.created_by)
+      .date
       = friendly_date(page.created_at)
     %ul.page-attachments
       - unless page.tags.empty?

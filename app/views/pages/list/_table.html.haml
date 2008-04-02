@@ -1,0 +1,31 @@
+-# #
+-# 
+-# a partial to display a list of pages in a table, one page per row.
+-# 
+-# arguments
+-# ---------
+-# 
+-# pages: an array of pages.
+-# 
+-# columns: what columns to display. default is
+-# [:icon, :title, :updated_by, :update_at, :posts]
+-# 
+-# heading: show heading if set to true.
+-# 
+-# 
+- pages ||= @pages
+- columns ||= (@columns || [:icon, :title, :updated_by, :updated_at, :contributors_count])
+- heading ||= false
+- checkbox ||= false
+%table.page-list
+  - unless pages.any?
+    %tr
+      %td{ :colspan => "10" }
+        no pages
+  - else
+    - if heading
+      %tr.page-list-heading
+        - columns.each do |column|
+          = page_list_heading(column)
+    = render :partial => "pages/list/row", :collection => pages, :locals => {:columns => columns, :checkbox => checkbox}
+= will_paginate(pages, :param_name => :section) if pages.respond_to?(:page_count)

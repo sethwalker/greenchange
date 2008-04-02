@@ -4,7 +4,7 @@ class InboxController < ApplicationController
  
   #layout 'me'
 
-  def index
+  def show
     if request.post?
       update
     else

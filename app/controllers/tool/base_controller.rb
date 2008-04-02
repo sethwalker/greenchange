@@ -26,7 +26,7 @@ class Tool::BaseController < ApplicationController
 
   def index
     load_context
-    @pages = Page.allowed(current_user).page_type( page_type ).by_group( @group ).by_issue( params[:issue_id ]).by_person( @person )
+    @pages = Page.allowed(current_user).page_type( page_type ).by_group( @group ).by_issue( params[:issue_id ]).by_person( ( @me || @person ) )
     unless !Dir.glob( "#{RAILS_ROOT}/app/views/tool/#{params[:page_type]}/index*").empty?  and  render :action => "index" 
        render :action => '../shared/index'
     end

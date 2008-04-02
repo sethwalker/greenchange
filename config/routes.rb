@@ -74,16 +74,17 @@ ActionController::Routing::Routes.draw do |map|
       profile.resources :locations
     end
     me.resource :profile
-    me.inbox    'inbox',   :controller => 'inbox', :action => 'index'
     me.network  'network', :controller => 'network'#, :me => true
-    me.events   'events',  :controller => 'tool/event'#, :me => true
-    me.content  'pages', :controller => 'tool/base'
+    #me.events   'events'#,  :controller => 'event'#, :me => true
+    #me.content  'pages', :controller => 'tool/base'
     me.resources 'contacts', :controller => 'contact', :member => { :approve => :post, :reject => :post, :add => :get }
-    me.resources :people
-    me.resources :groups   
   end
   #map.resource :profile, :controller => 'profiles', :path_prefix => 'me/', :name_prefix => 'my'
-  map.resource :me, :controller => 'me', :member => { :search => :get, :files => :get, :tasks => :get } do |me|  page_routes me
+  map.resource :me, :controller => 'me', :member => { :search => :get, :files => :get, :tasks => :get } do |me|  
+    me.resource :inbox,   :controller => 'inbox'
+    me.resources :people
+    me.resources :groups   
+    page_routes me
   end
     #me.inbox 'inbox/:path', :controller => 'inbox', :action => 'index'
     #me.inbox 'inbox', :controller => 'inbox', :action => 'index'
