@@ -1,4 +1,5 @@
 %h1
   = controller.controller_name.pluralize.titleize
-%ul
-  = render :partial => 'pages/list/page', :collection => @pages
+.content-list
+  %ul
+    = render :partial => 'pages/list/page', :collection => @pages

@@ -1,0 +1,34 @@
+.section.menu
+  - unless controller.action_name =='show'
+    .header.context
+      = group.name
+    .icon-box
+      = icon_for( group, :size => :medium ) 
+    -#
+    %ul.plainlist
+      %li
+        = group.memberships.count
+        Members
+      - unless group.issues.empty?
+        %li.issues.icon-only
+          Issues:
+          = render :partial => 'shared/icons/issue', :collection => group.issues
+      %li
+        Location:
+        -#= group.location
+    .clear
+  %ul.tabset.menu
+    %ul.tabset
+      %li.tab
+        = link_to 'People', group_memberships_url(@group), selected_if( request.url == group_memberships_url(@group))
+      %li.tab
+        = link_to 'Blogs &amp; News', group_updates_url(@group), selected_if( params[:page_type] == 'updates' )
+      %li.tab
+        = link_to 'Events &amp; Actions', group_involvements_url(@group), selected_if( params[:page_type] == 'involvements' )
+    %ul.tabset
+      %li.tab
+        = link_to 'Video &amp Audio', group_media_url(@group), selected_if( params[:page_type] == 'media' )
+      %li.tab
+        = link_to 'Photos', group_media_url(@group), selected_if( params[:page_type] == 'media' )
+      %li.tab
+        = link_to 'Discuss &amp; Organize', group_tools_url(@group), selected_if( params[:page_type] == 'tools' )

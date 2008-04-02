@@ -63,6 +63,11 @@
       body.ie6 &
         :width = !main_column_wideside_width - !ie_padding_offset
 
+.content-list
+  li
+    :width 100%
+    :padding 10px
+
 .list-item
   :display block
   :overflow hidden
@@ -236,7 +241,20 @@ ul.tab-block, #titlebox
   .toolbar
     :float right
 
+.toolbar.title-menu
+  .icon
+    :margin-bottom 2px
+    :clear both
+    :width 120px
+    .action
+      :padding-top 0
+      :padding-left 24px
+
 .toolbar
+  ul
+    :list-style none
+    :padding 0
+    :float left
   .offset-row.admin
     :clear both
     :padding-bottom .5em
@@ -295,4 +313,4 @@ a.icon.standard.name-bottom
 
 .icon-box
   .icon
-    :margin 10px
+    :margin 4px

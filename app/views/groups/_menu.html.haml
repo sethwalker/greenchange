@@ -1,24 +1,20 @@
--#admin menu
-- if current_user.may? :admin, group
-  .offset-row.admin
-    .icon 
-      = link_to "Invite new members", invite_group_memberships_url(group) , :class => 'action invite-member add'
-    .icon
-      = link_to "Edit group profile", edit_group_profile_url(group), :class => 'action edit'
-  .clear
-  
--#member menu
-- if current_user.member_of? group
-  .icon
-    = link_to "Create Page", new_group_page_url(group), :class => 'action page-create add', :title => 'Add a Page'
-  .icon
-    = link_to "Join Chat", "chat_group_url( group )", :class => 'action chat' , :title => 'Join Chat'
-  .icon
-    = link_to "Leave", group_membership_url( group.membership_for current_user ), :method => :delete, :class => 'action delete', :title => 'Leave this Group'
+%ul
+  -#admin menu
+  - if current_user.may? :admin, group
+    %li.icon
+      = link_to "Edit group profile", edit_group_profile_url(group), :class => 'action edit', :title => "Edit group profile"
+  -#member menu
+  - if current_user.member_of? group
+    %li.icon
+      = link_to "Invite new members", invite_group_memberships_url(group) , :class => 'action invite-member add', :title => "Invite new members"
+    %li.icon
+      = link_to "Join Chat", "chat_group_url( group )", :class => 'action chat' , :title => 'Join Chat'
+    %li.icon
+      = link_to "Create Page", new_group_page_url(group), :class => 'action page-create add', :title => 'Add a Page'
+  - else
+    -#public menu
+    - if logged_in?
+      %li.icon
+        = link_to "Join", "new_group_membership_url( @group )", :class => 'action join-group add', :title => 'Join this group'
 
-- else
-  -#public menu
-  - if logged_in?
-    .icon
-      = link_to "Join", "new_group_membership_url( @group )", :class => 'action join-group add', :title => 'Join this group'
 

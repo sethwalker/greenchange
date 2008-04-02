@@ -1,14 +1,18 @@
 - unless controller.controller_name =~ /account/ || controller.action_name == 'new' 
   - if @group
+    - #- unless controller.action_name =='show'
+    = render :partial => 'groups/sides/group',  :locals => { :group => @group }
     = render :partial => 'shared/sides/donate'
     = render :partial => 'groups/sides/members',  :locals => { :group => @group }
     = render :partial => 'shared/media',      :locals => { :source => @group }
-    -#= render :partial => 'groups/sides/tools'
-    -#= render :partial => 'groups/sides/admin'
     = render :partial => 'groups/sides/events'
+    -#= render :partial => 'groups/sides/tools'
     -#= render :partial => 'groups/sides/chat'
+    = render :partial => 'groups/sides/admin'
 
   - if @issue
+    - unless controller.action_name =='show'
+      = render :partial => 'issues/sides/issue',  :locals => { :issue => @isssue }
     = render :partial => 'shared/sides/donate'
     = render :partial => 'shared/sides/featured/people',    :locals => { :source => @issue }
     = render :partial => 'shared/groups_large',             :locals => { :source => @issue }
@@ -17,13 +21,15 @@
   - if @page && !@page.new_record?
     = render :partial => 'shared/sides/donate'
     = render :partial => 'pages/sides/contributors', :locals => { :page => @page }
-    = render :partial => 'pages/sides/access', :locals => { :page => @page }
+    -#= render :partial => 'pages/sides/access', :locals => { :page => @page }
     = render :partial => 'pages/sides/tags', :locals => { :page => @page }
     = render :partial => 'pages/sides/issues', :locals => { :page => @page }
     -#= render :partial => 'pages/sides/groups', :locals => { :page => @page }
     = render :partial => 'pages/sides/assets', :locals => { :page => @page }
 
   - if @person
+    -#- unless controller.action_name =='show'
+    = render :partial => 'person/sides/person',  :locals => { :person => @person }
     = render :partial => 'shared/sides/donate'
     -#= render :partial => 'person/sides/tools',        :locals => { :target => @person }
     = render :partial => 'shared/contacts_large',     :locals => { :source => @person }
@@ -44,3 +50,8 @@
     -#= render :partial => 'shared/groups_large',   :locals => { :source => @tag }
     -#= render :partial => 'shared/media',          :locals => { :source => @tag }
 
+  - unless scoped_by_context?
+    = render :partial => 'shared/sides/donate'
+    = render :partial => 'shared/sides/invite'
+    -#= render :partial => 'shared/sides/featured/people'
+    = render :partial => 'shared/sides/featured/groups'
