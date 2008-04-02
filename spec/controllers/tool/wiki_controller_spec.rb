@@ -23,7 +23,6 @@ describe Tool::WikiController do
     @user = login_valid_user
     controller.stub!(:fetch_page_data)
     controller.stub!(:fetch_wiki)
-    #now jump thru some hoops to get the page type we want while still using fixture_replacement
     @page = Tool::TextDoc.create :title => 'awiki'
     @wiki = @page.build_data
     controller.instance_variable_set(:@page, @page)
@@ -72,13 +71,23 @@ describe Tool::WikiController do
   end
   describe "create" do
     before do
-      post :create, :page => {:title => 'thetitle'}, :data => {:body => "thebody"}
+      @issue = create_issue
+      post :create, :page => {:title => 'thetitle', :tag_list => 'rag tag', :issue_ids => [@issue.id]}, :data => {:body => "thebody"}
     end
     it "should create page" do
       assigns[:page].should be_valid
     end
     it "should create wiki" do
       assigns[:page].data.body.should == 'thebody'
+    end
+    it "should assign tags" do
+      assigns[:page].tag_list.should =~ /rag/
+    end
+    it "should assign issues" do
+      assigns[:page].issues.should include(@issue)
+    end
+    it "should remember the wiki" do
+      Page.find(assigns[:page]).data.body.should == 'thebody'
     end
   end
   describe "update" do

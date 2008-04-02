@@ -12,10 +12,6 @@ class Tool::WikiController < Tool::BaseController
     @page.created_by = current_user
     if @page.save
       if save_edits
-        @page.tag_with(params[:tag_list]) if params[:tag_list]
-        params[:issues].each do |issue_id|
-          @page.issue_identifications.create :issue_id => issue_id
-        end
         add_participants!(@page, params)
         redirect_to(wiki_url(@page))
       else
@@ -46,6 +42,8 @@ class Tool::WikiController < Tool::BaseController
     @page.attributes = params[:page]
     @page.data.updater = current_user
     if @page.save
+#        current_user.updated(@page)
+#        @wiki.unlock
       return redirect_to(wiki_url(@page))
     end
   rescue Exception => e
