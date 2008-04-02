@@ -73,22 +73,20 @@ class Wiki < ActiveRecord::Base
     lock_version=value
   end
 
-  class WikiLockedError < Exception; end
-
   attr_accessor :updater
   def save_with_recent_edit(*args)
-    raise WikiLockedError, "can't save your data, someone else has locked the page" unless editable_by?(updater) if updater
+    raise RecordLockedError, "can't save your data, someone else has locked the page" unless editable_by?(updater) if updater
+    locked_at = nil
+    locked_by = nil
     if updater && recent_edit_by?(updater)
       save_without_revision
-      if ver = versions.find_by_version(version)
-        ver.update_attributes(:body => body, :body_html => body_html)
-      end
+      versions.find_by_version(version).update_attributes(:body => body, :body_html => body_html)
     else
       user = updater if updater
       save_without_recent_edit(*args)
     end
   rescue ActiveRecord::StaleObjectError => e
-    raise e, "can't save your data, someone else has saved new changes first."
+    raise RecordLockedError, "can't save your data, someone else has saved new changes first."
   end
   alias_method_chain :save, :recent_edit
 

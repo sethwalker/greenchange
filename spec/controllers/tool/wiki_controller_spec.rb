@@ -72,7 +72,7 @@ describe Tool::WikiController do
   describe "create" do
     before do
       @issue = create_issue
-      post :create, :page => {:title => 'thetitle', :tag_list => 'rag tag', :issue_ids => [@issue.id]}, :data => {:body => "thebody"}
+      post :create, :page => {:title => 'thetitle', :tag_list => 'rag tag', :issue_ids => [@issue.id], :page_data => {:body => "thebody"}}#, :lock_version => 0 or nil
     end
     it "should create page" do
       assigns[:page].should be_valid
@@ -122,13 +122,13 @@ describe Tool::WikiController do
     end
 
     describe "without being locked" do
-      self.use_transactional_fixtures = false
       def act!
         put :update, :id => @page.to_param, :page => {:title => 'updated', :page_data => {:body => 'newbody', :lock_version => @wiki.version}}
       end
       describe "when save fails" do
+        self.use_transactional_fixtures = false
         before do
-          @page.should_receive(:update_data).and_raise
+          @page.should_receive(:update_data).and_raise RecordLockedError
           @page.data.should_receive(:valid?).and_return(true, false)
         end
         it_should_behave_like "an unsuccessful update"
@@ -141,33 +141,45 @@ describe Tool::WikiController do
       end
 
       describe "recent edit update success" do
-        self.use_transactional_fixtures = false
         before do
-          @wiki.updater = controller.current_user
-          @wiki.should_receive(:recent_edit_by?).and_return(true)
-          @old_version_number = @wiki.version
-          @old_version = @wiki.versions.find_by_version(@wiki.version)
-          @old_version_updated_at = 1.day.ago
-          @old_version.class.update_all("updated_at = '#{@old_version_updated_at.to_s(:db)}'", "id = #{@old_version.id}")
+          @wiki.stub!(:editable_by?).and_return(true)
+          @wiki.stub!(:updater).and_return(true)
+          @wiki.stub!(:recent_edit_by?).and_return(true)
+        end
+        def act!
+          put :update, :id => @page.to_param, :page => {:title => 'updated', :page_data => {:body => 'newbody', :lock_version => @wiki.version}}
+        end
+        it "should call recent_edit_by on the wiki" do
+          @wiki.should_receive(:recent_edit_by?).at_least(1).times
           act!
         end
         it "should be successful" do
+          act!
           response.should be_redirect
         end
         it "should redirect do show" do
+          act!
           response.redirect_url.should == wiki_url(@page)
         end
         it "should keep the same version number" do
-          Wiki.find(@wiki).version.should == @old_version_number
+          version_number = @wiki.version
+          act!
+          Wiki.find(@wiki).version.should == version_number
         end
         it "should update the wiki" do
+          act!
           Wiki.find(@wiki).body.should == 'newbody'
         end
         it "should update the version" do
+          act!
           Wiki.find(@wiki).versions.find_by_version(@wiki.version).body.should == 'newbody'
         end
         it "should set updated_at" do
-          Wiki.find(@wiki).versions.find_by_version(@wiki.version).updated_at.should > @old_version_updated_at
+          Wiki::Version.update_all("updated_at = '#{1.day.ago}'", "id = #{@wiki.versions.first.id}")
+          @wiki.reload
+          old_updated_at = @wiki.versions.find_by_version(@wiki.version).updated_at
+          act!
+          Wiki.find(@wiki).versions.find_by_version(@wiki.version).updated_at.should > old_updated_at
         end
       end
 

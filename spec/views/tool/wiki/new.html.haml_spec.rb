@@ -15,6 +15,6 @@ describe "wiki/new" do
     response.should have_tag('input[name^="page"]')
   end
   it "should have data fields" do
-    response.should have_tag('input[name^="data"]')
+    response.should have_tag('input[name*="page_data"]')
   end
 end

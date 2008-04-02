@@ -306,16 +306,17 @@ class Page < ActiveRecord::Base
 
   belongs_to :data, :polymorphic => true
   attr_writer :page_data
-  after_save :update_data
+  before_save :update_data
   def update_data
     if @page_data
       if data
         data.update_attributes @page_data
       else
-        create_data @page_data
+        create_data(@page_data)
       end
+      @page_data = nil
     end
-  rescue Exception => e
+  rescue RecordLockedError => e
     errors.add_to_base e.message
     raise e
   end

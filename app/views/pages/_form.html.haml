@@ -10,8 +10,8 @@
       = f.select 'group_id', current_user.all_groups.map {|g| [g.name, g.id]}, :include_blank => true
       = f.label 'group', 'group_id'
     %p
-      = text_field_tag 'tag_list', @page.tag_list, :size => 30
-      = f.label 'tags', 'tags'
+      = f.text_field 'tag_list', :size => 30
+      = f.label 'tags', 'tag_list'
     %p
       = issue_selector(@page)
       = f.label 'issues', 'issues'

@@ -11,12 +11,8 @@ class Tool::WikiController < Tool::BaseController
     @page = Tool::TextDoc.new params[:page]
     @page.created_by = current_user
     if @page.save
-      if save_edits
-        add_participants!(@page, params)
-        redirect_to(wiki_url(@page))
-      else
-        render :action => 'new'
-      end
+      add_participants!(@page, params)
+      redirect_to(wiki_url(@page))
     else
       message :object => @page
       render :action => 'new'
@@ -42,11 +38,10 @@ class Tool::WikiController < Tool::BaseController
     @page.attributes = params[:page]
     @page.data.updater = current_user
     if @page.save
-#        current_user.updated(@page)
-#        @wiki.unlock
+      current_user.updated(@page)
       return redirect_to(wiki_url(@page))
     end
-  rescue Exception => e
+  rescue RecordLockedError => e
     message :object => @page.data unless @page.data.valid?
     message :error => e.message
     render :action => 'edit'
