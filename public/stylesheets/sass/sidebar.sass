@@ -109,8 +109,35 @@
     :color #669
     textarea, select
       :width 190px
-  
+ 
   .media
     :border-color = !bar_media_header_border
     :background-color = !bar_media_header_bg 
+
+  .context
+    .tabset.menu
+      :border-top-width 1px
+    .header
+      :border-color = !bar_context_header_border
+      :background-color = !bar_context_header_bg
+    .info
+      :border-top = 2px solid !topmenu_container_bg
+      :padding 5px 0px 5px 0px
+      :float left
+      :width 100%
+      &:hover
+        :background-color = !tabmenu_selected_bg
+
+    a.home
+      :background no-repeat 10px 0px 
+      :background-image = !tabmenu_arrow
+      :float left
+      :display block
+      :text-decoration none
+      :padding 8px 0px 0px 45px
+      :width 100% 
+      :font-size 18px
+      :color = !tabmenu_text
+      :text-transform uppercase
+      :font-weight bold
 

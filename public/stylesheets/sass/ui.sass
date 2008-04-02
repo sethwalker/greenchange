@@ -15,6 +15,7 @@ form
     :margin 1px
   input[type=submit]:hover, input[type=button]:hover
     :background #fff url(/images/blend/24-wb-25.png) 0% 50% repeat-x
+    :float left
 
 a.button
   :border 1px solid
@@ -69,6 +70,7 @@ textarea, input[type=text], input[type=password], input[type=file]
   :border 1px solid #666
   :background #fff url(/images/shadows/small-top-a.png) 0 -1px repeat-x
   :padding 4px
+  :float left 
 
 select
   :border 1px solid #666
@@ -121,6 +123,7 @@ ul.plainlist
   :padding 0
   :margin 0
   :list-style none
+  :float left
   li
     :margin 3px 0
 
@@ -169,7 +172,7 @@ ul.tabset.left
     :border-top 1px solid #ccc
     :border-bottom 1px solid #ccc
 
-ul.tabset.top
+ul.tabset.top, .menu ul.tabset
   :font-size 11px
   :padding  .3em 0 .3em 0
   :margin-top .25em
@@ -183,7 +186,6 @@ ul.tabset.top
     :margin 0 .5em
     :list-style none
     a
-      //:background url(/images/arrow-bullet-dark.gif)  no-repeat 2px 3px 
       :background no-repeat 2px 3px 
       :background-image = !tabmenu_arrow
       :float left
@@ -200,6 +202,19 @@ ul.tabset.top
       :border-right= 1px solid 
       :border-color = !tabmenu_selected_border
       :background-color = !tabmenu_selected_bg
+
+#bar
+  .section
+    :width 100%
+  ul.tabset.menu
+    ul.tabset
+      :border 0
+      :width 45%
+      :float left
+      :padding-left 12px
+      li
+        :margin-bottom 6px
+        :clear both
 
 table.layout
   :margin-top 2em

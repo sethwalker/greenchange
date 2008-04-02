@@ -1,7 +1,10 @@
+.sidesection
+  .sidehead
+    Group Hosts
+  Group host avatars go here
+
 - if logged_in? && current_user.may_admin?(@group)
   .sidesection
-    .sidehead
-      Administer Group
     = link_to 'edit settings', edit_group_url(@group), :class => 'action'
     = link_to 'view requests', requests_group_url(@group), :class => 'action'
     = link_to 'destroy group', group_url(@group), :method => :delete, :class => 'action'
