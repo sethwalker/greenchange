@@ -13,8 +13,7 @@
       = f.text_field 'tag_list', :size => 30
       = f.label 'tags', 'tag_list'
     %p
-      = issue_selector(@page)
-      = f.label 'issues', 'issues'
+      = render :partial => "shared/form/issues", :locals => {:f => f}
 
 - content_for :javascript do
   = javascript_tag '$("page_title").focus();'
