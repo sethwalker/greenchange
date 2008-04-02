@@ -11,8 +11,8 @@ describe PeopleController do
     it "should be success" do
       response.should be_success
     end
-    it "should render list template" do
-      response.should render_template('list')
+    it "should render index template" do
+      response.should render_template('index')
     end
   end
 end

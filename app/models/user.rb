@@ -20,6 +20,11 @@ class User < ActiveRecord::Base
   has_many :gives_permissions,  :as => 'grantor', :class_name => 'Permission'
   has_many :given_permissions,  :as => 'grantee', :class_name => 'Permission'
 
+  has_finder :by_issue, lambda {|*issues|
+    issues.any? ? { :include => :issue_identifications, :conditions => [ "issue_identifications.issue_id in (?)", issues ] } : {}
+  }
+ 
+
   has_many :memberships
   def admin_of_group_ids
     memberships.find(:all, :conditions => ["role = 'administrator'"]).map(&:group_id).uniq

@@ -50,7 +50,7 @@ Rails::Initializer.run do |config|
   
   # Activate observers that should always be running
   # config.active_record.observers = :cacher, :garbage_collector
-  config.active_record.observers = [:user_observer, :asset_observer]
+  config.active_record.observers = :user_observer, :asset_observer
 
 #  config.action_controller.session_store = :p_store
   #
@@ -70,7 +70,6 @@ Rails::Initializer.run do |config|
 end
 
 require 'enhanced_migrations'
-require 'has_finder'
 require 'tagging_extensions'
 require 'textile_editor_form_builder_helper'
 
@@ -126,12 +125,6 @@ DEFAULT_TZ = 'Pacific Time (US & Canada)'
 #### USER INTERFACE HELPERS ########
 
 FightTheMelons::Helpers::FormMultipleSelectHelperConfiguration.outer_class = 'plainlist'
-
-#include all files in the initializers folder ( TODO remove in Rails 2 branch )
-Dir.entries( "#{RAILS_ROOT}/config/initializers/" ).each do |filename |
-  require "#{RAILS_ROOT}/config/initializers/#{filename}" if filename =~ /\.rb$/ 
-end
-
 
 WillPaginate::ViewHelpers.pagination_options[:renderer] = 'CrabgrassLinkRenderer'
 WillPaginate::ViewHelpers.pagination_options[:prev_label] = '&laquo; previous'

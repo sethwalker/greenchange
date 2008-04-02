@@ -80,6 +80,9 @@ module SocialUser
             proxy_owner.update_membership_cache
           end
         end
+        has_finder :by_group, lambda {|*groups|
+          groups.any? ? { :include => :memberships, :conditions => [ "memberships.group_id in (?)", groups ] } : {}
+        }
           
         # all groups, including groups we have indirect access to (ie committees and networks)
         has_many :all_groups, :class_name => 'Group', 
@@ -180,6 +183,9 @@ module SocialUser
             end
           end
 
+        has_finder :by_person, lambda {|*people|
+          people.any? ? { :include => :contacts, :conditions => [ "contacts.contact_id in (?)", people ] } : {}
+        }
         has_many :contact_requests_sent, :class_name => 'ContactRequest'
         has_many :contact_requests_received, :class_name => 'ContactRequest', :foreign_key => 'contact_id'
       end
@@ -275,6 +281,7 @@ module SocialUser
 
         has_many :tags,
           :finder_sql => 'SELECT DISTINCT tags.* FROM tags WHERE tags.id IN ({#{tag_id_cache.to_sql})'
+        has_finder :by_tag, {}
       end
     end
     
