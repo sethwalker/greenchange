@@ -110,21 +110,25 @@
     textarea, select
       :width 190px
  
+  .section
+    :width 100%
+
   .media
     :border-color = !bar_media_header_border
     :background-color = !bar_media_header_bg 
 
   .context
-    .tabset.menu
-      :border-top-width 1px
+    .pages
+      :padding 5px
     .header
       :border-color = !bar_context_header_border
       :background-color = !bar_context_header_bg
+
     .info
-      :border-top = 2px solid !topmenu_container_bg
       :padding 5px 0px 5px 0px
       :float left
       :width 100%
+      :border-bottom = 1px solid !topmenu_container_bg
       &:hover
         :background-color = !tabmenu_selected_bg
 
@@ -141,3 +145,16 @@
       :text-transform uppercase
       :font-weight bold
 
+    .menu
+      :border-top = 2px solid !topmenu_container_bg
+      :border-bottom = 2px solid !topmenu_container_bg
+      :float left
+      :width 100%
+      ul.tabset
+        :border 0
+        :width 45%
+        :float left
+        :padding-left 12px
+        li
+          :margin-bottom 6px
+          :clear both
