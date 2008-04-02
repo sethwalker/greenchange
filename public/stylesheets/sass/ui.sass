@@ -107,17 +107,15 @@ a.imglink
   span
     :text-decoration underline
 
-img.avatar
-  :vertical-align middle
-
-.avatar
-  :background no-repeat top left
-.avatar.medium
-  :min-height 48px
-  :min-width 48px
-  :padding-left 55px
-  body.ie6 &
-    :height 48px
+.avatar.icon
+  &.large
+    :background-image url(/images/default/92.jpg)
+  &.standard
+    :background-image url(/images/default/64.jpg)
+  &.medium
+    :background-image url(/images/default/48.jpg)
+  &.small
+    :background-image url(/images/default/24.jpg)
 
 ul.plainlist
   :padding 0

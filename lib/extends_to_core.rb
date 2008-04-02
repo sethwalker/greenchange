@@ -145,8 +145,12 @@ class Module
 end
 # doncha wish we had one of these?
 module LocalizedTime
-  def loc(format)
-    self.strftime(format)
+  def loc(format = nil)
+    if format
+      self.strftime(format)
+    else
+      self
+    end
   end
 end
 class Time 

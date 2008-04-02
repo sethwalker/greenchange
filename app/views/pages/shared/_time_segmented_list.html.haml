@@ -1,0 +1,11 @@
+- today, earlier      = pages.partition   { |page| local_now.at_beginning_of_day < page.updated_at }
+- yesterday, earlier  = earlier.partition { |page| local_now.yesterday.at_beginning_of_day < page.updated_at }
+- week, earlier       = earlier.partition { |page| 7.days.ago(local_now).at_beginning_of_day < page.updated_at }
+
+- [ [ today, "Today" ], [ yesterday, "Yesterday" ], [ week, "This Past Week"], [ earlier, "Earlier" ]].each do |updated_pages, heading|
+  - if updated_pages.any?
+    %h2.landing
+      = heading
+    %ul.row-listing.pages
+      = render :partial => 'pages/list/rows/page', :collection => updated_pages
+

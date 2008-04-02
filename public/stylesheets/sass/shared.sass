@@ -314,50 +314,41 @@ a.icon.standard.name-bottom
   :padding-top 64px
   :height 20px
 
+a.icon
+  &:hover
+    :opacity .7
+
 .icon-box
   .icon
     :margin 4px
 
 .row-listing
-  .row.odd
-    :background-color #F2F2F2
-  .row.even
-    :background-color white
-
-.table-listing
   :float left
-  .row
-    :height 30px
+  :padding 4px
+  :list-style none
+  .row-block 
     :float left
-    .table-column 
-      :padding 5px
-      :text-decoration none
-      :float left
-      a
-        :padding 5px
-        :text-decoration none
-      a:hover
-        :text-decoration underline
-  .row.odd
-    :background-color #F2F2F2
-  .row.even
-    :background-color white
+    :padding 2px
 
-  .header-row 
+  .row.shade-odd
+    :background-color = !row_shade_odd_bg
+  .row.shade-even
+    :background-color = !row_shade_even_bg
+  .row-header
     :padding-top 20px
     :text-align left
 
 .pages.row-listing
-  :float left
+  .list-item
+    :padding 2px
+  ul.tab-content
+    :margin-left 20px
   .row
-    :width = !main_column_width -150px
-    :float left
-    :padding 4px
-    .row-block 
-      :float left
-      :padding 4px
+    :width = !main_column_width - 20px
     .page_icon
       :height 100%
+      .icon
+        :background-position 5px 3px
     .owner
       :width 100px
       :float right
@@ -368,7 +359,7 @@ a.icon.standard.name-bottom
           :font-size 10px
           :margin-top 5px
     .title
-      :font-size 24px
+      :font-size 20px
     .changes
       :padding-top 2px
       :padding-bottom 2px

@@ -3,29 +3,61 @@ require 'cgi'
 module PageUrlHelper
    
   def page_url(page,*args)
-    url_helper = case page
-    when Tool::Video
-      'video_url'
-    when Tool::Asset
-      'upload_url'
-    when Tool::Blog, Tool::News, Tool::Event, Tool::Message, Tool::Discussion
-      "#{page.class.to_s.demodulize.underscore}_url"
-    when Tool::Asset
-      'upload_url'
-    when Tool::TextDoc
-      'wiki_url'
-    when Tool::ActionAlert
-      'action_url'
-    when Tool::RankedVote
-      'poll_url'
-    when Tool::RateMany
-      'survey_url'
-    when Tool::TaskList
-      'task_url'
-    else
+    tool_page_url(page, *args)
+  end
+
+  def tool_page_url(page, *args)
+    url_helper = tool_page_route_type( page )
+    if url_helper == 'page'
       return "/pages/show/#{page.to_param}"
     end
-    self.__send__ url_helper.to_sym, page, *args
+    self.__send__ "#{url_helper}_url".to_sym, page, *args
+  end
+
+  def tool_pages_url(page, page_context = nil )
+    if page_context
+      context_url_prefix = 'group' if page_context.is_a? Group
+      context_url_prefix = 'issue' if page_context.is_a? Issue 
+      context_url_prefix = 'tag' if page_context.is_a? Tag
+      if page_context.is_a? User 
+        context_url_prefix = ( page_context == current_user) ? 'me' : 'person' 
+      end
+    else
+      context_url_prefix = ''
+    end
+
+    url_helper = tool_page_route_type( page )
+    return self.send( [ context_url_prefix, url_helper.pluralize, 'url'].join('_'))
+    
+  end
+
+  def tool_pages_title(page)
+    tool_page_route_type(page).pluralize.titleize
+  end
+
+  def tool_page_route_type(page)
+    case page
+      when Tool::Video
+        'video'
+      when Tool::Image
+        'photo'
+      when Tool::Asset
+        'upload'
+      when Tool::Blog, Tool::News, Tool::Event, Tool::Message, Tool::Discussion
+        "#{page.class.to_s.demodulize.underscore}"
+      when Tool::TextDoc
+        'wiki'
+      when Tool::ActionAlert
+        'action'
+      when Tool::RankedVote
+        'poll'
+      when Tool::RateMany
+        'survey'
+      when Tool::TaskList
+        'task'
+      else
+        'page'
+    end
   end
 
   

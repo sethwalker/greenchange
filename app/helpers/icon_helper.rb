@@ -27,8 +27,11 @@ module IconHelper
   end
 
   def html_options_for_avatar_for( item, html_options ={} )
+    html_options[:class] = [ (html_options[:class] || ''), 'avatar' ].join(' ').strip
     avatar_size_option = html_options[:avatar_size] || html_options[:size] || 'standard'
-    html_options[:style] = [ (html_options[:style]||nil), "background-image: url(#{ avatar_url( :id => ( item.avatar || 0 ), :size => avatar_size_option )})"].compact.join(';')
+    if item.avatar
+      html_options[:style] = [ (html_options[:style]||nil), "background-image: url(#{ avatar_url( :id => ( item.avatar || 0 ), :size => avatar_size_option )})"].compact.join(';')
+    end
     html_options
   end
 
@@ -41,7 +44,8 @@ module IconHelper
   def icon_url_for_image( page, html_options = {} )
     return unless image = ( page.assets.detect { |a| a.image? } || page.data if page.is_a?(Tool::Image) )
     filename_size_option = html_options[:size] || :standard
-    image.public_filename( filename_size_option)  
+    thumb_file = image.public_filename( filename_size_option)
+    thumb_file if File.exists? RAILS_ROOT + thumb_file 
   end
 
   # returns the url for the video thumbnail if the page is a youtube video 
