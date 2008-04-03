@@ -1,0 +1,6 @@
+-if @page.groups.any?
+  .sidesection
+    .sidehead
+      Groups  
+    .icon-box
+      = render :partial => 'shared/list/group', :collection => @page.groups.collect  
