@@ -1,16 +1,13 @@
-- content_for :javascript do
-  = calendar_date_select_includes "blue" 
-  = javascript_include_tag 'calendar'
+- content_for :title do
+  %h2
+    = "Create a new".t
+    = @page.class.class_display_name.t
 
-%h2
-  = "Create a new".t
-  = @page.class.class_display_name.t
-
-- form_for(:page, @page, :url => events_path) do |f|
-  .workarea
-    = header_for_page_create(@page.class)
+.page.event.new
+  - form_for :page, @page, :url => events_path do |f|
+    = icon_for @page
     = render :partial => 'pages/form', :locals => {:f => f}
-  .formbox
-    - fields_for(:event, @event) do |event|
-      = render :partial => 'form', :locals => {:f => event}
-  = submit_tag 'Save', :name => 'save'
+    - f.fields_for(:page_data, @page.data ) do |ff|
+      = render :partial => 'form', :locals => {:f => ff }
+
+    = submit_tag 'Save', :name => 'save'

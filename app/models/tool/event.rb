@@ -4,5 +4,5 @@ class Tool::Event < Page
   class_display_name 'event'
   class_description 'An event added to the personal/group/public calendar.'
     
+  belongs_to :data, :class_name => '::Event'
 end
-

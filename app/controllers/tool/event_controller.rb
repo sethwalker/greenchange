@@ -91,50 +91,21 @@ class Tool::EventController < Tool::BaseController
   end
 
   def new 
-    @page = Tool::Event.new :group_id => params[:group_id]
-    @event = ::Event.new(:time_zone => current_user.time_zone)   
+    @page = Tool::Event.new :group_id => params[:group_id], :starts_at => (TzTime.now.at_midnight + 9.hours), :ends_at => TzTime.now.at_midnight + 17.hours
+    @event = @page.build_data(:time_zone => current_user.time_zone)
+    @event.page = @page
   end
 
   def create
-    @page_class = Tool::Event
-    @page = create_new_page @page_class
-    @event = ::Event.new params[:event]
-
-    # greenchange_note: HACK: all day events will be put in as UTC
-    # noon (note: there is no 'UTC' timezone available, so we are
-    # going to use 'London' for zero GMT offset as a hack for now)
-    # so that when viewed in calendars or lists, the events will
-    # always show up on the appropriate day ie, St. Patrick's day
-    # should always be on the 17th of March regardless of my frame
-    # of reference.  Also, since we have a programmatic flag to
-    # identify all day events, this hack can be removed / migrated
-    # later to any required handling of all day events that might be
-    # more complex on the fetching side.
-    if params[:event][:is_all_day] == '1'
-      @event.time_zone = 'London' # greenchange_note: HACK: see above comment
-      params[:time_start] =  params[:date_start] + " 12:00"
-      params[:time_end] =  params[:date_start] + " 12:00"
-    else
-      params[:time_start] =  params[:date_start] + " "+ params[:hour_start]
-      params[:time_end] =  params[:date_end] + " " + params[:hour_end]
-    end
-
-    @page.starts_at = TzTime.new(params[:time_start].to_time,TimeZone[@event.time_zone]).utc
-    @page.ends_at = TzTime.new(params[:time_end].to_time,TimeZone[@event.time_zone]).utc
-
-    if @event.state == 'Other'
-      @event.state = params[:state_other]
-    end
+    @event = ::Event.new params[:page].delete(:page_data)
+    @page = Tool::Event.new params[:page]
 
     # greenchange_note: all events are public right now per green change / seth
     @page.public = true
 
     @page.data = @event
+    @event.page = @page
     if @page.save
-      @page.tag_with(params[:tag_list]) if params[:tag_list]
-      params[:issues].each do |issue_id|
-        @page.issue_identifications.create :issue_id => issue_id
-      end
       add_participants!(@page, params)
       return redirect_to(event_url(@page))
     else
