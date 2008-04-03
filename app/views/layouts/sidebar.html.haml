@@ -26,9 +26,10 @@
     = render :partial => 'pages/sides/assets', :locals => { :page => @page }
 
   - if @me 
+    = render :partial => 'me/sides/me'
+    = render :partial => 'me/sides/inbox', :locals => { :source => @user }
     = render :partial => 'shared/sides/donate'
-    = render :partial => 'me/sides/inbox'
-    = render :partial => 'me/sides/invite'
+    = render :partial => 'shared/sides/invite'
     = render :partial => 'shared/groups',   :locals => { :source => @user }
     = render :partial => 'shared/contacts', :locals => { :source => @user }
     = render :partial => 'shared/issues',   :locals => { :source => @user }

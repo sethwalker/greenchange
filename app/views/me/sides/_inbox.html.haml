@@ -1,3 +1,14 @@
-.section
-  .header
-    Requests
+.section.inbox
+  %ul
+    %li
+      You have 
+      -#= @user.unread_messages.count
+      new messages
+    %li
+      You have
+      -#= @user.membership_requests_received.pending.count
+      membership requests
+    %li
+      You have 
+      -#= @user.contact_requests_received.pending.count
+      contact requests

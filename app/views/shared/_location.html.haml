@@ -7,7 +7,7 @@
 -# if @tags and controller.action_name != 'show'
   = render :partial => 'tags/tabs'    
 - if %w- me requests inbox my_calendar -.include? controller.controller_name
-  = render :partial => 'me/tabs'
+  -#= render :partial => 'me/tabs'
 - if @page && !@page.new_record?
   - content_for :title do
     = render :partial => 'pages/title'
