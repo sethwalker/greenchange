@@ -7,7 +7,7 @@ module PageListHelper
   #
   def page_list_cell(page, column, participation=nil)
     if column == :icon
-      return icon_for page, :size => :small
+      return icon_for( page, :size => :small )
     elsif column == :checkbox
       check_box('page_checked', page.id, {}, 'checked', '')
     elsif column == :title
