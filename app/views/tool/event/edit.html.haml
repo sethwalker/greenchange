@@ -3,5 +3,5 @@
     = render :partial => 'pages/form', :locals => { :f => f }
     - f.fields_for :page_data, @page.data do |ff|
       = render :partial => 'form', :locals => { :f => ff }
-  = submit_tag 'Save', :name => 'update'
+    = submit_tag 'Save', :name => 'update'
 

@@ -27,7 +27,8 @@ module PageUrlHelper
     end
 
     url_helper = tool_page_route_type( page )
-    return self.send( [ context_url_prefix, url_helper.pluralize, 'url'].join('_'))
+    plural_helper = ( url_helper.pluralize == url_helper) ? "#{url_helper}_index" : url_helper.pluralize
+    return self.send( [ context_url_prefix, plural_helper, 'url'].join('_'))
     
   end
 

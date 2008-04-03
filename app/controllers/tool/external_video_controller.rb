@@ -4,7 +4,10 @@ class Tool::ExternalVideoController < Tool::BaseController
   end
 
   def create
-    @page_class = Tool::ExternalVideo
+#    new hotness -----------------------------------------------|
+#    @page = Tool::ExternalVideo.new params[:page]              |
+#    @page.created_by = current_user                   <--------|
+
     @page = create_new_page @page_class
     @page.data = ExternalMedia::Youtube.new(params[:external_media])
     if @page.save

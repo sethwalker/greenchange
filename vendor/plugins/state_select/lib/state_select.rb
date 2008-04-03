@@ -12,8 +12,14 @@ module ActionView::Helpers::FormOptionsHelper
   
   def state_options_for_select(selected = nil, country = 'US')
     state_options = ""
-    if country
-      state_options += options_for_select(eval(country.upcase+'_STATES'), selected)
+    if country.is_a? Enumerable
+      country.each do |each_country|
+        state_options += options_for_select(self.class.const_get(each_country.upcase+'_STATES'), selected) if each_country 
+      end
+    else
+      if country 
+        state_options += options_for_select(self.class.const_get(country.upcase+'_STATES'), selected)
+      end
     end
     return state_options
   end

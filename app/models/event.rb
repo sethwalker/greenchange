@@ -46,9 +46,10 @@ class Event < ActiveRecord::Base
   def hour_end
     page.ends_at.loc('%I:%M %p') if page && page.ends_at
   end
-  attr_writer :date_start, :date_end, :hour_start, :hour_end, :state_other
+  attr_writer :date_start, :date_end, :hour_start, :hour_end
+  attr_accessor :state_other
 
-  before_validation {|event| state = @state_other if state == 'Other'}
+  before_validation {|event| state = @state_other if @state_other && (state == 'Other' || state.blank? ) }
 
   def check_time_conversion
     # greenchange_note: HACK: all day events will be put in as UTC
