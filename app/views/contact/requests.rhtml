@@ -1,9 +1,9 @@
 <blockquote>
-  <b>contact invitation from <%= @contact_request.contact.login %> to <%= @contact_request.user.login %></b>
+  <b>contact invitation from <%= @contact_request.user.login %> to <%= @contact_request.contact.login %></b>
 <% if @contact_request.resolved? %>
 <div>
    This request was <b><%= @contact_request.approved? ? 'approved' : 'rejected' %></b>
-   on <%= @contact_request.updated_at %>
+   on <%= friendly_date(to_local(@contact_request.updated_at %>
 </div>
 <% else %>
 <%= button_to 'approve', :action => 'approve', :id => @contact_request %>

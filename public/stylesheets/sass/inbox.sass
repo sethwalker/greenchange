@@ -1,0 +1,16 @@
+@import colors
+body.inbox
+  .message-block
+    &.shade-even
+      &:hover
+        :background-color = !row_shade_even_bg - !highlight_lighter / 2
+    &.shade-odd
+      &:hover
+        :background-color = !row_shade_odd_bg - !highlight_lighter 
+    .view-indicator
+      :width 26px
+  .message-meta:hover .view-indicator
+    :background url(/images/actions/sort-down.png) no-repeat 0px 10px
+  .message-block.expanded .message-meta:hover .view-indicator
+    :background url(/images/actions/sort-up.png) no-repeat 0px 5px
+

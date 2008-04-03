@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1207030154) do
+ActiveRecord::Schema.define(:version => 1207254037) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -293,6 +293,8 @@ ActiveRecord::Schema.define(:version => 1207030154) do
     t.integer  "sender_id"
     t.string   "sender_name"
     t.string   "level"
+    t.integer  "recipient_id"
+    t.string   "status"
   end
 
   add_index "messages", ["channel_id"], :name => "index_messages_on_channel_id"

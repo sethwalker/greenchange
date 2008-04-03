@@ -1,13 +1,26 @@
 - color = cycle( 'shade-odd', 'shade-even')
-%tr.row{:class => ( item.try(:unread?) ? 'unread' : '' ) + color }
-  %td.page_icon
-    = link_to ' ', tool_pages_url(item), html_options_for_icon_for(item, :size => :small )
-  %td.title
-    = link_to item.title, message_url(item)
-  %td.from
-    = link_to item.updated_by.login, person_path( item.updated_by )
-  %td.arrived
-    = friendly_date( item.updated_at )
-  %td.toolbar
-    .icon
-      = button_to "Delete", 'me_inbox_message_path(item)', :method => :delete, :class => 'delete action'
+%tbody.message-block{ :class => color }
+  %tr.row.message-meta{:class => ( item.try(:unread?) ? 'unread' : '' ) }
+    %td.page_icon
+      = link_to ' ', tool_pages_url(item), html_options_for_icon_for(item, :size => :small )
+    %td.title
+      = item.title
+    %td.view-indicator-stub
+    %td.from
+      = link_to item.updated_by.login, person_path( item.updated_by )
+    %td.arrived
+      = friendly_date( item.updated_at )
+    %td.toolbar
+      .icon
+        = button_to "Reply", new_message_path(:user_id => item.created_by), :method => :delete, :class => 'reply action', :title => 'Send Reply'
+      .icon
+        = button_to "Delete", 'me_inbox_message_path(item)', :method => :delete, :class => 'ignore action', :title => 'Delete this message'
+
+  %tr.row.message-body
+    %td
+    %td.message{:colspan => 4}
+      - if item.data
+        = GreenCloth.new(item.data.content).to_html
+      - else
+        No message attached
+    %td

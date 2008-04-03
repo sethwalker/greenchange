@@ -1,24 +1,32 @@
 - item = request
 - color = cycle( 'shade-odd', 'shade-even')
-%tr.row{:class => ( item.try(:unread?) ? 'unread' : '' ) + color }
-  %td.page_icon
-    = link_to ' ', person_url(item.user), html_options_for_icon_for(item.user, :size => :small )
-  %td.title
-    = item.class.name.underscore.humanize + ' from ' + item.user.login
-  %td.from
-    = link_to item.user.login, person_path( item.user )
-  %td.arrived
-    = friendly_date( item.updated_at )
-  %td.toolbar
-    - if item.is_a? MembershipRequest
-      .icon
-        = button_to "Approve",  approve_membership_path(item), :method => :post, :class => 'add action',:title => 'Approve'
-      .icon
-        = button_to "Deny",     reject_membership_path(item), :method => :post, :class => 'delete action', :title => 'Deny'
-      .icon
-        = link_to   "Discuss",  new_group_discussion_path( :title => "membership request from #{item.user.login}", :privacy => { :view => { :admin => true, :member => false } }), :class => 'discuss action', :title => 'Discuss this request'
-    - elsif item.is_a? ContactRequest
-      .icon
-        = button_to "Approve",  approve_me_contact_path(item), :method => :post, :class => 'add action', :title => 'Approve'
-      .icon
-        = button_to "Deny",     reject_me_contact_path(item), :method => :post, :class => 'delete action', :title => 'Deny this request'
+%tbody.message-block{ :class => color }
+  %tr.row.message-meta{:class => ( item.try(:unread?) ? 'unread' : '' )  }
+    %td.page_icon
+      = link_to ' ', person_url(item.user), html_options_for_icon_for(item.user, :size => :small )
+    %td.title
+      = item.class.name.underscore.humanize + ' from ' + item.user.login
+    %td.view-indicator-stub
+    %td.from
+      = link_to item.user.login, person_path( item.user )
+    %td.arrived
+      = friendly_date( item.updated_at )
+    %td.toolbar
+      - if item.is_a? MembershipRequest
+        .icon
+          = button_to "Approve",  approve_membership_path(item), :method => :post, :class => 'add action',:title => 'Approve'
+        .icon
+          = button_to "Deny",     reject_membership_path(item), :method => :post, :class => 'delete action', :title => 'Deny'
+        .icon
+          = link_to   "Discuss",  new_group_discussion_path( :title => "membership request from #{item.user.login}", :privacy => { :view => { :admin => true, :member => false } }), :class => 'discuss action', :title => 'Discuss this request'
+      - elsif item.is_a? ContactRequest
+        .icon
+          = button_to "Approve",  approve_me_contact_path(item), :method => :post, :class => 'add action', :title => 'Approve'
+        .icon
+          = button_to "Deny",     reject_me_contact_path(item), :method => :post, :class => 'delete action', :title => 'Deny this request'
+
+  %tr.row.message-body
+    %td
+    %td.message{:colspan => 4}
+      = GreenCloth.new(item.message).to_html
+    %td
