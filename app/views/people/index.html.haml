@@ -1,0 +1,32 @@
+%h1 People
+- unless scoped_by_context?
+  -if logged_in?
+    %h3 My contacts
+    .workarea
+      -if @contacts
+        .icon-box
+          =render :partial => 'shared/list/person', :collection => @contacts
+      -else
+        You have no contacts
+      .clear
+    %h3 
+      My peers 
+      %span.normal
+        \(users I share a common group with)
+    .workarea
+      -if @peers
+        .icon-box
+          =render :partial => 'shared/list/person', :collection => @peers
+      -else
+        You have no peers
+      .clear
+  %h3 All people
+  .workarea
+    .icon-box
+      =render :partial => 'shared/list/person', :collection => User.find(:all, :limit => 300)
+    .clear
+- else
+  .workarea
+    .icon-box
+      =render :partial => 'shared/list/person',  :collection =>@people
+    .clear    
