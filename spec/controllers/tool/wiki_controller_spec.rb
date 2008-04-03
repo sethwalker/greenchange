@@ -175,7 +175,7 @@ describe Tool::WikiController do
           Wiki.find(@wiki).versions.find_by_version(@wiki.version).body.should == 'newbody'
         end
         it "should set updated_at" do
-          Wiki::Version.update_all("updated_at = '#{1.day.ago}'", "id = #{@wiki.versions.first.id}")
+          Wiki::Version.update_all("updated_at = '#{1.day.ago.to_s :db}'", "id = #{@wiki.versions.first.id}")
           @wiki.reload
           old_updated_at = @wiki.versions.find_by_version(@wiki.version).updated_at
           act!

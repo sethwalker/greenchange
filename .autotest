@@ -7,4 +7,7 @@ Autotest.add_hook :initialize do |at|
   at.add_mapping(%r%^spec/(models|controllers|views|helpers|lib)/.*rb$%) { |filename, _|
     filename
   }
+  at.add_mapping(%r%^spec/(integration)/.*rb$%) { |filename, _|
+    filename
+  }
 end

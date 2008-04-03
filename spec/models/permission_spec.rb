@@ -1,8 +1,8 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe Permission do
+describe "Permission" do
 
-  before(:all) do
+  before do
     @user           = create_valid_user(:login => 'guinea_pig')
     @group          = create_valid_group(:name => 'granting_group')
     @page           = create_valid_page( :title => 'page', :public => false )
