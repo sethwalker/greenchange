@@ -1,5 +1,7 @@
-.sidesection
-  .sidehead
-    issues
-  .sideline
-    = @page.issues.collect {|issue| link_to issue.name, issue_url(issue)} * " "
+-if @page.issues.any?
+  .sidesection
+    .sidehead
+      Issues
+    .icon-box
+      = render :partial => 'shared/list/issue', :collection => @page.issues.collect  
+    -#= @page.issues.collect {|issue| link_to issue.name, issue_url(issue)} * " "

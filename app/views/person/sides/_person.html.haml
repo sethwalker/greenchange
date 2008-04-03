@@ -1,31 +1,22 @@
-.section.menu
-  - unless controller.action_name =='show'
-    .header.context
-      = person.name 
-    .icon-box
-      = icon_for( person )
-    %ul.plainlist
-      - unless person.issues.empty?
-        %li.issues.icon-only
-          Issues:
-          = render :partial => 'shared/icons/issue', :collection => person.issues
-      %li
-        Location:
-        -#= person.location
-    .clear
-  %ul.tabset.menu
-    %ul.tabset
-      %li.tab
-        = link_to 'Contacts', person_contacts_url(@person), selected_if( request.url == person_contacts_url(@person))
-      %li.tab
-        = link_to 'Blogs &amp; News', person_updates_url(@person), selected_if( params[:page_type] == 'updates' )
-      %li.tab
-        = link_to 'Events &amp; Actions', person_involvements_url(@person), selected_if( params[:page_type] == 'involvements' )
+.section.menu.context
+  .menu
+    - unless this_is_the_landing_page = ( controller.action_name =='show' )
+      .info
+        = link_to person.name, person_url(person), html_options_for_icon_for( person, :size => :small, :class => 'home')    
+      .clear
+    .pages
+      %ul.tabset
+        %li.tab
+          = link_to 'Contacts', person_contacts_url(@person), selected_if( request.url == person_contacts_url(@person))
+        %li.tab
+          = link_to 'Blogs &amp; News', person_updates_url(@person), selected_if( params[:page_type] == 'updates' )
+        %li.tab
+          = link_to 'Events &amp; Actions', person_involvements_url(@person), selected_if( params[:page_type] == 'involvements' )
 
-    %ul.tabset
-      %li.tab
-        = link_to 'Groups', person_memberships_url(@person), selected_if( request.url == person_memberships_url(@person))
-      %li.tab
-        = link_to 'Media', person_media_url(@person), selected_if( params[:page_type] == 'media' )
-      %li.tab
-        = link_to 'Discuss', person_tools_url(@person), selected_if( params[:page_type] == 'tools' )
+      %ul.tabset
+        %li.tab
+          = link_to 'Groups', person_memberships_url(@person), selected_if( request.url == person_memberships_url(@person))
+        %li.tab
+          = link_to 'Media', person_media_url(@person), selected_if( params[:page_type] == 'media' )
+        %li.tab
+          = link_to 'Discuss', person_tools_url(@person), selected_if( params[:page_type] == 'tools' )

@@ -44,7 +44,6 @@
   .list-item
     :margin-bottom 12px
     :padding 4px 4px 4px 4px
-    :background-color = !section_bg
     :width = !main_column_width - 8px
     body.ie6 &
       :width = !main_column_width - !ie_padding_offset - 8px
@@ -317,6 +316,11 @@ a.icon.standard.name-bottom
 a.icon
   &:hover
     :opacity .7
+
+a.icon.standard.name-right
+  :padding 12px 45px 2px
+  :width 100%
+  :height 10px
 
 .icon-box
   .icon

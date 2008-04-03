@@ -6,7 +6,7 @@ task.users.each do |user|
   if user == current_user
     links << link_to(current_user.login, tasks_me_url)
   else
-    links << link_to user.login, person_tasks_url(user)
+    links << link_to( user.login, person_tasks_url(user))
   end
 end
 -%>

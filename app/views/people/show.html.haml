@@ -1,17 +1,14 @@
 - content_for :title do
-  = avatar_for @person, 'large'
-  .section
-    %h1
-      = @person.name
-    .section.clear
-      .issues.icon-only
-        = render :partial => 'shared/icons/issue', :collection => @person.issues
+  = icon_for( @person, :size=> 'large')
+  %h1
+    = @person.name
   = render :partial => 'title_menu', :locals => { :person => @person }
-  
-.landing.landing-person
-  .section.profile
-    =render :partial => 'profile', :locals => { :profile => @person.profile_for( current_user ) }
-  .section
-    = render :partial => 'pages/shared/main', :locals => {:source => @person }
+  .section.info
+    .issues.icon-only
+      = render :partial => 'shared/icons/issue', :collection => @person.issues
+    .section.profile
+      =render :partial => 'profile', :locals => { :profile => @person.profile_for( current_user ) }
+.section
+  = render :partial => 'pages/shared/main', :locals => {:source => @person }
 
 

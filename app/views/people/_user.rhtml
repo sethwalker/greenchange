@@ -1,8 +1,0 @@
-<% if user %>
-<div <% if user.online? %>class="online"<% end %> style='float: left; text-align: center; margin: 1em;'>
-<%=
-  link_to "#{avatar_for user, 'small'}<br/><span>#{user.login}</span>",
-    person_url(user),:class=>'imglink'
-%>
-</div>
-<% end %>

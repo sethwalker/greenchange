@@ -1,7 +1,8 @@
 .sidesection
   .sidehead
     Group Hosts
-  Group host avatars go here
+  .icon-box
+    = render :partial => 'shared/list/person', :collection => @group.admins 
 
 - if logged_in? && current_user.may_admin?(@group)
   .sidesection

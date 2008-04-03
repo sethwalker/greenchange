@@ -17,18 +17,13 @@ class PeopleController < ApplicationController
   end
 
   def index
-    list
-    render :action => 'list'
-  end
-
-  def list
-    load_context
     if logged_in?
       @contacts = current_user.contacts
       @peers = current_user.peers
     end
+    @people = User.by_group(@group).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag)
   end
-    
+
   protected
   
   def context

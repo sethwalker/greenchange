@@ -1,22 +1,21 @@
-.sidesection
-  .header.context
-    = issue.name
-  .section
-    .icon-box
-      = icon_for( issue )
-  .clear
-  .sidemenu
-    %ul.tabset
-      %li.tab
-        = link_to 'People', issue_people_url(@issue), selected_if( request.url == issue_people_url(@issue))
-      %li.tab
-        = link_to 'Groups', issue_groups_url(@issue), selected_if( request.url == issue_groups_url(@issue))
-      %li.tab
-        = link_to 'Blogs &amp; News', issue_updates_url(@issue), selected_if( params[:page_type] == 'updates' )
-    %ul.tabset
-      %li.tab
-        = link_to 'Events &amp; Actions', issue_involvements_url(@issue), selected_if( params[:page_type] == 'involvements' )
-      %li.tab
-        = link_to 'Media', issue_media_url(@issue), selected_if( params[:page_type] == 'media' )
-      %li.tab
-        = link_to 'Discuss', issue_tools_url(@issue), selected_if( params[:page_type] == 'tools' )
+.section.menu.context
+  .menu
+    -unless this_is_the_landing_page = ( controller.action_name =='show' )
+      .info
+        = link_to issue.name, issue_url(issue), html_options_for_icon_for( issue, :size => :small, :class => 'home') 
+      .clear
+    .pages
+      %ul.tabset
+        %li.tab
+          = link_to 'People', issue_people_url(@issue), selected_if( request.url == issue_people_url(@issue))
+        %li.tab
+          = link_to 'Groups', issue_groups_url(@issue), selected_if( request.url == issue_groups_url(@issue))
+        %li.tab
+          = link_to 'Blogs &amp; News', issue_updates_url(@issue), selected_if( params[:page_type] == 'updates' )
+      %ul.tabset
+        %li.tab
+          = link_to 'Events &amp; Actions', issue_involvements_url(@issue), selected_if( params[:page_type] == 'involvements' )
+        %li.tab
+          = link_to 'Media', issue_media_url(@issue), selected_if( params[:page_type] == 'media' )
+        %li.tab
+          = link_to 'Discuss', issue_tools_url(@issue), selected_if( params[:page_type] == 'tools' )

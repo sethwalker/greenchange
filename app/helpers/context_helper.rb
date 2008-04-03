@@ -55,7 +55,7 @@ module ContextHelper
   # returns the object scoping the current result set for list views. 
   # TODO: should return false if there is no nested scope, true if the scope exists but cannot be determined
   def scoped_by_context?
-    @group || @issue || @me || @person || @tag
+    @group || @issue || @me || @person || @tag  || @page
   end
 
 

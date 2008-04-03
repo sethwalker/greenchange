@@ -1,4 +1,5 @@
 .section
   .header
     Featured Groups 
-  Featured Groups Go Here
+  .icon-box
+    = render :partial => 'shared/list/group', :collection =>  featured_groups(nil) 

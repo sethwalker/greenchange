@@ -1,14 +1,13 @@
 - content_for :title do
-  .group-title
-    = icon_for( @group, :size => 'large' ) 
-    %h1
-      = @group.name
-    = render :partial => 'title_menu', :locals => { :group => @group }
+  = icon_for( @group, :size => 'large' ) 
+  %h1
+    = @group.name
+  = render :partial => 'title_menu', :locals => { :group => @group }
+  .section.info
     = render :partial => 'info', :locals => { :group => @group }
 
-.landing.landing-group
-  .section.promo
-    = render :partial => 'pages/shared/promo',  :locals => {:source => @group }
-  .section
-    = render :partial => 'pages/shared/main',   :locals => {:source => @group }
+.section.promo
+  = render :partial => 'pages/shared/promo',  :locals => {:source => @group }
+.section
+  = render :partial => 'pages/shared/main',   :locals => {:source => @group }
 

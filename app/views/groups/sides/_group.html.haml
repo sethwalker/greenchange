@@ -7,25 +7,12 @@
         = group.name
       -#.icon-box
         = icon_for group, :size => :medium
-
-      -#
-      -#%ul.plainlist
-        %li
-          = group.memberships.count
-          Members
-        - unless group.issues.empty?
-          %li.issues.icon-only
-            Issues:
-            = render :partial => 'shared/icons/issue', :collection => group.issues
-        -#%li
-          Location:
-          -#= group.location
       .clear
 
     .pages 
       %ul.tabset
         %li.tab
-          = link_to 'People', group_memberships_url(@group), selected_if( request.url == group_memberships_url(@group))
+          = link_to 'People', group_people_url(@group), selected_if( request.url == group_memberships_url(@group))
         %li.tab
           = link_to 'Blogs &amp; News', group_updates_url(@group), selected_if( params[:page_type] == 'updates' )
         %li.tab

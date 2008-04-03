@@ -1,4 +1,9 @@
-- if @page.contributors.any?
+.sidesection
+  .sidehead
+    Created By
+  .icon-box
+    = render :partial => 'shared/list/person', :object => @page.created_by 
+-#- if @page.contributors.any?
   .sidesection
     .sidehead
       contributors

@@ -5,12 +5,14 @@
     =link_to 'Add an Event', new_event_url
     =link_to 'Search for an Event', '/search/event'
     .clear
-    .section
-      =render :partial => 'pages/list/event', :collection => Page.page_type(:event).find(:all, :limit=>5)
+    .content-list
+      %ul
+        =render :partial => 'pages/list/event', :collection => Page.page_type(:event).find(:all, :limit=>5)
   .column
     %h2 Take Action
     =link_to 'Post an Action Alert', new_action_url
     =link_to 'Search for an Event', '/search/action'
     .clear
-    .section
-      =render :partial => 'pages/list/page', :collection => Page.page_type(:action_alert).find(:all, :limit=>5)
+    .content-list
+      %ul
+        =render :partial => 'pages/list/page', :collection => Page.page_type(:action_alert).find(:all, :limit=>5)
