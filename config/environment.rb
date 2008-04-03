@@ -23,9 +23,9 @@ Crabgrass::Config.host = 'greenchange.staging.radicaldesigns.org'
 ########################################################################
 ### BEGIN CUSTOM OPTIONS
 
-Crabgrass::Config.site_name         = 'planet.unicorn' 
-Crabgrass::Config.host              = 'greenchange.staging.radicaldesigns.org'
-Crabgrass::Config.email_sender      = 'planet_unicorn@radicaldesigns.org'
+Crabgrass::Config.site_name         = 'network.greenchange' 
+Crabgrass::Config.host              = 'greenchange.slice.radicaldesigns.org'
+Crabgrass::Config.email_sender      = 'network@greenchange.org'
 
 SECTION_SIZE = 29 # the default size for pagination sections
 
