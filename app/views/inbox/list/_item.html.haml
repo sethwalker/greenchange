@@ -1,12 +1,11 @@
 - color = cycle( 'shade-odd', 'shade-even')
 %tr.row{:class => ( item.try(:unread?) ? 'unread' : '' ) + color }
   %td.page_icon
-    = link_to ' ', me_inbox_message_path(item), html_options_for_icon_for(item, :size => :small )
+    = link_to ' ', tool_pages_url(item), html_options_for_icon_for(item, :size => :small )
   %td.title
-    = link_to item.title, me_inbox_message_path(item)
+    = link_to item.title, message_url(item)
   %td.from
-    - if item.updated_by
-      = link_to item.updated_by.name, person_path(item.updated_by)
+    = link_to item.updated_by.login, person_path( item.updated_by )
   %td.arrived
     = friendly_date( item.updated_at )
   %td.toolbar

@@ -23,13 +23,12 @@ module PageUrlHelper
         context_url_prefix = ( page_context == current_user) ? 'me' : 'person' 
       end
     else
-      context_url_prefix = ''
+      context_url_prefix = nil
     end
 
     url_helper = tool_page_route_type( page )
     plural_helper = ( url_helper.pluralize == url_helper) ? "#{url_helper}_index" : url_helper.pluralize
-    return self.send( [ context_url_prefix, plural_helper, 'url'].join('_'))
-    
+    return self.send( [ context_url_prefix, plural_helper, 'url'].compact.join('_'))
   end
 
   def tool_pages_title(page)

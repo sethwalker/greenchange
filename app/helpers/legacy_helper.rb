@@ -59,13 +59,6 @@ module LegacyHelper
   end
   
   ############################################
-  # JAVASCRIPT
-  
-  def get_unobtrusive_javascript
-    controller.get_unobtrusive_javascript
-  end
-  
-  ############################################
   # BANNER
 
   # banner stuff

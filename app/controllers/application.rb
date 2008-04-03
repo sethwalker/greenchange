@@ -30,10 +30,6 @@ class ApplicationController < ActionController::Base
     read_inheritable_attribute "stylesheet"
   end
   
-  def get_unobtrusive_javascript
-    @js_behaviours.to_s
-  end
-  
   def handle_rss(locals)
     if params[:path].any? and 
         (params[:path].include? 'rss' or params[:path].include? '.rss')

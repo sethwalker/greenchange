@@ -9,7 +9,11 @@
   #page-list
     %table.page-list
       = render :partial => 'inbox/list/headers'
-      = render :partial => 'inbox/list/item', :collection => @pages
+      - for item in @items 
+        - if item.is_a?( MembershipRequest ) || item.is_a?( ContactRequest )
+          = render :partial => 'inbox/list/request', :object => item
+        - else
+          = render :partial => 'inbox/list/item', :object => item
     -#= render :partial => 'pages/list/table', :locals => {:heading => true, :checkbox => true, :columns => [:checkbox, :icon, :title, :group, :updated_by, :updated_at, :contributors]};
 -#page-holder
 -#- form_tag({:controller => 'inbox', :action => 'index', :path => params[:path]}, {:id => 'inbox_form'}) do

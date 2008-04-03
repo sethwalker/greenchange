@@ -109,7 +109,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
 
   map.resources :people, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |person|
-    person.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
+    person.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get, :approve => :put }
     person.resources 'contacts', :controller => 'contact'#, :member => { :approve => :post, :reject => :post }
     person.resource :profile, :controller => 'people/profiles'
     page_routes(person)

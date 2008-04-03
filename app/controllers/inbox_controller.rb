@@ -5,33 +5,46 @@ class InboxController < ApplicationController
   #layout 'me'
 
   def show
-    if request.post?
-      update
-    else
-      path = params[:path]
+    #ActiveRecord::Base.with_scope :order => "page.updated_at DESC", :page => params[:page]
+    @messages = @me.pages.page_type(:message).paginate(:all, :order => "updated_at DESC", :page => params[:page] )
+    @contact_requests = @me.contact_requests_received.pending.paginate :all, :order => "updated_at DESC", :page => params[:page] 
+    @membership_requests = @me.membership_requests.pending :all, :order => "updated_at DESC", :page => params[:page]
+    @items = ( @messages + @contact_requests + @membership_requests ).sort { |item, item2 | item2.updated_at <=> item.updated_at }.compact
 
-      if path.first == 'unread'
-        @pages = current_user.pages_unread.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")#, :include => :user_participations)
-      elsif path.first == 'pending'
-        @pages = current_user.pages_pending.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")
-      elsif path.first == 'starred'
-        @pages = current_user.pages_starred.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")#, :include => :user_participations)
-      elsif path.first == 'vital'
-        @pages = current_user.vital_pages.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")#, :include => :user_participations)
-      elsif path.first == 'type'
-        @pages = current_user.pages.page_type(path[1]).paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")
-      else
-        @pages = current_user.pages.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")#, :include => :user_participations)
+    respond_to do |format|
+      format.html {}
+      format.rss do
+        options = {
+          :title => 'Crabgrass Inbox', 
+          :link => me_inbox_path,
+          :image => avatar_url( @me.avatar || 0, :size => 'standard' ),
+          :items => @messages
+          }
+          render :partial => 'pages/rss', :locals => options
       end
-
-      @pages.each { |page| page.flag[:user_participation] = page.user_participations.first }
-
-      handle_rss  :title => 'Crabgrass Inbox', :link => '/me/inbox',
-                 :image => avatar_url(:id => @user.avatar_id||0, :size => 'huge')
+        
     end
+
   end
 
-  # post required
+  def search
+    if path.first == 'unread'
+      @pages = current_user.pages_unread.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")#, :include => :user_participations)
+    elsif path.first == 'pending'
+      @pages = current_user.pages_pending.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")
+    elsif path.first == 'starred'
+      @pages = current_user.pages_starred.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")#, :include => :user_participations)
+    elsif path.first == 'vital'
+      @pages = current_user.vital_pages.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")#, :include => :user_participations)
+    elsif path.first == 'type'
+      @pages = current_user.pages.page_type(path[1]).paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")
+    else
+      @pages = current_user.pages.paginate(:all, :page => params[:section], :order => "pages.updated_at DESC")#, :include => :user_participations)
+    end
+  end 
+
+# post required
+  # action for mass updates
   def update
     if params[:remove] 
       remove
