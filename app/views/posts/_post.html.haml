@@ -1,0 +1,10 @@
+.section.post
+  .post-author
+    .icon
+      = icon_for(post.user, :size=>'small')
+    .username
+      = link_to_user post.user
+    .date    
+      = friendly_date post.created_at
+  .post-body
+    = render :partial => 'posts/post_body', :locals => {:post => post}

@@ -1,0 +1,12 @@
+.toolbar.title-menu
+  = render :partial => 'pages/menu', :locals => { :page => @page }
+.icon
+  = icon_for(@page, :size=>'medium')
+%h1
+  =@page.title
+.section.info
+  .summary 
+    =@page.summary
+  .clear
+  -#Posted:  
+  -#= friendly_date @page.created_at  

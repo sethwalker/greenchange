@@ -1,0 +1,9 @@
+= will_paginate @posts, :param_name => :posts
+- for post in @posts do
+  = render :partial => 'posts/post', :locals => {:post => post}
+-if logged_in?
+  = render :partial => 'posts/reply'
+-if @posts.next_page
+  = link_to "Next page", { :posts => @posts.next_page }.merge(params.reject{|k,v| k=="posts"})
+
+= will_paginate @posts, :param_name => :posts     

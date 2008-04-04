@@ -1,8 +1,8 @@
 - content_for :title do
+  = render :partial => 'title_menu', :locals => { :person => @person }
   = icon_for( @person, :size=> 'large')
   %h1
     = @person.name
-  = render :partial => 'title_menu', :locals => { :person => @person }
   .section.info
     .issues.icon-only
       = render :partial => 'shared/icons/issue', :collection => @person.issues
