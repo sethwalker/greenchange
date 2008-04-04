@@ -1,0 +1,19 @@
+- content_for :title do
+  %h2
+    Join
+    = @group.name
+.new.membership-request
+  .section
+    %p
+      You will not become a member of this group until your request has been approved. 
+      -#You can track the status of your requests by visiting
+        %a{ :href => "/me/requests" }
+      your requests page.
+    - form_for :membership_request, @membership_request, :url => group_membership_path(@membership_request.group, @membership_request) do |f|
+      %p
+        = f.label :message, 'Optional message included with the join request:'
+        %br
+        = f.text_area :message, :rows => 2, :cols => 50
+      .clear
+      %p.submit
+        = f.submit 'Request to join'

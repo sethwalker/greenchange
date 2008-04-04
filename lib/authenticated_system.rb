@@ -76,6 +76,7 @@ module AuthenticatedSystem
     # to access the requested action.  For example, a popup window might
     # simply close itself.
     def access_denied(exception=nil)
+      raise "permission problem" if RAILS_ENV == 'development'
       respond_to do |accepts|
         accepts.html do
           if logged_in?

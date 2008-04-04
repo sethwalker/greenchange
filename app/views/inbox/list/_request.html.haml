@@ -6,6 +6,7 @@
       = link_to ' ', person_url(item.user), html_options_for_icon_for(item.user, :size => :small )
     %td.title
       = item.class.name.underscore.humanize + ' from ' + item.user.login
+      = "for #{item.group.name}" if item.group
     %td.view-indicator-stub
     %td.from
       = link_to item.user.login, person_path( item.user )
@@ -14,11 +15,11 @@
     %td.toolbar
       - if item.is_a? MembershipRequest
         .icon
-          = button_to "Approve",  approve_membership_path(item), :method => :post, :class => 'add action',:title => 'Approve'
+          = button_to "Approve",  approve_group_membership_path(item.group, item), :method => :put, :class => 'add action',:title => 'Approve'
         .icon
-          = button_to "Deny",     reject_membership_path(item), :method => :post, :class => 'delete action', :title => 'Deny'
+          = button_to "Deny",     reject_group_membership_path(item.group, item), :method => :delete, :class => 'delete action', :title => 'Deny'
         .icon
-          = link_to   "Discuss",  new_group_discussion_path( :title => "membership request from #{item.user.login}", :privacy => { :view => { :admin => true, :member => false } }), :class => 'discuss action', :title => 'Discuss this request'
+          = link_to   "Discuss",  new_group_discussion_path( item.group, :title => "membership request from #{item.user.login}", :privacy => { :view => { :admin => true, :member => false } }), :class => 'discuss action', :title => 'Discuss this request'
       - elsif item.is_a? ContactRequest
         .icon
           = button_to "Approve",  approve_me_contact_path(item), :method => :post, :class => 'add action', :title => 'Approve'
@@ -28,5 +29,5 @@
   %tr.row.message-body
     %td
     %td.message{:colspan => 4}
-      = GreenCloth.new(item.message).to_html
+      = GreenCloth.new(item.message).to_html if item.message
     %td
