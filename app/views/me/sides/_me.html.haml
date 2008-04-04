@@ -1,0 +1,21 @@
+.section.menu.context
+  .menu
+    .info
+      = link_to me.name, me_url, html_options_for_icon_for( me, :size => :small, :class => 'home')
+    .clear
+    .pages
+      %ul.tabset
+        %li.tab
+          = link_to 'My Contacts', me_people_url, selected_if( request.url == me_people_url)
+        %li.tab
+          = link_to 'My Inbox', me_inbox_url, selected_if( request.url == me_inbox_url)
+        %li.tab
+          = link_to 'My Content', me_pages_url, selected_if( request.url == me_pages_url)
+      %ul.tabset
+        %li.tab
+          = link_to 'My Network', me_network_url, selected_if( request.url == me_network_url)
+        %li.tab
+          = link_to 'My Events', me_events_url, selected_if( request.url == me_events_url)
+        %li.tab
+          = link_to 'My Profile', me_profile_url, selected_if( request.url == me_profile_url)
+

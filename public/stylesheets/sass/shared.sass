@@ -3,20 +3,31 @@
 #titlebox
   :float left
   :width 100%
+  :margin-top 1em
+  :margin-bottom 1.5em
   .avatar
     :float left
   h1
     :padding-top 10px
-    :width 300px
-    :float left
+    -#:width 300px
     :margin 3px
+    :color #333333
+    :font-size 18px
+    :font-weight bold
   .title-menu
-    :padding 1em
-    :margin-top 1em
     :float left
   .section
     :float left
-
+    :margin-left 5px
+    :margin-top 5px
+    .summary
+      :float left
+      :font-size 13px
+      :color #333333
+      :font-weight bold
+      :padding 4px
+      :background-color #EEEEEE
+      :width 425px 
 .landing
   :float left
   .section .list-item
@@ -242,10 +253,16 @@ ul.tab-block, #titlebox
     :float right
 
 .toolbar.title-menu
+  :background-color = !admin_toolbar_bg
+  :border 1px solid
+    :color = !admin_toolbar_border
+  :padding-left 2px
+  :padding-top 2px
   .icon
     :margin-bottom 2px
     :clear both
-    :width 120px
+    :width 125px
+    :margin-top 0px
     .action
       :padding-top 0
       :padding-left 24px
@@ -255,6 +272,7 @@ ul.tab-block, #titlebox
     :list-style none
     :padding 0
     :float left
+    :margin 0
   .offset-row.admin
     :clear both
     :padding-bottom .5em

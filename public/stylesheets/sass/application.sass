@@ -16,6 +16,7 @@ p, ol, ul, td
   :font-size 12px
   :font-weight normal
   :line-height 18px
+  :color = !text
 
 #banner
   :background = !banner_bg
@@ -150,7 +151,8 @@ table
 
 #titlebox
   .h1
-    :padding 10px 20px 10px 20px
-    :margin 1em
+    -#:padding 10px 20px 10px 20px
+    -#:margin 1em
     :color = !page_title_text
-
+    :font-size 18px
+    :font-weight bold

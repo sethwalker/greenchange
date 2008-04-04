@@ -36,25 +36,33 @@ div#title_text:hover span#title_edit_link
 #title_editor
   :margin-top 15px
 
-div#posts
+#posts
   :margin-top 1em
-
-
-table.posts
-  :width 100%
   :border-top 1px solid #ccc
 
+.post
+  :float left
+  :width 100%
+  :display block
+  :border-bottom 1px solid #ccc
 .post-author
   :text-align right
   :padding 0 10px 0 10px
-  div.icon
+  :float left
+  :width 150px
+  :display block
+  .icon
     :float right
   div.username, div.date
+    -#:float left
     :margin-right 38px
 
-td.post-body
+.post-body
+  :float left
+  :display block
   :border-left 1px solid #ccc
   :padding 0 10px
+  :width 440px
   div.negativespace
     :margin -1em 0
 
