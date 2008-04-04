@@ -34,6 +34,12 @@ class UnauthenticatedUser
     false
   end
 
+  def member_of_group_ids
+    []
+  end
+  alias :admin_of_group_ids :member_of_group_ids
+  alias :contributes_to_group_ids :member_of_group_ids 
+
   def direct_member_of?(group)
     false
   end

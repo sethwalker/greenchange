@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1207254037) do
+ActiveRecord::Schema.define(:version => 1207255720) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -68,22 +68,35 @@ ActiveRecord::Schema.define(:version => 1207254037) do
   create_table "categories", :force => true do |t|
   end
 
-  create_table "channels", :force => true do |t|
+  create_table "chat_channels", :force => true do |t|
     t.string  "name"
     t.integer "group_id"
     t.boolean "public",   :default => false
   end
 
-  add_index "channels", ["group_id"], :name => "index_channels_group_id"
+  add_index "chat_channels", ["group_id"], :name => "index_channels_group_id"
 
-  create_table "channels_users", :force => true do |t|
+  create_table "chat_channels_users", :force => true do |t|
     t.integer  "channel_id"
     t.integer  "user_id"
     t.datetime "last_seen"
     t.integer  "status"
   end
 
-  add_index "channels_users", ["channel_id", "user_id"], :name => "index_channels_users"
+  add_index "chat_channels_users", ["channel_id", "user_id"], :name => "index_channels_users"
+
+  create_table "chat_messages", :force => true do |t|
+    t.datetime "created_at"
+    t.string   "type"
+    t.text     "content"
+    t.integer  "channel_id"
+    t.integer  "sender_id"
+    t.string   "sender_name"
+    t.string   "level"
+  end
+
+  add_index "chat_messages", ["channel_id"], :name => "index_messages_on_channel_id"
+  add_index "chat_messages", ["sender_id"], :name => "index_messages_channel"
 
   create_table "collectings", :force => true do |t|
     t.integer  "collection_id"
@@ -284,21 +297,6 @@ ActiveRecord::Schema.define(:version => 1207254037) do
 
   add_index "memberships", ["group_id", "user_id", "role"], :name => "index_group_user_role", :unique => true
   add_index "memberships", ["user_id", "group_id", "role"], :name => "index_user_group_role", :unique => true
-
-  create_table "messages", :force => true do |t|
-    t.datetime "created_at"
-    t.string   "type"
-    t.text     "content"
-    t.integer  "channel_id"
-    t.integer  "sender_id"
-    t.string   "sender_name"
-    t.string   "level"
-    t.integer  "recipient_id"
-    t.string   "status"
-  end
-
-  add_index "messages", ["channel_id"], :name => "index_messages_on_channel_id"
-  add_index "messages", ["sender_id"], :name => "index_messages_channel"
 
   create_table "page_tools", :force => true do |t|
     t.integer "page_id"

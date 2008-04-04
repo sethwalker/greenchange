@@ -162,6 +162,19 @@ describe Page do
     lambda {Page.allowed(u, :view)}.should_not raise_error
   end
 
+  describe "unauthenticated user" do
+    before do
+      @un_u = UnauthenticatedUser.new
+    end
+    it "cannot find pages for edit" do
+      Page.allowed( @un_u, :participate).should be_empty
+    end
+    it "can view public pages" do
+      page2 = create_valid_page :public => true
+      Page.allowed( @un_u, :view).should_not be_empty
+    end
+  end
+
   describe "page_type finder" do
     before { create_page :type => 'Tool::Image' }
     it "accepts class names as strings" do

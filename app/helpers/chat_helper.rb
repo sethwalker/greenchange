@@ -56,11 +56,11 @@ module ChatHelper
     end
     
     @channel.users.delete(@user)
-    @channel.users.push_with_attributes(@user, { :last_seen => Time.now, :status => state })
+    @channel.channels_users.create :user => @user, :last_seen => Time.now, :status => state 
   end
 
   def num_active_in_channel(group_id)
-    channel = Channel.find_by_group_id(group_id)
+    channel = Chat::Channel.find_by_group_id(group_id)
     "(#{channel.active_channel_users.length})" if channel
   end
 

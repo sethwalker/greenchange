@@ -17,4 +17,4 @@
 -#public menu
 - if logged_in?
   .icon
-    = link_to "Join", "new_group_membership_url( @group )", :class => 'action join-group add', :title => 'Join this group'
+    = link_to "Join", new_group_membership_url( @group ), :class => 'action join-group add', :title => 'Join this group'

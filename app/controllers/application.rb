@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   include PathFinder::Options
       
   rescue_from PermissionDenied, :with => :access_denied
+  rescue_from ActiveRecord::RecordNotFound, :with => :redirect_to_index
   # don't allow passwords in the log file.
   filter_parameter_logging "password"
   
@@ -88,6 +89,15 @@ class ApplicationController < ActionController::Base
     TzTime.reset!
   end
 
+  def redirect_to_index(exception)
+    if action_name == 'show'
+      flash[:error] = "Couldn't find the item you asked for."
+      redirect_to :action => 'index'
+    else
+      raise exception
+    end
+  end
+
   # CONTEXT USAGE
   def load_context
     @group ||= Group.find_by_name params[:group_id] if params[:group_id]
@@ -98,6 +108,7 @@ class ApplicationController < ActionController::Base
       @me ||= current_user if request.request_uri =~ /^\/me/ 
       @user ||= current_user 
     end
+    true
   end
 
 
