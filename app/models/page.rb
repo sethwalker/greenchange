@@ -15,6 +15,14 @@ class Page < ActiveRecord::Base
     Proc.new { |user, perm| 
       if not [:view, :edit, :participate, :admin].include? perm
         {} 
+      elsif user.superuser?
+        {}
+      elsif not user.is_a? AuthenticatedUser
+        if perm == :view
+          { :conditions => [ 'public = ?', true ] } 
+        else
+          { :conditions => [ '?', false ] }
+        end
       else
         public_condition = (perm != :admin) ?
           self.__send__(:sanitize_sql_for_conditions, ["pages.public = ?", true]) : nil

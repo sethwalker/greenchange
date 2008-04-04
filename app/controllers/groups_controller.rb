@@ -7,14 +7,14 @@ class GroupsController < ApplicationController
 
   helper :date
   helper :event_time
+    
   
   stylesheet 'groups'
   
-  prepend_before_filter :find_group, :except => ['list','new','create','index']
+  prepend_before_filter :find_group, :except => [:list,:new,:create,:index, :show]
   
-  before_filter :login_required,
-    :except => [:list, :index, :show, :search, :archive, :tags, :calendar_month, :list_by_day, :list_by_week, :list_by_month]
-  before_filter :authorized_to_view?, :only => :archive
+  before_filter :login_required, :only => [:create, :update, :destroy, :new, :edit ]
+    #:except => [:list, :index, :show, :search, :archive, :tags, :calendar_month, :list_by_day, :list_by_week, :list_by_month]
     
   verify :method => :post,
     :only => [:create, :update, :destroy]
@@ -25,7 +25,8 @@ class GroupsController < ApplicationController
   end
 
   def show
-    return render(:template => 'groups/show_nothing') unless @group.allows?(current_user, :view)
+    @group = Group.find_by_name(params[:id])  
+    raise ActiveRecord::RecordNotFound unless @group
     @pages = @group.pages.allowed(current_user, :view).find(:all, :order => 'pages.updated_at DESC', :limit => 20)
     @profile = @group.profile
     @wiki = @group.page
@@ -239,18 +240,9 @@ class GroupsController < ApplicationController
   end
   
   def find_group
-    @group = Group.get_by_name params[:id].sub(' ','+') if params[:id]
+    @group = Group.get_by_name params[:id] if params[:id]
   end
 
-  #this is a terrible method, but this is a better place than find_group
-  def authorized_to_view?
-    unless @group and (@group.publicly_visible_group or @group.allows?(current_user, :view)) ##committees need to be handled better
-      render :template => 'groups/show_nothing'
-      return false
-    end
-    true
-  end
-  
   def authorized?
     non_members_post_allowed = %w(archive search tags tasks create)
     non_members_get_allowed = %w(new show members calendar_month list_by_day list_by_week list_by_month) + non_members_post_allowed
@@ -314,5 +306,6 @@ class GroupsController < ApplicationController
 
     event_path + type1 + type2 + type3 + type4
   end
- 
+
+
 end

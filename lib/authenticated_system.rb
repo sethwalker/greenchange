@@ -75,11 +75,12 @@ module AuthenticatedSystem
     # behavior in case the user is not authorized
     # to access the requested action.  For example, a popup window might
     # simply close itself.
-    def access_denied
+    def access_denied(exception=nil)
       respond_to do |accepts|
         accepts.html do
           if logged_in?
             flash[:error]='You do not have sufficient permission to perform that action.' 
+            log_exception( exception ) if exception
             redirect_to me_path
           else
             flash[:error]= 'Please login to perform that action.'
