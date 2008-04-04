@@ -89,7 +89,7 @@ class ChatController < ApplicationController
     @user = current_user
     @channel = Chat::Channel.find_by_id(params[:id])
     unless @channel
-      @group = Group.get_by_name(params[:id])
+      @group = Group.get_by_name((params[:id] || params[:group_id]))
       if @group
         @channel = Chat::Channel.find_by_group_id(@group.id)
         unless @channel
@@ -103,7 +103,7 @@ class ChatController < ApplicationController
 
   def authorized?
     return true if params[:action] == 'index'
-    return( @user and @channel and @user.member_of?(@channel.group_id) )
+    return( @user and @channel and @user.member_of?(@channel.group) )
   end
   
   def user_say_in_channel(user, channel, say)

@@ -55,12 +55,12 @@ describe MembershipController do
     it "should find the users" do
       User.should_receive(:find_by_login).with(@first_invitee.login)
       User.should_receive(:find_by_login).with(@second_invitee.login)
-      post :invite, :group_id => @group.name, :users => "#{@first_invitee.login} #{@second_invitee.login}"
+      post :send_invite, :group_id => @group.name, :invite => { :users => "#{@first_invitee.login} #{@second_invitee.login}" }
     end
     it "should create membership requests" do
       MembershipRequest.should_receive(:find_or_initialize_by_user_id_and_group_id).with(@first_invitee.id, @group.id).and_return(MembershipRequest.new(:user => @first_invitee, :group => @group))
       MembershipRequest.should_receive(:find_or_initialize_by_user_id_and_group_id).with(@second_invitee.id, @group.id).and_return(MembershipRequest.new(:user => @second_invitee, :group => @group))
-      post :invite, :group_id => @group.name, :users => "#{@first_invitee.login} #{@second_invitee.login}"
+      post :send_invite, :group_id => @group.name, :invite => { :users => "#{@first_invitee.login} #{@second_invitee.login}" }
     end
   end
 

@@ -160,7 +160,7 @@ class Group < ActiveRecord::Base
 
   def membership_changed(membership)
     @user_ids = nil
-    membership.user.update_membership_cache
+    membership.user.update_membership_cache membership
   end
 
   def relationship_to(user)

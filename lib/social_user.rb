@@ -64,10 +64,7 @@ module SocialUser
     def self.included(base)
 
       base.instance_eval do
-        has_many :memberships, :foreign_key => 'user_id',
-          :dependent => :destroy,
-          :after_add => :update_membership_cache,
-          :after_remove => :update_membership_cache
+        has_many :memberships, :foreign_key => 'user_id', :dependent => :destroy, :after_add => :update_membership_cache, :after_remove => :update_membership_cache
         
         has_many :membership_requests
 
@@ -76,17 +73,23 @@ module SocialUser
             raise Exception.new("don't call << on user.groups");
           end
           def delete(*records)
+            membership = records.first.membership_for @owner
             super(*records)
-            proxy_owner.update_membership_cache
+            proxy_owner.update_membership_cache membership
           end
         end
         has_finder :by_group, lambda {|*groups|
           groups.any? ? { :include => :memberships, :conditions => [ "memberships.group_id in (?)", groups ] } : {}
         }
-          
+        #alias :all_groups :groups  
         # all groups, including groups we have indirect access to (ie committees and networks)
-        has_many :all_groups, :class_name => 'Group', 
-          :finder_sql => 'SELECT groups.* FROM groups WHERE groups.id IN (#{all_group_id_cache.to_sql})'
+        has_many :all_groups, :foreign_key => 'user_id', :through => :memberships, :source => :group 
+        #has_many :all_groups, :class_name => 'Group' 
+          #:finder_sql => 'SELECT groups.* FROM groups WHERE groups.id IN (#{all_group_id_cache.to_sql})'
+
+        has_many :admin_memberships, :class_name => 'Membership', :conditions => ['role=?', 'administrator']
+        has_many :groups_administering, :class_name => 'Group', :through => :admin_memberships, :source => :group
+        #has_many :membership_requests_received, :class_name => 'MembershipRequest', :include => :groups_administering
         
         serialize_as IntArray, :direct_group_id_cache, :all_group_id_cache, :peer_id_cache
 
@@ -99,10 +102,17 @@ module SocialUser
         remove_method :group_ids
       end
 
-      def groups_administering
-        groups.select {|g| g.allows?(self, :admin) }
-      end
     end
+      #groups for which the user has administrative privileges
+      #def groups_administering
+      #  groups.select {|g| g.allows?(self, :admin) }
+      #end
+
+      def membership_requests_received_and_pending
+        groups_administering.inject([]) do |requests, g|
+          requests += g.membership_requests.select{ |r| r.pending? }
+        end
+      end
 
       # alias for the cache.
       def group_ids
@@ -120,9 +130,10 @@ module SocialUser
         if group.is_a? Array
           group.detect{|g| member_of?(g)}
         elsif group.is_a? Integer
-          all_group_ids.include?(group)
+          group_ids.include?(group)
         elsif group.is_a? Group
-          all_group_ids.include?(group.id)
+          #all_group_ids.include?(group.id)
+          groups.include?(group)
         end
       end
       
@@ -338,6 +349,18 @@ module SocialUser
         :direct_group_id_cache => direct,
         :all_group_id_cache    => all,
         :peer_id_cache         => peer
+
+      if membership
+        #membership.group.children.each do |committee|
+        #  unless Membership.find( :first, :conditions => [ "user_id = ? and group_id = ? ", membership.user, committee ] ).empty? #.include?( membership.user )
+        #    committee.memberships.create(:user_id => membership.user_id) 
+        #    commmittee.memberships(true)
+        #  end
+
+        #end 
+        membership.user.groups(true)
+        membership.user.all_groups(true)
+      end
     end
 
     # This should be called if a change in relationships has potentially

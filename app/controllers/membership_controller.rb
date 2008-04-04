@@ -75,11 +75,13 @@ class MembershipController < ApplicationController
   end
 
   def invite
-    return unless request.post? # form on get
+    @invite = MembershipRequest.new :group => @group
+  end
     
+  def send_invite
     wrong = []
     sent = []
-    params[:users].split(/\s*[,\s]\s*/).each do |login|
+    params[:invite][:users].split(/\s*[,\s]\s*/).each do |login|
       next if login.empty?
       if user = User.find_by_login(login)
         req = MembershipRequest.find_or_initialize_by_user_id_and_group_id user.id, @group.id

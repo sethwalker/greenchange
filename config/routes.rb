@@ -103,6 +103,7 @@ ActionController::Routing::Routes.draw do |map|
     group.resources :people
     group.resources :memberships, :controller => 'membership', :collection => {:join => :get, :invite => :get, :leave => :get}, :member => { :approve => :put, :reject => :delete }
     group.resource :profile, :controller => 'group/profiles'
+    group.chat 'chat', :controller => 'chat', :action => 'channel'
     page_routes(group)
   end
   map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|search|calendar_month|list_by_day|list_by_week|list_by_month/

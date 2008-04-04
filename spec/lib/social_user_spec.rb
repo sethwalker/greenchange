@@ -47,7 +47,7 @@ describe "SocialUser" do
       end
     end
 
-    describe "caching membership data" do
+    describe "membership data #no longer caches ids" do
 
       before do
         @user = create_valid_user :login => 'hermione'
@@ -81,6 +81,7 @@ describe "SocialUser" do
         user.all_groups #performs initial caching
         group = create_valid_group :name => 'hogwarts-academy'
         group.memberships.create :user => user
+        #user.all_groups(true) #reloads associations
         user.all_group_ids.should == [ group.id ]
       end
 

@@ -12,9 +12,9 @@
   .icon
     = link_to "Create Page", new_group_page_url(group), :class => 'action page-create add', :title => 'Add a Page'
   .icon
-    = link_to "Join Chat", "chat_group_url( group )", :class => 'action chat' , :title => 'Join Chat'
+    = link_to "Join Chat", group_chat_url( group ), :class => 'action chat' , :title => 'Join Chat'
 
 -#public menu
-- if logged_in?
+- if logged_in? and !current_user.member_of? group
   .icon
-    = link_to "Join", new_group_membership_url( @group ), :class => 'action join-group add', :title => 'Join this group'
+    = link_to "Join", new_group_membership_url( group ), :class => 'action join-group add', :title => 'Join this group'
