@@ -25,7 +25,7 @@ class User < ActiveRecord::Base
   }
  
 
-  has_many :memberships
+  #has_many :memberships
   def admin_of_group_ids
     memberships.find(:all, :conditions => ["role = 'administrator'"]).map(&:group_id).uniq
   end

@@ -10,7 +10,8 @@ class InboxController < ApplicationController
     @contact_requests = @me.contact_requests_received.pending.paginate :all, :order => "updated_at DESC", :page => params[:page] 
     @membership_requests = @me.membership_requests_received_and_pending #.paginate :all, :order => "updated_at DESC", :page => params[:page]
     #@membership_requests = @me.membership_requests_received.pending.paginate :all, :order => "updated_at DESC", :page => params[:page]
-    @items = ( @messages + @contact_requests + @membership_requests ).sort { |item, item2 | item2.updated_at <=> item.updated_at }.compact
+    @membership_invitations = @me.membership_invitations #.paginate :all, :order => "updated_at DESC", :page => params[:page]
+    @items = ( @messages + @contact_requests + @membership_requests + @membership_invitations ).sort { |item, item2 | item2.updated_at <=> item.updated_at }.compact
 
     respond_to do |format|
       format.html {}
