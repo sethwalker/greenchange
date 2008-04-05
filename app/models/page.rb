@@ -561,7 +561,7 @@ class Page < ActiveRecord::Base
 
   # does this page allow attachments?
   def accepts_attachments?
-    [ Event, Wiki, Message, Discussion, Blog ].any? { |klass| self.data && self.data.is_a?( klass ) }
+    [ Event, Wiki, Discussion, Blog ].any? { |klass| self.data && self.data.is_a?( klass ) }
   end
 
   # check if user has permission to perform the action on this page
