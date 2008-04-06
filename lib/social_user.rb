@@ -67,6 +67,7 @@ module SocialUser
         has_many :memberships, :foreign_key => 'user_id', :dependent => :destroy, :after_add => :update_membership_cache, :after_remove => :update_membership_cache
         
         has_many :membership_requests
+        has_many :membership_invitations, :class_name => 'MembershipRequest', :conditions => [ 'state = ? and approved_by_id IS NOT ?', 'pending', nil ]
 
         has_many :groups, :foreign_key => 'user_id', :through => :memberships do
           def <<(*dummy)

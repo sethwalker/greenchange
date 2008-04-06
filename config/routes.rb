@@ -101,7 +101,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :groups, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |group|
     group.resources :people
-    group.resources :memberships, :controller => 'membership', :collection => {:join => :get, :invite => :get, :leave => :get}, :member => { :approve => :put, :reject => :delete }
+    group.resources :memberships, :controller => 'membership', :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put }
     group.resource :profile, :controller => 'group/profiles'
     group.chat 'chat', :controller => 'chat', :action => 'channel'
     page_routes(group)

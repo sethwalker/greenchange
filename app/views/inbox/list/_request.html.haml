@@ -5,15 +5,21 @@
     %td.page_icon
       = link_to ' ', person_url(item.user), html_options_for_icon_for(item.user, :size => :small )
     %td.title
-      = item.class.name.underscore.humanize + ' from ' + item.user.login
+      = item.invitation? ? "Membership Invitation" : item.class.name.underscore.humanize 
+      = 'from ' + item.sender.login
       = "for #{item.group.name}" if item.group
     %td.view-indicator-stub
     %td.from
-      = link_to item.user.login, person_path( item.user )
+      = link_to item.sender.login, person_path( item.sender )
     %td.arrived
       = friendly_date( item.updated_at )
     %td.toolbar
-      - if item.is_a? MembershipRequest
+      - if item.is_a? MembershipRequest and item.invitation?
+        .icon
+          = button_to "Accept",  accept_group_membership_path(item.group, item), :method => :put, :class => 'add action',:title => 'Accept'
+        .icon
+          = button_to "Refuse",     refuse_group_membership_path(item.group, item), :method => :delete, :class => 'delete action', :title => 'Refuse'
+      - elsif item.is_a? MembershipRequest 
         .icon
           = button_to "Approve",  approve_group_membership_path(item.group, item), :method => :put, :class => 'add action',:title => 'Approve'
         .icon
