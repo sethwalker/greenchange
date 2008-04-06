@@ -1,8 +1,8 @@
 .section.post
   .post-author
     .icon
-      = icon_for(@user.current, :size=>'small')
+      = icon_for(current_user, :size=>'small')
     .username
-      = link_to_user @user.current
+      = link_to_user current_user
   .post-body
     = render :partial => 'posts/form', :locals => {:post => reply}

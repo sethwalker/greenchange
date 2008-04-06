@@ -2,6 +2,8 @@
 #toprule
   %ul#topmenu
     %li.first
+      = link_to "Home", 'http://greenchange.org', :class => 'menu menu-top' 
+    %li
       - selected = ( %w- groups people -.include? controller.controller_name) ? ' selected' : ''
       = link_to "Connect", '/connect', :class => 'menu menu-top' + selected
       %ul
@@ -42,6 +44,8 @@
         %li
           = link_to "Posts", new_post_path, :class => 'menu'
         %li
+          = link_to "Group", new_group_path, :class => 'menu'
+        %li
           = link_to "Media", new_media_path, :class => 'menu'
         %li
           = link_to "Event", new_event_url, :class => 'menu'
@@ -49,9 +53,6 @@
           = link_to "Action", new_action_path, :class => 'menu'
         %li
           = link_to "Discussion", new_tool_path, :class => 'menu'
-        %li
-          = link_to "Group", new_group_path, :class => 'menu'
-
     %li
       - selected = ( %w- action -.include? controller.controller_name) ? ' selected' : ''
       = link_to "Take Action", '/takeaction', :class => 'menu menu-top' + selected
@@ -61,18 +62,17 @@
       = link_to "Explore", '/explore', :class => 'menu menu-top' + selected
       %ul
         %li
-          = link_to "Audio", audio_index_path, :class => 'menu'
+          = link_to "Issues", issues_url, :class => 'menu'
         %li
           = link_to "Video", videos_url, :class => 'menu'
         %li
-          = link_to "Photos", photos_url, :class => 'menu'
-        %li
-          = link_to "Issues", issues_url, :class => 'menu'
+          = link_to "Images", photos_url, :class => 'menu'
         %li
           = link_to "Blogs", blogs_url, :class => 'menu'
         %li
           = link_to "Discussions", discussions_url, :class => 'menu'
-
+        %li
+          = link_to "Audio", audio_index_path, :class => 'menu'
 
     - if logged_in?
       %li
@@ -84,9 +84,9 @@
           %li
             = link_to 'Contacts', me_contacts_url, :class => 'menu'
           %li
-            = link_to 'Your Content', me_pages_url, :class => 'menu'
-          %li
             = link_to 'Groups', me_groups_url, :class => 'menu'
+          %li
+            = link_to 'Your content', me_pages_url, :class => 'menu'
           %li
             = link_to 'Network', me_network_url, :class => 'menu'
           %li

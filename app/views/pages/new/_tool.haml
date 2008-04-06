@@ -1,13 +1,16 @@
-%h2 Organize and Discuss
+%h2 Create a new discussion or organizing tool
 .section
   =link_to icon_for(Tool::Discussion.new), new_discussion_url
   %h4
     =link_to 'Discussion', new_discussion_url   
+  .post_description
 .section
   =link_to icon_for(Tool::RankedVote.new), new_poll_url
   %h4
     =link_to 'Poll', new_poll_url
+  .post_description
 .section
   =link_to icon_for(Tool::TaskList.new), new_task_url
   %h4
-    =link_to 'Task List', new_task_url
+    =link_to 'To do list', new_task_url
+  .post_description

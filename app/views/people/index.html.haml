@@ -1,17 +1,17 @@
-%h1 People
+-#%h1 People
 - unless scoped_by_context?
   -if logged_in?
-    %h3 My contacts
-    .workarea
+    -#%h3 My contacts
+    -#.workarea
       -if @contacts
         .icon-box
           =render :partial => 'shared/list/person', :collection => @contacts
       -else
         You have no contacts
       .clear
-    %h3 
-      My peers 
-      %span.normal
+    %h1 
+      People in my groups 
+      -#%span.normal
         \(users I share a common group with)
     .workarea
       -if @peers
@@ -20,7 +20,7 @@
       -else
         You have no peers
       .clear
-  %h3 All people
+  %h1 Everyone 
   .workarea
     .icon-box
       =render :partial => 'shared/list/person', :collection => User.find(:all, :limit => 300)

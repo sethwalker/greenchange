@@ -27,7 +27,7 @@
       :font-weight bold
       :padding 4px
       :background-color #EEEEEE
-      :width 425px 
+      -#:width 425px 
 .landing
   :float left
   .section .list-item
@@ -82,7 +82,8 @@
   :display block
   :overflow hidden
   :float left
-
+  .icon
+    :float right
 .list-thumb
   :float left
   :margin-right 1em
@@ -106,19 +107,20 @@
       &:hover
         :text-decoration underline
         :color green
-  .label
+  label
     :font-weight bold
     :float left
-    :margin-right .5em
-
-ul.page-attachments
-  :padding 0
-  :margin 0
-  :float left
-  :list-style none
-  li
+    -#:margin-right .4em
+    -#:margin-left .3em
+  .icon
     :float left
-    :margin-right 1em
+  .name
+    :float left
+  .date
+    :float left
+    :margin-left 5px
+  .comments
+    :float none 
 
 ul.promos
   :list-style none
@@ -253,8 +255,8 @@ ul.tab-block, #titlebox
     :float right
 
 .toolbar.title-menu
-  :background-color = !admin_toolbar_bg
-  :border 1px solid
+  -#:background-color = !admin_toolbar_bg
+  -#:border 1px solid
     :color = !admin_toolbar_border
   :padding-left 2px
   :padding-top 2px
@@ -265,7 +267,7 @@ ul.tab-block, #titlebox
     :margin-top 0px
     .action
       :padding-top 0
-      :padding-left 24px
+      :padding-left 28px
 
 .toolbar
   ul
@@ -334,8 +336,10 @@ ul.tab-block, #titlebox
       :background-color = !toolbar_bg_hover
 
 a.icon.standard.name-bottom
-  :padding-top 64px
+  :padding-top 67px
   :height 20px
+  :overflow hidden
+  :font-size 10px
 
 a.icon
   &:hover

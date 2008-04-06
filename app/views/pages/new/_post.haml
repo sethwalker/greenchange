@@ -1,8 +1,10 @@
-%h2 Posts
+%h2 Create a new post 
 .section
   =link_to icon_for(Tool::Blog.new), new_blog_url
   %h4
     =link_to 'Blog', new_blog_url   
+  .post-description
+    This is the blog text
 .section
   =link_to icon_for(Tool::News.new), new_news_url
   %h4

@@ -1,9 +1,11 @@
-%h2 Events and Actions
+%h2 Create a new events or action
 .section
   =link_to icon_for(Tool::Event.new), new_event_url
   %h4
     =link_to 'Event', new_event_url   
+  .post_description
 .section
   =link_to icon_for(Tool::ActionAlert.new), new_action_url
   %h4
-    =link_to 'Action Alert', new_action_url
+    =link_to 'Action alert', new_action_url
+  .post_description

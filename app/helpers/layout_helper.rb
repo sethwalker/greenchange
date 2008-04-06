@@ -5,7 +5,11 @@ module LayoutHelper
   def extended_sidebar?
     ( controller.controller_name =~ /groups|people|issues/ and controller.action_name == 'show' )
   end
-  
+
+  def no_sidebar?
+    ( controller.controller_name =~ /account/ || controller.action_name == 'new')
+  end
+
   # returns avatar divs for people or groups
   def avatar_for(viewable, size='medium', options={})
     #image_tag avatar_url(:viewable_type => viewable.class.to_s.downcase, :viewable_id => viewable.id, :size => size), :alt => 'avatar', :size => Avatar.pixels(size), :class => 'avatar'

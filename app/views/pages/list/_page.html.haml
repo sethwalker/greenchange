@@ -1,6 +1,9 @@
 %li.list-item.page
   .list-thumb
     = link_to icon_for(page), page_url(page)#, :class => 'icon'
+  .icon
+    = icon_for(page.created_by, :size=>'small' )
+    = icon_for(page.group, :size=>'small')
   .list-description
     %h3
       = link_to page.title, page_url(page) 
@@ -8,23 +11,23 @@
       = page.summary
     - if page.created_by
       .byline
-        .label
-          Posted By:
-        = link_to page.created_by.login, people_url(page.created_by)
-      .date
-      = friendly_date(page.created_at)
-    %ul.page-attachments
-      - unless page.tags.empty?
-        %li
-          .label
-            Tags:
-          = render :partial => 'shared/tag', :collection => page.tags
-      - if page.discussion and !page.discussion.posts.empty?
-        %li
-          = page.discussion.posts.count
-          comments
-      -# unless page.issues.empty?
-        %li
-          .label
-            Issues:
-          -#= render :partial => 'shared/issue', :collection => page.issues
+        %label.name
+          By:
+        = link_to page.created_by.login, people_url(page.created_by), :class =>'name'
+        %label.date
+          Posted:
+        = friendly_date(page.created_at)
+    - unless page.tags.empty?
+      .tags
+        %label
+          Tags:
+        = render :partial => 'shared/tag', :collection => page.tags
+    - if page.discussion and !page.discussion.posts.empty?
+      .comments
+        = page.discussion.posts.count
+        comments
+    - unless page.issues.empty?
+      .issues
+        %label
+          Issues:
+        -#= render :partial => 'shared/issue', :collection => page.issues

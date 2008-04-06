@@ -3,7 +3,7 @@
     #top-login-prompt
       = link_to "Logout".t, { :controller => '/account', :action => 'logout'} 
     #login-name
-      Hi,
+      Hi 
       = link_to current_user.display_name, me_url
       = "-- you have #{current_user.unread_messages.size} messages" unless current_user.unread_messages.empty? 
         
@@ -14,7 +14,7 @@
     #top-login-form
       - form_tag :controller => 'account', :action => 'login' do
         %p
-          = link_to "Want to Sign Up?", signup_account_url #:controller => 'account', :action => 'signup'
+          = link_to "Want to sign up?", signup_account_url #:controller => 'account', :action => 'signup'
         %p
           %label{ :for => "username" }
             = _("Username")

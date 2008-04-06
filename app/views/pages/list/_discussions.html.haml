@@ -4,33 +4,28 @@
   .list-description
     %h3
       = link_to discussions.title, page_url(discussions) 
-    %p
-      = h discussions.summary
-    %ul.page-attachments
-      
-      - if discussions.discussion and !discussions.discussion.posts.empty?
-        %li
-          .label
-            Last Post:
-          = friendly_date( discussions.discussion.posts.max { |a, b| a.created_at <=> b.created_at }.created_at )
-        .clear
-        %li
-          .label
-            Posts: 
-          = discussions.discussion.posts.count
-      - if discussions.discussion and !discussions.discussion.posts.empty?
-        %li
-          .label
+    %p.blurb
+      = discussions.summary
+    - if discussions.discussion and !discussions.discussion.posts.empty?
+      .byline
+        %label.date
+          Last Post:
+        = friendly_date( discussions.discussion.posts.max { |a, b| a.created_at <=> b.created_at }.created_at )
+        %label.commments
+          Posts: 
+        = discussions.discussion.posts.count
+        - if discussions.discussion and !discussions.discussion.posts.empty?
+          %label.particpants
             Participants:
           = discussions.discussion.posts.map(&:user).uniq.size
-      - unless discussions.tags.empty?
-        %li
-          .label
-            Tags:
-          = render :partial => 'shared/tag', :collection => discussions.tags
-      -# unless discussions.issues.empty?
-        %li
-          .label
-            Issues:
-          -#= render :partial => 'shared/issue', :collection => discussions.issues
+    - unless discussions.tags.empty?
+      .tags
+        %label
+          Tags:
+        = render :partial => 'shared/tag', :collection => discussions.tags
+    -  unless discussions.issues.empty?
+      .issues
+        %label
+          Issues:
+        = render :partial => 'shared/issue', :collection => discussions.issues
 
