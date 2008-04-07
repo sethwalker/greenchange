@@ -19,3 +19,5 @@ config.action_controller.perform_caching             = false
 config.action_mailer.delivery_method = :test
 
 MAKE_ASSET_BUNDLES = false
+
+DemocracyInAction::API::DIA_ENABLED=false

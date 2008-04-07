@@ -10,4 +10,10 @@ Autotest.add_hook :initialize do |at|
   at.add_mapping(%r%^spec/(integration)/.*rb$%) { |filename, _|
     filename
   }
+  at.add_mapping(%r%^spec/config/initializers/.*rb$%) do |f, m|
+    f
+  end
+  at.add_mapping(%r%^config/initializers/(.*)\.rb$%) do |f, m|
+    ["spec/config/initializers/#{m[1]}_spec.rb"]
+  end
 end
