@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1207284242) do
+ActiveRecord::Schema.define(:version => 1207361173) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -95,8 +95,8 @@ ActiveRecord::Schema.define(:version => 1207284242) do
     t.string   "level"
   end
 
-  add_index "chat_messages", ["channel_id"], :name => "index_messages_on_channel_id"
   add_index "chat_messages", ["sender_id"], :name => "index_messages_channel"
+  add_index "chat_messages", ["channel_id"], :name => "index_messages_on_channel_id"
 
   create_table "collectings", :force => true do |t|
     t.integer  "collection_id"
@@ -251,7 +251,8 @@ ActiveRecord::Schema.define(:version => 1207284242) do
   add_index "issue_identifications", ["issue_id", "issue_identifying_id", "issue_identifying_type"], :name => "index_issue_identifications", :unique => true
 
   create_table "issues", :force => true do |t|
-    t.string "name", :null => false
+    t.string "name",        :null => false
+    t.text   "description"
   end
 
   add_index "issues", ["name"], :name => "index_issues_on_name", :unique => true

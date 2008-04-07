@@ -176,7 +176,7 @@ describe Page do
   end
 
   describe "page_type finder" do
-    before { create_page :type => 'Tool::Image' }
+    before { Tool::Image.create :title => 'animage' }
     it "accepts class names as strings" do
       Page.page_type('Tool::Image').should_not be_empty
     end
@@ -187,23 +187,23 @@ describe Page do
       Page.page_type(:asset).should_not be_empty
     end
     it "finds wikis" do
-      create_page :type => 'Tool::TextDoc'
+      Tool::TextDoc.create :title => 'awiki'
       Page.page_type(:wiki).should_not be_empty
     end
     it "finds tasks" do
-      create_page :type => 'Tool::TaskList'
+      Tool::TaskList.create :title => 'tasklist'
       Page.page_type(:task).should_not be_empty
     end
     it "finds ranked vote" do
-      create_page :type => 'Tool::RankedVote'
+      Tool::RankedVote.create :title => 'rankedvote'
       Page.page_type(:vote).should_not be_empty
     end
     it "finds rate many" do
-      create_page :type => 'Tool::RateMany'
+      Tool::RateMany.create :title => 'ratemany'
       Page.page_type(:poll).should_not be_empty
     end
     it "finds subclasses of subclasses" do
-      p = create_page :type => 'Tool::ExternalVideo'
+      p = Tool::ExternalVideo.create :title => 'avideo'
       Page.page_type(:asset).map(&:id).should include(p.id)
     end
   end

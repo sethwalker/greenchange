@@ -39,6 +39,7 @@ namespace :deploy do
   task :symlink_shared, :roles => :app, :except => {:no_symlink => true} do
     invoke_command "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
     invoke_command "ln -nfs #{shared_path}/config/mongrel_cluster.yml #{release_path}/config/mongrel_cluster.yml"
+    invoke_command "ln -nfs #{shared_path}/config/democracy_in_action.yml #{release_path}/config/democracy_in_action.yml"
 
     invoke_command "ln -nfs #{shared_path}/assets #{release_path}/assets"
     invoke_command "ln -nfs #{shared_path}/public_assets #{release_path}/public/assets"

@@ -20,4 +20,8 @@ config.action_mailer.delivery_method = :test
 
 MAKE_ASSET_BUNDLES = false
 
-DemocracyInAction::API::DIA_ENABLED=false
+class DemocracyInAction::API
+  def self.disabled?
+    true
+  end
+end

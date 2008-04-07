@@ -29,4 +29,8 @@ config.action_mailer.raise_delivery_errors = false
 # otherwise, they will get recompressed on every page load!
 MAKE_ASSET_BUNDLES =  false
 
-DemocracyInAction::API::DIA_ENABLED=false
+class DemocracyInAction::API
+  def self.disabled?
+    true
+  end
+end

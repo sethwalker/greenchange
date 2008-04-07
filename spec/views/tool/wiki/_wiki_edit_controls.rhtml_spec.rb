@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 describe "wiki/_wiki_edit_controls" do
   before do
     template.stub!(:current_user).and_return(@user = create_user)
-    assigns[:page] = @page = create_page(:type => 'Tool::TextDoc')
+    assigns[:page] = @page = Tool::TextDoc.create(:title => 'awiki')
     assigns[:wiki] = @wiki = Wiki.new
     @wiki.locked_by = @user
   end
