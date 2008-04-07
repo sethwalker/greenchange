@@ -6,7 +6,7 @@ describe "DemocracyInAction initializer" do
   end
 
   #should probably move this
-  if ENV['DIA_USER'] && ENV['DIA_PASS'] && ENV['DIA_ORG']
+  if !ENV['DIA_USER'].empty? && !ENV['DIA_PASS'].empty? && !ENV['DIA_ORG'].empty?
     describe "when CONNECTING TO DIA!!!" do
       before do
         DemocracyInAction::Mirroring.__send__ :class_variable_set, :@@api, nil
