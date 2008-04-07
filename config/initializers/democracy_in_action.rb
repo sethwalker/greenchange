@@ -52,7 +52,7 @@ DemocracyInAction.configure do
     map('groups_KEY')     { |membership| 
       group = membership.group
       if group
-        proxy = group.democracy_in_action_proxies.find_by_remote_table('groups').
+        proxy = group.democracy_in_action_proxies.find_by_remote_table('groups')
         proxy.remote_key if proxy
       end
     }

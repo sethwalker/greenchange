@@ -6,7 +6,9 @@ module DemocracyInAction
       end
 
       def name
-        self.class.to_s.gsub(/^.*::/, '').downcase #demodulize
+        self.class.to_s.gsub(/^.*::/, '').  #demodulize
+          gsub(/([a-z\d])([A-Z])/,'\1_\2'). #underscore
+          downcase
       end
     end
   end
