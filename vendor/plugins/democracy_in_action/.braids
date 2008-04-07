@@ -1,6 +1,0 @@
---- 
-vendor/democracy_in_action: 
-  local_branch: braid/git/vendor/democracy-in-action/master
-  type: git
-  branch: master
-  remote: git@github.com:sethwalker/democracy_in_action_gem.git
