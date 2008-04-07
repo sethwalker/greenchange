@@ -7,7 +7,7 @@ module LayoutHelper
   end
 
   def no_sidebar?
-    ( controller.controller_name =~ /account/ || controller.action_name == 'new')
+    ( controller.controller_name =~ /account/ || controller.action_name == 'new' || controller.controller_name =~ /issues/ && controller.action_name == 'index' || controller.controller_name =~ /action_alert/ && controller.action_name == 'landing')
   end
 
   # returns avatar divs for people or groups

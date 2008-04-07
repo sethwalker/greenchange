@@ -8,8 +8,6 @@
     .tab-title
       Blogs &amp; News
       .toolbar
-
-
     %ul.tab-content.list
       = render :partial => 'pages/list/page', :collection => source.pages.page_type(:news, :blog, :wiki )
   %li

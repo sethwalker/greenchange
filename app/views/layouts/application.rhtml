@@ -37,7 +37,7 @@
       <%= render 'layouts/menu' -%>
     </div>
 
-    <div id="main" class="<%= "wideside" if extended_sidebar? %><%#= "noside" if no_sidebar %> ">
+    <div id="main" class="<%= "wideside" if extended_sidebar? %><%= "noside" if no_sidebar? %> ">
       <div id="maincolumn">
         <%= render :partial => 'shared/messages' %>
         <%= render :partial => 'shared/location' %>
@@ -52,7 +52,7 @@
           
         </div>
       </div>
-      <%  unless controller.controller_name =~ /account/ || controller.action_name == 'new' %>
+      <%  unless no_sidebar? %>
        <div id="bar">
         <%= render 'layouts/sidebar' %> 
       </div>

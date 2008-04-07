@@ -1,11 +1,12 @@
-.section
+.section.issues
   =link_to icon_for(issue, :size=>'large'), issue_url(issue)
   %h3 
     =link_to issue.name,issue_url(issue) 
-  -#=issue.description
-  -#.clear
-  Members(
+  = truncate(issue.description, 100)
+  %br 
+  %label
+    Members: 
   =issue.users.count
-  ) | Groups(
+  %label
+    Groups: 
   =issue.groups.count
-  )
