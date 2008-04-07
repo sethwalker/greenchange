@@ -3,6 +3,7 @@
 
 class Tag < ActiveRecord::Base
 
+  SPLITTING_DELIMITER = /,? / # Controls how to split and join tagnames from strings. You may need to change the <tt>validates_format_of parameters</tt> if you change this.
   DELIMITER = " " # Controls how to split and join tagnames from strings. You may need to change the <tt>validates_format_of parameters</tt> if you change this.
 
   # If database speed becomes an issue, you could remove these validations and rescue the ActiveRecord database constraint errors instead.

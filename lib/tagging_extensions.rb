@@ -76,7 +76,7 @@ class ActiveRecord::Base #:nodoc:
             end
           end              
         when String
-          obj = obj.split(Tag::DELIMITER).map do |tag_name| 
+          obj = obj.split(Tag::SPLITTING_DELIMITER).map do |tag_name| 
             tag_name.strip.squeeze(" ")
           end
         else

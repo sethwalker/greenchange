@@ -54,10 +54,15 @@ form
     input
       :clear both
       :display block
-      :float left
+      //#:float left
     label
       :display block
 
+  .form-column
+    :float left
+    :width = !main_column_width / 2 - 10
+    :margin-right 10px
+  
   .behavior-block
     & > .toolbar
       :margin
@@ -71,3 +76,4 @@ form
       .toolbar
         :margin 0
         :padding 0
+ 

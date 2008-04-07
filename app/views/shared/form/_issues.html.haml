@@ -1,8 +1,8 @@
 .section.issues
-  %h2
+  %h3
     Issues
   .behavior-block
-    - all_issues = Issue.find(:all)
+    - all_issues = Issue.standard_set
         
     .column
       = render :partial => 'shared/form/list/issue', :locals => { :f => f }, :collection => column_1_of_2(all_issues)

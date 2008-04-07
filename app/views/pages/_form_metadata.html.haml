@@ -1,0 +1,27 @@
+%p
+  = f.text_field 'tag_list', :size => 30
+  = f.label 'tag_list', 'Tags'
+
+- if current_user.all_groups.any?
+  %p
+    = f.select 'group_id', current_user.all_groups.map {|g| [g.name, g.id]}, :include_blank => true
+    = f.label 'group_id', 'Group'
+
+.permissions
+  %h4 Public for:
+  .row
+    = f.check_box :public
+    = f.label :public, 'Viewing'
+
+    = f.check_box :public_participate
+    = f.label :public_participate, 'Comments'
+
+    = f.check_box :public_edit
+    = f.label :public_edit, 'Editing'
+    
+= render :partial => "shared/form/issues", :locals => {:f => f}
+
+.attachments  
+  %h4 Attachments
+
+

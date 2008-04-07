@@ -187,3 +187,11 @@ GeoKit::Geocoders::geocoder_ca = false
 # various geocoders.  Make sure you read up on relevant Terms of Use for each
 # geocoder you are going to use.
 GeoKit::Geocoders::provider_order = [:google,:us]
+
+ActionView::Base.field_error_proc = Proc.new { |html_tag, instance| 
+  if html_tag =~ /<label/ 
+    "<div class=\"labelWithErrors\">#{html_tag}</div>" 
+  else
+    "<div class=\"fieldWithErrors\">#{html_tag}</div>"
+  end
+}

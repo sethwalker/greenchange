@@ -1,0 +1,11 @@
+- content_for :title do
+  = icon_for @page
+  %h1
+    Edit YouTube video
+
+.page.edit.external_video
+  - form_for :page, @page, :url => video_path(@page), :html => { :method => :put } do |f|
+    .section
+      = render :partial => 'pages/form', :locals => {:f => f}
+    = submit_tag 'Update', :name => 'update'
+

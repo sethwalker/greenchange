@@ -20,12 +20,12 @@ module LayoutHelper
   #assigns the title for display at the top of the page
   def html_title
     title =  []
-    title <<  @page.title if @page
+    title <<  @page.title if @page and not @page.title.blank?
     title <<  @group.name if @group
     title <<  @person.name if @person
     title <<  @issue.name if @issue
-    title <<  controller.controller_name
-    title <<  controller.action_name
+    title <<  controller.controller_name.titleize
+    title <<  controller.action_name.humanize
     #title <<  (@context||[]).collect{|b|truncate(b[0])}.reverse 
     title <<  Crabgrass::Config.site_name
     title.compact.join(' - ')

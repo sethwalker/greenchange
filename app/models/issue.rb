@@ -3,4 +3,8 @@ class Issue < ActiveRecord::Base
   has_many :issue_identifications
 
   def to_param; name.downcase.gsub ' ', '-'; end
+
+  def self.standard_set
+    Issue.find :all, :order => 'name'
+  end
 end

@@ -14,6 +14,11 @@ module PageUrlHelper
     self.__send__ "#{url_helper}_url".to_sym, page, *args
   end
 
+  def edit_tool_page_path( page, *args )
+    url_helper = tool_page_route_type( page )
+    self.__send__ "edit_#{url_helper}_path".to_sym, page, *args
+  end
+
   def tool_pages_url(page, page_context = nil )
     if page_context
       context_url_prefix = 'group' if page_context.is_a? Group

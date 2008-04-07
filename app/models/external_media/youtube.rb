@@ -40,6 +40,6 @@ class ExternalMedia::Youtube < ExternalMedia::Base
   end
 
   def thumbnail_url
-    self.class.thumbnail_url(media_key)
+    self.class.thumbnail_url(media_key) if media_key
   end
 end

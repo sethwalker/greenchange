@@ -1,7 +1,7 @@
 .section.post
   .post-author
     .icon
-      = icon_for(current_user, :size=>'small')
+      = icon_for current_user, :size => 'small'
     .username
       = link_to_user current_user
   .post-body

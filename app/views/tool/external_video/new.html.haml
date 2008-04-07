@@ -1,11 +1,10 @@
-%h2
-  = "Create a new".t
-  %b= @page.class.class_display_name.t
+- content_for :title do
+  = icon_for @page
+  %h1
+    Add a YouTube video
 
-- form_for(:page, @page, :url => videos_path) do |f|
-  .workarea
-    = header_for_page_create(@page.class)
-    = render :partial => 'pages/form', :locals => {:f => f}
-    - fields_for(:external_video, ExternalMedia::Youtube.new) do |video|
-      = render :partial => 'form', :locals => {:f => video}
-  = submit_tag 'Save', :name => 'save'
+.page.new.external_video
+  - form_for :page, @page, :url => videos_path do |f|
+    .section
+      = render :partial => 'pages/form', :locals => {:f => f}
+    = submit_tag 'Create', :name => 'create'

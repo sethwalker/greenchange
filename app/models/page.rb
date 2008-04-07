@@ -273,6 +273,10 @@ class Page < ActiveRecord::Base
   #######################################################################
   ## RELATIONSHIP TO PAGE DATA
   
+  def tag_list
+
+    super + ( @new_tags || '')
+  end
   def tag_list=(tag_list)
     @new_tags = tag_list
   end
@@ -293,13 +297,23 @@ class Page < ActiveRecord::Base
     tag_with @new_tags if @new_tags
   end
 
-  def issue_ids=(new_issue_ids)
-    if new_record?
-      new_issue_ids.each {|issue_id| issue_identifications.build :issue_id => issue_id }
-    else
-      @new_issues = new_issue_ids
+
+#  def issue_ids=(new_issue_ids)
+#    if new_record?
+#      new_issue_ids.each {|issue_id| issue_identifications.build :issue_id => issue_id }
+#    else
+#      @new_issues = new_issue_ids
+#    end
+#  end
+  def issue_ids=(issue_id_values)
+    issue_identifications.each do |issue_identification|
+      issue_identification.destroy unless issue_id_values.include?(issue_identification.issue_id)
+    end
+    issue_id_values.each do |issue_id|
+      self.issue_identifications.build(:issue_id => issue_id) unless issue_identifications.any? {|issue_identification| issue_identification.issue_id == issue_id}
     end
   end
+
 
   after_save :update_issues
   def update_issues
@@ -312,9 +326,19 @@ class Page < ActiveRecord::Base
   has_many :issue_identifications, :as => :issue_identifying, :dependent => :destroy
   has_many :issues, :through => :issue_identifications
 
+#  Issue
+#  def issue_ids_with_new_issues
+#    ((issue_ids_without_new_issues||[]) + issue_identifications.map(&:issue_id)).uniq
+#  end
+#  alias_method_chain :issue_ids, :new_issues
+
   belongs_to :data, :polymorphic => true
   attr_writer :page_data
   before_save :update_data
+  def page_data
+    @page_data  || self.data
+  end
+
   def update_data
     if @page_data
       if data

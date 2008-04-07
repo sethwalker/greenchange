@@ -16,7 +16,7 @@
     = render :partial => 'shared/groups_large',             :locals => { :source => @issue }
     = render :partial => 'shared/media',                    :locals => { :source => @issue }
 
-  - if @page && !@page.new_record?
+  - if @page && !@page.new_record? && controller.action_name != 'edit'
     = render :partial => 'shared/sides/donate'
     = render :partial => 'pages/sides/contributors', :locals => { :page => @page }
     = render :partial => 'pages/sides/groups', :locals => { :page => @page }

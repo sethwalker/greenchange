@@ -1,5 +1,3 @@
-%tr
-  %td{:align => 'right'}
-    %b embed code
-  %td
-    = f.text_area 'media_embed', :cols => 30, :rows => 3
+%p
+  = f.label :media_embed, 'youtube embed code'
+  = f.text_area 'media_embed', :cols => 30, :rows => 15 

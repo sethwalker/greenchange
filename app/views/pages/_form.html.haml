@@ -1,19 +1,19 @@
-.section.page-data
-  %p
-    = f.text_field :title, :size => 30
-    = f.label 'title', 'title'
-  %p 
-    = f.text_area :summary, :size => '30x3'
-    = f.label 'summary', 'summary'
-  - if current_user.all_groups.any?
-    %p
-      = f.select 'group_id', current_user.all_groups.map {|g| [g.name, g.id]}, :include_blank => true
-      = f.label 'group', 'group_id'
-    %p
-      = f.text_field 'tag_list', :size => 30
-      = f.label 'tags', 'tag_list'
-    %p
-      = render :partial => "shared/form/issues", :locals => {:f => f}
+- content_for :title do
+  = error_messages_for :page
 
-- content_for :javascript do
-  = javascript_tag '$("page_title").focus();'
+.section.page-data
+  .form-column
+    %p
+      = f.text_field :title, :size => 30
+      = f.label 'title', 'title'
+    %p
+      = f.text_area :summary, :size => '30x3'
+      = f.label 'summary', 'summary'
+    - f.fields_for :page_data, @page.data do |ff|
+      = render :partial => 'form', :locals => {:f => ff}
+
+  .form-column.wide 
+    = render :partial => 'pages/form_metadata', :locals => {:f => f}
+
+- content_for :javascript_onload do
+  $("page_title").focus();
