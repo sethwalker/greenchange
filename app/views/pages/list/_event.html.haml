@@ -1,4 +1,4 @@
-%li.list-item.event
+%li.list-item.page{ :class => cycle( 'shade-odd', 'shade-even', :name => 'activity_entry_cycle' )}
   .list-thumb
     = link_to icon_for(event), event_url(event)#, :class => 'icon'
   .list-description

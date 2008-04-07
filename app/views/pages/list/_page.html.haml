@@ -1,33 +1,34 @@
 %li.list-item.page{ :class => cycle( 'shade-odd', 'shade-even', :name => 'activity_entry_cycle' )}
   .list-thumb
     = link_to icon_for(page), page_url(page)#, :class => 'icon'
-  .icon
-    = icon_for(page.created_by, :size=>'small' )
-    = icon_for(page.group, :size=>'small')
   .list-description
+    -#.icon
+      = link_to icon_for(page.created_by, :size=>'small' ), person_url(page.created_by)
+      = link_to icon_for(page.group, :size=>'small'), group_url(page.group)
     %h3
       = link_to page.title, page_url(page) 
     %p.blurb
       = page.summary
-    - if page.created_by
-      .byline
+    .byline
+      .name
         %label.name
-          By:
+          By: 
         = link_to page.created_by.login, person_url(page.created_by), :class =>'name'
-        %label.date
-          Posted:
-        = friendly_date(page.created_at)
+        .date
+          = friendly_date(page.created_at)
+        - if page.discussion and !page.discussion.posts.empty?
+          .comments
+            = page.discussion.posts.count
+            comments
     - unless page.tags.empty?
+      %br
       .tags
         %label
           Tags:
         = render :partial => 'shared/tag', :collection => page.tags
-    - if page.discussion and !page.discussion.posts.empty?
-      .comments
-        = page.discussion.posts.count
-        comments
     - unless page.issues.empty?
-      .issues
+      %br
+      .issues.icon-only
         %label
           Issues:
-        -#= render :partial => 'shared/issue', :collection => page.issues
+        = render :partial => 'shared/icons/issue', :collection => page.issues

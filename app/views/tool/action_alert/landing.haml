@@ -6,7 +6,7 @@
     =link_to 'Search for an event', '/search/event', :class => 'search'
     .clear
     .content-list
-      %ul.row-listing.pages
+      %ul.list
         =render :partial => 'pages/list/event', :collection => Page.page_type(:event).find(:all, :limit=>5)
   .column
     %h2 Take action
@@ -14,5 +14,5 @@
     =link_to 'Search for an event', '/search/action', :class => 'search'
     .clear
     .content-list
-      %ul.row-listing.pages
+      %ul.list
         =render :partial => 'pages/list/page', :collection => Page.page_type(:action_alert).find(:all, :limit=>5)

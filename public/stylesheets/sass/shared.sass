@@ -35,7 +35,7 @@
     .list-description
       :width = !main_column_width - 120px
       body.ie6 &
-        :width = !main_column_width - 120px - !ie_padding_offset
+        -#:width = !main_column_width - 120px - !ie_padding_offset
       #main.wideside &
         :width = !main_column_wideside_width - 120px
         body.ie6 &
@@ -60,13 +60,12 @@
       :width = ( !main_column_noside_width ) / 2
       body.ie6 &
         :width = ( !main_column_noside_width - !ie_padding_offset ) / 2
-
   .list-item
     :margin-bottom 12px
     :padding 4px 4px 4px 4px
-    :width = !main_column_width - 8px
-    body.ie6 &
-      :width = !main_column_width - !ie_padding_offset - 8px
+    -#:width = !main_column_width - 8px
+    -#body.ie6 &
+      -#:width = !main_column_width - !ie_padding_offset - 8px
     #main.wideside &
       :width = !main_column_wideside_width - 8px
       body.ie6 &
@@ -127,20 +126,27 @@
       &:hover
         :text-decoration underline
         :color green
-  label
-    :font-weight bold
+  .byline
     :float left
-    -#:margin-right .4em
-    -#:margin-left .3em
-  .icon
-    :float left
-  .name
-    :float left
-  .date
-    :float left
-    :margin-left 5px
-  .comments
-    :float none 
+    %label
+      :font-weight bold
+      :float left
+      -#:margin-right .4em
+      -#:margin-left .3em
+    .icon
+      :float right 
+    .name
+      :float left
+    .date
+      :float left
+      :margin-left 5px
+      :padding-left 5px
+      :border-left  1px solid
+    .comments
+      :float left
+      :margin-left 5px
+      :padding-left 5px
+      :border-left  1px solid 
 
 .promo
   -#:margin-top 40px
