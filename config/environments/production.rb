@@ -33,4 +33,3 @@ MAKE_ASSET_BUNDLES = true
 
 # set cookies to 'secure'; prevent some kinds of session-stealing attacks
 #Crabgrass::Config.https_only = true
-

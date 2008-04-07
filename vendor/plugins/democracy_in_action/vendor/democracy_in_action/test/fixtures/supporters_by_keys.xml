@@ -1,0 +1,125 @@
+<?xml version="1.0"?>
+<data organization_KEY="962">
+<supporter>
+
+<item>
+<key>22118014</key>
+<supporter_KEY>22118014</supporter_KEY>
+  <organization_KEY>962</organization_KEY>
+  <chapter_KEY></chapter_KEY>
+  <Last_Modified>2007-08-03 00:42:56.0</Last_Modified>
+  <Date_Created>2007-08-03 00:42:56.0</Date_Created>
+  <Title></Title>
+  <First_Name>test1</First_Name>
+  <MI></MI>
+  <Last_Name>data1</Last_Name>
+  <Suffix></Suffix>
+  <Email>test1@radicaldesigns.org</Email>
+  <Password></Password>
+  <Receive_Email>1</Receive_Email>
+  <Email_Status></Email_Status>
+  <Email_Preference>HTML Email</Email_Preference>
+  <Soft_Bounce_Count></Soft_Bounce_Count>
+  <Hard_Bounce_Count></Hard_Bounce_Count>
+  <Last_Bounce></Last_Bounce>
+  <Receive_Phone_Blasts></Receive_Phone_Blasts>
+  <Phone>123-456-7890</Phone>
+  <Cell_Phone></Cell_Phone>
+  <Phone_Provider></Phone_Provider>
+  <Work_Phone></Work_Phone>
+  <Pager></Pager>
+  <Home_Fax></Home_Fax>
+  <Work_Fax></Work_Fax>
+  <Street>123 fake st</Street>
+  <Street_2>apt 1</Street_2>
+  <Street_3></Street_3>
+  <City>san francisco</City>
+  <State>CA</State>
+  <Zip>94110</Zip>
+  <PRIVATE_Zip_Plus_4>0000</PRIVATE_Zip_Plus_4>
+  <County></County>
+  <District></District>
+  <Country></Country>
+  <Latitude></Latitude>
+  <Longitude></Longitude>
+  <Organization>radical designs</Organization>
+  <Department></Department>
+  <Occupation></Occupation>
+  <Instant_Messenger_Service></Instant_Messenger_Service>
+  <Instant_Messenger_Name></Instant_Messenger_Name>
+  <Web_Page></Web_Page>
+  <Alternative_Email></Alternative_Email>
+  <Other_Data_1></Other_Data_1>
+  <Other_Data_2></Other_Data_2>
+  <Other_Data_3></Other_Data_3>
+  <Notes></Notes>
+  <Source>Web</Source>
+  <Source_Details>https://secure.democracyinaction.org/dia/hq/yourList.jsp</Source_Details>
+  <Source_Tracking_Code>(No Original Source Available)</Source_Tracking_Code>
+  <Tracking_Code></Tracking_Code>
+  <Status></Status>
+  <uid></uid>
+  <Timezone></Timezone>
+  </item>
+<item>
+<key>22118020</key>
+<supporter_KEY>22118020</supporter_KEY>
+  <organization_KEY>962</organization_KEY>
+  <chapter_KEY></chapter_KEY>
+  <Last_Modified>2007-08-03 00:46:54.0</Last_Modified>
+  <Date_Created>2007-08-03 00:46:54.0</Date_Created>
+  <Title></Title>
+  <First_Name>test2</First_Name>
+  <MI></MI>
+  <Last_Name>data2</Last_Name>
+  <Suffix></Suffix>
+  <Email>test2@radicaldesigns.org</Email>
+  <Password></Password>
+  <Receive_Email>1</Receive_Email>
+  <Email_Status></Email_Status>
+  <Email_Preference>HTML Email</Email_Preference>
+  <Soft_Bounce_Count></Soft_Bounce_Count>
+  <Hard_Bounce_Count></Hard_Bounce_Count>
+  <Last_Bounce></Last_Bounce>
+  <Receive_Phone_Blasts></Receive_Phone_Blasts>
+  <Phone>123-456-7890</Phone>
+  <Cell_Phone></Cell_Phone>
+  <Phone_Provider></Phone_Provider>
+  <Work_Phone></Work_Phone>
+  <Pager></Pager>
+  <Home_Fax></Home_Fax>
+  <Work_Fax></Work_Fax>
+  <Street>123 fake st</Street>
+  <Street_2>apt 1</Street_2>
+  <Street_3></Street_3>
+  <City>san francisco</City>
+  <State>CA</State>
+  <Zip>94110</Zip>
+  <PRIVATE_Zip_Plus_4>0000</PRIVATE_Zip_Plus_4>
+  <County></County>
+  <District></District>
+  <Country></Country>
+  <Latitude></Latitude>
+  <Longitude></Longitude>
+  <Organization>radical designs</Organization>
+  <Department></Department>
+  <Occupation></Occupation>
+  <Instant_Messenger_Service></Instant_Messenger_Service>
+  <Instant_Messenger_Name></Instant_Messenger_Name>
+  <Web_Page></Web_Page>
+  <Alternative_Email></Alternative_Email>
+  <Other_Data_1></Other_Data_1>
+  <Other_Data_2></Other_Data_2>
+  <Other_Data_3></Other_Data_3>
+  <Notes></Notes>
+  <Source>Web</Source>
+  <Source_Details>https://secure.democracyinaction.org/dia/hq/yourList.jsp</Source_Details>
+  <Source_Tracking_Code>(No Original Source Available)</Source_Tracking_Code>
+  <Tracking_Code></Tracking_Code>
+  <Status></Status>
+  <uid></uid>
+  <Timezone></Timezone>
+  </item><count>2</count>
+</supporter></data>
+
+

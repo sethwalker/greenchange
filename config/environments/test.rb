@@ -19,3 +19,9 @@ config.action_controller.perform_caching             = false
 config.action_mailer.delivery_method = :test
 
 MAKE_ASSET_BUNDLES = false
+
+class DemocracyInAction::API
+  def self.disabled?
+    true
+  end
+end
