@@ -2,8 +2,8 @@
   .icon
     = link_to 'Edit', edit_tool_page_path(@page), :class => 'action edit', :title => 'Edit'
 .icon
-  = link_to 'Bookmark', 'bookmark_tool_page_path(page)'
+  = link_to 'Bookmark', 'bookmark_tool_page_path(page)', :class => 'action bookmark', :title => 'Bookmark this page'
 .icon
-  = link_to 'Rate', 'rate_tool_page_path(page)'
+  = link_to 'Rate', 'rate_tool_page_path(page)', :class => 'action promote', :title => 'Push this page'
 .icon
-  = link_to 'Recommend', 'recommend_tool_page_path(page)'
+  = link_to 'Recommend', 'recommend_tool_page_path(page)', :class => 'action recommend', :title => 'Recommend this page to a friend'
