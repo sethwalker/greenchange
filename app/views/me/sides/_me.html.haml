@@ -6,16 +6,17 @@
     .pages
       %ul.tabset
         %li.tab
-          = link_to 'My Contacts', me_people_url, selected_if( request.url == me_people_url)
+          = link_to 'Your Contacts', me_people_url, selected_if( request.url == me_people_url)
         %li.tab
-          = link_to 'My Inbox', me_inbox_url, selected_if( request.url == me_inbox_url)
+          = link_to 'Your Inbox', me_inbox_url, selected_if( request.url == me_inbox_url)
+          
         %li.tab
-          = link_to 'My Content', me_pages_url, selected_if( request.url == me_pages_url)
+          = link_to 'Your Content', me_pages_url, selected_if( request.url == me_pages_url)
       %ul.tabset
         %li.tab
-          = link_to 'My Network', me_network_url, selected_if( request.url == me_network_url)
+          = link_to 'Your Network', me_network_url, selected_if( request.url == me_network_url)
         %li.tab
-          = link_to 'My Events', me_events_url, selected_if( request.url == me_events_url)
+          = link_to 'Your Events', me_events_url, selected_if( request.url == me_events_url)
         %li.tab
-          = link_to 'My Profile', me_profile_url, selected_if( request.url == me_profile_url)
+          = link_to 'Your Profile', me_profile_url, selected_if( request.url == me_profile_url)
 

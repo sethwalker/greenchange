@@ -44,9 +44,9 @@
   .column,
   .column .section
     :float left
-    :width = !main_column_width / 2
+    :width = !main_column_full_width / 2
     body.ie6 &
-      :width = ( !main_column_width - !ie_padding_offset ) / 2
+      :width = ( !main_column_full_width - !ie_padding_offset ) / 2
     #main.wideside &
       :width = ( !main_column_wideside_width ) / 2
       body.ie6 &
@@ -74,6 +74,8 @@
         :width = !main_column_wideside_width - !ie_padding_offset
 
 .content-list
+  ul
+    :padding 0px
   li
     :width 100%
     :padding 10px
@@ -122,6 +124,10 @@
   .comments
     :float none 
 
+.promo
+  -#:margin-top 40px
+  :margin-bottom 100px 
+  :padding 0px
 ul.promos
   :list-style none
   :padding 0
@@ -360,7 +366,8 @@ a.icon.standard.name-right
 
 .row-listing
   :float left
-  :padding 4px
+  :padding 0px
+  :margin 0px
   :list-style none
   .row-block 
     :float left

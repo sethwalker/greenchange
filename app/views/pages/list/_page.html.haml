@@ -1,4 +1,4 @@
-%li.list-item.page
+%li.list-item.page{ :class => cycle( 'shade-odd', 'shade-even', :name => 'activity_entry_cycle' )}
   .list-thumb
     = link_to icon_for(page), page_url(page)#, :class => 'icon'
   .icon
@@ -13,7 +13,7 @@
       .byline
         %label.name
           By:
-        = link_to page.created_by.login, people_url(page.created_by), :class =>'name'
+        = link_to page.created_by.login, person_url(page.created_by), :class =>'name'
         %label.date
           Posted:
         = friendly_date(page.created_at)

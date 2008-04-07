@@ -54,7 +54,7 @@
         %li
           = link_to "Discussion", new_tool_path, :class => 'menu'
     %li
-      - selected = ( %w- action -.include? controller.controller_name) ? ' selected' : ''
+      - selected = ( %w- action_alert -.include? controller.controller_name) ? ' selected' : ''
       = link_to "Take Action", '/takeaction', :class => 'menu menu-top' + selected
 
     %li
@@ -82,7 +82,7 @@
           %li
             = link_to 'Inbox', me_inbox_path, :class => 'menu'
           %li
-            = link_to 'Contacts', me_contacts_url, :class => 'menu'
+            = link_to 'Contacts', me_people_url, :class => 'menu'
           %li
             = link_to 'Groups', me_groups_url, :class => 'menu'
           %li
