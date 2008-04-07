@@ -40,6 +40,11 @@
         :width = !main_column_wideside_width - 120px
         body.ie6 &
           :width = !main_column_wideside_width - 120px - !ie_padding_offset
+    .column .list-description
+      #main.noside &
+        :width = (!main_column_noside_width - 120px) / 2
+        body.ie6 &
+          :width = ( !main_column_noside_width - 120px - !ie_padding_offset ) / 2
 
   .column,
   .column .section
@@ -51,6 +56,10 @@
       :width = ( !main_column_wideside_width ) / 2
       body.ie6 &
         :width = ( !main_column_wideside_width - !ie_padding_offset ) / 2
+    #main.noside &
+      :width = ( !main_column_noside_width ) / 2
+      body.ie6 &
+        :width = ( !main_column_noside_width - !ie_padding_offset ) / 2
 
   .list-item
     :margin-bottom 12px
@@ -62,6 +71,11 @@
       :width = !main_column_wideside_width - 8px
       body.ie6 &
         :width = !main_column_wideside_width - !ie_padding_offset - 8px
+  .column .list-item
+    #main.noside &
+      :width = ( !main_column_noside_width - 8px ) / 2
+      body.ie6 &
+        :width = ( !main_column_noside_width - !ie_padding_offset - 8px ) / 2
 
   .section
     :float left
@@ -72,6 +86,10 @@
       :width = !main_column_wideside_width
       body.ie6 &
         :width = !main_column_wideside_width - !ie_padding_offset
+    #main.noside &
+      :width = !main_column_noside_width
+      body.ie6 &
+        :width = !main_column_noside_width - !ie_padding_offset
 
 .content-list
   ul
@@ -140,6 +158,10 @@ ul.promos
     :width = !main_column_wideside_width
     body.ie6 &
       :width = !main_column_wideside_width - !ie_padding_offset
+  #main.noside &
+    :width = !main_column_noside_width
+    body.ie6 &
+      :width = !main_column_noside_width - !ie_padding_offset
 
 ul.tab-block
   :list-style none
@@ -155,6 +177,11 @@ ul.tab-block
     :width = !main_column_wideside_width
     body.ie6 &
       :width = !main_column_wideside_width - !ie_padding_offset
+  #main.noside #maincolumn &
+    :width = !main_column_noside_width
+    body.ie6 &
+      :width = !main_column_noside_width - !ie_padding_offset
+
   #main.wideside #bar & 
     :width = !side_column_wideside_width - 15px
     body.ie6 &
@@ -201,6 +228,10 @@ ul.tab-block
       :width = !main_column_wideside_width 
       body.ie6 &
         :width = !main_column_wideside_width - !ie_padding_offset
+    #main.noside #maincolumn &
+      :width = !main_column_noside_width 
+      body.ie6 &
+        :width = !main_column_noside_width - !ie_padding_offset
     #main.wideside #bar & 
       :width = !side_column_wideside_width - 15px
       body.ie6 &

@@ -84,11 +84,12 @@ Crabgrass.Tabs =  function() {
             ul_tabs.show( all_list );
 
             //add alternating color classes
-            ul.select('.tab-content').each( function( tab_contents ) { 
+            //ul.select('.tab-content').each( function( tab_contents ) { 
+            new Array( all_list ).each( function( tab_contents ) { 
               tab_contents.select('.list-item:nth-child(odd)').each( 
-                function( list_item ) { list_item.addClassName( "shade-odd" ) } );
+                function( list_item ) { list_item.addClassName( "shade-odd" ); list_item.removeClassName('shade-even');  } );
               tab_contents.select('.list-item:nth-child(even)').each( 
-                function( list_item ) { list_item.addClassName( "shade-even" ) } );
+                function( list_item ) { list_item.addClassName( "shade-even" ); list_item.removeClassName('shade-odd'); } );
             } );
           } );
         }
