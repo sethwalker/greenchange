@@ -1,30 +1,37 @@
-%li.list-item.page
+%li.list-item.page{ :class => cycle( 'shade-odd', 'shade-even', :name => 'activity_entry_cycle' )}
+  .icon.source
+    = link_to icon_for(discussions.created_by, :size=>'small' ), person_url(discussions.created_by)
+    = link_to icon_for(discussions.group, :size=>'small'), group_url(discussions.group)
   .list-thumb
-    = link_to icon_for(discussions), page_url(discussions), :class => 'icon'
+    = link_to icon_for(discussions), page_url(discussions)#, :class => 'icon'
   .list-description
     %h3
       = link_to discussions.title, page_url(discussions) 
     %p.blurb
       = discussions.summary
-    - if discussions.discussion and !discussions.discussion.posts.empty?
-      .byline
-        %label.date
+    .byline
+      .name
+        %label.name
           Last Post:
         = friendly_date( discussions.discussion.posts.max { |a, b| a.created_at <=> b.created_at }.created_at )
+      .comments
         %label.commments
           Posts: 
         = discussions.discussion.posts.count
-        - if discussions.discussion and !discussions.discussion.posts.empty?
+      - if discussions.discussion and !discussions.discussion.posts.empty?
+        .comments
           %label.particpants
             Participants:
           = discussions.discussion.posts.map(&:user).uniq.size
     - unless discussions.tags.empty?
+      %br
       .tags
         %label
           Tags:
         = render :partial => 'shared/tag', :collection => discussions.tags
     -  unless discussions.issues.empty?
-      .issues
+      %br
+      .issues.icon-only
         %label
           Issues:
         = render :partial => 'shared/issue', :collection => discussions.issues
