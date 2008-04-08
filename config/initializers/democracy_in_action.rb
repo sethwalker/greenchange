@@ -18,6 +18,7 @@ class DemocracyInAction::API
 
   def process_with_login(*args)
     return '' if DemocracyInAction::API.disabled?
+    login if args.last.is_a?(Hash) && args.last.keys.include?('key')
     key = process_without_login(*args)
     if "0" == key
       login
@@ -74,7 +75,7 @@ DemocracyInAction.configure do
 
   #maybe don't need mirror here.  more like an after_create.
   mirror(:groups, Group) do
-    map('parent_KEY', 35525)
+    map('parent_KEY', 35540)
     map('Group_Name')     { |group| group.name }
   end
 
