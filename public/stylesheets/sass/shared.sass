@@ -29,7 +29,7 @@
       :background-color #EEEEEE
       -#:width 425px 
 .landing
-  :float left
+.main
   .section .list-item
     :background-image none
     .list-description
@@ -63,9 +63,9 @@
   .list-item
     :margin-bottom 12px
     :padding 4px 4px 4px 4px
-    -#:width = !main_column_width - 8px
-    -#body.ie6 &
-      -#:width = !main_column_width - !ie_padding_offset - 8px
+    :width = !main_column_width - 8px
+    body.ie6 &
+      :width = !main_column_width - !ie_padding_offset - 8px
     #main.wideside &
       :width = !main_column_wideside_width - 8px
       body.ie6 &
@@ -93,9 +93,6 @@
 .content-list
   ul
     :padding 0px
-  li
-    :width 100%
-    :padding 10px
 
 .list-item
   :display block
@@ -103,13 +100,13 @@
   :float left
   .icon
     :float right
+
 .list-thumb
   :float left
   :margin-right 1em
 
 .list-description
   :float left
-  :font-size 12px
   :color #555555
   :padding-top 5px
   p
@@ -128,46 +125,57 @@
         :color green
   .byline
     :float left
-    %label
-      :font-weight bold
-      :float left
-      -#:margin-right .4em
-      -#:margin-left .3em
     .icon
       :float right 
     .name
       :float left
+      :font-size 11px
     .date
       :float left
       :margin-left 5px
       :padding-left 5px
       :border-left  1px solid
+      :font-size 11px
     .comments
+      :font-size 11px
       :float left
       :margin-left 5px
       :padding-left 5px
       :border-left  1px solid 
+  .tags
+    :float left
+    :font-size 11px
+  .issues.icon-only
+    :float left 
+    label
+      :float left
+      :font-size 11px
+    .icon.small
+      :float left
+      :margin-top -5px
 
 .promo
   -#:margin-top 40px
   :margin-bottom 100px 
   :padding 0px
+
 ul.promos
   :list-style none
   :padding 0
   :margin 0
   :float left
-  :width = !main_column_width
-  body.ie6 &
-    :width = !main_column_width - !ie_padding_offset
-  #main.wideside &
-    :width = !main_column_wideside_width
+  li
+    :width = !main_column_width
     body.ie6 &
-      :width = !main_column_wideside_width - !ie_padding_offset
-  #main.noside &
-    :width = !main_column_noside_width
-    body.ie6 &
-      :width = !main_column_noside_width - !ie_padding_offset
+      :width = !main_column_width - !ie_padding_offset
+    #main.wideside &
+      :width = !main_column_wideside_width
+      body.ie6 &
+        :width = !main_column_wideside_width - !ie_padding_offset
+    #main.noside &
+      :width = !main_column_noside_width
+      body.ie6 &
+        :width = !main_column_noside_width - !ie_padding_offset
 
 ul.tab-block
   :list-style none

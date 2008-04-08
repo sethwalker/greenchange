@@ -1,4 +1,7 @@
 %li.list-item.page{ :class => cycle( 'shade-odd', 'shade-even', :name => 'activity_entry_cycle' )}
+  .icon.source
+    = link_to icon_for(page.created_by, :size=>'small' ), person_url(page.created_by)
+    = link_to icon_for(page.group, :size=>'small'), group_url(page.group)
   .list-thumb
     = link_to icon_for(page), page_url(page)#, :class => 'icon'
   .list-description
