@@ -47,7 +47,7 @@ module IconHelper
   def icon_url_for_image( page, html_options = {} )
     return unless image = ( page.assets.detect { |a| a.image? } || page.data if page.is_a?(Tool::Image) )
     filename_size_option = html_options[:size] || :standard
-    thumb_file = image.public_filename( filename_size_option)
+    thumb_file = image.public_filename( :preview )
     thumb_file if File.exists? RAILS_ROOT + thumb_file 
   end
 

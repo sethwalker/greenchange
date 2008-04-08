@@ -140,6 +140,7 @@ class Page < ActiveRecord::Base
   has_finder :page_type, 
     lambda {|*page_types| 
       page_types << [:image, :audio, :video] if page_types.delete(:media)
+      page_types << :external_video if page_types.include?(:video)
       page_types = page_types.flatten.map do |t| 
         #"class_group" used to do this
         t = 'task_list'     if t.to_s == 'task'
@@ -358,6 +359,10 @@ class Page < ActiveRecord::Base
       
   validates_presence_of :title
   validates_associated :data
+
+  def assets=(values)
+    assets.build(values)
+  end
 
   def unresolve
     resolve(false)

@@ -1,27 +1,35 @@
-%p
-  = f.text_field 'tag_list', :size => 30
-  = f.label 'tag_list', 'Tags'
-
-- if current_user.all_groups.any?
+.section
   %p
-    = f.select 'group_id', current_user.all_groups.map {|g| [g.name, g.id]}, :include_blank => true
-    = f.label 'group_id', 'Group'
+    = f.text_field 'tag_list', :size => 30
+    = f.label 'tag_list', 'Tags'
 
-.permissions
+  - if current_user.all_groups.any?
+    %p
+      = f.select 'group_id', current_user.all_groups.map {|g| [g.name, g.id]}, :include_blank => true
+      = f.label 'group_id', 'Group'
+
+.section.permissions
   %h4 Public for:
   .row
     = f.check_box :public
-    = f.label :public, 'Viewing'
+    = f.label :public, 'viewing'
 
     = f.check_box :public_participate
-    = f.label :public_participate, 'Comments'
+    = f.label :public_participate, 'comments'
 
     = f.check_box :public_edit
-    = f.label :public_edit, 'Editing'
+    = f.label :public_edit, 'editing'
     
 = render :partial => "shared/form/issues", :locals => {:f => f}
 
-.attachments  
-  %h4 Attachments
+.section.uploads
+  %h4 Uploads and Images
+  - f.object.assets.each do |upload|
+    = link_to ' ', upload.public_filename, html_options_for_icon_for(upload, :target => 'blank', :size => :small )
+  - fields_for "page[assets][]", "" do |ff|
+
+    %p
+      = ff.file_field :uploaded_data
+      = ff.label :uploaded_data, 'upload file' 
 
 

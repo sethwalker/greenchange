@@ -1,19 +1,24 @@
 - content_for :title do
   = error_messages_for :page
 
-.section.page-data
-  .form-column
+.column.form-column
+  .section.page-data
     %p
-      = f.text_field :title, :size => 30
+      = f.text_field :title, :size => 45
       = f.label 'title', 'title'
     %p
-      = f.text_area :summary, :size => '30x3'
+      = f.text_area :summary, :size => '45x4'
       = f.label 'summary', 'summary'
+
     - f.fields_for :page_data, @page.data do |ff|
       = render :partial => 'form', :locals => {:f => ff}
 
-  .form-column.wide 
-    = render :partial => 'pages/form_metadata', :locals => {:f => f}
+.column.form-column
+  = render :partial => 'pages/form_metadata', :locals => {:f => f}
+.clear
 
+- content_for :javascript do
+  = javascript_include_tag 'forms'
 - content_for :javascript_onload do
   $("page_title").focus();
+  Crabgrass.Forms.submit_from_menu();

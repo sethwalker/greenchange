@@ -34,6 +34,7 @@
   :height 16px
   
 
+
 form
   .submit
     :text-align center
@@ -57,11 +58,21 @@ form
       //#:float left
     label
       :display block
+  p.submit
+    :width = !main_column_width
+    :text-align center
+    #main.noside &
+      :width = !main_column_noside_width / 2 - 30
+    
+    input
+      :display inline
 
   .form-column
     :float left
-    :width = !main_column_width / 2 - 10
+    :width = !main_column_noside_width / 2 - 10
     :margin-right 10px
+    .section, p
+      :width = !main_column_noside_width / 2 - 10
   
   .behavior-block
     & > .toolbar

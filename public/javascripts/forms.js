@@ -13,6 +13,17 @@ Crabgrass.Forms = function() {
         } );
       } );
     },
+    submit_from_menu: function() {
+      title_menu = $('titlebox').down('.toolbar.title-menu');
+      if (title_menu == undefined) return;
+      $$('form').each( function( form ) {
+        form.select("input[type=submit]").each( function( submit_button ) {
+          menu_submit = submit_button.cloneNode(true);
+          menu_submit.observe( 'click', function(ev) { form.submit(); } );
+          title_menu.insert( menu_submit );
+        } );
+      } );
+    },
 
     initialize_remote_actions: function() {
       $$('.behavior-block .remote').each( function(el) {
