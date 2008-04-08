@@ -94,7 +94,6 @@ class Tool::BaseController < ApplicationController
   end
   
   def update
-    pp page_class
     @page = page_class.find( params[:id] )
 
     #if @page.data.is_a?( Wiki ) 
