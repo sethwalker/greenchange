@@ -17,6 +17,7 @@ class DemocracyInAction::API
   end
 
   def process_with_login(*args)
+    return '' if DemocracyInAction::API.disabled?
     key = process_without_login(*args)
     if "0" == key
       login
@@ -27,6 +28,7 @@ class DemocracyInAction::API
   alias_method_chain :process, :login
 
   def delete_with_login(*args)
+    return false if DemocracyInAction::API.disabled?
     unless (success = delete_without_login(*args))
       login
       success = delete_without_login(*args)
