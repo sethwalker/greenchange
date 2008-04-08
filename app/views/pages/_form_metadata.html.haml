@@ -1,24 +1,24 @@
 .section
   %p
-    = f.text_field 'tag_list', :size => 30
     = f.label 'tag_list', 'Tags'
+    = f.text_field 'tag_list', :size => 30
 
   - if current_user.all_groups.any?
     %p
-      = f.select 'group_id', current_user.all_groups.map {|g| [g.name, g.id]}, :include_blank => true
       = f.label 'group_id', 'Group'
+      = f.select 'group_id', current_user.all_groups.map {|g| [g.name, g.id]}, :include_blank => true
 
 .section.permissions
   %h4 Public for:
   .row
     = f.check_box :public
-    = f.label :public, 'viewing'
+    = f.label :public, 'Viewing by genral public'
 
     = f.check_box :public_participate
-    = f.label :public_participate, 'comments'
+    = f.label :public_participate, 'Comments'
 
     = f.check_box :public_edit
-    = f.label :public_edit, 'editing'
+    = f.label :public_edit, 'Editing by other users'
     
 = render :partial => "shared/form/issues", :locals => {:f => f}
 
@@ -29,7 +29,8 @@
   - fields_for "page[assets][]", "" do |ff|
 
     %p
+      = ff.label :uploaded_data, 'Upload file'
       = ff.file_field :uploaded_data
-      = ff.label :uploaded_data, 'upload file' 
+      = ff.label :uploaded_data, 'Pictures will be used in the page ands as the page thumbnail.  Other files will be attached to the bottom of the page.' 
 
 

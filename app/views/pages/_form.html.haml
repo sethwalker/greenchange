@@ -4,11 +4,11 @@
 .column.form-column.first
   .section.page-data
     %p
+      = f.label 'title', 'Title'
       = f.text_field :title, :size => 45
-      = f.label 'title', 'title'
     %p
+      = f.label 'summary', 'Summary'
       = f.text_area :summary, :size => '45x4'
-      = f.label 'summary', 'summary'
 
     - f.fields_for :page_data, @page.data do |ff|
       = render :partial => 'form', :locals => {:f => ff}
