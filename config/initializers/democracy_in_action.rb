@@ -1,3 +1,41 @@
+DemocracyInAction::API.__send__ :class_variable_set, :@@DEFAULT_URLS, { 'get' => 'http://salsa.wiredforchange.com/dia/api/get.jsp', 'process' => 'http://salsa.wiredforchange.com/dia/api/process.jsp', 'delete' => 'http://salsa.wiredforchange.com/dia/deleteEntry.jsp' }
+
+require 'net/https'
+class DemocracyInAction::API
+  def login
+    puts "logging in" if $DEBUG
+    url = URI.parse('https://salsa.wiredforchange.com/dia/hq/processLogin.jsp')
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+    res = http.post(url.path, "email=#{user}&password=#{password}")
+    cookies = res['set-cookie']
+
+    if cookies
+      @cookies = []
+      cookies.each { |c| @cookies.push(c.split(';')[0]) }
+    end
+  end
+
+  def process_with_login(*args)
+    key = process_without_login(*args)
+    if "0" == key
+      login
+      key = process_without_login(*args)
+    end
+    key
+  end
+  alias_method_chain :process, :login
+
+  def delete_with_login(*args)
+    unless (success = delete_without_login(*args))
+      login
+      success = delete_without_login(*args)
+    end
+    return success
+  end
+  alias_method_chain :delete, :login
+end
+
 DemocracyInAction.configure do
   begin
     config = YAML.load_file(File.join('config', 'democracy_in_action.yml'))
@@ -34,7 +72,7 @@ DemocracyInAction.configure do
 
   #maybe don't need mirror here.  more like an after_create.
   mirror(:groups, Group) do
-    map('parent_KEY', 50816)
+    map('parent_KEY', 35525)
     map('Group_Name')     { |group| group.name }
   end
 
