@@ -1,5 +1,8 @@
-- @show_posts = false
-.edit
+.with-editor
+  = edit_tool_page title_for_edit( "action alert" )
+
+-#@show_posts = false
+-#.edit
   - form_for(:page, @page, :url => action_path(@page), :html => {:method => :put}) do |f|
     .workarea
       = render :partial => 'pages/form', :locals => {:f => f}

@@ -16,5 +16,25 @@ module Tool::BaseHelper
     %Q[ $('notify_area').toggle(); if ($('page_notify_form')==null) {#{show_notify_function};} ]
   end
 
+  def add_tool_page( header_text = nil )
+    render :partial => 'tool/shared/title', :locals => { :title => ( header_text || title_for_new(@page.class.name.underscore.titleize)) }
+    render :partial => 'tool/shared/form_new'
+  end
+  alias :new_tool_page :add_tool_page
+
+  def title_for_new( title )
+    "Add a new #{title}"
+  end
+
+  def title_for_edit( title )
+    "Edit #{title}"
+  end
+
+  def edit_tool_page( header_text = nil )
+    render :partial => 'tool/shared/title', :locals => { :title => ( header_text || title_for_edit(@page.class.name.underscore.titleize)) }
+    render :partial => 'tool/shared/form_edit'
+  end
+
+
   
 end

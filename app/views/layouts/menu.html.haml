@@ -38,21 +38,21 @@
     %li
 
     %li
-      - selected = ( controller.action_name == 'new' ) ? ' selected' : ''
+      - selected = ( controller.action_name =~ /new/ ) ? ' selected' : ''
       = link_to "Create", '/pages/new', :class => 'menu menu-top' + selected
       %ul
         %li
-          = link_to "Posts", new_post_path, :class => 'menu'
+          = link_to "Posts", new_post_menu_path, :class => 'menu'
         %li
           = link_to "Group", new_group_path, :class => 'menu'
         %li
-          = link_to "Media", new_media_path, :class => 'menu'
+          = link_to "Media", new_media_menu_path, :class => 'menu'
         %li
-          = link_to "Event", new_event_url, :class => 'menu'
+          = link_to "Event", new_event_path, :class => 'menu'
         %li
-          = link_to "Action", new_action_path, :class => 'menu'
+          = link_to "Action", new_action_menu_path, :class => 'menu'
         %li
-          = link_to "Discussion", new_tool_path, :class => 'menu'
+          = link_to "Discussion", new_tool_menu_path, :class => 'menu'
     %li
       - selected = ( %w- action_alert -.include? controller.controller_name) ? ' selected' : ''
       = link_to "Take Action", '/takeaction', :class => 'menu menu-top' + selected

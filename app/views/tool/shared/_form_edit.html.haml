@@ -1,0 +1,7 @@
+.page.edit{ :class => controller.controller_name.underscore }
+  - form_for :page, @page, :url => tool_page_path(@page), :html => { :multipart => true, :method => :put } do |f|
+    = render :partial => 'pages/form', :locals => {:f => f}
+    %p.submit
+      = submit_tag 'Update', :name => 'update'
+
+

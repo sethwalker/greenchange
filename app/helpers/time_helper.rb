@@ -15,7 +15,7 @@ module TimeHelper
 
     time  = times.compact.max
     local = to_local(time)
-    today = local_now.to_date
+    today = local_now.at_beginning_of_day.to_date
     date  = local.to_date
     
     if date == today
@@ -27,9 +27,9 @@ module TimeHelper
       str = date.loc('%m.%d.%Y')
     end
     #"<label title='#{ full_time(time) }'>#{str}</label>"
-    content_tag 'span', str, :title => full_time(time), :class => 'friendly_date'
+    content_tag 'span', str + date.to_s( :db) + today.to_s(:db), :title => full_time(time), :class => 'friendly_date'
   end
-  
+
   # formats a time, in full detail
   # for example: Sunday July/3/2007 2:13PM
   def full_time(time)

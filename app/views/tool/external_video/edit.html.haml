@@ -1,10 +1,11 @@
-- content_for :title do
+= edit_tool_page title_for_edit("YouTube Video")
+-# content_for :title do
   .toolbar.title-menu
   = icon_for @page
   %h1
     Edit YouTube video
 
-.page.edit.external_video
+-#.page.edit.external_video
   - form_for :page, @page, :url => video_path(@page), :html => { :multipart => true, :method => :put } do |f|
     = render :partial => 'pages/form', :locals => {:f => f}
     %p.submit

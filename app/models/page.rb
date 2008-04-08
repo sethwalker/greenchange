@@ -276,7 +276,7 @@ class Page < ActiveRecord::Base
   
   def tag_list
 
-    super + ( @new_tags || '')
+    (super + ( @new_tags || '' )).split( Tag::SPLITTING_DELIMITER ).map(&:strip).uniq.join(' ')
   end
   def tag_list=(tag_list)
     @new_tags = tag_list
@@ -361,7 +361,8 @@ class Page < ActiveRecord::Base
   validates_associated :data
 
   def assets=(values)
-    assets.build(values)
+    values = values.select{ |v| !v['uploaded_data'].blank? }
+    assets.build(values) if values.any?
   end
 
   def unresolve

@@ -1,6 +1,8 @@
-- @show_posts = false
+.with-editor
+  = edit_tool_page title_for_edit( "document" )
+-#- @show_posts = false
 
-- form_for(:page, @page, :url => wiki_path(@page), :html => {:method => :put}) do |f|
+-# form_for(:page, @page, :url => wiki_path(@page), :html => {:method => :put}) do |f|
   .workarea
     = render :partial => 'pages/form', :locals => {:f => f}
   .formbox

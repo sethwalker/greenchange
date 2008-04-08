@@ -24,8 +24,11 @@ class Tool::BaseController < ApplicationController
     end
   end
 
+  def show
+    @page = page_class.find( params[:id] )
+  end
+
   def index
-    load_context
     @pages = Page.allowed(current_user).page_type( page_type ).by_group( @group ).by_issue( params[:issue_id ]).by_person( ( @me || @person ) )
     unless !Dir.glob( "#{RAILS_ROOT}/app/views/tool/#{params[:page_type]}/index*").empty?  and  render :action => "index" 
        render :action => '../shared/index'
@@ -34,36 +37,84 @@ class Tool::BaseController < ApplicationController
 
   # the form to create this type of page
   # can be overridden by the subclasses
+  #def new 
+  #  @page_class ||= Tool.const_get(controller_name.classify)
+  #  @page = @page_class.new
+  #  unless !Dir.glob( "#{RAILS_ROOT}/app/views/tool/#{page_type}/new*").empty?  and  render :action => "new" 
+  #     render :action => "../base/new"
+  #  end
+  #end
+
   def new 
-    @page_class ||= Tool.const_get(controller_name.classify)
-    @page = @page_class.new
-    unless !Dir.glob( "#{RAILS_ROOT}/app/views/tool/#{page_type}/new*").empty?  and  render :action => "new" 
-       render :action => "../base/new"
-    end
+    RAILS_DEFAULT_LOGGER.debug "### #{page_class.to_s}"
+    @page = page_class.new :group_id => ( @group ? @group.id : nil ), :public => true, :public_participate => true
+    @page.build_data if @page.respond_to? :build_data
   end
 
   def page_class
     klass = Tool.const_get(controller_name.classify)
-    return klass if klass < Page
-    return Page
+    klass = Tool::TextDoc if ( klass == Wiki ) #|| klass == Tool::Wiki)
+    @page_class ||= ( klass.ancestors.include?(Page) ? klass : Page )
   rescue
     Page
   end
 
   def create
+#    new hotness -----------------------------------------------|
+    page_data = params[:page].delete(:page_data )
     @page = page_class.new params[:page]
-    @data = @page.build_data params[:data] if params[:data]
+    @page.build_data page_data if @page.respond_to? :build_data
+    @page.created_by = current_user
+
     if @page.save
-      # move to model
-      #add_participants!(page, params)
-      # end move to model
-      return redirect_to(page_url(@page))
+      flash[:notice] = 'Created new page'
+      redirect_to tool_page_path(@page)
     else
-      message :object => @page
-      render :template => 'tool/base/new'
+      render :action => 'new'
     end
+
+  end
+#
+#  def create
+#    @page = page_class.new params[:page]
+#    @data = @page.build_data params[:data] if params[:data]
+#    if @page.save
+#      # move to model
+#      #add_participants!(page, params)
+#      # end move to model
+#      return redirect_to(page_url(@page))
+#    else
+#      message :object => @page
+#      render :template => 'tool/base/new'
+#    end
+#  end
+  def edit
+    @page = page_class.find( params[:id] )
+    @page.data.lock( Time.now, current_user )  if @page.data.is_a? Wiki
   end
   
+  def update
+    pp page_class
+    @page = page_class.find( params[:id] )
+
+    #if @page.data.is_a?( Wiki ) 
+    #  if params[:cancel] && @page.data.editable_by?( current_user )
+    #    @page.data.unlock 
+    #    redirect_to tool_page_url(@page) and return
+    #  end
+    #  @page.data.updater = current_user
+    #end
+
+    @page.attributes = params[:page]
+    @page.updated_by = current_user
+    if @page.save
+      flash[:notice] = 'Page has been updated'
+      redirect_to tool_page_path(@page)
+    else
+      render :action => 'edit'
+    end
+  end
+
   def title
     return redirect_to(page_url(@page)) unless request.post?
     @page.title = params[:page][:title]

@@ -1,8 +1,11 @@
-%h2
+.with-editor
+  = new_tool_page title_for_new( "action alert" )
+
+-#%h2
   = "Create a new".t
   %b= @page.class.class_display_name.t
 
-- form_for(:page, @page, :url => actions_path) do |f|
+-# form_for(:page, @page, :url => actions_path) do |f|
   .workarea
     = header_for_page_create(@page.class)
     = render :partial => 'pages/form', :locals => {:f => f}

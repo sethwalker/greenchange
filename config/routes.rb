@@ -127,10 +127,10 @@ ActionController::Routing::Routes.draw do |map|
   
   map.connect 'pages/search/*path', :controller => 'pages', :action => 'search'
   
-  map.new_media 'pages/new/media', :controller => 'pages', :action => 'new_media'       
-  map.new_post 'pages/new/post', :controller => 'pages', :action => 'new_post'       
-  map.new_tool 'pages/new/tool', :controller => 'pages', :action => 'new_tool'       
-  map.new_action 'pages/new/action', :controller => 'pages', :action => 'new_action'    
+  map.new_media_menu 'pages/new/media', :controller => 'pages', :action => 'new_media'       
+  map.new_post_menu 'pages/new/post', :controller => 'pages', :action => 'new_post'       
+  map.new_tool_menu 'pages/new/tool', :controller => 'pages', :action => 'new_tool'       
+  map.new_action_menu 'pages/new/action', :controller => 'pages', :action => 'new_action'    
 
   map.takeaction 'takeaction', :controller => 'tool/action_alert', :action => 'landing'
   

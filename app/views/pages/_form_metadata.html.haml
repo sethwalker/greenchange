@@ -25,7 +25,7 @@
 .section.uploads
   %h4 Uploads and Images
   - f.object.assets.each do |upload|
-    = link_to ' ', upload.public_filename, html_options_for_icon_for(upload, :target => 'blank', :size => :small )
+    = link_to ' ', upload.public_filename, html_options_for_icon_for(upload, :target => 'blank', :size => 'small' )
   - fields_for "page[assets][]", "" do |ff|
 
     %p

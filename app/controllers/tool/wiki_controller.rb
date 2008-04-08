@@ -1,50 +1,69 @@
 class Tool::WikiController < Tool::BaseController
   include HTMLDiff
-  append_before_filter :fetch_wiki, :except => [:new, :create]
-
-  def new
-    @page = Tool::TextDoc.new :group_id => params[:group_id]
-    @data = @page.build_data :body => 'new page'
-  end
-
-  def create
-    @page = Tool::TextDoc.new params[:page]
-    @page.created_by = current_user
-    if @page.save
-      add_participants!(@page, params)
-      redirect_to(wiki_url(@page))
-    else
-      message :object => @page
-      render :action => 'new'
-    end
-  end
-  
-  def show
-    unless @wiki.version > 0
-      redirect_to edit_wiki_url(@page)
-      return
-    end
-    if @upart and !@upart.viewed? and @wiki.version > 1
-      last_seen = @wiki.first_since( @upart.viewed_at )
-      @diffhtml = html_diff(last_seen.body_html,@wiki.body_html) if last_seen
-    end
-  end
-
-  def edit
-    @wiki.lock(Time.now, current_user)
-  end
+#  append_before_filter :fetch_wiki, :except => [:new, :create]
+#
+#  def new
+#    @page = Tool::TextDoc.new :group_id => params[:group_id]
+#    @data = @page.build_data :body => 'new page'
+#  end
+#
+#  def create
+#    @page = Tool::TextDoc.new params[:page]
+#    @page.created_by = current_user
+#    if @page.save
+#      add_participants!(@page, params)
+#      redirect_to(wiki_url(@page))
+#    else
+#      message :object => @page
+#      render :action => 'new'
+#    end
+#  end
+#  
+#  def show
+#    unless @wiki.version > 0
+#      redirect_to edit_wiki_url(@page)
+#      return
+#    end
+#    if @upart and !@upart.viewed? and @wiki.version > 1
+#      last_seen = @wiki.first_since( @upart.viewed_at )
+#      @diffhtml = html_diff(last_seen.body_html,@wiki.body_html) if last_seen
+#    end
+#  end
+#
+#  def edit
+#    @wiki.lock(Time.now, current_user)
+#  end
+#
+#  def update
+#    @page.attributes = params[:page]
+#    @page.data.updater = current_user
+#    if @page.save
+#      current_user.updated(@page)
+#      return redirect_to(wiki_url(@page))
+#    end
+#  rescue RecordLockedError => e
+#    message :object => @page.data unless @page.data.valid?
+#    message :error => e.message
+#    render :action => 'edit'
+#  end
 
   def update
-    @page.attributes = params[:page]
-    @page.data.updater = current_user
-    if @page.save
-      current_user.updated(@page)
-      return redirect_to(wiki_url(@page))
+    @page = page_class.find( params[:id] )
+
+    if params[:cancel] && @page.data && @page.data.editable_by?( current_user )
+      @page.data.unlock  
+      redirect_to tool_page_url(@page) and return
     end
-  rescue RecordLockedError => e
-    message :object => @page.data unless @page.data.valid?
-    message :error => e.message
-    render :action => 'edit'
+
+    @page.data.updater = current_user if @page.data
+
+    begin
+      super
+      current_user.updated(@page)
+    rescue RecordLockedError => e
+      flash.now[:error] = e.message
+      render :action => 'edit'
+    end
   end
   
   def version
@@ -74,7 +93,8 @@ class Tool::WikiController < Tool::BaseController
   end
   
   def break_lock
-    @wiki.unlock
+    @page = page_class.find(params[:id])
+    @page.data.unlock
     redirect_to wiki_url(@page)
   end
     

@@ -5,7 +5,8 @@ describe "wiki/new" do
     template.stub!(:current_user).and_return create_user
     assigns[:page] = @page = Tool::TextDoc.new
     assigns[:data] = @wiki = @page.build_data(:body => 'new page')
-    template.stub!(:header_for_page_create)
+    template.class.__send__(:include, Tool::BaseHelper)
+    #template.stub!(:header_for_page_create)
     render "tool/wiki/new"
   end
   it "should render" do

@@ -1,0 +1,6 @@
+.page.new{ :class => controller.controller_name.underscore }
+  - form_for :page, @page, :url => tool_pages_path(@page), :html => { :multipart => true } do |f|
+    = render :partial => 'pages/form', :locals => {:f => f}
+    %p.submit
+      = submit_tag 'Create', :name => 'create'
+

@@ -1,7 +1,7 @@
 - content_for :title do
   = error_messages_for :page
 
-.column.form-column
+.column.form-column.first
   .section.page-data
     %p
       = f.text_field :title, :size => 45
@@ -13,7 +13,7 @@
     - f.fields_for :page_data, @page.data do |ff|
       = render :partial => 'form', :locals => {:f => ff}
 
-.column.form-column
+.column.form-column.last
   = render :partial => 'pages/form_metadata', :locals => {:f => f}
 .clear
 

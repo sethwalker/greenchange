@@ -26,7 +26,7 @@ describe "a tool controller", :shared => true do
       post :create, :page => {:title => '', :tag_list => "rag tag", :issue_ids => [@war.id, @peace.id]}
     end
     it "should render the new action" do
-      response.should render_template('tool/base/new')
+      response.should render_template('new')
     end
     it "should have an invalid page" do
       assigns[:page].should_not be_valid

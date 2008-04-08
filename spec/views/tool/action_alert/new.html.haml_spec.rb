@@ -4,8 +4,10 @@ describe "actions/new" do
   before do
     template.stub!(:current_user).and_return create_user
     assigns[:page] = @page = Tool::ActionAlert.new
-    assigns[:wiki] = @wiki = @page.build_data(:body => 'new page')
-    template.stub!(:header_for_page_create)
+    template.class.__send__(:include, Tool::BaseHelper)
+    @page.build_data
+    #assigns[:wiki] = @wiki = @page.build_data(:body => 'new page')
+    #template.stub!(:header_for_page_create)
     render "tool/action_alert/new"
   end
   it "should render" do
@@ -15,6 +17,6 @@ describe "actions/new" do
     response.should have_tag('input[name^="page"]')
   end
   it "should have wiki fields" do
-    response.should have_tag('input[name^="wiki"]')
+    response.should have_tag('input[name*="page_data"]')
   end
 end

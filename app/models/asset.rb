@@ -98,6 +98,7 @@ class Asset < ActiveRecord::Base
   @@file_storage = "#{RAILS_ROOT}/assets"
   cattr_accessor :file_storage
   @@public_storage = "#{RAILS_ROOT}/public/assets"
+  FileUtils.mkdir_p @@public_storage unless File.exists?(@@public_storage)
   cattr_accessor :public_storage
 
   def full_filename(thumbnail = nil)

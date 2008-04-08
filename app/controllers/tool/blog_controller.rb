@@ -1,28 +1,28 @@
-class Tool::BlogController < Tool::BaseController
+class Tool::BlogController < Tool::WikiController
   include HTMLDiff
   append_before_filter :fetch_wiki
   
-  def show
-    unless @wiki.version > 0
-      return redirect_to(edit_blog_url(@page))
-    end
-    if @upart and !@upart.viewed? and @wiki.version > 1
-      last_seen = @wiki.first_since( @upart.viewed_at )
-      @diffhtml = html_diff(last_seen.body_html,@wiki.body_html) if last_seen
-    end
-  end
-
-  def edit
-    @wiki.lock(Time.now, current_user)
-  end
-
-  def update
-    if params[:cancel]
-      @wiki.unlock
-      return redirect_to(blog_url(@page))
-    end
-    save_edits
-  end
+#  def show
+#    unless @wiki.version > 0
+#      return redirect_to(edit_blog_url(@page))
+#    end
+#    if @upart and !@upart.viewed? and @wiki.version > 1
+#      last_seen = @wiki.first_since( @upart.viewed_at )
+#      @diffhtml = html_diff(last_seen.body_html,@wiki.body_html) if last_seen
+#    end
+#  end
+#
+#  def edit
+#    @wiki.lock(Time.now, current_user)
+#  end
+#
+#  def update
+#    if params[:cancel]
+#      @wiki.unlock
+#      return redirect_to(blog_url(@page))
+#    end
+#    save_edits
+#  end
   
   def version
     @version = @wiki.versions.find_by_version(params[:version])

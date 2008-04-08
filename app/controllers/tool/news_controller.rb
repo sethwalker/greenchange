@@ -1,20 +1,20 @@
 class Tool::NewsController < Tool::WikiController
-  append_before_filter :fetch_wiki
-  
-  def edit
-    @wiki.lock(Time.now, current_user)
-    # FIXME this should be automagic?
-    @document_meta = @wiki.document_meta
-  end
-
-  def update
-    if params[:cancel]
-      @wiki.unlock
-      return redirect_to(news_url(@page))
-    end
-    save_edits
-  end
-
+#  append_before_filter :fetch_wiki
+#  
+#  def edit
+#    @wiki.lock(Time.now, current_user)
+#    # FIXME this should be automagic?
+#    @document_meta = @wiki.document_meta
+#  end
+#
+#  def update
+#    if params[:cancel]
+#      @wiki.unlock
+#      return redirect_to(news_url(@page))
+#    end
+#    save_edits
+#  end
+#
   protected
   
   def save_edits

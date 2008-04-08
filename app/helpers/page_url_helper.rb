@@ -14,12 +14,30 @@ module PageUrlHelper
     self.__send__ "#{url_helper}_url".to_sym, page, *args
   end
 
+  def tool_page_path(page, *args)
+    url_helper = tool_page_route_type( page )
+    self.__send__ "#{url_helper}_path".to_sym, page, *args
+  end
+
   def edit_tool_page_path( page, *args )
     url_helper = tool_page_route_type( page )
     self.__send__ "edit_#{url_helper}_path".to_sym, page, *args
   end
 
   def tool_pages_url(page, page_context = nil )
+
+    url_helper = tool_page_route_type( page )
+    plural_helper = ( url_helper.pluralize == url_helper) ? "#{url_helper}_index" : url_helper.pluralize
+    self.send( [ context_url_prefix_type(page_context), plural_helper, 'url'].compact.join('_'))
+  end
+
+  def tool_pages_path(page, page_context = nil )
+
+    url_helper = tool_page_route_type( page )
+    plural_helper = ( url_helper.pluralize == url_helper) ? "#{url_helper}_index" : url_helper.pluralize
+    self.send( [ context_url_prefix_type(page_context), plural_helper, 'path'].compact.join('_'))
+  end
+  def context_url_prefix_type(page_context)
     if page_context
       context_url_prefix = 'group' if page_context.is_a? Group
       context_url_prefix = 'issue' if page_context.is_a? Issue 
@@ -30,10 +48,7 @@ module PageUrlHelper
     else
       context_url_prefix = nil
     end
-
-    url_helper = tool_page_route_type( page )
-    plural_helper = ( url_helper.pluralize == url_helper) ? "#{url_helper}_index" : url_helper.pluralize
-    return self.send( [ context_url_prefix, plural_helper, 'url'].compact.join('_'))
+    context_url_prefix
   end
 
   def tool_pages_title(page)

@@ -5,10 +5,13 @@ describe Tool::ActionAlertController do
     login_valid_user
     controller.stub!(:fetch_page_data)
     controller.stub!(:fetch_wiki)
-    @page = create_page(:type => 'Tool::ActionAlert', :name => 'anaction')
+    @page = @controller.page_class.create :title => 'anaction'
+    #create_page(:type => 'Tool::ActionAlert', :name => 'anaction')
     @wiki = ActionAlert.new
-    controller.instance_variable_set(:@page, @page)
-    controller.instance_variable_set(:@wiki, @wiki)
+    @page.stub!(:data).and_return(@wiki)
+    Tool::ActionAlert.stub!(:find).and_return(@page)
+    #controller.instance_variable_set(:@page, @page)
+    #controller.instance_variable_set(:@wiki, @wiki)
     controller.stub!(:login_or_public_page_required).and_return(true)
     controller.stub!(:authorized?).and_return(true)
   end
@@ -16,17 +19,17 @@ describe Tool::ActionAlertController do
     describe "when canceling" do
       it "should unlock the wiki" do
         @wiki.should_receive(:unlock)
-        put :update, :cancel => true
+        put :update, :cancel => true, :id => @page
       end
       it "should redirect to the page url" do
-        put :update, :cancel => true
+        put :update, :cancel => true, :id => @page
         response.should redirect_to(action_url(@page))
       end
     end
   end
   describe "show" do
     it "should be successful" do
-      @wiki.should_receive(:version).and_return(2)
+      #@wiki.should_receive(:version).and_return(2)
       get :show, :id => @page
       response.should be_success
     end

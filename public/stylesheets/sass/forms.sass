@@ -73,6 +73,14 @@ form
     :margin-right 10px
     .section, p
       :width = !main_column_noside_width / 2 - 10
+
+  .form-column.first
+    .with-editor & 
+      :width = !main_column_width - 100
+  .form-column.last
+    .with-editor & 
+      :width = !side_column_width 
+
   
   .behavior-block
     & > .toolbar

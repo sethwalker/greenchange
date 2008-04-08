@@ -1,0 +1,4 @@
+= link_to 'formatting_reference', '/static/greencloth', :target => 'blank', :id => 'formatting-reference-link'
+
+- content_for :javascript_onload do
+  $('formatting-reference-link').observe( 'click', function(ev) { quickRedReference(); ev.stop(); } );
