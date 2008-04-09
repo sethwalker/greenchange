@@ -1,9 +1,7 @@
+- if f.object
+  %p
+    = icon_for f.object
+    = f.object.filename
 %p
   = f.file_field 'uploaded_data'
-  = f.label :uploaded_data, 'upload file'
--#
-  %table{:cellpadding => '4'}
-    %tr
-      %td{:align => 'right'}
-        %b file
-      %td= f.file_field 'uploaded_data'
+  = f.label :uploaded_data, 'Upload new file'

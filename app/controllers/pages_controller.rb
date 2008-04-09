@@ -31,9 +31,10 @@ class PagesController < ApplicationController
   layout 'application'
 
   def show
-    short_name = @page.class.to_s.demodulize.downcase
-    @wiki = @page.data
-    render :action => "../tool/#{short_name}/show" or raise NameError
+    redirect_to tool_page_path(@page)
+    #short_name = @page.class.to_s.demodulize.underscore.downcase
+    #@wiki = @page.data
+    #render :action => "../tool/#{short_name}/show" or raise NameError
   end
 
   ##############################################################

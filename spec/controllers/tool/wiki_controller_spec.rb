@@ -24,7 +24,7 @@ describe Tool::WikiController do
     controller.stub!(:fetch_page_data)
     controller.stub!(:fetch_wiki)
     @page = Tool::TextDoc.create :title => 'awiki'
-    @wiki = @page.build_data
+    @wiki = @page.create_data :body => 'cheese'
     Tool::TextDoc.stub!(:find).and_return(@page)
     @page.stub!(:data).and_return(@wiki)
     #controller.instance_variable_set(:@page, @page)
@@ -147,11 +147,11 @@ describe Tool::WikiController do
       describe "recent edit update success" do
         before do
           @wiki.stub!(:editable_by?).and_return(true)
-          @wiki.stub!(:updater).and_return(true)
+          #@wiki.stub!(:updater).and_return(con)
           @wiki.stub!(:recent_edit_by?).and_return(true)
         end
         def act!
-          put :update, :id => @page.to_param, :page => {:title => 'updated', :page_data => {:body => 'newbody', :lock_version => @wiki.version}}
+          put :update, :id => @page.to_param, :page => {:title => 'updated', :page_data => {:body => 'newbody', :lock_version => @wiki.lock_version}}
         end
         it "should call recent_edit_by on the wiki" do
           @wiki.should_receive(:recent_edit_by?).at_least(1).times
@@ -179,7 +179,7 @@ describe Tool::WikiController do
           Wiki.find(@wiki).versions.find_by_version(@wiki.version).body.should == 'newbody'
         end
         it "should set updated_at" do
-          Wiki::Version.update_all("updated_at = '#{1.day.ago.to_s :db}'", "id = #{@wiki.versions.first.id}")
+          Wiki::Version.update_all("updated_at = '#{1.day.ago.to_s :db}'", "wiki_id = #{@wiki.id}")
           @wiki.reload
           old_updated_at = @wiki.versions.find_by_version(@wiki.version).updated_at
           act!
@@ -189,6 +189,8 @@ describe Tool::WikiController do
 
       describe "no recent edit update success" do
         before do
+          @wiki.stub!(:editable_by?).and_return(true)
+          #@wiki.stub!(:updater).and_return(true)
           @wiki.stub!(:recent_edit_by?).and_return(false)
           @old_version_number = @wiki.version
           act!

@@ -32,17 +32,18 @@ class Tool::AssetController < Tool::BaseController
 #    end
 #  end
 
-  def update
-    @page.data.uploaded_data = params[:asset]
-    @page.data.filename = @page.title + @page.data.suffix
-    if @page.data.save
-      return redirect_to(upload_url(@page))
-    else
-      message :object => @page
-    end
-  end
-
+#  def update
+#    @page.data.uploaded_data = params[:asset]
+#    @page.data.filename = @page.title + @page.data.suffix
+#    if @page.data.save
+#      return redirect_to(upload_url(@page))
+#    else
+#      message :object => @page
+#    end
+#  end
+#
   def destroy_version
+    @page = Tool::Asset.find params[:id]
     asset_version = @page.data.versions.find_by_version(params[:version])
     asset_version.destroy
     respond_to do |format|
@@ -58,6 +59,13 @@ class Tool::AssetController < Tool::BaseController
   
   def fetch_asset
     @asset = @page.data if @page
+  end
+
+  def setup_data(values)
+    if @page.title && @page.data && values
+      values[:filename] = @page.title + @page.data.suffix
+    end
+    values
   end
   
   def setup_view

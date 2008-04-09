@@ -1,0 +1,15 @@
+- if flash[:bad_reply]
+  .notice
+    = h(flash[:bad_reply])
+
+- form_for :post, :url => posts_url do |f|
+  .textarea-wrapper
+    = f.text_area :body, :rows => 8, :cols => 60, :class => 'post_body'
+    = render :partial => 'tool/wiki/formatting_link'
+
+  = hidden_field_tag 'page_id', @page.id
+  = hidden_field_tag 'paging', @page.discussion.last_page
+  = hidden_field_tag('from', params[:from] || 'groups' )
+  = hidden_field_tag('from_id', params[:from_id] || params[:group_name] )
+  %p.submit
+    = f.submit "Post Message"

@@ -11,11 +11,12 @@ ActiveRecord::Base.class_eval do
     before_save do |record|
       unless record.body.blank?
         record.body.strip!
-        if record.respond_to?('group_name')
-          record.body_html = GreenCloth.new(record.body,record.group_name).to_html
-        else
-          record.body_html = GreenCloth.new(record.body).to_html
-        end
+        record.body_html = GreenCloth.new(record.body).to_html
+        #if record.respond_to? :group_name 
+        #  record.body_html = GreenCloth.new(record.body,record.group_name).to_html
+        #else
+        #  record.body_html = GreenCloth.new(record.body).to_html
+        #end
       end
     end
   end

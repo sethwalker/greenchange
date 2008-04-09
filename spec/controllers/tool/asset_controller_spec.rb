@@ -2,16 +2,19 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Tool::AssetController do
   it "should keep the page title as the filename for new versions" do
-    @asset = Asset.new :filename => 'pagetitle.gif'
-    @page = stub_everything
-    @page.stub!(:data).and_return(@asset)
+    @asset = Asset.new :filename => 'pagetitle.jpg', :size => 1, :content_type => 'image/jpeg'
+    @page = create_valid_page
+    @page.data = @asset
     controller.stub!(:login_required).and_return(true)
-    controller.stub!(:fetch_page_data).and_return(true)
-    controller.instance_variable_set(:@page, @page)
+    #controller.stub!(:fetch_page_data).and_return(true)
+    #controller.instance_variable_set(:@page, @page)
+    login_valid_user
     @page.stub!(:title).and_return('pagetitle')
-    @asset.filename = 'pagetitle.gif'
+    #@asset.filename = 'pagetitle.gif'
+    #@page.stub!(:data).and_return(@asset)
+    Tool::Asset.stub!(:find).and_return(@page)
 
-    post 'update', {:asset => ActionController::TestUploadedFile.new(asset_fixture_path('gears.jpg'), 'image/jpg')}
+    post 'update', :page => {:page_data => { :uploaded_data => ActionController::TestUploadedFile.new(asset_fixture_path('gears.jpg'), 'image/jpg')}}
     response.should be_redirect
     @asset.filename.should == 'pagetitle.jpg'
   end
@@ -39,12 +42,13 @@ describe Tool::AssetController do
   describe "update" do
     before do
       login_valid_user
-      @page = create_page(:type => 'Tool::Asset', :data => create_asset)
+      @page = Tool::Asset.create :title => 'test'
+      @page.build_data :size => 1, :content_type => 'image/jpeg', :filename => 'test.jpg'
     end
     it 'should be successful' do
       controller.stub!(:authorized?).and_return(true)
-      Page.should_receive(:find).with(@page.to_param).and_return(@page)
-      put :update, :id => @page.to_param
+      Tool::Asset.stub!(:find).and_return(@page)
+      put :update, :id => @page.to_param, :page => { :title => 'test-update' }
       response.redirect_url.should == upload_url(@page)
     end
   end

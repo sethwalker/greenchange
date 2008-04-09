@@ -3,9 +3,9 @@
 class Tool::BaseController < ApplicationController
   include ToolCreation
 
-  prepend_before_filter :fetch_page_data
-  append_before_filter :login_or_public_page_required
-  append_before_filter :setup_default_view
+  #prepend_before_filter :fetch_page_data
+  #append_before_filter :setup_default_view
+  before_filter :login_required, :except => :show
   append_after_filter :update_participation
   
   def page_type
@@ -26,6 +26,7 @@ class Tool::BaseController < ApplicationController
 
   def show
     @page = page_class.find( params[:id] )
+    raise PermissionDenied unless @page.allows? current_user, :view
   end
 
   def index
@@ -63,7 +64,7 @@ class Tool::BaseController < ApplicationController
 #    new hotness -----------------------------------------------|
     page_data = params[:page].delete(:page_data )
     @page = page_class.new params[:page]
-    @page.build_data page_data if @page.respond_to? :build_data
+    @page.build_data setup_data(page_data) if @page.respond_to? :build_data
     @page.created_by = current_user
 
     if @page.save
@@ -93,9 +94,6 @@ class Tool::BaseController < ApplicationController
     @page.data.lock( Time.now, current_user )  if @page.data.is_a? Wiki
   end
   
-  def update
-    @page = page_class.find( params[:id] )
-
     #if @page.data.is_a?( Wiki ) 
     #  if params[:cancel] && @page.data.editable_by?( current_user )
     #    @page.data.unlock 
@@ -104,7 +102,13 @@ class Tool::BaseController < ApplicationController
     #  @page.data.updater = current_user
     #end
 
+  def update
+
+    @page = page_class.find( params[:id] )
+    page_data = params[:page].delete(:page_data ) if params[:page]
     @page.attributes = params[:page]
+    @page.page_data = setup_data(page_data)
+      
     @page.updated_by = current_user
     if @page.save
       flash[:notice] = 'Page has been updated'
@@ -201,4 +205,8 @@ class Tool::BaseController < ApplicationController
     true
   end
   
+  def setup_data(page_data)
+    #stub returns self
+    page_data 
+  end
 end

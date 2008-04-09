@@ -1,4 +1,4 @@
-- if @page && !@page.new_record? && @show_posts
+- if @page && !@page.new_record? && @show_posts && controller.action_name == 'show'
   #posts
     = render :partial => 'posts/list'
 

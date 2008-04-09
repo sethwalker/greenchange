@@ -34,6 +34,7 @@ class Tool::EventController < Tool::BaseController
   end
   
   def show
+    @page = Tool::Event.find params[:id]
     @user_participation= UserParticipation.find(:first, :conditions => {:page_id => @page.id, :user_id => current_user.id})  
     if @user_participation.nil?
       @user_participation = UserParticipation.new

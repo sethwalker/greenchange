@@ -133,6 +133,7 @@ ActionController::Routing::Routes.draw do |map|
   map.new_action_menu 'pages/new/action', :controller => 'pages', :action => 'new_action'    
 
   map.takeaction 'takeaction', :controller => 'tool/action_alert', :action => 'landing'
+  map.resources :posts
   
   
      

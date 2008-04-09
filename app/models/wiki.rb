@@ -82,7 +82,7 @@ class Wiki < ActiveRecord::Base
       save_without_revision
       versions.find_by_version(version).update_attributes(:body => body, :body_html => body_html)
     else
-      user = updater if updater
+      self.user = updater if updater
       save_without_recent_edit(*args)
     end
   rescue ActiveRecord::StaleObjectError => e

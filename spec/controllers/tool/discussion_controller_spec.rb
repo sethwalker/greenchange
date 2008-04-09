@@ -32,7 +32,8 @@ describe Tool::DiscussionController do
       end
       page = stub_everything('page')
       page.should_receive(:discussion).any_number_of_times.and_return(discussion)
-      Page.should_receive(:find).and_return(page)
+      page.should_receive(:data).any_number_of_times.and_return(discussion)
+      Tool::Discussion.should_receive(:find).and_return(page)
       controller.stub!(:login_or_public_page_required).and_return(true)
       controller.stub!(:page_context)
       controller.stub_render('posts/_post')
@@ -40,6 +41,7 @@ describe Tool::DiscussionController do
 
     it "shows show page" do
       get 'show', :id => 'mock'
+      response.should_not be_redirect
       response.should render_template('tool/discussion/show')
     end
 

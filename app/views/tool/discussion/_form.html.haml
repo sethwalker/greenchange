@@ -1,0 +1,7 @@
+- content_for :title do
+  = error_messages_for '', :object => [ @page.data.posts ], :object_name => 'post'
+.section.post
+  - f.fields_for :new_post, @page.data.new_post do |ff|
+    = ff.label :body, "Next Post"
+    = ff.text_area :body, :rows => 18, :cols => 50
+    = render :partial => 'tool/wiki/formatting_link'

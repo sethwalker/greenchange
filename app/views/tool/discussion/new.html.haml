@@ -1,9 +1,1 @@
-%h2
-  = "Create a new".t
-  %b= @page.class.class_display_name.t
-
-- form_for(:page, @page, :url => discussions_path) do |f|
-  .workarea
-    = header_for_page_create(@page.class)
-    = render :partial => 'pages/form', :locals => {:f => f}
-  = submit_tag 'Save', :name => 'save'
+= new_tool_page title_for_new("discussion")
