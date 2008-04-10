@@ -102,11 +102,13 @@ class BeAllowed
   end
 
   def failure_message
-    "expected #{@user.login} to be allowed to #{@act} #{@on_resource}"
+    name = @user.is_a?(AuthenticatedUser) ? @user.login : 'anonymous user'
+    "expected #{name} to be allowed to #{@act} #{@on_resource}"
   end
 
   def negative_failure_message
-    "expected #{@user.login} not to be allowed to #{@act} #{@on_resource}"
+    name = @user.is_a?(AuthenticatedUser) ? @user.login : 'anonymous user'
+    "expected #{name} not to be allowed to #{@act} #{@on_resource}"
   end
 end
 

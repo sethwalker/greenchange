@@ -1,6 +1,6 @@
+- @posts ||= @page.discussion.posts.paginate(:all, :include => 'ratings', :page => ( params[:posts] || @page.discussion.last_page ), :per_page => @page.discussion.per_page)   
 = will_paginate @posts, :param_name => :posts
-- for post in @posts do
-  = render :partial => 'posts/post', :locals => {:post => post}
+= render :partial => 'posts/post', :collection => @posts
 -if logged_in? and ( @page and current_user.may?( :participate, @page ))
   = render :partial => 'posts/reply'
 -if @posts.next_page

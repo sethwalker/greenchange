@@ -5,4 +5,4 @@
     .username
       = link_to_user current_user
   .post-body
-    = render :partial => 'posts/form', :locals => {:post => reply}
+    = render :partial => 'posts/form', :locals => {:post => @page.discussion.posts.build}

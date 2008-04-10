@@ -2,7 +2,7 @@
   .notice
     = h(flash[:bad_reply])
 
-- form_for :post, :url => posts_url do |f|
+- form_for :post, post, :url => posts_url do |f|
   .textarea-wrapper
     = f.text_area :body, :rows => 8, :cols => 60, :class => 'post_body'
     = render :partial => 'tool/wiki/formatting_link'

@@ -67,6 +67,8 @@ class Tool::BaseController < ApplicationController
     @page.build_data setup_data(page_data) if @page.respond_to? :build_data
     @page.created_by = current_user
 
+    #raise @page.data.inspect unless @page.data.save
+    #@page.data.save!
     if @page.save
       flash[:notice] = 'Created new page'
       redirect_to tool_page_path(@page)

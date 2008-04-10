@@ -12,7 +12,7 @@ class Tool::DiscussionController < Tool::BaseController
 
   def setup_data(page_data)
     if page_data && page_data[:new_post] && page_data[:new_post].any? { |v| !v.blank? }
-      page_data[:new_post][:user] = current_user
+      page_data[:new_post][:user_id] = current_user.id
     end
     page_data
   end
