@@ -5,16 +5,16 @@
   
 .section
   - f.fields_for :document_meta_data, @page.data.document_meta_data do |ff|
-    %p.meta
+    -#%p.meta
       = ff.label :creator, 'Author'
       = ff.text_field :creator
       = ff.label :creator_url, 'Url'
-      = ff.text_field :creator_url, :size => 70
+      = ff.text_field :creator_url, :size => 60
     %p.meta
-      = ff.label :source, 'Source'
+      = ff.label :source, 'Sponsoring organization'
       = ff.text_field :source
-      = ff.label :source_url, 'Url'
-      = ff.text_field :source_url, :size => 70
+      = ff.label :source_url, 'Off site url where action is posted'
+      = ff.text_field :source_url, :size => 60
     %p.meta
       = ff.label :published_at, 'Publication Date'
       = ff.date_select :published_at, :order => [:month, :day, :year ]

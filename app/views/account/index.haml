@@ -1,9 +1,24 @@
 #login_container
   #login_left
-    %h2 Greenchange Login
-    %h3 Are you new to the site?
-    = link_to 'Sign up here', :controller => 'account', :action => 'signup'
-    to get started.
+    %h1 Join the Green Change Network 
+    .section
+      %p
+        We are a community of people with Green values.
+      %p
+        We bet you'll like our network better than Facebook and MySpace.  Unlike other networks, we:
+      %ul
+        %li
+          Believe in grassroots democracy, justice, sustainability and non-violence;
+        %li
+          Aren't owned by a greedy corporation;
+        %li
+          Are commercial-free; and,
+        %li
+          Have the best tools, like event organizing, to-do lists, online actions you can create, and much more.
+      %p
+        Register.  It's fun and easy.
+      = link_to 'Sign up here', :controller => 'account', :action => 'signup'
+      to get started.
 
   #login_right
     = render 'account/login'

@@ -1,10 +1,7 @@
-= add_tool_page title_for_new( "Youtube Video" )
+= add_tool_page title_for_new( "video" )
 -#- content_for :title do
   .toolbar.title-menu
   = icon_for @page
-  %h1
-    Add a video
-  %p  Add a video from an external source such as YouTube, Google Video or Comedy Central
 .page.new.external_video
   - form_for :page, @page, :url => videos_path , :html => { :multipart => true } do |f|
     = render :partial => 'pages/form', :locals => {:f => f}
