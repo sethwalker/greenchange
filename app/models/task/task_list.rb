@@ -10,7 +10,7 @@ class Task::TaskList < ActiveRecord::Base
   has_many :pending, :class_name => 'Task::Task', :foreign_key => 'task_list_id',
     :order => "position", :conditions => 'tasks.completed_at IS NULL', :include => :users
   
-  has_many :pages, :as => :data
+  has_one :page, :as => :data
   def page; pages.first; end
   
 end

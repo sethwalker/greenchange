@@ -1,13 +1,10 @@
 
-class Tool::TasklistController < Tool::BaseController
-  before_filter :fetch_task_list, :fetch_user_participation
+class Tool::TaskListController < Tool::BaseController
+  #before_filter :fetch_task_list, :fetch_user_participation
   after_filter :update_participations,
     :only => [:create_task, :mark_task_complete, :mark_task_pending, :destroy_task, :update_task]
   stylesheet 'tasks'
   
-  def show 
-  end
-   
   # ajax only, returns nothing
   # for this to work, there must be a <ul id='sort_list_xxx'> element
   # and it must be declared sortable like this:

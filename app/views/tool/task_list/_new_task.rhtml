@@ -1,8 +1,5 @@
 <%
-  users = []
-  users += @page.users if @page.users
-  users += @page.group.users if @page.group
-  users.uniq!
+  users = (@page.users + ( @page.group ? @page.group.users : [] )).uniq
 %>
 
 <% @task = Task::Task.new %>

@@ -31,7 +31,7 @@
   <div><b><%= link_to @page.title, task_url(@page) %></b> 
     <%= "(#{link_to @page.group_name, group_tasks_url(@page.group)})" if @page.group_name %></div>
   <ul id='<%=sort_list_id%>' class='task_list'>
-    <%= render :partial => 'tool/tasklist/task', :collection => tasks %>
+    <%= render :partial => 'tool/task_list/task', :collection => tasks %>
   </ul>
 <% end -%>
 <%= sortable_lists.collect do |id, page|

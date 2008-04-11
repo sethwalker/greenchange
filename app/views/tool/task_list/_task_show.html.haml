@@ -1,0 +1,27 @@
+- task_id      = "task_#{task.id}"
+- details_id   = "#{task_id}_details"
+
+.name
+  %div{ :class => ( task.past_due? ? 'past_due':'') }
+    - if task.updated_at?
+      = friendly_date(task.updated_at) 
+
+    - task.users.each do |user|
+      = link_to( user.login, person_tasks_path(user), :class => 'user-tasks' )
+
+    - if @upart and @upart.viewed_at? and task.created_at?
+      - if @upart.viewed_at < task.created_at - 10.seconds
+        (new)
+      - elsif @upart.viewed_at < task.updated_at - 10.seconds
+        (modified)
+
+    - if task.description.any?
+      %span
+        = link_to_function h(task.name), "Element.toggle('#{details_id}')"
+      - else
+        = h task.name
+
+    %span.status
+      = _("Past Due") if task.past_due?
+  .indent.task_details{ :style => "display: none", :id => details_id }
+    = task.description_html

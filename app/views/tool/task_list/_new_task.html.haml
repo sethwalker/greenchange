@@ -1,0 +1,42 @@
+- users = @page.group ? @page.group.members : current_user.contacts
+- task = @page.data.build
+.new.task
+  #new-task-link
+    = link_to 'add task', '#'#'Element.show("new-task-form-container"); Element.hide("new-task-link");'
+    -# form_remote_tag( :url => create_task_task_url(@page), :html => {:action => create_task_task_url(@page), :id => 'new-task-form'}, :loading  => "$('new-task-loading').show()", :complete => "$('new-task-loading').hide()", :success => "$('new-task-form').reset()" ) do |f|
+  - form_for :task, @page.data.tasks.build, :url => task_tasks_url(@page) do |f|
+    #new-task-form-container.section
+      %p
+        = f.label 'name', 'description'
+        = f.text_field :name, :size => 50
+      %p
+        = f.label 'description', 'detail'
+        = f.text_area :description, :size => '50x4'
+      %p
+        = f.label 'due_at', 'due'
+        = f.calendar_date_select :due_at
+      %p
+        = f.label 'user_ids', 'assign to'
+        = f.collection_select :user_ids, users, :id, :login, {}, :multiple => true 
+      .clear
+      %p.submit
+        = f.submit 'Add Task'
+      %p
+        = button_to_function "Done", "Element.hide('new-task-form-container'); Element.show('new-task-link');"
+        = image_tag "spinner.gif", :id=>'new-task-loading', :style=>'display:none'
+
+- content_for :javascript do
+  = jquery_javascript_library
+  - javascript_tag do
+    jQ$( function() {
+    jQ$('#new-task-form-container').hide();
+    jQ$('#new-task-link').click( function(ev) {
+    jQ$('#new-task-form-container').toggle();
+    ev.stopPropagation();
+    });
+    jQ$('#task_submit').click(function(ev) {
+    //self.form.serialize(); 
+    //ev.stopPropagation();
+    });
+    });
+

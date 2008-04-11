@@ -6,11 +6,14 @@ module AjaxUiHelper
     link_to(name, options, html_options)
   end
 
-  def jquery_javascript_includes
+  def jquery_javascript_library
     javascript_include_tag( 'jquery/jquery' ) +
+    javascript_tag( 'var jQ$ = jQuery.noConflict();' )
+  end
+  def jquery_javascript_effect_includes
+    jquery_javascript_library + 
     javascript_include_tag( 'jquery/jquery.dimensions.js' )+
     javascript_include_tag( 'jquery/enchant/fx' )+
-    javascript_tag( 'jQuery.noConflict();' )+
     javascript_include_tag( 'jquery/enchant/fx.slide.js' )
   end
 
@@ -18,7 +21,7 @@ module AjaxUiHelper
   def load_javascript_tabs
     return if @javascript_tabs_loaded
     content_for :javascript,
-      jquery_javascript_includes + 
+      jquery_javascript_effect_includes + 
       javascript_include_tag('tabs') + 
       javascript_tag( 'Event.observe( document, "dom:loaded", function() { Crabgrass.Tabs.initialize_tab_blocks(); });' )
     @javascript_tabs_loaded = true
