@@ -8,6 +8,11 @@
 
 class Page < ActiveRecord::Base
   acts_as_modified
+  acts_as_fleximage do
+    image_directory 'public/images/uploaded/icons/pages' 
+    require_image false
+    preprocess_image { |image| image.resize Crabgrass::Config.image_sizes[:large], :crop => true }
+  end
 
   has_many :permissions, :as => 'resource'
 

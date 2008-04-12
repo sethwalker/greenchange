@@ -34,6 +34,11 @@ class Group < ActiveRecord::Base
 
   #track_changes :name
   acts_as_modified
+  acts_as_fleximage do
+    image_directory 'public/images/uploaded/icons/groups' 
+    require_image false
+    preprocess_image { |image| image.resize Crabgrass::Config.image_sizes[:large], :crop => true }
+  end
 
   ####################################################################
   ## about this group
@@ -69,18 +74,27 @@ class Group < ActiveRecord::Base
 
   has_many :issue_identifications, :as => :issue_identifying
   has_many :issues, :through => :issue_identifications
-  def issue_ids=(issue_ids)
+#  def issue_ids=(issue_ids)
+#    issue_identifications.each do |issue_identification|
+#      issue_identification.destroy unless issue_ids.include?(issue_identification.issue_id)
+#    end
+#    issue_ids.each do |issue_id|
+#      self.issue_identifications.create(:issue_id => issue_id) unless issue_identifications.any? {|issue_identification| issue_identification.issue_id == issue_id}
+#    end
+#  end
+  def issue_ids=(issue_id_values)
     issue_identifications.each do |issue_identification|
-      issue_identification.destroy unless issue_ids.include?(issue_identification.issue_id)
+      issue_identification.destroy unless issue_id_values.include?(issue_identification.issue_id)
     end
-    issue_ids.each do |issue_id|
-      self.issue_identifications.create(:issue_id => issue_id) unless issue_identifications.any? {|issue_identification| issue_identification.issue_id == issue_id}
+    issue_id_values.each do |issue_id|
+      self.issue_identifications.build(:issue_id => issue_id) unless issue_identifications.any? {|issue_identification| issue_identification.issue_id == issue_id}
     end
   end
 
+
   has_finder :by_issue, lambda {|*issues| issues.any? ? {:include => :issue_identifications, :conditions => ["issue_identifications.issue_id in(?)", issues]} : {} }
 
-  belongs_to :avatar
+  #belongs_to :avatar
   has_one :public_profile, :as => 'entity', :dependent => :destroy, :conditions => ["stranger = ?", true], :class_name => 'Profile'
   def profile
     public_profile || create_public_profile(:stranger => 'true')
@@ -121,7 +135,7 @@ class Group < ActiveRecord::Base
   has_many :given_permissions,  :as => 'grantee', :class_name => 'Permission'
 
   def admins_ids
-    admins.map(&:user_id)
+    admins.map(&:id)
   end
 
   has_many :admin_memberships, 

@@ -45,8 +45,11 @@ ActionController::Routing::Routes.draw do |map|
     parent.media 'media', :controller => 'tool/media', :page_type => 'media', :action => 'index'
     parent.tools 'tools', :controller => 'tool/tools', :page_type => 'tools', :action => 'index'
     parent.involvements 'involvements', :controller => 'tool/involvements', :page_type => 'involvements', :action => 'index'
-    parent.updates 'updates', :controller => 'tool/updates', :page_type => 'updates', :action => 'index'
-    parent.resources :pages
+    parent.updates      'updates',      :controller => 'tool/updates',      :page_type => 'updates',      :action => 'index'
+    parent.resources :pages do |page|
+      page.icon 'icon/:size.:format', :controller => 'pages', :action => 'icon'
+      page.connect 'icon.:format', :controller => 'pages', :action => 'icon'
+    end
     parent.resources :uploads, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
     parent.resources :events, :controller => 'tool/event', :member => {:participate => :post, :set_event_description => :post}, :collection => {:day => :get, :week => :get, :month => :get, :calendar => :get}
     parent.resources :videos, :controller => 'tool/external_video' #for now
@@ -105,6 +108,8 @@ ActionController::Routing::Routes.draw do |map|
     group.resources :people
     group.resources :memberships, :controller => 'membership', :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put }
     group.resource :profile, :controller => 'group/profiles'
+    group.icon 'icon/:size.:format', :controller => 'groups', :action => 'icon'
+    group.connect 'icon.:format', :controller => 'groups', :action => 'icon'
     group.chat 'chat', :controller => 'chat', :action => 'channel'
     page_routes(group)
   end
@@ -115,6 +120,8 @@ ActionController::Routing::Routes.draw do |map|
     person.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get, :approve => :put }
     person.resources 'contacts', :controller => 'contact'#, :member => { :approve => :post, :reject => :post }
     person.resource :profile, :controller => 'people/profiles'
+    person.icon 'icon/:size.:format', :controller => 'people', :action => 'icon'
+    person.connect 'icon.:format', :controller => 'people', :action => 'icon'
     page_routes(person)
   end
 

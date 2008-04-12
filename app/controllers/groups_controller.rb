@@ -7,6 +7,7 @@ class GroupsController < ApplicationController
 
   helper :date
   helper :event_time
+  include IconResource
     
   
   stylesheet 'groups'
@@ -16,8 +17,8 @@ class GroupsController < ApplicationController
   before_filter :login_required, :only => [:create, :update, :destroy, :new, :edit ]
     #:except => [:list, :index, :show, :search, :archive, :tags, :calendar_month, :list_by_day, :list_by_week, :list_by_month]
     
-  verify :method => :post,
-    :only => [:create, :update, :destroy]
+  #verify :method => :post,
+  #  :only => [:create, :update, :destroy]
 
   def index
     @groups = Group.allowed( current_user, :view ).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag)
@@ -33,6 +34,7 @@ class GroupsController < ApplicationController
   end
 
   def new
+    @group = Group.new 
   end
 
   # login required
@@ -68,21 +70,17 @@ class GroupsController < ApplicationController
 
   # login required
   def edit
-    if request.post? 
-      if @group.update_attributes(params[:group])
-        redirect_to :action => 'edit', :id => @group
-        message :success => 'Group was successfully updated.'
-      else
-        message :object => @group
-      end
-    end
   end
     
   # login required
   # post required
   def update
-    @group.update_attributes(params[:group])
-    redirect_to :action => 'show', :id => @group
+    if @group.update_attributes(params[:group])
+      flash[:notice] = 'Group was successfully updated.'
+      redirect_to group_url(@group)
+    else
+      render :action => 'edit'
+    end
   end
   
   # login required

@@ -6,6 +6,7 @@
       = render :partial => 'me/profiles/sections/im_address', :locals => { :im_address => im_address, :f => f }
     = render :partial => 'me/profiles/sections/im_address', :locals => { :im_address => profile.im_addresses.build, :f => f }
 
-    .toolbar
-      = link_to 'Add IM Address', new_me_profile_im_address_path, :class => 'remote new action'
+    .row
+      .toolbar
+        = link_to 'Add IM Address', new_me_profile_im_address_path, :class => 'remote new action'
 

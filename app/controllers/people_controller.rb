@@ -11,6 +11,7 @@ For processing a single user, see PersonController.
 
 class PeopleController < ApplicationController
   layout 'application'
+  include IconResource
   
   def show
     @person = User.find_by_login params[:id]

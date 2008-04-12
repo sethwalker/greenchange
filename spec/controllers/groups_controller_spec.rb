@@ -7,10 +7,6 @@ describe GroupsController do
       @user = User.new
       controller.stub!(:current_user).and_return(@user)
     end
-    it "should not respond to GET" do
-      get :create
-      response.should_not be_success
-    end
 
     it "should respond to POST" do
       controller.should_receive(:message)

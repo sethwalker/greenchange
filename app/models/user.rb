@@ -94,7 +94,11 @@ class User < ActiveRecord::Base
     bookmarked_pages << page
   end
 
-  belongs_to :avatar
+  acts_as_fleximage do
+    image_directory 'public/images/uploaded/icons/people' 
+    require_image false
+    preprocess_image { |image| image.resize Crabgrass::Config.image_sizes[:large], :crop => true }
+  end
   #has_many :profiles, :as => 'entity', :dependent => :destroy#, :extend => Profile::Methods
   has_one :public_profile, :as => 'entity', :dependent => :destroy, :class_name => 'Profile', :conditions => ['stranger = ?', true ]
   has_one :private_profile, :as => 'entity', :dependent => :destroy, :class_name => 'Profile', :conditions => [ 'friend = ?', true ]

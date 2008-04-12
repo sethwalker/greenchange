@@ -90,7 +90,6 @@ class ProfileController < ApplicationController
     elsif action_name =~ /add_/
      return true # TODO: this is the right way to do this
     end
-#    RAILS_DEFAULT_LOGGER.debug "### #authorizing in #{controller_name}"
 #    if @entity.is_a?(User) and current_user == @entity
 #      return true
 #    elsif @entity.is_a?(Group)

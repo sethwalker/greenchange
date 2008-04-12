@@ -1,0 +1,4 @@
+source.operate do |image|
+	image.resize Crabgrass::Config.image_sizes[@requested_size] if @requested_size
+end
+

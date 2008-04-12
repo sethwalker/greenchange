@@ -16,7 +16,6 @@ module IconHelper
     %w[ Page Issue Group User Asset ].each do |type_check|
       if item.is_a?( Object.const_get(type_check) )
         item_type = type_check.downcase 
-        #RAILS_DEFAULT_LOGGER.debug "### checking type #{type_check} for #{item.name} type #{item_type}" 
         custom_options = "extra_html_options_for_icon_for_#{item_type}"
         html_options.merge!( send( custom_options, item, html_options )) if respond_to? custom_options
       end
@@ -32,9 +31,14 @@ module IconHelper
   def html_options_for_avatar_for( item, html_options ={} )
     html_options[:class] = [ (html_options[:class] || ''), 'avatar' ].join(' ').strip
     avatar_size_option = html_options[:avatar_size] || html_options[:size] || 'standard'
-    if item.avatar
-      html_options[:style] = [ (html_options[:style]||nil), "background-image: url(#{ avatar_url( :id => ( item.avatar || 0 ), :size => avatar_size_option )})"].compact.join(';')
+    item_url_type = case item when User; 'person'; when Group; 'group'; when Page; 'page'; end
+    if item.respond_to?(:has_image?) && item.has_image? && item_url_type
+      item_icon_method = "#{item_url_type}_icon_path"
+      html_options[:style] = [ (html_options[:style]||nil), "background-image: url(#{ send( item_icon_method, item, :format => :png, :size => avatar_size_option )})"].compact.join(';')
     end
+    #if item.avatar
+    #  html_options[:style] = [ (html_options[:style]||nil), "background-image: url(#{ avatar_url( :id => ( item.avatar || 0 ), :size => avatar_size_option )})"].compact.join(';')
+    #end
     html_options
   end
 

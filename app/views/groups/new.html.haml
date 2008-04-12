@@ -1,0 +1,13 @@
+-content_for :title do
+  = icon_for @group, :size => :large
+  %h2
+    Create Group
+
+- form_for :group, @group, :url => groups_path, :html => { :multipart => true, :id => 'create-group-form' } do |f|
+  .new.group.form
+    = render :partial => 'form', :locals => {:f => f }
+  %p.submit
+    = f.submit 'Create'
+
+- content_for :javascript_onload do
+  Form.focusFirstElement('create-group-form');

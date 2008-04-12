@@ -12,8 +12,10 @@ module LayoutHelper
 
   # returns avatar divs for people or groups
   def avatar_for(viewable, size='medium', options={})
+    item_url_type = case viewable; when User; 'user'; when Group; 'group'; when Page; 'page'; end
+    icon_for viewable, options.merge(:size => size)
     #image_tag avatar_url(:viewable_type => viewable.class.to_s.downcase, :viewable_id => viewable.id, :size => size), :alt => 'avatar', :size => Avatar.pixels(size), :class => 'avatar'
-    image_tag avatar_url(:id => (viewable.avatar||0), :size => size), :alt => 'avatar', :size => Avatar.pixels(size), :class => (options[:class] || "avatar avatar_#{size}")
+    #image_tag avatar_url(:id => (viewable.avatar||0), :size => size), :alt => 'avatar', :size => Avatar.pixels(size), :class => (options[:class] || "avatar avatar_#{size}")
   end
   
 

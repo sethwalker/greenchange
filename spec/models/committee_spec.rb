@@ -100,7 +100,7 @@ describe Committee do
   
   it "has working associations" do
     lambda {
-      %w- parent avatar admin_group collections issues memberships pages users -.map( &:to_sym).each do |assoc|
+      %w- parent admin_group collections issues memberships pages users -.map( &:to_sym).each do |assoc|
         begin
           @committee_1.send assoc
         rescue

@@ -6,5 +6,6 @@
     - for phone_number in phone_numbers
       = render :partial => 'me/profiles/sections/phone_number', :locals => { :phone_number => phone_number, :f => f }
     = render :partial => 'me/profiles/sections/phone_number', :locals => { :phone_number => profile.phone_numbers.build, :f => f }
-    .toolbar
-      = link_to 'Add Phone Number', new_me_profile_phone_number_path, :class => 'remote new action'
+    .row
+      .toolbar
+        = link_to 'Add Phone Number', new_me_profile_phone_number_path, :class => 'remote new action'

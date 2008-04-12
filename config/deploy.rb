@@ -19,6 +19,7 @@ role :db,  "greenchange.slice.radicaldesigns.org", :primary => true
 
 set :branch, "origin/master"
 set :deploy_via, :remote_cache
+set :git_enable_submodules, 1
 
 after "deploy:update_code", "deploy:symlink_shared"
 

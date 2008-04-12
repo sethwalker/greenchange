@@ -1,8 +1,8 @@
 - content_for :title do
-  = avatar_for @profile.entity, 'huge'
+  =render :partial => 'title_menu', :locals => { :person => @profile.entity }
+  = icon_for @profile.entity, :size => :large
   %h1
     = @profile.full_name
-  =render :partial => 'title_menu', :locals => { :person => @profile.entity }
 
 %div
   = [@profile.organization, @profile.role].reject(&:blank?).join(', ')

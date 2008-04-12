@@ -44,20 +44,22 @@ form
     p
       :width 100%
       :margin-top .25em
-  .row
-    :width 100%
-    :float left
+      
   .toolbar 
     :float left
   p
     :float left
     :margin-right 1em
-    input
+    input, textarea
       :clear both
       :display block
       //#:float left
     label
       :display block
+  .comment
+    :font-size 10px
+    :clear both
+
   p.submit
     :width = !main_column_width
     :text-align center
@@ -74,12 +76,21 @@ form
     .section, p
       :width = !main_column_noside_width / 2 - 10
 
+  .row
+    :width 100%
+    :display block
+    :float left
+    :clear both
+    p, .icon 
+      :float left
+    p
+      :width auto
+
+.with-editor 
   .form-column.first
-    .with-editor & 
-      :width = !main_column_width - 100
+    :width = !main_column_width - 100
   .form-column.last
-    .with-editor & 
-      :width = !side_column_width 
+    :width = !side_column_width 
 
   
   .behavior-block

@@ -70,6 +70,11 @@ class ProfilesController < ApplicationController
       success = success &&
         @profile.entity.update_attributes( :issue_ids => params[:issue_ids] )
     end
+
+    if params[:user] && @profile.user
+      success = success &&
+        @profile.user.update_attributes!( params[:user] )
+    end
     
     success = success &&
       [ :email_addresses, :im_addresses, :phone_numbers ].all? do |collection| 

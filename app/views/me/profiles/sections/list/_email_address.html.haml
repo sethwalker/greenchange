@@ -6,5 +6,6 @@
       = render :partial => 'me/profiles/sections/email_address', :locals => { :email_address => email_address, :f => f }
 
     = render :partial => 'me/profiles/sections/email_address', :locals => { :email_address => profile.email_addresses.build, :f => f }
-    .toolbar
-      = link_to 'Add Email Address', new_me_profile_email_address_path, :class => 'remote new action'
+    .row
+      .toolbar
+        = link_to 'Add Email Address', new_me_profile_email_address_path, :class => 'remote new action'

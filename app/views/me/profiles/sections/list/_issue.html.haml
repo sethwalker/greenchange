@@ -2,7 +2,7 @@
   %h2
     Issues
   .behavior-block
-    - all_issues = Issue.find(:all)
+    - all_issues = Issue.standard_set
         
     .column
       = render :partial => 'me/profiles/sections/issue', :locals => { :profile => profile }, :collection => column_1_of_2(all_issues)

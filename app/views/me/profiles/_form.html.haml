@@ -1,30 +1,54 @@
-= error_messages_for '', :object => [ profile, profile.notes, @email_addresses, @im_addresses, @locations, @phone_numbers, @websites ], :object_name => 'profile'
-.section
-  %h2
-    General Info
-  .row
-    %p
-      = f.text_field 'first_name', 'size' => 15, 'maxlength' => 100, 'style' => 'width:100px'
-      = f.label 'first_name', "first name"
-    %p
-      = f.text_field 'middle_name', 'size' => 9, 'maxlength' => 100, 'style' => 'width:50px'
-      = f.label 'middle_name', "middle "
-    %p
-      = f.text_field 'last_name', 'size' => 15, 'maxlength' => 100, 'style' => 'width:111px'
-      = f.label 'last_name', "last"
-  .row
-    %p
-      = f.text_field 'organization', 'size' => 40, 'maxlength' => 100, 'style' => 'width:285px'
-      = f.label 'organization', "organization"
-  .row
-    %p
-      = f.text_field 'role', 'size' => 40, 'maxlength' => 100, 'style' => 'width:285px'
-      = f.label 'role', "organizational role"
+-content_for :title do
+  = error_messages_for '', :object => [ profile, profile.notes, @email_addresses, @im_addresses, @locations, @phone_numbers, @websites ], :object_name => 'profile'
 
-- %w[ email_address phone_number im_address note issue ].each do |section|
-  - item_collection = instance_variable_get( "@#{section.pluralize}" );
-  = render :partial => "me/profiles/sections/list/#{section}", :locals => {:profile => profile, :f => f , section.pluralize.to_sym => item_collection }
+.with-editor
+  .column.form-column.first
+    .section
+      %h2
+        General Info
+      .row
+        %p
+          = f.label 'first_name', "first name"
+          = f.text_field 'first_name', 'size' => 15, 'maxlength' => 100, 'style' => 'width:100px'
+        %p
+          = f.label 'middle_name', "middle "
+          = f.text_field 'middle_name', 'size' => 9, 'maxlength' => 100, 'style' => 'width:50px'
+        %p
+          = f.label 'last_name', "last"
+          = f.text_field 'last_name', 'size' => 15, 'maxlength' => 100, 'style' => 'width:111px'
+        %p
+          = f.label 'organization', "organization"
+          = f.text_field 'organization', 'size' => 40, 'maxlength' => 100, 'style' => 'width:285px'
+        %p
+          = f.label 'role', "organizational role"
+          = f.text_field 'role', 'size' => 40, 'maxlength' => 100, 'style' => 'width:285px'
+
+        - %w[ note ].each do |section|
+          - item_collection = instance_variable_get( "@#{section.pluralize}" );
+          = render :partial => "me/profiles/sections/list/#{section}", :locals => {:profile => profile, :f => f , section.pluralize.to_sym => item_collection }
+
+  .column.form-column.last
+    - fields_for :user, @profile.user do |ff|
+      .section
+        .row
+          = icon_for @profile.entity
+          %p
+            = ff.label :image_file, 'Upload New Picture'
+            %span.comment
+              uploaded image will be cropped and stretched to 96 pixels square.
+            = ff.file_field :image_file, :size => 10 
+
+      = render :partial => "shared/form/issues", :locals => {:f => ff}
+
+    - %w[ email_address phone_number im_address  ].each do |section|
+      - item_collection = instance_variable_get( "@#{section.pluralize}" );
+      = render :partial => "me/profiles/sections/list/#{section}", :locals => {:profile => profile, :f => f , section.pluralize.to_sym => item_collection }
   -# use these options for the default view
   -# locals => { :item_collection => item_collection, :item_type => section.to_sym, :item_collection_type => section.pluralize.to_sym }
 
 - load_ajax_form_behaviors
+- content_for :javascript do
+  = javascript_include_tag 'forms'
+- content_for :javascript_onload do
+  $('content').down('form input[type=text]').focus();
+  Crabgrass.Forms.submit_from_menu();

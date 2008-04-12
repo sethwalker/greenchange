@@ -47,7 +47,6 @@ class Tool::BaseController < ApplicationController
   #end
 
   def new 
-    RAILS_DEFAULT_LOGGER.debug "### #{page_class.to_s}"
     @page = page_class.new :group_id => ( @group ? @group.id : nil ), :public => true, :public_participate => true
     @page.build_data if @page.respond_to? :build_data
   end

@@ -1,0 +1,39 @@
+- content_for :title do
+  = error_messages_for :group 
+.with-editor
+  .column.form-column.first
+    .section
+      %p
+        = f.label :group_full_name, 'Full name'
+        %span.comment
+          A descriptive name used for display.
+        = f.text_field :full_name
+      %p
+        = f.label :group_name, 'Link Name'
+        %span.comment
+          This name is how you will refer to this group in links and URLs. It must only contain alphanumeric characters, no spaces allowed.
+        = f.text_field :name
+      %p
+        = f.label :group_summary,  'Summary'
+        %span.comment
+          Brief information regarding this group.
+        = f.text_area :summary, :rows => 8, :cols => 60
+
+  .column.form-column.last
+    .section
+      .row
+        = icon_for @group
+        %p
+          = f.label :image_file, 'Upload New Picture'
+          %span.comment
+            uploaded image will be cropped and stretched to 96 pixels square.
+          = f.file_field :image_file, :size => 10 
+    
+    = render :partial => "shared/form/issues", :locals => {:f => f}
+
+- content_for :javascript do
+  = javascript_include_tag 'forms'
+- content_for :javascript_onload do
+  $('group_full_name').focus();
+  Crabgrass.Forms.submit_from_menu();
+

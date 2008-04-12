@@ -1,0 +1,9 @@
+History.txt
+Manifest.txt
+README.txt
+Rakefile
+setup.rb
+lib/dsl_accessor.rb
+lib/dsl_accessor/version.rb
+test/test_helper.rb
+test/dsl_accessor_test.rb

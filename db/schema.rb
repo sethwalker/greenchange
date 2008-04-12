@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1207361173) do
+ActiveRecord::Schema.define(:version => 1207956254) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -228,6 +228,7 @@ ActiveRecord::Schema.define(:version => 1207361173) do
     t.integer  "avatar_id"
     t.string   "style"
     t.string   "parent_name"
+    t.string   "image_filename"
   end
 
   add_index "groups", ["name"], :name => "index_groups_on_name"
@@ -338,6 +339,7 @@ ActiveRecord::Schema.define(:version => 1207361173) do
     t.datetime "ends_at"
     t.boolean  "public_edit"
     t.boolean  "public_participate"
+    t.string   "image_filename"
   end
 
   add_index "pages", ["name"], :name => "index_pages_on_name"
@@ -554,6 +556,7 @@ ActiveRecord::Schema.define(:version => 1207361173) do
     t.binary   "tag_id_cache"
     t.string   "password_reset_code",       :limit => 40
     t.boolean  "superuser",                               :default => false
+    t.string   "image_filename"
   end
 
   add_index "users", ["login"], :name => "index_users_on_login"

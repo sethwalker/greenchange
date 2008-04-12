@@ -135,7 +135,6 @@ class Permission < ActiveRecord::Base
   end
 
   def self.alias_for( aliased_action )
-    logger.debug "### checking aliases for #{aliased_action}"
     ACTION_ALIASES.each do | action, aliases |
         return action if action == aliased_action
         return action if aliases.include? aliased_action
