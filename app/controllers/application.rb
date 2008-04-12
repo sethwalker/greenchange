@@ -22,6 +22,7 @@ class ApplicationController < ActionController::Base
   #before_filter :assume_role, :except => :login  # after context
   around_filter :set_timezone
   session :session_secure => true if Crabgrass::Config.https_only
+  protect_from_forgery
 
   protected
   
