@@ -7,6 +7,7 @@ class AssetObserver < ActiveRecord::Observer
 
   def update_page_type(asset)
     page_type = "Tool::#{asset.display_class}"
+    asset.page.type = page_type if asset.page
     Page.update_all("type = '#{page_type}'", "data_type = 'Asset' AND data_id = #{asset.id}")
 #    page_type = case 
 #           when asset.image?

@@ -1,5 +1,6 @@
 class Tool::AssetController < Tool::BaseController
   before_filter :fetch_asset
+  after_filter :apply_asset_type, :only => [:update,:create]
 
 #  def show
 #  end
@@ -70,6 +71,11 @@ class Tool::AssetController < Tool::BaseController
   
   def setup_view
     @show_posts = true
+  end
+
+  # this hack is to make sure the asset observer does its job
+  def apply_asset_type
+    @page.data.save if @page and @page.valid? and @page.data and @page.data.valid?
   end
   
 end

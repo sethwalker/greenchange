@@ -58,6 +58,13 @@ module ContextHelper
     @group || @issue || @me || @person || @tag  || @page
   end
 
+  # returns an array suitable for formatting in the send statement
+  def context_finder(source)
+    context_finder_method = case source when User; :by_person; when Group; :by_group; when Issue; :by_issue; when Tag; :by_tag; end
+    return :by_tag, nil unless context_finder_method
+    [ context_finder_method, source ]
+  end
+
 
   protected
 

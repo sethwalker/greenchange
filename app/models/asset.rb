@@ -40,10 +40,10 @@ class Asset < ActiveRecord::Base
   ## associations #####################################
 
   belongs_to :parent_page, :foreign_key => 'page_id', :class_name => 'Page'
-  has_many :pages, :as => :data
-  def page
-    pages.first || parent_page
-  end
+  has_one :page, :as => :data
+  #def page
+  #  pages.first || parent_page
+  #end
 
   ## versions #########################################
   

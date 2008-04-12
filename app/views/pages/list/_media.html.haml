@@ -7,19 +7,19 @@
       .tab-title
         Photos
       %ul.tab-content.list
-        = render :partial => 'pages/list/page', :collection => source.pages.allowed(current_user).page_type(:image)
+        = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).allowed(current_user).page_type(:image)
     %li
       .tab-title
         Video
       %ul.tab-content.list
-        = render :partial => 'pages/list/page', :collection => source.pages.allowed(current_user).page_type(:video) 
+        = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).allowed(current_user).page_type(:video) 
     %li
       .tab-title
         Audio
       %ul.tab-content.list
-        = render :partial => 'pages/list/page', :collection => source.pages.allowed(current_user).page_type(:audio) 
+        = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).allowed(current_user).page_type(:audio) 
     %li
       %ul.tab-content.list
-        = render :partial => 'pages/list/page', :collection => source.pages.allowed(current_user).page_type(:asset) 
+        = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).allowed(current_user).page_type(:asset) 
 
   - load_javascript_tabs
