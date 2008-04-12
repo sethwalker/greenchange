@@ -1,0 +1,40 @@
+climate_crisis:
+  name: Climate crisis
+  description: >
+    In the race to prevent climate catastrophe, we must freeze greenhouse gas emissions now, and enact new carbon taxes to pay for massive investments in renewable energy, conservation and mass transit. 
+
+corporate_power:
+  name: Corporate power
+  description: >
+    To restore corporations to their proper role in society, we must shrink their power, control their greed, and establish tough penalties for corporate crime, pollution and violence.
+
+economic:
+  name: Economic justice
+  description: >
+    We believe in a $10 per hour minimum wage, guaranteeing workers rights to organize unions, and single-payer universal health care.
+
+environment:
+  name: Environment
+  description: >
+    We rejoice in nature and the diversity of life. We have a duty to care for plants, animals, ecosystems and the planet.
+
+rights:
+  name: Human Rights
+  description: >
+    Every person deserves the right to life, liberty, work, education, food, housing, freedom of thought and expression, and equality under the law.
+
+politics:
+  name: Politics
+  description: >
+    We believe in democratic participation and accountability. Decisions should be made at the most local level possible.
+
+justice:
+  name: Social justice
+  description: >
+    All people deserve equal treatment and respect. We must ensure that everyone can meet their basic human needs.
+
+peace:
+  name: War and peace
+  description: >
+    We believe that war and violence are wrong, except in self-defense. We want to end the death penalty and torture, and the existence of nuclear weapons.
+    
