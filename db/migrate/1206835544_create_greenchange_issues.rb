@@ -17,11 +17,11 @@ class CreateGreenchangeIssues < ActiveRecord::Migration
   } 
   def self.up
     add_column :issues, :description, :text
-    ISSUES.each { |issue_name,issue_description| Issue.find_or_create_by_name( :name => issue_name, :description => issue_description ) }
+    #ISSUES.each { |issue_name,issue_description| Issue.find_or_create_by_name( :name => issue_name, :description => issue_description ) }
   end
 
   def self.down
     remove_column :issues, :description
-    ISSUES.each { |issue_name,issue_description| Issue.find_by_name(issue_name).try(:destroy) }
+    #ISSUES.each { |issue_name,issue_description| Issue.find_by_name(issue_name).try(:destroy) }
   end
 end
