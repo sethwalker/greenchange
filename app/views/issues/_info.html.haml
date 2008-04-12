@@ -1,8 +1,8 @@
-.summary
-  = simple_format issue.description
-.description
-  Number of Supporters:
+.section
+  = issue.description
+.clear
+  Number of supporters: 
   = link_to issue.users.count, issue_people_url(issue)
   %br
-  Groups Working on this:
+  Groups working on this issue: 
   = link_to issue.groups.count, issue_groups_url(issue)

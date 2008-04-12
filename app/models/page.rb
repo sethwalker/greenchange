@@ -329,7 +329,7 @@ class Page < ActiveRecord::Base
     end
   end
 
-  has_many :issue_identifications, :as => :issue_identifying, :dependent => :destroy
+  has_many :issue_identifications, :as => :issue_identifying, :dependent => :destroy 
   has_many :issues, :through => :issue_identifications
 
 #  Issue
@@ -519,6 +519,11 @@ class Page < ActiveRecord::Base
     else
       entity.remove_page(self)
     end
+  end
+
+  def primary_image
+    images = assets.select(&:image?)
+    images.first unless images.empty?
   end
 
   

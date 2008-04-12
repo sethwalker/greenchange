@@ -2,17 +2,17 @@
 .landing
   .column
     %h2 Attend an event
-    =link_to 'Add an event', new_event_url, :class => 'add'
-    =link_to 'Search for an event', '/search/event', :class => 'search'
-    .clear
+    -#=link_to 'Add an event', new_event_url, :class => 'add'
+    -#=link_to 'Search for an event', '/search/event', :class => 'search'
+    -#.clear
     .content-list
       %ul.list
         =render :partial => 'pages/list/event', :collection => Page.page_type(:event).find(:all, :limit=>5)
   .column
     %h2 Take action
-    =link_to 'Post an action alert', new_action_url, :class => 'add'
-    =link_to 'Search for an event', '/search/action', :class => 'search'
-    .clear
+    -#=link_to 'Post an action alert', new_action_url, :class => 'add'
+    -#=link_to 'Search for an event', '/search/action', :class => 'search'
+    -#.clear
     .content-list
       %ul.list
         =render :partial => 'pages/list/page', :collection => Page.page_type(:action_alert).find(:all, :limit=>5)

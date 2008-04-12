@@ -1,5 +1,6 @@
 - content_for :title do
   = icon_for( @issue, :size => 'large' )
+- content_for :title do
   %h1
     = @issue.name
   -#= render :partial => 'title_menu', :locals => { :issue => @issue }

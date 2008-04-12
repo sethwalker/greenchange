@@ -19,6 +19,7 @@
   - if @page && !@page.new_record? && controller.action_name != 'edit'
     = render :partial => 'shared/sides/donate'
     = render :partial => 'pages/sides/contributors', :locals => { :page => @page }
+    = render :partial => 'shared/groups_large', :locals => {:source => @page}
     = render :partial => 'pages/sides/groups', :locals => { :page => @page }
     -#= render :partial => 'pages/sides/access', :locals => { :page => @page }
     = render :partial => 'pages/sides/issues', :locals => { :page => @page }
@@ -27,13 +28,12 @@
 
   - if @me 
     = render :partial => 'me/sides/me'
-    = render :partial => 'me/sides/inbox', :locals => { :source => @user }
+    = render :partial => 'me/sides/inbox', :locals => { :source => @me }
     = render :partial => 'shared/sides/donate'
     = render :partial => 'shared/sides/invite'
-    = render :partial => 'shared/groups_large',   :locals => { :source => @user }
-    = render :partial => 'shared/contacts_large', :locals => { :source => @user }
-    = render :partial => 'shared/issues',   :locals => { :source => @user }
-    
+    = render :partial => 'shared/groups_large',   :locals => { :source => @me }
+    = render :partial => 'shared/contacts_large', :locals => { :source => @me }
+    = render :partial => 'shared/issues',   :locals => { :source => @me }
   - else
     - if @person
       = render :partial => 'person/sides/person',  :locals => { :person => @person }
@@ -49,9 +49,16 @@
   -#= render :partial => 'shared/groups_large',   :locals => { :source => @tag }
   -#= render :partial => 'shared/media',          :locals => { :source => @tag }
 
-  - unless scoped_by_context? 
+  - unless scoped_by_context?
     = render :partial => 'shared/sides/donate'
     = render :partial => 'shared/sides/invite'
-    = render :partial => 'shared/sides/featured/issues'
-    = render :partial => 'shared/sides/featured/people', :locals => { :source => nil }
-    = render :partial => 'shared/sides/featured/groups', :locals => { :source => nil }
+    - if controller.controller_name == 'people' and controller.action_name == 'index'
+      = render :partial => 'shared/sides/featured/people', :locals => { :source => nil }
+      = render :partial => 'shared/sides/featured/issues'
+    - elsif controller.controller_name == 'groups' and controller.action_name == 'index'
+      = render :partial => 'shared/sides/featured/groups', :locals => { :source => nil }
+      = render :partial => 'shared/sides/featured/issues'
+    - else
+      = render :partial => 'shared/sides/featured/issues'
+      = render :partial => 'shared/sides/featured/people', :locals => { :source => nil }
+      = render :partial => 'shared/sides/featured/groups', :locals => { :source => nil }

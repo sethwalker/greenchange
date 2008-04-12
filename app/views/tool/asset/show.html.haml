@@ -1,7 +1,15 @@
 - asset = @page.data
 - if asset.image?
-  = link_to icon_for( asset, :size => 'large' ) + asset.filename, asset.public_filename
-
+  .section.image_dispaly
+    = image_tag asset.public_filename(:display)
+-elsif asset.audio?
+  - content_for :javascript do
+    = javascript_include_tag 'anarchy_media/anarchy'
+  .section.audio
+    = link_to( "%s" % asset.filename, asset.public_filename)
+-else
+  .section.document
+    this is a document
 .show.asset
   %ul.file_description
     %li

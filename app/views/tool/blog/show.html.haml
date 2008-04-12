@@ -1,3 +1,5 @@
+- article = @page.data
 .section.page
-  = @wiki.body_html
+  = image_tag  @page.primary_image.public_filename(:pic)
+  = article.body_html
 .clear  

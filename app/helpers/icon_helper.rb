@@ -49,7 +49,14 @@ module IconHelper
 
   # returns the url for the image thumbnail if the page is an image
   def icon_url_for_image( item, html_options = {} )
-    return unless image = ( (( item.is_a?( Asset) && item.image?) ? item : nil ) || item.assets.detect { |a| a.image? } || (( item.data && item.data.is_a?(Asset) && item.data.image? ) ? item.data : nil ))
+    #return unless image = ( (( item.is_a?( Asset) && item.image?) ? item : nil ) || item.assets.detect { |a| a.image? } || (( item.data && item.data.is_a?(Asset) && item.data.image? ) ? item.data : nil ))
+    image ||= item  if item.is_a?(Asset) && item.image?
+    if item.is_a? Page
+      image ||= item.primary_image
+      #image ||= item.data if item.data && item.data.is_a?(Asset) && item.data.image? 
+      #image ||= item.assets.detect { |a| a.image? } if item.assets
+    end
+    return unless image 
     filename_size_option = html_options[:size] || :standard
     thumb_file = image.public_filename( filename_size_option )
     thumb_file if File.exists? RAILS_ROOT + '/public' + thumb_file 

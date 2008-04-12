@@ -1,6 +1,5 @@
 .section
   .header
     Issues  
-  - source.issues.each do |issue|
-    .icon
-      = link_to issue.name, issue_url(issue), html_options_for_icon_for( issue, :size => (local_assigns[:size] || 'standard'), :class => 'name-right' )
+  .icon-box
+    = render :partial => 'shared/list/issue', :collection => source.issues.sort_by(&:name)

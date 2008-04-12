@@ -7,7 +7,7 @@
       = f.label 'title', 'Title'
       = f.text_field :title, :size => 45
     %p
-      = f.label 'summary', 'Summary'
+      = f.label 'summary', 'Description'
       = f.text_area :summary, :size => '45x4'
 
     - f.fields_for :page_data, @page.data do |ff|
