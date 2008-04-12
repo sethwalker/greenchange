@@ -1,0 +1,3 @@
+[submodule "vendor/plugins/fleximage"]
+	path = vendor/plugins/fleximage
+	url = git://github.com/Squeegy/fleximage.git
