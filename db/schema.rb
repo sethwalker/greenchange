@@ -104,9 +104,9 @@ ActiveRecord::Schema.define(:version => 1207956254) do
     t.integer  "created_by"
     t.integer  "position"
     t.string   "collectable_type"
+    t.string   "permission"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "permission"
   end
 
   create_table "collections", :force => true do |t|
@@ -377,11 +377,6 @@ ActiveRecord::Schema.define(:version => 1207956254) do
 
   add_index "phone_numbers", ["profile_id"], :name => "phone_numbers_profile_id_index"
 
-  create_table "plugin_schema_info", :force => true do |t|
-    t.datetime "created_at"
-    t.string   "plugin_name"
-  end
-
   create_table "polls", :force => true do |t|
     t.string "type"
   end
@@ -499,7 +494,7 @@ ActiveRecord::Schema.define(:version => 1207956254) do
   end
 
   add_index "tasks", ["task_list_id"], :name => "index_tasks_task_list_id"
-  add_index "tasks", ["task_list_id", "completed_at", "position"], :name => "index_tasks_completed_positions"
+  add_index "tasks", ["task_list_id", "position"], :name => "index_tasks_completed_positions"
 
   create_table "tasks_users", :id => false, :force => true do |t|
     t.integer "user_id"
