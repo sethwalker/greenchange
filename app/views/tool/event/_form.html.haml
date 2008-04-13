@@ -12,21 +12,26 @@
     %label{ :for => 'event_is_all_day' }
       Event is all day
 
+  .row
     %p.column
-      %label{ :for => 'event_date_start' } 
-        Start
-      = f.text_field :date_start, :size => 10, :id => 'event_date_start', :default => 'yyyy-mm-dd' #:onfocus => "this.select();lcs(this)", :onclick => "event.cancelBubble=true;this.select();lcs(this)"
-      = f.text_field :hour_start, :size => 8
-    %p.column.time-details
-      %label{ :for => 'event_date_end' }
-        To
-      = f.text_field :date_end, :size => 10, :id => 'event_date_end' # :onfocus => "this.select();lcs(this)", :onclick => "event.cancelBubble=true;this.select();lcs(this)"
-      = f.text_field :hour_end, :size => 8
-
-
+      = f.label :date_start, 'Date'
+      = f.text_field :date_start, :size => 10, :id => 'event_date_start'#, :onfocus => "this.select();lcs(this)", :onclick => "event.cancelBubble=true;this.select();lcs(this)"
     .time-details
-      = f.label :time_zone, 'Time Zone'
-      = f.time_zone_select :time_zone
+      %p
+        = f.label :hour_start, 'Start time'
+        = f.text_field :hour_start, :size => 8
+
+      %p.column
+        = f.label :date_end, 'To'
+        = f.text_field :date_end, :size => 10, :id => 'event_date_end' # :onfocus => "this.select();lcs(this)", :onclick => "event.cancelBubble=true;this.select();lcs(this)"
+      %p
+        = f.label :hour_end, 'End time'
+        = f.text_field :hour_end, :size => 8
+
+
+  %p.time-details
+    = f.label :time_zone, 'Time Zone'
+    = f.time_zone_select :time_zone
 
 .section.place
   %h2
@@ -61,10 +66,10 @@
 
 .section.details
   %p
-    = f.label :description, 'description'
+    = f.label :description, 'Description'
     = f.text_area 'description', :rows => 10, :cols => 50
   %p
-    = f.label :directions, 'directions'
+    = f.label :directions, 'Directions'
     = f.text_area :directions, :rows => 10, :cols => 50
 
 - content_for :javascript do
@@ -72,7 +77,11 @@
   = javascript_include_tag 'calendar'
 
 - content_for :javascript_onload do
-  Event.observe( $("event_date_start"), 'focus', function(ev) { $("event_date_start").select();lcs( $('event_date_start')); });
-  Event.observe( $("event_date_end"), 'focus', function(ev) { $("event_date_end").select();lcs( $('event_date_end')); });
+  Event.observe( $("event_date_start"), 'focus', function(ev) { 
+  var calselect = new CalendarDateSelect( 'event_date_start', { year_range: 10  } );
+  });
+  Event.observe( $("event_date_end"), 'focus', function(ev) { 
+  var calselect = new CalendarDateSelect( 'event_date_end', { year_range: 10  } );
+  });
   if( $("event_is_all_day").checked ) $$(".time-details").invoke('hide');
   Event.observe( $("event_is_all_day"), 'click', function(ev) { $$(".time-details").invoke('toggle'); });

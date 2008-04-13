@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(:version => 1207956254) do
   add_index "assets", ["page_id"], :name => "index_assets_page_id"
 
   create_table "avatars", :force => true do |t|
-    t.binary  "data"
+    t.binary  "data",   :default => "",    :null => false
     t.boolean "public", :default => false
   end
 
@@ -299,8 +299,8 @@ ActiveRecord::Schema.define(:version => 1207956254) do
   create_table "memberships", :force => true do |t|
     t.integer  "group_id"
     t.integer  "user_id"
-    t.datetime "created_at"
     t.integer  "page_id"
+    t.datetime "created_at"
     t.string   "role",       :limit => 20, :default => "member"
   end
 
@@ -494,7 +494,7 @@ ActiveRecord::Schema.define(:version => 1207956254) do
   end
 
   add_index "tasks", ["task_list_id"], :name => "index_tasks_task_list_id"
-  add_index "tasks", ["task_list_id", "position"], :name => "index_tasks_completed_positions"
+  add_index "tasks", ["task_list_id", "completed_at", "position"], :name => "index_tasks_completed_positions"
 
   create_table "tasks_users", :id => false, :force => true do |t|
     t.integer "user_id"

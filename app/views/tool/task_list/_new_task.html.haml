@@ -4,7 +4,8 @@
   #new-task-link
     = link_to 'add task', '#'#'Element.show("new-task-form-container"); Element.hide("new-task-link");'
     -# form_remote_tag( :url => create_task_task_url(@page), :html => {:action => create_task_task_url(@page), :id => 'new-task-form'}, :loading  => "$('new-task-loading').show()", :complete => "$('new-task-loading').hide()", :success => "$('new-task-form').reset()" ) do |f|
-  - form_for :task, @page.data.tasks.build, :url => task_tasks_url(@page) do |f|
+  - @task ||= @page.data.tasks.first || @page.data.tasks.build
+  - form_for :task, @task, :url => task_tasks_url(@page) do |f|
     #new-task-form-container.section
       %p
         = f.label 'name', 'description'
