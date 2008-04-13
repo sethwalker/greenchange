@@ -52,9 +52,10 @@
     :background url(/images/arrow-bullet.gif) no-repeat 97% 45%
     :background-color = !bar_header_bg 
     :display block
+    :text-decoration none
     &:hover
       :background-color = !bar_header_bg_hover
-
+      :text-decoration none
 
   .sideline, .line
     :padding 3px 0 3px 9px
@@ -129,7 +130,6 @@
     .header
       :border-color = !bar_context_header_border
       :background-color = !bar_context_header_bg
-
     .info
       :padding 5px 0px 5px 0px
       :float left
@@ -137,9 +137,8 @@
       :border-bottom = 1px solid !topmenu_container_bg
       &:hover
         :background-color = !tabmenu_selected_bg
-
     a.home
-      :background no-repeat 10px 0px 
+      :background no-repeat 10px 10px 
       :background-image = !tabmenu_arrow
       :float left
       :display block
@@ -150,12 +149,14 @@
       :color = !tabmenu_text
       :text-transform uppercase
       :font-weight bold
-
     .menu
-      :border-top = 2px solid !topmenu_container_bg
-      :border-bottom = 2px solid !topmenu_container_bg
+      :border-top = 4px solid #6A7B12 
+      :border-bottom = 1px solid #9CC00E
+      :border-right = 1px solid #9CC00E
+      :border-left = 1px solid #9CC00E 
       :float left
-      :width 100%
+      :width 97% 
+      :background #F5FBE0
       ul.tabset
         :border 0
         :width 45%

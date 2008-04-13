@@ -1,13 +1,15 @@
 - content_for :title do
-  .section
-    %h2
-      = @me.name
-    .section.clear
-      .issues.icon-only
-        .label My Issues
-        = render :partial => 'shared/icons/issue', :collection => @me.issues
-    = render :partial => 'info'
   = render :partial => 'title_menu'
+  = icon_for( @me, :size=> 'large')
+  %h1
+    = @me.name
+  .section.info
+    .sectin.profile
+      = render :partial => 'info'
+    -unless @me.issues.empty?
+      .issues.icon-only
+        %label My issues:
+        = render :partial => 'shared/icons/issue', :collection => @me.issues
 
 .landing
   = render :partial => 'pages/shared/time_segmented_list', :locals => {:pages => @pages} 

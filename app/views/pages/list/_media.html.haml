@@ -1,5 +1,6 @@
 -#- if source.pages.allowed(current_user).page_type(:media) and extended_sidebar?
 - if extended_sidebar?
+  - list_options = { :limit => 10, :order => 'created_at DESC' }
   %ul.tab-block
     = render :partial => context_path('pages_toolbar'), :locals => { :source => source }
 
@@ -7,19 +8,16 @@
       .tab-title
         Photos
       %ul.tab-content.list
-        = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).allowed(current_user).page_type(:image)
+        = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).allowed(current_user).page_type(:image).find( :all, list_options )
     %li
       .tab-title
         Video
       %ul.tab-content.list
-        = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).allowed(current_user).page_type(:video) 
+        = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).allowed(current_user).page_type(:video).find( :all, list_options )
     %li
       .tab-title
         Audio
       %ul.tab-content.list
-        = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).allowed(current_user).page_type(:audio) 
-    %li
-      %ul.tab-content.list
-        = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).allowed(current_user).page_type(:asset) 
+        = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).allowed(current_user).page_type(:audio).find( :all, list_options )
 
   - load_javascript_tabs

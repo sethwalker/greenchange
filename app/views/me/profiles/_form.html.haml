@@ -5,22 +5,22 @@
   .column.form-column.first
     .section
       %h2
-        General Info
+        General info
       .row
         %p
-          = f.label 'first_name', "first name"
+          = f.label 'first_name', "First name"
           = f.text_field 'first_name', 'size' => 15, 'maxlength' => 100, 'style' => 'width:100px'
         %p
-          = f.label 'middle_name', "middle "
+          = f.label 'middle_name', "Middle "
           = f.text_field 'middle_name', 'size' => 9, 'maxlength' => 100, 'style' => 'width:50px'
         %p
-          = f.label 'last_name', "last"
+          = f.label 'last_name', "Last"
           = f.text_field 'last_name', 'size' => 15, 'maxlength' => 100, 'style' => 'width:111px'
         %p
-          = f.label 'organization', "organization"
+          = f.label 'organization', "Organization"
           = f.text_field 'organization', 'size' => 40, 'maxlength' => 100, 'style' => 'width:285px'
         %p
-          = f.label 'role', "organizational role"
+          = f.label 'role', "Organizational role"
           = f.text_field 'role', 'size' => 40, 'maxlength' => 100, 'style' => 'width:285px'
 
         - %w[ note ].each do |section|
@@ -33,7 +33,7 @@
         .row
           = icon_for @profile.entity
           %p
-            = ff.label :image_file, 'Upload New Picture'
+            = ff.label :image_file, 'Upload new picture'
             %span.comment
               uploaded image will be cropped and stretched to 96 pixels square.
             = ff.file_field :image_file, :size => 10 

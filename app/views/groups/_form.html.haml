@@ -9,12 +9,12 @@
           A descriptive name used for display.
         = f.text_field :full_name
       %p
-        = f.label :group_name, 'Link Name'
+        = f.label :group_name, 'Link name'
         %span.comment
           This name is how you will refer to this group in links and URLs. It must only contain alphanumeric characters, no spaces allowed.
         = f.text_field :name
       %p
-        = f.label :group_summary,  'Summary'
+        = f.label :group_summary,  'Description'
         %span.comment
           Brief information regarding this group.
         = f.text_area :summary, :rows => 8, :cols => 60
@@ -24,7 +24,7 @@
       .row
         = icon_for @group
         %p
-          = f.label :image_file, 'Upload New Picture'
+          = f.label :image_file, 'Upload new picture'
           %span.comment
             uploaded image will be cropped and stretched to 96 pixels square.
           = f.file_field :image_file, :size => 10 

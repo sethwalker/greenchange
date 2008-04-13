@@ -12,4 +12,10 @@ class Tool::ExternalVideo < Tool::Video
   def title
     read_attribute('title') 
   end
+
+  def primary_image
+    images = assets.select(&:image?)
+    images.first unless images.empty?
+  end
+
 end

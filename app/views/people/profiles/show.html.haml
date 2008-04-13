@@ -1,18 +1,18 @@
 - content_for :title do
-  = avatar_for @profile.entity, 'huge'
-  .section
-    %h1
-      = @profile.full_name
-    .section.clear
-      .icon-only.issues
-        = render :partial => 'shared/icons/issue', :collection => @profile.entity.issues
-      .section.clear
-        = [@profile.organization, @profile.role].reject(&:blank?).join(', ')
-  =render :partial => 'me/profiles/title_menu', :locals => { :person => @profile.entity }
+  .toolbar.title-menu
+    =render :partial => 'me/profiles/title_menu', :locals => { :person => @profile.entity }
+  = icon_for @profile.entity(:size => "large")
+  %h1
+    = @profile.entity.name
+  .section.info
+    = [@profile.role, @profile.organization].reject(&:blank?).join(', ')
+    .icon-only.issues
+      Issues: 
+      = render :partial => 'shared/icons/issue', :collection => @profile.entity.issues
 
 
 %dl
-  - unless @profile.phone_numbers.empty?
+  -#- unless @profile.phone_numbers.empty?
     %dt
       = _('Phone')
       \:
@@ -22,7 +22,7 @@
         %em
           = h(_(phone_number.phone_number_type))
 
-  - unless @profile.email_addresses.empty?
+  -#- unless @profile.email_addresses.empty?
     %dt
       = _('Email')
       \:
@@ -34,9 +34,15 @@
 
   - unless @profile.locations.empty?
     %dt
-      = _('Location')
-      \:
-    - @profile.locations.each do |location|
+      Location:
+      - @profile.locations.each do |location|
+        %dd
+          =h(location.city)
+          ,
+          =h(location.state)
+      -#= _('Location')
+      -#\:
+    -#- @profile.locations.each do |location|
       %dd
         = h(location.street)
         %em

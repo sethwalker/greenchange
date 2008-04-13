@@ -1,5 +1,6 @@
 - article = @page.data
-.section.page
-  = image_tag  @page.primary_image.public_filename(:pic)
+.section.post
+  -if @page.primary_image.public_filename(:pic)
+    = image_tag  @page.primary_image.public_filename(:pic), { :class => 'picture'}
   = article.body_html
 .clear  

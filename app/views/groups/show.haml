@@ -1,11 +1,15 @@
 - content_for :title do
-  .toolbar.title-menu
-    = render :partial => 'menu', :locals => { :group => @group }
+  = render :partial => 'title_menu', :locals => { :group => @group }
   = icon_for( @group, :size => 'large' ) 
   %h1
-    = @group.name
+    = @group.full_name
   .section.info
-    = render :partial => 'info', :locals => { :group => @group }
+    .section.profile
+      = render :partial => 'info', :locals => { :group => @group }
+    -unless @group.issues.empty?
+      .issues.icon-only
+        %label Issues:
+        = render :partial => 'shared/icons/issue', :collection => @group.issues
 
 .section.promo
   = render :partial => 'pages/shared/promo',  :locals => {:source => @group }

@@ -1,20 +1,18 @@
 -#admin menu
 - if current_user.may? :admin, group
-  .offset-row.admin
-    .icon 
-      = link_to "Invite new members", invite_group_memberships_url(group) , :class => 'action invite-member add', :title => 'Invite New Members'
-    .icon
-      = link_to "Edit group profile", edit_group_url(group), :class => 'action edit', :title => 'Edit group profile'
-  .clear
+  .icon
+    = link_to "Edit group profile", edit_group_url(group), :class => 'action edit', :title => 'Edit group profile'
   
 -#member menu
 - if current_user.member_of? group
+  .icon  
+    = link_to "Invite members", invite_group_memberships_url(group) , :class => 'action membership_request', :title => 'Invite New Members'
   .icon
-    = link_to "Create Page", new_group_page_url(group), :class => 'action page-create add', :title => 'Add a Page'
+    = link_to "Create page", new_group_page_url(group), :class => 'action create', :title => 'Add a Page'
   .icon
-    = link_to "Join Chat", group_chat_url( group ), :class => 'action chat' , :title => 'Join Chat'
+    = link_to "Join chat", group_chat_url( group ), :class => 'action chat' , :title => 'Join Chat'
     
 -#public menu
 - if logged_in? and !current_user.member_of? group
   .icon
-    = link_to "Join", new_group_membership_url( group ), :class => 'action join-group add', :title => 'Join this group'
+    = link_to "Join Group", new_group_membership_url( group ), :class => 'action join_group', :title => 'Join this group'

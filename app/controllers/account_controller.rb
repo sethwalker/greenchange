@@ -24,6 +24,8 @@ class AccountController < ApplicationController
 
   def new 
     @user = User.new(params[:user])
+    #@user.preferences.build :name => 'allow_info_sharing', :value => true
+    #@user.preferences.build :name => 'subscribe_to_email_list', :value => true
   end
   alias :signup :new
 

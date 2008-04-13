@@ -13,21 +13,26 @@
       = link_to "Login".t, :controller => '/account', :action => 'login', :redirect => ( params[:redirect] || request.request_uri )
     #top-login-form
       - form_tag :controller => 'account', :action => 'login' do
-        %p
-          = link_to "Want to sign up?", signup_account_url #:controller => 'account', :action => 'signup'
-        %p
-          %label{ :for => "username" }
-            = _("Username")
-          = text_field_tag 'login'
-        %p
-          %label{ :for => "password" }
-            = _("Password")
-          = password_field_tag 'password'
-        %p.submit
-          = submit_tag _('Login')
-          = hidden_field_tag 'redirect', params[:redirect] || request.request_uri
-        - content_for :javascript do
-          = javascript_tag "$('top-login-form').hide();"
-          = javascript_tag "document.observe( 'dom:loaded', function(e) { $('top-login-prompt').observe( 'click', function(ev) { $('top-login-form').toggle(); Field.focus('login'); $('top-login-prompt').hide(); ev.stop(); } ); });"
+        #top-login-fields
+          %p
+            %label{ :for => "username" }
+              = _("Username")
+            = text_field_tag 'login'
+          %p
+            %label{ :for => "password" }
+              = _("Password")
+            = password_field_tag 'password'
+
+        #top-login-submit
+          %p.toploginoptions
+            = link_to "Want to sign up?", signup_account_url #:controller => 'account', :action => 'signup'
+
+          %p.submit
+            = submit_tag _('Login')
+          %p.hidden  
+            = hidden_field_tag 'redirect', params[:redirect] || request.request_uri
+          - content_for :javascript do
+            = javascript_tag "$('top-login-form').hide();"
+            = javascript_tag "document.observe( 'dom:loaded', function(e) { $('top-login-prompt').observe( 'click', function(ev) { $('top-login-form').toggle(); Field.focus('login'); $('top-login-prompt').hide(); ev.stop(); } ); });"
 
 

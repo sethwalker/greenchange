@@ -1,6 +1,5 @@
-
 %p
-  = ff.label :body, 'Full text'
+  = f.label :body, 'Full text'
   = f.textile_editor :body, :size => '60x40'
   = render :partial => 'tool/wiki/formatting_link'
   = f.hidden_field :lock_version
@@ -18,7 +17,7 @@
       = ff.label :source_url, 'Publication/Source URL:'
       = ff.text_field :source_url, :size => 60
     %p.meta
-      = ff.label :published_at, 'Publication Date'
+      = ff.label :published_at, 'Publication date'
       = ff.date_select :published_at, :order => [:month, :day, :year ]
 
 - content_for :javascript do

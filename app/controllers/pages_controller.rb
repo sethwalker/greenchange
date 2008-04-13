@@ -43,7 +43,7 @@ class PagesController < ApplicationController
   
   def index
     load_context
-    @pages = Page.allowed(current_user).by_group( @group ).by_issue( params[:issue_id ]).by_person( ( @me || @person ) ).by_tag( @tag )
+    @pages = Page.allowed(current_user).by_group( @group ).by_issue( params[:issue_id ]).by_person( ( @me || @person ) ).by_tag( @tag ).paginate :all, :page => params[:page], :per_page => 100, :order => 'created_at DESC'
   end
   
   def search

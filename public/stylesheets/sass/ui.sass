@@ -76,7 +76,6 @@ select
   :background #fff url(/images/shadows/small-top-a.png) 0 -1px repeat-x
   :padding 4px
   :padding 1px
-
 textarea:focus, input[type=text]:focus, input[type=password]:focus
   :background #ffe url(/images/shadows/small-top-a.png) 0 -1px repeat-x
   :border 1px solid #000
@@ -192,11 +191,11 @@ ul.tabset.top, .menu ul.tabset
       :color = !tabmenu_text
       :text-transform uppercase
       :font-weight bold
+      :width 95px
       &:hover
         :background-color = !tabmenu_selected_bg
     a.selected
-      :border-left = 1px solid 
-      :border-right= 1px solid 
+      :border= 1px solid 
       :border-color = !tabmenu_selected_border
       :background-color = !tabmenu_selected_bg
 

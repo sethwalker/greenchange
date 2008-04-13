@@ -45,8 +45,15 @@ Crabgrass.Tabs =  function() {
             var all_list = document.createElement('ul');
             Element.extend(all_list);
             all_list.addClassName('tab-content list active');
-            ul.select('.list-item').each( 
-              function(entry) { all_list.appendChild( entry.cloneNode(true) ); } 
+            var sorted_entries = ul.select('.list-item').sortBy( function(entry){ 
+              var timestamp = entry.down(".friendly_date");
+              if(timestamp==null) return false;
+              return timestamp.readAttribute('title');
+              }).reverse();
+            sorted_entries.each( 
+                function(entry) { 
+                  all_list.appendChild( entry.cloneNode(true) ); 
+                } 
             );
 
             // add the "all" block to the existing ul
