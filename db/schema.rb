@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1207956254) do
+ActiveRecord::Schema.define(:version => 1208126838) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -195,7 +195,7 @@ ActiveRecord::Schema.define(:version => 1207956254) do
     t.string "media_key"
     t.string "media_url"
     t.string "media_thumbnail_url"
-    t.string "media_embed"
+    t.text   "media_embed"
     t.string "type"
   end
 
@@ -403,6 +403,12 @@ ActiveRecord::Schema.define(:version => 1207956254) do
 
   add_index "posts", ["user_id"], :name => "index_posts_on_user_id"
   add_index "posts", ["discussion_id", "created_at"], :name => "index_posts_on_discussion_id"
+
+  create_table "preferences", :force => true do |t|
+    t.string  "name"
+    t.string  "value"
+    t.integer "user_id"
+  end
 
   create_table "profile_notes", :force => true do |t|
     t.integer "profile_id"
