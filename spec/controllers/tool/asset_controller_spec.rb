@@ -47,6 +47,7 @@ describe Tool::AssetController do
     end
     it 'should be successful' do
       controller.stub!(:authorized?).and_return(true)
+      @page.stub!(:save).and_return true
       Tool::Asset.stub!(:find).and_return(@page)
       put :update, :id => @page.to_param, :page => { :title => 'test-update' }
       response.redirect_url.should == upload_url(@page)
