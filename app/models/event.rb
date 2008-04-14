@@ -3,9 +3,13 @@ class Event < ActiveRecord::Base
 
   before_save :save_latitude_and_longitude  # attempt to geocode address
   before_save :check_time_conversion
+  before_validation {|event| state = @state_other if @state_other && (state == 'Other' || state.blank? ) }
 
   has_one :page, :as => :data
   format_attribute :description
+
+  #has_many :user_participations, :through => :page
+  #has_many :attendees, :class_name => 'User', :through => :user_participations, :source => 'user'
 
   def save_latitude_and_longitude
     address = "#{self.address1},#{self.address2},#{self.city},#{self.state},#{self.postal_code},#{self.country}"
@@ -20,6 +24,56 @@ class Event < ActiveRecord::Base
     end
   end
 
+  attr_accessor :state_other
+
+  def to_local(time )
+    TzTime.new(tz_time_zone.utc_to_local(time), TimeZone[time_zone] )
+  end
+
+  attr_writer :date_start
+  attr_writer :date_end, :hour_start, :hour_end
+  def date_start
+    #@date_start ||= (page.starts_at.loc('%Y-%m-%d') if page && page.starts_at )
+    tz_time_zone.utc_to_local(starts_at).loc('%Y-%m-%d') if starts_at 
+    #tz_time_zone.utc_to_local(date_start_utc)
+    #@date_start ||= (tz_time_zone.utc_to_local(page.starts_at).loc('%Y-%m-%d') if page && page.starts_at )
+  end
+
+  def date_end
+    #@date_end ||=( page.ends_at.loc('%Y-%m-%d') if page && page.ends_at )
+    #@hour_end ||= ( page.ends_at.loc('%I:%M %p') if page && page.ends_at )
+    tz_time_zone.utc_to_local(ends_at).loc('%Y-%m-%d') if ends_at 
+  end
+
+  def hour_start
+    #@hour_start ||= ( page.starts_at.loc('%I:%M %p') if page && page.starts_at )
+    tz_time_zone.utc_to_local(starts_at).loc('%I:%M %p') if starts_at
+  end
+  def hour_end
+    #@hour_end ||= ( page.ends_at.loc('%I:%M %p') if page && page.ends_at )
+    tz_time_zone.utc_to_local(ends_at).loc('%I:%M %p') if ends_at
+  end
+
+  def starts_at
+    @date_start ||= (page.starts_at.loc('%Y-%m-%d') if page && page.starts_at )
+    @hour_start ||= ( page.starts_at.loc('%I:%M %p') if page && page.starts_at )
+    start = [@date_start, @hour_start].compact
+    return if start.empty?
+    Time.parse start.join(' ')
+  end
+
+  def ends_at
+    @date_end ||=( page.ends_at.loc('%Y-%m-%d') if page && page.ends_at )
+    @hour_end ||= ( page.ends_at.loc('%I:%M %p') if page && page.ends_at )
+    end_time = [@date_end, @hour_end].compact
+    return if end_time.empty?
+    Time.parse end_time.join(' ')
+  end
+
+  def tz_time_zone
+    time_zone ? TimeZone[time_zone] : TzTime.zone
+  end
+
   protected
 
   def default_group_name
@@ -29,27 +83,6 @@ class Event < ActiveRecord::Base
       'page'
     end
   end
-
-  def to_local(time )
-    TzTime.new(TimeZone[time_zone].utc_to_local(time), TimeZone[time_zone] )
-  end
-
-  def date_start
-    page.starts_at.loc('%Y-%m-%d') if page && page.starts_at
-  end
-  def date_end
-    page.ends_at.loc('%Y-%m-%d') if page && page.ends_at
-  end
-  def hour_start
-    page.starts_at.loc('%I:%M %p') if page && page.starts_at
-  end
-  def hour_end
-    page.ends_at.loc('%I:%M %p') if page && page.ends_at
-  end
-  attr_writer :date_start, :date_end, :hour_start, :hour_end
-  attr_accessor :state_other
-
-  before_validation {|event| state = @state_other if @state_other && (state == 'Other' || state.blank? ) }
 
   def check_time_conversion
     # greenchange_note: HACK: all day events will be put in as UTC
@@ -62,20 +95,22 @@ class Event < ActiveRecord::Base
     # identify all day events, this hack can be removed / migrated
     # later to any required handling of all day events that might be
     # more complex on the fetching side.
-    if self.is_all_day?
+    if is_all_day?
       @hour_start = "12:00"
       @hour_end = "12:00"
       self.time_zone = "London"
     end
 
-    start_datetimes = [ @date_start, @hour_start ]
-    end_datetimes = [ @date_end, @hour_end ]
-    return true if [ start_datetimes, end_datetimes].flatten.empty?
-    self.page.starts_at = TzTime.new( Time.parse(start_datetimes.compact.join(' ')), TimeZone[self.time_zone] ).utc
-    self.page.ends_at = TzTime.new( Time.parse(end_datetimes.compact.join(' ')), TimeZone[self.time_zone] ).utc
+    #return true if [ starts_at, ends_at].compact.empty?
+    page_settings = {}
+    page_settings[:starts_at] = TzTime.new( starts_at, tz_time_zone ).utc if starts_at
+    page_settings[:ends_at] = TzTime.new( ends_at, tz_time_zone ).utc if ends_at
+    @date_start, @date_end, @hour_start, @hour_end = nil, nil, nil, nil
+    unless page_settings.values.compact.empty?
+      page.new_record? ? page.attributes = page_settings : page.update_attributes( page_settings )
+    end
     
-#    page.save
-    return true
+    true
   end
 
     

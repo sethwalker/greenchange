@@ -35,22 +35,27 @@ class Tool::EventController < Tool::BaseController
   
   def show
     @page = Tool::Event.find params[:id]
-    @user_participation= UserParticipation.find(:first, :conditions => {:page_id => @page.id, :user_id => current_user.id})  
-    if @user_participation.nil?
-      @user_participation = UserParticipation.new
-      @user_participation.user_id = current_user.id
-      @user_participation.page_id = @page.id
-      @user_participation.save
-    end    
-    @watchers = UserParticipation.find(:all, :conditions => {:page_id => @page.id, :watch => TRUE})  
-    @attendies =  UserParticipation.find(:all, :conditions => {:page_id => @page.id, :attend => TRUE})  
+#    @user_participation= UserParticipation.find(:first, :conditions => {:page_id => @page.id, :user_id => current_user.id})  
+#    if @user_participation.nil?
+#      @user_participation = UserParticipation.new
+#      @user_participation.user_id = current_user.id
+#      @user_participation.page_id = @page.id
+#      @user_participation.save
+#    end    
+    #@watchers = UserParticipation.find(:all, :conditions => {:page_id => @page.id, :watch => TRUE})  
+    #@attendies =  UserParticipation.find(:all, :conditions => {:page_id => @page.id, :attend => TRUE})  
 
   end
 
   def edit
+    @page = Tool::Event.find params[:id]
+    raise PermissionDenied unless current_user.may? :admin, @page
   end
   
   def update
+    @page = Tool::Event.find params[:id]
+    raise PermissionDenied unless current_user.may? :admin, @page
+    @event = @page.data
     # greenchange_note: currently, you aren't able to change a group
     # if one has already been set during event creation
     
@@ -67,7 +72,7 @@ class Tool::EventController < Tool::BaseController
   end
 
   def new 
-    @page = Tool::Event.new :group_id => params[:group_id], :starts_at => (TzTime.now.at_midnight + 9.hours), :ends_at => TzTime.now.at_midnight + 17.hours
+    @page = Tool::Event.new :group_id => params[:group_id], :starts_at => (TzTime.now.at_midnight + 9.hours).utc, :ends_at => (TzTime.now.at_midnight + 17.hours).utc
     @event = @page.build_data(:time_zone => current_user.time_zone)
     @event.page = @page
   end
@@ -136,7 +141,7 @@ class Tool::EventController < Tool::BaseController
   end
 
   def authorized?
-    if params[:action] == 'set_event_description' or params[:action] == 'edit' or params[:action] == 'update'
+    if @page and ( params[:action] == 'set_event_description' or params[:action] == 'edit' or params[:action] == 'update' )
       return current_user.may?(:admin, @page)
     else
       return true
