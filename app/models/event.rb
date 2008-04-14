@@ -8,6 +8,9 @@ class Event < ActiveRecord::Base
   has_one :page, :as => :data
   format_attribute :description
 
+  #has_many :user_participations, :through => :page
+  #has_many :attendees, :class_name => 'User', :through => :user_participations, :source => 'user'
+
   def save_latitude_and_longitude
     address = "#{self.address1},#{self.address2},#{self.city},#{self.state},#{self.postal_code},#{self.country}"
     location = GoogleGeocoder.geocode(address)

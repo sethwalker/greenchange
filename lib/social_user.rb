@@ -464,6 +464,7 @@ module SocialUser
         has_many :pages_pending, :through => :participations, :source => :page, :conditions => ["user_participations.resolved = ?", false]
         has_many :pages_unread, :through => :participations, :source => :page, :conditions => ["user_participations.viewed = ?", false]
         has_many :pages_starred, :through => :participations, :source => :page, :conditions => ["user_participations.star = ?", true]
+        has_many :pages_attending, :through => :participations, :source => :page, :conditions => ["user_participations.attend = ?", true]
         has_many :vital_pages, :through => :participations, :source => :page, :conditions => ["user_participations.star = ? OR user_participations.resolved = ? OR user_participations.viewed = ?", true, false, false]
         
         has_many :pages_created,

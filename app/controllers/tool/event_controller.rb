@@ -35,15 +35,15 @@ class Tool::EventController < Tool::BaseController
   
   def show
     @page = Tool::Event.find params[:id]
-    @user_participation= UserParticipation.find(:first, :conditions => {:page_id => @page.id, :user_id => current_user.id})  
-    if @user_participation.nil?
-      @user_participation = UserParticipation.new
-      @user_participation.user_id = current_user.id
-      @user_participation.page_id = @page.id
-      @user_participation.save
-    end    
-    @watchers = UserParticipation.find(:all, :conditions => {:page_id => @page.id, :watch => TRUE})  
-    @attendies =  UserParticipation.find(:all, :conditions => {:page_id => @page.id, :attend => TRUE})  
+#    @user_participation= UserParticipation.find(:first, :conditions => {:page_id => @page.id, :user_id => current_user.id})  
+#    if @user_participation.nil?
+#      @user_participation = UserParticipation.new
+#      @user_participation.user_id = current_user.id
+#      @user_participation.page_id = @page.id
+#      @user_participation.save
+#    end    
+    #@watchers = UserParticipation.find(:all, :conditions => {:page_id => @page.id, :watch => TRUE})  
+    #@attendies =  UserParticipation.find(:all, :conditions => {:page_id => @page.id, :attend => TRUE})  
 
   end
 
