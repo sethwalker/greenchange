@@ -8,7 +8,10 @@
 
 ActionController::Routing::Routes.draw do |map|
 
-  map.resources :bookmarks, :belongs_to => :page
+  #map.resources :bookmarks, :belongs_to => :page
+  #map.resources :pages do |page|
+  #page.resources :bookmarks
+  #end
   map.resources :issues
   
 
@@ -49,6 +52,7 @@ ActionController::Routing::Routes.draw do |map|
     parent.resources :pages do |page|
       page.icon 'icon/:size.:format', :controller => 'pages', :action => 'icon'
       page.connect 'icon.:format', :controller => 'pages', :action => 'icon'
+      page.resources :bookmarks
     end
     parent.resources :uploads, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
     parent.resources :events, :controller => 'tool/event', :member => {:participate => :post, :set_event_description => :post}, :collection => {:day => :get, :week => :get, :month => :get, :calendar => :get} do |event|
@@ -82,6 +86,7 @@ ActionController::Routing::Routes.draw do |map|
       profile.resources :locations
     end
     me.resource :profile
+    me.resources :bookmarks
     me.network  'network', :controller => 'network'#, :me => true
     #me.events   'events'#,  :controller => 'event'#, :me => true
     #me.content  'pages', :controller => 'tool/base'
