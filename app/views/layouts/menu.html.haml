@@ -67,7 +67,7 @@
 
     %li
       - selected = ( %w- explore -.include? controller.controller_name) ? ' selected' : ''
-      = link_to "Explore", '/explore', :class => 'menu menu-top' + selected
+      = link_to "Explore", '/pages', :class => 'menu menu-top' + selected
       %ul
         %li
           = link_to "Issues", issues_url, :class => 'menu'

@@ -26,7 +26,7 @@
         = article.published_at.to_time.strftime( "%m.%d.%Y" )
   .clear
 
-.section.post
+.section.page-content
   -if @page.primary_image && @page.primary_image.public_filename(:pic)
     = image_tag  @page.primary_image.public_filename(:pic), { :class => 'picture'}
   = article.body_html

@@ -25,8 +25,16 @@
       :padding 4px
       :background-color #EEEEEE
       :width 380px 
+    .profile
+      .note
+        :line-height 20px
+      .toolbar
+        :float left
+        :padding-bottom 10px
+        :padding-top 5px
   .issues
     :float left
+    :clear both
     label
       :float left
       :font-weight bold
@@ -50,14 +58,14 @@
           :width = !main_column_wideside_width - 120px - !ie_padding_offset
     .column .list-description
       #main.noside &
-        :width = (!main_column_noside_width - 120px) / 2
+        :width = (!main_column_noside_width - 120px) /2 
         body.ie6 &
           :width = ( !main_column_noside_width - 120px - !ie_padding_offset ) / 2
 
   .column,
   .column .section
     :float left
-    :width = !main_column_full_width / 2
+    :width = (!main_column_full_width ) /  2
     body.ie6 &
       :width = ( !main_column_full_width - !ie_padding_offset ) / 2
     #main.wideside &
@@ -80,9 +88,9 @@
         :width = !main_column_wideside_width - !ie_padding_offset - 8px
   .column .list-item
     #main.noside &
-      :width = ( !main_column_noside_width - 8px ) / 2
+      :width = ( !main_column_noside_width - 50px ) / 2
       body.ie6 &
-        :width = ( !main_column_noside_width - !ie_padding_offset - 8px ) / 2
+        :width = ( !main_column_noside_width - !ie_padding_offset - 50px ) / 2
 
   .section
     :float left
@@ -114,7 +122,7 @@
   :margin-right 1em
 
 .list-description
-  :float left
+  -#:float left
   :color #555555
   :padding-top 5px
   p
@@ -154,10 +162,10 @@
     :float left
     :font-size 11px
   .issues.icon-only
-    :float left 
     label
       :float left
       :font-size 11px
+      :line-height 25px
     .icon.small
       :float left
       :margin-top -5px
@@ -174,6 +182,7 @@ ul.promos
   :float left
   li
     :width = !main_column_width
+    :background-color = white 
     body.ie6 &
       :width = !main_column_width - !ie_padding_offset
     #main.wideside &

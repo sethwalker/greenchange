@@ -23,12 +23,12 @@
           .comments
             = page.discussion.posts.count
             comments
-    - unless page.tags.empty?
-      %br
-      .tags
-        %label
-          Tags:
-        = render :partial => 'shared/tag', :collection => page.tags
+      - unless page.tags.empty?
+        -#%br
+        .date
+          %label
+            Tags:
+          = render :partial => 'shared/tag', :collection => page.tags
     - unless page.issues.empty?
       %br
       .issues.icon-only

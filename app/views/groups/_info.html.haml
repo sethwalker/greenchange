@@ -1,7 +1,8 @@
 .group-profile
+  = simple_format @group.summary
   Members:
-  = @group.members.count
-  - unless @group.issues.empty?
+  = link_to @group.members.count, group_people_url(@group) 
+  -#- unless @group.issues.empty?
     .issues.icon-only
       Issues:
       = render :partial => 'shared/icons/issue', :collection => group.issues
@@ -9,4 +10,3 @@
     .tags
       Tags:
       = @group.tags.map { |tag| render :partial => 'shared/tag', :locals => { :tag => tag } }.join(', ')
-  = simple_format @group.summary

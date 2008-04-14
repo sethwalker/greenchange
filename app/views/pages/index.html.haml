@@ -1,3 +1,4 @@
 %h1 All Pages
-%ul.landing
-  = render :partial => 'pages/list/page', :collection => @pages
+.content-list.main
+  %ul.list
+    = render :partial => 'pages/list/page', :collection => @pages
