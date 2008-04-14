@@ -1,9 +1,10 @@
-- content_for :title do
+= new_tool_page title_for_new( "event" )
+-# content_for :title do
   %h2
     = "Create a new".t
     = @page.class.class_display_name.t
 
-.page.event.new
+-#.page.event.new
   - form_for :page, @page, :url => events_path do |f|
     = icon_for @page
     = render :partial => 'pages/form', :locals => {:f => f}
