@@ -8,17 +8,14 @@
   .avatar
     :float left
   h1
-    :padding-top 10px
-    -#:width 300px
-    :margin 3px
+    :padding-left 110px
     :color #333333
     :font-size 18px
     :font-weight bold
   .title-menu
     :float left
   .section
-    :float left
-    :margin-left 5px
+    -#:float left
     :margin-top 5px
     .summary
       :float left
@@ -27,7 +24,19 @@
       :font-weight bold
       :padding 4px
       :background-color #EEEEEE
-      -#:width 425px 
+      :width 380px 
+  .issues
+    :float left
+    label
+      :float left
+      :font-weight bold
+    .icon.small
+      :float left
+      :margin-top -5px
+  .info
+    :padding-left 110px
+
+
 .landing
   .section .list-item
     :background-image none
@@ -113,7 +122,7 @@
     :margin-bottom 2px
   h3
     :margin-bottom -8px
-    :margin-top -5px
+    :margin-top 0px
     a
       :font-size 14px
       :font-weight bold
@@ -182,7 +191,6 @@ ul.tab-block
   :margin 0
   :float left
   :margin-top = !tab_block_title_offset + 3px
-
   :width = !main_column_width
   body.ie6 &
     :width = !main_column_width - !ie_padding_offset
@@ -194,17 +202,14 @@ ul.tab-block
     :width = !main_column_noside_width
     body.ie6 &
       :width = !main_column_noside_width - !ie_padding_offset
-
   #main.wideside #bar & 
     :width = !side_column_wideside_width - 15px
     body.ie6 &
       :width = !side_column_wideside_width - !ie_padding_offset
-
   #main #bar & 
     :width = !side_column_width - 15px
     body.ie6 &
       :width = !side_column_width - !ie_padding_offset
-
   body.ie7 &
     :padding-bottom = !tab_block_title_offset
   li
@@ -217,19 +222,22 @@ ul.tab-block
     body.ie6 &
       :margin-top 0
   .tab-title
-    :text-transform uppercase
+    :text-transform capitalize 
     :background = !tab_block_title_bg
     :color = !tab_block_title
     :font-size 13px
     :font-weight bold
     :float left
-    :padding .25em
-    :margin-right .1em
-
-  .tab-content
+    :padding .29em .8em .29em .8em
+    :margin-right 3px 
+    :margin-left 0px
+  ul.tab-content
+    :border 1px solid 
+      :color = !tab_block_title_border
+    .tab-content
     :float left
     :clear both
-    :padding 0
+    :padding 4px 
     body.ie7 &
       .tab-content
         :margin-left 0px
@@ -257,8 +265,6 @@ ul.tab-block
 
 ul.tab-block.active
   :height = !tab_block_height
-  :border 1px solid
-    :color = !tab_block_title_border
   #bar &
     :height = !tab_block_sidebar_height
   body.ie6 &
@@ -275,8 +281,8 @@ ul.tab-block.active
     :overflow-y scroll
     :overflow-x hidden
   .tab-title
-    :background = !tab_block_title_border
-    :color = !tab_block_title_bg
+    :background = !tab_block_title_bg
+    :color = !tab_block_title
     :border 1px solid
       :color = !tab_block_title_border
       :bottom 0
@@ -285,9 +291,8 @@ ul.tab-block.active
       :color = !tab_block_title
       :cursor pointer
   .tab-title.active
-    :background = !tab_block_title_bg
-    :color = !tab_block_title
-
+    :background = !tab_block_active_bg
+    :color = !tab_block_active_title
   .tab-title.disabled
     :background = !tab_block_title_bg
     :color = !tab_block_disabled
@@ -348,28 +353,50 @@ ul.tab-block, #titlebox
     input.action
       :height 50px
       :outline 0
-      :border 0
+      :order 0
       :background-color transparent
       :background-position 2px 2px
     a.create
       :background-position -5px -6px
-      :background-image url(/images/actions/list-add.png)  
+      -#:background-image url(/images/actions/list-add.png)  
+      :background-image url(/images/gc/icons/19_icons/create_page.gif)  
     a.subscribe
       :background-position 2px 2px
       :background-image url(/images/actions/rss.png)  
     a.edit
       :background-position 2px 2px
-      :background-image url(/images/actions/edit.png)  
+      -#:background-image url(/images/actions/edit.png)  
+      :background-image url(/images/gc/icons/19_icons/edit.gif)
     a.invite
-      :background-image url(/images/actions/announce.png)  
+      -#:background-image url(/images/actions/announce.png)  
+      :background-image url(/images/gc/icons/19_icons/group_invitation.gif)
     .delete
-      :background-image url(/images/actions/minus.png)  
+      -#:background-image url(/images/actions/minus.png)  
+      :background-image url(/images/gc/icons/19_icons/delete.gif)
+    .contact_request
+      :background-image url(/images/gc/icons/19_icons/membership_request.gif)
+    .bookmark
+      :background-image url(/images/gc/icons/19_icons/bookmark.gif)
+    .send_message
+      :background-image url(/images/gc/icons/message.gif)
+    .recommend
+      :background-image url(/images/gc/icons/19_icons/recommend.gif)
+    .rate
+      :background-image url(/images/gc/icons/19_icons/rate.gif)
+    .make_contact
+      :background-image url(/images/gc/icons/19_icons/make_contact.gif)
+    .join_group
+      :background-image url(/images/gc/icons/19_icons/join_group.gif)
+    .membership_request
+      :background-image url(/images/gc/icons/19_icons/join_group.gif)
     .chat
-      :background-image url(/images/actions/bullhorn.png)  
+      -#:background-image url(/images/actions/bullhorn.png)  
+      :background-image url(/images/gc/icons/19_icons/join_chat.gif)
     .discuss
       :background-image url(/images/gc/icons/pages/small/discussion.png)  
     .message
-      :background-image url(/images/actions/mail-message-new.png)
+      -#:background-image url(/images/actions/mail-message-new.png)
+      :background-image url(/images/gc/icons/19_icons/send_message.gif)
     .action.reply
       :background-image url(/images/actions/mail-reply-sender.png)
       :background-position -1px -1px
@@ -416,7 +443,6 @@ a.icon.standard.name-right
   .row-block 
     :float left
     :padding 2px
-
   .row.shade-odd
     :background-color = !row_shade_odd_bg
   .row.shade-even

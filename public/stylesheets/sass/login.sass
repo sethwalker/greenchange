@@ -3,19 +3,20 @@ div#login_container
   :line-height 160%
   :padding-bottom 4em
   :float left
-  :width 780px
+  :width =!container_width 
 
 #login_left
   :float left
   :font-size 15px
-  :width 60%
-  :margin-left 3em
+  :width 35em 
+  :margin-left 2em
+  :margin-right 1em
 
 #login_right
   :float left
 
 #loginformbox
-  :width 15em
+  :width 20em
   :text-align left
   :padding 1em 1em 1em 1em
   :border 1px dotted #BB8B1A
@@ -35,19 +36,19 @@ div#login_container
 
 #signup_container
   :margin-top 2em
-  :width 780px
+  :width =!container_width  
   :line-height 160%
 
   #form_intro
     :float left
     :font-size 15px
-    :width 22em
+    :width 30em
     :margin-left 3em
     :padding 1em
 
   #signupform
     :margin 2em 3em 1em 3em
-    :width 20em
+    :width 22em
     :text-align left
     :padding 1em
     :border 1px dotted #BB8B1A
@@ -56,6 +57,7 @@ div#login_container
     input
       :width 18em
       :font-size 12px
+      :float left
     p.agree input,
     p.submit input
       :width auto

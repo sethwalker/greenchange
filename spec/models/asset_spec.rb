@@ -16,7 +16,7 @@ describe Asset do
   end
 
   it "should have versions for thumbnails" do
-    Asset::Version.count.should == 6
+    Asset::Version.count.should == 8
   end
 
   describe "after saving" do
@@ -27,7 +27,7 @@ describe Asset do
     end
 
     it "should save another set of versions for thumbnails" do
-      Asset::Version.count.should == 12 
+      Asset::Version.count.should == 16 
     end
 
     it "version should be class Asset::Version" do

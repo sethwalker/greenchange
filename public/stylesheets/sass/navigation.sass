@@ -3,9 +3,6 @@
   :margin 0
   :padding 0
   :list-style none
-  :border
-    :top 1px solid
-    :color = !topmenu_selected_border
   ul
     :padding 0
     :margin 0
@@ -14,15 +11,18 @@
     :padding 0px 0 0px 0
     a.menu-top
       :display block
-      :color = !topmenu_text
+      :color = #ffffff 
       :text-decoration none
       :text-transform uppercase
-      :margin-top -1px
-      :padding 5px 6px 4px 6px
+      :margin-top 0px
+      :padding 11px 6px 7px 6px
       :font-weight bold
+    a.menu-top:hover
+      :backround-color none
+      :color = #ffffff 
     a.menu:hover
       :background = !topmenu_bg_hover
-      :color = !topmenu_selected_text
+      :color = #ffffff 
     ul
       :position absolute
       :display none
@@ -30,6 +30,7 @@
       :background = !topmenu_bg
       :padding 0 
       :width 10.5em
+      :opacity 0.92
       :border
         :bottom 4px solid
         :color = !topmenu_container_border
@@ -44,9 +45,6 @@
           :display block
           :width 8em
           :text-decoration none
-          :border
-            :top 1px solid
-            :color = !topmenu_container_border
   li
     :float left
     :margin 0 10px
@@ -71,11 +69,12 @@
 
 
 #toprule
-  :border-top = 4px solid !topmenu_container_border
   :background-color = !topmenu_container_bg
+  :background-image url(/images/gc/background/greenchg_banner_16.gif)
   -#:margin 4px 4px 0px 4px
   :float left
   :width 100%
+  :height 37px
 
 div#banner
   :padding 4px 10px
@@ -166,40 +165,65 @@ div.iconbox.left div.hover div.text
     :padding 0 5px 1px 5px
     :border = 1px solid !pagination_disable_border
     :color = !pagination_disable_text 
+
 #top-login-prompt
   a 
     :display block
     :float right
     :margin .5em
+    :background-color !body_bg 
     &:hover
-      :background-color = !body_bg
+      :background-color #7C8E39 
       :color = !main_bg
 
 #top-login-prompt a, 
 #top-login-form .submit input
-  :background-color transparent
-  :color = !body_bg
+  :background-color = !main_bg 
+  :color #7C8E39 
   :text-decoration none
-  :text-transform uppercase
+  :text-transform capitalize 
   :font-weight bold
   :border 1px groove
-  :border-color = !body_bg
+  :border-color #7C8E39 
   :padding .15em .75em .15em .75em
+  :margin 3px 10px 4px 10px
 
 #top-login-form
-  :float right
-  :margin .5em
+  :float right 
+  :margin .2em .5em
+  :background #ffffff
+  :border 1px groove
+  :border-color #7C8E39 
+  :width 225px 
+  :padding 5px 8px 5px 8px
   label
     :color = !login_form_text
     :font-size 9px
   input
     :width 8em
-    :font-size 9px
+    :font-size 10px
   p
-    :float left
-    :margin-left .5em
+    :float left 
+    :text-align right
+    :margin 2px 4px 2px .5em
   p.submit input
     :width auto
+    :border 1px groove
+    :border-color #7C8E39 
+    :outline 0
+    :font-size 12px
+
+#top-login-fields
+  :display block
+  :float right
+  :text-align right 
+
+#top-login-submit
+  :display block
+  :float right
+  p.toploginoptions
+    :font-size 11px
+    :margin-top 6px
 
 #user-menu
   :float right
