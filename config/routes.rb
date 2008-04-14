@@ -153,7 +153,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :posts
   
   
-     
   map.connect '', :controller => "account"
   map.resource :account, :controller => 'account', :member => { :signup => :get }
   map.login   'account/login',   :controller => 'account',   :action => 'login'

@@ -1,6 +1,6 @@
 class MeController < ApplicationController
 
-  before_filter :login_required
+  before_filter :login_required, :except => :connect
   before_filter :fetch_user
   #stylesheet 'me'
   #layout 'application'
@@ -87,6 +87,10 @@ class MeController < ApplicationController
     end
   end
   
+  def connect
+  
+  end
+
   protected
 
   # it is impossible to see anyone else's me page,

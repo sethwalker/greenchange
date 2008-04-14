@@ -5,7 +5,7 @@
       = link_to "Home", 'http://greenchange.org', :class => 'menu menu-top' 
     %li
       - selected = ( %w- groups people -.include? controller.controller_name) ? ' selected' : ''
-      = link_to "Connect", '/connect', :class => 'menu menu-top' + selected
+      = link_to "Connect", '/me/connect', :class => 'menu menu-top' + selected
       %ul
         %li
           = link_to "People", people_url, :class => 'menu'
