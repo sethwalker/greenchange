@@ -2,7 +2,8 @@
   .icon
     = link_to 'Edit', edit_tool_page_path(@page), :class => 'action edit', :title => 'Edit'
 .icon
-  = link_to 'Bookmark', 'bookmark_tool_page_path(page)', :class => 'action bookmark', :title => 'Bookmark this page'
+  - unless current_user.bookmarked_pages.include? @page
+    = button_to 'Bookmark', page_bookmarks_path(@page), :method => 'post', :class => 'action bookmark', :title => 'Bookmark this page'
 .icon
   = link_to 'Rate', 'rate_tool_page_path(page)', :class => 'action rate', :title => 'Push this page'
 .icon

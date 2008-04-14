@@ -73,7 +73,8 @@
     = f.text_area :directions, :rows => 10, :cols => 50
 
 - content_for :javascript do
-  = calendar_date_select_includes "blue" 
+  = javascript_include_tag 'calendar_date_select'
+  = stylesheet_link_tag 'calendar_date_select/blue'
   = javascript_include_tag 'calendar'
 
 - content_for :javascript_onload do
