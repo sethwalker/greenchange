@@ -77,7 +77,7 @@ describe "Event" do
     end
     it "should accept updates to these values from the event" do
       event = Event.find @event.id
-      event.hour_end = '7 PM'
+      event.hour_end = '7:00 PM'
       event.save
       event.hour_end.should == '07:00 PM'
     end
