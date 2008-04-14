@@ -1,0 +1,17 @@
+.task_list.show
+  %h2
+    Pending tasks
+  %ul#sort_list_pending.task_list
+    = render :partial => 'task', :collection => @page.data.pending
+  %ul.task_list
+    %li#add_task_link
+      = render :partial => 'new_task'
+  %h2
+    Completed tasks
+  %ul#sort_list_completed.task_list
+    = render :partial => 'task', :collection => @page.data.completed
+  = sortable_element 'sort_list_pending', :handle => 'handle', :url => sort_survey_url(@page)
+  = sortable_element 'sort_list_completed', :handle => 'handle', :url => sort_survey_url(@page)
+
+- content_for :javascript do
+  = calendar_date_select_includes "silver"
