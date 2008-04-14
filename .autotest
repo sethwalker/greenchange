@@ -16,4 +16,6 @@ Autotest.add_hook :initialize do |at|
   at.add_mapping(%r%^config/initializers/(.*)\.rb$%) do |f, m|
     ["spec/config/initializers/#{m[1]}_spec.rb"]
   end
+  at.add_exception(/^\.\/vendor/)
+  at.add_exception(/\.git/)
 end
