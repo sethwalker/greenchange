@@ -1,5 +1,10 @@
 %li.list-item.page{ :class => cycle( 'shade-odd', 'shade-even', :name => 'activity_entry_cycle' )}
   .icon.source
+    -if scoped_by_context? == @me  && scoped_by_context?
+      .toolbar
+        = link_to 'edit', edit_tool_page_path(page)
+        |
+        = link_to 'delete', 'delete_tool_page_path(page)'
     = link_to icon_for(page.created_by, :size=>'small' ), person_url(page.created_by)
     = link_to icon_for(page.group, :size=>'small'), group_url(page.group)
   .list-thumb

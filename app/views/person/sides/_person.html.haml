@@ -15,7 +15,7 @@
 
       %ul.tabset
         %li.tab
-          = link_to 'Groups', person_memberships_url(@person), selected_if( request.url == person_memberships_url(@person))
+          = link_to 'Groups', person_groups_url(@person), selected_if( request.url == person_memberships_url(@person))
         %li.tab
           = link_to 'Media', person_media_url(@person), selected_if( params[:page_type] == 'media' )
         %li.tab

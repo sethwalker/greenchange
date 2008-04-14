@@ -16,7 +16,6 @@ class ContactController < ApplicationController
   alias :add :new 
 
   def create
-    load_context
     req = ContactRequest.find_or_initialize_by_user_id_and_contact_id(current_user.id, @person.id)
     req.message = params[:message] if params[:message]
     if req.save
@@ -26,6 +25,10 @@ class ContactController < ApplicationController
       message :object => req
       render :action => 'add'
     end
+  end
+
+  def index
+    @contacts = User.by_group(@group).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag)
   end
   
   def remove

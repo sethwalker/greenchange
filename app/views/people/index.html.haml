@@ -3,9 +3,9 @@
   -if logged_in?
     -#%h3 My contacts
     -#.workarea
-      -if @contacts
+      -if @people
         .icon-box
-          =render :partial => 'shared/list/person', :collection => @contacts
+          =render :partial => 'shared/list/person', :collection => @people
       -else
         You have no contacts
       .clear

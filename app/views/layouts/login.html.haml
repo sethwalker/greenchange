@@ -5,7 +5,10 @@
     #login-name
       Hi 
       = link_to current_user.display_name, me_url
-      = "-- you have #{current_user.unread_messages.size} messages" unless current_user.unread_messages.empty? 
+      - total_count = current_user.contact_requests_received.pending.count + current_user.unread_messages.count + current_user.pending_items.count
+      %br
+      = image_tag '/images/gc/icons/19_icons/send_message.gif', :align=>"top", :alt=>"Inbox"
+      = link_to" #{total_count} messages", me_inbox_path  #unless total_count.zero?? 
         
 - else
   #user-menu

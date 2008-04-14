@@ -12,6 +12,8 @@
     :color #333333
     :font-size 18px
     :font-weight bold
+    .medium
+      :padding-left 0px
   .title-menu
     :float left
   .section
@@ -73,9 +75,9 @@
       body.ie6 &
         :width = ( !main_column_wideside_width - !ie_padding_offset ) / 2
     #main.noside &
-      :width = ( !main_column_noside_width ) / 2
+      :width = ( !main_column_noside_width -50px ) / 2
       body.ie6 &
-        :width = ( !main_column_noside_width - !ie_padding_offset ) / 2
+        :width = ( !main_column_noside_width - !ie_padding_offset - 50px ) / 2
   .list-item
     :margin-bottom 12px
     :padding 4px 4px 4px 4px
@@ -120,7 +122,6 @@
 .list-thumb
   :float left
   :margin-right 1em
-
 .list-description
   -#:float left
   :color #555555
@@ -453,7 +454,9 @@ a.icon.standard.name-right
 .icon-box
   .icon
     :margin 4px
-
+  .toolbar
+    :float left
+    :margin-top 82px
 .row-listing
   :float left
   :padding 0px

@@ -126,6 +126,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :people, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |person|
     person.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get, :approve => :put }
+    person.resources :groups#, :collection => {:join => :get, :invite => :get, :leave => :get, :approve => :put }
     person.resources 'contacts', :controller => 'contact'#, :member => { :approve => :post, :reject => :post }
     person.resource :profile, :controller => 'people/profiles'
     person.icon 'icon/:size.:format', :controller => 'people', :action => 'icon'

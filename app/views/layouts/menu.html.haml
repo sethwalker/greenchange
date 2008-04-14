@@ -60,7 +60,7 @@
       = link_to "Take Action", '/takeaction', :class => 'menu menu-top' + selected
       %ul
         %li
-          = link_to "Action Alerts", actions_url, :class => 'menu'
+          = link_to "Action alerts", actions_url, :class => 'menu'
         %li
           = link_to "Events", events_url, :class => 'menu'
 
@@ -98,7 +98,10 @@
           %li
             = link_to 'Your content', me_pages_url, :class => 'menu'
           %li
+            = link_to 'Bookmarks', 'me_bookmarks', :class =>'menu'
+          %li
             = link_to 'Network', me_network_url, :class => 'menu'
           %li
             = link_to 'Profile', me_profile_url, :class => 'menu'
+          
   .clear

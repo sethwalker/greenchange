@@ -88,7 +88,9 @@ class MeController < ApplicationController
   end
   
   def connect
-  
+  end
+
+  def invite
   end
 
   protected

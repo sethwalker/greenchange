@@ -1,0 +1,12 @@
+- content_for :title do
+  %h2 
+    Contacts 
+    - if scoped_by_context?.is_a?( User )
+      for 
+      = scoped_by_context?.login
+
+.contacts.list
+  .icon-box
+    =render :partial => 'shared/list/person',  :collection =>@contacts
+  .clear    
+
