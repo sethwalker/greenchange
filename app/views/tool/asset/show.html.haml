@@ -1,8 +1,18 @@
 - asset = @page.data
 - if asset.image?
-  = link_to icon_for( asset, :size => 'large' ) + asset.filename, asset.public_filename
-
-.show.asset
+  .section.image.show.display
+    = image_tag asset.public_filename(:display)
+-elsif asset.audio?
+  - content_for :javascript do
+    = javascript_include_tag 'anarchy_media/anarchy'
+  .section.audio
+    Click to play audio file
+    .clear
+    = link_to( "Download %s" % asset.filename, asset.public_filename)
+-else
+  .section.document
+    this is a document
+-#.show.asset
   %ul.file_description
     %li
       .label
@@ -44,5 +54,5 @@
           dimensions:
         .description
           = "#{asset.width}x#{asset.height}"
-  %p
+  -#%p
     = link_to("download %s" % asset.filename, asset.public_filename, :class => 'first' )

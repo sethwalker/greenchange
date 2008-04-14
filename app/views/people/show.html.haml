@@ -4,10 +4,14 @@
   %h1
     = @person.name
   .section.info
-    .issues.icon-only
-      = render :partial => 'shared/icons/issue', :collection => @person.issues
     .section.profile
       =render :partial => 'profile', :locals => { :profile => @person.profile_for( current_user ) }
+    -unless @person.issues.empty?
+      .issues.icon-only
+        %label Issues:
+        = render :partial => 'shared/icons/issue', :collection => @person.issues
+
+
 .section
   = render :partial => 'pages/shared/main', :locals => {:source => @person }
 

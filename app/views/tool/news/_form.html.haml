@@ -1,4 +1,5 @@
 %p
+  = f.label :body, 'Full text'
   = f.textile_editor :body, :size => '60x40'
   = render :partial => 'tool/wiki/formatting_link'
   = f.hidden_field :lock_version
@@ -6,17 +7,17 @@
 .section
   - f.fields_for :document_meta_data, @page.data.document_meta_data do |ff|
     %p.meta
-      = ff.label :creator, 'Author'
+      = ff.label :creator, 'Author(s)'
       = ff.text_field :creator
-      = ff.label :creator_url, 'Authors website url'
-      = ff.text_field :creator_url, :size => 60
+      -#= ff.label :creator_url, 'Authors website url'
+      -#= ff.text_field :creator_url, :size => 60
     %p.meta
-      = ff.label :source, 'Original source'
+      = ff.label :source, 'Publication/source'
       = ff.text_field :source
-      = ff.label :source_url, 'Original source url'
+      = ff.label :source_url, 'Publication/Source URL:'
       = ff.text_field :source_url, :size => 60
     %p.meta
-      = ff.label :published_at, 'Publication Date'
+      = ff.label :published_at, 'Publication date'
       = ff.date_select :published_at, :order => [:month, :day, :year ]
 
 - content_for :javascript do

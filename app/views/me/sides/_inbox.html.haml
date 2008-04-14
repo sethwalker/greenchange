@@ -2,13 +2,13 @@
   %ul
     %li
       You have 
-      -#= @user.unread_messages.count
+      = link_to @user.unread_messages.count, me_inbox_path
       new messages
     %li
       You have
-      -#= @user.membership_requests_received.pending.count
-      membership requests
+      = link_to @user.membership_requests_received_and_pending.size, me_inbox_path
+      new group invitaions 
     %li
       You have 
-      -#= @user.contact_requests_received.pending.count
-      contact requests
+      = link_to @user.contact_requests_received.pending.count, me_inbox_path
+      new contact requests

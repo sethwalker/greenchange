@@ -1,6 +1,6 @@
 .section
   %p
-    = f.label 'tag_list', 'Tags'
+    = f.label 'tag_list', 'Tags (separated by commas)'
     = f.text_field 'tag_list', :size => 30
 
   - if current_user.all_groups.any?
@@ -12,25 +12,25 @@
   %h4 Public for:
   .row
     = f.check_box :public
-    = f.label :public, 'Viewing by genral public'
+    = f.label :public, 'Viewing by everyone'
 
     = f.check_box :public_participate
     = f.label :public_participate, 'Comments'
-
+    %br
     = f.check_box :public_edit
-    = f.label :public_edit, 'Editing by other users'
+    = f.label :public_edit, 'Editing by other network members'
     
 = render :partial => "shared/form/issues", :locals => {:f => f}
 
 .section.uploads
-  %h4 Uploads and Images
+  %h4 Upload images and attachments 
   - f.object.assets.each do |upload|
     = link_to ' ', upload.public_filename, html_options_for_icon_for(upload, :target => 'blank', :size => 'small' )
   - fields_for "page[assets][]", "" do |ff|
 
     %p
-      = ff.label :uploaded_data, 'Upload file'
       = ff.file_field :uploaded_data
-      = ff.label :uploaded_data, 'Pictures will be used in the page ands as the page thumbnail.  Other files will be attached to the bottom of the page.' 
+      .clear
+      = ff.label :uploaded_data, 'Pictures will be used in page and as page thumbnail.<br> Additional files will be attached at the bottom of the page.' 
 
 

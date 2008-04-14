@@ -5,7 +5,7 @@ class Tool::BaseController < ApplicationController
 
   #prepend_before_filter :fetch_page_data
   #append_before_filter :setup_default_view
-  before_filter :login_required, :except => :show
+  before_filter :login_required, :except => [ :show, :index, :landing ]
   append_after_filter :update_participation
   
   def page_type
@@ -30,7 +30,7 @@ class Tool::BaseController < ApplicationController
   end
 
   def index
-    @pages = Page.allowed(current_user).page_type( page_type ).by_group( @group ).by_issue( params[:issue_id ]).by_person( ( @me || @person ) )
+    @pages = Page.allowed(current_user).page_type( page_type ).by_group( @group ).by_issue( params[:issue_id ]).by_person( ( @me || @person ) ).paginate :all, :page => params[:page], :order => 'created_at DESC', :per_page => 100
     unless !Dir.glob( "#{RAILS_ROOT}/app/views/tool/#{params[:page_type]}/index*").empty?  and  render :action => "index" 
        render :action => '../shared/index'
     end

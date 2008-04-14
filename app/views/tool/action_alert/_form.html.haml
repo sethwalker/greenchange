@@ -16,7 +16,7 @@
       = ff.label :source_url, 'Off site url where action is posted'
       = ff.text_field :source_url, :size => 60
     %p.meta
-      = ff.label :published_at, 'Publication Date'
+      = ff.label :published_at, 'Publication date'
       = ff.date_select :published_at, :order => [:month, :day, :year ]
 
 - content_for :javascript do

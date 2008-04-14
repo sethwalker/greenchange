@@ -73,7 +73,7 @@ class Group < ActiveRecord::Base
   end
 
   has_many :issue_identifications, :as => :issue_identifying
-  has_many :issues, :through => :issue_identifications
+  has_many :issues, :through => :issue_identifications, :order => 'name'
 #  def issue_ids=(issue_ids)
 #    issue_identifications.each do |issue_identification|
 #      issue_identification.destroy unless issue_ids.include?(issue_identification.issue_id)

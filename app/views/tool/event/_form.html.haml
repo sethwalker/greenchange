@@ -6,7 +6,7 @@
   -# hour_end = @page.ends_at ? event_to_local(@page.ends_at,timezone).loc('%I:%M %p') : '5:00 PM'
 .section.time
   %h2
-    when
+    When
   %p
     = f.check_box :is_all_day , :id => 'event_is_all_day' 
     %label{ :for => 'event_is_all_day' }
@@ -30,7 +30,7 @@
 
 .section.place
   %h2
-    where
+    Where
   %p
     %p 
       = f.label :address1, 'Street Address 1:'
@@ -61,10 +61,10 @@
 
 .section.details
   %p
-    = f.label :description, 'description'
+    = f.label :description, 'Event details'
     = f.text_area 'description', :rows => 10, :cols => 50
   %p
-    = f.label :directions, 'directions'
+    = f.label :directions, 'Directions'
     = f.text_area :directions, :rows => 10, :cols => 50
 
 - content_for :javascript do

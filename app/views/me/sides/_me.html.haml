@@ -1,8 +1,9 @@
 .section.menu.context
   .menu
-    .info
-      = link_to me.name, me_url, html_options_for_icon_for( me, :size => :small, :class => 'home')
-    .clear
+    - unless this_is_the_landing_page = ( controller.action_name =='show' )
+      .info
+        = link_to me.name, me_url, html_options_for_icon_for( me, :size => :small, :class => 'home')
+      .clear
     .pages
       %ul.tabset
         %li.tab

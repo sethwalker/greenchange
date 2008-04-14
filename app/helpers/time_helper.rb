@@ -33,9 +33,12 @@ module TimeHelper
   # formats a time, in full detail
   # for example: Sunday July/3/2007 2:13PM
   def full_time(time)
-    time = to_local time
+    #should be alpha-sortable for use by javascript
+    to_local(time).to_s :db
+    #time = to_local time
+    
     #'%s %s %s %s' % [time.loc('%A'), time.loc('%d/%b/%Y'), time.loc('%I:%M'), time.period.abbreviation]
-    '%s %s %s' % [time.loc('%A'), time.loc('%d/%b/%Y'), time.loc('%I:%M %p')]
+    #'%s %s %s' % [time.loc('%A'), time.loc('%d/%b/%Y'), time.loc('%I:%M %p')]
   end
 
   def to_local(time)

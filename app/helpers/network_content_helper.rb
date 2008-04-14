@@ -4,7 +4,7 @@ module NetworkContentHelper
     # TODO: network content sorting
     if source
       return [] unless source.respond_to?(:pages) && source.pages.any?
-      [ source.pages.find(:first, :order => "updated_at DESC") ].compact
+      [ Page.send(*context_finder(source)).find(:first, :order => "updated_at DESC") ].compact
     else
       find_random Page, 1
     end

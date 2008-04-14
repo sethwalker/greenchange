@@ -34,4 +34,9 @@ class Tool::Asset < Page
   def title
     self['title'] || (self.data.filename.nameize if self.data && self.data.filename)
   end
+
+  def primary_image
+    return data if data and data.image?
+    super
+  end
 end

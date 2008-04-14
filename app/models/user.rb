@@ -19,6 +19,19 @@ class User < ActiveRecord::Base
 
   has_many :gives_permissions,  :as => 'grantor', :class_name => 'Permission'
   has_many :given_permissions,  :as => 'grantee', :class_name => 'Permission'
+  has_many :preferences do
+    def [] ( preference_name )
+      detect { |n| n.name == preference_name } or
+      find_or_create_by_name preference_name
+    end
+  end
+  def preferences=(settings)
+    if settings.is_a? Hash
+      settings.each do |key, value|
+        preferences[key].update_attribute :value, value
+      end
+    end
+  end
 
   has_finder :by_issue, lambda {|*issues|
     issues.any? ? { :include => :issue_identifications, :conditions => [ "issue_identifications.issue_id in (?)", issues ] } : {}
@@ -56,7 +69,7 @@ class User < ActiveRecord::Base
   # my identity
 
   has_many :issue_identifications, :as => :issue_identifying
-  has_many :issues, :through => :issue_identifications
+  has_many :issues, :through => :issue_identifications, :order =>'issues.name ASC'
   def issue_ids=(issue_ids)
     issue_identifications.each do |issue_identification|
       issue_identification.destroy unless issue_ids.include?(issue_identification.issue_id)

@@ -1,8 +1,7 @@
 #signup_container
   #form_intro
-    %h2 Create Your Account
-    Choose your user name and your password then click "Sign up".
-
+    %h1 Create your account
+    Thanks for signing up. You are joining a growing community of people who believe in grassroots democracy, justice, sustainability and non-violence.
   #signupform
     = error_messages_for :user, :header_message => _("We had a problem creating your account")
     - form_for :user, @user, :url => {:action => 'create' }  do |f| 
@@ -10,27 +9,41 @@
         = content_tag :label, _("Desired username"), :for => "user_login"
         = f.text_field :login 
         %span.comment
-          3-50 characters, no spaces please
+          3-30 characters. No spaces please
       %p
         = content_tag :label, _("Password"), :for => "user_password"
         = f.password_field :password
       %p
-        = content_tag :label, _("Confirm Password"), :for => "user_password_confirmation"
+        = content_tag :label, _("Password again"), :for => "user_password_confirmation"
         = f.password_field :password_confirmation
-      %hr
-      %p
-        = content_tag :label, "First Name", :for => "profile_first_name"
-        = text_field :profile, :first_name
-      %p
-        = content_tag :label, "Last Name", :for => "profile_last_name"
-        = text_field :profile, :last_name
+
+      - fields_for :profile, @user.private_profile do |ff|
+        %p
+          = content_tag :label, "First name", :for => "profile_first_name"
+          = ff.text_field :first_name
+        %p
+          = content_tag :label, "Last name", :for => "profile_last_name"
+          = ff.text_field :last_name
+
       %p
         = content_tag :label, "Email", :for => "user_email"
-        = text_field :user, :email
+        = f.text_field :email
+
       %p.agree
         = check_box_tag :agreed_to_terms, nil, :checked => true
-        - link_text = link_to "the terms and conditions", "/extensions/greenchange/terms.html", :target => "blank"
-        = content_tag :label, "I agree to #{link_text}", :for => "agreed_to_terms"
+        - link_text = link_to "terms and conditions.", "/extensions/greenchange/terms.html", :target => "blank"
+        = content_tag :label, "I agree to the  #{link_text}", :for => "agreed_to_terms"
+
+      %p.agree
+        -#= hidden_field_tag "user[preferences][email_list][name]", 'email_list', @user.preferences[:email_list]
+        = check_box_tag "user[preferences][subscribe_to_email_list]", 1, @user.preferences[:email_list]
+        %label{ :for => "user[preferences][subscribe_to_email_list]" }
+          Subscribe me to Green Change e-updates
+      %p.agree
+        = check_box_tag "user[preferences][allow_info_sharing]", 1, @user.preferences[:email_list]
+        %label{ :for => "user[preferences][allow_info_sharing]" }
+          Share my information with other Green organizations.
+
       %p.submit
         = submit_tag "Sign up"
         = hidden_field_tag( 'redirect', params[:redirect]) if params[:redirect]

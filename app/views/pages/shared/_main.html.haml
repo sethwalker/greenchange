@@ -1,3 +1,4 @@
+- list_options = { :limit => 25, :order => 'created_at DESC' }
 %ul.tab-block
   .toolbar
     .icon
@@ -9,16 +10,16 @@
       Blogs &amp; News
       .toolbar
     %ul.tab-content.list
-      = render :partial => 'pages/list/page', :collection => source.pages.page_type(:news, :blog, :wiki )
+      = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).page_type(:news, :blog, :wiki ).find(:all, list_options)
   %li
     .tab-title
       Discussions
     %ul#apple.tab-content.list
-      = render :partial => 'pages/list/discussions', :collection => source.pages.page_type(:discussion)
+      = render :partial => 'pages/list/discussions', :collection => Page.send( *context_finder(source)).page_type(:discussion).find(:all, list_options.merge( :order => 'updated_at DESC' ))
   %li
     .tab-title
       Events &amp; Actions
     %ul.tab-content.list
-      = render :partial => 'pages/list/page', :collection => source.pages.page_type(:action_alert, :event)
+      = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).page_type(:action_alert, :event).find( :all, list_options )
 - load_javascript_tabs
 
