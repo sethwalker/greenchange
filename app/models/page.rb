@@ -164,7 +164,7 @@ class Page < ActiveRecord::Base
                 end
         raise 'invalid page type' unless klass
 
-        [klass.to_s] + klass.subclasses.map {|c| c.to_s}
+        [klass.to_s] + klass.send(:subclasses).map {|c| c.to_s}
       end.compact.flatten.uniq
       raise 'invalid page type(s)' unless page_types.any?
       page_types.any? ? {:conditions => ["pages.type IN (?)", page_types]} : {}
