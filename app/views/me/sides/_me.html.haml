@@ -9,6 +9,8 @@
         %li.tab
           = link_to 'Your Contacts', me_people_url, selected_if( request.url == me_people_url)
         %li.tab
+          = link_to 'Your Groups', me_groups_url, selected_if( request.url == me_groups_url)
+        %li.tab
           = link_to 'Your Inbox', me_inbox_url, selected_if( request.url == me_inbox_url)
           
         %li.tab
@@ -20,4 +22,6 @@
           = link_to 'Your Events', me_events_url, selected_if( request.url == me_events_url)
         %li.tab
           = link_to 'Your Profile', me_profile_url, selected_if( request.url == me_profile_url)
+        %li.tab
+          = link_to "Your Bookmarks", me_bookmarks_url, selected_if( request.url == me_bookmarks_url)
 
