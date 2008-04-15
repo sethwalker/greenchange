@@ -6,6 +6,5 @@
   = link_to "Credits", "http://greenchange.org/credits"
   = link_to "Privacy", "http://greenchange.org/privacy"
   = link_to "Terms", "http://greenchange.org/terms"
-  =link_to "Report a bug", "mailto:greenchange@radcialdesigns.org"
-  = mail_to "greencahnge@radicaldesigns.org", "Send a problem report", :encode => "javascript", :subject => "User reported bug", :body => "Thanks for reporting!  If you have additional information about what you were trying to do when this problem came up, please write it here:\n\n\n\n------\n Problem report by _#{logged_in? ? current_user.login : "an anonymous user"}_ from _#{request.request_uri}_. \n\n  Raised by _#{controller.class}_ on #{@logged_exception ? @logged_exception.created_at.strftime('%A, %b %d, %Y at %l:%M %p') : Time.now.strftime('%A, %b %d, %Y at %l:%M %p')}\n\n  The params were: _#{params.inspect}_.\n\n  The error was #{@exception.inspect}. \n\n Trace:\n #{@exception.backtrace}", :encode => "javascript"
+  = mail_to "greencahnge@radicaldesigns.org", "Report a problem", :encode => "javascript", :subject => "Error reported #{request.request_uri}", :body => "Thanks for reporting!  If you have additional information about what you were trying to do when this problem came up, please write it here:\n\n\n\n------\n Problem report by _#{logged_in? ? current_user.login : "an anonymous user"}_ from _#{request.request_uri}_. ", :encode => "javascript"
 .clear
