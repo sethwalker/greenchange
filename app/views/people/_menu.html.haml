@@ -12,3 +12,5 @@
   - else 
     .icon
       = link_to 'add contact', new_person_contact_url(person), :class => 'action contact_request'
+    .icon
+      = link_to 'send message', new_message_url( :person_id => person.login), :class => 'action message'
