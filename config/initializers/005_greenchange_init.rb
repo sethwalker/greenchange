@@ -19,8 +19,11 @@ Crabgrass::Config.profile_note_types = [
     [:interests  , 'Personal Interests'], 
     [:work       , 'Work Life' ] ]
 
-if File.exists? "#{RAILS_ROOT}/config/crabgrass.yml"
-  crabgrass_settings = YAML::load(IO.read("#{RAILS_ROOT}/config/crabgrass.yml"))
+crabgrass_config = "#{RAILS_ROOT}/config/crabgrass.yml"
+# kluge for cruise control for now
+crabgrass_config = "#{RAILS_ROOT}/config/crabgrass_example.yml" unless File.exists? "#{RAILS_ROOT}/config/crabgrass.yml"
+if File.exists? crabgrass_config
+  crabgrass_settings = YAML::load(IO.read( crabgrass_config ))
   crabgrass_settings.symbolize_keys!
 
   DEFAULT_TZ = crabgrass_settings.delete(:default_time_zone) 
