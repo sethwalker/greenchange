@@ -4,9 +4,9 @@
 .icon
   - unless current_user.bookmarked_pages.include? @page
     = button_to 'Bookmark', page_bookmarks_path(@page), :method => 'post', :class => 'action bookmark', :title => 'Bookmark this page'
-.icon
+-#.icon
   = link_to 'Rate', 'rate_tool_page_path(page)', :class => 'action rate', :title => 'Push this page'
-.icon
+-#.icon
   = link_to 'Recommend', 'recommend_tool_page_path(page)', :class => 'action recommend', :title => 'Recommend this page to a friend'
 
 = render :partial => 'tool/event/menu'
