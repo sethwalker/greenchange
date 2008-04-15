@@ -1,0 +1,32 @@
+- color = cycle( 'shade-odd', 'shade-even')
+- item = message
+%tbody.message-block{ :class => color }
+  %tr.row.message-meta{:class => ( item.try(:unread?) ? 'unread' : '' ) }
+    %td.page_icon
+      = link_to ' ', message_path(item), html_options_for_icon_for(item.sender, :size => :small )
+    %td.title
+      = item.subject
+    %td.view-indicator-stub
+    %td.from
+      = link_to item.sender.login, person_path( item.sender )
+    %td.arrived
+      = friendly_date( item.created_at )
+    %td.toolbar
+      .icon
+        = link_to "Reply", new_person_message_path(item.sender), :class => 'reply action', :title => 'Send Reply'
+      .icon
+        = button_to "Delete", 'me_inbox_message_path(item)', :method => :delete, :class => 'ignore action', :title => 'Delete this message'
+
+  %tr.row.message-body
+    %td
+      .toolbar
+        .icon
+          = link_to "View", message_url(item), :class => 'action view', :title => 'View separately'
+
+    %td.message{:colspan => 4}
+      - if item.body
+        = GreenCloth.new(item.body).to_html
+      - else
+        No message attached
+    %td
+

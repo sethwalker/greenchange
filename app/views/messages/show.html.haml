@@ -15,3 +15,10 @@
 .message.show
   .body
     = simple_format @message.body
+
+- if current_user.may? :reply, @message
+  .section.reply
+    - form_for :message, Message.new, :url => person_messages_path(@message.sender) do |f|
+      = render :partial => 'form', :locals => {:f => f }
+      %p.submit
+        = f.submit "Send Reply"

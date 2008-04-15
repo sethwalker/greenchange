@@ -7,10 +7,19 @@ class MessagesController < ApplicationController
   end
 
   def create
+    @message = Message.new params[:message]
+    @message.sender = current_user
+    @message.recipient = @person
+    if @message.save
+      flash[:notice] = "Message sent"
+      redirect_to me_inbox_path
+    else
+      render :new
+    end
   end
 
   def new
-    @message = current_user.messages.create :recipient => @person
+    @message = current_user.messages_sent.new :recipient_id => @person.id
   end
   
   def index
