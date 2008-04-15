@@ -215,7 +215,7 @@ class User < ActiveRecord::Base
   end
 
   has_many :messages
-  has_many :messages_received, :class_name => 'Message', :conditions => "recipient_id = users.id"
+  has_many :messages_received, :class_name => 'Message', :foreign_key => 'recipient_id'
   #has_many :messages_received, :through => :participations, :source => 'page', :conditions => ["type = ?", 'Tool::Message' ]
 
   def unread_messages
