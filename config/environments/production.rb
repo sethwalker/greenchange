@@ -32,3 +32,14 @@ ANALYZABLE_PRODUCTION_LOG = "/var/log/rails.log"
 MAKE_ASSET_BUNDLES = true
 
 # set cookies to 'secure'; prevent some kinds of session-stealing attacks
+# Crabgrass::Config.http_only = true
+
+# smtp configuration
+Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
+ActionMailer::Base.delivery_method = :smtp
+#
+if File.exists? "#{RAILS_ROOT}/config/smtp.yml"
+  smtp_settings = YAML::load(IO.read("#{RAILS_ROOT}/config/smtp.yml"))
+  smtp_settings.symbolize_keys!
+  ActionMailer::Base.smtp_settings = smtp_settings
+end
