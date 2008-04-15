@@ -19,18 +19,19 @@ class User < ActiveRecord::Base
 
   has_many :gives_permissions,  :as => 'grantor', :class_name => 'Permission'
   has_many :given_permissions,  :as => 'grantee', :class_name => 'Permission'
-  has_many :preferences do
-    def [] ( preference_name )
-      detect { |n| n.name == preference_name } or
-      find_or_create_by_name preference_name
-    end
-  end
+  has_many :preferences, :dependent => :destroy 
+
   def preferences=(settings)
     if settings.is_a? Hash
       settings.each do |key, value|
-        preferences[key].update_attribute :value, value
+        pref = preferences.find_by_name(key.to_s) || preferences.build( :name => key.to_s)
+        pref.value = value 
       end
     end
+  end
+
+  def preference_for(key)
+    preferences.detect { |p| p.name == key.to_s }.try(:value)
   end
 
   has_finder :by_issue, lambda {|*issues|

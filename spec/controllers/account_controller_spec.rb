@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe AccountController do
   before do
     @user = users(:quentin)
+    @extra_user_params = {}
   end
 
   describe "signin" do
@@ -119,7 +120,7 @@ describe AccountController do
     
     describe "successful creation" do
       def act!
-        post :create, :user => { :login => "JaneSmiegel", :password => "Jonas", :password_confirmation => "Jonas", :email => "jane@addiction.com" }, :agreed_to_terms => true, :profile => { :first_name => "Jane", :last_name => "Smiegel"}
+        post :create, :user => { :login => "JaneSmiegel", :password => "Jonas", :password_confirmation => "Jonas", :email => "jane@addiction.com" }.merge( @extra_user_params), :agreed_to_terms => true, :profile => { :first_name => "Jane", :last_name => "Smiegel"}
       end
 
       it "should create a new user" do
@@ -144,6 +145,20 @@ describe AccountController do
         controller.stub!(:current_user).and_return(User.new)
         controller.should_receive(:current_user=)
         act!
+      end
+
+      describe "user preferences" do
+        before do
+          @extra_user_params = { :preferences => { 'subscribe_to_email_list' => 1, 'allow_info_sharing' => false }}
+        end
+        it "should add user preferences if they are present" do
+          act!
+          assigns[:user].preferences.should_not be_empty
+        end
+        it 'sees preferences as valid' do
+          act!
+          assigns[:user].preferences.first.save.should be_true
+        end
       end
 
       describe "attempt to use the same username" do

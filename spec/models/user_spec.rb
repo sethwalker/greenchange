@@ -153,3 +153,36 @@ describe User, "with bookmarks" do
     u.should respond_to(:bookmarked_pages)
   end
 end
+
+describe User, "with preferences" do
+  before do
+    @user = create_valid_user
+  end
+
+  it "should accept arbitrary preference assignments" do
+    @user.preferences.build :name => 'email', :value => '5'
+    @user.preferences.size.should == 1
+  end
+
+  it "should accept named assignments" do
+    @user.preferences = {'email' => '5' }
+    @user.preferences.size.should == 1
+  end
+
+  it "should not allow fake keys" do
+    pending "preference validation working"
+    @user.preferences = {'fake preference' => '5' }
+    @user.save.should be_false
+  end
+
+  it "should allow good keys" do
+    @user.preferences = {'allow_info_sharing' => '5' }
+    @user.save.should be_true
+  end
+
+  it "should return preference values by name" do
+    @user.preferences = {'allow_info_sharing' => false }
+    @user.preference_for( :allow_info_sharing ).should be_false
+  end
+
+end

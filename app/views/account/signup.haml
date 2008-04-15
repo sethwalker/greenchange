@@ -3,7 +3,7 @@
     %h1 Create your account
     Thanks for signing up. You are joining a growing community of people who believe in grassroots democracy, justice, sustainability and non-violence.
   #signupform
-    = error_messages_for :user, :header_message => _("We had a problem creating your account")
+    = error_messages_for :user, :object => @user.preferences, :header_message => _("We had a problem creating your account")
     - form_for :user, @user, :url => {:action => 'create' }  do |f| 
       %p
         = content_tag :label, _("Desired username"), :for => "user_login"
@@ -34,13 +34,13 @@
         - link_text = link_to "terms and conditions.", "/extensions/greenchange/terms.html", :target => "blank"
         = content_tag :label, "I agree to the  #{link_text}", :for => "agreed_to_terms"
 
-      %p.agree
+      %p.preference
         -#= hidden_field_tag "user[preferences][email_list][name]", 'email_list', @user.preferences[:email_list]
-        = check_box_tag "user[preferences][subscribe_to_email_list]", 1, @user.preferences[:email_list]
+        = check_box_tag "user[preferences][subscribe_to_email_list]", 1, @user.preference_for(:email_list)
         %label{ :for => "user[preferences][subscribe_to_email_list]" }
           Subscribe me to Green Change e-updates
-      %p.agree
-        = check_box_tag "user[preferences][allow_info_sharing]", 1, @user.preferences[:email_list]
+      %p.preference
+        = check_box_tag "user[preferences][allow_info_sharing]", 1, @user.preference_for(:email_list)
         %label{ :for => "user[preferences][allow_info_sharing]" }
           Share my information with other Green organizations.
 
