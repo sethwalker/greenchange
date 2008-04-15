@@ -1,9 +1,11 @@
 .links
-  = link_to "Home", "http://greenchange.org", :class => 'first'
-  = link_to "About", "http://greenchange.org/section.php?id=3"
-  = link_to "Code of Conduct", "http://greenchange.org/codeofconduct"
+  =#= link_to "Home", "http://greenchange.org", :class => 'first'
+  = link_to "About", "http://greenchange.org/section.php?id=3", :class => 'first'
+  = link_to "Code of conduct", "http://greenchange.org/codeofconduct"
   = link_to "Contact us", "http://greenchange.org/form.php?id=57"
   = link_to "Credits", "http://greenchange.org/credits"
   = link_to "Privacy", "http://greenchange.org/privacy"
   = link_to "Terms", "http://greenchange.org/terms"
+  =link_to "Report a bug", "mailto:greenchange@radcialdesigns.org"
+  = mail_to "greencahnge@radicaldesigns.org", "Send a problem report", :encode => "javascript", :subject => "User reported bug", :body => "Thanks for reporting!  If you have additional information about what you were trying to do when this problem came up, please write it here:\n\n\n\n------\n Problem report by _#{logged_in? ? current_user.login : "an anonymous user"}_ from _#{request.request_uri}_. \n\n  Raised by _#{controller.class}_ on #{@logged_exception ? @logged_exception.created_at.strftime('%A, %b %d, %Y at %l:%M %p') : Time.now.strftime('%A, %b %d, %Y at %l:%M %p')}\n\n  The params were: _#{params.inspect}_.\n\n  The error was #{@exception.inspect}. \n\n Trace:\n #{@exception.backtrace}", :encode => "javascript"
 .clear

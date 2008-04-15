@@ -1,6 +1,5 @@
 div#login_container
   :padding 2em 2em 0em 2em
-  :line-height 160%
   :padding-bottom 4em
   :float left
   :width =!container_width 
@@ -8,7 +7,7 @@ div#login_container
 #login_left
   :float left
   :font-size 15px
-  :width 35em 
+  :width 500px 
   :margin-left 2em
   :margin-right 1em
 
@@ -16,12 +15,14 @@ div#login_container
   :float left
 
 #loginformbox
-  :width 20em
+  :width 240px 
+  .ie6 &
+    :width 220px
   :text-align left
-  :padding 1em 1em 1em 1em
+  :padding 10px 
   :border 1px dotted #BB8B1A
   :background #EEE9E9
-  :line-height 100%
+  :line-height auto 
   :float left
   input 
     :float left
@@ -30,7 +31,8 @@ div#login_container
     :width auto
   p.submit 
     :text-align left 
-
+  p.agree 
+    :float none
 
 
 #loginoptions

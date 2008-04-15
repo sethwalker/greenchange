@@ -1,9 +1,9 @@
 - selected = 'class="selected"'
 #toprule
   %ul#topmenu
-    %li.first
+    -#%li.first
       = link_to "Home", 'http://greenchange.org', :class => 'menu menu-top' 
-    %li
+    %li.first
       - selected = ( %w- groups people -.include? controller.controller_name) ? ' selected' : ''
       = link_to "Connect", '/me/connect', :class => 'menu menu-top' + selected
       %ul

@@ -63,9 +63,20 @@
         :width = (!main_column_noside_width - 120px) /2 
         body.ie6 &
           :width = ( !main_column_noside_width - 120px - !ie_padding_offset ) / 2
-
-  .column,
   .column .section
+    :float left
+    :width = !main_column_section_width 
+    body.ie6 &
+      :width = ( !main_column_full_width - !ie_padding_offset ) / 2
+    #main.wideside &
+      :width = ( !main_column_wideside_width ) / 2
+      body.ie6 &
+        :width = ( !main_column_wideside_width - !ie_padding_offset ) / 2
+    #main.noside &
+      :width = ( !main_column_noside_width -50px ) / 2
+      body.ie6 &
+        :width = ( !main_column_noside_width - !ie_padding_offset - 50px ) / 2
+  .column
     :float left
     :width = (!main_column_full_width ) /  2
     body.ie6 &
@@ -96,7 +107,7 @@
 
   .section
     :float left
-    :width = !main_column_width
+    :width = !main_column_section_width
     body.ie6 &
       :width = !main_column_width - !ie_padding_offset
     #main.wideside &

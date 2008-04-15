@@ -1,16 +1,16 @@
-<h2>Join <%= @group.name %></h2>
+<h2>Request to join <%= @group.name %></h2>
 		
 <blockquote>
 
 <% form_tag(:action => 'create', :id => @group) do -%>
 
-<p>You will not become a member of this group until your request has been approved. You can track the status of your requests by visiting <a href='/me/requests'>your requests page</a>.
+<p>You will become a member of this group when your request is approved by the group host.
 </p>
 
-<p>The membership policy of this group is: unknown</p>
 
 <p>
-Optional message included with the join request:<br/>
+If you want, you can send a message to the group host with your request to join:
+<br>
 <%= text_area_tag 'message', params[:message], :rows => 2, :cols => 50 %>
 </p>
 
