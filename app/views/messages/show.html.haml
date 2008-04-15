@@ -1,0 +1,17 @@
+- content_for :title do
+  .title-menu.toolbar
+    = render :partial => 'menu'
+  = icon_for @message.sender
+  %h1
+    Message from 
+    = @message.sender.display_name
+  .date
+    %label Sent
+    = friendly_date( @message.created_at )
+  .subject
+    %label Re
+    = h @message.subject
+
+.message.show
+  .body
+    = simple_format @message.body

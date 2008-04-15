@@ -1,0 +1,6 @@
+- form_for :message, @message, :url => person_messages_path(@person) do |f|
+  %p
+    = f.label :subject, "Subject"
+    = f.text_field :subject
+  %p
+    = f.text_area :body

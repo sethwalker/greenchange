@@ -3,7 +3,7 @@
     %h1 Create your account
     Thanks for signing up. You are joining a growing community of people who believe in grassroots democracy, justice, sustainability and non-violence.
   #signupform
-    = error_messages_for :user, :object => @user.preferences, :header_message => _("We had a problem creating your account")
+    = error_messages_for :user, :header_message => _("We had a problem creating your account")
     - form_for :user, @user, :url => {:action => 'create' }  do |f| 
       %p
         = content_tag :label, _("Desired username"), :for => "user_login"

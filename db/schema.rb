@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1208126838) do
+ActiveRecord::Schema.define(:version => 1208194936) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(:version => 1208126838) do
   add_index "assets", ["page_id"], :name => "index_assets_page_id"
 
   create_table "avatars", :force => true do |t|
-    t.binary  "data"
+    t.binary  "data",   :default => "",    :null => false
     t.boolean "public", :default => false
   end
 
@@ -104,9 +104,9 @@ ActiveRecord::Schema.define(:version => 1208126838) do
     t.integer  "created_by"
     t.integer  "position"
     t.string   "collectable_type"
+    t.string   "permission"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "permission"
   end
 
   create_table "collections", :force => true do |t|
@@ -299,13 +299,30 @@ ActiveRecord::Schema.define(:version => 1208126838) do
   create_table "memberships", :force => true do |t|
     t.integer  "group_id"
     t.integer  "user_id"
-    t.datetime "created_at"
     t.integer  "page_id"
+    t.datetime "created_at"
     t.string   "role",       :limit => 20, :default => "member"
   end
 
   add_index "memberships", ["group_id", "user_id", "role"], :name => "index_group_user_role", :unique => true
   add_index "memberships", ["user_id", "group_id", "role"], :name => "index_user_group_role", :unique => true
+
+  create_table "messages", :force => true do |t|
+    t.integer  "sender_id"
+    t.integer  "recipient_id"
+    t.integer  "group_id"
+    t.boolean  "sender_copy"
+    t.text     "body"
+    t.string   "state"
+    t.string   "subject"
+    t.string   "type"
+    t.string   "invitable_id"
+    t.string   "invitable_type"
+    t.string   "requestable_id"
+    t.string   "requestable_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "page_tools", :force => true do |t|
     t.integer "page_id"
@@ -376,11 +393,6 @@ ActiveRecord::Schema.define(:version => 1208126838) do
   end
 
   add_index "phone_numbers", ["profile_id"], :name => "phone_numbers_profile_id_index"
-
-  create_table "plugin_schema_info", :force => true do |t|
-    t.datetime "created_at"
-    t.string   "plugin_name"
-  end
 
   create_table "polls", :force => true do |t|
     t.string "type"

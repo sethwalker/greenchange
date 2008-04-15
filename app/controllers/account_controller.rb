@@ -62,9 +62,7 @@ class AccountController < ApplicationController
 
   protected
   def send_welcome_message(user)
-    page = Page.make :private_message, :to => user, :from => user, :title => "Welcome to #{Crabgrass::Config.site_name}!", :body => WELCOME_TEXT_MARKUP
-    page.save
-    page
+    Message.create :recipient => user, :sender_id => ( Crabgrass::Config.welcome_message_user_id || user.id ), :subject => "Welcome to #{Crabgrass::Config.site_name}!", :body => WELCOME_TEXT_MARKUP
   end
 
   # TODO: move this to an e-mail
