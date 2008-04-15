@@ -1,5 +1,10 @@
-%h1 Listing bookmarks
+- content_for :title do
+  = icon_for( @me, :size => 'medium' )
+  %h1.medium Your bookmarks
+
 
 = render :partial => 'bookmark', :collection => current_objects
 
-= link_to 'New bookmark', new_object_path 
+.content-list.main
+  %ul.list
+-#= render :partial => '/pages/list/page', :collection => @me.bookmarks 

@@ -1,6 +1,6 @@
 - list_options = { :limit => 25, :order => 'created_at DESC' }
 %ul.tab-block
-  .toolbar
+  -#.toolbar
     .icon
     .icon
       = link_to 'Subscribe to Updates', "formatted_group_pages_url(source.id, :format => :rss )", :class => 'subscribe action', :title => 'Subscribe to Updates'
@@ -18,8 +18,14 @@
       = render :partial => 'pages/list/discussions', :collection => Page.send( *context_finder(source)).page_type(:discussion).find(:all, list_options.merge( :order => 'updated_at DESC' ))
   %li
     .tab-title
-      Events &amp; Actions
+      Actions alerts
     %ul.tab-content.list
-      = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).page_type(:action_alert, :event).find( :all, list_options )
+      = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).page_type(:action_alert).find( :all, list_options )
+  %li
+    .tab-title
+      Events
+    %ul.tab-content.list
+      = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).page_type( :event).find( :all, list_options )
+
 - load_javascript_tabs
 

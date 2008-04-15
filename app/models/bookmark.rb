@@ -6,4 +6,10 @@ class Bookmark < ActiveRecord::Base
   def url
     read_attribute('url') || page_url(page)
   end
+  
+  def external?
+    !(url.nil?) && url =~ /^http/
+
+  end
+
 end
