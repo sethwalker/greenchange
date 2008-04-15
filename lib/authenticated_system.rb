@@ -6,8 +6,9 @@ module AuthenticatedSystem
   end
 
   def load_user(id)
-    update_last_seen_at(id)
-    User.find_by_id(id)
+    user = User.find_by_id(id)
+    user.update_attribute :last_seen_at, Time.now
+    user
   end
   
   # Returns true or false if the user is logged in.
@@ -18,11 +19,6 @@ module AuthenticatedSystem
     
   protected 
 
-    def update_last_seen_at(user_id)
-      User.update_all ['last_seen_at = ?', Time.now], ['id = ?', user_id] 
-      #current_user.last_seen_at = Time.now
-    end
-    
     # Store the given user in the session.
     def current_user=(new_user)
       return if new_user.is_a?(UnauthenticatedUser)

@@ -17,11 +17,19 @@ describe AccountController do
     def second_act!
       get :index
     end
-    it "should redirect to me/dashboard" do
+    it "should redirect to me/dashboard for most users" do
+      @user.stub!(:last_seen_at).and_return(2.days.ago)
+      User.stub!(:authenticate).and_return(@user) 
       act!
-      response.should redirect_to( :controller => '/me', :action => 'index' )
+      response.should redirect_to( me_path) #:controller => '/me', :action => 'index' )
     end
 
+    it "should redirect to the welcome message for new users" do
+      @message = Message.create :sender => create_valid_user, :recipient => create_valid_user
+      controller.stub!(:send_welcome_message).and_return(@message)
+      act!
+      response.should redirect_to( message_path(@message))
+    end
     it "should assign current user" do
       controller.should_receive(:current_user=).at_least(1).times.with(users(:quentin))
       act!
@@ -77,6 +85,16 @@ describe AccountController do
       get :index
       response.should render_template('index')
     end
+
+    describe "first time login" do
+      it "should send a welcome message to the new user" do
+        @user.stub!(:last_seen_at).and_return(nil)
+        User.stub!(:authenticate).and_return(@user)
+        controller.should_receive(:send_welcome_message)
+        act!
+      end
+    end
+
   end
 
 
@@ -136,15 +154,9 @@ describe AccountController do
         flash[:notice].should match(/Thanks/)
       end
 
-      it "should send a welcome message to the new user" do
-        controller.should_receive(:send_welcome_message)
+      it "should require the new user to check email" do
         act!
-      end
-
-      it "should assign the new user as the current user" do
-        controller.stub!(:current_user).and_return(User.new)
-        controller.should_receive(:current_user=)
-        act!
+        flash[:notice].should match(/check your email/)
       end
 
       describe "user preferences" do

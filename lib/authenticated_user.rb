@@ -45,14 +45,26 @@ module AuthenticatedUser
       validates_format_of       :login, :with => /^[a-z0-9]+([-_]*[a-z0-9]+){1,39}$/
       validates_length_of       :login, :within => 3..40
       validates_uniqueness_of   :login, :case_sensitive => false
+
       before_save :encrypt_password
+      before_create :make_activation_code
+      attr_protected :activation_code, :activated_at, :enabled
     end
   end
+
+  class ActivationCodeNotFound < StandardError; end
+  class AlreadyActivated < StandardError
+    attr_reader :user, :message
+    def initialize(user, message=nil)
+      @message, @user = message, user
+    end
+  end
+
   module ClassMethods
     
     # Authenticates a user by their login name and unencrypted password.  Returns the user or nil.
     def authenticate(login, password)
-      u = find_by_login(login) # need to get the salt
+      u = find :first, :conditions => ['login = ? and enabled = ? and activated_at IS NOT NULL', login, true] # need to get the salt
       u && u.authenticated?(password) ? u : nil
     end
 
@@ -65,6 +77,16 @@ module AuthenticatedUser
       find :first, :conditions => ['email = ?', email]
     end
 
+    def find_and_activate!(activation_code)
+      raise ArgumentError if activation_code.nil?
+      user = find_by_activation_code(activation_code)
+      raise ActivationCodeNotFound unless user
+      raise AlreadyActivated.new(user) if user.active?
+      user.send(:activate!)
+      user
+    end
+
+
   end
 
   # Encrypts the password with the user salt
@@ -74,6 +96,16 @@ module AuthenticatedUser
 
   def authenticated?(password)
     crypted_password == encrypt(password)
+  end
+
+  def active?
+    # the existence of an activation code means they have not activated yet
+    activation_code.nil?
+  end
+
+  # Returns true if the user has just been activated.
+  def pending?
+    @activated
   end
 
   def remember_token?
@@ -127,6 +159,18 @@ module AuthenticatedUser
 
     def make_password_reset_code
       self.password_reset_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+    end
+
+    def make_activation_code
+      self.activation_code = Digest::SHA1.hexdigest( Time.now.to_s.split(//).sort_by {rand}.join )
+    end
+    
+  private
+    # Activates the user in the database.
+    def activate!
+      @activated = true
+      self.update_attribute(:activated_at, Time.now.utc)
+      self.update_attribute(:activation_code, nil)
     end
   
 end

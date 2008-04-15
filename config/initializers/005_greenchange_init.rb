@@ -18,3 +18,11 @@ Crabgrass::Config.profile_note_types = [
     [:activism   , 'Social Change Interests'], 
     [:interests  , 'Personal Interests'], 
     [:work       , 'Work Life' ] ]
+
+if File.exists? "#{RAILS_ROOT}/config/crabgrass.yml"
+  crabgrass_settings = YAML::load(IO.read("#{RAILS_ROOT}/config/crabgrass.yml"))
+  crabgrass_settings.symbolize_keys!
+
+  DEFAULT_TZ = crabgrass_settings.delete(:default_time_zone) 
+  crabgrass_settings.each{ |setting_name, value| Crabgrass::Config.send "#{setting_name}=".to_sym, value }
+end

@@ -12,8 +12,13 @@ ActionController::Routing::Routes.draw do |map|
   #map.resources :pages do |page|
   #page.resources :bookmarks
   #end
-  map.resources :issues
+  map.login   'account/login',   :controller => 'account',   :action => 'login'
+  map.activate '/activate/:activation_code', :controller => 'account', :action => 'show'
+  map.forgot_password '/forgot_password',     :controller => 'passwords',   :action =>  'new'
+  map.reset_password  '/reset_password/:id',  :controller => 'passwords',   :action =>  'edit'
   
+
+  map.resources :issues
 
   ##### ASSET ROUTES ######################################
   
@@ -155,10 +160,7 @@ ActionController::Routing::Routes.draw do |map|
   
   
   map.connect '', :controller => "account"
-  map.resource :account, :controller => 'account', :member => { :signup => :get }
-  map.login   'account/login',   :controller => 'account',   :action => 'login'
-  map.forgot_password '/forgot_password',     :controller => 'passwords',   :action =>  'new'
-  map.reset_password  '/reset_password/:id',  :controller => 'passwords',   :action =>  'edit'
+  map.resource :account, :controller => 'account', :member => { :signup => :get, :login => :post }
   
   # typically, this is the default route
   map.connect ':controller/:action/:id'

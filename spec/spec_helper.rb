@@ -63,7 +63,9 @@ Spec::Runner.configure do |config|
     valid_user.build_private_profile({ :first_name => "Plus", :last_name => "Ca Change", :friend => true }.merge( profile_options) )
     valid_user.build_public_profile({ :first_name => "Plus", :last_name => "Ca Change", :stranger => true }.merge( profile_options) )
     #valid_user.profiles.build({ :first_name => "Plus", :last_name => "Ca Change", :friend => true }.merge( profile_options) )
+    valid_user.enabled = true
     valid_user.save!
+    valid_user.send(:activate!)
     valid_user
   end
 

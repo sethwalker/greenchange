@@ -16,16 +16,41 @@ class AccountController < ApplicationController
         self.current_user.remember_me
         cookies["auth_token"] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
       end
-      redirect_to params[:redirect] || {:controller => '/me', :action => 'index'}
+
+      #for new users...
+      if current_user.last_seen_at.nil?
+        message = send_welcome_message(current_user)
+        redirect_to message_path(message)
+      else
+        redirect_to params[:redirect] || me_path
+      end
+
     else
       flash[:error] = "Username or password is incorrect"
     end
   end
 
+  # Activate action
+  def show
+    User.find_and_activate!(params[:activation_code])
+    flash[:notice] = "Your account has been activated.  You may now login"
+    redirect_to login_path
+    
+    rescue ArgumentError, User::ActivationCodeNotFound
+      flash[:error] = 'Activation code not found. Please try creating a new account'
+      redirect_to login_path
+    #rescue User::ActivationCodeNotFound
+    #  flash[:notice] = 'Activation code not found. Please try creating a new account'
+    #  redirect_to new_user_path
+    rescue User::AlreadyActivated
+      flash[:notice] = 'Your account has already been activated.  You may log in below'
+      redirect_to login_path
+  end
+
   def new 
     @user = User.new(params[:user])
-    #@user.preferences.build :name => 'allow_info_sharing', :value => true
-    #@user.preferences.build :name => 'subscribe_to_email_list', :value => true
+    @user.preferences.build :name => 'allow_info_sharing', :value => true
+    @user.preferences.build :name => 'subscribe_to_email_list', :value => true
   end
   alias :signup :new
 
@@ -40,10 +65,10 @@ class AccountController < ApplicationController
     end
 
     if @user.save && @profile.save && @public_profile.save
-      self.current_user = @user
-      message = send_welcome_message(current_user)
-      flash[:notice] = "Thanks for signing up!"
-      redirect_to params[:redirect] || message_url(message)
+      #self.current_user = @user
+      flash[:notice] = "Thanks for signing up! Please check your email to activate your account before logging in."
+      redirect_to login_path
+      #redirect_to params[:redirect] || message_url(message)
     else
       render :action => 'signup' and return
     end

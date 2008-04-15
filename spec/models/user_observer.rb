@@ -4,7 +4,7 @@ describe UserObserver do
 
   it "is called when the user saves" do
     @observer = UserObserver.instance
-    @observer.should_receive :after_save
+    @observer.should_receive( :after_save ).at_least(1).times
     @user = create_valid_user
   end
 

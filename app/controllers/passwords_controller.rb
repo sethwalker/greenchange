@@ -9,7 +9,6 @@ class PasswordsController < ApplicationController
   # Forgot password action
   def create
     #return unless request.post?
-    #FIXME is this safe?
     if @user = User.find_for_forget(params[:email])
       @user.forgot_password
       @user.save
@@ -50,7 +49,7 @@ class PasswordsController < ApplicationController
       @user.password_confirmation = params[:password_confirmation]
       @user.password = params[:password]
       @user.reset_password
-      flash[:notice] = current_user.save ? "Password reset" : "Password not reset"
+      flash[:notice] = @user.save ? "Password reset" : "Password not reset"
     else
       flash[:notice] = "Password mismatch"
       render :action => 'edit', :id => params[:id]

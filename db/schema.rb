@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1208220100) do
+ActiveRecord::Schema.define(:version => 1208279098) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -587,6 +587,10 @@ ActiveRecord::Schema.define(:version => 1208220100) do
     t.string   "password_reset_code",       :limit => 40
     t.boolean  "superuser",                               :default => false
     t.string   "image_filename"
+    t.string   "activation_code",           :limit => 40
+    t.datetime "activated_at"
+    t.boolean  "enabled",                                 :default => true
+    t.string   "identity_url"
   end
 
   add_index "users", ["login"], :name => "index_users_on_login"
