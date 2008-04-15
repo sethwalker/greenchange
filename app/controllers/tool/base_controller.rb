@@ -69,7 +69,7 @@ class Tool::BaseController < ApplicationController
     #raise @page.data.inspect unless @page.data.save
     #@page.data.save!
     if @page.save
-      flash[:notice] = 'Created new page'
+      flash[:notice] = 'Your content has been added to the network.  Thanks.  Do it again soon.'
       redirect_to tool_page_path(@page)
     else
       render :action => 'new'

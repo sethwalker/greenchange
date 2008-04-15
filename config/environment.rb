@@ -163,7 +163,10 @@ GeoKit::Geocoders::yahoo = 'REPLACE_WITH_YOUR_YAHOO_KEY'
 #GeoKit::Geocoders::google = 'ABQIAAAATL4sfiJFXUFfYtomrKYcMRT2yXp_ZAY8_ufC3CFXhHIE1NvwkxSgdzNqmW5nuNCkPicJS8sOhHTE4w'
 
 # Here's a key for http://localhost:3000
-GeoKit::Geocoders::google = 'ABQIAAAA3HdfrnxFAPWyY-aiJUxmqRTJQa0g3IQ9GZqIMmInSLzwtGDKaBQ0KYLwBEKSM7F9gCevcsIf6WPuIQ'
+# GeoKit::Geocoders::google = 'ABQIAAAA3HdfrnxFAPWyY-aiJUxmqRTJQa0g3IQ9GZqIMmInSLzwtGDKaBQ0KYLwBEKSM7F9gCevcsIf6WPuIQ'
+
+# Here's a key for http://greenchange.staging.radicaldesigns.org/
+GeoKit::Geocoders::google = 'ABQIAAAAVGyTQhsdjv8HqNLK8VzZ0RTsISG3KLyPCv0ddmEJo_LnhilMqhRuNWgRzdkrBLxr5Yr7vRAiLTM0yQ'
 
 # This is your username and password for geocoder.us.
 # To use the free service, the value can be set to nil or false.  For 

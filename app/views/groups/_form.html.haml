@@ -6,15 +6,15 @@
       %p
         = f.label :group_full_name, 'Full name'
         %span.comment
-          A descriptive name used for display.
+          A descriptive name used on the group's main page. 
         = f.text_field :full_name
       %p
-        = f.label :group_name, 'Link name'
+        = f.label :group_name, 'Display name'
         %span.comment
-          This name is how you will refer to this group in links and URLs. It must only contain alphanumeric characters, no spaces allowed.
+          This name will be used for display, links and URLs.  It may only contain alphanumeric characters.  No spaces allowed. 
         = f.text_field :name
       %p
-        = f.label :group_summary,  'Description'
+        = f.label :group_summary,  'Group description'
         %span.comment
           Brief information regarding this group.
         = f.text_area :summary, :rows => 8, :cols => 60
@@ -26,7 +26,7 @@
         %p
           = f.label :image_file, 'Upload new picture'
           %span.comment
-            uploaded image will be cropped and stretched to 96 pixels square.
+            Image will be cropped and stretched to 96 pixels square. 
           = f.file_field :image_file, :size => 10 
     
     = render :partial => "shared/form/issues", :locals => {:f => f}

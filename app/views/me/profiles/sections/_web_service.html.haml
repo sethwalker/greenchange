@@ -1,0 +1,19 @@
+-#= render :partial => 'me/profiles/sections/list_item_default', :locals => { :item => web_services, :item_type => :web_services, :item_type_field => :web_service_handle, :item_types_collection => ProfileHelper::WEBSERVICE_TYPES, :item_type_label => 'Web service info' }
+
+-fields_target = web_service.new_record? ? "web_services[new][]" : :web_services
+-fields_for fields_target, web_service do |ff|
+  - index = web_service.try(:id) || ''
+  .row
+    -#%p
+      -#= ff.check_box :preferred, { :index => index, :class => 'behavior-radio'}, 1
+    %p
+      = ff.select :im_type, ProfileHelper::WEBSERVICE_TYPES, {}, :index => index
+    %p
+      = ff.text_field :im_address, :size => 20, :maxlength => 100, :index => index 
+      = ff.label "#{index}_web_service", 'Web service info'
+    - unless web_service.new_record?
+      .toolbar
+        .icon
+          = button_to 'Delete', me_profile_web_service_path(web_service), :method => :delete , :class => 'remote confirm delete action', :remote_url => formatted_me_profile_web_service_path(web_service, :xml )
+       
+

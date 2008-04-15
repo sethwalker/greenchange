@@ -18,6 +18,7 @@ class ProfilesController < ApplicationController
     if @profile
       @email_addresses ||= @profile.email_addresses
       @im_addresses   ||= @profile.im_addresses 
+      @web_services   ||= @profile.web_services
       @phone_numbers  ||= @profile.phone_numbers
       @locations      ||= @profile.locations
       @websites       ||= @profile.websites
@@ -77,7 +78,7 @@ class ProfilesController < ApplicationController
     end
     
     success = success &&
-      [ :email_addresses, :im_addresses, :phone_numbers ].all? do |collection| 
+      [ :email_addresses, :im_addresses, :web_services, :phone_numbers ].all? do |collection| 
          if params[ collection ] 
            updated_collection = update_dependent_collection( collection, params[ collection ]) 
            instance_variable_set "@#{collection}".to_sym, updated_collection

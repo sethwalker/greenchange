@@ -56,7 +56,7 @@
         %li
           = link_to "Message", '/messages/new', :class => 'menu'
     %li
-      - selected = ( %w- action_alert -.include? controller.controller_name) ? ' selected' : ''
+      - selected = ( %w- action_alert -.include? controller.controller_name  ) && ( controller.action_name != 'new') ? ' selected' : ''
       = link_to "Take Action", '/takeaction', :class => 'menu menu-top' + selected
       %ul
         %li

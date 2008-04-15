@@ -22,15 +22,17 @@
     
 = render :partial => "shared/form/issues", :locals => {:f => f}
 
-.section.uploads
-  %h4 Upload images and attachments 
-  - f.object.assets.each do |upload|
-    = link_to ' ', upload.public_filename, html_options_for_icon_for(upload, :target => 'blank', :size => 'small' )
-  - fields_for "page[assets][]", "" do |ff|
+- if @page.data.class < Wiki 
 
-    %p
-      = ff.file_field :uploaded_data
-      .clear
-      = ff.label :uploaded_data, 'Pictures will be used in page and as page thumbnail.<br> Additional files will be attached at the bottom of the page.' 
+  .section.uploads
+    %h4 Upload images and attachments 
+    - f.object.assets.each do |upload|
+      = link_to ' ', upload.public_filename, html_options_for_icon_for(upload, :target => 'blank', :size => 'small' )
+    - fields_for "page[assets][]", "" do |ff|
+
+      %p
+        = ff.file_field :uploaded_data
+        .clear
+        = ff.label :uploaded_data, 'Pictures will be used in page and as page thumbnail.<br> Additional files will be attached at the bottom of the page.' 
 
 

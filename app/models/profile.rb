@@ -61,6 +61,7 @@ class Profile < ActiveRecord::Base
   has_many   :locations,       :dependent => :destroy#, :order=>"preferred desc"
   has_many   :email_addresses, :dependent => :destroy#, :order=>"preferred desc"
   has_many   :im_addresses,    :dependent => :destroy###, :order=>"preferred desc"
+  has_many   :web_services,    :dependent => :destroy
   has_many   :phone_numbers,   :dependent => :destroy#, :order=>"preferred desc"
   has_many   :websites,        :dependent => :destroy#, :order=>"preferred desc"
   has_many   :notes,           :dependent => :destroy do #, :order=>"preferred desc" do

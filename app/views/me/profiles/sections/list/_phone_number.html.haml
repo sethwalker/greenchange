@@ -1,7 +1,7 @@
 -#= render :partial => 'me/profiles/section_default', :locals => { :section_data => :phone_number, :f => f, :profile => profile }
 .section.phone_numbers
   %h2
-    Phone Numbers
+    Phone numbers
   .behavior-block.list
     - for phone_number in phone_numbers
       = render :partial => 'me/profiles/sections/phone_number', :locals => { :phone_number => phone_number, :f => f }

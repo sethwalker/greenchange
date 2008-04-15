@@ -11,7 +11,20 @@ module ProfileHelper
   IM_TYPES =
     ['Jabber', 'IRC', 'Silc', 'Gizmo', 'AIM',
     'Google Talk', 'MSN', 'Skype', 'Yahoo', 'Other']
-  
+
+  WEBSERVICE_TYPES =
+    {'blog' => 'My blog URL',
+    'facebook' => 'Facebook profile URL',
+    'linkedin' => 'LinkedIn profile URL',
+    'myspace' => 'MySpace profile URL',
+    'youtube' => 'You Tube username',
+    'flicker' => 'Flickr feed',
+    'last.fm' => 'Last.fm username',
+    'del.icio.us' => 'de.icio.us username',
+    'twitter' => 'Twitter username',
+    'blip' => 'Blip.tv username'  
+  }
+
   PHONE_TYPES = %w[Home Fax Mobile Other Pager Work]
   #app/views/person/_profile.rhtml
   #app/views/profile/show.rhtml

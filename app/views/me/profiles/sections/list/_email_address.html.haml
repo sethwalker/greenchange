@@ -1,6 +1,6 @@
 .section.email_addresses
   %h2
-    Email Addresses
+    Email addresses
   .behavior-block.list
     - for email_address in email_addresses
       = render :partial => 'me/profiles/sections/email_address', :locals => { :email_address => email_address, :f => f }

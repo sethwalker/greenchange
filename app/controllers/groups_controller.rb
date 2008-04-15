@@ -61,7 +61,7 @@ class GroupsController < ApplicationController
       render :action => :new and return
     end
 
-    message :success => 'Group was successfully created.'.t
+    message :success => "Congrats.  You've started a new group.".t
 
     # group creator is its default administrator (TODO: is this assumption true???)
     @group.memberships.create :user => current_user, :group => @group, :role => 'administrator'

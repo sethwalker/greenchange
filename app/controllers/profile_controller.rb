@@ -37,6 +37,12 @@ class ProfileController < ApplicationController
     end
   end
 
+  def add_web_service
+   render :update do |page|
+    page.insert_html :bottom, 'profile_web_services', :partial => 'web_service', :locals => {:web_service => Profile::WebService.new}
+    end
+  end
+
   # ajax
   def add_phone_number
     render :update do |page|

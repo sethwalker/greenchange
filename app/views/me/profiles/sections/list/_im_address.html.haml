@@ -1,6 +1,6 @@
 .section.im_addresses
   %h2
-    IM Addresses
+    IM addresses
   .behavior-block.list
     - for im_address in im_addresses
       = render :partial => 'me/profiles/sections/im_address', :locals => { :im_address => im_address, :f => f }

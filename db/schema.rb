@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1208194936) do
+ActiveRecord::Schema.define(:version => 1208220100) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -258,6 +258,12 @@ ActiveRecord::Schema.define(:version => 1208194936) do
 
   add_index "issues", ["name"], :name => "index_issues_on_name", :unique => true
 
+  create_table "languages", :force => true do |t|
+    t.string  "language"
+    t.integer "user_id"
+    t.integer "profile_id"
+  end
+
   create_table "locations", :force => true do |t|
     t.integer "profile_id"
     t.boolean "preferred",     :default => false
@@ -472,6 +478,7 @@ ActiveRecord::Schema.define(:version => 1208194936) do
     t.boolean  "may_pester"
     t.boolean  "may_burden"
     t.boolean  "may_spy"
+    t.string   "political_party"
   end
 
   add_index "profiles", ["entity_id", "entity_type", "language", "stranger", "peer", "friend", "foe"], :name => "profiles_index"
@@ -590,6 +597,14 @@ ActiveRecord::Schema.define(:version => 1208194936) do
 
   add_index "votes", ["possible_id"], :name => "index_votes_possible"
   add_index "votes", ["possible_id", "user_id"], :name => "index_votes_possible_and_user"
+
+  create_table "web_services", :force => true do |t|
+    t.integer "profile_id"
+    t.string  "web_service_type"
+    t.string  "web_service_handle"
+  end
+
+  add_index "web_services", ["profile_id"], :name => "web_services_profile_id_index"
 
   create_table "websites", :force => true do |t|
     t.integer "profile_id"

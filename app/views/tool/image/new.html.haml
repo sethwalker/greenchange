@@ -1,0 +1,13 @@
+= add_tool_page title_for_new( "image" )
+-#
+  %h2
+    = "Create a new".t
+    %b= @page.class.class_display_name.t
+
+  - form_for(:page, @page, :url => uploads_path, :html => {:multipart => true}) do |f|
+    .workarea
+      = header_for_page_create(@page.class)
+      = render :partial => 'pages/form', :locals => {:f => f}
+      - fields_for(:asset, @asset) do |wiki|
+        = render :partial => 'form', :locals => {:f => wiki}
+    = submit_tag 'Save', :name => 'save'
