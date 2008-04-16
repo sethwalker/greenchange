@@ -1,0 +1,30 @@
+- color = cycle( 'shade-odd', 'shade-even')
+%tbody.message-block{ :class => color }
+  %tr.row.message-meta{:class => ( invitation.try(:unread?) ? 'unread' : '' ) }
+    %td.page_icon
+      = link_to ' ', message_path(invitation), html_options_for_icon_for(invitation.sender, :size => :small )
+    %td.title
+      = invitation.subject
+    %td.view-indicator-stub
+    %td.from
+      = link_to invitation.sender.login, person_path( invitation.sender )
+    %td.arrived
+      = friendly_date( invitation.created_at )
+    %td.toolbar
+      - if current_user
+      .icon
+        = button_to "Attend", event_rsvps_path(invitation.event.page), :method => :post, :class => 'add action', :title => 'Attend'
+      .icon
+        = button_to "Remove", me_inbox_path, :method => :delete, :class => 'delete action', :title => 'Remove'
+  %tr.row.message-body
+    %td
+      .toolbar
+        .icon
+          = link_to "View", message_url(invitation), :class => 'action view', :title => 'View separately'
+    %td.message{:colspan => 4}
+      - if invitation.body
+        = GreenCloth.new(invitation.body).to_html
+      - else
+        No message attached
+    %td
+
