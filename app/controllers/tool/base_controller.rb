@@ -92,6 +92,7 @@ class Tool::BaseController < ApplicationController
 #  end
   def edit
     @page = page_class.find( params[:id] )
+    raise PermissionDenied unless current_user.may? :edit, @page
     @page.data.lock( Time.now, current_user )  if @page.data.is_a? Wiki
   end
   
@@ -106,6 +107,7 @@ class Tool::BaseController < ApplicationController
   def update
 
     @page = page_class.find( params[:id] )
+    raise PermissionDenied unless current_user.may? :edit, @page
     page_data = params[:page].delete(:page_data ) if params[:page]
     @page.attributes = params[:page]
     @page.page_data = setup_data(page_data)
