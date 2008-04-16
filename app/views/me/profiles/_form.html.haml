@@ -36,7 +36,8 @@
             = ff.label :image_file, 'Upload new picture'
             %span.comment
               uploaded image will be cropped and stretched to 96 pixels square.
-            = ff.file_field :image_file, :size => 10 
+              max file size 3mb
+           = ff.file_field :image_file, :size => 10 
 
       = render :partial => "shared/form/issues", :locals => {:f => ff}
 

@@ -5,10 +5,10 @@
     = @profile.full_name
 
 %div
-  = [@profile.organization, @profile.role].reject(&:blank?).join(', ')
+  = [@profile.role, @profile.organization].reject(&:blank?).join(', ')
 
 %dl
-  - unless @profile.phone_numbers.empty?
+  -#- unless @profile.phone_numbers.empty?
     %dt
       = _('Phone')
       \:
@@ -18,7 +18,7 @@
         %em
           = h(_(phone_number.phone_number_type))
 
-  - unless @profile.email_addresses.empty?
+  -#- unless @profile.email_addresses.empty?
     %dt
       = _('Email')
       \:
