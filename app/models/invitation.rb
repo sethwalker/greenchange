@@ -4,9 +4,24 @@ class Invitation < Message
   attr_accessor :user_names
 
   def after_accepted
-    if self.invitable < Event
+    if event?
       self.invitable.attendees.create :user => recipient
     end
   end
 
+  def event?
+    self.invitable < Event
+  end
+
+  def group?
+    self.invitable < Group 
+  end
+
+  def event
+    event? ? self.invitable : nil
+  end
+
+  def group 
+    group? ? self.invitable : nil
+  end
 end

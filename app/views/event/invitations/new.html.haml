@@ -4,7 +4,7 @@
   = error_messages_for :invitation
   - form_for :invitation, @invitation, :url => event_invitations_url do |f|
     %p
-      = f.label :user_names, 'Enter a list of usernames, separated by spaces, of people you would like to invite to join this group:'
+      = f.label :user_names, 'Enter a list of usernames, separated by spaces, of people you would like to invite to this event:'
       = f.text_area :user_names, :rows => 2, :cols => 50
     %p
       = f.label :body, 'Optional message included with the invite:'
