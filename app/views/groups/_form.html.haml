@@ -25,6 +25,7 @@
         = icon_for @group
         %p
           = f.label :image_file, 'Upload new picture'
+          = f.hidden_field :image_file_temp
           %span.comment
             Image will be cropped and stretched to 96 pixels square. 
           = f.file_field :image_file, :size => 10 

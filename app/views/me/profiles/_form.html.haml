@@ -34,6 +34,7 @@
           = icon_for @profile.entity
           %p
             = ff.label :image_file, 'Upload new picture'
+            = ff.hidden_field :image_file_temp
             %span.comment
               uploaded image will be cropped and stretched to 96 pixels square.
               %br

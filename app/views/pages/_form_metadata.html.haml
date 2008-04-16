@@ -22,7 +22,7 @@
     
 = render :partial => "shared/form/issues", :locals => {:f => f}
 
-- if @page.data.class < Wiki 
+- if @page.data.is_a? Wiki 
 
   .section.uploads
     %h4 Upload images and attachments 
