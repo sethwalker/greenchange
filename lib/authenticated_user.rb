@@ -48,7 +48,7 @@ module AuthenticatedUser
 
       before_save :encrypt_password
       before_create :make_activation_code
-      attr_protected :activation_code, :activated_at, :enabled
+      attr_protected :activation_code, :activated_at, :enabled, :superuser
     end
   end
 

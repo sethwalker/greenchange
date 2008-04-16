@@ -3,4 +3,5 @@ host: localhost
 email_sender: admin@localhost
 default_time_zone: 'Pacific Time (US & Canada)'
 geokit_google_api_key: ~
+welcome_message_sender_id: ~
 

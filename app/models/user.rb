@@ -137,10 +137,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  after_destroy :kill_avatar
-  def kill_avatar
-    avatar.destroy if avatar
-  end
   
   # the user's custom display name, could be anything.
   def display_name
