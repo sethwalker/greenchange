@@ -2,7 +2,7 @@
   = render :partial => 'title_menu', :locals => { :group => @group }
   = icon_for( @group, :size => 'large' ) 
   %h1
-    = @group.full_name
+    = @group.display_name
   .section.info
     .section.profile
       = render :partial => 'info', :locals => { :group => @group }

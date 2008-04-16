@@ -2,7 +2,7 @@
   .menu
     - unless this_is_the_landing_page = ( controller.action_name =='show' )
       .info
-        = link_to group.name, group_url(group), html_options_for_icon_for( group, :size => :small, :class => 'home') 
+        = link_to group.display_name, group_url(group), html_options_for_icon_for( group, :size => :small, :class => 'home') 
       -#.header
         = group.name
       -#.icon-box
