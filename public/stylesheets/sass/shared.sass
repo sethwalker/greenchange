@@ -122,13 +122,20 @@
 .content-list
   ul
     :padding 0px
+    :margin 0px
+  li 
+    :width 100%
 
 .list-item
   :display block
   :overflow hidden
   :float left
+  :padding 3px
   .icon
     :float right
+  li
+    :display block
+    :float left
 
 .list-thumb
   :float left
@@ -212,7 +219,6 @@ ul.tab-block
   :margin 0
   :float left
   :margin-top = !tab_block_title_offset + 3px
-  :width = !main_column_width
   body.ie6 &
     :width = !main_column_width - !ie_padding_offset
   #main.wideside #maincolumn &
@@ -237,6 +243,10 @@ ul.tab-block
     :width 100%
     :float left
     :clear both
+  .tab-content li 
+    :width 98%
+    .ie7 &
+      :width 92%
   .tab-titlebar
     :background = !tab_block_title_bg
     :margin-top = 0 - !tab_block_title_offset
