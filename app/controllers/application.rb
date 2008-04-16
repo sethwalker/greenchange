@@ -44,8 +44,7 @@ class ApplicationController < ActionController::Base
   def rescue_action_in_public(exception)
     status = response_code_for_rescue(exception)
     @logged_exception = log_exception(exception) if status != :not_found
-    @exception = exception
-    render :file => 'shared/problem_report', :use_full_path => true, :layout => true, :status => status
+    render :file => 'shared/problem_report', :use_full_path => true, :layout => true, :status => status, :locals => { :problem => @logged_exception }
   end
 
 
