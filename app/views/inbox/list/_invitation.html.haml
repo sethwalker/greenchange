@@ -12,10 +12,10 @@
       = friendly_date( invitation.created_at )
     %td.toolbar
       - if current_user
-      .icon
-        = button_to "Attend", event_rsvps_path(invitation.event.page), :method => :post, :class => 'add action', :title => 'Attend'
-      .icon
-        = button_to "Remove", me_inbox_path, :method => :delete, :class => 'delete action', :title => 'Remove'
+        .icon
+          = button_to "Attend", event_rsvps_path(invitation.event.page), :method => :post, :class => 'add action', :title => 'Attend'
+        .icon
+          = button_to "Remove", me_inbox_path, :method => :delete, :class => 'delete action', :title => 'Remove'
   %tr.row.message-body
     %td
       .toolbar

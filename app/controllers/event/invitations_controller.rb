@@ -8,7 +8,6 @@ class InvitationsController < ApplicationController
   end
 
   def create
-    debugger
     requested_users = params[:invitation][:user_names].split(/\s*[,\s]\s*/).compact
     real_users = requested_users.map do |login| 
       User.find_by_login login unless login.blank? 
