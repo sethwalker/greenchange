@@ -47,6 +47,9 @@ namespace :deploy do
     invoke_command "ln -nfs #{shared_path}/assets #{release_path}/assets"
     invoke_command "ln -nfs #{shared_path}/public_assets #{release_path}/public/assets"
     invoke_command "ln -nfs #{shared_path}/avatars #{release_path}/public/avatars"
+
+    invoke_command "rm #{release_path}/public/stylesheets/*css"
+    invoke_command "ln -nfs #{shared_path}/public_stylesheets #{release_path}/public/stylesheets"
   end
 
 end
