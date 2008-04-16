@@ -169,8 +169,7 @@ module AuthenticatedUser
     # Activates the user in the database.
     def activate!
       @activated = true
-      self.update_attribute(:activated_at, Time.now.utc)
-      self.update_attribute(:activation_code, nil)
+      self.update_attributes(:activation_code => nil, :activated_at => Time.now.utc)
     end
   
 end
