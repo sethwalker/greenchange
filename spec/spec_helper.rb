@@ -66,6 +66,7 @@ Spec::Runner.configure do |config|
     valid_user.enabled = true
     valid_user.save!
     valid_user.send(:activate!)
+    valid_user.instance_variable_set :@activated, nil
     valid_user
   end
 

@@ -168,8 +168,11 @@ module AuthenticatedUser
   private
     # Activates the user in the database.
     def activate!
+      # these attributes are protected so they have to be updated individually
+      self.update_attribute :activation_code,  nil
+      # save should only run once with the @activated flag, as this cues the observer to send email via #pending?
       @activated = true
-      self.update_attributes(:activation_code => nil, :activated_at => Time.now.utc)
+      self.update_attribute :activated_at, Time.now.utc
     end
   
 end
