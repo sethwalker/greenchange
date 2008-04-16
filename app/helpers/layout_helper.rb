@@ -10,6 +10,10 @@ module LayoutHelper
     ( controller.controller_name =~ /account/ or controller.action_name =~ /new|edit|chat|update|create/ or controller.controller_name =~ /issues/ && controller.action_name == 'index' or controller.controller_name =~ /action_alert/ && controller.action_name == 'landing')
   end
 
+  def rss_available?
+    controller.controller_name == 'pages' and controller.action_name == 'index'
+  end
+
   # returns avatar divs for people or groups
   def avatar_for(viewable, size='medium', options={})
     item_url_type = case viewable; when User; 'user'; when Group; 'group'; when Page; 'page'; end

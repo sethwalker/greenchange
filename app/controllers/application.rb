@@ -7,6 +7,7 @@ class ApplicationController < ActionController::Base
   include AuthorizedSystem
   include PageUrlHelper
   include ContextHelper
+  include IconHelper
   #include TimeHelper
   #
 

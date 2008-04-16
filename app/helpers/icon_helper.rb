@@ -30,16 +30,24 @@ module IconHelper
 
   def html_options_for_avatar_for( item, html_options ={} )
     html_options[:class] = [ (html_options[:class] || ''), 'avatar' ].join(' ').strip
-    avatar_size_option = html_options[:avatar_size] || html_options[:size] || 'standard'
-    item_url_type = case item when User; 'person'; when Group; 'group'; when Page; 'page'; end
-    if item.respond_to?(:has_image?) && item.has_image? && item_url_type
-      item_icon_method = "#{item_url_type}_icon_path"
-      html_options[:style] = [ (html_options[:style]||nil), "background-image: url(#{ send( item_icon_method, item, :format => :png, :size => avatar_size_option )})"].compact.join(';')
-    end
+    #item_url_type = case item when User; 'person'; when Group; 'group'; when Page; 'page'; end
+    #if item.respond_to?(:has_image?) && item.has_image? && item_url_type
+    #  item_icon_method = "#{item_url_type}_icon_path"
+    #  html_options[:style] = [ (html_options[:style]||nil), "background-image: url(#{ send( item_icon_method, item, :format => :png, :size => avatar_size_option )})"].compact.join(';')
+    #end
     #if item.avatar
     #  html_options[:style] = [ (html_options[:style]||nil), "background-image: url(#{ avatar_url( :id => ( item.avatar || 0 ), :size => avatar_size_option )})"].compact.join(';')
     #end
+    html_options[:style] = [ (html_options[:style]||nil), "background-image: url(#{ icon_url_for(item, html_options )})"].compact.join(';') if icon_url_for( item, html_options )
     html_options
+  end
+
+  def icon_url_for( item, html_options = {} )
+    avatar_size_option = html_options[:avatar_size] || html_options[:size] || 'standard'
+    item_url_type = case item when User; 'person'; when Group; 'group'; end# when Page; 'page'; end
+    return nil unless item.respond_to?(:has_image?) && item.has_image? && item_url_type
+    item_icon_method = "#{item_url_type}_icon_path"
+    send( item_icon_method, item, :format => :png, :size => avatar_size_option )
   end
 
   # returns a css class to add an icon to the applied element

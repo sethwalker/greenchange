@@ -43,7 +43,19 @@ class PagesController < ApplicationController
   
   def index
     load_context
-    @pages = Page.allowed(current_user).by_group( @group ).by_issue( params[:issue_id ]).by_person( ( @me || @person ) ).by_tag( @tag ).paginate :all, :page => params[:page], :per_page => 100, :order => 'created_at DESC'
+    @pages = Page.allowed(current_user).by_group( @group ).by_issue( params[:issue_id ]).by_person( ( @me || @person ) ).by_tag( @tag ).paginate :all, :page => params[:page], :per_page => 100, :order => 'updated_at DESC'
+    respond_to do |format|
+      format.html {}
+      format.rss do
+        options = {
+          :title => [ 'Crabgrass Content', (scoped_by_context? ? scoped_by_context?.display_name : nil ) ].compact.join( ' - ' ), 
+          :link => url_for(:action => 'index', :controller => 'pages', :belongs_to => scoped_by_context? ),
+          :image => icon_url_for( scoped_by_context? ),
+          :items => @pages
+          }
+          render :partial => 'rss', :locals => options
+      end
+    end
   end
   
   def search
