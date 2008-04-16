@@ -1,6 +1,7 @@
 class Event::InvitationsController < ApplicationController
   def load_context
-    @event ||= Tool::Event.find params[:event_id] if params[:event_id]
+    @event_page = Tool::Event.find params[:event_id] if params[:event_id]
+    @event ||= @event_page.data
     super
   end
 
@@ -17,17 +18,17 @@ class Event::InvitationsController < ApplicationController
     error_names = (requested_users - real_users.map(&:login)).select { |name| !name.blank? }
     error_text = "not found: #{error_names.join(', ')}" unless error_names.empty?
     attending_users = real_users.select { |user| @event.attendees.include? user }
-    attending_text = "for attending members: #{existing_users.map(&:login).join(", ")}" unless existing_users.empty?
+    attending_text = "for attendees: #{attending_users.map(&:login).join(", ")}" unless attending_users.empty?
     real_users -= attending_users
     unless attending_text || error_text
       real_users.each do |user|  
         invitation = Invitation.new(:sender_id => current_user.id, :recipient_id => user.id)
         invitation.body = params[:invitation][:body]
-        invitation.subject = "You've Been Invited to: #{@event.title}"
+        invitation.subject = "You've Been Invited to: #{@event_page.title}"
         invitation.save
       end     
-      flash[:notice] = "Sent #{real_users.size} invitations to #{@event.title}"
-      redirect_to event_url(@event)
+      flash[:notice] = "Sent #{real_users.size} invitations to #{@event_page.title}"
+      redirect_to event_url(@event_page)
     else    
       @invitation.user_names = real_users.map(&:login).join(', ')
       render :action => 'invite'

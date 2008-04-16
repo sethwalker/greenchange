@@ -10,9 +10,9 @@ class Event < ActiveRecord::Base
 
   #has_many :user_participations, :through => :data, :foreign_key => 'page_id'
   #has_many :attendees, :class_name => 'User', :through => :user_participations, :source => 'user'
-  belongs_to :host, :class_name => 'User'
-  has_many   :rsvps
-  has_many   :attendees, :through => :rsvps
+  belongs_to :host, :class_name => 'User'#, :foreign_key => 'host_id'
+  has_many :rsvps
+  has_many :attendees, :through => :rsvps, :source => :user
 
   def save_latitude_and_longitude
     address = "#{self.address1},#{self.address2},#{self.city},#{self.state},#{self.postal_code},#{self.country}"

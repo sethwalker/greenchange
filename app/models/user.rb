@@ -229,5 +229,7 @@ class User < ActiveRecord::Base
     
   end
 
-    
+  has_many :events, :foreign_key => 'host_id'
+  has_many :rsvps
+  has_many :attending, :through => :rsvps, :source => :events
 end
