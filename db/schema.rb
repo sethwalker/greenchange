@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1208279098) do
+ActiveRecord::Schema.define(:version => 1208311227) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -189,6 +189,7 @@ ActiveRecord::Schema.define(:version => 1208279098) do
     t.string  "time_zone"
     t.float   "latitude"
     t.float   "longitude"
+    t.integer "host_id"
   end
 
   create_table "external_medias", :force => true do |t|
@@ -493,6 +494,13 @@ ActiveRecord::Schema.define(:version => 1208279098) do
 
   add_index "ratings", ["user_id"], :name => "fk_ratings_user"
   add_index "ratings", ["rateable_type", "rateable_id"], :name => "fk_ratings_rateable"
+
+  create_table "rsvps", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "event_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "taggings", :force => true do |t|
     t.integer "taggable_id"
