@@ -8,7 +8,7 @@
       = password_field_tag :password
     %p.agree
       = check_box_tag :remember_me
-      = content_tag :label, _("Remember Me"), :for => :remember_me
+      = content_tag :label, _("Remember me"), :for => :remember_me
     %p.submit
       = submit_tag _('Login')
       = hidden_field_tag :redirect, h(params[:redirect] )

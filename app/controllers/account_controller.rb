@@ -33,7 +33,7 @@ class AccountController < ApplicationController
   # Activate action
   def show
     User.find_and_activate!(params[:activation_code])
-    flash[:notice] = "Your account has been activated.  You may now login"
+    flash[:notice] = "Welcome. Your account is ready. Please login."
     redirect_to login_path
     
     rescue ArgumentError, User::ActivationCodeNotFound

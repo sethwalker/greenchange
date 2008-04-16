@@ -21,7 +21,9 @@ p, ol, ul, td, div
 h1 
   :font-size 22px
   :font-weight bold
-  :line-height 24px
+  :line-height 34px
+  .ie6 &
+    :margin-top 15px
 
 #banner
   :background = !banner_bg
@@ -89,7 +91,7 @@ body
       :border-left = 1px solid #666666
       :padding 0 .5em 0 .5em
       :color #666666
-      :font-sie 11px
+      :font-size 11px
       :text-decoration none
       &.first
         :border-left 0
