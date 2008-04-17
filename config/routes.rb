@@ -79,8 +79,8 @@ ActionController::Routing::Routes.draw do |map|
   end
   page_routes(map)
 
+  map.resources :rsvps
 
-  
   #me routes
   #map.resource :profile
   map.namespace :me do |me|

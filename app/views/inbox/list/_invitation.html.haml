@@ -4,7 +4,7 @@
     %td.page_icon
       = link_to ' ', message_path(invitation), html_options_for_icon_for(invitation.sender, :size => :small )
     %td.title
-      = invitation.subject
+      = link_to invitation.subject, event_path(invitation.event.page)
     %td.view-indicator-stub
     %td.from
       = link_to invitation.sender.login, person_path( invitation.sender )

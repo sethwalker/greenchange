@@ -10,11 +10,11 @@ class Invitation < Message
   end
 
   def event?
-    self.invitable < Event
+    invitable.is_a?(Event)
   end
 
   def group?
-    self.invitable < Group 
+    invitable.is_a?(Group)
   end
 
   def event
