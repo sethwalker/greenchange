@@ -13,9 +13,9 @@
     %td.toolbar
       - if current_user
         .icon
-          = button_to "Attend", event_rsvps_path(invitation.event.page), :method => :post, :class => 'add action', :title => 'Attend'
+          = button_to "Accept", accept_event_invitation_path(invitation.event.page, invitation), :method => :post, :class => 'add action', :title => 'Accept'
         .icon
-          = button_to "Remove", me_inbox_path, :method => :delete, :class => 'delete action', :title => 'Remove'
+          = button_to "Reject", reject_event_invitation_path(invitation.event.page, invitation), :method => :delete, :class => 'delete action', :title => 'Reject'
   %tr.row.message-body
     %td
       .toolbar

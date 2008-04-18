@@ -1,4 +1,4 @@
-class InvitationsController < ApplicationController
+class Event::InvitationsController < ApplicationController
   def new
     if @event
       @invitation = EventInvitation.new
@@ -37,6 +37,17 @@ class InvitationsController < ApplicationController
   end
 
   def accept
+    @invitation = Invitation.find(params[:id])
+    @invitation.accept!
+    flash[:notice] = "You're attending this event."
+    redirect_to :back
+  end
+
+  def reject
+    @invitation = Invitation.find(params[:id])
+    @invitation.reject!
+    flash[:notice] = "You're no longer attending this event."
+    redirect_to :back
   end
 
   def destroy

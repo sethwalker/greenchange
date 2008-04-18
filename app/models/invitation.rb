@@ -5,7 +5,7 @@ class Invitation < Message
 
   def after_accepted
     if event?
-      self.invitable.attendees.create :user => recipient
+      self.event.rsvps.create :user => recipient
     end
   end
 
