@@ -99,6 +99,28 @@ DemocracyInAction.configure do
     }
   end
 
+  mirror(:supporter_groups, Preference ) do
+    guard { |pref| pref.value and pref.name =~ /subscribe_to_email_list|allow_info_sharing/ and pref.user_id  }
+    map('supporter_KEY') { |preference|
+      user = preference.user
+      if user
+        profile = user.private_profile
+        if profile
+          proxy = profile.democracy_in_action_proxies.find_by_remote_table('supporter')
+          proxy.remote_key if proxy
+        end
+      end
+    }
+    map('groups_KEY' ) { |preference|
+      case preference.name
+        when 'subscribe_to_email_list'
+          Crabgrass::Config.dia_email_list_group_id
+        when 'allow_info_sharing'
+          Crabgrass::Config.dia_info_sharable_group_id
+      end
+    } 
+  end
+
 #  mirror.event               = Event
 #  c.mirror.supporter_event     = Attentance
 
