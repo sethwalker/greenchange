@@ -10,9 +10,21 @@ class Event < ActiveRecord::Base
 
   #has_many :user_participations, :through => :data, :foreign_key => 'page_id'
   #has_many :attendees, :class_name => 'User', :through => :user_participations, :source => 'user'
-  belongs_to :host, :class_name => 'User'#, :foreign_key => 'host_id'
+  has_many :invitations, :as => :invitable 
   has_many :rsvps
   has_many :attendees, :through => :rsvps, :source => :user
+  belongs_to :host, :class_name => 'User'#, :foreign_key => 'host_id'
+
+  validate :validates_date_range
+  def validates_date_range
+    return true if is_all_day?
+    unless self.starts_at
+      errors.add_to_base("Event must have a start time.")
+    end
+    if self.ends_at && self.starts_at > self.ends_at
+      errors.add_to_base("Event start time must be before end time.")
+    end
+  end
 
   def save_latitude_and_longitude
     address = "#{self.address1},#{self.address2},#{self.city},#{self.state},#{self.postal_code},#{self.country}"

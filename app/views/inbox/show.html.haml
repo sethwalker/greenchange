@@ -13,6 +13,8 @@
       - for item in @items 
         - if item.is_a?( MembershipRequest ) || item.is_a?( ContactRequest )
           = render :partial => 'inbox/list/request', :object => item
+        - elsif item.is_a?( Invitation ) 
+          = render :partial => 'inbox/list/invitation', :object => item
         - elsif item.is_a?( Message ) 
           = render :partial => 'inbox/list/message', :object => item
         - else

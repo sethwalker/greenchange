@@ -61,8 +61,9 @@ ActionController::Routing::Routes.draw do |map|
     end
     parent.resources :uploads, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
     parent.resources :events, :controller => 'tool/event', :member => {:participate => :post, :set_event_description => :post}, :collection => {:day => :get, :week => :get, :month => :get, :calendar => :get} do |event|
-      event.resources :attendees
-      event.resources :invitations, :controller => 'event/invitations'
+      #event.resources :attendees
+      event.resources :rsvps
+      event.resources :invitations, :controller => 'event/invitations', :member => {:accept => :post, :reject => :put}
     end
     parent.resources :videos, :controller => 'tool/external_video' #for now
     parent.resources :audio, :controller => 'tool/audio'
@@ -78,8 +79,8 @@ ActionController::Routing::Routes.draw do |map|
   end
   page_routes(map)
 
+  map.resources :rsvps
 
-  
   #me routes
   #map.resource :profile
   map.namespace :me do |me|

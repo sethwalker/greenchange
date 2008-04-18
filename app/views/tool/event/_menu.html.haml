@@ -1,11 +1,11 @@
 - if @page.is_a?(Tool::Event)
   .icon
-    - unless current_user.pages_attending.include? @page
-      = button_to 'Attend', event_attendees_path(@page), :method => :post, :class => 'action attend', :title => 'Attend this event'
+    - unless @rsvp = Rsvp.find_by_user_id_and_event_id(current_user, @page.data)
+      = button_to 'Attend', event_rsvps_path(@page, :rsvp => {:event_id => @page.data, :user_id => current_user.id}), :method => :post, :class => 'action attend', :title => 'Attend this event'
     - else
-      = button_to 'Cancel RSVP', event_attendee_path(@page), :method => :delete, :class => 'action cancel', :title => 'Cancel my RSVP for this event'
+      = button_to 'Cancel RSVP', rsvp_path(@rsvp), :method => :delete, :class => 'action cancel', :title => 'Cancel my RSVP for this event'
 
-  -# if current_user.may? :admin, @page
+  - if current_user.may? :admin, @page
     .icon
       = link_to 'Invite People', new_event_invitation_path(@page), :class => 'action invite', :title => 'Invite people to this event'
     
