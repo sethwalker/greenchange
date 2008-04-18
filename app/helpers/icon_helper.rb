@@ -38,11 +38,11 @@ module IconHelper
     #if item.avatar
     #  html_options[:style] = [ (html_options[:style]||nil), "background-image: url(#{ avatar_url( :id => ( item.avatar || 0 ), :size => avatar_size_option )})"].compact.join(';')
     #end
-    html_options[:style] = [ (html_options[:style]||nil), "background-image: url(#{ icon_url_for(item, html_options )})"].compact.join(';') if icon_url_for( item, html_options )
+    html_options[:style] = [ (html_options[:style]||nil), "background-image: url(#{ icon_path_for(item, html_options )})"].compact.join(';') if icon_path_for( item, html_options )
     html_options
   end
 
-  def icon_url_for( item, html_options = {} )
+  def icon_path_for( item, html_options = {} )
     avatar_size_option = html_options[:avatar_size] || html_options[:size] || 'standard'
     item_url_type = case item when User; 'person'; when Group; 'group'; end# when Page; 'page'; end
     return nil unless item.respond_to?(:has_image?) && item.has_image? && item_url_type

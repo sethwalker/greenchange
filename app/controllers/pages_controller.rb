@@ -50,7 +50,7 @@ class PagesController < ApplicationController
         options = {
           :title => [ 'Crabgrass Content', (scoped_by_context? ? scoped_by_context?.display_name : nil ) ].compact.join( ' - ' ), 
           :link => url_for(:action => 'index', :controller => 'pages', :belongs_to => scoped_by_context? ),
-          :image => icon_url_for( scoped_by_context? ),
+          :image => icon_path_for( scoped_by_context? ),
           :items => @pages
           }
           render :partial => 'rss', :locals => options

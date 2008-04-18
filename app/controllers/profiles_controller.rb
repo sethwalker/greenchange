@@ -4,6 +4,8 @@ class ProfilesController < ApplicationController
   before_filter :initialize_profile_collections, :except => :show
 
   helper :profile
+  include IconResource
+  icon_resource :person
 
   def show
     @person = params[:person_id] ?  User.find_by_login( params[:person_id] ) : current_user
@@ -24,6 +26,7 @@ class ProfilesController < ApplicationController
       @languages      ||= @profile.languages
       #@websites       ||= @profile.websites
       @notes          ||= @profile.notes
+      @person         ||= @profile.user
     end
   end
 
