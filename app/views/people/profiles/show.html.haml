@@ -64,14 +64,16 @@
         %em
           = h(im.im_type)
 
-  - unless @profile.websites.empty?
+  - unless @profile.web_resources.empty?
     %dt
-      = _('Websites')
+      = _('Online Stuff')
       \:
-    - @profile.websites.each do |website|
+    - @profile.web_resources.each do |web_resource|
       %dd
-        %a{ :href => "<haml:loud> website.site_url </haml:loud>", :target => "_blank" }
-          = h(website.site_title.length > 0 ? website.site_title : website.site_url)
+        %dd
+          = web_resource.web_resource
+          %em
+            = h(web_resource.web_resource_type)
 
   - unless @profile.notes.empty?
     - ProfileHelper::NOTES.each do |note_type| 
