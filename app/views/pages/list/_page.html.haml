@@ -2,9 +2,14 @@
   .icon.source
     -if scoped_by_context? == @me  && scoped_by_context?
       .toolbar
-        = link_to 'edit', edit_tool_page_path(page)
-        |
-        = link_to 'delete', 'delete_tool_page_path(page)'
+        - if current_user.may? :edit, page
+          .icon
+            = link_to 'edit', edit_tool_page_path(page), :class => 'action edit'
+        - if current_user.may? :admin, page
+          .icon
+            = button_to 'delete', tool_page_path(page), :method => :delete, :confirm => 'Once deleted, it will not be possible to recover this page', :class => 'action delete'
+      .clear
+
     = link_to icon_for(page.created_by, :size=>'small' ), person_url(page.created_by)
     = link_to icon_for(page.group, :size=>'small'), group_url(page.group)
   .list-thumb

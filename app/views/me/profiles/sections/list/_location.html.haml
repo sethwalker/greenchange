@@ -1,12 +1,11 @@
-.section
-  %table
-    %tr
-      %td.label{ :valign => "top" }
-        = _('Locations')
-      %td.form
-        %table
-          %tbody#profile_locations
-            - profile.locations.each_with_index do |location, index|
-            = render :partial => 'location', :locals => { :location => location, :index => index }
-            - end
-        = add_row_link 'Add Location'.t, 'add_location'
+.section.locations
+  %h2
+    Locations
+  .behavior-block.list
+    - for location in locations
+      = render :partial => 'me/profiles/sections/location', :locals => { :location => location, :f => f }
+    = render :partial => 'me/profiles/sections/location', :locals => { :location => profile.locations.build, :f => f }
+
+    .row
+      .toolbar
+        = link_to 'Add Location', new_me_profile_location_path, :class => 'remote new action'

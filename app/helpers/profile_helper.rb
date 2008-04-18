@@ -12,7 +12,7 @@ module ProfileHelper
     ['Jabber', 'IRC', 'Silc', 'Gizmo', 'AIM',
     'Google Talk', 'MSN', 'Skype', 'Yahoo', 'Other']
 
-  WEBSERVICE_TYPES =
+  WEB_RESOURCE_TYPES =
     {'blog' => 'My blog URL',
     'facebook' => 'Facebook profile URL',
     'linkedin' => 'LinkedIn profile URL',
@@ -26,8 +26,32 @@ module ProfileHelper
   }
 
   PHONE_TYPES = %w[Home Fax Mobile Other Pager Work]
-  #app/views/person/_profile.rhtml
-  #app/views/profile/show.rhtml
+  LOCATION_TYPES = %w[Home Work School Other]
+  LANGUAGES = [
+    ['ar', 'Arabic'],
+    ['bn', 'Bengali; Bangla'],
+    ['en', 'English'],
+    ['fr', 'French'],
+    ['de', 'German'],
+    ['el', 'Greek'],
+    ['he', 'Hebrew'],
+    ['hi', 'Hindi'],
+    ['ja', 'Japanese'],
+    ['jw', 'Javanese'],
+    ['ko', 'Korean'],
+    ['zh', 'Mandarin'],
+    ['mr', 'Marathi'],
+    ['fa', 'Persian'],
+    ['pt', 'Portuguese'],
+    ['ru', 'Russian'],
+    ['es', 'Spanish'],
+    ['sw', 'Swahili'],
+    ['ta', 'Tamil'],
+    ['te', 'Telugu'],
+    ['bo', 'Tibetan'],
+    ['vi', 'Vietnamese'],
+  ]
+
   def photo(profile)
     avatar_for(profile.entity, 'xlarge')
   end

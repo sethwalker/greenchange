@@ -1,0 +1,34 @@
+-fields_target = location.new_record? ? "locations[new][]" : :locations
+-fields_for fields_target, location do |ff|
+  - index = location.try(:id) || ''
+  .row
+    .block
+      -#%p
+        -#= ff.check_box :preferred, { :index => index, :class => 'behavior-radio'}, 1
+      %p
+        = ff.select :location_type, ProfileHelper::LOCATION_TYPES, {}, :index => index
+      %p
+        = ff.text_field :street, :size => 30, :maxlength => 100, :index => index 
+        = ff.label "#{index}_street", 'Street Address'
+         
+      - unless location.new_record?
+        .toolbar
+          .icon
+            = button_to 'Delete', me_profile_location_path(location), :method => :delete , :class => 'remote confirm delete action', :remote_url => formatted_me_profile_location_path(location, :xml )
+      .clear
+      %p
+        = ff.text_field :city, :size => 20, :maxlength => 100, :index => index 
+        = ff.label "#{index}_city", 'City'
+      .clear
+      %p
+        = ff.state_select :state, ['US', 'CANADA'], { :include_blank => true }, :index => index 
+        = ff.label "#{index}_state", 'State'
+      %p
+        = ff.text_field :postal_code, :size => 10, :maxlength => 100, :index => index 
+        = ff.label "#{index}_postal_code", 'Postal Code'
+      .clear
+      %p
+        = ff.country_select :country_name, [ 'United States', 'Canada', 'United Kingdom'], { :size => 10, :maxlength => 100, :include_blank => true}, :index => index 
+        = ff.label "#{index}_country_name", 'Country'
+
+

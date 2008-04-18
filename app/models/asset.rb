@@ -107,7 +107,7 @@ class Asset < ActiveRecord::Base
 
   def update_access
     if public?
-      FileUtils.ln_s(full_dirpath, public_dirpath) unless File.exists?(public_dirpath)
+      FileUtils.ln_s(full_dirpath_no_symlinks, public_dirpath) unless File.exists?(public_dirpath)
     else
       remove_symlink
     end
@@ -138,6 +138,10 @@ class Asset < ActiveRecord::Base
 
   def full_dirpath
     File.dirname(full_filename)
+  end
+
+  def full_dirpath_no_symlinks
+    Pathname.new( full_dirpath ).realpath
   end
 
   def extname

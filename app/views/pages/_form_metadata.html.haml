@@ -6,7 +6,7 @@
   - if current_user.all_groups.any?
     %p
       = f.label 'group_id', 'Group'
-      = f.select 'group_id', current_user.all_groups.map {|g| [g.name, g.id]}, :include_blank => true
+      = f.select 'group_id', editable_groups(current_user).map {|g| [g.name, g.id]}, :include_blank => true
 
 .section.permissions
   %h4 Public for:

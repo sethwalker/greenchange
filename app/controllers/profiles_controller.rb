@@ -18,10 +18,11 @@ class ProfilesController < ApplicationController
     if @profile
       @email_addresses ||= @profile.email_addresses
       @im_addresses   ||= @profile.im_addresses 
-      @web_services   ||= @profile.web_services
       @phone_numbers  ||= @profile.phone_numbers
       @locations      ||= @profile.locations
-      @websites       ||= @profile.websites
+      @web_resources  ||= @profile.web_resources
+      @languages      ||= @profile.languages
+      #@websites       ||= @profile.websites
       @notes          ||= @profile.notes
     end
   end
@@ -78,7 +79,7 @@ class ProfilesController < ApplicationController
     end
     
     success = success &&
-      [ :email_addresses, :im_addresses, :web_services, :phone_numbers ].all? do |collection| 
+      [ :email_addresses, :im_addresses, :web_resources, :phone_numbers, :locations ].all? do |collection| 
          if params[ collection ] 
            updated_collection = update_dependent_collection( collection, params[ collection ]) 
            instance_variable_set "@#{collection}".to_sym, updated_collection
@@ -87,6 +88,7 @@ class ProfilesController < ApplicationController
            true
           end
       end
+
   end
 
   def update_dependent_collection( collection, new_values )
@@ -98,7 +100,7 @@ class ProfilesController < ApplicationController
       updated_collection = profile_collection.update( new_values.keys, new_values.values )
     end
     if new_items
-      blank_items = new_items.delete_if {|item| item[ collection.to_s.singularize ].blank? } 
+      blank_items = new_items.delete_if {|item| item.all?{ |k, v| v.blank? or k.to_s =~ /_type$/ }} 
       updated_collection += profile_collection.build( new_items ) unless new_items.empty?
     end
     updated_collection

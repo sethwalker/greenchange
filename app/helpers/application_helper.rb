@@ -12,6 +12,7 @@ module ApplicationHelper
   include PageListHelper
   include ContextHelper
   include NetworkContentHelper
+  include PermissionsHelper
   #include PathFinder::Options   # for Page.find_by_path options
     
   def issue_selector(thing_that_has_issues)

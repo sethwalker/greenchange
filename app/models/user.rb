@@ -20,6 +20,7 @@ class User < ActiveRecord::Base
   has_many :gives_permissions,  :as => 'grantor', :class_name => 'Permission'
   has_many :given_permissions,  :as => 'grantee', :class_name => 'Permission'
   has_many :preferences, :dependent => :destroy 
+  has_many :languages, :class_name => 'Profile::Language'
 
   def preferences=(settings)
     if settings.is_a? Hash
@@ -78,6 +79,19 @@ class User < ActiveRecord::Base
     issue_ids.each do |issue_id|
       self.issue_identifications.create(:issue_id => issue_id) unless issue_identifications.any? {|issue_identification| issue_identification.issue_id == issue_id}
     end
+  end
+
+  def language_keys=(language_keys)
+    languages.each do |language|
+      language.destroy unless language_keys.include?(language.language)
+    end
+    language_keys.each do |key|
+      self.languages.create(:language => key) unless languages.any? {|language| language.language == key}
+    end
+  end
+
+  def language_keys
+    languages.map(&:language)
   end
 
   has_collections :private, :social, :public, :unrestricted
@@ -172,10 +186,6 @@ class User < ActiveRecord::Base
     last_seen_at > 10.minutes.ago if last_seen_at
   end
 
-  def superuser?
-    superuser == 1
-  end
-  
   def time_zone
     read_attribute(:time_zone) || DEFAULT_TZ
   end

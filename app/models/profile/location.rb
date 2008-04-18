@@ -9,6 +9,7 @@ class Profile::Location < ActiveRecord::Base
   before_save :set_geocode
   after_save {|record| record.profile.save if record.profile}
   after_destroy {|record| record.profile.save if record.profile}
+  validates_presence_of :country_name
 
   @@geocode_addresses = false
 
