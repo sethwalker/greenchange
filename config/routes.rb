@@ -88,6 +88,8 @@ ActionController::Routing::Routes.draw do |map|
       profile.resources :im_addresses
       profile.resources :phone_numbers
       profile.resources :websites
+      profile.resources :web_resources
+      profile.resources :languages
       profile.resources :locations
     end
     me.resource :profile
