@@ -7,11 +7,17 @@
     Do us a favor and let us know:
     .clear
     - report_source = " Problem report by _#{logged_in? ? current_user.login : "an anonymous user"}_ from _#{request.request_uri}_. \n\n"
-    - report_location = "  Raised by _#{controller.class}_ on #{problem ? problem.created_at.strftime('%A, %b %d, %Y at %l:%M %p') : Time.now.strftime('%A, %b %d, %Y at %l:%M %p')}\n\n"
-    - report_params = " The params were: _#{params.inspect}_.\n\n  The error was #{problem.inspect}. \n\n "
-    - report_trace = " Trace:\n #{problem.backtrace}"
-    - problem_report = report_source + report_location + report_params + report_trace
-    = mail_to "help@radicaldesigns.org", "Send a problem report", :encode => "javascript", :subject => "Problem: #{problem.exception_class} at #{request.request_uri}", :body => ( "Thanks for reporting!  If you have additional information about what you were trying to do when this problem came up, please write it here:\n\n\n\n------\n" + problem_report )
+    - if problem
+      - report_location = "  Raised by _#{controller.class}_ on #{problem ? problem.created_at.strftime('%A, %b %d, %Y at %l:%M %p') : Time.now.strftime('%A, %b %d, %Y at %l:%M %p')}\n\n"
+      - report_params = " The params were: _#{params.inspect}_.\n\n  The error was #{problem.inspect}. \n\n "
+      - report_trace = " Trace:\n #{problem.backtrace}"
+      - problem_report = report_source + report_location + report_params + report_trace
+      - problem_subject = "Problem: #{problem.exception_class} at #{request.request_uri}"
+    - else
+      - problem_subject = "Page not found or problem unknown"
+      - problem_report = ""
+
+    = mail_to "help@radicaldesigns.org", "Send a problem report", :encode => "javascript", :subject => problem_subject, :body => ( "Thanks for reporting!  If you have additional information about what you were trying to do when this problem came up, please write it here:\n\n\n\n------\n" + problem_report )
     -if request.env['HTTP_REFERER']
       #go_back
         = link_to "Go Back", request.env['HTTP_REFERER']
