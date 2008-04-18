@@ -1,12 +1,8 @@
 %p
-  = f.label :to, "Email addresses of your friends seperated by commas"
-  = f.text_field :to
-.section
-%p
-  = f.label :subject, "Subject"
-  = f.text_field :subject, :value => 'Check out the Green Change network'
+  = f.label :recipients, "Email addresses of your friends seperated by commas"
+  = f.text_area :recipients, :size => '40x7'
 .section
   %p
     = f.label :body, "Your message"
-    = f.text_area :body, :value => 'Come and check out the Green Change network at http://network.greenchange.org  You will love it.'
+    = f.text_area :body
 

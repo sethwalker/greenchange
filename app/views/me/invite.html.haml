@@ -2,12 +2,14 @@
   = icon_for @me, :size => :medium
   %h1.medium
     Invite your friends to the Green Change Network  
+  = error_messages_for @invite
 
 .section
-  Currently we are not allowing invitations untill the network is live to the general public.
+  -#
+    Currently we are not allowing invitations untill the network is live to the general public.
 
 .new.invite.form
-  - form_for :invite, @invite, :url => 'me_invite_path(@me)' do |f|
+  - form_for :invite, @invite, :url => send_invitation_me_path do |f|
     = render :partial => 'invite_form', :locals => { :f => f }
     %p.submit
       = f.submit "Send"

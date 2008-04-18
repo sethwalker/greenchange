@@ -91,6 +91,26 @@ class MeController < ApplicationController
   end
 
   def invite
+    @invite = NetworkInvitation.new
+  end
+
+  def send_invitation
+    invites = NetworkInvitation.spawn( params[:invite] )
+    valid_invites, invalid_invites = invites.partition(&:valid?) 
+    if invalid_invites.empty?
+      flash[:notice] = "Your invitations have been sent"
+      redirect_to me_path
+    else
+      @invite = NetworkInvitation.new 
+      invalid_invites.each do |invite|
+        invite.errors.each do |exc|
+          @invite.errors << exc
+        end
+      end
+      @invite.recipients = invalid_invites.map { |inv| inv.recipient.email }
+      @invite.body = params[:invite][:body]
+      render :action => 'invite'
+    end
   end
 
   protected

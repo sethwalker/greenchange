@@ -16,6 +16,7 @@ ActionController::Routing::Routes.draw do |map|
   map.activate '/activate/:activation_code', :controller => 'account', :action => 'show'
   map.forgot_password '/forgot_password',     :controller => 'passwords',   :action =>  'new'
   map.reset_password  '/reset_password/:id',  :controller => 'passwords',   :action =>  'edit'
+  map.block_email '/block_email/:id', :controller => 'emails', :action => 'block', :method => :post
   
 
   map.resources :issues
@@ -101,7 +102,7 @@ ActionController::Routing::Routes.draw do |map|
     me.resources :contacts, :controller => 'contact', :member => { :approve => :post, :reject => :post, :add => :get }
   end
   #map.resource :profile, :controller => 'profiles', :path_prefix => 'me/', :name_prefix => 'my'
-  map.resource :me, :controller => 'me', :member => { :search => :get, :files => :get, :tasks => :get } do |me|  
+  map.resource :me, :controller => 'me', :member => { :search => :get, :files => :get, :tasks => :get, :invite => :get, :send_invitation => :post } do |me|  
     me.resource :inbox,   :controller => 'inbox' do |inbox|
       inbox.resources :messages 
     end
