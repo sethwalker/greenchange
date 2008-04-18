@@ -63,7 +63,7 @@ ActionController::Routing::Routes.draw do |map|
     parent.resources :events, :controller => 'tool/event', :member => {:participate => :post, :set_event_description => :post}, :collection => {:day => :get, :week => :get, :month => :get, :calendar => :get} do |event|
       #event.resources :attendees
       event.resources :rsvps
-      event.resources :invitations, :controller => 'event/invitations', :member => {:accept => :post, :reject => :post}
+      event.resources :invitations, :controller => 'event/invitations', :member => {:accept => :post, :reject => :put}
     end
     parent.resources :videos, :controller => 'tool/external_video' #for now
     parent.resources :audio, :controller => 'tool/audio'

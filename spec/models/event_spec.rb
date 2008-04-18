@@ -2,9 +2,27 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe "Event" do
 
   before do
-    @page = Tool::Event.create :title => 'test_event'
-    @event = @page.create_data :page => @page
+    @page = Tool::Event.new :title => 'test_event'
+    @event = @page.build_data :page => @page
     TzTime.zone = TimeZone[DEFAULT_TZ]
+  end
+
+  describe "valide date range" do 
+    before do 
+      @event.time_zone = 'Pacific Time (US & Canada)'
+      @event.date_start = '2008-04-02'
+      @event.hour_start = '12:00PM'
+      @event.date_end = '2008-04-02'
+    end
+    it "doesn't allow invalid dates" do 
+      @event.hour_end = '11:00AM' 
+      @event.should_not be_valid
+    end
+
+    it "allows valid dates" do 
+      @event.hour_end = '1:00PM' 
+      @event.should be_valid
+    end
   end
 
   it "should accept a start date" do

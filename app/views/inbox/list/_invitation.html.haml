@@ -15,7 +15,7 @@
         .icon
           = button_to "Accept", accept_event_invitation_path(invitation.event.page, invitation), :method => :post, :class => 'add action', :title => 'Accept'
         .icon
-          = button_to "Reject", reject_event_invitation_path(invitation.event.page, invitation), :method => :delete, :class => 'delete action', :title => 'Reject'
+          = button_to "Reject", reject_event_invitation_path(invitation.event.page, invitation), :method => :put, :class => 'delete action', :title => 'Reject'
   %tr.row.message-body
     %td
       .toolbar
