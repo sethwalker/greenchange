@@ -1,0 +1,8 @@
+%p
+  = check_box_tag "#{f.object_name}[language_keys][]", language_key, f.object.language_keys.include?( language_key  ), :id => "language[#{language_key}]"
+  %label{:for => "language[#{language_key}]"} 
+    = language_name
+
+
+
+

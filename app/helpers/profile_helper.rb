@@ -27,31 +27,30 @@ module ProfileHelper
 
   PHONE_TYPES = %w[Home Fax Mobile Other Pager Work]
   LOCATION_TYPES = %w[Home Work School Other]
-  LANGUAGES = {
-    'ar' => 'Arabic',
-    'bn' => 'Bengali; Bangla',
-    'bo' => 'Tibetan',
-    'de' => 'German',
-    'el' => 'Greek',
-    'en' => 'English',
-    'es' => 'Spanish',
-    'fa' => 'Persian',
-    'fr' => 'French',
-    'he' => 'Hebrew',
-    'hi' => 'Hindi',
-    'ja' => 'Japanese',
-    'jw' => 'Javanese',
-    'ko' => 'Korean',
-    'mr' => 'Marathi',
-    'pt' => 'Portuguese',
-    'ru' => 'Russian',
-    'sw' => 'Swahili',
-    'ta' => 'Tamil',
-    'te' => 'Telugu',
-    'vi' => 'Vietnamese',
-    'zh' => 'Mandarin',
-    'zu' => 'Zulu'
-  }
+  LANGUAGES = [
+    ['ar', 'Arabic'],
+    ['bn', 'Bengali; Bangla'],
+    ['en', 'English'],
+    ['fr', 'French'],
+    ['de', 'German'],
+    ['el', 'Greek'],
+    ['he', 'Hebrew'],
+    ['hi', 'Hindi'],
+    ['ja', 'Japanese'],
+    ['jw', 'Javanese'],
+    ['ko', 'Korean'],
+    ['zh', 'Mandarin'],
+    ['mr', 'Marathi'],
+    ['fa', 'Persian'],
+    ['pt', 'Portuguese'],
+    ['ru', 'Russian'],
+    ['es', 'Spanish'],
+    ['sw', 'Swahili'],
+    ['ta', 'Tamil'],
+    ['te', 'Telugu'],
+    ['bo', 'Tibetan'],
+    ['vi', 'Vietnamese'],
+  ]
 
   def photo(profile)
     avatar_for(profile.entity, 'xlarge')

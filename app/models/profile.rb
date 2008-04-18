@@ -63,7 +63,8 @@ class Profile < ActiveRecord::Base
   has_many   :im_addresses,    :dependent => :destroy###, :order=>"preferred desc"
   has_many   :web_resources,   :dependent => :destroy
   has_many   :phone_numbers,   :dependent => :destroy#, :order=>"preferred desc"
-  has_many   :websites,        :dependent => :destroy#, :order=>"preferred desc"
+  has_many   :languages,       :dependent => :destroy#, :order=>"preferred desc"
+  #has_many   :websites,        :dependent => :destroy#, :order=>"preferred desc"
   has_many   :notes,           :dependent => :destroy do #, :order=>"preferred desc" do
     def [] ( note_type )
       detect { |n| n.note_type == note_type } or

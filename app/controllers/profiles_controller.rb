@@ -21,7 +21,7 @@ class ProfilesController < ApplicationController
       @phone_numbers  ||= @profile.phone_numbers
       @locations      ||= @profile.locations
       @web_resources  ||= @profile.web_resources
-      #@languages      ||= @profile.languages
+      @languages      ||= @profile.languages
       #@websites       ||= @profile.websites
       @notes          ||= @profile.notes
     end
@@ -79,7 +79,7 @@ class ProfilesController < ApplicationController
     end
     
     success = success &&
-      [ :email_addresses, :im_addresses, :web_resources, :phone_numbers ].all? do |collection| 
+      [ :email_addresses, :im_addresses, :web_resources, :phone_numbers, :locations ].all? do |collection| 
          if params[ collection ] 
            updated_collection = update_dependent_collection( collection, params[ collection ]) 
            instance_variable_set "@#{collection}".to_sym, updated_collection
@@ -89,14 +89,6 @@ class ProfilesController < ApplicationController
           end
       end
 
-    success = success && (
-      if params[ :locations ] 
-        updated_collection = update_dependent_collection( :locations, params[ :locations ], :location_type ) 
-        instance_variable_set "@#{:locations}".to_sym, updated_collection
-        updated_collection.all?(&:valid?)
-      else
-        true
-      end )
   end
 
   def update_dependent_collection( collection, new_values )
