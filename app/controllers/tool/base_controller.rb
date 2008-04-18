@@ -121,6 +121,14 @@ class Tool::BaseController < ApplicationController
     end
   end
 
+  def destroy
+    page = Page.find params[:id]
+    current_user.may! :admin, page
+    page.destroy
+    flash[:notice] = "Deleted \"#{page.display_name}\""
+    redirect_to :back
+  end
+
   def title
     return redirect_to(page_url(@page)) unless request.post?
     @page.title = params[:page][:title]

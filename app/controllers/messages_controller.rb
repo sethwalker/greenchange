@@ -29,5 +29,13 @@ class MessagesController < ApplicationController
       @messages = Message.find :all, :conditions => [ 'sender_id = ?', current_user ]
     end
   end
+
+  def destroy
+    message = Message.find params[:id]
+    current_user.may! :admin, message
+    message.destroy 
+    flash[:notice] = "Removed message from #{message.sender.display_name}"
+    redirect_to :back
+  end
   
 end

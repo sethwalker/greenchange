@@ -15,7 +15,7 @@
       .icon
         = link_to "Reply", new_person_message_path(item.sender), :class => 'reply action', :title => 'Send Reply'
       .icon
-        = button_to "Delete", 'me_inbox_message_path(item)', :method => :delete, :class => 'ignore action', :title => 'Delete this message'
+        = button_to "Delete", message_path(item), :method => :delete, :class => 'ignore action', :title => 'Delete this message'
 
   %tr.row.message-body
     %td
