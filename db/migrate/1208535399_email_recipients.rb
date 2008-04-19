@@ -4,6 +4,8 @@ class EmailRecipients < ActiveRecord::Migration
       t.string :email, :first_name, :last_name
       t.integer :last_sender_id
       t.string :status
+      t.string :retrieval_code, :limit => 8
+      t.timestamps
     end
   end
 

@@ -3,9 +3,9 @@ class NetworkInvitationMailer < ActionMailer::Base
   def invitation( invite )
     setup_email(invite.sender)
     @recipients = invite.recipient.email
-    @subject      = "Invitation from #{user.display_name}: Check out the Green Change Network"
+    @subject      = "Invitation from #{invite.sender.display_name}: Check out the Green Change Network"
     @body[:recipient] = invite.recipient
-    @body[:message] = invite.message
+    @body[:message] = invite.body
   end
 
   protected

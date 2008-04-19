@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1208395185) do
+ActiveRecord::Schema.define(:version => 1208535399) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -172,6 +172,17 @@ ActiveRecord::Schema.define(:version => 1208395185) do
   end
 
   add_index "email_addresses", ["profile_id"], :name => "email_addresses_profile_id_index"
+
+  create_table "email_recipients", :force => true do |t|
+    t.string   "email"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.integer  "last_sender_id"
+    t.string   "status"
+    t.string   "retrieval_code", :limit => 8
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "events", :force => true do |t|
     t.text    "description"

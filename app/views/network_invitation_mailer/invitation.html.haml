@@ -10,4 +10,4 @@ Even though there are a few bugs and bumps being worked out, you will love it.
 
 \-----------------
 If you do not wish to receive further email from the Green Change Network, please 
-= button_to 'opt out', block_email_url(@recipient)#"http://network.greenchange.org/block_email/#{@recipient.id}"
+= link_to 'opt out', block_email_url(:retrieval_code => @recipient.retrieval_code, :host => Crabgrass::Config.host)#"http://network.greenchange.org/block_email/#{@recipient.id}"
