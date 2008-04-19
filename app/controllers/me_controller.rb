@@ -104,7 +104,7 @@ class MeController < ApplicationController
       flash[:notice] = "Your invitations have been sent"
       redirect_to me_path
     else
-      flash[:notice] = "Invitations were sent to: #{valid_invites.map(&:recipient_email).join(', ')}" unless valid_invites.empty? 
+      flash.now[:notice] = "Invitations were sent to: #{valid_invites.map(&:recipient_email).join(', ')}" unless valid_invites.empty? 
       @invite = NetworkInvitation.new 
       invalid_invites.each do |invite|
         invite.errors.each do |attr, msg|
