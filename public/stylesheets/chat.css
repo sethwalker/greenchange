@@ -4,10 +4,12 @@
   overflow: auto; 
   font-size: 11px;
   height:400px;
+  float: left;
+  width:450px;
   line-height: 14px;
   border: 1px solid #ccc;
   background: #fff;
-  margin-right: 10px;
+  margin-left: 10px;
   margin-bottom: 10px;
   
 }
@@ -19,9 +21,9 @@
 #conversation .message.sys .content { color: #5b0; font-weight: bold; }
 #conversation .message.action .content { color: #66f; font-weight: bold; }
 #userlist { 
-  float:right;
+  float:left;
   overflow: auto; 
-  width: 160px;
+  width: 140px;
   height:400px;
   background-color: #fff;
   line-height: 14px;
@@ -38,6 +40,7 @@ td#handle {
 }
 table#typebox {
   background: #efefef;
+  float: left;
   width: 100%;
 }
 #entryfield {
