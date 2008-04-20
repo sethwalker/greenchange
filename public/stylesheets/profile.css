@@ -1,21 +1,24 @@
-.note_title {
+body.profiles .vcard {
+  float: left; }
+body.profiles .show.landing > li {
   float: left;
-  display: inline;
+  margin-right: 10px; }
+body.profiles .show.landing h4 {
+  font-size: 14px;
+  margin-top: 4px;
+  margin-bottom: 4px; }
+body.profiles .show.landing dt {
   font-weight: bold;
-  margin-right: .5em; }
-  .note_title:after {
-    content: ":"; }
-
-body.profile div.profile td.label {
-  width: 10em;
-  text-align: right;
-  font-weight: bold;
-  padding: 8px; }
-body.profile div.profile td.form {
-  padding: 8px; }
-body.profile div.profile div.section {
-  padding: 8px;
-  margin: 1em 0;
-  background: #eee; }
-body.profile div.profile div.spacer {
-  height: 8px; }
+  float: left;
+  display: block; }
+body.profiles .show.landing dd {
+  padding-left: 0;
+  float: left;
+  margin-left: 5px; }
+body.profiles .show.landing dd.mailable {
+  display: block; }
+body.profiles .show.landing dl {
+  padding-bottom: 5px;
+  float: left;
+  clear: both;
+  width: 193px; }

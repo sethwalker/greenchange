@@ -72,13 +72,19 @@ class Profile < ActiveRecord::Base
     end
   end
 
+  def note_for(note_type)
+    notes.detect { |n| n.note_type == note_type } or
+    notes.find_or_create_by_note_type note_type.to_s
+  end
   #validates_associated :email_addresses
 
   def save_public_version
     if friend? and entity.respond_to? :public_profile
       public_version = entity.public_profile || entity.build_public_profile
       public_version.attributes = self.attributes.merge( :friend => false, :stranger => true )
-      notes.each { |n| public_version.notes[n.note_type].update_attribute :body, n.body }
+      notes.each { |n| public_version.note_for(n.note_type).update_attribute :body, n.body }
+      web_resources.each { |srv| public_version.web_resources << srv }
+      locations.each { |loc| public_version.locations.build :city => loc.city, :state => loc.state }
       public_version.save
     end
   end

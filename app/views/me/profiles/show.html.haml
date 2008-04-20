@@ -1,76 +1,109 @@
-- content_for :title do
-  =render :partial => 'title_menu', :locals => { :person => @profile.entity }
-  = icon_for @profile.entity, :size => :large
-  %h1
-    = @profile.full_name
-
-%div
-  = [@profile.role, @profile.organization].reject(&:blank?).join(', ')
-
-%dl
-  -#- unless @profile.phone_numbers.empty?
-    %dt
-      = _('Phone')
-      \:
-    - @profile.phone_numbers.each do |phone_number|
-      %dd
-        = h(phone_number.phone_number)
-        %em
-          = h(_(phone_number.phone_number_type))
-
-  -#- unless @profile.email_addresses.empty?
-    %dt
-      = _('Email')
-      \:
-    - @profile.email_addresses.each do |email_address|
-      %dd
-        = mail_to h(email_address.email_address)
-        %em
-          = h(_(email_address.email_type))
-
-  - unless @profile.locations.empty?
-    %dt
-      = _('Location')
-      \:
-    - @profile.locations.each do |location|
-      %dd
-        = h(location.street)
-        %em
-          = h(_(location.location_type))
-        %br/
-        = h(location.city)
-        ,
-        = h(location.state)
-        = h(location.postal_code)
-        %br
-
-  - unless @profile.im_addresses.empty?
-    %dt
-      = _('Instant Messaging')
-      \:
-    - @profile.im_addresses.each do |im|
-      %dd
-        = im.im_address
-        %em
-          = h(im.im_type)
-
-  - unless @profile.web_resources.empty?
-    %dt
-      = _('Online Stuff')
-      \:
-    - @profile.web_resources.each do |web_resource|
-      %dd
-        %dd
-          = web_resource.web_resource
-          %em
-            = h(web_resource.web_resource_type)
-
-  - unless @profile.notes.empty?
-    - ProfileHelper::NOTES.each do |note_type| 
-      - next unless note = @profile.notes[ note_type] and note.body
-      %dt
-        = ProfileHelper::NOTE_TYPE_NAMES[note_type]
-        \:
-      %dd
-        = h note.body
-
+= render :partial => 'profiles/show'
+-#.vcard
+-#  #titlebox
+-#    =render :partial => 'title_menu', :locals => { :person => @profile.entity }
+-#    %img{ html_options_for_icon_for( @profile.entity, :class => 'photo', :src => icon_path_for( @profile.entity), :size => 'large' ) }
+-#    %h1
+-#      %span.fn
+-#        %span.given-name
+-#          = @profile.first_name
+-#        %span.last-name
+-#          = @profile.last_name
+-#      (
+-#      %span.nickname
+-#        = @profile.entity.login
+-#      )
+-#
+-#    %h3.org-info
+-#      %span.title
+-#        = @profile.role + (( @profile.organization && @profile.role ) ? ', ' : '' )
+-#      %span.org
+-#        = @profile.organization
+-#
+-#  - unless @profile.web_resources.empty?
+-#    %h3
+-#      Online:
+-#    %dl.profile.web_resources
+-#      - @profile.web_resources.each do |web_resource|
+-#        %dt.type
+-#          = web_resource.web_resource_type
+-#          \:
+-#        %dd
+-#          = link_to web_resource.web_resource, web_resource_url( web_resource.web_resource_type, web_resource.web_resource ), :class => 'url'
+-#
+-#
+-#  %ul.plainlist
+-#    - unless @profile.locations.empty?
+-#      %li
+-#        %h4
+-#          Location:
+-#        %dl
+-#        - @profile.locations.each do |location|
+-#          .adr
+-#            %dt.type
+-#              = h(_(location.location_type))
+-#            %dd.mailable
+-#              .street-address
+-#                = h(location.street)
+-#              .address-last-line
+-#                %span.locality
+-#                  = h(location.city) + ( location.state ? ', ':'')
+-#                %span.region
+-#                  = h(location.state)
+-#                %span.postal-code
+-#                  = h(location.postal_code)
+-#              .country-name
+-#                = location.country_name
+-#
+-#    - unless @profile.phone_numbers.empty?
+-#      %li
+-#        %h4
+-#          Phone:
+-#        %dl
+-#          - @profile.phone_numbers.each do |phone_number|
+-#            .tel
+-#              %dt.type
+-#                = phone_number.phone_number_type
+-#              %dd.value
+-#                = h(phone_number.phone_number)
+-#
+-#    - unless @profile.email_addresses.empty?
+-#      %li
+-#        %h4
+-#          Email:
+-#        %dl
+-#          - @profile.email_addresses.each do |email_address|
+-#            .email
+-#              %dt
+-#                = h email_address.email_type
+-#                .cdata.type
+-#                  = hcard_data_type(email_address.email_type )
+-#              %dd.value
+-#                = mail_to email_address.email_address, email_address.email_address, :encode => 'hex'
+-#
+-#
+-#    - unless @profile.im_addresses.empty?
+-#      %li
+-#        %h4
+-#          Instant Messaging:
+-#        %dl
+-#          - @profile.im_addresses.each do |im|
+-#            %dt
+-#              = h(im.im_type)
+-#            %dd
+-#              - if hcard_im_url( im.im_type, im.im_address )
+-#                = link_to im.im_address, hcard_im_url( im.im_type, im.im_address ), :class => 'url'
+-#              - else
+-#                %span.url
+-#                  = im.im_address
+-#
+-#
+-#- unless @profile.notes.empty?
+-#  %ul.plainlist
+-#    - ProfileHelper::NOTES.each do |note_type| 
+-#      - next unless note = @profile.notes[ note_type] and note.body
+-#      %li
+-#        %h4
+-#          = ProfileHelper::NOTE_TYPE_NAMES[note_type]+':'
+-#        = simple_format note.body
+-#
