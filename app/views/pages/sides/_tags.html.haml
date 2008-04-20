@@ -1,5 +1,9 @@
-.sidesection
-  .sidehead
-    tags
-  .sideline
-    = render :partial => "pages/tag_area"
+- if page.tags.any? || ( logged_in? && current_user.may?( :participate, page ) )
+  .section
+    .header
+      tags
+    - if logged_in? && current_user.may?(:participate, page)
+      = render :partial => "shared/form/tags", :locals => { :taggable => page }
+    - if page.tags.any?
+      - for tag in page.tags.uniq
+        = link_to tag.name, tag_pages_path(tag), :title => "Other items tagged with #{tag.name}"

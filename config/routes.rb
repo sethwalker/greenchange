@@ -143,6 +143,10 @@ ActionController::Routing::Routes.draw do |map|
     page_routes(person)
   end
 
+  map.resources :tags do |tag|
+    page_routes(tag)
+  end
+
   map.people 'people/:action/:id', :controller => 'people'
   map.connect 'person/:action/:id/*path', :controller => 'person'
 

@@ -34,5 +34,9 @@ class Tag < ActiveRecord::Base
   # Tag::Error class. Raised by ActiveRecord::Base::TaggingExtensions if something goes wrong.
   class Error < StandardError
   end
+
+  def to_param
+    name
+  end
     
 end

@@ -297,6 +297,10 @@ class Page < ActiveRecord::Base
     begin
       taggable?(true)
       tag_cast_to_string(@new_tags)
+      (@new_tags || '' ).squeeze(' ,').split( Tag::SPLITTING_DELIMITER ).map(&:strip).uniq.each do |tag| 
+        next if tag.blank?
+        raise Tag::Error, "tags must be at least 3 characters, \"#{tag}\" doesn't qualify" if tag.size < 3 
+      end
     rescue Exception => e
       errors.add("tag_list", e.message)
     end
@@ -304,7 +308,13 @@ class Page < ActiveRecord::Base
 
   after_save :update_tags
   def update_tags
-    tag_with @new_tags if @new_tags
+    begin
+      unless @new_tags.blank?
+        taggings.delete_all
+        tag_with ((@new_tags || '' ).squeeze(' ,').split( Tag::SPLITTING_DELIMITER ).map(&:strip).uniq.join(', '))
+      end
+    rescue Tag::Error
+    end
   end
 
 
