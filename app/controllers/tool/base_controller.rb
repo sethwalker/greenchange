@@ -126,7 +126,7 @@ class Tool::BaseController < ApplicationController
     current_user.may! :admin, page
     page.destroy
     flash[:notice] = "Deleted \"#{page.display_name}\""
-    redirect_to :back
+    redirect_to me_pages_path
   end
 
   def title

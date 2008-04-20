@@ -1,0 +1,11 @@
+.section.preferences
+  %h2 Preferences
+  %p.preference
+    = check_box_tag "user[preferences][subscribe_to_email_list]", 1, user.preference_for(:email_list)
+    %label{ :for => "user[preferences][subscribe_to_email_list]" }
+      Subscribe me to Green Change e-updates
+  %p.preference
+    = check_box_tag "user[preferences][allow_info_sharing]", 1, user.preference_for(:allow_info_sharing)
+    %label{ :for => "user[preferences][allow_info_sharing]" }
+      Share my information with other Green organizations.
+

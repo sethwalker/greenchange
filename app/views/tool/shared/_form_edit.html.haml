@@ -3,5 +3,6 @@
     = render :partial => 'pages/form', :locals => {:f => f}
     %p.submit
       = submit_tag 'Update', :name => 'update'
+      = link_to 'Cancel changes', me_pages_path, :class => 'cancel'
 
 

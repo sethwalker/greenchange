@@ -15,23 +15,34 @@ Crabgrass.Forms = function() {
     },
     submit_from_menu: function() {
       title_menu = $('titlebox').down('.toolbar.title-menu');
-      if (title_menu == undefined) return;
-      form = $('content').down('form');
-      submit_buttons = form.select("p.submit input[type=submit]").each( function( submit_button ) {
-        menu_submit = submit_button.cloneNode(true);
+      delete_button = title_menu.down('input[type=submit].delete');
+      if (delete_button != null ) { 
+        delete_button.observe( 'click', function(ev) {
+          if(!confirm("You are about to delete the current page.  You will not be able to undo this.")) {
+            ev.stop();
+            return;
+          }
+        });
+      }
+      if (title_menu == null ) return;
+      form = $('content').down('.edit form, .new form');
+      //submit_buttons = form.select("p.submit input[type=submit]").each( function( submit_button ) {
+      submit_block = form.down("p.submit").cloneNode(true);
+      submit_block.select('input[type=submit]').each( function( menu_submit ) {
         menu_submit.observe( 'click', function(ev) { form.submit(); } );
-        title_menu.insert( menu_submit );
+        //title_menu.insert( menu_submit );
       } );
+      title_menu.insert( { top: submit_block } );
     },
 
     initialize_remote_actions: function() {
       $$('.behavior-block .remote').each( function(el) {
         el.observe( 'click', function(ev) {
           if( el != Event.element(ev)) {
-            ev.stop();
+            //ev.stop();
             return false;
           }
-          //confirm action if so marked -- replace this someday
+          //confirm action if so marked -- replace this someday with nicer text or undo options
           if( el.hasClassName('confirm')){ 
             data_to_delete = el.up('.row').select('select,input[type=text]').pluck( 'value' ).join("\n");
             confirm_message = "You are about to delete the following data:\n\n" + data_to_delete + "\n\n";
