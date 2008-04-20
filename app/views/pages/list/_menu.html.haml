@@ -1,0 +1,9 @@
+-if scoped_by_context? && scoped_by_context? == current_user 
+  - if current_user.may? :edit, page
+    .icon
+      = link_to 'edit', edit_tool_page_path(page), :class => 'action edit'
+  - if current_user.may? :admin, page
+    .icon
+      = button_to 'delete', tool_page_path(page), :method => :delete, :class => 'action delete confirm' #:confirm => 'Once deleted, it will not be possible to recover this page', :class => 'action delete'
+
+- load_ajax_list_behaviors

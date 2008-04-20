@@ -1,7 +1,5 @@
 %li.list-item.page{ :class => cycle( 'shade-odd', 'shade-even', :name => 'activity_entry_cycle' )}
-  .icon.source
-    = link_to icon_for(discussions.created_by, :size=>'small' ), person_url(discussions.created_by)
-    = link_to icon_for(discussions.group, :size=>'small'), group_url(discussions.group)
+  = render :partial => 'pages/list/list_menu', :locals => { :page => discussions }
   .list-thumb
     = link_to icon_for(discussions), page_url(discussions)#, :class => 'icon'
   .list-description

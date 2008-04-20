@@ -1,0 +1,8 @@
+.list-menu
+  .toolbar.list-menu
+    = render :partial => 'pages/list/menu', :locals => { :page => page }
+  .source
+    = link_to icon_for(page.created_by, :size=>'small' ), person_url(page.created_by)
+  -if page.group
+    = link_to icon_for(page.group, :size=>'small'), group_url(page.group)
+

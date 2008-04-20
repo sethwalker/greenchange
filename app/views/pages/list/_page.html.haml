@@ -1,21 +1,9 @@
 %li.list-item.page{ :class => cycle( 'shade-odd', 'shade-even', :name => 'activity_entry_cycle' )}
-  .icon.source
-    -if scoped_by_context? == @me  && scoped_by_context?
-      .toolbar
-        - if current_user.may? :edit, page
-          .icon
-            = link_to 'edit', edit_tool_page_path(page), :class => 'action edit'
-        - if current_user.may? :admin, page
-          .icon
-            = button_to 'delete', tool_page_path(page), :method => :delete, :confirm => 'Once deleted, it will not be possible to recover this page', :class => 'action delete'
-      .clear
-
-    = link_to icon_for(page.created_by, :size=>'small' ), person_url(page.created_by)
-    = link_to icon_for(page.group, :size=>'small'), group_url(page.group)
+  = render :partial => 'pages/list/list_menu', :locals => { :page => page }
   .list-thumb
     = link_to icon_for(page), page_url(page)
   .list-description
-    -#.icon
+    -#.icon.source
       = link_to icon_for(page.created_by, :size=>'small' ), person_url(page.created_by)
       = link_to icon_for(page.group, :size=>'small'), group_url(page.group)
     %h3

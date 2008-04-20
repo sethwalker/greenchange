@@ -35,5 +35,23 @@ module AjaxUiHelper
     @ajax_form_behavior_loaded = true
   end
 
+  def load_ajax_list_behaviors
+    return if @ajax_list_behavior_loaded
+    content_for :javascript_onload, <<-SCRIPT
+      $$('ul.list').each( function( list ) {
+        list.observe('click', function(ev) {
+          clicked_item = Event.element(ev);
+          if( clicked_item.hasClassName('delete' ) && clicked_item.hasClassName('confirm')) {
+            if( !confirm( 'You are about to delete this item.  You will not be able to undo this.' )) {
+              ev.stop();
+              return;
+            }
+          }
+        } );
+      } );
+    SCRIPT
+    @ajax_list_behavior_loaded = true
+  end
+
 
 end

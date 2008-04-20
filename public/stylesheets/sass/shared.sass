@@ -345,7 +345,7 @@ ul.tab-block, #titlebox
   .toolbar
     :float right
 
-.toolbar.title-menu
+.toolbar.title-menu, .toolbar.list-menu
   -#:background-color = !admin_toolbar_bg
   -#:border 1px solid
     :color = !admin_toolbar_border
@@ -408,6 +408,8 @@ ul.tab-block, #titlebox
       :order 0
       :background-color transparent
       :background-position 2px 2px
+    input[type=submit].action
+      :border 0
     a.create
       :background-position -5px -6px
       -#:background-image url(/images/actions/list-add.png)  
@@ -534,3 +536,18 @@ a.icon.standard.name-right
       :padding-top 2px
       :padding-bottom 2px
       :font-size 10px
+
+.toolbar.list-menu
+  .icon
+    :width auto
+    :height auto
+    :clear none
+    :float left
+.list-menu
+  :float right
+  :max-width 250px
+  .source
+    :clear both
+    .icon
+      :width 30px
+      :float right
