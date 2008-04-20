@@ -77,8 +77,8 @@ class ProfilesController < ApplicationController
     end
 
     if params[:user] && @profile.user
-      success = success &&
-        @profile.user.update_attributes!( params[:user] )
+        success = success &&
+          @profile.user.update_attributes( params[:user] )
     end
     
     success = success &&

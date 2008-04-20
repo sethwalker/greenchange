@@ -32,9 +32,13 @@ Crabgrass.Forms = function() {
             return false;
           }
           //confirm action if so marked -- replace this someday
-          if( el.hasClassName('confirm') && !confirm('Are you sure?')) {
-            ev.stop();
-            return false;
+          if( el.hasClassName('confirm')){ 
+            data_to_delete = el.up('.row').select('select,input[type=text]').pluck( 'value' ).join("\n");
+            confirm_message = "You are about to delete the following data:\n\n" + data_to_delete + "\n\n";
+            if( !confirm(confirm_message+'Are you sure?')) {
+              ev.stop();
+              return false;
+            }
           }
           //discover remote target
           if( !(remote_action = el.readAttribute('remote_url'))) { 

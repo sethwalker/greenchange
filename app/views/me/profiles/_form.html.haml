@@ -1,5 +1,5 @@
 -content_for :title do
-  = error_messages_for '', :object => [ profile, profile.notes, @email_addresses, @im_addresses, @locations, @phone_numbers, @web_resources ], :object_name => 'profile'
+  = error_messages_for '', :object => [ profile, profile.notes, @email_addresses, @im_addresses, @locations, @phone_numbers, @web_resources, profile.entity ], :object_name => 'profile'
 
 .with-editor
   .column.form-column.first
@@ -41,6 +41,8 @@
 
       = render :partial => "shared/form/issues", :locals => {:f => ff}
       = render :partial => "shared/form/languages", :locals => {:f => ff}
+      = render :partial => "account/form/preferences", :locals => { :f => ff, :user => @profile.entity}
+      = render :partial => "account/form/password", :locals => { :f => ff, :user => @profile.entity}
 
     - %w[ email_address phone_number im_address web_resource location ].each do |section|
       - item_collection = instance_variable_get( "@#{section.pluralize}" );

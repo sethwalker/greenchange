@@ -35,7 +35,6 @@
         = content_tag :label, "I agree to the  #{link_text}", :for => "agreed_to_terms"
 
       %p.preference
-        -#= hidden_field_tag "user[preferences][email_list][name]", 'email_list', @user.preferences[:email_list]
         = check_box_tag "user[preferences][subscribe_to_email_list]", 1, ( @user.preference_for(:email_list).nil? ? true : @user.preference_for(:email_list))
         %label{ :for => "user[preferences][subscribe_to_email_list]" }
           Subscribe me to Green Change e-updates
