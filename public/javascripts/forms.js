@@ -27,6 +27,10 @@ Crabgrass.Forms = function() {
     initialize_remote_actions: function() {
       $$('.behavior-block .remote').each( function(el) {
         el.observe( 'click', function(ev) {
+          if( el != Event.element(ev)) {
+            ev.stop();
+            return false;
+          }
           //confirm action if so marked -- replace this someday
           if( el.hasClassName('confirm') && !confirm('Are you sure?')) {
             ev.stop();

@@ -1,7 +1,7 @@
 -fields_target = location.new_record? ? "locations[new][]" : :locations
 -fields_for fields_target, location do |ff|
   - index = location.try(:id) || ''
-  .row
+  .row.location
     .block
       -#%p
         -#= ff.check_box :preferred, { :index => index, :class => 'behavior-radio'}, 1

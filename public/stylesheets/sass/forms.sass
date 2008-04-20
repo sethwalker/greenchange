@@ -71,8 +71,8 @@ form
 
   .form-column
     :float left
-    :width = !main_column_noside_width / 2 - 10
     :margin-right 10px
+    :width = !main_column_noside_width / 2 - 10
     .section, p
       :width = !main_column_noside_width / 2 - 10
 
@@ -91,10 +91,17 @@ form
     :width = !main_column_width - 100
   .form-column.last
     :width = !side_column_width 
+    .section
+      :width = !side_column_width + 100
 
   
+  .icon-upload
+    p
+      :width 250px
+      :margin-left 8px
+
   .behavior-block
-    & > .toolbar
+    > .toolbar
       :margin
         :left 250px
         :bottom 25px
@@ -105,5 +112,6 @@ form
     .row
       .toolbar
         :margin 0
+        :float right
         :padding 0
  

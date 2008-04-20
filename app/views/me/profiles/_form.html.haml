@@ -23,20 +23,18 @@
           = f.label 'role', "Organizational role"
           = f.text_field 'role', 'size' => 40, 'maxlength' => 100, 'style' => 'width:285px'
 
-        - %w[ note ].each do |section|
-          - item_collection = instance_variable_get( "@#{section.pluralize}" );
-          = render :partial => "me/profiles/sections/list/#{section}", :locals => {:profile => profile, :f => f , section.pluralize.to_sym => item_collection }
+        = render :partial => "me/profiles/sections/list/note", :locals => {:profile => profile, :f => f , :notes => @notes }
 
   .column.form-column.last
     - fields_for :user, @profile.user do |ff|
       .section
-        .row
+        .row.icon-upload
           = icon_for @profile.entity
           %p
             = ff.label :image_file, 'Upload new picture'
             = ff.hidden_field :image_file_temp
             %span.comment
-              uploaded image will be cropped and stretched to 96 pixels square.
+              uploaded image will be cropped and stretched to 92 pixels square.
               %br
               max file size 3mbs
             = ff.file_field :image_file, :size => 10 

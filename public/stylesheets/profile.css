@@ -22,3 +22,7 @@ body.profiles .show.landing dl {
   float: left;
   clear: both;
   width: 193px; }
+body.profiles form .row.location {
+  border-bottom: 1px solid;
+  border-color-bottom: #f2f2f2;
+  margin-bottom: 15px; }
