@@ -116,21 +116,24 @@ Crabgrass.Ajax = function() {
             m_self.display = new Element('div', { 'id': 'ajax-message' })
             document.body.insert( { bottom: m_self.display } );
             m_self.display.hide();
+          } else {
+            m_self.display = $('ajax-message');
           }
         },
 
         show_error: function( message ) {
-          if (message == undefined) {
+          if (message == null) {
             message = "Whoops...something went wrong.  Reload the page or try again later... "
           }
           m_self.show( message, 'error' );
         },
 
         show: function( message, message_class ) {
-          if (message == undefined) {
+          if (message == null) {
             message = "Hello!";
           }
-          if (message_class == undefined) message_class = 'message';
+          if (message_class == null) message_class = 'message';
+          console.log( message_class + ' showing error ' + message );
 
           m_self.display.update( new Element('div', { 'class': message_class }).update( message ));
           m_self.display.show();
