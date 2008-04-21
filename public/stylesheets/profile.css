@@ -26,3 +26,7 @@ body.profiles .form-column.last .section {
   margin-bottom: 30px; }
 body.profiles form .row.location {
   margin-bottom: 35px; }
+
+body.people #titlebox h4 {
+  margin-top: 8px;
+  margin-bottom: 4px; }

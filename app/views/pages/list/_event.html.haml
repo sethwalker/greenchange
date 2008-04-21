@@ -21,7 +21,7 @@
         %li
           .label
             Tags:
-          = render :partial => 'shared/tag', :collection => event.tags
+          = render :partial => 'shared/tag', :collection => event.tags.uniq
       -# unless event.issues.empty?
         %li
           .label

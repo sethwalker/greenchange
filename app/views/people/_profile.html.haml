@@ -2,8 +2,8 @@
   - for note in profile.notes
     -unless note.body.blank?
       .note
-        .note_title
-          = ProfileHelper::NOTE_TYPE_NAMES[ note.note_type ]
-        = truncate( note.body, 200 ) if note.body
+        %h4.note_title
+          = ProfileHelper::NOTE_TYPE_NAMES[ note.note_type ] + ': '
+        = truncate( note.body, 400 ) if note.body
   .toolbar
     = link_to 'View full profile', person_profile_url( profile.entity )

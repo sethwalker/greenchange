@@ -11,6 +11,7 @@ module IconResource
   end
 
   def icon
+    raise ActiveRecord::RecordNotFound unless icon_resource
     respond_to do |format|
       format.png do
         @requested_size = params[:size] ? params[:size].to_sym : :default

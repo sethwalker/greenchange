@@ -26,7 +26,7 @@
         .date
           %label
             Tags:
-          = render :partial => 'shared/tag', :collection => page.tags
+          = render :partial => 'shared/tag', :collection => page.tags.uniq
     - unless page.issues.empty?
       %br
       .issues.icon-only

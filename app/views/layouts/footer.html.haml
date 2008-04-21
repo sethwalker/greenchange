@@ -6,5 +6,5 @@
   = link_to "Credits", "http://greenchange.org/credits"
   = link_to "Privacy", "http://greenchange.org/privacy"
   = link_to "Terms", "http://greenchange.org/terms"
-  = mail_to "greencahnge@radicaldesigns.org", "Report a problem", :encode => "javascript", :subject => "Error reported #{request.request_uri}", :body => "Thanks for reporting!  If you have additional information about what you were trying to do when this problem came up, please write it here:\n\n\n\n------\n Problem report by _#{logged_in? ? current_user.login : "an anonymous user"}_ from _#{request.request_uri}_. ", :encode => "javascript"
+  = mail_to "greenchange@radicaldesigns.org", "Report a problem", :encode => "javascript", :subject => "Error reported #{request.request_uri}", :body => "Thanks for reporting!  If you have additional information about what you were trying to do when this problem came up, please write it here:\n\n\n\n------\n Problem report by _#{logged_in? ? current_user.login : "an anonymous user"}_ from _#{request.request_uri}_. "
 .clear

@@ -26,7 +26,7 @@
       .tags
         %label
           Tags:
-        = render :partial => 'shared/tag', :collection => discussions.tags
+        = render :partial => 'shared/tag', :collection => discussions.tags.uniq
     -  unless discussions.issues.empty?
       %br
       .issues.icon-only
