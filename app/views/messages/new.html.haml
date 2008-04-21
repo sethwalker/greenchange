@@ -1,8 +1,8 @@
 - content_for :title do
-  = icon_for @person, :size => :medium
+  = icon_for( @person, :size => :medium ) if @person
   %h1 
     Send Message
-    = "to #{@person.display_name}" 
+    = "to #{@person.display_name}"  if @person
   = error_messages_for :message
 
 .new.message.form

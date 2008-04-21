@@ -19,7 +19,8 @@ class MessagesController < ApplicationController
   end
 
   def new
-    @message = current_user.messages_sent.new :recipient_id => @person.id
+    @message = current_user.messages_sent.new 
+    @message.recipient = @person if @person
   end
   
   def index
