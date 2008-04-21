@@ -1,0 +1,59 @@
+body.chat
+  #conversation
+    :overflow auto
+    :font-size 11px
+    :height 400px
+    :float left
+    :width 450px
+    :line-height 14px
+    :border 1px solid #ccc
+    :background #fff
+    :margin-left 10px
+    :margin-bottom 10px
+    .message
+      .time
+        :color #aaa
+      .sender
+        :color #66f
+        :font-weight bold
+      .content
+        :color #333
+    .message.sys
+      .time
+        :color #aaa
+      .sender
+        :color #5b0
+        :font-weight bold
+      .content
+        :color #5b0
+        :font-weight bold
+    .message.action .content
+      :color #66f
+      :font-weight bold
+
+  #userlist
+    :float left
+    :overflow auto
+    :width 140px
+    :height 400px
+    :background-color #fff
+    :line-height 14px
+    :border 1px solid #ccc
+    .user.row
+      :border-bottom 1px solid #ccc
+      :padding 4px
+      :min-height 30px
+
+  td#handle
+    :padding 0 6px
+    :font-weight bold
+
+  table#typebox
+    :background #efefef
+    :float left
+    :width 100%
+
+  #entryfield
+    :font-size 14px
+    :width 100%
+
