@@ -1,32 +1,32 @@
-- article = @page.data
-.landing.news.show.wiki
-  .meta
-    - unless article.creator.blank?
-      %p
-        %span.label
-          By:
-        - if article.creator_url.blank?
-          = article.creator
-        - else
-          = link_to article.creator, article.creator_url
+- if article = @page.data
+  .landing.show.wiki.acton_alert
+    .meta
+      - unless article.creator.blank?
+        %p
+          %span.label
+            By:
+          - if article.creator_url.blank?
+            = article.creator
+          - else
+            = link_to article.creator, article.creator_url
 
-    - unless article.source.blank?
-      %p
-        %span.label
-          Source:
-        - if article.source_url.blank?
-          = article.source
-        - else
-          = link_to article.source, article.source_url
+      - unless article.source.blank?
+        %p
+          %span.label
+            Source:
+          - if article.source_url.blank?
+            = article.source
+          - else
+            = link_to article.source, article.source_url
 
-    - if article.published_at
-      %p 
-        %span.label
-          Published:
-        = article.published_at.to_time.strftime( "%m.%d.%Y" )
-  .clear
+      - if article.published_at
+        %p 
+          %span.label
+            Published:
+          = article.published_at.to_time.strftime( "%m.%d.%Y" )
+    .clear
 .section.page-content
   -if @page.primary_image && @page.primary_image.public_filename(:pic)
     = image_tag  @page.primary_image.public_filename(:pic), { :class => 'picture'}
-  = article.body_html
+  = article.body_html if article
 .clear

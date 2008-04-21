@@ -14,7 +14,7 @@
 
 .message.show
   .body
-    = simple_format @message.body
+    = GreenCloth.new(@message.body).to_html
 
 - if current_user.may? :reply, @message
   .section.reply

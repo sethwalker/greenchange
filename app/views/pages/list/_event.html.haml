@@ -1,4 +1,5 @@
 %li.list-item.page{ :class => cycle( 'shade-odd', 'shade-even', :name => 'activity_entry_cycle' )}
+  = render :partial => 'pages/list/list_menu', :locals => { :page => event }
   .list-thumb
     = link_to icon_for(event), event_url(event)#, :class => 'icon'
   .list-description
