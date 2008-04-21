@@ -127,7 +127,7 @@ class ProfilesController < ApplicationController
       if params[:group_id]
         @entity = @group = Group.find_by_name(params[:group_id])
         @profile = @group.profile
-      else
+      elsif logged_in?
         @entity = @user = current_user
         @profile = current_user.private_profile || current_user.build_private_profile
       end
