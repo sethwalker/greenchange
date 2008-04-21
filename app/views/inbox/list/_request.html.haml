@@ -7,7 +7,7 @@
     %td.title
       = item.invitation? ? "Membership Invitation" : item.class.name.underscore.humanize 
       = 'from ' + item.sender.login
-      -#= "for #{item.group.name}" if item.group
+      = "for #{item.group.name}" if item.group
     %td.view-indicator-stub
     %td.from
       = link_to item.sender.login, person_path( item.sender )

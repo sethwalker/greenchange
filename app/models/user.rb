@@ -230,6 +230,10 @@ class User < ActiveRecord::Base
     pages_unread
   end
 
+  def inbox_items
+    membership_invitations + invitations_received + contact_requests_received.pending + messages_received + membership_requests_received_and_pending
+  end
+
   def pending_items
     pages_pending
   end
