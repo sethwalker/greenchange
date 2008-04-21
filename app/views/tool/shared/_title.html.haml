@@ -1,8 +1,9 @@
 - content_for :title do
   .toolbar.title-menu
     - if current_user.may? :admin, @page
-      .icon
-        = button_to 'Delete this page', tool_page_path(@page), :method => :delete, :class => 'action delete confirm', :title => 'Delete this page'
+      - unless @page.new_record?
+        .icon
+          = button_to 'Delete this page', tool_page_path(@page), :method => :delete, :class => 'action delete confirm', :title => 'Delete this page'
   = icon_for @page
   %h1
     = title
