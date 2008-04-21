@@ -25,7 +25,9 @@ Crabgrass.Forms = function() {
         });
       }
       if (title_menu == null ) return;
-      form = $('content').down('.edit form, .new form');
+      form = $('content').down('.edit form');
+      if ( form == null ) form = $('content').down('.new form');
+      if ( form == null ) return;
       //submit_buttons = form.select("p.submit input[type=submit]").each( function( submit_button ) {
       submit_block = form.down("p.submit").cloneNode(true);
       submit_block.select('input[type=submit]').each( function( menu_submit ) {
