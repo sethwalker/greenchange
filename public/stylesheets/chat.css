@@ -1,49 +1,51 @@
-/** chat **/
-
-#conversation {
-  overflow: auto; 
+body.chat #conversation {
+  overflow: auto;
   font-size: 11px;
-  height:400px;
+  height: 400px;
   float: left;
-  width:450px;
+  width: 450px;
   line-height: 14px;
   border: 1px solid #ccc;
   background: #fff;
   margin-left: 10px;
-  margin-bottom: 10px;
-  
-}
-#conversation .message .time { color: #aaa; }
-#conversation .message .sender { color: #66f; font-weight: bold; }
-#conversation .message .content { color: #333; }
-#conversation .message.sys .time { color: #aaa; }
-#conversation .message.sys .sender { color: #5b0; font-weight: bold; }
-#conversation .message.sys .content { color: #5b0; font-weight: bold; }
-#conversation .message.action .content { color: #66f; font-weight: bold; }
-#userlist { 
-  float:left;
-  overflow: auto; 
+  margin-bottom: 10px; }
+  body.chat #conversation .message .time {
+    color: #aaa; }
+  body.chat #conversation .message .sender {
+    color: #66f;
+    font-weight: bold; }
+  body.chat #conversation .message .content {
+    color: #333; }
+  body.chat #conversation .message.sys .time {
+    color: #aaa; }
+  body.chat #conversation .message.sys .sender {
+    color: #5b0;
+    font-weight: bold; }
+  body.chat #conversation .message.sys .content {
+    color: #5b0;
+    font-weight: bold; }
+  body.chat #conversation .message.action .content {
+    color: #66f;
+    font-weight: bold; }
+body.chat #userlist {
+  float: left;
+  overflow: auto;
   width: 140px;
-  height:400px;
+  height: 400px;
   background-color: #fff;
   line-height: 14px;
-  border: 1px solid #ccc;
-}
-#userlist .user {
-  border-bottom: 1px solid #ccc;
-  padding: 4px;
-}
-
-td#handle {
- padding: 0 6px;
- font-weight: bold;
-}
-table#typebox {
+  border: 1px solid #ccc; }
+  body.chat #userlist .user.row {
+    border-bottom: 1px solid #ccc;
+    padding: 4px;
+    min-height: 30px; }
+body.chat td#handle {
+  padding: 0 6px;
+  font-weight: bold; }
+body.chat table#typebox {
   background: #efefef;
   float: left;
-  width: 100%;
-}
-#entryfield {
+  width: 100%; }
+body.chat #entryfield {
   font-size: 14px;
-  width: 100%;
-}
+  width: 100%; }

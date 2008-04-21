@@ -53,7 +53,6 @@ namespace :deploy do
     # clear stylesheets folder
     invoke_command "rm #{release_path}/public/stylesheets/*css"
     invoke_command "ln -nfs #{shared_path}/public_stylesheets/calendar_date_select #{release_path}/public/stylesheets/calendar_date_select"
-    invoke_command "ln -nfs #{shared_path}/public_stylesheets/chat.css #{release_path}/public/stylesheets/chat.css"
     invoke_command "ln -nfs #{shared_path}/public_stylesheets/textile-editor.css #{release_path}/public/stylesheets/textile-editor.css"
   end
 

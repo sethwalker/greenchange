@@ -2,7 +2,7 @@ class Chat::ChannelsUser < ActiveRecord::Base
 
   set_table_name 'chat_channels_users'
 
-  belongs_to :channeli #, :class_name => 'Chat::Channel', :foreign_key => 'chat_channel_id'
+  belongs_to :channel#, :class_name => 'Chat::Channel'#, :foreign_key => 'chat_channel_id'
   #alias :channel :chat_channel
 
   belongs_to :user

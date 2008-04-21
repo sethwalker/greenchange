@@ -16,7 +16,7 @@ class Chat::Channel < ActiveRecord::Base
 #      connection.execute("DELETE FROM channels_users WHERE last_seen < DATE_SUB(\'#{ Time.now.strftime("%Y-%m-%d %H:%M:%S") }\', INTERVAL 1 MINUTE) OR last_seen IS NULL")
 #    end
   
-  has_many :messages, :order => 'created_at asc', :dependent => :delete_all#, :class_name => 'Chat::Message', :local_key => 'chat_channel_id'
+  has_many :messages, :order => 'created_at asc', :dependent => :delete_all, :class_name => 'Chat::Message'#, :local_key => 'chat_channel_id'
 #  alias :messages :chat_messages
 #  do
 #    def since(last_seen_id)
