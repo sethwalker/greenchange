@@ -31,7 +31,7 @@
 
       %p.agree
         = check_box_tag :agreed_to_terms, nil, :checked => true
-        - link_text = link_to "terms and conditions.", "/extensions/greenchange/terms.html", :target => "blank"
+        - link_text = link_to "terms and conditions.", "http://greenchange.org/terms", :target => "blank"
         = content_tag :label, "I agree to the  #{link_text}", :for => "agreed_to_terms"
 
       %p.preference

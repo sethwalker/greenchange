@@ -17,7 +17,7 @@
       - problem_subject = "Page not found or problem unknown"
       - problem_report = ""
 
-    = mail_to "help@radicaldesigns.org", "Send a problem report", :encode => "javascript", :subject => problem_subject, :body => ( "Thanks for reporting!  If you have additional information about what you were trying to do when this problem came up, please write it here:\n\n\n\n------\n" + problem_report )
+    = mail_to "greenchange@radicaldesigns.org", "Send a problem report", :encode => "javascript", :subject => problem_subject, :body => ( "Thanks for reporting!  If you have additional information about what you were trying to do when this problem came up, please write it here:\n\n\n\n------\n" + problem_report )
     -if request.env['HTTP_REFERER']
       #go_back
         = link_to "Go Back", request.env['HTTP_REFERER']
