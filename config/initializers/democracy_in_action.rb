@@ -1,10 +1,11 @@
-DemocracyInAction::API.__send__ :class_variable_set, :@@DEFAULT_URLS, { 'get' => 'http://salsa.wiredforchange.com/dia/api/get.jsp', 'process' => 'http://salsa.wiredforchange.com/dia/api/process.jsp', 'delete' => 'http://salsa.wiredforchange.com/dia/deleteEntry.jsp' }
+#DemocracyInAction::API.__send__ :class_variable_set, :@@DEFAULT_URLS, { 'get' => 'http://salsa.wiredforchange.com/dia/api/get.jsp', 'process' => 'http://salsa.wiredforchange.com/dia/api/process.jsp', 'delete' => 'http://salsa.wiredforchange.com/dia/deleteEntry.jsp' }
 
 require 'net/https'
 class DemocracyInAction::API
   def login
     puts "logging in" if $DEBUG
-    url = URI.parse('https://salsa.wiredforchange.com/dia/hq/processLogin.jsp')
+    #url = URI.parse('https://salsa.wiredforchange.com/dia/hq/processLogin.jsp')
+    url = URI.parse('https://salsa.democracyinaction.org/dia/hq/processLogin.jsp')
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
     res = http.post(url.path, "email=#{user}&password=#{password}")
@@ -100,7 +101,7 @@ DemocracyInAction.configure do
   end
 
   mirror(:supporter_groups, Preference ) do
-    guard { |pref| pref.value and pref.name =~ /subscribe_to_email_list|allow_info_sharing/ and pref.user_id  }
+    guard { |pref| pref.value and pref.name =~ /subscribe_to_email_list|allow_info_sharing/ and pref.user_id }
     map('supporter_KEY') { |preference|
       user = preference.user
       if user
@@ -111,12 +112,12 @@ DemocracyInAction.configure do
         end
       end
     }
-    map('groups_KEY' ) { |preference|
+    map('groups_KEY') { |preference|
       case preference.name
         when 'subscribe_to_email_list'
-          Crabgrass::Config.dia_email_list_group_id
+          Crabgrass::Config.dia_email_subscription_group_id
         when 'allow_info_sharing'
-          Crabgrass::Config.dia_info_sharable_group_id
+          Crabgrass::Config.dia_allow_info_sharing_group_id
       end
     } 
   end
