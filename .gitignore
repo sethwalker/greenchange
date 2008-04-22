@@ -3,3 +3,4 @@ log
 tmp
 *.swp
 .DS_Store
+config/democracy_in_action.yml
