@@ -1,7 +1,7 @@
--#- if bookmark.external?
-  -#=link_to bookmark.url, bookmark.url, :class => 'external'
+- if bookmark.page
+  =render :partial => 'pages/list/page', :object => bookmark.page
+-elsif bookmark.external?
   = bookmark.description
--#-else
-=render :partial => 'pages/list/page', :object => bookmark.page
+  =link_to bookmark.url, bookmark.url, :class => 'external'
 
 -#= link_to 'Destroy', object_path(bookmark), :confirm => 'Really destroy bookmark?', :method => :delete
