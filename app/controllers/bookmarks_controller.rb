@@ -23,13 +23,13 @@ class BookmarksController < ApplicationController
 
   def current_objects
     if @person
-      @person.bookmarks
+      @person.bookmarks.allowed( current_user )
     elsif @me
-      @me.bookmarks
+      @me.bookmarks.allowed(current_user)
     elsif @page
-      @page.bookmarks
+      @page.bookmarks.allowed(current_user)
     else 
-      Bookmark.find :all
+      Bookmark.allowed(current_user).find :all
     end
   end
 
