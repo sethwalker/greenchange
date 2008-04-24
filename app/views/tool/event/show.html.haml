@@ -41,7 +41,7 @@
   .section.directions
     %h3
       Directions
-      - if event.latitude and event.longitude
+      - if event.latitude and event.longitude and Crabgrass::Config.geokit_google_api_key
         - map = GoogleMap.new(:controls => [:zoom])
         - map.markers << GoogleMapMarker.new(:map => map, :lat => Float(event.latitude), :lng => Float(event.longitude), :html => @page.title )
         .section.google-map

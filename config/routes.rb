@@ -81,6 +81,7 @@ ActionController::Routing::Routes.draw do |map|
   page_routes(map)
 
   map.resources :rsvps
+  map.resources :ratings
 
   #me routes
   #map.resource :profile

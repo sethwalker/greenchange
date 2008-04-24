@@ -17,7 +17,7 @@ module Tool::BaseHelper
   end
 
   def add_tool_page( header_text = nil )
-    render :partial => 'tool/shared/title', :locals => { :title => ( header_text || title_for_new(@page.class.name.underscore.titleize)) }
+    render :partial => 'tool/shared/title', :locals => { :title => ( header_text || title_for_new(@page.class.name.underscore.titleize)), :page => @page }
     render :partial => 'tool/shared/form_new'
   end
   alias :new_tool_page :add_tool_page
@@ -31,7 +31,7 @@ module Tool::BaseHelper
   end
 
   def edit_tool_page( header_text = nil )
-    render :partial => 'tool/shared/title', :locals => { :title => ( header_text || title_for_edit(@page.class.name.underscore.titleize)) }
+    render :partial => 'tool/shared/title', :locals => { :title => ( header_text || title_for_edit(@page.class.name.underscore.titleize)), :page => @page }
     render :partial => 'tool/shared/form_edit'
   end
 

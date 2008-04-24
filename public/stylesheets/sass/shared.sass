@@ -146,7 +146,7 @@
   :float left
   :margin-right 1em
 .list-description
-  -#:float left
+  :float left
   :color #555555
   :padding-top 5px
   p
@@ -165,6 +165,7 @@
         :color green
   .byline
     :float left
+    :margin-bottom 5px
     .icon
       :float right 
     .name
@@ -405,7 +406,7 @@ ul.tab-block, #titlebox
     input.action
       :height 50px
       :outline 0
-      :order 0
+      :border 0
       :background-color transparent
       :background-position 2px 2px
     input[type=submit].action
@@ -551,3 +552,22 @@ a.icon.standard.name-right
     .icon
       :width 30px
       :float right
+
+.toolbar.inline
+  :float none
+  :display inline
+  #titlebox &
+    :float none
+  input.action
+    :height auto
+    :color = !link_text
+    :margin 0
+    :font-size 12px
+    :font-weight normal
+    :outline 0
+    :border 0
+    :background-color transparent
+    :background-image none
+    &:hover
+      :color = !link_text_hover
+      :text-decoration underline

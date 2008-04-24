@@ -21,6 +21,9 @@
           .comments
             = page.discussion.posts.count
             comments
+      - if page.stars
+        .stars-count{ :class => ( logged_in? and page.starred_by?(current_user) ? 'promoted' : '') }
+          = "( #{page.stars.count} )"
       - unless page.tags.empty?
         -#%br
         .date
@@ -28,7 +31,7 @@
             Tags:
           = render :partial => 'shared/tag', :collection => page.tags.uniq
     - unless page.issues.empty?
-      %br
+      .clear 
       .issues.icon-only
         %label
           Issues:

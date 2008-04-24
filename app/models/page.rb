@@ -432,6 +432,8 @@ class Page < ActiveRecord::Base
     end
   end
 
+  has_many :stars, :class_name => 'UserParticipation', :conditions => [ 'star = ?', true ]
+
   # like users.with_access, but uses already included data
   def users_with_access
     user_participations.collect{|part| part.user if part.access }.compact
@@ -615,7 +617,7 @@ class Page < ActiveRecord::Base
   #######################################
   ## USER behavior
   def starred_by?( user )
-    !user_participations.find( :first, "user_id = ? and starred IS NOT ?", user, nil ).nil?
+    user_participations.find( :first, :conditions => [ "user_id = ? and star = ?", user, true ] )
   end
 
   # does this page allow attachments?
@@ -658,5 +660,15 @@ class Page < ActiveRecord::Base
     # abide by group policy if the page belongs to a group
     ( !self.group_participations.empty? and self.group_participations.any? { |gpart|
     gpart.group.role_for(user).allows?(action, self ) } ) 
+  end
+
+  #Ratings commands
+  def star!(user)
+    participation = user_participations.find_or_create_by_user_id( user.id )
+    participation.update_attribute :star, true
+  end
+  def unstar!(user)
+    participation = user_participations.find_or_create_by_user_id( user.id )
+    participation.update_attribute :star, false
   end
 end
