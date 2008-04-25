@@ -81,6 +81,7 @@ ActionController::Routing::Routes.draw do |map|
   page_routes(map)
 
   map.resources :rsvps
+  map.resources :ratings
 
   #me routes
   #map.resource :profile
@@ -95,7 +96,6 @@ ActionController::Routing::Routes.draw do |map|
       profile.resources :locations
     end
     me.resource :profile
-    me.resources :bookmarks
     me.network  'network', :controller => 'network'#, :me => true
     #me.events   'events'#,  :controller => 'event'#, :me => true
     #me.content  'pages', :controller => 'tool/base'
@@ -108,6 +108,7 @@ ActionController::Routing::Routes.draw do |map|
     end
     me.resources :people
     me.resources :groups   
+    me.resources :bookmarks
     page_routes me
   end
     #me.inbox 'inbox/:path', :controller => 'inbox', :action => 'index'
@@ -137,6 +138,7 @@ ActionController::Routing::Routes.draw do |map|
     person.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get, :approve => :put }
     person.resources :groups#, :collection => {:join => :get, :invite => :get, :leave => :get, :approve => :put }
     person.resources 'contacts', :controller => 'contact'#, :member => { :approve => :post, :reject => :post }
+    person.resources :bookmarks
     person.resource :profile, :controller => 'people/profiles'
     person.icon 'icon/:size.:format', :controller => 'people', :action => 'icon'
     person.connect 'icon.:format', :controller => 'people', :action => 'icon'

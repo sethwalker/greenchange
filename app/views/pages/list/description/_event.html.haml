@@ -1,0 +1,19 @@
+- event = page.data
+%p.location
+  = event.city
+  = event.state
+.event-date
+  - if event.is_all_day? 
+    = event.date_start
+  - elsif event.date_start == event.date_end 
+    = "#{event.date_start('%A, %b %d %Y, %I:%M %p')} &mdash; #{event.hour_end}"
+  - else
+    = "#{event.date_start('%A, %b %d %Y, %I:%M %p')}"
+    .clear
+    = "&mdash; #{event.date_end('%A, %b %d %Y, %I:%M %p')}"
+  - unless event.is_all_day? 
+    .clear
+    = event.time_zone
+  .cdata
+    = friendly_date( event.starts_at )
+

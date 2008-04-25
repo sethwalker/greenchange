@@ -2,11 +2,12 @@
   - if current_user.may? :admin, @page 
     .icon
       = link_to 'Edit', edit_tool_page_path(@page), :class => 'action edit', :title => 'Edit'
-  .icon
-    - unless current_user.bookmarked_pages.include? @page
+  - unless current_user.bookmarked_pages.include? @page
+    .icon
       = button_to 'Bookmark', page_bookmarks_path(@page), :method => 'post', :class => 'action bookmark', :title => 'Bookmark this page'
-  -#.icon
-    = link_to 'Rate', 'rate_tool_page_path(page)', :class => 'action rate', :title => 'Push this page'
+  - unless page.starred_by?( current_user )
+    .icon
+      = button_to 'Add Star', ratings_path(:page_id => page), :class => 'action rate', :title => 'Promote this page'
   -#.icon
     = link_to 'Recommend', 'recommend_tool_page_path(page)', :class => 'action recommend', :title => 'Recommend this page to a friend'
 

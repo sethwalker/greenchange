@@ -2,6 +2,14 @@
 .handle
   :cursor move
 
+.stars-count
+  :display inline
+  :padding-left 20px
+  :padding-bottom 5px
+  :background url(/images/actions/star-plus.png) no-repeat
+  &.promoted
+    :background url(/images/actions/star.png) no-repeat
+
 form
   input[type=submit], input[type=button]
     :border 1px solid

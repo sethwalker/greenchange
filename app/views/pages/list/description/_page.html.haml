@@ -1,0 +1,14 @@
+- if page.is_a? Tool::Event
+  = render :partial => 'pages/list/description/event', :locals => { :page => page }
+- elsif page.is_a? Tool::Discussion
+  = render :partial => 'pages/list/description/discussion', :locals => { :page => page }
+- else
+  .byline
+    .name
+      %label.name
+        By: 
+      = link_to page.created_by.login, person_url(page.created_by), :class =>'name'
+      .date
+        = friendly_date(page.created_at)
+.clear
+

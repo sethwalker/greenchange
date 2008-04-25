@@ -18,5 +18,6 @@ class UserParticipation < ActiveRecord::Base
   belongs_to :page
   belongs_to :user
   serialize :notice
+
 end
 

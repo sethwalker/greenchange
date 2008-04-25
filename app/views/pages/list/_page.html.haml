@@ -1,35 +1,11 @@
 %li.list-item.page{ :class => cycle( 'shade-odd', 'shade-even', :name => 'activity_entry_cycle' )}
   = render :partial => 'pages/list/list_menu', :locals => { :page => page }
   .list-thumb
-    = link_to icon_for(page), page_url(page)
+    = link_to icon_for(page), tool_page_path(page)
   .list-description
-    -#.icon.source
-      = link_to icon_for(page.created_by, :size=>'small' ), person_url(page.created_by)
-      = link_to icon_for(page.group, :size=>'small'), group_url(page.group)
     %h3
-      = link_to page.title, page_url(page) 
+      = link_to page.title, tool_page_path(page) 
     %p.blurb
       = page.summary
-    .byline
-      .name
-        %label.name
-          By: 
-        = link_to page.created_by.login, person_url(page.created_by), :class =>'name'
-        .date
-          = friendly_date(page.created_at)
-        - if page.discussion and !page.discussion.posts.empty?
-          .comments
-            = page.discussion.posts.count
-            comments
-      - unless page.tags.empty?
-        -#%br
-        .date
-          %label
-            Tags:
-          = render :partial => 'shared/tag', :collection => page.tags.uniq
-    - unless page.issues.empty?
-      %br
-      .issues.icon-only
-        %label
-          Issues:
-        = render :partial => 'shared/icons/issue', :collection => page.issues
+    = render :partial => 'pages/list/description/page', :locals => { :page => page }
+    = render :partial => 'pages/list/description/metadata', :locals => { :page => page }

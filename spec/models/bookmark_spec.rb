@@ -10,6 +10,12 @@ describe Bookmark do
       b.user_id.should == 1
       b.description.should == 'a description'
     end
+  
+    it "should not create duplicate bookmarks" do
+      b = Bookmark.create :page => (@page = create_valid_page), :user => (@user = create_valid_user)
+      c = Bookmark.create :page => @page, :user => @user
+      c.should_not be_valid
+    end
   end
 
   describe "when tagging" do

@@ -179,47 +179,19 @@ module SocialUser
         initialized_by :update_contacts_cache,
           :friend_id_cache, :foe_id_cache
         
-        has_and_belongs_to_many :contacts,
-          {:class_name => "User",
-          :join_table => "contacts",
-          :association_foreign_key => "contact_id",
-          :foreign_key => "user_id",
-          :uniq => true,
-          :before_add => :check_duplicate_contacts,
-          :after_add => :reciprocate_add,
-          :after_remove => :reciprocate_remove} do
-            def online
-              find( :all, 
-                :conditions => ['users.last_seen_at > ?',10.minutes.ago],
-                :order => 'users.last_seen_at DESC' )
-            end
-          end
+        has_many :contact_relationships, :class_name => 'Contact', :foreign_key => "user_id"
+        has_many :contacts, :class_name => "User", :through => :contact_relationships 
 
         has_finder :by_person, lambda {|*people|
           people.any? ? { :include => :contacts, :conditions => [ "contacts.contact_id in (?)", people ] } : {}
         }
+        has_finder :online, :conditions => ['users.last_seen_at > ?',10.minutes.ago], :order => 'users.last_seen_at DESC' 
+
         has_many :contact_requests_sent, :class_name => 'ContactRequest'
         has_many :contact_requests_received, :class_name => 'ContactRequest', :foreign_key => 'contact_id'
       end
     end
 
-    def check_duplicate_contacts(other_user)
-      raise AssociationError.new('cannot be duplicate contacts') if self.contacts.include?(other_user)
-    end
-    
-    def reciprocate_add(other_user)
-      unless other_user.contacts.include?(self)
-        other_user.contacts << self 
-        update_contacts_cache
-      end
-    end
-    
-    def reciprocate_remove(other_user)
-      if other_user.contacts.include?(self)
-        other_user.contacts.delete(self)
-        update_contacts_cache
-      end
-    end
   end
 
   # peers are users who share at least one group with us

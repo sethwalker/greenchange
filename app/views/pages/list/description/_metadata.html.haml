@@ -1,0 +1,18 @@
+- if page.discussion and !page.discussion.posts.empty?
+  .comments
+    = page.discussion.posts.count
+    comments
+- if page.stars
+  .stars-count{ :class => ( logged_in? and page.starred_by?(current_user) ? 'promoted' : '') }
+    = "( #{page.stars.count} )"
+- unless page.tags.empty?
+  %label
+    Tags:
+  = render :partial => 'shared/tag', :collection => page.tags.uniq
+- unless page.issues.empty?
+  .clear 
+  .issues.icon-only
+    %label
+      Issues:
+    = render :partial => 'shared/icons/issue', :collection => page.issues
+

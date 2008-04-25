@@ -11,6 +11,8 @@ class Discussion < ActiveRecord::Base
     end
   end
 
+  has_many :participants, :class_name => 'User', :through => :posts, :source => :user
+
    
   ## attributes ############################################# 
 

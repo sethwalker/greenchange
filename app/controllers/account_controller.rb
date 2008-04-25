@@ -66,7 +66,7 @@ class AccountController < ApplicationController
 
     if @user.save && @profile.save && @public_profile.save
       #self.current_user = @user
-      flash[:notice] = "Thanks for signing up! Please check your email to activate your account before logging in."
+      flash[:notice] = "Thank you for signing up. <br />You must authenticate your account before you login. <br />Check your email inbox. <br/>There will be a short message telling you how to complete the creation of your account."
       redirect_to login_path
       #redirect_to params[:redirect] || message_url(message)
     else

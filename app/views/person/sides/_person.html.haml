@@ -13,14 +13,14 @@
         %li.tab
           = link_to 'Action Alerts', person_actions_url(@person), selected_if( params[:page_type] == 'actions' )
         %li.tab
-          = link_to 'Events', person_events_url(@person), selected_if( params[:page_type] == 'events' )
+          = link_to 'Events', person_events_path(@person), selected_if( params[:page_type] == 'events' )
 
       %ul.tabset
         %li.tab
-          = link_to 'Groups', person_groups_url(@person), selected_if( request.url == person_memberships_url(@person))
+          = link_to 'Groups', person_groups_path(@person), selected_if( request.url == person_groups_url(@person))
         %li.tab
           = link_to 'Media', person_media_url(@person), selected_if( params[:page_type] == 'media' )
         %li.tab
           = link_to 'Discussions', person_tools_url(@person), selected_if( params[:page_type] == 'tools' )
         %li.tab
-          = link_to 'Bookmarks', 'person_bookmarks_url(@person)', selected_if( params[:page_type] == 'bookmarks' )
+          = link_to 'Bookmarks', person_bookmarks_path(@person), selected_if( controller.controller_name == 'bookmarks' )

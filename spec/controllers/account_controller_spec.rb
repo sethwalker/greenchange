@@ -151,12 +151,12 @@ describe AccountController do
 
       it "should add a message to the flash" do
         act!
-        flash[:notice].should match(/Thanks/)
+        flash[:notice].should match(/Thank/)
       end
 
       it "should require the new user to check email" do
         act!
-        flash[:notice].should match(/check your email/)
+        flash[:notice].should match(/check your email/i)
       end
 
       describe "user preferences" do

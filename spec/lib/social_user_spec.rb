@@ -117,9 +117,6 @@ describe "SocialUser" do
         @a.contacts.should_not include(@b)
       end
 
-      it "makes an error when duplicating contacts" do
-        lambda { @a.contacts << @b }.should raise_error(AssociationError)
-      end
     end
   end
 

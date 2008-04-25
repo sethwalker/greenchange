@@ -21,4 +21,16 @@ class BookmarksController < ApplicationController
     end
   end
 
+  def current_objects
+    if @person
+      @person.bookmarks.allowed( current_user )
+    elsif @me
+      @me.bookmarks.allowed(current_user)
+    elsif @page
+      @page.bookmarks.allowed(current_user)
+    else 
+      Bookmark.allowed(current_user).find :all
+    end
+  end
+
 end

@@ -6,6 +6,14 @@
 .section.info
   .section.summary 
     =@page.summary
-    .section.date
-    %label Posted:  
-    = friendly_date @page.created_at  
+    .date
+      %label Posted:  
+      = friendly_date @page.created_at  
+    .stars-count{ :class => ( logged_in? and @page.starred_by?(current_user) ? 'promoted' : '') }
+      = "( #{@page.stars.count} )"
+      - if logged_in?
+        .toolbar.inline
+          - if @page.starred_by? current_user
+            = button_to "Remove star", rating_path(:page_id => @page.id ), :method => :delete, :class => 'action rate', :title => 'Stop promoting this page'
+          - else
+            = button_to "Add star", ratings_path(:page_id => @page.id ), :class => 'action rate', :title => 'Promote this page'

@@ -1,10 +1,18 @@
 - content_for :title do
-  = icon_for( @me, :size => 'medium' )
-  %h1.medium Your bookmarks
+  - if @me || @person
+    = icon_for( (@me||@person), :size => 'medium' )
+    %h1.medium 
+      - if @me 
+        Your bookmarks
+      - elsif @person
+        = @person.display_name
+        \: Bookmarks
+  - else
+    %h1
+      Bookmarks
 
-
-= render :partial => 'bookmark', :collection => current_objects
 
 .content-list.main
   %ul.list
+    = render :partial => 'bookmark', :collection => @bookmarks
 -#= render :partial => '/pages/list/page', :collection => @me.bookmarks 

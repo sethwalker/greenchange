@@ -1,0 +1,9 @@
+.byline
+  %label.name
+    Last Post:
+  = friendly_date( page.discussion.posts.find( :first, :order => "created_at DESC" ).created_at )
+  - if page.discussion and !page.discussion.posts.empty?
+    %label.particpants
+      Participants:
+    = page.discussion.participants.uniq.size
+

@@ -28,7 +28,8 @@ class ContactController < ApplicationController
   end
 
   def index
-    @contacts = User.by_group(@group).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag)
+    #@people = @contacts = User.by_group(@group).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag)
+    @contacts = User.by_person(@person).find :all #.by_person(( @me || @person)).by_issue(@issue).by_tag(@tag)
   end
   
   def remove
@@ -45,8 +46,8 @@ class ContactController < ApplicationController
 
   def approve
     if @contact_request.approve!
-      message :text => 'request approved'
-      redirect_to :action => 'requests', :id => @contact_request #or ajax, or somewhere that makes sense
+      flash[:notice] = "#{@contact_request.user.login} is now your contact" 
+      redirect_to me_inbox_path
     else
       message :object => @contact_request
       render :action => 'requests'
@@ -55,8 +56,8 @@ class ContactController < ApplicationController
 
   def reject
     if @contact_request.reject!
-      message :text => 'request rejected'
-      redirect_to :action => 'requests', :id => @contact_request #or ajax, or somewhere that makes sense
+      flash[:notice] = "Contact request from #{@contact_request.user.login} declined" 
+      redirect_to me_inbox_path
     else
       message :object => @contact_request
       render :action => 'requests'

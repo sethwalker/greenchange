@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1208535399) do
+ActiveRecord::Schema.define(:version => 1208908928) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -129,7 +129,7 @@ ActiveRecord::Schema.define(:version => 1208535399) do
   add_index "contact_requests", ["user_id", "contact_id", "state"], :name => "index_user_contact_state"
   add_index "contact_requests", ["contact_id", "user_id", "state"], :name => "index_contact_user_state"
 
-  create_table "contacts", :id => false, :force => true do |t|
+  create_table "contacts", :force => true do |t|
     t.integer "user_id"
     t.integer "contact_id"
   end

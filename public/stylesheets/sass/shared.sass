@@ -146,9 +146,10 @@
   :float left
   :margin-right 1em
 .list-description
-  -#:float left
+  :float left
   :color #555555
   :padding-top 5px
+  :padding-bottom 5px
   p
     :font-size 11px
     :margin-bottom 2px
@@ -163,13 +164,18 @@
       &:hover
         :text-decoration underline
         :color green
+  .metadata, .byline, .event-date, .date, .tags, .stars-count, .comments
+    :font-size 11px
   .byline
     :float left
+    :margin-bottom 5px
+    :margin-right 5px
     .icon
       :float right 
     .name
       :float left
-      :font-size 11px
+    label
+      :margin 0 3px 0 0
     .date
       :float left
       :margin-left 5px
@@ -192,6 +198,8 @@
       :line-height 25px
     .icon.small
       :float left
+      :width 18px
+      :height 18px
       :margin-top -5px
 
 .promo
@@ -405,7 +413,7 @@ ul.tab-block, #titlebox
     input.action
       :height 50px
       :outline 0
-      :order 0
+      :border 0
       :background-color transparent
       :background-position 2px 2px
     input[type=submit].action
@@ -545,9 +553,28 @@ a.icon.standard.name-right
     :float left
 .list-menu
   :float right
-  :max-width 250px
+  :max-width 200px
   .source
     :clear both
     .icon
       :width 30px
       :float right
+
+.toolbar.inline
+  :float none
+  :display inline
+  #titlebox &
+    :float none
+  input.action
+    :height auto
+    :color = !link_text
+    :margin 0
+    :font-size 12px
+    :font-weight normal
+    :outline 0
+    :border 0
+    :background-color transparent
+    :background-image none
+    &:hover
+      :color = !link_text_hover
+      :text-decoration underline
