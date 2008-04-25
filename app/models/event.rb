@@ -47,17 +47,17 @@ class Event < ActiveRecord::Base
 
   attr_writer :date_start
   attr_writer :date_end, :hour_start, :hour_end
-  def date_start
+  def date_start(format = '%Y-%m-%d')
     #@date_start ||= (page.starts_at.loc('%Y-%m-%d') if page && page.starts_at )
-    tz_time_zone.utc_to_local(starts_at).loc('%Y-%m-%d') if starts_at 
+    tz_time_zone.utc_to_local(starts_at).loc(format) if starts_at 
     #tz_time_zone.utc_to_local(date_start_utc)
     #@date_start ||= (tz_time_zone.utc_to_local(page.starts_at).loc('%Y-%m-%d') if page && page.starts_at )
   end
 
-  def date_end
+  def date_end(format = '%Y-%m-%d' )
     #@date_end ||=( page.ends_at.loc('%Y-%m-%d') if page && page.ends_at )
     #@hour_end ||= ( page.ends_at.loc('%I:%M %p') if page && page.ends_at )
-    tz_time_zone.utc_to_local(ends_at).loc('%Y-%m-%d') if ends_at 
+    tz_time_zone.utc_to_local(ends_at).loc(format) if ends_at 
   end
 
   def hour_start

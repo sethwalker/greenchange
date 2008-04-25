@@ -96,7 +96,6 @@ ActionController::Routing::Routes.draw do |map|
       profile.resources :locations
     end
     me.resource :profile
-    me.resources :bookmarks
     me.network  'network', :controller => 'network'#, :me => true
     #me.events   'events'#,  :controller => 'event'#, :me => true
     #me.content  'pages', :controller => 'tool/base'
@@ -109,6 +108,7 @@ ActionController::Routing::Routes.draw do |map|
     end
     me.resources :people
     me.resources :groups   
+    me.resources :bookmarks
     page_routes me
   end
     #me.inbox 'inbox/:path', :controller => 'inbox', :action => 'index'
