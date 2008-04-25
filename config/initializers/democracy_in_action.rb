@@ -1,4 +1,5 @@
-#DemocracyInAction::API.__send__ :class_variable_set, :@@DEFAULT_URLS, { 'get' => 'http://salsa.wiredforchange.com/dia/api/get.jsp', 'process' => 'http://salsa.wiredforchange.com/dia/api/process.jsp', 'delete' => 'http://salsa.wiredforchange.com/dia/deleteEntry.jsp' }
+=begin
+DemocracyInAction::API.__send__ :class_variable_set, :@@DEFAULT_URLS, { 'get' => 'http://salsa.wiredforchange.com/dia/api/get.jsp', 'process' => 'http://salsa.wiredforchange.com/dia/api/process.jsp', 'delete' => 'http://salsa.wiredforchange.com/dia/deleteEntry.jsp' }
 
 require 'net/https'
 class DemocracyInAction::API
@@ -39,6 +40,7 @@ class DemocracyInAction::API
   end
   alias_method_chain :delete, :login
 end
+=end
 
 DemocracyInAction.configure do
   begin
@@ -77,11 +79,11 @@ DemocracyInAction.configure do
   #maybe don't need mirror here.  more like an after_create.
   mirror(:groups, Group) do
     map('parent_KEY', 35540)
-    map('Group_Name')     { |group| group.name }
+    map('Group_Name') { |group| group.name }
   end
 
   mirror(:supporter_groups, Membership) do
-    map('supporter_KEY')  { |membership| 
+    map('supporter_KEY') { |membership| 
       user = membership.user
       if user
         profile = user.private_profile
@@ -91,7 +93,7 @@ DemocracyInAction.configure do
         end
       end
     }
-    map('groups_KEY')     { |membership| 
+    map('groups_KEY') { |membership| 
       group = membership.group
       if group
         proxy = group.democracy_in_action_proxies.find_by_remote_table('groups')
@@ -105,7 +107,7 @@ DemocracyInAction.configure do
     map('supporter_KEY') { |preference|
       user = preference.user
       if user
-        profile = user.private_profile
+        profile = user.private_profile(true) || Profile.find_by_entity_type_and_entity_id('User', user.id)
         if profile
           proxy = profile.democracy_in_action_proxies.find_by_remote_table('supporter')
           proxy.remote_key if proxy
@@ -115,7 +117,7 @@ DemocracyInAction.configure do
     map('groups_KEY') { |preference|
       case preference.name
         when 'subscribe_to_email_list'
-          Crabgrass::Config.dia_email_subscription_group_id
+          Crabgrass::Config.dia_subscribe_to_email_list_group_id
         when 'allow_info_sharing'
           Crabgrass::Config.dia_allow_info_sharing_group_id
       end

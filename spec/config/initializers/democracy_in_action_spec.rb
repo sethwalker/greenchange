@@ -5,9 +5,9 @@ describe "DemocracyInAction initializer" do
     Profile.included_modules.should include(DemocracyInAction::Mirroring::ActiveRecord)
   end
 
-ENV['DIA_USER'] = "test"
-ENV['DIA_PASS'] = "test"
-ENV['DIA_ORG'] = "962"
+  ENV['DIA_USER'] = "test"
+  ENV['DIA_PASS'] = "test"
+  ENV['DIA_ORG'] = "962"
 
   #should probably move this
   if !ENV['DIA_USER'].empty? && !ENV['DIA_PASS'].empty? && !ENV['DIA_ORG'].empty?
@@ -30,60 +30,76 @@ ENV['DIA_ORG'] = "962"
       end
 
       before do
-
-require 'ruby-debug'
-debugger
-
         @timestamp ||= Time.now.to_i
         @timestamp += 1
         email = "greenchange_test_#{@timestamp}@radicaldesigns.org"
         @user = new_user(:email => email, :private_profile => nil)
-        @user.build_private_profile(:first_name => 'firstly', :last_name => 'lastly', :organization => 'organizationally')
+        @user.build_private_profile(:first_name => 'firstly', :last_name => 'lastly', :organization => 'organizationally', :friend => true)
         @user.save
-        @sharing_pref = @user.preferences.create(:name => 'allow_info_sharing', :value => true)
-        @subscription_pref = @user.preferences.create(:name => 'email_subscription_list', :value => true)
-        #@proxy = @user.private_profile.democracy_in_action_proxies.find_by_remote_table('supporter')
-        @proxy = @sharing_pref.democracy_in_action_proxies.find_by_remote_table('supporter_groups')
-        @proxy = @subscription_pref.democracy_in_action_proxies.find_by_remote_table('supporter_groups')
+        @profile_proxy = @user.private_profile.democracy_in_action_proxies.find_by_remote_table('supporter')
       end
 
       it "should save a proxy" do
-        @proxy.should_not be_nil
+        @profile_proxy.should_not be_nil
       end
 
       it "the proxy should have a remote key" do
-        @proxy.remote_key.should_not be_nil
+        @profile_proxy.remote_key.should_not be_nil
       end
 
-      describe "DIA preferenes" do
+      describe "the allow_info_sharing preference" do
         before do
-          @group_proxies = []
-          @user.preferences.each do |pref|
-            @group_proxy = pref.democracy_in_action_proxies.find_by_remote_table('supporter_groups')
-            @group_proxies << @group_proxy if @group_proxy
+          @pref = @user.preferences.create(:name => 'allow_info_sharing', :value => true)
+          @pref_proxy = @pref.democracy_in_action_proxies.find_by_remote_table('supporter_groups')
+        end
+
+        it "should have a proxy" do
+          @pref_proxy.should_not be_nil
+        end
+
+        it "the proxy should have a remote key" do
+          @pref_proxy.remote_key.should_not be_nil
+        end
+
+        describe "DIA record" do
+          before do
+            @group_remote = DemocracyInAction::Mirroring.api.get('supporter_groups', @pref_proxy.remote_key).first
+          end
+
+          it "should be tied to the DIA supporter" do
+            @group_remote['supporter_KEY'].should == @profile_proxy.remote_key.to_s
+          end
+
+          it "should be added to allow_info_sharing DIA group" do
+            require 'ruby-debug'
+            debugger
+            @group_remote['group_KEY'].should == CrabGrass::Config.dia_subscribe_to_email_list_group_id.to_s
           end
         end
+      end
 
-        it "should add the supporter to the DIA email subscription group" do
-          #@remote_group = DemocracyInAction::Mirroring.api.get('group', @proxy_group.remote_key).first
-        end
-
-        it "should add the supporter to the allow info sharing group" do
+=begin
+      describe "DIA subscribe to email list" do
+        before do
+          @pref = @user.preferences.create(:name => 'subscribe_to_email_list', :value => true)
+          @group_proxy = @pref.democracy_in_action_proxies.find_by_remote_table('supporter_groups')
         end
       end
+=end
+
 
       describe "the DIA record" do
         before do
-          @remote = DemocracyInAction::Mirroring.api.get('supporter', @proxy.remote_key).first
+          @remote_user = DemocracyInAction::Mirroring.api.get('supporter', @proxy.remote_key).first
         end
         it "should have the first name" do
-          @remote['First_Name'].should == 'firstly'
+          @remote_user['First_Name'].should == 'firstly'
         end
         it "should have the last name" do
-          @remote['Last_Name'].should == 'lastly'
+          @remote_user['Last_Name'].should == 'lastly'
         end
         it "should have organization" do
-          @remote['Organization'].should == 'organizationally'
+          @remote_user['Organization'].should == 'organizationally'
         end
       end
     end
