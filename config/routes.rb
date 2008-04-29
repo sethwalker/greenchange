@@ -124,7 +124,8 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :groups, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |group|
     group.resources :people
-    group.resources :memberships, :controller => 'membership', :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put, :promote => :put }
+    #group.resources :memberships, :controller => 'membership', :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put, :promote => :put }
+    group.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put, :promote => :put }
     group.resource :profile, :controller => 'group/profiles'
     group.icon 'icon/:size.:format', :controller => 'groups', :action => 'icon'
     group.connect 'icon.:format', :controller => 'groups', :action => 'icon'
@@ -135,7 +136,6 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
 
   map.resources :people, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |person|
-    person.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get, :approve => :put }
     person.resources :groups#, :collection => {:join => :get, :invite => :get, :leave => :get, :approve => :put }
     person.resources 'contacts', :controller => 'contact'#, :member => { :approve => :post, :reject => :post }
     person.resources :bookmarks

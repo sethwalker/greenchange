@@ -1,5 +1,5 @@
 =begin
-Membership Controller
+Memberships Controller
 ---------------------
 
 All the relationships between users and groups are managed by this controller,
@@ -7,16 +7,10 @@ including join requests.
 
 =end
 
-class MembershipController < ApplicationController
-  #layout 'groups'
-  #stylesheet 'groups'
-  #helper 'application'
+class MembershipsController < ApplicationController
     
-  before_filter :login_required#, :except => ['list']
+  before_filter :login_required
   before_filter :group_admin_required, :only => [ 'index', 'promote' ]
-  #prepend_before_filter :fetch_group, :except => [:approve, :reject, :view_request]
-
-  #verify :method => :post, :only => [:approve, :reject]
 
   ###### ADMIN ACTIONS #########################################################
   
@@ -29,6 +23,7 @@ class MembershipController < ApplicationController
   # request to join this group
   def join
   end
+
   def new
     return if request_already_exists?
     @membership_request = MembershipRequest.new :user => current_user, :group => @group
@@ -275,6 +270,8 @@ class MembershipController < ApplicationController
         flash[:notice] = 'Your request to join this group was not granted.'
       elsif existing_membership_request.pending?
         flash[:notice] = 'Your request to join this group is being considered.'
+      else 
+        flash[:notice] = "Your request to join this group is #{existing_membership_request.state}."
       end
       redirect_to group_url(@group) and return true
     end
