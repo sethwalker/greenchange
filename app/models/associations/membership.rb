@@ -19,6 +19,17 @@ class Membership < ActiveRecord::Base
   def role
     read_attribute(:role).to_sym unless read_attribute( :role ).blank?
   end
+
+  def admin?
+    role == :administrator
+  end
+
+  def promote
+    unless admin?
+      self.role = :administrator
+      save
+    end
+  end
     
 end
 

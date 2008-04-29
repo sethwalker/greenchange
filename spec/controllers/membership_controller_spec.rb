@@ -34,8 +34,8 @@ describe MembershipController do
 
   describe "destroy" do
     it "destroys the membership" do
-      @group.memberships.create :user => @user
-      post :destroy, :group_id => @group.name
+      new_mbrship = @group.memberships.create :user => @user
+      post :destroy, :group_id => @group.name, :id => new_mbrship.id
       @group.users.should_not include(@user)
     end
   end

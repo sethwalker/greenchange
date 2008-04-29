@@ -9,18 +9,19 @@ including join requests.
 
 class MembershipController < ApplicationController
   #layout 'groups'
-  stylesheet 'groups'
+  #stylesheet 'groups'
   #helper 'application'
     
   before_filter :login_required#, :except => ['list']
+  before_filter :group_admin_required, :only => [ 'index', 'promote' ]
   #prepend_before_filter :fetch_group, :except => [:approve, :reject, :view_request]
 
   #verify :method => :post, :only => [:approve, :reject]
 
-  ###### PUBLIC ACTIONS #########################################################
+  ###### ADMIN ACTIONS #########################################################
   
-  def list
-    
+  def index
+     
   end
   
   ###### USER ACTIONS #########################################################
@@ -54,9 +55,15 @@ class MembershipController < ApplicationController
   end
 
   def destroy
-    current_user.groups.delete(@group)
-    message :success => 'You have been removed from %s' / @group.name
-    redirect_to group_url(@group)
+    @membership = Membership.find params[:id]
+    raise PermissionDenied unless @membership.user == current_user or current_user.may? :admin, @group
+    @membership.destroy
+    flash[:notice] = "#{@membership.user.display_name} is no longer a member of #{@group.name}"
+    if current_user == @membership.user
+      redirect_to me_groups_path
+    else
+      redirect_to group_memberships_path(@group)
+    end
   end
   
   ###### ADMIN ACTIONS #########################################################
@@ -75,6 +82,17 @@ class MembershipController < ApplicationController
       message :success => 'member list updated'
       redirect_to :action => 'list', :id => @group
     end
+  end
+
+  def promote
+    @membership = Membership.find params[:id]
+    if @membership.promote
+      flash[:notice] = "User is now a group host"
+    else
+      flash[:notice] = "User is not eligible for promotion"
+    end
+    redirect_to group_memberships_path(@group)
+    
   end
 
   def invite
@@ -242,6 +260,12 @@ class MembershipController < ApplicationController
 
     flash[:notice] = 'You are the first person in this group'
     redirect_to group_url( @group) and return
+  end
+
+  def group_admin_required
+    if @group
+      current_user.may? :admin, @group
+    end
   end
 
   def request_already_exists?

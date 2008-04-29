@@ -1,0 +1,13 @@
+%li.list-item
+  .list-thumb
+    = link_to icon_for( membership.user, :size => 'medium' ), person_url(membership.user)
+  .list-description
+    = link_to membership.user.display_name, person_url( membership.user)
+    %br.clear
+    Member since:
+    = friendly_date membership.created_at
+    %br.clear
+    - if membership.admin?
+      Group host
+      %br.clear
+    = render :partial => 'memberships/list/menu', :locals => { :membership => membership }

@@ -1,0 +1,7 @@
+- if logged_in? && current_user.may?( :admin, @group )
+  .toolbar.list-toolbar
+    - unless membership.admin?
+      .icon
+        = button_to "Add as host", promote_group_membership_path( @group, membership ), :method => :put, :class => 'action promote', :title => 'Promote this member to a host for the group'
+    .icon
+      = button_to "Drop this member", group_membership_path( @group, membership ), :method => :delete, :class => 'action delete confirm', :title => 'Remove the member from the group'

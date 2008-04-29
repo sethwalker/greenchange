@@ -1,0 +1,8 @@
+- content_for :title do
+  = icon_for @group
+  %h1
+    Members of 
+    = @group.display_name
+
+%ul.memberships.list.plain
+  = render :partial => 'memberships/list/membership', :collection => @group.memberships
