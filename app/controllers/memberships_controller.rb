@@ -155,43 +155,6 @@ class MembershipsController < ApplicationController
       end
     end
   end
-  def accept
-    @membership_request = MembershipRequest.find(params[:id])
-    raise PermissionDenied unless @membership_request.group.allows?(@membership_request.approved_by, :admin) and current_user = @membership_request.user
-    if @membership_request.approve!
-      respond_to do |format|
-        format.html do
-          flash[:notice] = "You are now a member of #{@group.name}"
-          redirect_to group_url(@group)
-        end
-        format.xml  { render :xml  => @group.membership_for( @membership_request.user) }
-        format.json { render :json => @group.membership_for( @membership_request.user) }
-      end
-    else
-      respond_to do |format|
-        format.html do
-          render :action => 'index'
-        end
-        format.json { render :json => @membership_request, :status => :unprocessable_entity }
-        format.xml  { render :xml  => @membership_request, :status => :unprocessable_entity }
-      end
-    end
-  end
-
-  #refuse a membership invitation
-  def refuse
-    @membership_request = MembershipRequest.find(params[:id])
-    raise PermissionDenied unless @membership_request.group.allows?(@membership_request.approved_by, :admin) and current_user = @membership_request.user
-    @membership_request.destroy
-    respond_to do |format|
-      format.html do
-        flash[:notice] = 'Invitation refused'
-        redirect_to group_url(@group)
-      end
-      format.xml  { head :ok }
-      format.json { head :ok }
-    end
-  end
 
   def reject
     @membership_request = MembershipRequest.find(params[:id])
@@ -215,6 +178,45 @@ class MembershipsController < ApplicationController
       end
     end
   end
+
+#  def accept
+#    @membership_request = MembershipRequest.find(params[:id])
+#    raise PermissionDenied unless @membership_request.group.allows?(@membership_request.approved_by, :admin) and current_user = @membership_request.user
+#    if @membership_request.approve!
+#      respond_to do |format|
+#        format.html do
+#          flash[:notice] = "You are now a member of #{@group.name}"
+#          redirect_to group_url(@group)
+#        end
+#        format.xml  { render :xml  => @group.membership_for( @membership_request.user) }
+#        format.json { render :json => @group.membership_for( @membership_request.user) }
+#      end
+#    else
+#      respond_to do |format|
+#        format.html do
+#          render :action => 'index'
+#        end
+#        format.json { render :json => @membership_request, :status => :unprocessable_entity }
+#        format.xml  { render :xml  => @membership_request, :status => :unprocessable_entity }
+#      end
+#    end
+#  end
+#
+#  #refuse a membership invitation
+#  def refuse
+#    @membership_request = MembershipRequest.find(params[:id])
+#    raise PermissionDenied unless @membership_request.group.allows?(@membership_request.approved_by, :admin) and current_user = @membership_request.user
+#    @membership_request.destroy
+#    respond_to do |format|
+#      format.html do
+#        flash[:notice] = 'Invitation refused'
+#        redirect_to group_url(@group)
+#      end
+#      format.xml  { head :ok }
+#      format.json { head :ok }
+#    end
+#  end
+
 
   protected
     
