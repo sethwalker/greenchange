@@ -2,6 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe "groups/archive_list" do
   it "should render" do
+    pending "rewrite the archive list"
     TzTime.zone = TimeZone[DEFAULT_TZ]
     assigns[:months] = [{'month' => '12', 'year' => '2008'}, {'month' => '2', 'year' => '2008'}]
     create_valid_page(:created_at => Date.new(2007, 12))
