@@ -2,26 +2,17 @@ class Invitation < Message
   belongs_to :invitable, :polymorphic => true
   include Approvable
   attr_accessor :user_names
+  polymorphic_attr :invitable, :as => [ :event, :group ]
+  
 
   def after_accepted
     if event?
-      self.event.rsvps.create :user => recipient
+      event.rsvps.create :user => recipient
     end
+    if group?
+      group.memberships.create :user => recipient
+    end
+    self.destroy
   end
 
-  def event?
-    invitable.is_a?(Event)
-  end
-
-  def group?
-    invitable.is_a?(Group)
-  end
-
-  def event
-    event? ? self.invitable : nil
-  end
-
-  def group 
-    group? ? self.invitable : nil
-  end
 end

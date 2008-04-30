@@ -218,22 +218,6 @@ class MembershipsController < ApplicationController
 
   protected
     
-  def context
-    group_context
-    add_context 'membership', url_for(:controller=>'membership', :action => 'list', :id => @group)
-  end
-  
-#  def fetch_group
-#    @group = Group.get_by_name params[:group_id].sub(' ','+') if params[:group_id]
-#    if @group
-#      @group_type = @group.class.to_s.downcase
-#      return true
-#    else
-#      render :action => 'not_found'
-#      return false
-#    end
-#  end
-  
   def authorized?
     raise ActiveRecord::RecordNotFound unless @group
     non_members_post_allowed = %w(create)
@@ -255,12 +239,6 @@ class MembershipsController < ApplicationController
 
     flash[:notice] = 'You are the first person in this group'
     redirect_to group_url( @group) and return
-  end
-
-  def group_admin_required
-    if @group
-      current_user.may? :admin, @group
-    end
   end
 
   def request_already_exists?

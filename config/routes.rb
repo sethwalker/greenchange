@@ -124,6 +124,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :groups, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |group|
     group.resources :people
+    group.resources :invitations
     #group.resources :memberships, :controller => 'membership', :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put, :promote => :put }
     group.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put, :promote => :put }
     group.resource :profile, :controller => 'group/profiles'
@@ -149,8 +150,9 @@ ActionController::Routing::Routes.draw do |map|
     page_routes(tag)
   end
 
-  map.people 'people/:action/:id', :controller => 'people'
-  map.connect 'person/:action/:id/*path', :controller => 'person'
+  map.resources :invitations
+  #map.people 'people/:action/:id', :controller => 'people'
+  #map.connect 'person/:action/:id/*path', :controller => 'person'
 
   map.resources :issues do |issue|
     issue.resources :people
@@ -158,7 +160,7 @@ ActionController::Routing::Routes.draw do |map|
     page_routes( issue )
   end
   
-  map.connect 'pages/search/*path', :controller => 'pages', :action => 'search'
+  #map.connect 'pages/search/*path', :controller => 'pages', :action => 'search'
   
   map.new_media_menu 'pages/new/media', :controller => 'pages', :action => 'new_media'       
   map.new_post_menu 'pages/new/post', :controller => 'pages', :action => 'new_post'       
@@ -177,10 +179,6 @@ ActionController::Routing::Routes.draw do |map|
  
   # a generic route for tool controllers 
   map.connect 'tool/:controller/:action/:id'
-
-  #### RESTFUL ROUTES #######################################
-  map.resources :collectings
-  map.resources :collections
 
   map.exceptions 'logged_exceptions/:action/:id', :controller => 'logged_exceptions'
 end

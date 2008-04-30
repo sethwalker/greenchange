@@ -6,18 +6,24 @@ module Approvable
       state :approved, :after => :after_approved
       state :accepted, :after => :after_accepted
       state :rejected
+      state :ignored
       event :approve do
         transitions :from => :pending, :to => :approved, :guard => :approval_allowed
         transitions :from => :rejected, :to => :approved
+        transitions :from => :ignored, :to => :approved
       end
       event :accept do
         transitions :from => :pending, :to => :accepted
+        transitions :from => :ignored, :to => :accepted
       end
       event :reject do
         transitions :from => :pending, :to => :rejected
       end
+      event :ignore do
+        transitions :from => :pending, :to => :ignored
+      end
       def resolved?
-        approved? || rejected?
+        approved? || rejected? || ignored?
       end
       def approval_allowed
         true

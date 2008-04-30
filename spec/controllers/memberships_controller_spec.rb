@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe MembershipController do
+describe MembershipsController do
   before do
     @user = login_valid_user
     @group = create_valid_group
