@@ -4,7 +4,7 @@ require 'calendar_dates/week.rb'
 
 class GroupsController < ApplicationController
   helper :profile
-  helper PathFinder::Options
+  include PathFinder::Options
 
   helper :date
   helper :event_time
