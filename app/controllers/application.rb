@@ -8,30 +8,21 @@ class ApplicationController < ActionController::Base
   include PageUrlHelper
   include ContextHelper
   include IconHelper
-  #include TimeHelper
-  #
 
-  include PathFinder::Options
+  #include PathFinder::Options
       
   rescue_from PermissionDenied, :with => :access_denied
   rescue_from ActiveRecord::RecordNotFound, :with => :redirect_to_index
   # don't allow passwords in the log file.
-  filter_parameter_logging "password"
+  filter_parameter_logging "password", "password_confirmation"
   
   before_filter :pre_clean
   before_filter :load_context
-  #before_filter :assume_role, :except => :login  # after context
   around_filter :set_timezone
   session :session_secure => true if Crabgrass::Config.https_only
   protect_from_forgery
 
   protected
-  
-  # let controllers set a custom stylesheet in their class definition
-  def self.stylesheet(cssfile=nil)
-    write_inheritable_attribute "stylesheet", cssfile if cssfile
-    read_inheritable_attribute "stylesheet"
-  end
   
   def handle_rss(locals)
     if params[:path].any? and 

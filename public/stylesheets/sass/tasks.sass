@@ -1,72 +1,73 @@
-div.task_tool h2
-  :font-size 1em
+body.tasks
+  div.task_tool h2
+    :font-size 1em
 
-ul.task_list
-  :list-style-type none
-  :padding 0
-  .past_due
+  ul.task_list
+    :list-style-type none
+    :padding 0
+    .past_due
 
-li.task
-  :clear left
-  div.actions
-    :position relative
-    :left -1000px
-    :float left
-    :background #ccf
-    :outline 1px solid #999
-    :width 3em
-    :height 1.4em
-    :padding 3px
-    :opacity 0.3
-    img
-      :padding 2px 2px
-      :vertical-align bottom
-  div.actions:hover
-    :opacity 1
-  div.checkbox
-    :float left
-    :width 2em
-    :height 1.4em
-    :padding 3px
-    input
-      :margin-top 0.3em
-  div.name
-    :padding 3px
-    :clear right
-    span a
-      :color black
-      :text-decoration none
-      :border-bottom 1px #999 dotted
-      :outline 0
-  div.indent
-    :margin-left 6em
-  div.edit
-    :padding 3px
-  .status
-    :font-weight bold
-    :padding-bottom 2px
-    :margin-bottom 2px
-    :border-bottom 1px #ff1313 solid
+  li.task
+    :clear left
+    div.actions
+      :position relative
+      :left -1000px
+      :float left
+      :background #ccf
+      :outline 1px solid #999
+      :width 3em
+      :height 1.4em
+      :padding 3px
+      :opacity 0.3
+      img
+        :padding 2px 2px
+        :vertical-align bottom
+    div.actions:hover
+      :opacity 1
+    div.checkbox
+      :float left
+      :width 2em
+      :height 1.4em
+      :padding 3px
+      input
+        :margin-top 0.3em
+    div.name
+      :padding 3px
+      :clear right
+      span a
+        :color black
+        :text-decoration none
+        :border-bottom 1px #999 dotted
+        :outline 0
+    div.indent
+      :margin-left 6em
+    div.edit
+      :padding 3px
+    .status
+      :font-weight bold
+      :padding-bottom 2px
+      :margin-bottom 2px
+      :border-bottom 1px #ff1313 solid
 
-li.task:hover div.actions
-  :left 0
+  li.task:hover div.actions
+    :left 0
 
-li#add_task_link
-  :background #eee
-  :margin 0 6em
-  :padding 4px
-
-div.task_details
-  p, ul
-    :margin 0
-
-div.left-small div
-  :margin-bottom 1em
-  span
-    :display block
+  li#add_task_link
     :background #eee
-    :border-bottom 2px solid #ddd
-    :padding 2px
-  a
-    :display block
+    :margin 0 6em
+    :padding 4px
+
+  div.task_details
+    p, ul
+      :margin 0
+
+  div.left-small div
+    :margin-bottom 1em
+    span
+      :display block
+      :background #eee
+      :border-bottom 2px solid #ddd
+      :padding 2px
+    a
+      :display block
 

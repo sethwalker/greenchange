@@ -24,7 +24,6 @@ class PersonController < ApplicationController
   end
 
   def tasks
-    @stylesheet = 'tasks'
     @pages = Page.in_network(@person).allowed(current_user).page_type(:task_list).find(:all, :conditions => ["user_participations.resolved = ?", false])
     @task_lists = @pages.collect{|p|p.data}
   end

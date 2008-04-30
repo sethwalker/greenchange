@@ -1,59 +1,60 @@
-#progress, #instructions
-  :padding 0.5em
-  :background-color #FEA
-  :border 1px solid #EB0
+body.ranked_votes
+  #progress, #instructions
+    :padding 0.5em
+    :background-color #FEA
+    :border 1px solid #EB0
 
-#progress_area
-  :padding 1em
-  :height 2em
+  #progress_area
+    :padding 1em
+    :height 2em
 
-ul.possible_list
-  li
-    :margin 0 3em 0 3em
-    :padding 4px 16px
-    :cursor move
-    :line-height 24px
-    .edit
-      :display none
-  li:hover
+  ul.possible_list
+    li
+      :margin 0 3em 0 3em
+      :padding 4px 16px
+      :cursor move
+      :line-height 24px
+      .edit
+        :display none
+    li:hover
+      :background #eee
+      .edit
+        :display inline
+
+  li#possible_unordered
+    :color #666
+    :margin-left -2px
+    :border-bottom 2px solid #000
+
+  li#add_possible_link
+    :margin-top 2em
     :background #eee
-    .edit
-      :display inline
+    :padding 10px
+    :cursor default
 
-li#possible_unordered
-  :color #666
-  :margin-left -2px
-  :border-bottom 2px solid #000
+  div.name
+    :font-weight bold
 
-li#add_possible_link
-  :margin-top 2em
-  :background #eee
-  :padding 10px
-  :cursor default
+  div.possible_details
+    :margin 6px
+    :color #666
 
-div.name
-  :font-weight bold
+  ul.possibles
+    :margin 1em
+    li
+      :padding 10px 10px 14px 10px
+      :clear both
+      :padding-left 44px
+      div.rank
+        :float left
+        :display inline
+        :color #5bf
+        :font-size 36px
+        :margin-left -30px
+    li.winner
+      :background-color #ffA
 
-div.possible_details
-  :margin 6px
-  :color #666
-
-ul.possibles
-  :margin 1em
-  li
-    :padding 10px 10px 14px 10px
-    :clear both
-    :padding-left 44px
-    div.rank
-      :float left
-      :display inline
-      :color #5bf
-      :font-size 36px
-      :margin-left -30px
-  li.winner
-    :background-color #ffA
-
-span.winner
-  :display block
-  :float right
+  span.winner
+    :display block
+    :float right
 

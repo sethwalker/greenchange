@@ -1,75 +1,76 @@
-div#login_container
-  :padding 2em 2em 0em 2em
-  :padding-bottom 4em
-  :float left
-  :width =!container_width 
-
-#login_left
-  :float left
-  :font-size 15px
-  :width 500px 
-  :margin-left 2em
-  :margin-right 1em
-
-#login_right
-  :float left
-
-#loginformbox
-  :width 240px 
-  .ie6 &
-    :width 220px
-  :text-align left
-  :padding 10px 
-  :border 1px dotted #BB8B1A
-  :background #EEE9E9
-  :line-height auto 
-  :float left
-  input 
+body.accounts, body.account
+  div#login_container
+    :padding 2em 2em 0em 2em
+    :padding-bottom 4em
     :float left
-  p.agree input,
-  p.submit input
-    :width auto
-  p.submit 
-    :text-align left 
-  p.agree 
-    :width 100%
-    .ie7 &
-      :float auto
+    :width =!container_width 
 
-#loginoptions
-  :float left
-  
-#loginform table
-  :margin 0 auto
-
-#signup_container
-  :margin-top 2em
-  :width =!container_width  
-  :line-height 160%
-
-  #form_intro
+  #login_left
     :float left
     :font-size 15px
-    :width 30em
-    :margin-left 3em
-    :padding 1em
+    :width 500px 
+    :margin-left 2em
+    :margin-right 1em
 
-  #signupform
-    :margin 2em 3em 1em 3em
-    :width 22em
+  #login_right
+    :float left
+
+  #loginformbox
+    :width 240px 
+    .ie6 &
+      :width 220px
     :text-align left
-    :padding 1em
+    :padding 10px 
     :border 1px dotted #BB8B1A
     :background #EEE9E9
+    :line-height auto 
     :float left
-    input
-      :width 18em
-      :font-size 12px
+    input 
       :float left
-    p.agree, p.preference, p.submit 
-      input
-        :width auto
+    p.agree input,
+    p.submit input
+      :width auto
     p.submit 
-      :text-align center
+      :text-align left 
+    p.agree 
+      :width 100%
+      .ie7 &
+        :float auto
+
+  #loginoptions
+    :float left
+    
+  #loginform table
+    :margin 0 auto
+
+  #signup_container
+    :margin-top 2em
+    :width =!container_width  
+    :line-height 160%
+
+    #form_intro
+      :float left
+      :font-size 15px
+      :width 30em
+      :margin-left 3em
+      :padding 1em
+
+    #signupform
+      :margin 2em 3em 1em 3em
+      :width 22em
+      :text-align left
+      :padding 1em
+      :border 1px dotted #BB8B1A
+      :background #EEE9E9
+      :float left
+      input
+        :width 18em
+        :font-size 12px
+        :float left
+      p.agree, p.preference, p.submit 
+        input
+          :width auto
+      p.submit 
+        :text-align center
 
 

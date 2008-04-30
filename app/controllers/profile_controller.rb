@@ -3,7 +3,6 @@ class ProfileController < ApplicationController
   before_filter :login_required
   prepend_before_filter :fetch_profile
   #layout :choose_layout
-  stylesheet 'profile'
   
   def show
     

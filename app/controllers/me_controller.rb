@@ -2,8 +2,7 @@ class MeController < ApplicationController
 
   before_filter :login_required, :except => :connect
   before_filter :fetch_user
-  #stylesheet 'me'
-  #layout 'application'
+  include PathFinder::Options
 
   def show 
     @pages = Page.in_network(current_user).allowed(current_user).find(:all, :order => "updated_at DESC", :limit => 40)
@@ -49,7 +48,6 @@ class MeController < ApplicationController
   end
 
   def tasks
-    @stylesheet = 'tasks'
     filter = params[:id] || 'my-pending'
     if filter =~ /^all-(.*)/
       completed = $1 == 'completed'

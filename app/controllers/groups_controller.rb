@@ -4,13 +4,12 @@ require 'calendar_dates/week.rb'
 
 class GroupsController < ApplicationController
   helper :profile
+  helper PathFinder::Options
 
   helper :date
   helper :event_time
   include IconResource
     
-  
-  stylesheet 'groups'
   
   prepend_before_filter :find_group, :except => [:list,:new,:create,:index, :show]
   

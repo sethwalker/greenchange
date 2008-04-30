@@ -1,7 +1,5 @@
 class AccountController < ApplicationController
 
-  stylesheet 'login'
-
   def index
     if logged_in?
       redirect_to me_url and return

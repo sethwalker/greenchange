@@ -31,7 +31,6 @@ end
 
 class Tool::RankedVoteController < Tool::BaseController
 
-  stylesheet 'vote'
   before_filter :fetch_poll
 	before_filter :find_possibles, :only => [:show, :edit] 
      

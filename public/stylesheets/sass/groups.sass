@@ -1,161 +1,162 @@
 @import colors
 
-#titlebox
-  :padding .5em
-  -#:border 1px solid
-    :color = !titlebar_border
-  :margin-top .5em
-.group-title
-  :float left
-  :padding .5em
-  :margin-top .5em
-  h1
-    :padding-top 10px
-    :width 300px
+body.groups
+  #titlebox
+    :padding .5em
+    -#:border 1px solid
+      :color = !titlebar_border
+    :margin-top .5em
+  .group-title
     :float left
-    :margin .25em 0 0 0
-  .title-menu
-    :padding 1em
-    :margin-top 1em
-    :float left
-
-.group-profile
-  :padding .25em
-  :margin .5em
-  :float left
-  .avatar
-    :float right
-    :margin .5em
-  .plainlist
-    :float left
-    :margin-right 1em
-
-.landing-group
-  :float left
-  .section
-    :margin .5em 0 .5em 0
-    :float left
-
-table.archive-calendar
-  :color #999
-  :border 1px solid #ccc
-  :border-collapse collapse
-  td
-    :width 20px
-    :border 1px solid #ccc
-    :text-align center
-    a
-      :display block
-      :font-weight bold
-      :text-decoration none
-
-div.group-entry
-  :float left
-  :margin 1em
-  :margin-left 38px
-  :width 30em
-  a
-    :font-weight bold
-  img
-    :margin-left -38px
-    :vertical-align top
-    :float left
-
-#l-shape
-  :height 1em
-  :width 2em
-  :display block
-  :float left
-  :border 1px solid white
-  :border-width 0 0 1px 1px
-  :margin-left 10px
-  :margin-top -2px
-
-table.activity
-  :border-collapse collapse
-  td.top
-    :padding-top 7px
-    :padding-left 3px
-    a
-      :text-decoration none
-    a:hover
-      :text-decoration underline
-  td.bottom
-    :padding-bottom 7px
-    :padding-left 3px
-    :font-size 0.8em
-    a
-      :text-decoration none
-    a:hover
-      :text-decoration underline
-  tbody.odd
-    :background-color #f2f2f2
-  tbody.even
-    :background-color white
-  th
-    :padding-top 10px
-    :text-align left
-
-div.landing-main-column
-  :margin-right 22em
-
-div.landing-side-column
-  :width 20em
-  :float right
-
-div.landing-group
-  .section
-    :float left
-  .home
-    .edit-tab
-      :clear both
-    .wiki
-      :clear both
-
-.form
-  .h1
-    .banner
-      :padding 8px
-    .group_info
-      :background url(/images/actions/beehive.png) no-repeat 100% 50%
-    .group_privacy
-      :background url(/images/actions/lock.png) no-repeat 100% 50%
+    :padding .5em
+    :margin-top .5em
+    h1
+      :padding-top 10px
+      :width 300px
       :float left
-label
-    :font-weight bold
-    :display block
-  p.checkbox input
+      :margin .25em 0 0 0
+    .title-menu
+      :padding 1em
+      :margin-top 1em
+      :float left
+
+  .group-profile
+    :padding .25em
+    :margin .5em
     :float left
-    :margin-right .5em
-  .comment
+    .avatar
+      :float right
+      :margin .5em
+    .plainlist
+      :float left
+      :margin-right 1em
+
+  .landing-group
+    :float left
+    .section
+      :margin .5em 0 .5em 0
+      :float left
+
+  table.archive-calendar
+    :color #999
+    :border 1px solid #ccc
+    :border-collapse collapse
+    td
+      :width 20px
+      :border 1px solid #ccc
+      :text-align center
+      a
+        :display block
+        :font-weight bold
+        :text-decoration none
+
+  div.group-entry
+    :float left
+    :margin 1em
+    :margin-left 38px
+    :width 30em
+    a
+      :font-weight bold
+    img
+      :margin-left -38px
+      :vertical-align top
+      :float left
+
+  #l-shape
+    :height 1em
+    :width 2em
     :display block
+    :float left
+    :border 1px solid white
+    :border-width 0 0 1px 1px
+    :margin-left 10px
+    :margin-top -2px
 
-div#content h2
-  :font-size 15px
-  :color white
-  :background-color #a8cb1c
-  :padding 5px
-  :border-top 4px solid #8a9343
-  :margin-top 5px
+  table.activity
+    :border-collapse collapse
+    td.top
+      :padding-top 7px
+      :padding-left 3px
+      a
+        :text-decoration none
+      a:hover
+        :text-decoration underline
+    td.bottom
+      :padding-bottom 7px
+      :padding-left 3px
+      :font-size 0.8em
+      a
+        :text-decoration none
+      a:hover
+        :text-decoration underline
+    tbody.odd
+      :background-color #f2f2f2
+    tbody.even
+      :background-color white
+    th
+      :padding-top 10px
+      :text-align left
 
-div.iconboxes div.iconbox
-  :height 95px
+  div.landing-main-column
+    :margin-right 22em
 
-div.promo
-  -#:background-color #eee
+  div.landing-side-column
+    :width 20em
+    :float right
 
-div.profile
-  :background-color #eee
+  div.landing-group
+    .section
+      :float left
+    .home
+      .edit-tab
+        :clear both
+      .wiki
+        :clear both
 
-ul.tab-block
-  :font-size 11px
-  :padding 0pt 0pt 0pt 0pt
-  :list-style-type none
+  .form
+    .h1
+      .banner
+        :padding 8px
+      .group_info
+        :background url(/images/actions/beehive.png) no-repeat 100% 50%
+      .group_privacy
+        :background url(/images/actions/lock.png) no-repeat 100% 50%
+        :float left
+  label
+      :font-weight bold
+      :display block
+    p.checkbox input
+      :float left
+      :margin-right .5em
+    .comment
+      :display block
 
-ul.tab-content.list
-  :list-style-type none
-  :padding 0pt 0pt 0pt 0pt
+  div#content h2
+    :font-size 15px
+    :color white
+    :background-color #a8cb1c
+    :padding 5px
+    :border-top 4px solid #8a9343
+    :margin-top 5px
 
-div#main h3
-  :font-size 15px
+  div.iconboxes div.iconbox
+    :height 95px
+
+  div.promo
+    -#:background-color #eee
+
+  div.profile
+    :background-color #eee
+
+  ul.tab-block
+    :font-size 11px
+    :padding 0pt 0pt 0pt 0pt
+    :list-style-type none
+
+  ul.tab-content.list
+    :list-style-type none
+    :padding 0pt 0pt 0pt 0pt
+
+  div#main h3
+    :font-size 15px
 
