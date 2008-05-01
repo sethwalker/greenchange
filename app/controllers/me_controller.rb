@@ -34,8 +34,16 @@ class MeController < ApplicationController
       @columns = [:icon, :title, :group, :updated_by, :updated_at, :contributors_count]
     end
     full_url = search_me_url + '/' + String(parsed_path)
-    handle_rss :title => full_url, :link => full_url,
-               :image => avatar_url(:id => @user.avatar_id||0, :size => 'huge')
+    respond_to do |format|
+      format.html {}
+      format.rss do
+        options = {
+          :title => full_url, 
+          :link => full_url,
+          :image => icon_path_for( @user, :size => 'large')
+          }
+      end
+    end
   end
   
   def dashboard

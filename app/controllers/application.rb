@@ -24,14 +24,6 @@ class ApplicationController < ActionController::Base
 
   protected
   
-  def handle_rss(locals)
-    if params[:path].any? and 
-        (params[:path].include? 'rss' or params[:path].include? '.rss')
-      response.headers['Content-Type'] = 'application/rss+xml'   
-      render :partial => '/pages/rss', :locals => locals
-    end
-  end
-
   def rescue_action_in_public(exception)
     status = response_code_for_rescue(exception)
     @logged_exception = log_exception(exception) if status != :not_found
@@ -69,9 +61,9 @@ class ApplicationController < ActionController::Base
   # some helpers we include in controllers. this allows us to 
   # grab the controller that will work in a view context and a
   # controller context.
-  def controller
-    self
-  end 
+  #def controller
+  #  self
+  #end 
   
   private
   

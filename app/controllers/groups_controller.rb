@@ -144,9 +144,18 @@ class GroupsController < ApplicationController
       @columns = [:icon, :title, :updated_by, :updated_at, :contributors_count]
     end
 
-    handle_rss :title => @group.name, :description => @group.summary,
-               :link => group_url(@group),
-               :image => avatar_url(:id => @group.avatar_id||0, :size => 'huge')
+    respond_to do |format|
+      format.html {}
+      format.rss do
+        options = {
+          :title => @group.name, 
+          :description => @group.summary,
+          :link => group_pages_path(@group),
+          :image => icon_path_for( @group, :size => 'large' )
+        }
+        render :partial => 'pages/rss', :locals => options
+      end
+    end
   end
   
   def tags
