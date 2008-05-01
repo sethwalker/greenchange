@@ -85,8 +85,8 @@ class InboxController < ApplicationController
     return true
   end
   
-  def context
-    me_context('large')
-    add_context 'inbox'.t, url_for(:controller => 'inbox', :action => 'index')
-  end
+#  def context
+#    me_context('large')
+#    add_context 'inbox'.t, url_for(:controller => 'inbox', :action => 'index')
+#  end
 end

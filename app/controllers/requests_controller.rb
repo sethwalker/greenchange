@@ -53,11 +53,11 @@ class RequestsController < ApplicationController
     @user = current_user
   end
   
-  def context
-    me_context('small')
-    add_context 'requests', url_for(:controller => 'requests', :action => 'index')
-    add_context params[:action], url_for(:controller => 'requests') unless params[:action] == 'index'
-  end
+#  def context
+#    me_context('small')
+#    add_context 'requests', url_for(:controller => 'requests', :action => 'index')
+#    add_context params[:action], url_for(:controller => 'requests') unless params[:action] == 'index'
+#  end
   
 end
 

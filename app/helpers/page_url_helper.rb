@@ -86,7 +86,7 @@ module PageUrlHelper
   end
   def parsed_path
     return @parsed_path if @parsed_path
-    @parsed_path ||= controller.parse_filter_path(filter_path)
+    @parsed_path ||= parse_filter_path(filter_path)
   end
 
   # used to create the page list headings

@@ -138,9 +138,9 @@ class ChatController < ApplicationController
     return say
   end
   
-  def context
-    add_context 'chat', '/chat'
-    add_context @channel.name, url_for(:controller => 'chat', :action => 'channel', :id => @channel.name) if @channel
-  end
+#  def context
+#    add_context 'chat', '/chat'
+#    add_context @channel.name, url_for(:controller => 'chat', :action => 'channel', :id => @channel.name) if @channel
+#  end
   
 end

@@ -90,7 +90,6 @@ module PageListHelper
   # set member variable @path beforehand if you want 
   # the links to take it into account instead of params[:path]
   def list_heading(text, action, select_by_default=false)
-    path = filter_path
     parsed = parsed_path
     selected = false
     arrow = ''

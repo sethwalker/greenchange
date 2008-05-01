@@ -12,7 +12,8 @@
 - details_id   = "#{task_id}_details"
 - mark_action  = "mark_task_#{alt_status}"
 - edit_action  = "edit_task"
-- check_click  = "Element.hide('#{checkbox_id}');" + show_spinner(spinner_done) + remote_function(:url => self.send("#{mark_action}_task_url", @page, :task_id => task.id))
+-# check_click  = "Element.hide('#{checkbox_id}');" + show_spinner(spinner_done) + remote_function(:url => self.send("#{mark_action}_task_url", @page, :task_id => task.id))
+- check_click  = "Element.hide('#{checkbox_id}');" + remote_function(:url => self.send("#{mark_action}_task_url", @page, :task_id => task.id))
 - edit_function = remote_function(:url => self.send("#{edit_action}_task_url", @page, :task_id => task.id))
 - edit_click   = "$('#{task_show_id}', '#{task_edit_id}').invoke('toggle');" + "if ($('#{task_edit_form}')==null) {#{edit_function}}"
 
@@ -24,10 +25,10 @@
       = image_tag 'actions/change-order-small.png'
   .checkbox
     = check_box_tag 'completed', 1, task.completed, :id => checkbox_id, :onclick => check_click
-    = spinner(spinner_done)
+    -#= spinner(spinner_done)
   %div{ :id => task_show_id }
     = render :partial => 'tool/task_list/task_show', :locals => {:task => task}
   .indent.task_edit{ :style => "display: none", :id => task_edit_id }
-    = spinner(spinner_edit, :show => true)
+    -#= spinner(spinner_edit, :show => true)
     Loading...
     - # render :partial => 'tool/task_list/task_edit', :locals => {:task => task}

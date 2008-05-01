@@ -13,7 +13,6 @@ class PersonController < ApplicationController
   layout 'application'
   
   def show
-    load_context
     params[:path] ||= "descending/updated_at"
     search
   end
@@ -30,12 +29,12 @@ class PersonController < ApplicationController
     
   protected
   
-  def context
-    person_context
-    unless ['show'].include? params[:action]
-      add_context params[:action], people_url(:action => params[:action], :id => @person )
-    end
-  end
+#  def context
+#    person_context
+#    unless ['show'].include? params[:action]
+#      add_context params[:action], people_url(:action => params[:action], :id => @person )
+#    end
+#  end
   
   prepend_before_filter :fetch_user
   def fetch_user 

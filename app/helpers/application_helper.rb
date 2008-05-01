@@ -1,19 +1,19 @@
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
     
-  include PageUrlHelper         # provides page_url()
   #include UrlHelper
-  include Formy                 # helps create forms
+  #include Formy                 # helps create forms
+  #include LegacyHelper
+  #include PageListHelper
+  #include PathFinder::Options   # for Page.find_by_path options
+  include PageUrlHelper         # provides page_url()
   include LayoutHelper
-  include LegacyHelper
   include TimeHelper
   include AjaxUiHelper
   include DataDisplayHelper
-  include PageListHelper
   include ContextHelper
   include NetworkContentHelper
   include PermissionsHelper
-  #include PathFinder::Options   # for Page.find_by_path options
     
   def issue_selector(thing_that_has_issues)
     Issue.find(:all).inject('') do |selector, issue|

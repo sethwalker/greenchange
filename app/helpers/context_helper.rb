@@ -72,12 +72,12 @@ module ContextHelper
   ## SETTING THE CONTEXT
   
   # before filter that may be overridden by controllers
-  def context; end
+  #def context; end
     
-  def add_context(text, url)
-    @context ||= []
-    @context << [text,url]
-  end
+  #def add_context(text, url)
+  #  @context ||= []
+  #  @context << [text,url]
+  #end
 
   def add_breadcrumb(text, url)
     @breadcrumbs ||= []
@@ -98,7 +98,7 @@ module ContextHelper
   # group, person, or page context. 
 
   def group_context(size='large', update_breadcrumbs=true)
-    add_context 'groups', groups_url
+    #add_context 'groups', groups_url
     if @group
       if @group.instance_of? Committee
         add_context @group.parent.short_name, group_url(@group.parent)

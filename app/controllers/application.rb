@@ -1,16 +1,23 @@
 class ApplicationController < ActionController::Base
   Tag # need this to reload has_many_polymorphs in development mode
 
+  #this enables exception_logger plugin
   include ExceptionLoggable
 
+  #this is the system authentication module
   include AuthenticatedSystem
+
+  #CRUFT this is role-based permissions, not used so much
   include AuthorizedSystem
+
+  #this deals with polymorphic paths for pages and Tool:: instances
   include PageUrlHelper
+
   include ContextHelper
+  
+  #this produces icon paths
   include IconHelper
 
-  #include PathFinder::Options
-      
   rescue_from PermissionDenied, :with => :access_denied
   rescue_from ActiveRecord::RecordNotFound, :with => :redirect_to_index
   # don't allow passwords in the log file.
@@ -36,7 +43,7 @@ class ApplicationController < ActionController::Base
   end
 
 
-  # a one stop shopping function for flash messages
+  # a layer to obscure the native flash api
   def message(opts)    
     if opts[:success]
       flash[:notice] = opts[:success]
