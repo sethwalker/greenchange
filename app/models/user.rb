@@ -38,6 +38,7 @@ class User < ActiveRecord::Base
   has_finder :by_issue, lambda {|*issues|
     issues.any? ? { :include => :issue_identifications, :conditions => [ "issue_identifications.issue_id in (?)", issues ] } : {}
   }
+  has_finder :enabled, :conditions => [ "enabled = ? and activated_at IS NOT NULL", true ]
  
 
   #has_many :memberships

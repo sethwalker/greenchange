@@ -104,7 +104,7 @@ class ApplicationController < ActionController::Base
     @group ||= Group.find_by_name params[:group_id] if params[:group_id]
     @issue ||= Issue.find_by_name params[:issue_id].gsub( '-', ' ') if params[:issue_id]
     @tag ||=   Tag.find_by_name  params[:tag_id]    if params[:tag_id]
-    @person ||= User.find_by_login params[:person_id] if params[:person_id]
+    @person ||= User.enabled.find_by_login params[:person_id] if params[:person_id]
     if logged_in?
       @me ||= current_user if request.request_uri =~ /^\/me/ 
       @user ||= current_user 
