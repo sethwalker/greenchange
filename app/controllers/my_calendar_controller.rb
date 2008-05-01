@@ -139,10 +139,5 @@ class MyCalendarController < ApplicationController
     return true
   end
   
-#  def context
-#    me_context('large')
-#    add_context 'calendar'.t, url_for(:controller => 'my_calendar', :action => 'index')
-#  end
-  
   
 end

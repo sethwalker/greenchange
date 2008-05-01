@@ -2,7 +2,7 @@
   -if logged_in?
     .toolbar.title-menu
       .icon
-        = link_to_icon 'Create new group', 'actions/plus.png', :action => 'new'
+        = link_to 'Create new group', new_group_path, :class => 'action new'
 -#  %h1 Groups
 - unless scoped_by_context?
   -if logged_in?

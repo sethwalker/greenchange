@@ -2,8 +2,6 @@ class InboxController < ApplicationController
  
   before_filter :login_required
  
-  #layout 'me'
-
   def show
     #ActiveRecord::Base.with_scope :order => "page.updated_at DESC", :page => params[:page]
     @messages = @me.messages_received.paginate(:all, :order => "updated_at DESC", :page => params[:page] )
@@ -85,8 +83,4 @@ class InboxController < ApplicationController
     return true
   end
   
-#  def context
-#    me_context('large')
-#    add_context 'inbox'.t, url_for(:controller => 'inbox', :action => 'index')
-#  end
 end

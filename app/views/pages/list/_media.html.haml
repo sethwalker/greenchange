@@ -2,7 +2,7 @@
 - if extended_sidebar?
   - list_options = { :limit => 10, :order => 'created_at DESC' }
   %ul.tab-block
-    -#= render :partial => context_path('pages_toolbar'), :locals => { :source => source }
+    = render :partial => 'pages/list/tabs_menu', :locals => { :source => source }
 
     %li
       .tab-title

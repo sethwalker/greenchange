@@ -13,6 +13,7 @@ class ApplicationController < ActionController::Base
   #this deals with polymorphic paths for pages and Tool:: instances
   include PageUrlHelper
 
+  #CRUFT this is in controller to support rss w/options -- replace w/builder
   include ContextHelper
   
   #this produces icon paths
@@ -31,6 +32,7 @@ class ApplicationController < ActionController::Base
 
   protected
   
+  #sends the user to the problem report page
   def rescue_action_in_public(exception)
     status = response_code_for_rescue(exception)
     @logged_exception = log_exception(exception) if status != :not_found

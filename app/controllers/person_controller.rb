@@ -10,7 +10,6 @@ see PeopleController.
 
 class PersonController < ApplicationController
   helper ProfileHelper
-  layout 'application'
   
   def show
     params[:path] ||= "descending/updated_at"
@@ -28,13 +27,6 @@ class PersonController < ApplicationController
   end
     
   protected
-  
-#  def context
-#    person_context
-#    unless ['show'].include? params[:action]
-#      add_context params[:action], people_url(:action => params[:action], :id => @person )
-#    end
-#  end
   
   prepend_before_filter :fetch_user
   def fetch_user 

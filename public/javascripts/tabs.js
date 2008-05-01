@@ -84,7 +84,7 @@ Crabgrass.Tabs =  function() {
 
             //move toolbar into titlebar
             // watch out -- this will move the toolbar for list-item as well
-            //ul.select('.toolbar').each( function(toolbar) { titlebar.insert( {bottom: toolbar.remove() } ) } );
+            ul.select('.toolbar.tabs-menu').each( function(toolbar) { titlebar.insert( {bottom: toolbar.remove() } ) } );
   
             //setup 'all' list as a tab
             ul_tabs.add( all_list, all_title );

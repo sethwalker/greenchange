@@ -25,11 +25,4 @@ class PeopleController < ApplicationController
     @people = User.by_group(@group).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag).enabled
   end
 
-  protected
-  
-  def context
-    person_context
-    set_banner "people/banner", Style.new(:background_color => "#6E901B", :color => "#E2F0C0")
-  end
-    
 end

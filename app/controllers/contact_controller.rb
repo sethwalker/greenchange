@@ -75,10 +75,5 @@ class ContactController < ApplicationController
     true
   end
   
-#  def context
-#    person_context
-#    add_context 'contact', url_for(:controller => 'contact', :action => 'add', :id => @person)
-#  end
-  
 end
 

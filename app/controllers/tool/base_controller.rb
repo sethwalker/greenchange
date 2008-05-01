@@ -207,15 +207,6 @@ class Tool::BaseController < ApplicationController
     true
   end
       
-  def context
-    return true if request.xhr?
-    @group ||= Group.find_by_id(params[:group_id]) if params[:group_id]
-    @person ||= User.find_by_id(params[:user_id]) if params[:user_id]
-    @user ||= current_user 
-    page_context
-    true
-  end
-  
   def setup_data(page_data)
     #stub returns self
     page_data 

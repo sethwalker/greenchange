@@ -207,7 +207,6 @@ class PagesController < ApplicationController
       @page.add(group)
       @page.group = group
       @page.save
-      clear_referer(@page)
     end
     redirect_to page_url(@page)
   end
@@ -278,15 +277,6 @@ class PagesController < ApplicationController
     end
   end
 
-  def context
-#    return true unless request.get?  #I don't know what the purpose of this is, but commenting it out makes access look better after removing access  --af
-    @group ||= Group.find_by_id(params[:group_id]) if params[:group_id]
-    @person ||= User.find_by_id(params[:user_id]) if params[:user_id]
-    @user ||= current_user 
-    page_context
-    true
-  end
-  
   def fetch_page
     @page = Page.find_by_id(params[:id]) if params[:id]
     @upart = (@page.participation_for_user(current_user) if logged_in? and @page)
