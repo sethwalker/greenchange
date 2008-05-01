@@ -2,7 +2,7 @@
   - if current_user.may_pester? person
     .icon
       = link_to 'send message', new_message_url( :person_id => person.login), :class => 'action send_message'
-    .icon
+    -#.icon
       = link_to 'invite to group', 'invite_person_membership_url(person)', :class => 'action membership_request'
     -#- if person.online?
       .icon
