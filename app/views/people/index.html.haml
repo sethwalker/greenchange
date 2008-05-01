@@ -9,16 +9,16 @@
       -else
         You have no contacts
       .clear
-    %h1 
+    -#%h1 
       People in my groups 
       -#%span.normal
         \(users I share a common group with)
-    .workarea
-      -if @peers
-        .icon-box
-          =render :partial => 'shared/list/person', :collection => @peers
-      -else
-        You have no peers
+      .workarea
+        -if @peers
+          .icon-box
+            =render :partial => 'shared/list/person', :collection => @peers
+        -else
+          You have no peers
       .clear
   %h1 Everyone 
   .workarea

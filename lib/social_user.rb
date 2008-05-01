@@ -198,8 +198,8 @@ module SocialUser
   module Peers
     def self.included(base)
       base.instance_eval do
-        has_many :peers, :class_name => 'User',
-          :finder_sql => 'SELECT users.* FROM users WHERE users.id IN (#{peer_id_cache.to_sql})'
+        # TODO CRUFT this peers feature does not work
+        has_many :peers, :class_name => 'User', :finder_sql => 'SELECT users.* FROM users WHERE users.id IN (#{peer_id_cache.to_sql})'
       end
     end
 
