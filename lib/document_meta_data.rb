@@ -9,11 +9,11 @@ module DocumentMetaData
   end
 
   def document_meta_data
-    document_meta ||= build_document_meta
+    self.document_meta ||= self.build_document_meta
   end
 
   def document_meta_data=(meta_data)
-    return unless meta_data.values.any? { |v| !v.blank? }
+    return if meta_data.values.all?(&:blank?)
     if document_meta
       document_meta.attributes = meta_data
     else

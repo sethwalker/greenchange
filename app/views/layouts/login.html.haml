@@ -14,7 +14,7 @@
     #top-login-prompt
       = link_to "Login".t, :controller => '/account', :action => 'login', :redirect => ( params[:redirect] || request.request_uri )
     #top-login-form
-      - form_tag :controller => 'account', :action => 'login' do
+      - form_tag :controller => '/account', :action => 'login' do
         #top-login-fields
           %p
             %label{ :for => "username" }

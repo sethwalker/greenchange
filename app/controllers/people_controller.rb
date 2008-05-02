@@ -14,7 +14,7 @@ class PeopleController < ApplicationController
   include IconResource
   
   def show
-    @person = User.find_by_login params[:id]
+    @person = User.enabled.find_by_login params[:id]
   end
 
   def index
@@ -22,7 +22,7 @@ class PeopleController < ApplicationController
       @contacts = current_user.contacts
       @peers = current_user.peers
     end
-    @people = User.by_group(@group).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag)
+    @people = User.by_group(@group).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag).enabled
   end
 
   protected

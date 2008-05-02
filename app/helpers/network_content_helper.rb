@@ -14,7 +14,7 @@ module NetworkContentHelper
     # TODO: network content sorting
     if source
       return [] unless source.respond_to?(:users) && source.users.any?
-      source.users.find(:all, :limit => 6, :order => "updated_at DESC") 
+      source.users.enabled.find(:all, :limit => 6, :order => "updated_at DESC") 
     else
       find_random User, 6
     end
@@ -31,7 +31,13 @@ module NetworkContentHelper
   end
 
   def find_random( klass, qty )
-    ids = klass.connection.select_all("Select id from #{klass.name.tableize}")
+    #TODO find a way to get rid of this special-case sql and use the named_scope
+    if klass == User
+      ids = klass.connection.select_all("Select id from #{klass.name.tableize} where enabled=true and activated_at IS NOT NULL")
+    else
+      ids = klass.connection.select_all("Select id from #{klass.name.tableize}")
+    end
+
     random_ids = []
     qty.times do
       next if ids.empty?

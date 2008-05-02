@@ -83,7 +83,7 @@ class Profile < ActiveRecord::Base
       public_version = entity.public_profile || entity.build_public_profile
       public_version.attributes = self.attributes.merge( :friend => false, :stranger => true )
       notes.each { |n| public_version.note_for(n.note_type).update_attribute :body, n.body }
-      web_resources.each { |srv| public_version.web_resources << srv }
+      web_resources.each { |srv| public_version.web_resources.build(srv.attributes) }
       locations.each { |loc| public_version.locations.build :city => loc.city, :state => loc.state }
       public_version.save
     end
