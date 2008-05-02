@@ -43,13 +43,13 @@ Spec::Runner.configure do |config|
   # config.mock_with :rr
 
   config.before do
-    User.current = nil
+    #User.current = nil
   end
 
   def create_valid_page(options = {})
     options[:title] ||= ( options[:name] || ( 'valid_page' + rand(90000).to_s) )
     Page.delete_all :title => options[:title]
-    Page.create!( { :title => 'valid_page'}.merge( options))
+    Page.create!( { :title => 'valid_page'  }.merge( options))
   end
 
   def create_valid_asset
@@ -83,7 +83,7 @@ Spec::Runner.configure do |config|
   end
 
   def login_user(user)
-    User.current = user
+    #User.current = user
     controller.stub!(:current_user).and_return(user)
   end
 end

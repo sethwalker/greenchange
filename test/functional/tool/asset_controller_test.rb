@@ -22,7 +22,6 @@ class Tool::AssetControllerTest < Test::Unit::TestCase
   end
 
   def test_destroy_version
-    User.current = nil
     asset = Asset.create :uploaded_data => fixture_file_upload(File.join('files','image.png'), 'image/png')
     page = create_page :data => asset
     page.data.uploaded_data = fixture_file_upload(File.join('files','photos.png'), 'image/png')

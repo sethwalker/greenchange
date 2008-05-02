@@ -23,7 +23,7 @@ describe Tool::WikiController do
     @user = login_valid_user
     controller.stub!(:fetch_page_data)
     controller.stub!(:fetch_wiki)
-    @page = Tool::TextDoc.create :title => 'awiki'
+    @page = Tool::TextDoc.create :title => 'awiki', :created_by => @user
     @wiki = @page.create_data :body => 'cheese'
     Tool::TextDoc.stub!(:find).and_return(@page)
     @page.stub!(:data).and_return(@wiki)

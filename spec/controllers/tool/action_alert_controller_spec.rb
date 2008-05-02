@@ -2,10 +2,10 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Tool::ActionAlertController do
   before do
-    login_valid_user
+    current_user = login_valid_user
     controller.stub!(:fetch_page_data)
     controller.stub!(:fetch_wiki)
-    @page = @controller.page_class.create :title => 'anaction'
+    @page = @controller.page_class.create :title => 'anaction', :created_by => current_user 
     #create_page(:type => 'Tool::ActionAlert', :name => 'anaction')
     @wiki = ActionAlert.new
     @page.stub!(:data).and_return(@wiki)

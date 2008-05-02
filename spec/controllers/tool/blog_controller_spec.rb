@@ -6,7 +6,7 @@ describe Tool::BlogController do
     login_user @user
     controller.stub!(:fetch_page_data)
     controller.stub!(:fetch_wiki)
-    @page = create_page(:type => 'Tool::Blog', :name => 'ablog')
+    @page = create_page(:type => 'Tool::Blog', :name => 'ablog', :created_by => @user)
     @wiki = Blog.new
     @page.stub!(:data).and_return(@wiki)
     @page.data.user = @user

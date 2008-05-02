@@ -24,7 +24,7 @@ class ApplicationController < ActionController::Base
   # don't allow passwords in the log file.
   filter_parameter_logging "password", "password_confirmation"
   
-  before_filter :pre_clean
+  #before_filter :pre_clean
   before_filter :load_context
   around_filter :set_timezone
   session :session_secure => true if Crabgrass::Config.https_only
@@ -67,19 +67,15 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  # some helpers we include in controllers. this allows us to 
-  # grab the controller that will work in a view context and a
-  # controller context.
-  #def controller
-  #  self
-  #end 
-  
   private
   
-  def pre_clean
-    User.current = nil
-  end
+  # clears class attributes ( for use in production )
+  # this may not be needed since no models currently use User.current
+  #def pre_clean
+  #  User.current = nil
+  #end
 
+  # sets timezone to match the registered preference of the current user
   def set_timezone
     TzTime.zone = TimeZone[DEFAULT_TZ]
     TzTime.zone = TimeZone[current_user.time_zone] if logged_in? && current_user.time_zone 
@@ -87,6 +83,7 @@ class ApplicationController < ActionController::Base
     TzTime.reset!
   end
 
+  # send users to list page when rescuing from RecordNotFound
   def redirect_to_index(exception)
     if action_name == 'show'
       flash[:error] = "Couldn't find the item you asked for."
@@ -96,7 +93,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  # CONTEXT USAGE
+  # determines if the current controller is scoped by other items and sets an instance variable
+  # can set the following items : @group, @issue, @tag, @person, @event, @me, @user
   def load_context
     @group ||= Group.find_by_name params[:group_id] if params[:group_id]
     @issue ||= Issue.find_by_name params[:issue_id].gsub( '-', ' ') if params[:issue_id]

@@ -2,13 +2,13 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Tool::AssetController do
   it "should keep the page title as the filename for new versions" do
+    login_valid_user
     @asset = Asset.new :filename => 'pagetitle.jpg', :size => 1, :content_type => 'image/jpeg'
     @page = create_valid_page
     @page.data = @asset
     controller.stub!(:login_required).and_return(true)
     #controller.stub!(:fetch_page_data).and_return(true)
     #controller.instance_variable_set(:@page, @page)
-    login_valid_user
     @page.stub!(:title).and_return('pagetitle')
     #@asset.filename = 'pagetitle.gif'
     #@page.stub!(:data).and_return(@asset)
@@ -47,6 +47,7 @@ describe Tool::AssetController do
     end
     it 'should be successful' do
       controller.stub!(:authorized?).and_return(true)
+      @page.stub!(:allows?).and_return true
       @page.stub!(:save).and_return true
       Tool::Asset.stub!(:find).and_return(@page)
       put :update, :id => @page.to_param, :page => { :title => 'test-update' }
@@ -69,7 +70,7 @@ describe Tool::AssetController do
   describe "routes" do
     before do
       get :new
-      User.current = nil
+      #User.current = nil
     end
     it "should recognize upload_url" do
       new_upload_path.should == '/uploads/new'
