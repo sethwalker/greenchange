@@ -28,7 +28,6 @@ class PagesController < ApplicationController
   
   before_filter :login_required, :except => [:search, :index]
   prepend_before_filter :fetch_page
-  layout 'application'
   include IconResource
 
   def show

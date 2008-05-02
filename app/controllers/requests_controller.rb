@@ -14,7 +14,6 @@ class RequestsController < ApplicationController
 
   before_filter :login_required
   before_filter :fetch_user
-  #layout 'me'
 
   def index
     @my_contact_requests_sent = current_user.contact_requests_sent.pending.find(:all, :order => "created_at DESC", :limit => 20)

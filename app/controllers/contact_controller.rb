@@ -7,7 +7,6 @@ class ContactController < ApplicationController
   before_filter :login_required
   prepend_before_filter :fetch_person, :except => [:requests, :approve, :reject]
   before_filter :find_contact_request, :only => [:requests, :approve, :reject]
-  #layout 'person'  
   
   def new
     render :action => 'add'

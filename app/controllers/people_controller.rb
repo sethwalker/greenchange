@@ -10,7 +10,6 @@ For processing a single user, see PersonController.
 =end
 
 class PeopleController < ApplicationController
-  layout 'application'
   include IconResource
   
   def show

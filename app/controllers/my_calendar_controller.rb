@@ -6,7 +6,6 @@ class MyCalendarController < ApplicationController
   helper :date
   helper :event_time
   
-#  layout 'me'
   before_filter :login_required
 
   # events / calendar code - most of these actions adapted from
