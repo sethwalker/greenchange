@@ -7,7 +7,7 @@ class Bookmark < ActiveRecord::Base
     base_condition = { :include => :page }
       if user.superuser?
         {}
-      elsif not user.is_a? AuthenticatedUser
+      elsif !user.is_a?( AuthenticatedUser )
         { :include => :page, :conditions => [ 'pages.public = ?', true ] } 
       else
         public_condition = self.__send__( :sanitize_sql_for_conditions, [ "pages.public = ?", true ] )
@@ -23,7 +23,7 @@ class Bookmark < ActiveRecord::Base
 #                  "permissions.grantee_id = ? AND "+
 #                  "permissions.view = ? "+
 #              ")", user.id, user.id, true ])
-        { :conditions => [ public_condition, membership_condition, personal_condition, not_a_page_condition ].join( ' OR ' ), :include => [ :page ]  } 
+        { :conditions => [ public_condition, membership_condition, personal_condition, not_a_page_condition ].compact.join( ' OR ' ), :include => [ :page ]  } 
       end
   }
 
