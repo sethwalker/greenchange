@@ -155,8 +155,11 @@ class User < ActiveRecord::Base
   
   # the user's custom display name, could be anything.
   def display_name
-    read_attribute('display_name').any? ? read_attribute('display_name') : login
-    "#{private_profile.first_name} #{private_profile.last_name}"
+    if self.private_profile
+      "#{self.private_profile.first_name} #{self.private_profile.last_name}"
+    else
+      self.display_name? ? read_attribute( :display_name ) : login
+    end
   end
   
   # the user's handle, in same namespace as group name,
