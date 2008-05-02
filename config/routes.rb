@@ -28,13 +28,6 @@ ActionController::Routing::Routes.draw do |map|
     m.connect 'assets/:id/*filename'
   end
 
-  # unobtrusive javascript
-  #UJS::routes
-  
-  # bundled_assets plugin:
-  map.connect 'bundles/:version/:names.:ext', :controller => 'assets_bundle', :action => 'fetch', :ext => /css|js/, :names => /[^.]*/
-  
-  map.avatar 'avatars/:id/:size.jpg', :action => 'show', :controller => 'avatars', :defaults => {:id => "images/default"}
   map.connect 'latex/*path', :action => 'show', :controller => 'latex'
 
   ##### REGULAR ROUTES ####################################

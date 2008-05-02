@@ -1,7 +1,7 @@
 CRABGRASS
 =========================================================
 
-Crabgrass is a software libre web application designed for group and network organizing, and tailored to the needs of the global justice movement. The long term goal is to provide the technical tools to facilitate active, confederal, and directly democratic social change networks.
+Crabgrass is a software libre web application designed for group and network organizing, and tailored to the needs of the global justice movement. The long term goal is to provide the technical tools to facilitate active, confederal, and directly democratic social change networks.  This version has been adapted for the needs of the Green Change Network, and updated for Rails 2.0.2
 
 INSTALL
 =========================================================
@@ -15,6 +15,9 @@ required:
   gem install redcloth
   gem install rmagick
   gem install tzinfo
+  gem install haml
+  gem install rspec
+  gem install zentest
 
 optional for ferret:
   apt-get install ruby1.8-dev build-essential
@@ -25,6 +28,14 @@ optional for latex rendering:
   gem install open4
 
 then check out the code:
+  git clone git://github.com/sethwalker/greenchange crabgrass
+move into the newly created project
+  cd crabgrass
+and install any submodules:
+  git submodule init
+  git submodule update
+
+you can also try the Rails 1.2 compatible project used on we.riseup.net
   svn co https://code.autistici.org/svn/crabgrass/trunk crabgrass
 
 set up your database:
@@ -40,23 +51,31 @@ logger:
 PLUGINS
 =========================================================
 
-flex_image
-------------------
+acts_as_list
+------------
 
-see http://beautifulpixel.com/flex_image/index.html
-ruby script/plugin install http://beautifulpixel.com/svn/plugins/flex_image/
-sudo apt-get install librmagick-ruby1.8
-some feature overlap with attachment_fu. We should probably phase this out.
+automatically supplies methods for reordering on tasks and polls
 
 acts_as_modified
 ------------------
 
 Lets you test which properties have been modified of an activerecord.
+this feature is built in to Rails 2.1 so this plugin will be phased out
 
-acs_as_taggable
+acts_as_rateable
 ----------------
 
-Provides tagging. Should be replaced with act_as_taggable_on_steriods or has_many_polymorph.
+used for rating posts in discussions
+
+acts_as_state_machine
+---------------------
+
+Used in the Approvable module, which assists in processing requests and invitations
+
+acts_as_tree
+------------
+
+Used for groups, which can have other groups as committees
 
 acts_as_versioned
 ------------------
@@ -68,38 +87,22 @@ attachment_fu
 
 Used for assets. Makes it much easier to work with uploaded data.
 
+
+fleximage
+------------------
+Used for icon representations of Pages, Groups, and Users
+fleximage is maintained as a submodule in vendor/plugins/fleximage
+
+has_many_polymorphs
+----------------
+
+Provides polymorphic relationships for has_many relationships. Enables tagging and other polymorphic data.
+
 multiple_select
 ---------------
 
 Adds fun helpers for has_and_belongs_to_many associations, such as
 a bunch of text boxes or a selection tree.
-
-nested_layouts
---------------
-
-Lets us have layouts that nest inside other layouts. Very useful.
-For example:
-
-<% inside_layout 'application' do -%>
-<div class='custom'>
-  <%= yield %>
-</div>
-<% end -%>
-
-bundled_assets
---------------
-
-This plugin allows us to have many css and javascript files, with lots of comments, and it will combine them and compress them when in production mode. This makes the stylesheets reabable, easy to edit, and much faster.
-
-For this to work, the stylesheet and javascript tags should look like this:
-
-<link rel="stylesheet" href="/bundles/layout,styles,search-tag.css" type="text/css" media="screen" charset="utf-8" />
-
-<script src="/bundles/prototype,tools.js" type="text/javascript" charset="utf-8"></script>
-
-http://stuff.artweb-design.de/svn/plugins/rails/bundled_assets
-
-NOTE: starting with rails 2.0, there will be a :compress option for stylesheet_link_tag, so this plugin will be largely unneeded, although its ability to bundle might still be worth the while.
 
 tztime
 ------
@@ -109,23 +112,6 @@ tzinfo_timezone
 ---------------
 
 required by tztime
-
-OTHER PLUGINS
-========================
-
-plugins that are optional or that we do not currently use
-
-has_many_polymorphs
--------------------
-
-http://blog.evanweaver.com/articles/2006/06/02/has_many_polymorphs
-script/plugin install svn://rubyforge.org/var/svn/polymorphs/has_many_polymorphs
-
-ez-where
-------------------
-
-script/plugin install svn://rubyforge.org/var/svn/ez-where
-provides a nice way to do complex queries. 
 
 
 GEMS

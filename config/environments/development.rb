@@ -24,11 +24,6 @@ config.action_mailer.raise_delivery_errors = false
 #  # i guess there is no syslog_logger
 #end
 
-# bundled_assets plugin:
-# don't compress asset bundles (javascript and css) when in development mode.
-# otherwise, they will get recompressed on every page load!
-MAKE_ASSET_BUNDLES =  false
-
 class DemocracyInAction::API
   def self.disabled?
     true
