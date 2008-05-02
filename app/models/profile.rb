@@ -83,8 +83,11 @@ class Profile < ActiveRecord::Base
       public_version = entity.public_profile || entity.build_public_profile
       public_version.attributes = self.attributes.merge( :friend => false, :stranger => true )
       notes.each { |n| public_version.note_for(n.note_type).update_attribute :body, n.body }
+      public_version.web_resources.delete_all
       web_resources.each { |srv| public_version.web_resources.build(srv.attributes) }
-      locations.each { |loc| public_version.locations.build :city => loc.city, :state => loc.state }
+      public_version.locations.delete_all
+      simple_locations = locations.map { |loc| { :location_type => loc.location_type, :city => loc.city, :state => loc.state } }.map(&:to_a).uniq.map { |arr| Hash[*arr.flatten] }
+      simple_locations.each { |loc_attr| public_version.locations.build loc_attr }
       public_version.save
     end
   end

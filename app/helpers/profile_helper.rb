@@ -88,8 +88,6 @@ module ProfileHelper
         "http://twitter.com/#{resource_name}"
       when 'blip'
         "http://#{resource_name}.blip.tv"
-      else
-        resource_name
     end
   end
 
