@@ -3,4 +3,5 @@
     .header
       Groups
     .icon-box  
-      = render :partial => 'shared/list/group', :collection => source.groups.find( :all, :limit => 8 )
+      - limit = extended_sidebar? ? 8 : 6
+      = render :partial => 'shared/list/group', :collection => source.groups.find( :all, :limit => limit )
