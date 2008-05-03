@@ -1,5 +1,5 @@
-#login_container
-  #login_left
+.account.index
+  .section
     %h1 Join the Green Change Network 
     .section
       %p
@@ -17,5 +17,5 @@
       = link_to 'Sign up here', :controller => 'account', :action => 'signup'
       to get started.
 
-  #login_right
-    = render 'account/login'
+- content_for :sidebar_header do
+  = render 'account/login'

@@ -52,7 +52,7 @@
     :padding-left 110px
 
 
-.landing
+.content-list
   .section .list-item
     :background-image none
     .list-description
@@ -63,6 +63,11 @@
         :width = !main_column_wideside_width - 120px
         body.ie6 &
           :width = !main_column_wideside_width - 120px - !ie_padding_offset
+      .title-block
+        :width = !main_column_width - !list_menu_width - 120px
+        :float left
+        #main.wideside &
+          :width = !main_column_wideside_width - !list_menu_width - 120px
     .column .list-description
       #main.noside &
         :width = (!main_column_noside_width - 120px) /2 
@@ -153,8 +158,10 @@
   p
     :font-size 11px
     :margin-bottom 2px
+  p.blurb 
+    :margin-bottom 10px
   h3
-    :margin-bottom -8px
+    :margin-bottom 0px
     :margin-top 0px
     a
       :font-size 14px
@@ -546,14 +553,15 @@ a.icon.standard.name-right
       :font-size 10px
 
 .toolbar.list-menu
+  :float right
   .icon
     :width auto
     :height auto
     :clear none
     :float left
 .list-menu
-  :float right
-  :max-width 200px
+  :float left
+  :max-width = !list_menu_width
   .source
     :clear both
     .icon

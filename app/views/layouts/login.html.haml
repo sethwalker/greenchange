@@ -33,8 +33,9 @@
             = submit_tag _('Login')
           %p.hidden  
             = hidden_field_tag 'redirect', params[:redirect] || request.request_uri
-          - content_for :javascript do
-            = javascript_tag "$('top-login-form').hide();"
-            = javascript_tag "document.observe( 'dom:loaded', function(e) { $('top-login-prompt').observe( 'click', function(ev) { $('top-login-form').toggle(); Field.focus('login'); $('top-login-prompt').hide(); ev.stop(); } ); });"
+          - content_for :javascript_onload do
+            $('top-login-form').hide();
+            $('top-login-prompt').observe( 'click', function(ev) { $('top-login-form').toggle(); Field.focus('login'); $('top-login-prompt').hide(); ev.stop(); } );
+            -#= javascript_tag "document.observe( 'dom:loaded', function(e) { $('top-login-prompt').observe( 'click', function(ev) { $('top-login-form').toggle(); Field.focus('login'); $('top-login-prompt').hide(); ev.stop(); } ); });"
 
 

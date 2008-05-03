@@ -1,10 +1,11 @@
-- if page.discussion and !page.discussion.posts.empty?
-  .comments
-    = page.discussion.posts.count
-    comments
-- if page.stars
-  .stars-count{ :class => ( logged_in? and page.starred_by?(current_user) ? 'promoted' : '') }
-    = "( #{page.stars.count} )"
+.participations
+  - if page.discussion and !page.discussion.posts.empty?
+    .comments
+      = page.discussion.posts.count
+      comments
+  - if page.stars
+    .stars-count{ :class => ( logged_in? and page.starred_by?(current_user) ? 'promoted' : '') }
+      = "( #{page.stars.count} )"
 - unless page.tags.empty?
   %label
     Tags:

@@ -7,7 +7,8 @@
   .section.info
     = render :partial => 'info', :locals => { :issue => @issue }
 
-.section.promo
-  = render :partial => 'pages/shared/promo',  :locals => { :source => @issue }
-.section
-  = render :partial => 'pages/shared/main',   :locals => { :source => @issue }
+.content-list
+  .section.promo
+    = render :partial => 'pages/shared/promo',  :locals => { :source => @issue }
+  .section
+    = render :partial => 'pages/shared/main',   :locals => { :source => @issue }

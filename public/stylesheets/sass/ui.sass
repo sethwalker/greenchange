@@ -2,13 +2,22 @@
 .handle
   :cursor move
 
-.stars-count
-  :display inline
-  :padding-left 20px
-  :padding-bottom 5px
-  :background url(/images/actions/star-plus.png) no-repeat
-  &.promoted
-    :background url(/images/actions/star.png) no-repeat
+.list-description
+  .participations
+    :clear both
+    :margin-bottom 15px
+    .comments
+      :display inline
+      :border-right 1px solid #454545
+      :padding-right 5px
+      :margin-right 5px
+  .stars-count
+    :display inline
+    :padding-left 20px
+    :padding-bottom 5px
+    :background url(/images/actions/star-plus.png) no-repeat
+    &.promoted
+      :background url(/images/actions/star.png) no-repeat
 
 form
   input[type=submit], input[type=button]
@@ -186,9 +195,10 @@ ul.tabset.top, .menu ul.tabset
   :float left
   :width 100%
   li.tab
+    -#:margin 0 .2em
     :float left
-    :margin 0 .2em
     :list-style none
+    :width 78%
     a
       :background no-repeat 2px 3px 
       :background-image = !tabmenu_arrow
@@ -199,7 +209,7 @@ ul.tabset.top, .menu ul.tabset
       :color = !tabmenu_text
       :text-transform uppercase
       :font-weight bold
-      :width 95px
+      :width 100%
       &:hover
         :background-color = !tabmenu_selected_bg
     a.selected

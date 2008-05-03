@@ -7,7 +7,10 @@ module LayoutHelper
   end
 
   def no_sidebar?
-    ( controller.controller_name =~ /account/ or controller.action_name =~ /new|edit|chat|update|create/ or controller.controller_name =~ /issues/ && controller.action_name == 'index' or controller.controller_name =~ /action_alert/ && controller.action_name == 'landing')
+    ( ( controller.controller_name =~ /account/ and controller.action_name !~ /index|login/ ) or
+      ( controller.action_name =~ /new|edit|chat|update|create/ ) or
+      ( controller.controller_name =~ /issues/ && controller.action_name == 'index' ) or
+      ( controller.controller_name =~ /action_alert/ && controller.action_name == 'landing') )
   end
 
   def rss_available?

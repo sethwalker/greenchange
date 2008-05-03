@@ -5,22 +5,24 @@
         = link_to person.name, person_url(person), html_options_for_icon_for( person, :size => :small, :class => 'home')    
       .clear
     .pages
-      %ul.tabset
-        %li.tab
-          = link_to 'Contacts', person_contacts_url(@person), selected_if( request.url == person_contacts_url(@person))
-        %li.tab
-          = link_to 'Blogs &amp; News', person_updates_url(@person), selected_if( params[:page_type] == 'updates' )
-        %li.tab
-          = link_to 'Action Alerts', person_actions_url(@person), selected_if( params[:page_type] == 'actions' )
-        %li.tab
-          = link_to 'Events', person_events_path(@person), selected_if( params[:page_type] == 'events' )
+      .padding-tabset
+        %ul.tabset
+          %li.tab
+            = link_to 'Contacts', person_contacts_url(@person), selected_if( request.url == person_contacts_url(@person))
+          %li.tab
+            = link_to 'Blogs &amp; News', person_updates_url(@person), selected_if( params[:page_type] == 'updates' )
+          %li.tab
+            = link_to 'Action Alerts', person_actions_url(@person), selected_if( params[:page_type] == 'actions' )
+          %li.tab
+            = link_to 'Events', person_events_path(@person), selected_if( params[:page_type] == 'events' )
 
-      %ul.tabset
-        %li.tab
-          = link_to 'Groups', person_groups_path(@person), selected_if( request.url == person_groups_url(@person))
-        %li.tab
-          = link_to 'Media', person_media_url(@person), selected_if( params[:page_type] == 'media' )
-        %li.tab
-          = link_to 'Discussions', person_tools_url(@person), selected_if( params[:page_type] == 'tools' )
-        %li.tab
-          = link_to 'Bookmarks', person_bookmarks_path(@person), selected_if( controller.controller_name == 'bookmarks' )
+      .padding-tabset
+        %ul.tabset
+          %li.tab
+            = link_to 'Groups', person_groups_path(@person), selected_if( request.url == person_groups_url(@person))
+          %li.tab
+            = link_to 'Media', person_media_url(@person), selected_if( params[:page_type] == 'media' )
+          %li.tab
+            = link_to 'Discussions', person_tools_url(@person), selected_if( params[:page_type] == 'tools' )
+          %li.tab
+            = link_to 'Bookmarks', person_bookmarks_path(@person), selected_if( controller.controller_name == 'bookmarks' )

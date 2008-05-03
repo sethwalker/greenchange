@@ -1,11 +1,14 @@
 %li.list-item.page{ :class => cycle( 'shade-odd', 'shade-even', :name => 'activity_entry_cycle' )}
-  = render :partial => 'pages/list/list_menu', :locals => { :page => page }
   .list-thumb
     = link_to icon_for(page), tool_page_path(page)
   .list-description
-    %h3
-      = link_to page.title, tool_page_path(page) 
+    .header-block
+      .title-block
+        %h3
+          = link_to page.title, tool_page_path(page) 
+        = render :partial => 'pages/list/description/page', :locals => { :page => page }
+      = render :partial => 'pages/list/list_menu', :locals => { :page => page }
+    .clear
     %p.blurb
       = page.summary
-    = render :partial => 'pages/list/description/page', :locals => { :page => page }
     = render :partial => 'pages/list/description/metadata', :locals => { :page => page }

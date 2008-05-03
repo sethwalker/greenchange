@@ -9,25 +9,27 @@ class AccountController < ApplicationController
   end
 
   def login
-    return unless request.post?
-    self.current_user = User.authenticate(params[:login], params[:password])
-    if logged_in?
-      if params[:remember_me] == "1"
-        self.current_user.remember_me
-        cookies["auth_token"] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
-      end
+    if request.post?
+      self.current_user = User.authenticate(params[:login], params[:password])
+      if logged_in?
+        if params[:remember_me] == "1"
+          self.current_user.remember_me
+          cookies["auth_token"] = { :value => self.current_user.remember_token , :expires => self.current_user.remember_token_expires_at }
+        end
 
-      #for new users...
-      if current_user.last_seen_at.nil?
-        message = send_welcome_message(current_user)
-        redirect_to message_path(message)
+        #for new users...
+        if current_user.last_seen_at.nil?
+          message = send_welcome_message(current_user)
+          redirect_to( message_path(message) ) and return
+        else
+          redirect_to( params[:redirect] || me_path ) and return
+        end
+
       else
-        redirect_to params[:redirect] || me_path
+        flash[:error] = "Username or password is incorrect"
       end
-
-    else
-      flash[:error] = "Username or password is incorrect"
     end
+    render :action => 'index'
   end
 
   # Activate action

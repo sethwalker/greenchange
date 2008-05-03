@@ -12,7 +12,8 @@
         = render :partial => 'shared/icons/issue', :collection => @person.issues
 
 
-.section
-  = render :partial => 'pages/shared/main', :locals => {:source => @person }
+.content-list.main
+  .section
+    = render :partial => 'pages/shared/main', :locals => {:source => @person }
 
 
