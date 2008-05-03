@@ -10,7 +10,7 @@
 
 .new.invite.form
   - form_for :invite, @invite, :url => send_invitation_me_path do |f|
-    = render :partial => 'invite_form', :locals => { :f => f }
+    = render :partial => 'me/invite_form', :locals => { :f => f }
     %p.submit
       = f.submit "Send"
 
