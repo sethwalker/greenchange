@@ -19,8 +19,6 @@
       :padding-left 0px
   h3
     :color #333333
-  .title-menu
-    :float left
   .section
     -#:float left
     :margin-top 5px
@@ -52,12 +50,9 @@
     :padding-left 110px
 
 .landing
-  .column
-    :clear none
+  .section
     :float left
-    .section
-      :float left
-      :width = !main_column_section_width 
+    :width = !main_column_section_width 
 
 .content-list
   .section .list-item
@@ -75,11 +70,11 @@
         :float left
         #main.wideside &
           :width = !main_column_wideside_width - !list_menu_width - 120px
-    .column .list-description
-      #main.noside &
-        :width = (!main_column_noside_width - 120px) /2 
-        body.ie6 &
-          :width = ( !main_column_noside_width - 120px - !ie_padding_offset ) / 2
+  .column .list-description
+    #main.noside &
+      :width = !main_column_noside_width  /2  - 120px
+      body.ie6 &
+        :width = ( !main_column_noside_width - !ie_padding_offset  - 240px) / 2
   .column .section
     :float left
     :width = !main_column_section_width 
