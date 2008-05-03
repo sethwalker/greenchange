@@ -1,0 +1,58 @@
+- asset = @page.data
+- if asset.image?
+  .section.image.show.display
+    = image_tag asset.public_filename(:display)
+-elsif asset.audio?
+  - content_for :javascript do
+    = javascript_include_tag 'anarchy_media/anarchy'
+  .section.audio
+    Click to play audio file
+    .clear
+    = link_to( "Download %s" % asset.filename, asset.public_filename)
+-else
+  .section.document
+    this is a document
+-#.show.asset
+  %ul.file_description
+    %li
+      .label
+        created by:
+      .description
+        = @page.created_by.login 
+    %li
+      .label
+        created on:
+      .description
+        = friendly_date @page.created_at
+
+    - if @page.updated_at > @page.created_at
+      %li
+        .label
+          last updated by:
+        .description
+          = @page.updated_by.login
+      %li
+        .label
+          last updated on:
+        .description
+          = friendly_date @page.updated_at
+
+    %li
+      .label
+        file type:
+      .description
+        = asset.content_type
+    %li
+      .label
+        size:
+      .description
+        = friendly_size asset.size
+
+    - if asset.image?
+      %li
+        .label
+          dimensions:
+        .description
+          = "#{asset.width}x#{asset.height}"
+  -#%p
+    = link_to("download %s" % asset.filename, asset.public_filename, :class => 'first' )

@@ -4,7 +4,7 @@
   .icon-box
     = render :partial => 'shared/list/person', :collection => @group.admins 
 
-- if logged_in? && current_user.may_admin?(@group)
+-# if logged_in? && current_user.may_admin?(@group)
   .sidesection
     = link_to 'edit settings', edit_group_url(@group), :class => 'action'
     = link_to 'view requests', requests_group_url(@group), :class => 'action'
