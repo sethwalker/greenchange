@@ -17,6 +17,7 @@
   <%= stylesheet_link_tag 'ui' %>
   <%= stylesheet_link_tag 'profile' %>
   <%= stylesheet_link_tag 'errors' %>
+  <%= stylesheet_link_tag 'toolbar' %>
   <%= stylesheet_link_tag 'forms' %>
   <%= stylesheet_link_tag 'shared' %>
   <%= stylesheet_link_tag 'inbox' %>
@@ -70,7 +71,6 @@
     </div>
   </div>
 </body>
-<%= render :partial => 'shared/ie' %>
 <%= yield :javascript %>
 <% if onload_script = yield( :javascript_onload )-%>
   <script type='text/javascript'>
@@ -79,4 +79,5 @@
     } );
   </script>
 <% end -%>
+<%= render :partial => 'shared/ie' %>
 </html>

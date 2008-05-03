@@ -292,7 +292,6 @@ ul.tab-block
     body.ie7 &
       .tab-content
         :margin-left 0px
-
     :width = !main_column_width 
     body.ie6 &
       :width = !main_column_width - !ie_padding_offset
@@ -356,137 +355,8 @@ ul.tab-block.active
     div.tab-title.active
       :overflow hidden
 
-ul.tab-block, #titlebox
-  .toolbar
-    :float right
-
-.toolbar.title-menu, .toolbar.list-menu
-  -#:background-color = !admin_toolbar_bg
-  -#:border 1px solid
-    :color = !admin_toolbar_border
-  :padding-left 2px
-  :padding-top 2px
-  .icon
-    :margin-bottom 2px
-    :clear both
-    :width 125px
-    :margin-top 0px
-    .action
-      :padding-top 0
-      :padding-left 28px
-    input.action
-      :height auto
-      :color = !link_text
-      :text-decoration underline
-      :padding-left 25px
-      :margin 0
-      :font-size 12px
-      :font-weight normal
-      &:hover
-        :color = !link_text_hover
-  a.cancel
-    :margin-top 8px
-    :margin-bottom 8px
-    :clear both
-    :width 125px
-    :display block
-
-.toolbar
-  ul
-    :list-style none
-    :padding 0
-    :float left
-    :margin 0
-  .offset-row.admin
-    :clear both
-    :padding-bottom .5em
-    :background-color = !admin_toolbar_bg
-    :border 1px solid
-      :color = !admin_toolbar_border
-    :float left 
-  .icon
-    :float left
-    :overflow hidden
-    :width 22px
-    :height 22px
-    :margin-right 3px
-    &:hover
-      :background-color = !toolbar_bg_hover
-    .action
-      :padding 22px 0 0 0
-      :display block
-      :float left
-      :background-repeat no-repeat 
-    input.action
-      :height 50px
-      :outline 0
-      :border 0
-      :background-color transparent
-      :background-position 2px 2px
-    input[type=submit].action
-      :border 0
-    a.create
-      :background-position -5px -6px
-      -#:background-image url(/images/actions/list-add.png)  
-      :background-image url(/images/gc/icons/19_icons/create_page.gif)  
-    a.subscribe
-      :background-position 2px 2px
-      :background-image url(/images/actions/rss.png)  
-    a.view
-      :background-image url(/images/gc/icons/19_icons/edit.gif)
-    a.edit
-      :background-position 2px 2px
-      -#:background-image url(/images/actions/edit.png)  
-      :background-image url(/images/gc/icons/19_icons/edit.gif)
-    a.invite
-      -#:background-image url(/images/actions/announce.png)  
-      :background-image url(/images/gc/icons/19_icons/group_invitation.gif)
-    .delete
-      -#:background-image url(/images/actions/minus.png)  
-      :background-image url(/images/gc/icons/19_icons/delete.gif)
-    .contact_request
-      :background-image url(/images/gc/icons/19_icons/membership_request.gif)
-    .bookmark
-      :background-image url(/images/gc/icons/19_icons/bookmark.gif)
-    .send_message
-      :background-image url(/images/gc/icons/message.gif)
-    .recommend
-      :background-image url(/images/gc/icons/19_icons/recommend.gif)
-    .rate
-      :background-image url(/images/gc/icons/19_icons/rate.gif)
-    .make_contact
-      :background-image url(/images/gc/icons/19_icons/make_contact.gif)
-    .join_group
-      :background-image url(/images/gc/icons/19_icons/join_group.gif)
-    .membership_request
-      :background-image url(/images/gc/icons/19_icons/join_group.gif)
-    .chat
-      -#:background-image url(/images/actions/bullhorn.png)  
-      :background-image url(/images/gc/icons/19_icons/join_chat.gif)
-    .discuss
-      :background-image url(/images/gc/icons/pages/small/discussion.png)  
-    .message
-      -#:background-image url(/images/actions/mail-message-new.png)
-      :background-image url(/images/gc/icons/19_icons/send_message.gif)
-    .action.reply
-      :background-image url(/images/actions/mail-reply-sender.png)
-      :background-position -1px -1px
-    .action.ignore
-      :background-image url(/images/actions/mail-mark-not-junk.png)
-      :background-position -1px -1px
-
-  .add, .new
-    :background-position 2px 2px
-    :background-image url(/images/actions/plus.png)  
-    &:hover
-      :background-image url(/images/actions/plus.png)  
-  
-  a.action
-    :padding 0 0 0 22px
-    :float left
-    :background-repeat no-repeat 
-    &:hover
-      :background-color = !toolbar_bg_hover
+ul.tab-block
+  :float right
 
 a.icon.standard.name-bottom
   :padding-top 67px
@@ -503,12 +373,6 @@ a.icon.standard.name-right
   :width 100%
   :height 10px
 
-.icon-box
-  .icon
-    :margin 4px
-  .toolbar
-    :float left
-    :margin-top 82px
 .row-listing
   :float left
   :padding 0px
@@ -552,37 +416,9 @@ a.icon.standard.name-right
       :padding-bottom 2px
       :font-size 10px
 
-.toolbar.list-menu
-  :float right
+.icon-box
   .icon
-    :width auto
-    :height auto
-    :clear none
+    :margin 4px
+  .toolbar
     :float left
-.list-menu
-  :float left
-  :max-width = !list_menu_width
-  .source
-    :clear both
-    .icon
-      :width 30px
-      :float right
-
-.toolbar.inline
-  :float none
-  :display inline
-  #titlebox &
-    :float none
-  input.action
-    :height auto
-    :color = !link_text
-    :margin 0
-    :font-size 12px
-    :font-weight normal
-    :outline 0
-    :border 0
-    :background-color transparent
-    :background-image none
-    &:hover
-      :color = !link_text_hover
-      :text-decoration underline
+    :margin-top 82px

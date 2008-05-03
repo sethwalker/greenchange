@@ -22,8 +22,8 @@ module AjaxUiHelper
     return if @javascript_tabs_loaded
     content_for :javascript,
       jquery_javascript_effect_includes + 
-      javascript_include_tag('tabs') + 
-      javascript_tag( 'Event.observe( document, "dom:loaded", function() { Crabgrass.Tabs.initialize_tab_blocks(); });' )
+      javascript_include_tag('tabs') 
+    content_for :javascript_onload, "Crabgrass.Tabs.initialize_tab_blocks();"
     @javascript_tabs_loaded = true
   end
 
@@ -38,7 +38,7 @@ module AjaxUiHelper
   def load_ajax_list_behaviors
     return if @ajax_list_behavior_loaded
     content_for :javascript_onload, <<-SCRIPT
-      $$('ul.list').each( function( list ) {
+    $$('ul.list').each( function( list ) {
         list.observe('click', function(ev) {
           clicked_item = Event.element(ev);
           if( clicked_item.hasClassName('delete' ) && clicked_item.hasClassName('confirm')) {
