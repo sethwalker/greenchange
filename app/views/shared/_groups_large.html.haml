@@ -1,6 +1,10 @@
 - unless source.groups.empty?
   .section
-    .header
+    - if source.is_a?( User )
+      = link_to 'Groups', person_groups_path(source), :class => 'header'
+    - elsif source.is_a?(Issue)
+      = link_to 'Groups', issue_groups_path(source), :class => 'header'
+    - else
       Groups
     .icon-box  
       - limit = extended_sidebar? ? 8 : 6
