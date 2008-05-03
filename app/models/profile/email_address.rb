@@ -6,7 +6,8 @@ class Profile::EmailAddress < ActiveRecord::Base
   set_table_name 'email_addresses'
   validates_presence_of :email_type
   validates_presence_of :email_address
-  validates_format_of :email_address, :with =>  /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
+  #validates_format_of :email_address, :with =>  /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
+  validates_as_email :email_address
   
   belongs_to :profile #, :foreign_key => 'profile_id'
 

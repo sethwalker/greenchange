@@ -99,7 +99,6 @@ Used for assets. Makes it much easier to work with uploaded data.
 
 calendar_date_select
 --------------------
-
 Javascript and css resources for choosing dates and including them into forms. Used when adding events.
 
 democracy_in_action
@@ -108,14 +107,29 @@ Used to mirror User, Group and Membership records to the democracy in action ser
 
 exception_logger
 ----------------
-
 Used to spot unhandled Exceptions in production via a handy web interface at /logged_exceptions
+
+fixture_replacement2
+--------------------
+fulfills the role of fixtures in specs without all the brittle make-workiness
 
 
 fleximage
 ------------------
 Used for icon representations of Pages, Groups, and Users
 fleximage is maintained as a submodule in vendor/plugins/fleximage
+
+geokit
+------
+handles connections to (yahoo/google/etc) maps api for displaying events with geo-codable locations
+
+haml
+----
+concise language for view markup
+
+has_finder
+----------
+insanely handy way to specify scopes on your find commands.  this plugin has been added to the Rails 2.1 core as named_scope 
 
 has_many_polymorphs
 ----------------
@@ -128,14 +142,51 @@ multiple_select
 Adds fun helpers for has_and_belongs_to_many associations, such as
 a bunch of text boxes or a selection tree.
 
+rspec
+-----
+the spec library of awesomeness
+
+rspec_on_rails
+--------------
+the spec library of awesomeness, with many rails-specific methods
+
+ruby-svg
+--------
+on-the-fly svg generation library.  used for creating groups network map
+
+spider_test
+-----------
+an integration tester that moves thru each page of your site looking for weaknesses and trying to raise exceptions
+
+state_select
+------------
+helper methods for selecting US states and Canadian provinces.  used in Profile::Location and Event forms.
+
+textile_editor_helper
+---------------------
+push button textile formatting.  used on edit forms for Wiki, Blog, News, and Action Alerts
+
+tzinfo_timezone
+---------------
+required by tztime
+
 tztime
 ------
 for easy-ish handling of user timezones
 
-tzinfo_timezone
----------------
+validates_as_email
+------------------
+simple, thorough way to do what it says
 
-required by tztime
+webrat
+------
+a simple dsl frontend for integration testing of user actions in a simple xml browser simulation
+
+will_paginate
+-------------
+widely respected pagination solution
+
+
 
 
 GEMS

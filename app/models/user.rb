@@ -14,8 +14,9 @@ class User < ActiveRecord::Base
 
   #validate                 :validate_profiles
   validates_presence_of    :email
-  validates_format_of      :email, :with => /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
-  validates_length_of      :email,    :within => 6..100
+  validates_as_email       :email
+  #validates_format_of      :email, :with => /(^([^@\s]+)@((?:[-_a-z0-9]+\.)+[a-z]{2,})$)|(^$)/i
+  #validates_length_of      :email,    :within => 6..100
 
   has_many :gives_permissions,  :as => 'grantor', :class_name => 'Permission'
   has_many :given_permissions,  :as => 'grantee', :class_name => 'Permission'
