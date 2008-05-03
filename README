@@ -1,7 +1,7 @@
 CRABGRASS
 =========================================================
 
-Crabgrass is a software libre web application designed for group and network organizing, and tailored to the needs of the global justice movement. The long term goal is to provide the technical tools to facilitate active, confederal, and directly democratic social change networks.  This version has been adapted for the needs of the Green Change Network, and updated for Rails 2.0.2
+Crabgrass is a software libre web application designed for group and network organizing, and tailored to the needs of the global justice movement. The long term goal is to provide the technical tools to facilitate active, confederal, and directly democratic social change networks.  This version has been adapted for the needs of the Green Change Network.
 
 INSTALL
 =========================================================
@@ -35,13 +35,23 @@ and install any submodules:
   git submodule init
   git submodule update
 
-you can also try the Rails 1.2 compatible project used on we.riseup.net
+you can also try the version used on we.riseup.net
   svn co https://code.autistici.org/svn/crabgrass/trunk crabgrass
 
 set up your database:
   edit config/database.yml
   mysqladmin create crabgrass
   rake db:migrate
+
+set up your /config/crabgrass.yml
+  cp config/crabgrass_example.yml config/crabgrass.yml
+  edit the default settings
+
+set up /config/democracy_in_action.yml if you want to mirror data to DIA
+DIA services are disabled in development mode.  to change this, check out config/environments/development.rb
+  cp config/democracy_in_action_example.yml config/democracy_in_action.yml
+  edit the default settings
+	
 
 logger:
   By default production.rb is set to use SyslogLogger.
@@ -80,12 +90,26 @@ Used for groups, which can have other groups as committees
 acts_as_versioned
 ------------------
 
-Versioning for wikis and other things.
+Versioning for wikis and assets.
 
 attachment_fu
 ---------------
 
 Used for assets. Makes it much easier to work with uploaded data.
+
+calendar_date_select
+--------------------
+
+Javascript and css resources for choosing dates and including them into forms. Used when adding events.
+
+democracy_in_action
+-------------------
+Used to mirror User, Group and Membership records to the democracy in action service
+
+exception_logger
+----------------
+
+Used to spot unhandled Exceptions in production via a handy web interface at /logged_exceptions
 
 
 fleximage
