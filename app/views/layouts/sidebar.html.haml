@@ -36,13 +36,12 @@
     = render :partial => 'shared/issues',   :locals => { :source => @me }
   - else
     - if @person
-      = render :partial => 'person/sides/person',  :locals => { :person => @person }
+      = render :partial => 'people/sides/person',  :locals => { :person => @person }
       = render :partial => 'shared/sides/donate'
-      -#= render :partial => 'person/sides/tools',        :locals => { :target => @person }
       = render :partial => 'shared/contacts_large',     :locals => { :source => @person }
       = render :partial => 'shared/groups_large',       :locals => { :source => @person }
       = render :partial => 'shared/media',              :locals => { :source => @person }
-      -#= render :partial => 'person/sides/top_pages',    :locals => { :source => @person }
+      -#= render :partial => 'people/sides/top_pages',    :locals => { :source => @person }
 
   -#- if @tag
     = render :partial => 'shared/sides/donate'

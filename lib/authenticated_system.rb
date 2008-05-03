@@ -62,6 +62,10 @@ module AuthenticatedSystem
       User.current = current_user
       logged_in? && authorized? ? true : access_denied
     end
+
+    def not_logged_in_required
+      redirect_to me_path if logged_in?
+    end
     
     # Redirect as appropriate when an access request fails.
     #

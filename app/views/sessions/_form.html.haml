@@ -1,0 +1,23 @@
+#loginformbox
+  - form_tag(session_path, :id => "loginform") do 
+    %p
+      = content_tag :label, _("Username"), :for => :login
+      = text_field_tag :login
+    %p
+      = content_tag :label, _("Password"), :for => :password
+      = password_field_tag :password
+    %p.agree
+      = check_box_tag :remember_me
+      = content_tag :label, _("Remember me"), :for => :remember_me
+    %p.submit
+      = submit_tag _('Login')
+      = hidden_field_tag :redirect, h(params[:redirect] )
+
+  #loginoptions
+    %p
+      = link_to _('Need a new account?'), { :action => 'signup', :redirect => params[:redirect]}
+    %p
+      = link_to _('Forgot your password?'), forgot_password_path
+
+- content_for :javascript_onload do 
+  Form.focusFirstElement('loginform');

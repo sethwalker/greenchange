@@ -102,7 +102,7 @@ class ApplicationController < ActionController::Base
     @person ||= User.enabled.find_by_login params[:person_id] if params[:person_id]
     @event ||= Tool::Event.find params[:event_id] if params[:event_id]
     if logged_in?
-      @me ||= current_user if request.request_uri =~ /^\/me/ 
+      @me ||= current_user if request.request_uri =~ /^\/(me|$)/ 
       @user ||= current_user 
     end
     true

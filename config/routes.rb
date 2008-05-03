@@ -1,22 +1,14 @@
-#
-#
-# NOTE: make sure to update the validates_handle function whenever you add a new controller
-# or a new root path route. This way, group and user handles will not be created for those
-# (group name or user login are used as the :context in the default route, so it can't collide
-# with any of our other routes).
-# 
-
 ActionController::Routing::Routes.draw do |map|
 
-  #map.resources :bookmarks, :belongs_to => :page
-  #map.resources :pages do |page|
-  #page.resources :bookmarks
-  #end
-  map.login   'account/login',   :controller => 'account',   :action => 'login'
+  map.root    :controller => 'sessions', :action => 'new'
+  map.login   '/login',   :controller => 'sessions',   :action => 'new'
+  map.logout  '/logout',   :controller => 'sessions',   :action => 'destroy'
   map.activate '/activate/:activation_code', :controller => 'account', :action => 'show'
   map.forgot_password '/forgot_password',     :controller => 'passwords',   :action =>  'new'
   map.reset_password  '/reset_password/:id',  :controller => 'passwords',   :action =>  'edit'
   map.block_email '/block_email/:retrieval_code', :controller => 'emails', :action => 'block'
+
+  map.resource :session
   
 
   map.resources :issues
@@ -164,7 +156,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :posts
   
   
-  map.connect '', :controller => "account"
+  #map.connect '', :controller => "sessions", :action => 'new'
   map.resource :account, :controller => 'account', :member => { :signup => :get, :login => :post }
   
   # typically, this is the default route

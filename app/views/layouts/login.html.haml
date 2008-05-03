@@ -1,7 +1,7 @@
 - if logged_in?
   #user-menu
     #top-login-prompt
-      = link_to "Logout".t, { :controller => '/account', :action => 'logout'} 
+      = link_to "Logout".t, logout_path
     #login-name
       Hi 
       = link_to current_user.login, me_url
