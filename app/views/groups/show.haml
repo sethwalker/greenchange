@@ -12,7 +12,7 @@
         = render :partial => 'shared/icons/issue', :collection => @group.issues
 
 .content-list.main
-  .section.promo
+  -#.section.promo
     = render :partial => 'pages/shared/promo',  :locals => {:source => @group }
   .section
     = render :partial => 'pages/shared/main',   :locals => {:source => @group }
