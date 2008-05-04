@@ -15,7 +15,8 @@ describe 'Login with webrat' do
     it "can log in" do
       @webrat.reset!
       login_test_user
-      @webrat.response.body.should match(/Inbox/)
+      @webrat.response.should be_redirect
+      #@webrat.response.body.should match(/Inbox/)
     end
     
     it "shows the dashboard" do
