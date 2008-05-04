@@ -15,8 +15,7 @@ describe 'Login with webrat' do
     it "can log in" do
       @webrat.reset!
       login_test_user
-      @webrat.response.should be_redirect
-      #@webrat.response.body.should match(/Inbox/)
+      @webrat.response.body.should match(/Inbox/)
     end
     
     it "shows the dashboard" do
@@ -34,7 +33,7 @@ describe 'Login with webrat' do
 
   def login_test_user
     @test_user ||= create_valid_user
-    @webrat.visits( '/login' )
+    @webrat.visits  '/login'  
     @webrat.fills_in "login", :with => @test_user.login
     @webrat.fills_in "password", :with => @test_user.password
     @webrat.clicks_button "Login"

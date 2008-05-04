@@ -13,7 +13,7 @@ class PasswordsController < ApplicationController
       @user.forgot_password
       @user.save
       flash[:notice] = "A password reset link has been sent to your email."
-      redirect_to :controller => 'account', :action => 'login'
+      redirect_to login_path #:controller => 'account', :action => 'login'
     else
       flash[:notice]="Could not find a user with that email address."
       render :action => 'new'
@@ -67,7 +67,7 @@ class PasswordsController < ApplicationController
   def reset_invalid_failure
     logger.error "Invalid Reset Code entered."
     flash[:notice] = "Sorry - That is an invalid password reset code. Please check your code and try again. (Perhaps your email client inserted a carriage return?)"
-    redirect_to :controller => 'account', :action => 'login'
+    redirect_to login_path #:controller => 'account', :action => 'login'
   end
 
 end

@@ -9,7 +9,7 @@ module PageUrlHelper
   def tool_page_url(page, *args)
     url_helper = tool_page_route_type( page )
     if url_helper == 'page'
-      return "/pages/show/#{page.to_param}"
+      return "/pages/#{page.to_param}"
     end
     self.__send__ "#{url_helper}_url".to_sym, page, *args
   end

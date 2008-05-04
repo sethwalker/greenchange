@@ -12,9 +12,9 @@
 - else
   #user-menu
     #top-login-prompt
-      = link_to "Login".t, :controller => '/account', :action => 'login', :redirect => ( params[:redirect] || request.request_uri )
+      = link_to "Login", login_path( :redirect => ( params[:redirect] || request.request_uri ))
     #top-login-form
-      - form_tag :controller => '/account', :action => 'login' do
+      - form_tag session_path do
         #top-login-fields
           %p
             %label{ :for => "username" }
@@ -36,6 +36,5 @@
           - content_for :javascript_onload do
             $('top-login-form').hide();
             $('top-login-prompt').observe( 'click', function(ev) { $('top-login-form').toggle(); Field.focus('login'); $('top-login-prompt').hide(); ev.stop(); } );
-            -#= javascript_tag "document.observe( 'dom:loaded', function(e) { $('top-login-prompt').observe( 'click', function(ev) { $('top-login-form').toggle(); Field.focus('login'); $('top-login-prompt').hide(); ev.stop(); } ); });"
 
 

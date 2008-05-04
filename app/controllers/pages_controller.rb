@@ -31,7 +31,7 @@ class PagesController < ApplicationController
   include IconResource
 
   def show
-    redirect_to tool_page_path(@page)
+    redirect_to tool_page_path(@page) if @page.type
     #short_name = @page.class.to_s.demodulize.underscore.downcase
     #@wiki = @page.data
     #render :action => "../tool/#{short_name}/show" or raise NameError
