@@ -3,7 +3,7 @@
     .icon
       = icon_for(post.user, :size=>'small')
     .username
-      = link_to_user post.user
+      = link_to post.user.display_name, person_path(post.user)
     .date    
       = friendly_date post.created_at
   .post-body

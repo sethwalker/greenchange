@@ -4,12 +4,21 @@ describe '/posts/_list.rhtml' do
   describe "when paginating" do
 
     before do
-      Post.destroy_all
+      Post.delete_all
+      @posts = []
       20.times do 
         p = Post.new :body => 'post'
         p.stub!(:group_name).and_return('grouple')
-        p.save_with_validation(false)
+        p.user = create_valid_user
+        p.created_at = Time.now.to_s :db
+        p.save(false)
+        @posts << p
       end
+    end
+
+
+    it "should be pulling from a list of 20 posts" do
+      Post.find(:all).size.should == 20
     end
 
     it "should render pagination correctly when on page 1" do
