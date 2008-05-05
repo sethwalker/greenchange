@@ -218,6 +218,7 @@ module SocialUser
     def may_pester?(entity)
       return false if entity.is_a? UnauthenticatedUser
       return true if entity.is_a? Group
+      return true if self.superuser?
       self.contacts.include? entity
       #entity.may_be_pestered_by? self
     end
