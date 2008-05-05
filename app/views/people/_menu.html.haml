@@ -1,16 +1,17 @@
 - if logged_in? and current_user != person
+  .icon
+    = link_to 'Send message', new_message_url( :person_id => person.login), :class => 'action message'
   - if current_user.may_pester? person
     .icon
-      = link_to 'send message', new_message_url( :person_id => person.login), :class => 'action send_message'
-    -#.icon
-      = link_to 'invite to group', 'invite_person_membership_url(person)', :class => 'action membership_request'
+      = link_to 'Invite to group', new_person_invitation_path(person, :invitation_type => 'group'), :class => 'action group invitation'
+    .icon
+      = link_to 'Invite to event', new_person_invitation_path(person, :invitation_type => 'event'), :class => 'action event invitation'
     -#- if person.online?
       .icon
-        = link_to 'chat', request_chat_person_url(person), :class => 'action chat online', :title => 'Currently Online'
+        = link_to 'Chat', request_chat_person_url(person), :class => 'action chat online', :title => 'Currently Online'
+  - unless current_user.contacts.include?( person )
     .icon
-      = link_to 'remove contact', me_contact_path(person), :method => :delete, :class => 'action delete'
-  - else 
+      = link_to 'Add contact', new_person_contact_url(person), :class => 'action contact_request'
+  - else
     .icon
-      = link_to 'add contact', new_person_contact_url(person), :class => 'action contact_request'
-    .icon
-      = link_to 'send message', new_message_url( :person_id => person.login), :class => 'action message'
+      = link_to 'Remove contact', me_contact_path(person), :method => :delete, :class => 'action delete'
