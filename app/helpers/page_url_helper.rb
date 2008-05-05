@@ -28,27 +28,15 @@ module PageUrlHelper
 
     url_helper = tool_page_route_type( page )
     plural_helper = ( url_helper.pluralize == url_helper) ? "#{url_helper}_index" : url_helper.pluralize
-    self.send( [ context_url_prefix_type(page_context), plural_helper, 'url'].compact.join('_'))
+    self.send( [ context_path_prefix_type(page_context), plural_helper, 'url'].compact.join('_'))
   end
 
   def tool_pages_path(page, page_context = nil )
 
     url_helper = tool_page_route_type( page )
     plural_helper = ( url_helper.pluralize == url_helper) ? "#{url_helper}_index" : url_helper.pluralize
-    self.send( [ context_url_prefix_type(page_context), plural_helper, 'path'].compact.join('_'))
-  end
-  def context_url_prefix_type(page_context)
-    if page_context
-      context_url_prefix = 'group' if page_context.is_a? Group
-      context_url_prefix = 'issue' if page_context.is_a? Issue 
-      context_url_prefix = 'tag' if page_context.is_a? Tag
-      if page_context.is_a? User 
-        context_url_prefix = ( page_context == current_user) ? 'me' : 'person' 
-      end
-    else
-      context_url_prefix = nil
-    end
-    context_url_prefix
+    #self.send( [ context_path_prefix_type(page_context), plural_helper, 'path'].compact.join('_'))
+    scoped_path(plural_helper, :scope => page_context)
   end
 
   def tool_pages_title(page)

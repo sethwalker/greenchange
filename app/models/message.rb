@@ -33,7 +33,7 @@ class Message < ActiveRecord::Base
     end
     names.map do |recipient_login|
       user = User.find_by_login(recipient_login)
-      Message.create message_attrs.merge( :recipient_id => (user ? user.id : nil), :recipients => recipient_login )
+      self.create message_attrs.merge( :recipient_id => (user ? user.id : nil), :recipients => recipient_login )
     end
   end
 

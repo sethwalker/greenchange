@@ -67,12 +67,11 @@ class Tool::EventController < Tool::BaseController
       redirect_to(event_url(@page)) and return
     else
       message :object => @page
-      render :action => 'edit'
-    end
+      render :action => 'edit' end
   end
 
   def new 
-    @page = Tool::Event.new :group_id => params[:group_id], :starts_at => (TzTime.now.at_midnight + 9.hours).utc, :ends_at => (TzTime.now.at_midnight + 17.hours).utc
+    @page = Tool::Event.new :group_id => params[:group_id], :starts_at => (TzTime.now.at_midnight + 9.hours).utc, :ends_at => (TzTime.now.at_midnight + 17.hours).utc, :public => true, :public_participate => true
     @event = @page.build_data(:time_zone => current_user.time_zone)
     @event.page = @page
   end
@@ -85,6 +84,7 @@ class Tool::EventController < Tool::BaseController
     @page.public = true
 
     @page.data = @event
+    @page.created_by = current_user
     @event.page = @page
     if @page.save
       add_participants!(@page, params)

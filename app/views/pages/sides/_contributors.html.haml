@@ -1,11 +1,11 @@
-.sidesection
-  .sidehead
+.section
+  .header
     Created By
   .icon-box
     = render :partial => 'shared/list/person', :object => @page.created_by 
 -#- if @page.contributors.any?
-  .sidesection
-    .sidehead
+  .section
+    .header
       contributors
     -if @page.contributors.size > 1
       = render :partial => 'avatars/boxes', :locals => {:people => @page.contributors, :side => "left"}

@@ -4,7 +4,10 @@
     %td.page_icon
       = link_to ' ', message_path(invitation), html_options_for_icon_for(invitation.sender, :size => :small )
     %td.title
-      = link_to invitation.subject, event_path(invitation.event.page)
+      - if invitation.invitable.is_a? Group
+        = link_to invitation.subject, group_path(invitation.invitable)
+      - elsif invitation.invitable.is_a? Tool::Event
+        = link_to invitation.subject, event_path(invitation.invitable)
     %td.view-indicator-stub
     %td.from
       = link_to invitation.sender.login, person_path( invitation.sender )
@@ -12,10 +15,11 @@
       = friendly_date( invitation.created_at )
     %td.toolbar
       - if current_user
-        .icon
-          = button_to "Accept", accept_event_invitation_path(invitation.event.page, invitation), :method => :post, :class => 'add action', :title => 'Accept'
-        .icon
-          = button_to "Reject", reject_event_invitation_path(invitation.event.page, invitation), :method => :put, :class => 'delete action', :title => 'Reject'
+        - if invitation.invitable.is_a? Event
+          .icon
+            = button_to "Accept", accept_event_invitation_path(invitation.event.page, invitation), :method => :post, :class => 'add action', :title => 'Accept'
+          .icon
+            = button_to "Reject", reject_event_invitation_path(invitation.event.page, invitation), :method => :put, :class => 'delete action', :title => 'Reject'
   %tr.row.message-body
     %td
       .toolbar

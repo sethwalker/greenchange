@@ -1,3 +1,7 @@
+.section.details
+  %p
+    = f.label :description, 'Full Description'
+    = f.text_area 'description', :rows => 10, :cols => 50
 .section.time
   %h2
     When
@@ -58,9 +62,6 @@
       = f.country_select :country, ['United States','Canada','United Kingdom'], :include_blank => true
 
 .section.details
-  %p
-    = f.label :description, 'Description'
-    = f.text_area 'description', :rows => 10, :cols => 50
   %p
     = f.label :directions, 'Directions'
     = f.text_area :directions, :rows => 10, :cols => 50

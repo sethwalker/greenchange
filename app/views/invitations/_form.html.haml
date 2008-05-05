@@ -1,0 +1,11 @@
+= render :partial => 'messages/form', :locals => { :f => f, :message => invitation }
+.column.form-column.last
+  - if @invitation_type == 'group'
+    %p
+      = f.label :group_id, "Invitation to Group"
+      = f.select :group_id, current_user.groups.map { |g| [g.display_name, g.id] }
+  - else
+    %p
+      = f.label :event_id, "Invitation to Event"
+      = f.select :event_id, Page.page_type(:event).by_person(current_user).map { |ev| [ev.display_name, ev.id] }
+

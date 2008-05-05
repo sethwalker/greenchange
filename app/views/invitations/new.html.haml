@@ -1,0 +1,16 @@
+- content_for :title do
+  = icon_for( @group, :size => :medium ) if @group
+  = icon_for( @event, :size => :medium ) if @event
+  %h1 
+    Send invitation
+    = "to join #{@group.display_name}"  if @group
+    = "to attend #{@event.display_name}"  if @event
+
+  = error_messages_for :message
+
+.new.invitation.form.with-editor
+  - form_for :invitation, @invitation, :url => scoped_path( :invitations ) do |f|
+    = render :partial => 'form', :locals => { :f => f, :invitation => @invitation }
+    %p.submit
+      = f.submit "Send"
+

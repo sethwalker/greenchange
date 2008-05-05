@@ -6,6 +6,8 @@ class ActiveRecord::Base#.class_eval do
       define_method("#{attr_as}?") { self.send(base_attr) and self.send(base_attr).is_a?(Object.const_get(attr_as.to_s.classify)) }
       define_method("#{attr_as}")  { self.send("#{attr_as}?") ? self.send(base_attr) : nil }
       define_method( "#{attr_as}=" ) { |value| self.send("#{base_attr}=", value ) }
+      define_method( "#{attr_as}_id=" ) { |value| self.send("#{base_attr}_id=", value ); self.send("#{base_attr}_type=", attr_as.to_s.classify ) }
+      define_method( "#{attr_as}_id" ) { self.send("#{base_attr}_id" ); }
     end
   end
 end

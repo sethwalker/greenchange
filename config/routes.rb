@@ -109,7 +109,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :groups, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |group|
     group.resources :people
-    group.resources :invitations, :member => { :accept => :put, :ignore => :put }
+    group.resources :invitations
     #group.resources :memberships, :controller => 'membership', :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put, :promote => :put }
     group.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put, :promote => :put }
     group.resource :profile, :controller => 'group/profiles'
@@ -118,10 +118,12 @@ ActionController::Routing::Routes.draw do |map|
     group.chat 'chat', :controller => 'chat', :action => 'channel'
     page_routes(group)
   end
+  #map.connect 'invitations/:invitation_type/new', :controller => 'invitations', :action => 'new'
   map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|search|calendar_month|list_by_day|list_by_week|list_by_month/
   map.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
 
   map.resources :people, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |person|
+    person.resources :invitations
     person.resources :groups#, :collection => {:join => :get, :invite => :get, :leave => :get, :approve => :put }
     person.resources 'contacts', :controller => 'contact'#, :member => { :approve => :post, :reject => :post }
     person.resources :bookmarks

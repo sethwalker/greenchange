@@ -47,8 +47,11 @@ class ContactController < ApplicationController
       flash[:notice] = "#{@contact_request.user.login} is now your contact" 
       redirect_to me_inbox_path
     else
-      message :object => @contact_request
-      render :action => 'requests'
+      @contact_request.destroy
+      flash[:error] = "The contact request is invalid and has been deleted.  Please try again"
+      redirect_to me_inbox_path
+      #message :object => @contact_request
+      #render :action => 'requests'
     end
   end
 
@@ -57,8 +60,9 @@ class ContactController < ApplicationController
       flash[:notice] = "Contact request from #{@contact_request.user.login} declined" 
       redirect_to me_inbox_path
     else
-      message :object => @contact_request
-      render :action => 'requests'
+      @contact_request.destroy
+      flash[:error] = "The contact request is invalid, deleting it"
+      redirect_to me_inbox_path
     end
   end
 

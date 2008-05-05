@@ -1,0 +1,31 @@
+- content_for :title do
+  -#.toolbar.title-menu
+    .icon
+      = link_to 'Send message', new_message_path, :class => 'action message'
+  = icon_for( @me, :size => 'medium' )
+  %h1.medium
+    Inbox
+
+.landing.inbox
+  #inbox-list
+    %table.section
+      = render :partial => 'inbox/list/headers'
+      - for item in @messages
+        - if item.is_a?( MembershipRequest ) || item.is_a?( ContactRequest )
+          = render :partial => 'inbox/list/request', :object => item
+        - elsif item.is_a?( Invitation ) 
+          = render :partial => 'inbox/list/invitation', :object => item
+        - elsif item.is_a?( Message ) 
+          = render :partial => 'inbox/list/message', :object => item
+
+- content_for :javascript_onload do
+  // message display/hiding for inbox
+  $('inbox-list').select('.view-indicator-stub').each( function( view_icon ) { view_icon.addClassName('view-indicator') } );
+  $('inbox-list').select('.message-block .message-body').invoke('hide');
+  $('inbox-list').select('.message-block').each( function( message_block ) {
+  message_block.down('.message-meta').observe('click', function(ev) {
+  message_block.toggleClassName('expanded');
+  message_block.down('.message-body').toggle();
+  } );
+  } );
+

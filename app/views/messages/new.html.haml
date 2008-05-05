@@ -6,8 +6,7 @@
   = error_messages_for :message
 
 .new.message.form.with-editor
-  - form_action = @person ? person_messages_path(@person) : messages_path
-  - form_for :message, @message, :url => form_action do |f|
-    = render :partial => 'form', :locals => { :f => f }
+  - form_for :message, @message, :url => scoped_path( :messages ) do |f|
+    = render :partial => 'form', :locals => { :f => f, :message => @message }
     %p.submit
       = f.submit "Send"

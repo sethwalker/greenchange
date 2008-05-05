@@ -18,7 +18,7 @@
   - if @page && !@page.new_record? && controller.action_name != 'edit'
     = render :partial => 'shared/sides/invite'
     = render :partial => 'shared/sides/donate'
-    = render :partial => 'pages/sides/contributors', :locals => { :page => @page }
+    -#= render :partial => 'pages/sides/contributors', :locals => { :page => @page }
     = render :partial => 'shared/groups_large', :locals => {:source => @page}
     = render :partial => 'pages/sides/groups', :locals => { :page => @page }
     -#= render :partial => 'pages/sides/access', :locals => { :page => @page }

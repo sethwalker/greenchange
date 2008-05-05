@@ -1,9 +1,28 @@
 class InvitationsController < ApplicationController
   before_filter :login_required
   before_filter :group_admin_required
+  before_filter :get_invitation_type
 
   make_resourceful do
-    actions :new, :create
+    actions :new
+  end
+
+  def create
+    invitation_params = object_parameters
+    @invitations = Invitation.spawn( invitation_params )
+    @valid_invitations, @invalid_invitations = @invitations.partition(&:valid?)
+    @valid_invitations.each(&:save)
+
+    if !@valid_invitations.empty?
+      flash[:notice] = "Invitation sent to the following recipients: " + @valid_invitations.map { |m| m.recipient.display_name }.join(", " )
+    end
+    redirect_to me_inbox_path and return if @invalid_invitations.empty?
+
+    # for redisplaying any errors, use a singular @invitation
+    @invitation = Invitation.new invitation_params
+    @invitation.recipients = @invalid_invitations.map { |m| m.recipients }.join(', ')
+    @invitation.errors.add :recipients, "couldn't send to: " + @invitation.recipients
+    render :action => 'new'
   end
 
   def accept
@@ -40,12 +59,19 @@ class InvitationsController < ApplicationController
   end
   
   def object_parameters
+    defaults = super || {}
     invitable = {}
     invitable[:group] = @group if @group
     invitable[:event] = @event if @event
     invitable[:sender] = current_user
-    (super || {}).merge invitable
+    unless defaults[:recipients]
+      invitable[:recipients] ||= @person.login if @person
+    end
+    defaults.merge invitable
   end
 
+  def get_invitation_type
+    @invitation_type = params[:invitation_type]
+  end
   
 end

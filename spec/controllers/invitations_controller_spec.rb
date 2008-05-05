@@ -31,13 +31,13 @@ describe InvitationsController do
   end
 
   describe "create" do
-    describe "can do group invitations" do
+    describe "group invitations" do
       def act!
         post :create, :group_id => @group.name, :invitation => { :recipient_id => @recipient.id }
       end
       it "makes group invitations" do
         act!
-        assigns[:invitation].invitable.should == @group
+        assigns[:invitation].group.should == @group
       end
       it "assigns the current sender" do
         act!
