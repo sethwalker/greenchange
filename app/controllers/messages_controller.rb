@@ -7,15 +7,23 @@ class MessagesController < ApplicationController
   end
 
   def create
-    @message = Message.new params[:message]
-    @message.sender = current_user
-    @message.recipient = @person
-    if @message.save
+    message_params = params[:message]
+    message_params[:recipients] ||= @person.login if @person
+    message_params[:sender_id] = current_user.id
+    @messages = Message.spawn( message_params )
+    @valid_messages, @invalid_messages = @messages.partition(&:valid?)
+    @valid_messages.each(&:save)
+    if @invalid_messages.empty?
       flash[:notice] = "Message sent"
-      redirect_to me_inbox_path
-    else
-      render :new
+      redirect_to me_inbox_path and return
+    elsif !@valid_messages.empty?
+      flash[:notice] = "Message sent to the following recipients: " + @valid_messages.map { |m| m.recipient.display_name }.join(", " )
     end
+    @message = current_user.messages_sent.new message_params
+    @message.recipients = @invalid_messages.map { |m| m.recipients }.join(', ')
+    @message.errors.add :recipients, "couldn't send to: " + @message.recipients
+    @message.recipient = @person if @person
+    render :action => 'new'
   end
 
   def new
@@ -25,17 +33,17 @@ class MessagesController < ApplicationController
   
   def index
     unless params[:message_action] == 'sent'
-      @messages = Message.find :all, :conditions => [ 'recipient_id = ?', current_user ]
+      @messages = Message.to(current_user).find :all#, :conditions => [ 'recipient_id = ?', current_user ]
     else
-      @messages = Message.find :all, :conditions => [ 'sender_id = ?', current_user ]
+      @messages = Message.from( current_user ).find :all#, :conditions => [ 'sender_id = ?', current_user ]
     end
   end
 
   def destroy
-    message = Message.find params[:id]
-    current_user.may! :admin, message
-    message.destroy 
-    flash[:notice] = "Removed message from #{message.sender.display_name}"
+    @message = Message.find params[:id]
+    current_user.may! :admin, @message
+    @message.destroy 
+    flash[:notice] = "Removed message from #{@message.sender.display_name}"
     redirect_to :back
   end
   

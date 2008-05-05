@@ -5,8 +5,9 @@
     = "to #{@person.display_name}"  if @person
   = error_messages_for :message
 
-.new.message.form
-  - form_for :message, @message, :url => person_messages_path(@person) do |f|
+.new.message.form.with-editor
+  - form_action = @person ? person_messages_path(@person) : messages_path
+  - form_for :message, @message, :url => form_action do |f|
     = render :partial => 'form', :locals => { :f => f }
     %p.submit
       = f.submit "Send"

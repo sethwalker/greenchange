@@ -7,6 +7,24 @@ describe Message do
     @message = Message.create :sender => @sender, :recipient => @recipient, :subject => 'Dude!', :body => "Hi", :sender_copy => false
   end
 
+  describe "to finder" do
+    it "finds messages to the given user" do
+      Message.to(@recipient).should include(@message)
+    end
+    it "does not find messages to other users" do
+      Message.to(@sender).should_not include(@message)
+    end
+  end
+
+  describe "from finder" do
+    it "finds messages from the given user" do
+      Message.from(@sender).should include(@message)
+    end
+    it "does not find messages from other users" do
+      Message.from(@recipient).should_not include(@message)
+    end
+  end
+
   describe "permissions for messages" do
     it "allow nothing unless the user sent or is receiving the message" do
       other_user = create_valid_user
@@ -88,5 +106,6 @@ describe Message do
       @recipients = [ "joey", "frankie" ]
       lambda { act! }.should change(Message, :count).by(2)
     end
+
   end
 end

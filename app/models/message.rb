@@ -5,6 +5,10 @@ class Message < ActiveRecord::Base
   #belongs_to :group
   #
   validates_presence_of :recipient_id, :sender_id
+  attr_accessor :recipients
+
+  has_finder :to, Proc.new { |recipient| { :conditions => [ "messages.recipient_id = ?", recipient ] }}
+  has_finder :from, Proc.new { |sender|  { :conditions => [ "messages.sender_id = ?", sender ] }}
 
   def allows?( user, action )
     return false unless user == sender or user == recipient
@@ -29,7 +33,7 @@ class Message < ActiveRecord::Base
     end
     names.map do |recipient_login|
       user = User.find_by_login(recipient_login)
-      Message.create message_attrs.merge( :recipient_id => (user ? user.id : nil))
+      Message.create message_attrs.merge( :recipient_id => (user ? user.id : nil), :recipients => recipient_login )
     end
   end
 
