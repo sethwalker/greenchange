@@ -1,4 +1,5 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
+require File.dirname(__FILE__) + '/../../../lib/crabgrass_config'
 
 describe "DemocracyInAction initializer" do
   it "should load without error" do
@@ -20,6 +21,7 @@ describe "DemocracyInAction initializer" do
           auth.org_key  = ENV['DIA_ORG']
         end
         DemocracyInAction::API.stub!(:disabled?).and_return(false)
+        UserMailer.stub!(:deliver_signup_notification).and_return(true)
       end
       after do
         DemocracyInAction.configure do
@@ -29,51 +31,54 @@ describe "DemocracyInAction initializer" do
         DemocracyInAction::Mirroring.__send__ :class_variable_set, :@@api, nil
       end
 
-      before do
-        @timestamp ||= Time.now.to_i
-        @timestamp += 1
-        email = "greenchange_test_#{@timestamp}@radicaldesigns.org"
-        @user = new_user(:email => email, :private_profile => nil)
-        @user.build_private_profile(:first_name => 'firstly', :last_name => 'lastly', :organization => 'organizationally', :friend => true)
-        @user.save
-        @profile_proxy = @user.private_profile.democracy_in_action_proxies.find_by_remote_table('supporter')
-      end
-
-      it "should save a proxy" do
-        @profile_proxy.should_not be_nil
-      end
-
-      it "the proxy should have a remote key" do
-        @profile_proxy.remote_key.should_not be_nil
-      end
-
-      describe "the allow_info_sharing preference" do
+      describe "democracy in action proxy" do
         before do
-          @pref = @user.preferences.create(:name => 'allow_info_sharing', :value => true)
-          @pref_proxy = @pref.democracy_in_action_proxies.find_by_remote_table('supporter_groups')
+          @timestamp ||= Time.now.to_i
+          @timestamp += 1
+          login = "greenchange_test_#{@timestamp}"
+          email = "#{login}_#{@timestamp}@radicaldesigns.org"
+          @user = create_valid_user(:email => email, :profile => {:first_name => 'firstly', :last_name => 'lastly', :organization => 'organizationally'})
+          # new_user(:email => email, :private_profile => nil)
+          #@private_profile = @user.build_private_profile(:first_name => 'firstly', :last_name => 'lastly', 
+          #:organization => 'organizationally', :friend => true, :entity => @user)
+          #@user.save
+          @profile_proxy = @user.private_profile.democracy_in_action_proxies.find_by_remote_table('supporter')
         end
 
-        it "should have a proxy" do
-          @pref_proxy.should_not be_nil
+        it "should save a proxy" do
+          @profile_proxy.should_not be_nil
         end
 
         it "the proxy should have a remote key" do
-          @pref_proxy.remote_key.should_not be_nil
+          @profile_proxy.remote_key.should_not be_nil
         end
 
-        describe "DIA record" do
+        describe "allow_info_sharing preference" do
           before do
-            @group_remote = DemocracyInAction::Mirroring.api.get('supporter_groups', @pref_proxy.remote_key).first
+            @pref = @user.preferences.create(:name => 'allow_info_sharing', :value => true)
+            @pref_proxy = @pref.democracy_in_action_proxies.find_by_remote_table('supporter_groups')
           end
 
-          it "should be tied to the DIA supporter" do
-            @group_remote['supporter_KEY'].should == @profile_proxy.remote_key.to_s
+          it "should have a proxy" do
+            @pref_proxy.should_not be_nil
           end
 
-          it "should be added to allow_info_sharing DIA group" do
-            require 'ruby-debug'
-            debugger
-            @group_remote['group_KEY'].should == CrabGrass::Config.dia_subscribe_to_email_list_group_id.to_s
+          it "the proxy should have a remote key" do
+            @pref_proxy.remote_key.should_not be_nil
+          end
+
+          describe "DIA record" do
+            before do
+              @group_remote = DemocracyInAction::Mirroring.api.get('supporter_groups', @pref_proxy.remote_key).first
+            end
+
+            it "should be tied to the DIA supporter" do
+              @group_remote['supporter_KEY'].should == @profile_proxy.remote_key.to_s
+            end
+
+            it "should be added to allow_info_sharing DIA group" do
+              @group_remote['group_KEY'].should == Crabgrass::Config.dia_subscribe_to_email_list_group_id.to_s
+            end
           end
         end
       end

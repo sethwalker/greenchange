@@ -107,7 +107,7 @@ DemocracyInAction.configure do
     map('supporter_KEY') { |preference|
       user = preference.user
       if user
-        profile = user.private_profile(true) || Profile.find_by_entity_type_and_entity_id('User', user.id)
+        profile = user.private_profile 
         if profile
           proxy = profile.democracy_in_action_proxies.find_by_remote_table('supporter')
           proxy.remote_key if proxy
