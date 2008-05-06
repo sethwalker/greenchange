@@ -1,4 +1,5 @@
 .section
   = link_to 'Contacts', person_contacts_url(source), :class => 'header'
   .icon-box 
-    = render :partial => 'shared/list/person', :collection => source.contacts.find( :all, :limit => 8 )
+    - limit = extended_sidebar? ? 8 : 6
+    = render :partial => 'shared/list/person', :collection => source.contacts.find( :all, :limit => limit )

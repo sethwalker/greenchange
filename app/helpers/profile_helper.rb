@@ -77,6 +77,7 @@ module ProfileHelper
   }
 
   def web_resource_url( type, resource_name )
+    return resource_name if resource_name =~ /^(http|https):\/\/[a-z0-9]+([-.]{1}[a-z0-9]+)*.[a-z]{2,5}(([0-9]{1,5})?\/.*)?$/ix
     case type
       when 'youtube'
         "http://youtube.com/profile?user=#{resource_name}"
@@ -88,8 +89,6 @@ module ProfileHelper
         "http://twitter.com/#{resource_name}"
       when 'blip'
         "http://#{resource_name}.blip.tv"
-      else
-        resource_name
     end
   end
 

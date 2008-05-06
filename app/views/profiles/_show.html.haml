@@ -51,7 +51,11 @@
               = web_resource.web_resource_type
               \:
             %dd
-              = link_to web_resource.web_resource, web_resource_url( web_resource.web_resource_type, web_resource.web_resource ), :class => 'url external', :target => 'blank'
+              - if web_resource_url( web_resource.web_resource_type, web_resource.web_resource )
+                = link_to web_resource.web_resource, web_resource_url( web_resource.web_resource_type, web_resource.web_resource ), :class => 'url external', :target => 'blank'
+              - else
+                = web_resource.web_resource
+            .clear
 
 
     - unless @profile.phone_numbers.empty?

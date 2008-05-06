@@ -11,8 +11,9 @@
         %label Issues:
         = render :partial => 'shared/icons/issue', :collection => @group.issues
 
-.section.promo
-  = render :partial => 'pages/shared/promo',  :locals => {:source => @group }
-.section
-  = render :partial => 'pages/shared/main',   :locals => {:source => @group }
+.content-list.main
+  -#.section.promo
+    = render :partial => 'pages/shared/promo',  :locals => {:source => @group }
+  .section
+    = render :partial => 'pages/shared/main',   :locals => {:source => @group }
 

@@ -21,7 +21,8 @@ body.profiles .show.landing dl {
   padding-bottom: 5px;
   float: left;
   clear: both;
-  width: 193px; }
+  width: 193px;
+  overflow: hidden; }
 body.profiles .form-column.last .section {
   margin-bottom: 30px; }
 body.profiles form .row.location {

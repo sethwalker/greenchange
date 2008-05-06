@@ -45,6 +45,10 @@
       :width = !side_column_wideside_width -20px
       body.ie6 &
         :width = !side_column_wideside_width - !ie_padding_offset -20px
+  .list-description
+    :width = !side_column_width - 125px
+    #main.wideside &
+      :width = !side_column_wideside_width - 125px
       
       
   
@@ -165,9 +169,11 @@
       :float left
       :width 97% 
       :background #F5FBE0
+      .padding-tabset
+        :width 45%
+        :float left
       ul.tabset
         :border 0
-        :width 45%
         :float left
         :padding-left 12px
         li

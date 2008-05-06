@@ -10,17 +10,19 @@
       .clear
 
     .pages 
-      %ul.tabset
-        %li.tab
-          = link_to 'People', group_people_url(@group), selected_if( request.url == group_memberships_url(@group))
-        %li.tab
-          = link_to 'Blogs &amp; News', group_updates_url(@group), selected_if( params[:page_type] == 'updates' )
-        %li.tab
-          = link_to 'Events &amp; Actions', group_involvements_url(@group), selected_if( params[:page_type] == 'involvements' )
-      %ul.tabset
-        %li.tab
-          = link_to 'Video &amp Audio', group_media_url(@group), selected_if( params[:page_type] == 'media' )
-        %li.tab
-          = link_to 'Photos', group_photos_url(@group), selected_if( params[:page_type] == 'photos' )
-        %li.tab
-          = link_to 'Discussions &amp; Tools', group_tools_url(@group), selected_if( params[:page_type] == 'tools' )
+      .padding-tabset
+        %ul.tabset
+          %li.tab
+            = link_to 'People', group_people_url(@group), selected_if( request.url == group_memberships_url(@group))
+          %li.tab
+            = link_to 'Blogs &amp; News', group_updates_url(@group), selected_if( params[:page_type] == 'updates' )
+          %li.tab
+            = link_to 'Events &amp; Actions', group_involvements_url(@group), selected_if( params[:page_type] == 'involvements' )
+      .padding-tabset
+        %ul.tabset
+          %li.tab
+            = link_to 'Video &amp Audio', group_media_url(@group), selected_if( params[:page_type] == 'media' )
+          %li.tab
+            = link_to 'Photos', group_photos_url(@group), selected_if( params[:page_type] == 'photos' )
+          %li.tab
+            = link_to 'Discussions &amp; Tools', group_tools_url(@group), selected_if( params[:page_type] == 'tools' )

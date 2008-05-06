@@ -1,3 +1,4 @@
+= yield :sidebar_header
 - unless controller.controller_name =~ /account/ || controller.action_name == 'new' 
   - if @group
     = render :partial => 'groups/sides/group',  :locals => { :group => @group }
