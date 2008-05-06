@@ -2,13 +2,13 @@ class Message < ActiveRecord::Base
 
   belongs_to :sender, :class_name => 'User'
   belongs_to :recipient, :class_name => 'User'
-  #belongs_to :group
-  #
-  validates_presence_of :recipient_id, :sender_id
+  
+  validates_presence_of :sender_id
+  validates_presence_of :recipient_id, :if => :recipient_required?
   attr_accessor :recipients
 
-  has_finder :to, Proc.new { |recipient| { :conditions => [ "messages.recipient_id = ?", recipient ] }}
-  has_finder :from, Proc.new { |sender|  { :conditions => [ "messages.sender_id = ?", sender ] }}
+  #has_finder :to, Proc.new { |recipient| { :conditions => [ "messages.recipient_id = ?", recipient ] }}
+  #has_finder :from, Proc.new { |sender|  { :conditions => [ "messages.sender_id = ?", sender ] }}
 
   def allows?( user, action )
     return false unless user == sender or user == recipient
@@ -35,6 +35,10 @@ class Message < ActiveRecord::Base
       user = User.find_by_login(recipient_login)
       self.create message_attrs.merge( :recipient_id => (user ? user.id : nil), :recipients => recipient_login )
     end
+  end
+
+  def recipient_required?
+    true
   end
 
 end

@@ -1,7 +1,7 @@
 class Invitation < Message
-  belongs_to :invitable, :polymorphic => true
   include Approvable
-  attr_accessor :user_names
+  belongs_to :invitable, :polymorphic => true
+  validates_presence_of :invitable_id
   polymorphic_attr :invitable, :as => [ :event, :group ]
   
 

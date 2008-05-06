@@ -7,6 +7,7 @@ module Approvable
       state :accepted, :after => :after_accepted
       state :rejected
       state :ignored
+
       event :approve do
         transitions :from => :pending, :to => :approved, :guard => :approval_allowed
         transitions :from => :rejected, :to => :approved
