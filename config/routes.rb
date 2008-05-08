@@ -9,7 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   map.block_email '/block_email/:retrieval_code', :controller => 'emails', :action => 'block'
 
   map.resource :session
-  map.resource :account, :controller => 'account'
+  map.resource :account
   
 
   map.resources :issues

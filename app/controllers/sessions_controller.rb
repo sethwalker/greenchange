@@ -41,5 +41,5 @@ class SessionsController < ApplicationController
 
   # TODO: move this to an e-mail
   
-  WELCOME_TEXT_MARKUP = File.read "#{RAILS_ROOT}/app/views/account/welcome.txt"
+  WELCOME_TEXT_MARKUP = File.read "#{RAILS_ROOT}/app/views/accounts/welcome.txt"
 end
