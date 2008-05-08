@@ -9,6 +9,7 @@ ActionController::Routing::Routes.draw do |map|
   map.block_email '/block_email/:retrieval_code', :controller => 'emails', :action => 'block'
 
   map.resource :session
+  map.resource :account, :controller => 'account'
   
 
   map.resources :issues
@@ -159,7 +160,6 @@ ActionController::Routing::Routes.draw do |map|
   
   
   #map.connect '', :controller => "sessions", :action => 'new'
-  map.resource :account, :controller => 'account', :member => { :signup => :get, :login => :post }
   
   # typically, this is the default route
   map.connect ':controller/:action/:id'

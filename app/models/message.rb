@@ -7,8 +7,8 @@ class Message < ActiveRecord::Base
   validates_presence_of :recipient_id, :if => :recipient_required?
   attr_accessor :recipients
 
-  #has_finder :to, Proc.new { |recipient| { :conditions => [ "messages.recipient_id = ?", recipient ] }}
-  #has_finder :from, Proc.new { |sender|  { :conditions => [ "messages.sender_id = ?", sender ] }}
+  has_finder :to, Proc.new { |recipient| { :conditions => [ "messages.recipient_id = ?", recipient ] }}
+  has_finder :from, Proc.new { |sender|  { :conditions => [ "messages.sender_id = ?", sender ] }}
 
   def allows?( user, action )
     return false unless user == sender or user == recipient

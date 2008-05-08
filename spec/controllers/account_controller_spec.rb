@@ -24,7 +24,7 @@ describe AccountController do
   describe "create" do
     it "should return to the signup page unless the terms and conditions are agreed to" do
       post :create, :user => {}, :profile => {}
-      response.should render_template( 'account/signup' )
+      response.should render_template( 'account/new' )
     end
 
     it "should put an error in the flash about the agreement" do
@@ -34,12 +34,12 @@ describe AccountController do
 
     it "should not allow signup if the user doesn't validate" do
       post :create, :user => {}, :profile => {}, :agreed_to_terms => true
-      response.should render_template( 'account/signup' )
+      response.should render_template( 'account/new' )
     end
 
     it "should not allow signup if the profile doesn't validate" do
       post :create, :user => { :login => "JaneSmiegel", :password => "Jonas", :password_confirmation => "Jonas" }, :profile => {}, :agreed_to_terms => true
-      response.should render_template( 'account/signup' )
+      response.should render_template( 'account/new' )
     end
     it "should post errors on the profile unless the profile validates" do
       post :create, :user => { :login => "JaneSmiegel", :password => "Jonas", :password_confirmation => "Jonas" }, :profile => {}, :agreed_to_terms => true
@@ -87,7 +87,7 @@ describe AccountController do
         it "should fail" do
           act!
           post :create, :user => { :login => "JaneSmiegel", :password => "Monas", :password_confirmation => "Monas", :email => "mane@addiction.com" }, :agreed_to_terms => true, :profile => { :first_name => "mane", :last_name => "miegel"}
-          response.should render_template('account/signup')
+          response.should render_template('account/new')
         end
       end
     end

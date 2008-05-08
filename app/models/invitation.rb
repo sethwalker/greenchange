@@ -2,7 +2,7 @@ class Invitation < Message
   include Approvable
   belongs_to :invitable, :polymorphic => true
   validates_presence_of :invitable_id
-  polymorphic_attr :invitable, :as => [ :event, :group ]
+  polymorphic_attr :invitable, :as => [ :event, :group, :contact ], :class_names => { :contact => 'User' }
   
 
   def after_accepted

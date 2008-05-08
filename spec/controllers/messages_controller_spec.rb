@@ -1,4 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
+require File.dirname(__FILE__) + '/messages_spec_helper'
+
 
 describe MessagesController do
   before do
@@ -6,8 +8,7 @@ describe MessagesController do
     @message = Message.new :sender => create_valid_user
     Message.stub!(:find).and_return(@message)
   end
-
-  describe "GET show" do
+  describe "MessagesController GET show" do
     def act!
       get :show, :id => 1
     end
@@ -17,52 +18,58 @@ describe MessagesController do
     end
   end
 
+
   describe "POST create" do
-    before do
-      @message_params = { :body => 'chu', :recipients => 'joey, frankie' }
-    end
-    def act!
-      post :create, :message => @message_params
-    end
-    it "creates new messages with spawn" do
-      Message.should_receive(:spawn).and_return([Message.new])
-      act!
-    end
-
-    it "assigns a messages array" do
-      act!
-      assigns[:messages].should_not be_empty
-    end
-    it "assigns a new blank message" do
-      Message.should_receive(:spawn).and_return([Message.new, Message.new])
-      act!
-      assigns[:message].should_not be_nil
-    end
-
-    it "assigns invalid messages for later handling" do
-      Message.should_receive(:spawn).and_return([Message.new, Message.new, Message.create( :sender => create_valid_user, :recipient => create_valid_user ) ])
-      act!
-      assigns[:invalid_messages].size.should == 2
-    end
-
-    it "targets invalid recipients in the message error" do
-      Message.should_receive(:spawn).and_return([Message.new, Message.new, Message.create( :sender => create_valid_user, :recipient => create_valid_user ) ])
-      act!
-      assigns[:message].errors.should_not be_empty
-      assigns[:message].errors.any?{ |e| e.last =~ /couldn.t send/}.should be_true
-    end
-  
-    it "recognizes valid messages and saves them" do
-      valid_message = Message.create( :sender => create_valid_user, :recipient => create_valid_user ) 
-      Message.should_receive(:spawn).and_return([Message.new, Message.new, valid_message ] )
-      valid_message.should_receive(:save)
-      act!
-    end
-
-    it "retains errors on invalid messages" do
-      act!
-      assigns[:messages].all?{|m| !m.errors.empty?}.should be_true
-    end
+    it_should_behave_like "message creation"
+    def current_model; Message; end
+    def object_name; :message; end
+    def objects_collection; :messages; end
+    def invalid_objects_collection; :invalid_messages; end
+#    before do
+#      @message_params = { :body => 'chu', :recipients => 'joey, frankie' }
+#    end
+#    def act!
+#      post :create, :message => @message_params
+#    end
+#    it "creates new messages with spawn" do
+#      Message.should_receive(:spawn).and_return([Message.new])
+#      act!
+#    end
+#
+#    it "assigns a messages array" do
+#      act!
+#      assigns[:messages].should_not be_empty
+#    end
+#    it "assigns a new blank message" do
+#      Message.should_receive(:spawn).and_return([Message.new, Message.new])
+#      act!
+#      assigns[:message].should_not be_nil
+#    end
+#
+#    it "assigns invalid messages for later handling" do
+#      Message.should_receive(:spawn).and_return([Message.new, Message.new, Message.create( :sender => create_valid_user, :recipient => create_valid_user ) ])
+#      act!
+#      assigns[:invalid_messages].size.should == 2
+#    end
+#
+#    it "targets invalid recipients in the message error" do
+#      Message.should_receive(:spawn).and_return([Message.new, Message.new, Message.create( :sender => create_valid_user, :recipient => create_valid_user ) ])
+#      act!
+#      assigns[:message].errors.should_not be_empty
+#      assigns[:message].errors.any?{ |e| e.last =~ /couldn.t send/}.should be_true
+#    end
+#  
+#    it "recognizes valid messages and saves them" do
+#      valid_message = Message.create( :sender => create_valid_user, :recipient => create_valid_user ) 
+#      Message.should_receive(:spawn).and_return([Message.new, Message.new, valid_message ] )
+#      valid_message.should_receive(:save)
+#      act!
+#    end
+#
+#    it "retains errors on invalid messages" do
+#      act!
+#      assigns[:messages].all?{|m| !m.errors.empty?}.should be_true
+#    end
   end
 
   describe "GET new" do
@@ -108,24 +115,7 @@ describe MessagesController do
   end
 
   describe "DELETE destroy" do
-    before do
-      request.env["HTTP_REFERER"] = "/me/inbox"
-      @message.stub!(:allows?).and_return true
-    end
-    def act!
-      delete :destroy, :id => 1
-    end
-    it "checks permissions" do
-      @message.should_receive(:allows?)
-      act!
-    end
-    it "deletes messages" do
-      @message.should_receive(:destroy)
-      act!
-    end
-    it "deletes messages" do
-      act!
-      @response.should redirect_to('/me/inbox')
-    end
+    def current_model; Message; end
+    it_should_behave_like "message destruction"
   end
 end

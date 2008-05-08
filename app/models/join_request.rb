@@ -5,6 +5,9 @@ class JoinRequest < Message
   validates_presence_of :requestable_id
   polymorphic_attr :requestable, :as => [ :event, :group ]
 
+  has_finder :by_group, lambda { |*groups| groups.flatten.any? ? {:conditions => [ "messages.requestable_id in ? and messages.requestable_type = 'Group'", groups ] }: {} }
+  has_finder :by_event, lambda { |*events| events.any? ? {:conditions => [ "messages.requestable_id in ? and messages.requestable_type = 'Event'", events ] }: {} }
+
   def approval_allowed
     if group?
       approved_by && group.allows?(approved_by, :admin)

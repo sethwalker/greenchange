@@ -7,7 +7,7 @@ module LayoutHelper
   end
 
   def no_sidebar?
-    return false if controller.controller_name == 'sessions'
+    return false if (controller.controller_name == 'sessions' )
     ( #( controller.controller_name =~ /account/ and controller.action_name !~ /index|login/ ) or
       ( controller.action_name =~ /new|edit|chat|update|create/ ) or
       ( controller.controller_name =~ /issues/ && controller.action_name == 'index' ) or

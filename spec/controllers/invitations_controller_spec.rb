@@ -1,4 +1,5 @@
-require File.dirname(__FILE__) + '/../spec_helper.rb'
+require File.dirname(__FILE__) + '/../spec_helper'
+require File.dirname(__FILE__) + '/messages_spec_helper'
 
 describe InvitationsController do
   before do
@@ -50,6 +51,16 @@ describe InvitationsController do
         post :create, :group_id => @group.name, :invitation => { :recipient_id => @recipient.id }
       end
     end
+    it_should_behave_like "message creation"
+    def current_model; Invitation; end
+    def object_name; :invitation; end
+    def objects_collection; :invitations; end
+    def invalid_objects_collection; :invalid_invitations; end
+  end
+
+  describe "when destroying" do
+    def current_model; Invitation; end
+    it_should_behave_like "message destruction"
   end
 
   describe "when responding" do

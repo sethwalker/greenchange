@@ -52,25 +52,23 @@ class AccountController < ApplicationController
     @user.preferences.build :name => 'allow_info_sharing', :value => true
     @user.preferences.build :name => 'subscribe_to_email_list', :value => true
   end
-  alias :signup :new
 
   def create
     @user = User.new params[:user] 
     @profile = @user.build_private_profile params[:profile].merge(:friend => true, :entity => @user )
-    @public_profile = @user.build_public_profile params[:profile].merge(:stranger=> true, :entity => @user )
 
     unless params[:agreed_to_terms] 
       flash[:error] = "You must agree to the terms and conditions to sign up"
-      render :action => 'signup' and return 
+      render :action => 'new' and return 
     end
 
-    if @user.save && @profile.save && @public_profile.save
+    if @user.save && @profile.save 
       #self.current_user = @user
       flash[:notice] = "Thank you for signing up. <br />You must authenticate your account before you login. <br />Check your email inbox. <br/>There will be a short message telling you how to complete the creation of your account."
       redirect_to login_path
       #redirect_to params[:redirect] || message_url(message)
     else
-      render :action => 'signup' and return
+      render :action => 'new' and return
     end
   end
 

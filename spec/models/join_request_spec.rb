@@ -10,6 +10,11 @@ describe JoinRequest do
       @req.requestable = create_valid_group
       @req.should be_group
     end
+
+    it "recognizes events" do
+      @req.requestable = Event.create :is_all_day => true, :page => Tool::Event.create( :title => 'joppa' )
+      @req.should be_event
+    end
   end
 
   describe "approvable" do
@@ -18,26 +23,37 @@ describe JoinRequest do
       @req.requestable = @group
       @req.sender_id = create_valid_user.id
       @req.recipient = create_valid_user
+      @req.approved_by = create_valid_user
       @req.save
     end
 
     it "does not allow approval by random users" do
-      @req.approved_by = create_valid_user
       @req.approve!
       @req.should be_pending
-    end
-    it "saves" do
-      @req.should be_valid
     end
 
     it "does allow approval by admins" do
       @group.should_receive(:allows?).and_return(true)
-      @req.group = @group
-      @req.sender = create_valid_user
-      @req.approved_by = create_valid_user
       @req.approve!
-      #@req.should be_approved
-      @req.current_state.should == :approved
+      @req.should be_approved
+    end
+
+    describe "successful approvals" do
+      before do
+        @group.stub!(:allows?).and_return(true)
+      end
+
+      it "can create new memberships" do
+        lambda{ @req.approve! }.should change( Membership, :count ).by(1)
+      end
+
+      it "can create new rsvps" do
+        event = Event.create! :is_all_day => true, :page => Tool::Event.create!( :title => 'joppa' )
+        event.stub!(:allows?).and_return(true)
+        @req.requestable = event
+        lambda{ @req.approve! }.should change( Rsvp, :count ).by(1)
+      end
+
     end
 
   end

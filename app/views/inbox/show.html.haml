@@ -11,14 +11,12 @@
     %table.section
       = render :partial => 'inbox/list/headers'
       - for item in @items 
-        - if item.is_a?( MembershipRequest ) || item.is_a?( ContactRequest )
-          = render :partial => 'inbox/list/request', :object => item
+        - if item.is_a?( JoinRequest ) 
+          = render :partial => 'inbox/list/join_request', :object => item
         - elsif item.is_a?( Invitation ) 
           = render :partial => 'inbox/list/invitation', :object => item
         - elsif item.is_a?( Message ) 
           = render :partial => 'inbox/list/message', :object => item
-        - else
-          = render :partial => 'inbox/list/item', :object => item
 
 - content_for :javascript_onload do
   // message display/hiding for inbox

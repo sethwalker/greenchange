@@ -11,7 +11,7 @@
       = link_to item.sender.login, person_path( item.sender )
     %td.arrived
       = friendly_date( item.created_at )
-    %td.toolbar
+    %td.toolbar.list-menu
       .icon
         = link_to "Reply", new_person_message_path(item.sender), :class => 'reply action', :title => 'Send Reply'
       .icon
@@ -19,7 +19,7 @@
 
   %tr.row.message-body
     %td
-      .toolbar
+      .toolbar.list-menu
         .icon
           = link_to "View", message_url(item), :class => 'action view', :title => 'View separately'
 

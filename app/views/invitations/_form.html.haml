@@ -7,5 +7,5 @@
   - else
     %p
       = f.label :event_id, "Invitation to Event"
-      = f.select :event_id, Page.page_type(:event).by_person(current_user).map { |ev| [ev.display_name, ev.id] }
+      = f.select :event_id, Page.page_type(:event).by_person(current_user).map { |ev| [ev.display_name, ev.data.id] }
 

@@ -4,25 +4,28 @@
     %td.page_icon
       = link_to ' ', message_path(invitation), html_options_for_icon_for(invitation.sender, :size => :small )
     %td.title
-      - if invitation.invitable.is_a? Group
-        = link_to invitation.subject, group_path(invitation.invitable)
-      - elsif invitation.invitable.is_a? Tool::Event
-        = link_to invitation.subject, event_path(invitation.invitable)
+      - if invitation.group?
+        = link_to "Invitation to join #{invitation.group.display_name}", group_path(invitation.group)
+      - elsif invitation.event?
+        = link_to "Invitation to attend #{invitation.event.display_name}", event_path(invitation.event.page)
+      - elsif invitation.contact?
+        = link_to "Contact Invitation from #{invitation.contact}", person_path(invitation.contact)
+
     %td.view-indicator-stub
     %td.from
-      = link_to invitation.sender.login, person_path( invitation.sender )
+      = link_to invitation.sender.display_name, person_path( invitation.sender )
     %td.arrived
       = friendly_date( invitation.created_at )
-    %td.toolbar
-      - if current_user
-        - if invitation.invitable.is_a? Event
-          .icon
-            = button_to "Accept", accept_event_invitation_path(invitation.event.page, invitation), :method => :post, :class => 'add action', :title => 'Accept'
-          .icon
-            = button_to "Reject", reject_event_invitation_path(invitation.event.page, invitation), :method => :put, :class => 'delete action', :title => 'Reject'
+    %td.toolbar.list-menu
+      - if invitation.event?
+        .icon
+          = button_to "Accept", accept_invitation_path(invitation), :method => :put, :class => 'add action', :title => 'Accept'
+        .icon
+          = button_to "Ignore", ignore_invitation_path(invitation), :method => :put, :class => 'ignore action', :title => 'Ignor'
+
   %tr.row.message-body
     %td
-      .toolbar
+      .toolbar.list-menu
         .icon
           = link_to "View", message_url(invitation), :class => 'action view', :title => 'View separately'
     %td.message{:colspan => 4}

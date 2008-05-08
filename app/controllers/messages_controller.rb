@@ -13,16 +13,15 @@ class MessagesController < ApplicationController
     @messages = Message.spawn( message_params )
     @valid_messages, @invalid_messages = @messages.partition(&:valid?)
     @valid_messages.each(&:save)
-    if @invalid_messages.empty?
-      flash[:notice] = "Message sent"
-      redirect_to me_inbox_path and return
-    elsif !@valid_messages.empty?
+
+    if !@valid_messages.empty?
       flash[:notice] = "Message sent to the following recipients: " + @valid_messages.map { |m| m.recipient.display_name }.join(", " )
     end
-    @message = current_user.messages_sent.new message_params
+    redirect_to me_inbox_path and return if @invalid_messages.empty?
+
+    @message = Message.new message_params
     @message.recipients = @invalid_messages.map { |m| m.recipients }.join(', ')
     @message.errors.add :recipients, "couldn't send to: " + @message.recipients
-    @message.recipient = @person if @person
     render :action => 'new'
   end
 
@@ -46,5 +45,6 @@ class MessagesController < ApplicationController
     flash[:notice] = "Removed message from #{@message.sender.display_name}"
     redirect_to :back
   end
+
   
 end

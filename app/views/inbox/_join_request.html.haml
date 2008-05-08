@@ -1,0 +1,26 @@
+- item = join_request
+- color = cycle( 'shade-odd', 'shade-even')
+%tbody.message-block{ :class => color }
+  %tr.row.message-meta{:class => ( item.try(:unread?) ? 'unread' : '' )  }
+    %td.page_icon
+      = link_to ' ', person_url(item.sender), html_options_for_icon_for(item.sender, :size => :small )
+    %td.title
+      Join Request from 
+      = "for #{item.group.name}" if item.group?
+    %td.view-indicator-stub
+    %td.from
+      = link_to item.sender.display_name, person_path( item.sender )
+    %td.arrived
+      = friendly_date( item.updated_at )
+    %td.toolbar
+      - if user.may? :admin, item.requestable
+        .icon
+          = button_to "Approve",  approve_request_path(item), :method => :put, :class => 'add action',:title => 'Approve'
+        .icon
+          = button_to "Ignore",   reject_request_path(item),  :method => :put, :class => 'ignore action', :title => 'Ignore'
+
+  %tr.row.message-body
+    %td
+    %td.message{:colspan => 4}
+      = GreenCloth.new(item.message).to_html if item.message
+    %td

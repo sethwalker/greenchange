@@ -1,3 +1,5 @@
+@import colors
+
 body.accounts, body.account, body.sessions
   div#login_container
     :padding 2em 2em 0em 2em
@@ -48,26 +50,29 @@ body.accounts, body.account, body.sessions
     :width =!container_width  
     :line-height 160%
 
-    #form_intro
-      :float left
-      :font-size 15px
-      :width 30em
-      :margin-left 3em
-      :padding 1em
+  .section.intro 
+    :float left
+    :font-size 15px
+    :margin-left 3em
+    :padding 1em
 
-    #signupform
-      :margin 2em 3em 1em 3em
-      :width 22em
-      :text-align left
-      :padding 1em
+  .form-column
+    .signup_padding
+      :padding 10px
       :border 1px dotted #BB8B1A
       :background #EEE9E9
       :float left
+      :margin-left 100px
+    .signup
+      :width = !side_column_wideside_width -100
+      :text-align left
+      :float left
       input
-        :width 18em
+        //:width 18em
         :font-size 12px
         :float left
       p.agree, p.preference, p.submit 
+        :width auto
         input
           :width auto
       p.submit 

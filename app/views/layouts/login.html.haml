@@ -27,7 +27,7 @@
 
         #top-login-submit
           %p.toploginoptions
-            = link_to "Want to sign up?", signup_account_url #:controller => 'account', :action => 'signup'
+            = link_to "Want to sign up?", new_account_path #:controller => 'account', :action => 'signup'
 
           %p.submit
             = submit_tag _('Login')

@@ -14,6 +14,7 @@ class Event < ActiveRecord::Base
   has_many :rsvps
   has_many :attendees, :through => :rsvps, :source => :user
   belongs_to :host, :class_name => 'User'#, :foreign_key => 'host_id'
+  delegate :allows?, :display_name, :to => :page
 
   validate :validates_date_range
   def validates_date_range
@@ -121,7 +122,7 @@ class Event < ActiveRecord::Base
     page_settings[:starts_at] = TzTime.new( starts_at, tz_time_zone ).utc if starts_at
     page_settings[:ends_at] = TzTime.new( ends_at, tz_time_zone ).utc if ends_at
     @date_start, @date_end, @hour_start, @hour_end = nil, nil, nil, nil
-    unless page_settings.values.compact.empty?
+    unless page_settings.values.compact.empty? || ( page.starts_at == page_settings[:starts_at] and page.ends_at == page_settings[:ends_at] )
       page.new_record? ? page.attributes = page_settings : page.update_attributes( page_settings )
     end
     

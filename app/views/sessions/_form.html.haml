@@ -15,7 +15,7 @@
 
   #loginoptions
     %p
-      = link_to _('Need a new account?'), { :action => 'signup', :redirect => params[:redirect]}
+      = link_to _('Need a new account?'), new_account_path( :redirect => params[:redirect] )
     %p
       = link_to _('Forgot your password?'), forgot_password_path
 
