@@ -41,12 +41,12 @@
 
       = render :partial => "shared/form/issues", :locals => {:f => ff}
       = render :partial => "shared/form/languages", :locals => {:f => ff}
-      = render :partial => "account/form/preferences", :locals => { :f => ff, :user => @profile.entity}
+      = render :partial => "accounts/form/preferences", :locals => { :f => ff, :user => @profile.entity}
       .section.timezone
         %p
           = ff.label :time_zone, "Time zone"
           = ff.time_zone_select :time_zone
-      = render :partial => "account/form/password", :locals => { :f => ff, :user => @profile.entity}
+      = render :partial => "accounts/form/password", :locals => { :f => ff, :user => @profile.entity}
 
     - %w[ email_address phone_number im_address web_resource location ].each do |section|
       - item_collection = instance_variable_get( "@#{section.pluralize}" );

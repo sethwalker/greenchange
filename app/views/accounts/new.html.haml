@@ -1,9 +1,11 @@
 .accounts.new.form
-  = error_messages_for :user, :profile, :header_message => "We had a problem creating your account"
-  - form_for :user, @user, account_path, :html => { :method => :post }  do |f| 
+  - form_for :user, @user, :url => account_path do |f| 
     .column.form-column.first
       .section.intro
-        %h1 Create your account
-        Thanks for signing up. You are joining a growing community of people who believe in grassroots democracy, justice, sustainability and non-violence.
+        - if errors = error_messages_for( :user, :profile, :header_message => "We had a problem creating your account" )
+          = errors
+        - else
+          %h1 Create your account
+          Thanks for signing up. You are joining a growing community of people who believe in grassroots democracy, justice, sustainability and non-violence.
     .column.form-column.last
       = render :partial => 'form', :locals => { :f => f }

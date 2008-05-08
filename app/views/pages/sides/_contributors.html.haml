@@ -1,22 +1,12 @@
-.section
-  .header
-    Created By
-  .icon-box
-    = render :partial => 'shared/list/person', :object => @page.created_by 
--#- if @page.contributors.any?
+- if @page.created_by and @page.created_by.enabled?
   .section
     .header
-      contributors
+      Created By
+    .icon-box
+      = render :partial => 'shared/list/person', :object => @page.created_by 
+- if @page.contributors.any? and @page.contributors.size > 1
+  .section
+    .header
+      Contributors
     -if @page.contributors.size > 1
-      = render :partial => 'avatars/boxes', :locals => {:people => @page.contributors, :side => "left"}
-    -elsif author = @page.contributors.first
-      = avatar_for author, 'huge'
-      .text
-        = link_to author.display_name, person_url(author)
-    -#
-      - @page.contributors.each do |u|
-        .sideline
-          = avatar_for u, 'xsmall'
-          = link_to_user u
-      -#= link_to 'contribution details', {:controller => 'pages', :action => 'participation', :id => @page}, :title => 'view contribution detail', :class => 'sidedetails'
-
+      = render :partial => 'shared/list/person', :collection => @page.contributors

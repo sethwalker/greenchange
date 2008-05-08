@@ -1,4 +1,5 @@
 class AccountsController < ApplicationController
+  before_filter :not_logged_in_required
 
   # Activate a new account action
   def show
@@ -24,11 +25,6 @@ class AccountsController < ApplicationController
   def create
     @user = User.new params[:user] 
     @profile = @user.build_private_profile params[:profile].merge(:friend => true, :entity => @user )
-
-    unless params[:agreed_to_terms] 
-      flash[:error] = "You must agree to the terms and conditions to sign up"
-      render :action => 'new' and return 
-    end
 
     if @user.save && @profile.save 
       flash[:notice] = "Thank you for signing up. <br />You must authenticate your account before you login. <br />Check your email inbox. <br/>There will be a short message telling you how to complete the creation of your account."

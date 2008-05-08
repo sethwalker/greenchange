@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe ContactController do
+describe ContactsController do
   before do
     @current_user = create_user
     login_user(@current_user)

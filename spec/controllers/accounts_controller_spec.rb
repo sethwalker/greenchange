@@ -9,13 +9,8 @@ describe AccountsController do
 
 
 
-  it "should respond to index" do
-    get :index
-    response.should be_success
-  end
-
-  describe "signup" do
-    it "should also respond to new" do
+  describe "new account" do
+    it "should respond to new" do
       post :new
       response.should be_success
     end

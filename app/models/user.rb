@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   include SocialUser
   include Crabgrass::ActiveRecord::Collector
 
+  validates_acceptance_of :terms_of_service, :message => 'must be agreed to before you can sign up'
   validates_presence_of :login
   validates_uniqueness_of :login
   validates_format_of :login, :with => /^[a-z0-9]+([-\+_]*[a-z0-9]+){1,49}$/, :message => 'may only contain letters, numbers, underscores, and hyphens'

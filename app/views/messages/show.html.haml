@@ -16,9 +16,10 @@
   .body
     = GreenCloth.new(@message.body).to_html
 
-- if current_user.may? :reply, @message
+- if current_user.may?( :reply, @message ) and @message.sender != current_user
   .section.reply
-    - form_for :message, Message.new, :url => person_messages_path(@message.sender) do |f|
-      = render :partial => 'form', :locals => {:f => f }
+    - reply = Message.new :recipient => @message.sender
+    - form_for :message, reply, :url => person_messages_path(@message.sender) do |f|
+      = render :partial => 'form', :locals => {:f => f, :message => reply }
       %p.submit
         = f.submit "Send Reply"

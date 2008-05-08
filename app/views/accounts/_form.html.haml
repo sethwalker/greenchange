@@ -25,9 +25,9 @@
       = f.text_field :email
 
     %p.agree
-      = check_box_tag :agreed_to_terms, nil, :checked => true
+      = f.check_box :terms_of_service, :checked => @user.terms_of_service || true
       - link_text = link_to "terms and conditions.", "http://greenchange.org/terms", :target => "blank"
-      = content_tag :label, "I agree to the  #{link_text}", :for => "agreed_to_terms"
+      = f.label :terms_of_service, "I agree to the  #{link_text}"
 
     %p.preference
       = check_box_tag "user[preferences][subscribe_to_email_list]", 1, ( @user.preference_for(:email_list).nil? ? true : @user.preference_for(:email_list))
@@ -39,7 +39,7 @@
         Share my information with other Green organizations.
 
     %p.submit
-      = submit_tag "Sign up"
+      = f.submit "Sign up"
       = hidden_field_tag( 'redirect', params[:redirect]) if params[:redirect]
 
 

@@ -3,7 +3,7 @@ ActionController::Routing::Routes.draw do |map|
   map.root    :controller => 'sessions', :action => 'new'
   map.login   '/login',   :controller => 'sessions',   :action => 'new'
   map.logout  '/logout',   :controller => 'sessions',   :action => 'destroy'
-  map.activate '/activate/:activation_code', :controller => 'account', :action => 'show'
+  map.activate '/activate/:activation_code', :controller => 'accounts', :action => 'show'
   map.forgot_password '/forgot_password',     :controller => 'passwords',   :action =>  'new'
   map.reset_password  '/reset_password/:id',  :controller => 'passwords',   :action =>  'edit'
   map.block_email '/block_email/:retrieval_code', :controller => 'emails', :action => 'block'
