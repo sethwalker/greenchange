@@ -31,9 +31,11 @@ class ContactsController < ApplicationController
   end
   
   def destroy
-    current_user.contacts.delete(@person)
-    message :success => '%s has been removed from your contact list.' / @person.login
-    redirect_to person_url(@person)
+    @contact = Contact.find params[:id]
+    current_user.may! :admin, @contact
+    @contact.destroy
+    flash[:notice] = "#{@contact.contact.display_name} has been removed from your contact list." 
+    redirect_to me_contacts_path
   end
 
 #  def remove

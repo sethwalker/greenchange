@@ -38,11 +38,11 @@ describe InvitationsController do
       end
       it "makes group invitations" do
         act!
-        assigns[:invitation].group.should == @group
+        assigns[:invitations].first.group.should == @group
       end
       it "assigns the current sender" do
         act!
-        assigns[:invitation].sender.should == @current_user
+        assigns[:invitations].first.sender.should == @current_user
       end
       it "checks that the sender is authorized to admin" do
         current_user = login_valid_user
@@ -51,6 +51,21 @@ describe InvitationsController do
         post :create, :group_id => @group.name, :invitation => { :recipient_id => @recipient.id }
       end
     end
+
+    describe "contact invitations" do
+      def act!
+        post :create, :invitation => { :recipient_id => @recipient.id, :body => 'i like u' }
+      end
+      it "should assign an invitation" do
+        act!
+        assigns[:valid_invitations].should_not be_empty
+        assigns[:invalid_invitations].should be_empty
+      end
+      it "should create a pending invitation" do
+        lambda{ act! }.should change( @recipient.invitations_received.pending, :count ).by(1)
+      end
+    end
+
     it_should_behave_like "message creation"
     def current_model; Invitation; end
     def object_name; :invitation; end
@@ -94,5 +109,22 @@ describe InvitationsController do
       end
 
     end
+  end
+
+  describe "contacts" do
+    before do
+      @invited_user = create_user
+    end
+    describe "new" do
+      it "should be a contact invitation" do
+        get :new
+        assigns[:invitation].should be_contact
+      end
+      it "should be an invitation to be contacts with the current user" do
+        get :new
+        assigns[:invitation].invitable.should  == @current_user
+      end
+    end
+
   end
 end

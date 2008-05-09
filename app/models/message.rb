@@ -24,7 +24,7 @@ class Message < ActiveRecord::Base
   # All other arguments to #spawn should be standard Message attributes
   def self.spawn( message_attrs )
     unless message_attrs[:recipients]
-      return [Message.new]
+      return [self.new( message_attrs )]
     end
     message_attrs.symbolize_keys!
     names = message_attrs.delete(:recipients)

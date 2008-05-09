@@ -16,5 +16,9 @@ class Contact < ActiveRecord::Base
   def destroy_reciprocal_contact
     Contact.delete_all [ 'contact_id = ? and user_id = ?', user_id, contact_id ]
   end
+
+  def allows?( requesting_user, action )
+    requesting_user.superuser? || requesting_user == self.user
+  end
     
 end

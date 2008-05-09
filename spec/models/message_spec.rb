@@ -90,6 +90,10 @@ describe Message do
       messages = Message.spawn( {}  )
       messages.first.should_not be_valid
     end
+    it "passes all existing params to a single message if there r no recipients" do
+      messages = Message.spawn( { :body => 'joe' }  )
+      messages.first.body.should == 'joe'
+    end
     
     it "returns an invalid message if recipients/logins do not exist" do
       User.stub!(:find_by_login).and_return(nil)

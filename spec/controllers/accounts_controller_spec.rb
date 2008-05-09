@@ -22,9 +22,9 @@ describe AccountsController do
       response.should render_template( 'new' )
     end
 
-    it "should put an error in the flash about the agreement" do
-      post :create, :user => {}, :profile => {}
-      flash[:error].should match(/agree/)
+    it "should show an error about the agreement" do
+      post :create, :user => { :terms_of_service => 0 }, :profile => {}
+      assigns[:user].should have_at_least(1).errors_on(:terms_of_service)
     end
 
     it "should not allow signup if the user doesn't validate" do
