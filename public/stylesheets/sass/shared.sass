@@ -55,24 +55,28 @@
     :width = !main_column_section_width 
 
 .content-list
-  .section .list-item
+  .list-item
     :background-image none
     .list-description
       :width = !main_column_width - 120px
       body.ie6 &
-        -#:width = !main_column_width - 120px - !ie_padding_offset
+        :width = !main_column_width - 130px  
       #main.wideside &
-        :width = !main_column_wideside_width - 120px
+        :width = !main_column_wideside_width - 120px 
         body.ie6 &
-          :width = !main_column_wideside_width - 120px - !ie_padding_offset
+          :width = !main_column_wideside_width - 120px 
       .title-block
         :width = !main_column_width - !list_menu_width - 120px
         :float left
+        body.ie6 &
+          :width = !main_column_width - !list_menu_width - 130px
         #main.wideside &
           :width = !main_column_wideside_width - !list_menu_width - 120px
   .column .list-description
     #main.noside &
       :width = !main_column_noside_width  /2  - 120px
+      .title-block
+        :width 170px
       body.ie6 &
         :width = ( !main_column_noside_width - !ie_padding_offset  - 240px) / 2
   .column .section
@@ -110,7 +114,7 @@
     #main.wideside &
       :width = !main_column_wideside_width - 8px
       body.ie6 &
-        :width = !main_column_wideside_width - !ie_padding_offset - 8px
+        :width = !main_column_wideside_width - !ie_padding_offset - 8px 
   .column .list-item
     #main.noside &
       :width = ( !main_column_noside_width - 50px ) / 2
@@ -152,6 +156,7 @@
 .list-thumb
   :float left
   :margin-right 1em
+
 .list-description
   :float left
   :color #555555
@@ -207,9 +212,10 @@
       :line-height 25px
     .icon.small
       :float left
-      :width 18px
-      :height 18px
-      :margin-top -5px
+      :width 28px
+      :height 28px
+      :margin-top 5px
+      :background-position top left
 
 .promo
   :padding 0px
@@ -358,7 +364,7 @@ ul.tab-block.active
       :overflow hidden
 
 a.icon.standard.name-bottom
-  :padding-top 67px
+  :padding-top 78px
   :height 20px
   :overflow hidden
   :font-size 10px
@@ -371,6 +377,8 @@ a.icon.standard.name-right
   :padding 12px 45px 2px
   :width 100%
   :height 10px
+  body.ie6 &
+    :width 80%
 
 .row-listing
   :float left
