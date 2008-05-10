@@ -1,0 +1,18 @@
+- content_for :title do
+  - if @group
+    = icon_for( @group, :size => :medium ) 
+    %h1 
+      = "Join #{@group.display_name}" 
+  - else
+    %h1 Want to join a group?
+  Include a message to the group hosts explaining why you'd like to join
+
+  = error_messages_for :join_request
+
+.new.invitation.form.with-editor
+  - form_for :join_request, @join_request, :url => scoped_path( :requests ) do |f|
+    = render :partial => 'form', :locals => { :f => f, :join_request => @join_request }
+    %p.submit
+      = f.submit "Send"
+
+

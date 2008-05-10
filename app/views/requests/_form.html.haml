@@ -1,0 +1,5 @@
+= render :partial => 'messages/form', :locals => { :f => f, :message => join_request }
+.column.form-column.last
+  %p
+    = f.label :group_id, "Join Group"
+    = f.select :group_id, Group.find(:all).map { |g| [g.display_name, g.id] }
