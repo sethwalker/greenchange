@@ -138,7 +138,7 @@ ActionController::Routing::Routes.draw do |map|
     page_routes(tag)
   end
 
-  map.resources :invitations
+  map.resources :invitations, :member => { :accept => :put, :ignore => :put }
   #map.people 'people/:action/:id', :controller => 'people'
   #map.connect 'person/:action/:id/*path', :controller => 'person'
 

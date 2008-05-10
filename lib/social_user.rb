@@ -189,6 +189,7 @@ module SocialUser
 
         has_many :contact_requests_sent, :class_name => 'ContactRequest'
         has_many :contact_requests_received, :class_name => 'ContactRequest', :foreign_key => 'contact_id'
+
       end
     end
 

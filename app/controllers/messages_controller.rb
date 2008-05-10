@@ -1,4 +1,5 @@
 class MessagesController < ApplicationController
+  include MessageSpawner
 
   before_filter :login_required
   def show
@@ -19,9 +20,9 @@ class MessagesController < ApplicationController
     end
     redirect_to me_inbox_path and return if @invalid_messages.empty?
 
-    @message = Message.new message_params
-    @message.recipients = @invalid_messages.map { |m| m.recipients }.join(', ')
-    @message.errors.add :recipients, "couldn't send to: " + @message.recipients
+    @message = distill_errors_to_singular( @invalid_messages, Message.new( message_params ))
+    #@message.recipients = @invalid_messages.map { |m| m.recipients }.join(', ')
+    #@message.errors.add :recipients, "couldn't send to: " + @message.recipients
     render :action => 'new'
   end
 

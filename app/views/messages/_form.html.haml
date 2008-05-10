@@ -1,7 +1,8 @@
 .column.form-column.first
-  %p
-    = f.label :subject, "Subject"
-    = f.text_field :subject
+  - unless message.is_a?( Invitation ) or message.is_a?(JoinRequest)
+    %p
+      = f.label :subject, "Subject"
+      = f.text_field :subject
   - unless message.recipient
     .section
       %p

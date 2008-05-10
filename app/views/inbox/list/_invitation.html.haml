@@ -9,7 +9,7 @@
       - elsif invitation.event?
         = link_to "Invitation to attend #{invitation.event.display_name}", event_path(invitation.event.page)
       - elsif invitation.contact?
-        = link_to "Contact Invitation from #{invitation.contact}", person_path(invitation.contact)
+        = link_to "Contact Invitation from #{invitation.contact.display_name}", person_path(invitation.contact)
 
     %td.view-indicator-stub
     %td.from
@@ -17,11 +17,10 @@
     %td.arrived
       = friendly_date( invitation.created_at )
     %td.toolbar.list-menu
-      - if invitation.event?
-        .icon
-          = button_to "Accept", accept_invitation_path(invitation), :method => :put, :class => 'add action', :title => 'Accept'
-        .icon
-          = button_to "Ignore", ignore_invitation_path(invitation), :method => :put, :class => 'ignore action', :title => 'Ignor'
+      .icon
+        = button_to "Accept", accept_invitation_path(invitation), :method => :put, :class => 'add action', :title => 'Accept'
+      .icon
+        = button_to "Ignore", ignore_invitation_path(invitation), :method => :put, :class => 'ignore action', :title => 'Ignore'
 
   %tr.row.message-body
     %td

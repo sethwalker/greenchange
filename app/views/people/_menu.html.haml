@@ -1,6 +1,6 @@
 - if logged_in? and current_user != person
   .icon
-    = link_to 'Send message', new_message_url( :person_id => person.login), :class => 'action message'
+    = link_to 'Send message', new_person_message_path( person ), :class => 'action message'
   - if current_user.may_pester? person
     .icon
       = link_to 'Invite to group', new_person_invitation_path(person, :invitation_type => 'group'), :class => 'action group invitation'
@@ -9,9 +9,9 @@
     -#- if person.online?
       .icon
         = link_to 'Chat', request_chat_person_url(person), :class => 'action chat online', :title => 'Currently Online'
-  - unless current_user.contacts.include?( person )
+  - if existing_contact = current_user.contact_for( person )
     .icon
-      = link_to 'Add contact', new_person_contact_url(person), :class => 'action contact_request'
+      = link_to 'Remove contact', me_contact_path(existing_contact), :method => :delete, :class => 'action delete'
   - else
     .icon
-      = link_to 'Remove contact', me_contact_path(person), :method => :delete, :class => 'action delete'
+      = link_to 'Add contact', new_person_invitation_path(person), :class => 'action contact_request'

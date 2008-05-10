@@ -23,9 +23,10 @@ describe InvitationsController do
     end
 
     it "should create new invitations to events" do
-      @event = Tool::Event.create :title => 'pass'
-      Tool::Event.stub!(:find ).and_return @event
-      get :new, :event_id => @event.to_param
+      event_page = Tool::Event.create :title => 'pass'
+      @event = event_page.build_data :is_all_day => true, :page => event_page
+      Tool::Event.stub!(:find ).and_return event_page
+      get :new, :event_id => event_page.to_param
       assigns[:invitation].invitable.should == @event
     end
 

@@ -1,4 +1,5 @@
 class InvitationsController < ApplicationController
+  include MessageSpawner
   before_filter :login_required
   before_filter :group_admin_required
   before_filter :get_invitation_type
@@ -33,9 +34,18 @@ class InvitationsController < ApplicationController
     redirect_to me_inbox_path and return if @invalid_invitations.empty?
 
     # for redisplaying any errors, use a singular @invitation
-    @invitation = Invitation.new invitation_params
-    @invitation.recipients = @invalid_invitations.map { |m| m.recipients }.join(', ')
-    @invitation.errors.add :recipients, "couldn't send to: " + @invitation.recipients
+    @invitation = distill_errors_to_singular( @invalid_invitations, Invitation.new( invitation_params ))
+#    @invitation = Invitation.new invitation_params
+#    @invitation.recipients = @invalid_invitations.map { |m| m.recipients }.join(', ')
+#    #@invitation.errors.add :recipients, "couldn't send to: " + @invitation.recipients
+#    @invalid_recipients = []
+#    @invalid_invitations.each do |invalid_invite|
+#      invalid_invite.errors.each do |attr, msg| 
+#        ( @invalid_recipients << invalid_invite.recipients ) and next if attr == :recipient
+#        @invitation.errors.add attr, msg
+#      end
+#    end
+#    @invitation.errors.add :recipients, "couldn't send to: " + @invalid_recipients.join(', ')
     render :action => 'new'
   end
 
@@ -60,7 +70,7 @@ class InvitationsController < ApplicationController
     current_object.ignore!
     if current_object.ignored?
       after :ignore
-      flash[:notice] = "Invitation ignored"
+      flash[:notice] = "You ignored this invitation"
       redirect_to me_inbox_path
     else
       after :ignore_fails
@@ -74,10 +84,10 @@ class InvitationsController < ApplicationController
   def object_parameters
     defaults = super || {}
     invitable = {}
-    if @group || ( params[:invitation_type] == 'group' ) 
+    if @group || ( get_invitation_type == 'group' ) 
       invitable[:group] = ( @group  || Group.new )
-    elsif @event || ( params[:invitation_type] == 'event' ) 
-      invitable[:event] = @event || Event.new
+    elsif @event || ( get_invitation_type == 'event' ) 
+      invitable[:event] = ( @event && @event.try(:data) ) || Event.new
     else
       invitable[:contact] = current_user
     end
@@ -90,7 +100,19 @@ class InvitationsController < ApplicationController
   end
 
   def get_invitation_type
-    @invitation_type = params[:invitation_type]
+    @invitation_type ||= params[:invitation_type]
+  end
+
+  def load_context
+    super
+    if params[:invitation]
+      @group = Group.find params[:invitation][:group_id] if params[:invitation][:group_id]
+      if params[:invitation][:event_id]
+        event = Event.find params[:invitation][:group_id] 
+        @event = event.page
+      end
+    end
   end
   
+
 end

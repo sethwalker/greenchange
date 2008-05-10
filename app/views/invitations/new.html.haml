@@ -1,12 +1,32 @@
 - content_for :title do
-  = icon_for( @group, :size => :medium ) if @group
-  = icon_for( @event, :size => :medium ) if @event
-  %h1 
-    Send invitation
-    = "to join #{@group.display_name}"  if @group
-    = "to attend #{@event.display_name}"  if @event
+  - if group_invitation?
+    - if @group
+      = icon_for( @group, :size => :medium ) 
+      %h1 
+        Invite people 
+        = "to join #{@group.display_name}" 
+    - else
+      %h1 Send group invitation
 
-  = error_messages_for :message
+  - elsif event_invitation?
+    - if @event
+      = icon_for( @event, :size => :medium )
+      %h1 
+        Send invitation
+        = "to attend #{@event.display_name}"  
+    - else
+      %h1 Send event invitation
+
+  - elsif contact_invitation?
+    - if @person
+      = icon_for( @invitation.contact, :size => :medium ) 
+      %h1 
+        Send contact invitation
+        = "to #{@person.display_name}" 
+    - else
+      %h1 Send contact invitation
+
+  = error_messages_for :invitation
 
 .new.invitation.form.with-editor
   - form_for :invitation, @invitation, :url => scoped_path( :invitations ) do |f|

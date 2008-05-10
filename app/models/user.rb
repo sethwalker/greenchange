@@ -254,4 +254,8 @@ class User < ActiveRecord::Base
   has_many :events, :foreign_key => 'host_id'
   has_many :rsvps
   has_many :attending, :through => :rsvps, :source => :events
+
+  def contact_for( user )
+    contact_relationships.find :first, :conditions => ["contact_id = ?", user]
+  end
 end

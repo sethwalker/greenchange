@@ -27,7 +27,7 @@ describe "message creation", :shared => true  do
   end
 
   it "targets invalid recipients in the message error" do
-    spawn_returns([Message.new, Message.new, Message.create( :sender => create_valid_user, :recipient => create_valid_user ) ])
+    spawn_returns([ Message.new, Message.new( :recipients => 'invalid' ), Message.new( :sender => create_valid_user, :recipient => User.new, :recipients => 'invalid' ) ] )
     act!
     assigns[object_name].errors.should_not be_empty
     assigns[object_name].errors.any?{ |e| e.last =~ /couldn.t send/}.should be_true

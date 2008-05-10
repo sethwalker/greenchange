@@ -9,7 +9,7 @@
 -#member menu
 - if current_user.member_of? group
   .icon  
-    = link_to "Invite members", invite_group_memberships_path(group) , :class => 'action membership_request', :title => 'Invite New Members'
+    = link_to "Invite members", new_group_invitation_path(group) , :class => 'action invite invite-group', :title => 'Invite New Members'
   .icon
     = link_to "Create page", new_group_page_path(group), :class => 'action create', :title => 'Add a Page'
   .icon
