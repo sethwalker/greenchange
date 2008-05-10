@@ -5,6 +5,12 @@ class RequestsController < ApplicationController
   make_resourceful do
     actions :new, :create, :show
     response_for(:show ) { |format| format.html { redirect_to message_path( current_object ) }}
+    response_for(:create) do |format| 
+      format.html do 
+        flash[:notice] = "Your request to join this group has been sent"
+        redirect_to ( current_object.group? ? group_path( current_object.group) : me_inbox_path ) 
+      end 
+    end
   end
 
   def index
@@ -58,8 +64,12 @@ class RequestsController < ApplicationController
   def get_request_type
     @request_type = params[:request_type]
   end
+
   def current_model_name
     "JoinRequest"
+  end
+  def instance_variable_name
+    "join_requests"
   end
 
   

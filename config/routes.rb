@@ -97,20 +97,11 @@ ActionController::Routing::Routes.draw do |map|
     me.resources :bookmarks
     page_routes me
   end
-    #me.inbox 'inbox/:path', :controller => 'inbox', :action => 'index'
-    #me.inbox 'inbox', :controller => 'inbox', :action => 'index'
-    #me.resource :profile, :controller => 'profiles'#, :me => true #, :action => 'show'
-    #me.requests 'requests/:action/*path', :controller => 'requests'
-    #me.network 'network', :controller => 'network', :me => true
-    #me.content 'content', :controller => 'tool/base', :me => true
-    #me.events 'events', :controller => 'tool/event', :me => true
-  #end
   
-  #map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|calendar|search/
-
-  map.resources :groups, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |group|
+  map.resources :groups do |group|
     group.resources :people
     group.resources :invitations
+    group.resources :requests
     #group.resources :memberships, :controller => 'membership', :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put, :promote => :put }
     group.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put, :promote => :put }
     group.resource :profile, :controller => 'group/profiles'
@@ -119,11 +110,11 @@ ActionController::Routing::Routes.draw do |map|
     group.chat 'chat', :controller => 'chat', :action => 'channel'
     page_routes(group)
   end
-  #map.connect 'invitations/:invitation_type/new', :controller => 'invitations', :action => 'new'
-  map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|search|calendar_month|list_by_day|list_by_week|list_by_month/
+
+  #map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|search|calendar_month|list_by_day|list_by_week|list_by_month/
   map.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
 
-  map.resources :people, :member => {:search => :get, :requests => :get, :edit_profile => :any} do |person|
+  map.resources :people do |person|
     person.resources :invitations
     person.resources :groups#, :collection => {:join => :get, :invite => :get, :leave => :get, :approve => :put }
     person.resources 'contacts', :controller => 'contact'#, :member => { :approve => :post, :reject => :post }
