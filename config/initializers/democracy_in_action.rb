@@ -1,4 +1,3 @@
-=begin
 DemocracyInAction::API.__send__ :class_variable_set, :@@DEFAULT_URLS, { 'get' => 'http://salsa.wiredforchange.com/dia/api/get.jsp', 'process' => 'http://salsa.wiredforchange.com/dia/api/process.jsp', 'delete' => 'http://salsa.wiredforchange.com/dia/deleteEntry.jsp' }
 
 require 'net/https'
@@ -40,7 +39,6 @@ class DemocracyInAction::API
   end
   alias_method_chain :delete, :login
 end
-=end
 
 DemocracyInAction.configure do
   begin

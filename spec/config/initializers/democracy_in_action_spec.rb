@@ -1,14 +1,9 @@
 require File.dirname(__FILE__) + '/../../spec_helper'
-require File.dirname(__FILE__) + '/../../../lib/crabgrass_config'
 
 describe "DemocracyInAction initializer" do
   it "should load without error" do
     Profile.included_modules.should include(DemocracyInAction::Mirroring::ActiveRecord)
   end
-
-  ENV['DIA_USER'] = "test"
-  ENV['DIA_PASS'] = "test"
-  ENV['DIA_ORG'] = "962"
 
   #should probably move this
   if !ENV['DIA_USER'].empty? && !ENV['DIA_PASS'].empty? && !ENV['DIA_ORG'].empty?
@@ -37,12 +32,26 @@ describe "DemocracyInAction initializer" do
           @timestamp += 1
           login = "greenchange_test_#{@timestamp}"
           email = "#{login}_#{@timestamp}@radicaldesigns.org"
-          @user = create_valid_user(:email => email, :profile => {:first_name => 'firstly', :last_name => 'lastly', :organization => 'organizationally'})
-          # new_user(:email => email, :private_profile => nil)
-          #@private_profile = @user.build_private_profile(:first_name => 'firstly', :last_name => 'lastly', 
-          #:organization => 'organizationally', :friend => true, :entity => @user)
-          #@user.save
+          #          @user = create_valid_user(:email => email, :profile => {:first_name => 'firstly', :last_name => 'lastly', :organization => 'organizationally'})
+          @user = create_user(:email => email)
+          @user.private_profile.update_attributes(:first_name => 'firstly', :last_name => 'lastly', :organization => 'organizationally', :entity => @user)
           @profile_proxy = @user.private_profile.democracy_in_action_proxies.find_by_remote_table('supporter')
+        end
+
+        describe "DIA supporter" do
+          before do
+            @proxy = @user.private_profile.democracy_in_action_proxies.find_by_remote_table('supporter')
+            @remote_user = DemocracyInAction::Mirroring.api.get('supporter', @proxy.remote_key).first
+          end
+          it "should have the first name" do
+            @remote_user['First_Name'].should == 'firstly'
+          end
+          it "should have the last name" do
+            @remote_user['Last_Name'].should == 'lastly'
+          end
+          it "should have organization" do
+            @remote_user['Organization'].should == 'organizationally'
+          end
         end
 
         it "should save a proxy" do
@@ -77,11 +86,14 @@ describe "DemocracyInAction initializer" do
             end
 
             it "should be added to allow_info_sharing DIA group" do
-              @group_remote['group_KEY'].should == Crabgrass::Config.dia_subscribe_to_email_list_group_id.to_s
+              @group_remote['groups_KEY'].should == Crabgrass::Config.dia_allow_info_sharing_group_id.to_s
             end
           end
         end
       end
+    end
+  end
+end
 
 =begin
       describe "DIA subscribe to email list" do
@@ -91,22 +103,3 @@ describe "DemocracyInAction initializer" do
         end
       end
 =end
-
-
-      describe "the DIA record" do
-        before do
-          @remote_user = DemocracyInAction::Mirroring.api.get('supporter', @proxy.remote_key).first
-        end
-        it "should have the first name" do
-          @remote_user['First_Name'].should == 'firstly'
-        end
-        it "should have the last name" do
-          @remote_user['Last_Name'].should == 'lastly'
-        end
-        it "should have organization" do
-          @remote_user['Organization'].should == 'organizationally'
-        end
-      end
-    end
-  end
-end
