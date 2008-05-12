@@ -10,7 +10,7 @@
   = error_messages_for :join_request
 
 .new.invitation.form.with-editor
-  - form_for :join_request, @join_request, :url => scoped_path( :requests ) do |f|
+  - form_for :join_request, @join_request, :url => scoped_path( :join_requests ) do |f|
     = render :partial => 'form', :locals => { :f => f, :join_request => @join_request }
     %p.submit
       = f.submit "Send"

@@ -25,7 +25,7 @@ class MembershipsController < ApplicationController
   end
 
   def new
-    redirect_to new_group_request_path(@group)
+    redirect_to new_group_join_request_path(@group)
     #return if request_already_exists?
     #@membership_request = MembershipRequest.new :user => current_user, :group => @group
 

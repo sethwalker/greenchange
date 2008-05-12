@@ -69,6 +69,10 @@
     .action.ignore
       :background-image url(/images/actions/mail-mark-not-junk.png)
       :background-position -1px -1px
+    .action.accept,
+    .action.approve
+      :background-image url(/images/actions/thumbs_up_left.png)
+
   .offset-row.admin
     :clear both
     :padding-bottom .5em
@@ -76,6 +80,7 @@
     :border 1px solid
       :color = !admin_toolbar_border
     :float left 
+
   .add, .new
     :background-position 2px 2px
     :background-image url(/images/actions/plus.png)  
@@ -133,9 +138,17 @@
       :width 30px
       :float right
 
+
+
 .toolbar.inline
   :float none
   :display inline
+  :max-width none
+  :width auto
+  .icon
+    :clear none
+    :width auto
+    :padding-right 10px
   #titlebox &
     :float none
   input.action
@@ -151,5 +164,3 @@
     &:hover
       :color = !link_text_hover
       :text-decoration underline
-
-

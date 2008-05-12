@@ -3,23 +3,13 @@
     = render :partial => 'menu'
   = icon_for @message.sender
   %h1
-    Message from 
-    = @message.sender.display_name
+    - if @message.subject?
+      = h @message.subject
+    - else
+      Message from 
+      = @message.sender.display_name
   .date
     %label Sent
     = friendly_date( @message.created_at )
-  .subject
-    %label Re
-    = h @message.subject
 
-.message.show
-  .body
-    = GreenCloth.new(@message.body).to_html
-
-- if current_user.may?( :reply, @message ) and @message.sender != current_user
-  .section.reply
-    - reply = Message.new :recipient => @message.sender
-    - form_for :message, reply, :url => person_messages_path(@message.sender) do |f|
-      = render :partial => 'form', :locals => {:f => f, :message => reply }
-      %p.submit
-        = f.submit "Send Reply"
+= render :partial => 'message', :locals => { :message => @message }

@@ -66,7 +66,7 @@ module SocialUser
       base.instance_eval do
         has_many :memberships, :foreign_key => 'user_id', :dependent => :destroy, :after_add => :update_membership_cache, :after_remove => :update_membership_cache
         
-        has_many :membership_requests
+        has_many :join_requests, :class_name => 'JoinRequest'
         has_many :membership_invitations, :class_name => 'MembershipRequest', :conditions => [ 'state = ? and approved_by_id IS NOT ?', 'pending', nil ]
 
         has_many :groups, :foreign_key => 'user_id', :through => :memberships do
@@ -111,7 +111,7 @@ module SocialUser
 
       def membership_requests_received_and_pending
         groups_administering.inject([]) do |requests, g|
-          requests += g.membership_requests.select{ |r| r.pending? }
+          requests += g.join_requests.pending
         end
       end
 

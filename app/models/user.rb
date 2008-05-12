@@ -228,7 +228,7 @@ class User < ActiveRecord::Base
   end
 
   has_many :messages_sent, :class_name => 'Message', :foreign_key => 'sender_id'
-  has_many :messages_received, :class_name => 'Message', :foreign_key => 'recipient_id', :conditions => "type IS NULL"
+  has_many :messages_received, :class_name => 'Message', :foreign_key => 'recipient_id'
   has_many :invitations_received, :class_name => 'Invitation', :foreign_key => 'recipient_id', :conditions => "state = 'pending'"
   #has_many :messages_received, :through => :participations, :source => 'page', :conditions => ["type = ?", 'Tool::Message' ]
 

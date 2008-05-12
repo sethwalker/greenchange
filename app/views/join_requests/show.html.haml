@@ -1,0 +1,17 @@
+- content_for :title do
+  .title-menu.toolbar
+    = render :partial => 'messages/menu', :locals => {:item => @join_request }
+  = icon_for @join_request.sender
+  %h1
+    Request to join
+    - if @join_request.group?
+      = link_to @join_request.group.display_name, group_path(@join_request.group)
+  .sender
+    %label From 
+    = @join_request.sender.display_name
+  .date
+    %label Received
+    = friendly_date( @join_request.created_at )
+
+= render :partial => 'messages/message', :locals => { :message => @join_request }
+

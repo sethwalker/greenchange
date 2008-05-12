@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
-describe RequestsController do
+describe JoinRequestsController do
   before do
     login_valid_user
   end
@@ -10,9 +10,9 @@ describe RequestsController do
       @req = JoinRequest.create :sender => create_valid_user, :requestable => create_valid_group
       JoinRequest.stub!(:find).and_return(@req)
     end
-    it "redirects to messages show" do
+    it "checks authorization" do
+      @req.should_receive(:allows?)
       get :show, :id => 1
-      @response.should redirect_to(message_path(@req))
     end
   end
 

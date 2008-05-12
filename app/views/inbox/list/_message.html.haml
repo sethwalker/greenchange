@@ -1,32 +1,38 @@
 - color = cycle( 'shade-odd', 'shade-even')
 - item = message
-%tbody.message-block{ :class => color }
-  %tr.row.message-meta{:class => ( item.try(:unread?) ? 'unread' : '' ) }
-    %td.page_icon
-      = link_to ' ', message_path(item), html_options_for_icon_for(item.sender, :size => :small )
-    %td.title
-      = item.subject
-    %td.view-indicator-stub
-    %td.from
-      = link_to item.sender.login, person_path( item.sender )
-    %td.arrived
-      = friendly_date( item.created_at )
-    %td.toolbar.list-menu
-      .icon
-        = link_to "Reply", new_person_message_path(item.sender), :class => 'reply action', :title => 'Send Reply'
-      .icon
-        = button_to "Delete", message_path(item), :method => :delete, :class => 'ignore action', :title => 'Delete this message'
+%li.message-block{ :class => color }
+  .message-meta-block{:class => ( item.try(:unread?) ? 'unread' : '' ) }
+    .page-icon
+      = link_to ' ', person_path(item.sender), html_options_for_icon_for(item.sender, :size => :small )
+    .message-meta
+      .subject{ :title => "Subject" }
+        %h3
+          - if item.subject?
+            = item.subject
 
-  %tr.row.message-body
-    %td
-      .toolbar.list-menu
-        .icon
-          = link_to "View", message_url(item), :class => 'action view', :title => 'View separately'
+          - if item.requestable_id?
+            - if item.group?
+              Join Request for
+              = link_to item.group.display_name, group_path(item.group)
 
-    %td.message{:colspan => 4}
-      - if item.body
-        = GreenCloth.new(item.body).to_html
+          = render( :partial => 'invitations/subject', :locals => { :item => item } ) if item.invitable_id?
+      .byline
+        .sender{ :title => "Sender" }
+          From:
+          = link_to item.sender.display_name, person_path( item.sender )
+        .received{ :title => "Received" }
+          Received:
+          = friendly_date( item.created_at )
+
+    .toolbar.list-menu.inline
+      = render :partial => 'messages/menu', :locals => { :item => item }
+
+  .message-body
+    .message
+      - if item.body?
+        .message-outline
+          = GreenCloth.new(item.body).to_html
       - else
-        No message attached
-    %td
+        .empty
+          No message attached.
 

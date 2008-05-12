@@ -85,7 +85,7 @@ ActionController::Routing::Routes.draw do |map|
     me.network  'network', :controller => 'network'#, :me => true
     #me.events   'events'#,  :controller => 'event'#, :me => true
     #me.content  'pages', :controller => 'tool/base'
-    me.resources :contacts, :controller => 'contact', :member => { :approve => :post, :reject => :post, :add => :get }
+    me.resources :contacts, :controller => 'contact'
   end
   #map.resource :profile, :controller => 'profiles', :path_prefix => 'me/', :name_prefix => 'my'
   map.resource :me, :controller => 'me', :member => { :search => :get, :files => :get, :tasks => :get, :invite => :get, :send_invitation => :post } do |me|  
@@ -101,7 +101,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :groups do |group|
     group.resources :people
     group.resources :invitations
-    group.resources :requests
+    group.resources :join_requests, :member => { :approve => :put, :ignore => :put }
     #group.resources :memberships, :controller => 'membership', :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put, :promote => :put }
     group.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put, :promote => :put }
     group.resource :profile, :controller => 'group/profiles'
@@ -130,6 +130,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   map.resources :invitations, :member => { :accept => :put, :ignore => :put }
+  map.resources :join_requests, :member => { :approve => :put, :ignore => :put } 
   #map.people 'people/:action/:id', :controller => 'people'
   #map.connect 'person/:action/:id/*path', :controller => 'person'
 

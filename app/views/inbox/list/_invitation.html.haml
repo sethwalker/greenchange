@@ -17,10 +17,7 @@
     %td.arrived
       = friendly_date( invitation.created_at )
     %td.toolbar.list-menu
-      .icon
-        = button_to "Accept", accept_invitation_path(invitation), :method => :put, :class => 'add action', :title => 'Accept'
-      .icon
-        = button_to "Ignore", ignore_invitation_path(invitation), :method => :put, :class => 'ignore action', :title => 'Ignore'
+      = render :partial => 'menu', :locals => { :item => invitation }
 
   %tr.row.message-body
     %td

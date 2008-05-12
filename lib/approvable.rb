@@ -10,8 +10,8 @@ module Approvable
 
       event :approve do
         transitions :from => :pending, :to => :approved, :guard => :approval_allowed
-        transitions :from => :rejected, :to => :approved
-        transitions :from => :ignored, :to => :approved
+        transitions :from => :rejected, :to => :approved, :guard => :approval_allowed
+        transitions :from => :ignored, :to => :approved, :guard => :approval_allowed
       end
       event :accept do
         transitions :from => :pending, :to => :accepted

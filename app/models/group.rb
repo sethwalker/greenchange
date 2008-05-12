@@ -129,7 +129,7 @@ class Group < ActiveRecord::Base
   has_many :memberships, :dependent => :destroy,
     :after_add => :membership_changed, :after_remove => :membership_changed  
 
-  has_many :membership_requests
+  has_many :join_requests, :as => :requestable, :class_name => 'JoinRequest'
 
   has_many :gives_permissions,  :as => 'grantor', :class_name => 'Permission'
   has_many :given_permissions,  :as => 'grantee', :class_name => 'Permission'

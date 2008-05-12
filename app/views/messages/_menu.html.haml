@@ -1,2 +1,20 @@
-.icon
-  = link_to "Reply", new_person_message_path(@message.sender), :class => 'action message'
+- unless controller.request.path == polymorphic_path(item)
+  .icon
+    = link_to "Reply", polymorphic_path(item), :class => 'reply action', :title => 'Send Reply'
+
+- if item.requestable_id? and current_user.may?( :admin, item.requestable )
+  .icon
+    = button_to "Approve",  approve_join_request_path(item), :method => :put, :class => 'action approve approve-request',:title => 'Approve'
+  .icon
+    = button_to "Ignore",   ignore_join_request_path(item),  :method => :put, :class => 'ignore action', :title => 'Ignore'
+
+- elsif item.invitable_id? 
+  .icon
+    = button_to "Accept", accept_invitation_path(item), :method => :put, :class => 'action accept accept-invitation', :title => 'Accept'
+  .icon
+    = button_to "Ignore", ignore_invitation_path(item), :method => :put, :class => 'ignore action', :title => 'Ignore'
+
+- else
+  .icon
+    = button_to "Delete", message_path(item), :method => :delete, :class => 'ignore action', :title => 'Delete this message'
+

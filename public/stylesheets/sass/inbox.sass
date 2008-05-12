@@ -1,16 +1,53 @@
 @import colors
 body.inbox
+  #inbox-list
+    ul.section
+      :width 100%
   .message-block
+    :margin-bottom 5px
+    :border 
+      :top 1px solid transparent
+      :bottom 1px solid transparent
+      :left = 1px solid !inbox_border
+      :right = 1px solid !inbox_border
     &.shade-even
       &:hover
         :background-color = !row_shade_even_bg - !highlight_lighter / 2
     &.shade-odd
       &:hover
         :background-color = !row_shade_odd_bg - !highlight_lighter 
-    .view-indicator
-      :width 26px
-  .message-meta:hover .view-indicator
-    :background url(/images/actions/sort-down.png) no-repeat 0px 10px
-  .message-block.expanded .message-meta:hover .view-indicator
-    :background url(/images/actions/sort-up.png) no-repeat 0px 5px
+    &:hover
+      :border 
+        :top = 1px solid !inbox_border_highlight
+        :bottom = 1px solid !inbox_border_highlight
+  .message-meta-block, .message-body, .message-block
+    :clear both
+    :float left
+    :width 100%
+  .list-menu
+    :float right
+    .action
+      :padding-bottom 3px
+  .message-meta
+    :padding 4px
+    :float left
+    h3
+      :margin 0
+    .byline
+      :clear both
+      div
+        :float left
+        :margin-right 8px
+  .message-body
+    .empty
+      :padding-left 5px
+    p
+      :margin 0
+  .message-outline
+    :border = 1px !inbox_border
+      :top-style solid
+      :bottom-style solid
+    :background = !inbox_message_bg
+    :padding-left 5px
+    :margin-bottom 3px
 

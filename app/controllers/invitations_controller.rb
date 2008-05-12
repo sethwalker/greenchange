@@ -6,8 +6,8 @@ class InvitationsController < ApplicationController
 
   make_resourceful do
     actions :new, :destroy, :show
-    before( :destroy ) { current_user.may! :admin, current_object }
-    response_for(:show ) { redirect_to message_path( params[:id] ) }
+    before( :destroy ) { current_user.may!( :admin, current_object ) }
+    before( :show ) { current_user.may! :view, current_object }
     response_for(:destroy)  { |format| format.html { redirect_to :back }}
     response_for(:create)   do |format| 
       format.html do

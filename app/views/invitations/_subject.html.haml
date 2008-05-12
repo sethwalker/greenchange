@@ -1,0 +1,10 @@
+- if item.group?
+  Invitation to join 
+  = link_to item.group.display_name, group_path(item.group)
+- elsif item.event?
+  = Invitation to attend
+  = link_to item.event.display_name, event_path(item.event)
+- elsif item.contact?
+  Contact Invitation from 
+  = link_to item.contact.display_name, person_path(item.contact)
+

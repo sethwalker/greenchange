@@ -6,9 +6,11 @@ class Message < ActiveRecord::Base
   validates_presence_of :sender_id
   validates_presence_of :recipient_id, :if => :recipient_required?
   attr_accessor :recipients
+  #acts_as_state_machine :initial => :pending, :column => 'read_state'
 
   has_finder :to, Proc.new { |recipient| { :conditions => [ "messages.recipient_id = ?", recipient ] }}
   has_finder :from, Proc.new { |sender|  { :conditions => [ "messages.sender_id = ?", sender ] }}
+  has_finder :pending, { :conditions => [ "messages.state = ?", "pending" ] }
 
   def allows?( user, action )
     return false unless user == sender or user == recipient

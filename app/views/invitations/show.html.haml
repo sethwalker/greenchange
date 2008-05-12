@@ -1,0 +1,14 @@
+- content_for :title do
+  .title-menu.toolbar
+    = render :partial => 'messages/menu', :locals => { :item => @invitation }
+  = icon_for @invitation.sender
+  %h1
+    = render :partial => 'subject', :locals => {:item => @invitation }
+  .sender
+    %label From 
+    = @invitation.sender.display_name
+  .date
+    %label Received
+    = friendly_date( @invitation.created_at )
+
+= render :partial => 'messages/message', :locals => { :message => @invitation }
