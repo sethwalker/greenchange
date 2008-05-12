@@ -1,6 +1,0 @@
-<% url = url_for_issue(issue) -%>
-<div class='issue-entry'>
-  <%= link_to avatar_for(issue, 'small'), url -%>
-  <%= link_to issue.display_name, url -%>
-  <div><%= truncate(issue.summary, 200) %></div>
-</div>

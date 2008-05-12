@@ -1,8 +1,0 @@
-%h1
-  Issues
-.landing
-  .column  
-    =render :partial => 'issue', :collection => column_1_of_2(Issue.find(:all, :order => 'name' )) 
-  .column  
-    =render :partial => 'issue', :collection => column_2_of_2(Issue.find(:all, :order => 'name' )) 
-	

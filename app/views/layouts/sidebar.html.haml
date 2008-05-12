@@ -9,7 +9,7 @@
     = render :partial => 'groups/sides/admin'
 
   - if @issue
-    = render :partial => 'issues/sides/issue',  :locals => { :issue => @isssue }
+    = render :partial => 'issues/sides/context_menu',  :locals => { :issue => @isssue }
     = render :partial => 'shared/sides/donate'
     = render :partial => 'shared/sides/featured/people',    :locals => { :source => @issue }
     = render :partial => 'shared/groups_large',             :locals => { :source => @issue }
