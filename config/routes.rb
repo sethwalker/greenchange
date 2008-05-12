@@ -31,7 +31,7 @@ ActionController::Routing::Routes.draw do |map|
 
   # this method adds the scope of an existing route to the page controllers
   def page_routes(parent)
-    parent.with_options :member => {:version => :get, :versions => :get, :diff => :get, :break_lock => :post, :print => :get} do |wikis|
+    parent.with_options :member => {:version => :get, :versions => :get, :diff => :get, :break_lock => :post} do |wikis|
       wikis.resources :wikis, :controller => 'tool/wiki'
       wikis.resources :actions, :controller => 'tool/action_alert'
       wikis.resources :blogs, :controller => 'tool/blog'

@@ -83,10 +83,6 @@ class Tool::WikiController < Tool::BaseController
     @new_markup = @new.body_html || ''
     @difftext = html_diff( @old_markup , @new_markup)
   end
-
-  def print
-    render :layout => "printer-friendly"
-  end
   
   def preview
     # not yet
