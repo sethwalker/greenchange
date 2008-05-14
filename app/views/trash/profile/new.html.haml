@@ -1,6 +1,0 @@
-.profile.new
-  - form_for :profile, @profile, :url => { :action => 'create' }  do |f|
-    = render :partial => 'form', :locals => { :f => f }
-    %p.submit
-      = f.submit 'Save Changes'.t, :name => 'create'
-

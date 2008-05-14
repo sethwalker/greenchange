@@ -1,4 +1,6 @@
 class StatsController < ApplicationController
+  before_filter :login_required
+
   def index
     if defined?(ANALYZABLE_PRODUCTION_LOG) && File.file?(ANALYZABLE_PRODUCTION_LOG)
       render :text => '<pre>' + `pl_analyze #{ANALYZABLE_PRODUCTION_LOG}` + '</pre>'
@@ -35,5 +37,6 @@ class StatsController < ApplicationController
     puts buckets.inspect
     @membership_counts = buckets.sort{|a,b| b <=> a}
   end
+
   
 end

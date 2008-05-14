@@ -1,0 +1,44 @@
+%h1
+  = @header
+%dl
+  %dt
+    Pages created
+  %dd
+    = @pages_created
+  %dt
+    Users who created pages
+  %dd
+    = @page_creators
+  %dt
+    Pages updated
+  %dd
+    = @pages_updated
+  %dt
+    Users who updated pages
+  %dd
+    = @page_updaters
+  %dt
+    Wikis updated
+  %dd
+    = @wikis_updated
+  %dt
+    Users created
+  %dd
+    = @users_created
+  %dt
+    Users logged in
+  %dd
+    = @users_logged_in
+    (
+    = (@users_logged_in.to_i * 100 ) / @total_users.to_i
+    \% of all users)
+  %dt
+    Groups created
+  %dd
+    = @groups_created
+  %dt
+    Group membership size
+    %br/
+    (number of groups)
+  %dd
+    = @membership_counts.collect{|i|i.join(' (') + ')' }.join('<br>')
