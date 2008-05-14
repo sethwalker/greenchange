@@ -1,0 +1,11 @@
+.section.locations
+  %h2
+    Locations
+  .behavior-block.list
+    - for location in locations
+      = render :partial => 'profiles/form/location', :locals => { :location => location, :f => f, :profile => profile }
+    = render :partial => 'profiles/form/location', :locals => { :location => profile.locations.build, :f => f, :profile => profile }
+
+    .row
+      .toolbar
+        = link_to 'Add Location', new_profile_location_path(profile), :class => 'remote new action'

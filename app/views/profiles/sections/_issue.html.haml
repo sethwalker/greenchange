@@ -1,6 +1,0 @@
-%p
-  = check_box_tag "issue_ids[]", issue.id, profile.entity.issues.include?( issue  ), :id => "issue_ids[#{issue.id}]"
-  %label{html_options_for_icon_for( issue, :size => 'small', :for => "issue_ids[#{issue.id}]")} 
-    = issue.name
-
-

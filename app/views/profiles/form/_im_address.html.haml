@@ -1,4 +1,4 @@
-= render :partial => 'profiles/sections/list_item_default', :locals => { :item => im_address, :item_type => :im_address, :item_type_field => :im_type, :item_types_collection => ProfileHelper::IM_TYPES, :item_type_label => 'IM username', :profile => profile } 
+= render :partial => 'profiles/form/list_item_default', :locals => { :item => im_address, :item_type => :im_address, :item_type_field => :im_type, :item_types_collection => ProfileHelper::IM_TYPES, :item_type_label => 'IM username', :profile => profile } 
 
 -# fields_target = im_address.new_record? ? "im_addresses[new][]" : :im_addresses
 -#-# fields_for fields_target, im_address do |ff|

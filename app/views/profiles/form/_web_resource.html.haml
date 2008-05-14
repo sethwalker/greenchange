@@ -1,4 +1,4 @@
--#= render :partial => 'me/profiles/sections/list_item_default', :locals => { :item => web_resources, :item_type => :web_resources, :item_type_field => :web_resource_handle, :item_types_collection => ProfileHelper::WEBSERVICE_TYPES, :item_type_label => 'Web resource info' }
+-#= render :partial => 'me/profiles/form/list_item_default', :locals => { :item => web_resources, :item_type => :web_resources, :item_type_field => :web_resource_handle, :item_types_collection => ProfileHelper::WEBSERVICE_TYPES, :item_type_label => 'Web resource info' }
 
 -fields_target = web_resource.new_record? ? "web_resources[new][]" : :web_resources
 -fields_for fields_target, web_resource do |ff|

@@ -23,7 +23,7 @@
           = f.label 'role', "Organizational role"
           = f.text_field 'role', 'size' => 40, 'maxlength' => 100, 'style' => 'width:285px'
 
-        = render :partial => "profiles/sections/list/note", :locals => {:profile => profile, :f => f , :notes => @notes }
+        = render :partial => "profiles/form/list/note", :locals => {:profile => profile, :f => f , :notes => @notes }
 
   .column.form-column.last
     - fields_for :user, profile.user do |ff|
@@ -50,7 +50,7 @@
 
     - %w[ email_address phone_number im_address web_resource location ].each do |section|
       - item_collection = instance_variable_get( "@#{section.pluralize}" );
-      = render :partial => "profiles/sections/list/#{section}", :locals => {:profile => profile, :f => f , section.pluralize.to_sym => item_collection }
+      = render :partial => "profiles/form/list/#{section}", :locals => {:profile => profile, :f => f , section.pluralize.to_sym => item_collection }
 
 
   -# use these options for the default view

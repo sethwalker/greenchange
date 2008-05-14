@@ -9,7 +9,7 @@ class Profile::MetadataController < ApplicationController
   def new
     @item = ::Profile.const_get(controller_name.demodulize.classify).new
     if request.xhr?
-      render :partial => "profiles/sections/#{item_partial}", :locals => { item_partial => @item }
+      render :partial => "profiles/form/#{item_partial}", :locals => { item_partial => @item, :profile => @profile  }
     end
   end
 
@@ -31,7 +31,7 @@ class Profile::MetadataController < ApplicationController
   protected
   
   def fetch_profile
-    @profile = Profile.find params[:profile_id]
+    @profile = Profile.find( params[:profile_id]) rescue current_user.private_profile
     @profile && current_user.may!( :admin, @profile )
   end
 end

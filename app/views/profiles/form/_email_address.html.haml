@@ -1,4 +1,4 @@
-= render :partial => 'profiles/sections/list_item_default', :locals => { :item => email_address, :item_type => :email_address, :item_type_field => :email_type, :item_types_collection => ProfileHelper::EMAIL_TYPES.invert, :profile => profile }
+= render :partial => 'profiles/form/list_item_default', :locals => { :item => email_address, :item_type => :email_address, :item_type_field => :email_type, :item_types_collection => ProfileHelper::EMAIL_TYPES.invert, :profile => profile }
 -# fields_target = email_address.new_record? ? "email_addresses[new][]" : :email_addresses
 -# index = email_address.try(:id) || ''
 -#-# fields_for fields_target, email_address do |ff|
