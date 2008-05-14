@@ -11,14 +11,3 @@
     = f.submit 'Update'
 
 
--#%h1
-  Picture
-  = icon_for @group, :size => 'large'
-  %p
-    uploaded image will be cropped and stretched to 96 pixels square.
-  %p
-  -# form_for :avatar, @group.avatar, :url => group_avatar_path(@group), :html => {:multipart => true}) do |f|
-    -#= hidden_field_tag 'redirect', url_for(:controller=>'groups',:action=>'edit',:id=>@group)
-    -#= hidden_field_tag 'group_id', @group.id
-    = file_field 'image', 'data'
-    = submit_tag 'Upload'

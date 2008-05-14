@@ -10,7 +10,7 @@ class GroupsController < ApplicationController
   include IconResource
     
   
-  prepend_before_filter :find_group, :except => [:list,:new,:create,:index, :show]
+  prepend_before_filter :find_group, :except => [:index, :new,:create]
   
   before_filter :login_required, :only => [:create, :update, :destroy, :new, :edit ]
     #:except => [:list, :index, :show, :search, :archive, :tags, :calendar_month, :list_by_day, :list_by_week, :list_by_month]
@@ -23,8 +23,6 @@ class GroupsController < ApplicationController
   end
 
   def show
-    @group = Group.find_by_name(params[:id])  
-    raise ActiveRecord::RecordNotFound unless @group
     @pages = @group.pages.allowed(current_user, :view).find(:all, :order => 'pages.updated_at DESC', :limit => 20)
     @profile = @group.profile
     @wiki = @group.page
@@ -36,33 +34,29 @@ class GroupsController < ApplicationController
 
   # login required
   def create
-    raise 'must call new' if request.get?
-
     @parent = Group.find(params[:parent_id]) if params[:parent_id]
-    unless current_user.superuser?
-      if @parent and not current_user.member_of?(@parent)
-        message( :error => 'you do not have permission to do that'.t, :later => true )
-        redirect_to group_url(@parent)
-      end
-    end
 
     if @parent
+      unless current_user.superuser?  or current_user.member_of?(@parent)
+        flash[:error] = 'you do not have permission to do that'
+        redirect_to group_path(@parent) and return
+      end
       @group = Committee.new(params[:group])
       @group.parent = @parent
     else
       @group = Group.new(params[:group])
     end
 
-    unless @group.save
-      message :object => @group
-      render :action => :new and return
+    if @group.save
+      flash[:notice] = "Congrats.  You've started a new group."
+
+      # group creator is its default administrator (TODO: is this assumption true???)
+      @group.memberships.create :user => current_user, :group => @group, :role => 'administrator'
+      redirect_to group_path(@group)
+    else
+      render :action => :new 
     end
 
-    message :success => "Congrats.  You've started a new group.".t
-
-    # group creator is its default administrator (TODO: is this assumption true???)
-    @group.memberships.create :user => current_user, :group => @group, :role => 'administrator'
-    redirect_to group_url(@group)
   end
 
   # login required
@@ -74,7 +68,7 @@ class GroupsController < ApplicationController
   def update
     if @group.update_attributes(params[:group])
       flash[:notice] = 'Group was successfully updated.'
-      redirect_to group_url(@group)
+      redirect_to group_path(@group)
     else
       render :action => 'edit'
     end
@@ -83,93 +77,31 @@ class GroupsController < ApplicationController
   # login required
   # post required
   def destroy
+    current_user.may!( :admin, @group )
     if @group.users.uniq.size > 1 or @group.users.first != current_user
-      message :error => 'You can only delete a group if you are the last member'
-      redirect_to :action => 'show', :id => @group
+      flash[:error] = 'You can only delete a group if you are the last member'
+      redirect_to group_path(@group)
     else
       @group.destroy
       if @group.parent
-        redirect_to group_url(@group.parent)
+        redirect_to group_path(@group.parent)
       else
-        redirect_to :action => 'list'
+        redirect_to groups_path
       end
     end
   end  
      
-  def media
-  	@pages = @group.pages  
-  end
-
-  def archive
-    @months = @group.months_with_pages_viewable_by_user(current_user)
-    
-    unless @months.empty?
-      @year = params[:path] ? params[:path][0] : @months.last['year']
-      @month = params[:path] ? params[:path][1] : @months.last['month']
-
-      @pages = @group.pages.
-        allowed(current_user).
-        created_in_year(@year).
-        created_in_month(@month).
-        paginate(:all, 
-                 :order => 'updated_at DESC', 
-                 :page => params[:page])
-    end
-  end
-
-  def search
-    if request.post?
-      return redirect_to(search_group_url(@group) + 
-        build_filter_path(params[:search]))
-    end
-
-    path = (params[:path].dup if params[:path]) || []
-    should_be_starred = path.delete('starred')
-    should_be_pending = path.delete('pending')
-    options = Hash[*path.flatten]
-
-    @pages = @group.pages.allowed(current_user).
-      starred?(should_be_starred).
-      pending?(should_be_pending).
-      page_type(options['type']).
-      created_by(options['person']).
-      created_in_month(options['month']).
-      created_in_year(options['year']).
-      text(options['text'])
-
-    if parsed_path.sort_arg?('created_at') or parsed_path.sort_arg?('created_by_login')    
-      @columns = [:icon, :title, :created_by, :created_at, :contributors_count]
-    else
-      @columns = [:icon, :title, :updated_by, :updated_at, :contributors_count]
-    end
-
-    respond_to do |format|
-      format.html {}
-      format.rss do
-        options = {
-          :title => @group.name, 
-          :description => @group.summary,
-          :link => group_pages_path(@group),
-          :image => icon_path_for( @group, :size => 'large' )
-        }
-        render :partial => 'pages/rss', :locals => options
-      end
-    end
-  end
   
+=begin
   def tags
     @pages = @group.pages.allowed(current_user).tagged(params[:path]).paginate(:page => params[:section])
   end
-
-  def tasks
-    @stylesheet = 'tasks'
-    @task_lists = @group.pages.allowed(current_user, :view).page_type('Tool::TaskList').find(:all, :conditions => ["pages.resolved = ?", false]).collect{|page| page.data}
-  end
+=end
 
   def visualize
     unless logged_in? and current_user.member_of?(@group)
       message( :error => 'you do not have permission to do that', :later => true )
-      redirect_to group_url(@group)
+      redirect_to group_path(@group)
     end
 
     # return xhtml so that svg content is rendered correctly --- only works for firefox (?)    
@@ -244,7 +176,8 @@ class GroupsController < ApplicationController
 #  end
   
   def find_group
-    @group = Group.get_by_name params[:id] if params[:id]
+    @group = Group.find_by_name(params[:id])  
+    raise ActiveRecord::RecordNotFound unless @group
   end
 
   def authorized?
@@ -259,10 +192,12 @@ class GroupsController < ApplicationController
     end
   end    
 
+=begin
   def edit_profile
     @profile = @group.public_profile
     @profile.save_from_params(params[:profile]) if request.post?
   end
+=end
 
   # Protected calendar / event methods
 

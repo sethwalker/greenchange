@@ -2,8 +2,8 @@
   = simple_format @group.summary
   Members:
   = link_to @group.members.count, group_people_url(@group) 
-  -#- unless @group.issues.empty?
-    .issues.icon-only
+  - unless @group.issues.empty?
+    .issues.icon-box
       Issues:
       = render :partial => 'shared/icons/issue', :collection => group.issues
   - unless @group.tags.empty?

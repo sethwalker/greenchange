@@ -54,6 +54,40 @@ describe PagesController do
     end
   end
 
+  describe "archive" do
+    before do
+      @group = create_valid_group
+      pending "renew support for page archives view"
+    end
+
+    describe "when allowed" do
+      describe "archive" do
+        before do
+          get :archive, :group_id => @group.name
+        end
+        it "should render archive" do
+          get :archive, :group_id => @group.name
+          response.should render_template('pages/archive')
+        end
+        it "should populate months with the months and years pages were created" do
+          assigns[:months].length.should == 2
+        end
+        it "should populate months with the months and years pages were created" do
+          assigns[:months][0]['month'].should == '12'
+          assigns[:months][0]['year'].should == '2007'
+        end
+        it "should populate months with the months and years pages were created" do
+          assigns[:months][1]['month'].should == '2'
+          assigns[:months][1]['year'].should == '2008'
+        end
+        it "should populate pages with a paginated collection" do
+          assigns[:pages].should_not be_empty
+          assigns[:pages].all? {|p| p.created_at.year == 2008}.should be_true
+        end
+      end
+    end
+  end
+
   def disable_filters
     controller.stub!(:context)
     controller.stub!(:authorized?).and_return(true)

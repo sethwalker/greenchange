@@ -25,14 +25,15 @@ class MembershipsController < ApplicationController
   end
 
   def new
+    return create_as_admin if @group.users.empty?
     redirect_to new_group_join_request_path(@group)
     #return if request_already_exists?
     #@membership_request = MembershipRequest.new :user => current_user, :group => @group
 
   end
   
+=begin
   def create
-    return create_as_admin if @group.users.empty?
     return if request_already_exists?
     @membership_request = MembershipRequest.new :user => current_user, :group => @group
     @membership_request.attributes = params[:membership_request]
@@ -44,11 +45,13 @@ class MembershipsController < ApplicationController
     end
   end
 
-  ###### MEMBER ACTIONS #########################################################
-  
   # leave this group
   def leave
   end
+=end
+
+  ###### MEMBER ACTIONS #########################################################
+  
 
   def destroy
     @membership = Membership.find params[:id]
@@ -241,7 +244,7 @@ class MembershipsController < ApplicationController
     @group.memberships.create :user => current_user, :group => @group, :role => 'administrator'
 
     flash[:notice] = 'You are the first person in this group'
-    redirect_to group_url( @group) and return
+    redirect_to group_url( @group)
   end
 
   def request_already_exists?

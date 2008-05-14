@@ -1,5 +1,6 @@
 - content_for :title do
-  = render :partial => 'title_menu', :locals => { :group => @group }
+  .toolbar.title-menu
+    = render :partial => 'menu', :locals => { :group => @group }
   = icon_for( @group, :size => 'large' ) 
   %h1
     = @group.display_name

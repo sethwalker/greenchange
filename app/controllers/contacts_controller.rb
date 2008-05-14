@@ -8,9 +8,9 @@ class ContactsController < ApplicationController
   #prepend_before_filter :fetch_person, :except => [:requests, :approve, :reject]
   #before_filter :find_contact_request, :only => [:requests, :approve, :reject]
   
-#  def new
-#    render :action => 'add'
-#  end
+  def new
+    redirect_to new_person_invitation_path(@person)
+  end
 #  alias :add :new 
 #
 #  def create
@@ -26,8 +26,7 @@ class ContactsController < ApplicationController
 #  end
 
   def index
-    #@people = @contacts = User.by_group(@group).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag)
-    @contacts = User.enabled.by_person(@me||@person).find :all #.by_person(( @me || @person)).by_issue(@issue).by_tag(@tag)
+    @contacts = User.enabled.by_person(@me||@person).find :all 
   end
   
   def destroy
