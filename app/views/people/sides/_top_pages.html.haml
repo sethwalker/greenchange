@@ -1,7 +1,0 @@
-.section
-  .header
-    Bookmarks/Favorites
-  - faves = source.pages_starred.allowed(current_user).find(:all, :order => "starts_at DESC", :limit => 5)
-  - columns = [:icon, :title]
-  = render :partial => 'pages/list/table', :locals => {:pages => faves, :columns => columns}
-

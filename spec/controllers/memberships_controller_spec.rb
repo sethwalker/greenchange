@@ -4,17 +4,19 @@ describe MembershipsController do
   before do
     @user = login_valid_user
     @group = create_valid_group
+    Group.stub!(:find_by_name).and_return(@group)
   end
 
-  describe "create" do
+  describe "new" do
     it "creates a membership if there are none" do
-      post :create, :group_id => @group.name
+      get :new, :group_id => @group
       Membership.find_by_user_id_and_group_id(@user.id, @group.id).should_not be_nil
     end
-    it "creates a membership request if there are memberships" do
+    it "redirects to a join request page if there are memberships" do
       @group.memberships.create :user => create_user
-      MembershipRequest.should_receive(:find_by_user_id_and_group_id).with(@user.id, @group.id).and_return(MembershipRequest.create(:user => @user, :group => @group))
-      post :create, :group_id => @group.name
+      #MembershipRequest.should_receive(:find_by_user_id_and_group_id).with(@user.id, @group.id).and_return(MembershipRequest.create(:user => @user, :group => @group))
+      get :new, :group_id => @group
+      response.should redirect_to( new_group_join_request_path(@group) )
     end
   end
 
@@ -26,53 +28,5 @@ describe MembershipsController do
     end
   end
 
-  describe "update" do
-    it "should be tested, cause it's weird" do
-      pending
-    end
-  end
 
-  describe "invite" do
-    before do
-      @group.memberships.create :user => @user
-      @first_invitee = create_user
-      @second_invitee = create_user
-    end
-    it "should find the users" do
-      User.should_receive(:find_by_login).with(@first_invitee.login)
-      User.should_receive(:find_by_login).with(@second_invitee.login)
-      post :send_invitation, :group_id => @group.name, :invitation => { :user_names => "#{@first_invitee.login} #{@second_invitee.login}" }
-    end
-    it "should create membership requests" do
-      MembershipRequest.should_receive(:find_or_initialize_by_user_id_and_group_id).with(@first_invitee.id, @group.id).and_return(MembershipRequest.new(:user => @first_invitee, :group => @group))
-      MembershipRequest.should_receive(:find_or_initialize_by_user_id_and_group_id).with(@second_invitee.id, @group.id).and_return(MembershipRequest.new(:user => @second_invitee, :group => @group))
-      post :send_invitation, :group_id => @group.name, :invitation => { :user_names => "#{@first_invitee.login} #{@second_invitee.login}" }
-    end
-  end
-
-  describe "approve" do
-    before do
-      controller.stub!(:authorized?).and_return(true)
-    end
-    it "should approve" do
-      m = MembershipRequest.create :group => @group, :user => create_user
-      m.should_receive(:approve!)
-      @group.stub!(:allows?).and_return(true)
-      MembershipRequest.should_receive(:find).and_return(m)
-      post :approve, :id => m.id
-    end
-  end
-
-  describe "reject" do
-    before do
-      controller.stub!(:authorized?).and_return(true)
-    end
-    it "should reject" do
-      @group.stub!(:allows?).and_return(true)
-      m = MembershipRequest.create :group => @group, :user => create_user
-      m.should_receive(:reject!)
-      MembershipRequest.should_receive(:find).and_return(m)
-      post :reject, :id => m.id
-    end
-  end
 end

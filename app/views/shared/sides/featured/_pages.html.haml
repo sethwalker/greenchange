@@ -1,0 +1,7 @@
+- unless featured_pages(source).empty?
+  .section
+    .header
+      Featured content
+    .icon-box    
+      = render :partial => 'pages/list/page', :collection => featured_pages(source)
+
