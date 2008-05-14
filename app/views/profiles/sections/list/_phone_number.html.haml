@@ -1,0 +1,11 @@
+-#= render :partial => 'me/profiles/section_default', :locals => { :section_data => :phone_number, :f => f, :profile => profile }
+.section.phone_numbers
+  %h2
+    Phone numbers
+  .behavior-block.list
+    - for phone_number in phone_numbers
+      = render :partial => 'profiles/sections/phone_number', :locals => { :phone_number => phone_number, :f => f, :profile => profile }
+    = render :partial => 'profiles/sections/phone_number', :locals => { :phone_number => profile.phone_numbers.build, :f => f, :profile => profile }
+    .row
+      .toolbar
+        = link_to 'Add Phone Number', new_profile_phone_number_path(profile), :class => 'remote new action'

@@ -1,13 +1,3 @@
--#- if @group 
-  = render :partial => 'groups/tabs'
--#- if @issue
-  = render :partial => 'issues/tabs'
--#- if @person
-  = render :partial => 'person/tabs'  
--# if @tags and controller.action_name != 'show'
-  = render :partial => 'tags/tabs'    
-- if %w- me requests inbox my_calendar -.include? controller.controller_name
-  -#= render :partial => 'me/tabs'
-- if @page && !@page.new_record? && controller.action_name !~ /new|edit|update|create/
+-# if @page && !@page.new_record? && controller.action_name !~ /new|edit|update|create/
   - content_for :title do
     = render :partial => 'pages/title'

@@ -1,0 +1,6 @@
+.section.notes
+  %h2
+    Your Story
+  .list
+    - ProfileHelper::NOTES.each do |note_type|
+      = render :partial => 'profiles/sections/note', :locals => { :note_type => note_type, :profile => profile, :f => f }

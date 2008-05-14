@@ -1,3 +1,6 @@
+- content_for :title do
+  = render :partial => 'pages/title'
+
 - if article = @page.data
   .landing.show.wiki.acton_alert
     .meta

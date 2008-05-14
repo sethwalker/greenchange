@@ -1,0 +1,16 @@
+- content_for :title do
+  %h1
+    Connect
+
+.section
+  %h2 Groups
+  .icon-box
+    =render :partial => 'shared/list/group', :collection => @groups
+.clear
+
+.section
+  %h2 People
+  .icon-box
+    =render :partial => 'shared/list/person', :collection => @people
+.clear
+

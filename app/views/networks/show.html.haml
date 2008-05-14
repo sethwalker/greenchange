@@ -1,0 +1,9 @@
+- content_for :title do
+  - if @me
+    = icon_for( @me, :size => 'medium' )
+    %h1.medium Your network activity
+  - else
+    %h1 Network activity
+
+.landing.network
+  = render :partial => 'pages/shared/time_segmented_list', :locals => {:pages => @pages} 

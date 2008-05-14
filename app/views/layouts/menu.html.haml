@@ -4,13 +4,13 @@
     -#%li.first
       = link_to "Home", 'http://greenchange.org', :class => 'menu menu-top' 
     %li.first
-      - selected = ( %w- groups people -.include? controller.controller_name) ? ' selected' : ''
-      = link_to "Connect", '/me/connect', :class => 'menu menu-top' + selected
+      - connect_selected = ( %w- groups people -.include? controller.controller_name) || (controller.action_name == 'connect' ) 
+      = link_to "Connect", connect_network_path, selected_if( connect_selected, :class => 'menu menu-top' )
       %ul
         %li
-          = link_to "People", people_url, :class => 'menu'
+          = link_to "People", people_path, :class => 'menu'
         %li
-          = link_to "Groups", groups_url, :class => 'menu'
+          = link_to "Groups", groups_path, :class => 'menu'
     -#
       %li
         - selected = ( %w- issues -.include? controller.controller_name) ? ' selected' : ''

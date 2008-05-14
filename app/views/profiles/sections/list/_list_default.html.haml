@@ -1,0 +1,9 @@
+.section{ :class => item_type.to_s.pluralize }
+  %h2
+    = item_type.to_s.pluralize.titleize
+  .behavior-block.list
+    - for item in item_collection
+      = render :partial => item_type.to_s, :locals => { item_type => item, :f => f, :profile => profile }
+    = render :partial => item_type.to_s, :locals => { item_type => profile.send( item_collection_type ).build, :f => f, :profile => profile }
+    .toolbar
+      = link_to "Add #{item_type.to_s.titleize}", send( "new_profile_#{item_type}_path", profile ), :class => 'remote new action'

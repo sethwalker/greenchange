@@ -27,7 +27,7 @@ class ContactsController < ApplicationController
 
   def index
     #@people = @contacts = User.by_group(@group).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag)
-    @contacts = User.enabled.by_person(@person).find :all #.by_person(( @me || @person)).by_issue(@issue).by_tag(@tag)
+    @contacts = User.enabled.by_person(@me||@person).find :all #.by_person(( @me || @person)).by_issue(@issue).by_tag(@tag)
   end
   
   def destroy

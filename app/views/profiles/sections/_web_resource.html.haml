@@ -1,0 +1,19 @@
+-#= render :partial => 'me/profiles/sections/list_item_default', :locals => { :item => web_resources, :item_type => :web_resources, :item_type_field => :web_resource_handle, :item_types_collection => ProfileHelper::WEBSERVICE_TYPES, :item_type_label => 'Web resource info' }
+
+-fields_target = web_resource.new_record? ? "web_resources[new][]" : :web_resources
+-fields_for fields_target, web_resource do |ff|
+  - index = web_resource.try(:id) || ''
+  .row
+    -#%p
+      -#= ff.check_box :preferred, { :index => index, :class => 'behavior-radio'}, 1
+    %p
+      = ff.select :web_resource_type, ProfileHelper::WEB_RESOURCE_TYPES.invert, {}, :index => index
+    %p
+      = ff.text_field :web_resource, :size => 20, :maxlength => 100, :index => index 
+      = ff.label "#{index}_web_resource", 'Web service info'
+    - unless web_resource.new_record?
+      .toolbar
+        .icon
+          = button_to 'Delete', profile_web_resource_path(profile, web_resource), :method => :delete , :class => 'remote confirm delete action', :remote_url => formatted_profile_web_resource_path(profile, web_resource, :xml )
+       
+

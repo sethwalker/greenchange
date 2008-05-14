@@ -150,8 +150,10 @@
       &:hover
         :background-color = !tabmenu_selected_bg
     a.home
-      :background no-repeat 10px 10px 
-      :background-image = !tabmenu_arrow
+      :background
+        :repeat no-repeat 
+        :position 10px 10px 
+        :image = !tabmenu_arrow
       :float left
       :display block
       :text-decoration none

@@ -1,24 +1,64 @@
-.section
-  %h2
-    General Info
-  .row
-    %p
-      = f.text_field 'first_name', 'size' => 15, 'maxlength' => 100, 'style' => 'width:100px'
-      = f.label 'first_name', "first name"
-    %p
-      = f.text_field 'middle_name', 'size' => 9, 'maxlength' => 100, 'style' => 'width:50px'
-      = f.label 'middle_name', "middle "
-    %p
-      = f.text_field 'last_name', 'size' => 15, 'maxlength' => 100, 'style' => 'width:111px'
-      = f.label 'last_name', "last"
-  .row
-    %p
-      = f.text_field 'organization', 'size' => 40, 'maxlength' => 100, 'style' => 'width:285px'
-      = f.label 'organization', "organization"
-  .row
-    %p
-      = f.text_field 'role', 'size' => 40, 'maxlength' => 100, 'style' => 'width:285px'
-      = f.label 'role', "organizational role"
--#['description_section', 'phone_number_section', 'email_address_section', 'location_section', 'im_address_section', 'website_section', 'issues_section' ].each do |section|
-- Dir.entries("#{RAILS_ROOT}/app/views/profile").select{|f| File.file? f }.each do |section|
-  = render :partial => "sections/#{section}", :locals => {:profile => @profile, :f => f }
+-content_for :title do
+  = error_messages_for '', :object => [ profile, profile.notes, @email_addresses, @im_addresses, @locations, @phone_numbers, @web_resources, profile.entity ], :object_name => 'profile'
+
+.with-editor
+  .column.form-column.first
+    .section
+      %h2
+        General info
+      .row
+        %p
+          = f.label 'first_name', "First name"
+          = f.text_field 'first_name', 'size' => 15, 'maxlength' => 100, 'style' => 'width:100px'
+        %p
+          = f.label 'middle_name', "Middle "
+          = f.text_field 'middle_name', 'size' => 9, 'maxlength' => 100, 'style' => 'width:50px'
+        %p
+          = f.label 'last_name', "Last"
+          = f.text_field 'last_name', 'size' => 15, 'maxlength' => 100, 'style' => 'width:111px'
+        %p
+          = f.label 'organization', "Organization"
+          = f.text_field 'organization', 'size' => 40, 'maxlength' => 100, 'style' => 'width:285px'
+        %p
+          = f.label 'role', "Organizational role"
+          = f.text_field 'role', 'size' => 40, 'maxlength' => 100, 'style' => 'width:285px'
+
+        = render :partial => "profiles/sections/list/note", :locals => {:profile => profile, :f => f , :notes => @notes }
+
+  .column.form-column.last
+    - fields_for :user, profile.user do |ff|
+      .section
+        .row.icon-upload
+          = icon_for profile.entity
+          %p
+            = ff.label :image_file, 'Upload new picture'
+            = ff.hidden_field :image_file_temp
+            %span.comment
+              uploaded image will be cropped and stretched to 92 pixels square.
+              %br
+              max file size 3mbs
+            = ff.file_field :image_file, :size => 10 
+
+      = render :partial => "shared/form/issues", :locals => {:f => ff}
+      = render :partial => "shared/form/languages", :locals => {:f => ff}
+      = render :partial => "accounts/form/preferences", :locals => { :f => ff, :user => profile.entity}
+      .section.timezone
+        %p
+          = ff.label :time_zone, "Time zone"
+          = ff.time_zone_select :time_zone
+      = render :partial => "accounts/form/password", :locals => { :f => ff, :user => profile.entity}
+
+    - %w[ email_address phone_number im_address web_resource location ].each do |section|
+      - item_collection = instance_variable_get( "@#{section.pluralize}" );
+      = render :partial => "profiles/sections/list/#{section}", :locals => {:profile => profile, :f => f , section.pluralize.to_sym => item_collection }
+
+
+  -# use these options for the default view
+  -# locals => { :item_collection => item_collection, :item_type => section.to_sym, :item_collection_type => section.pluralize.to_sym }
+
+- load_ajax_form_behaviors
+- content_for :javascript do
+  = javascript_include_tag 'forms'
+- content_for :javascript_onload do
+  $('content').down('form input[type=text]').focus();
+  Crabgrass.Forms.submit_from_menu();

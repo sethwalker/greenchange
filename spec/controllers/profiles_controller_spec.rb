@@ -3,7 +3,8 @@ describe ProfilesController, "RESTFUL" do
 
   before do
     User.delete_all
-    login_valid_user
+    @current_user = login_valid_user
+    User.stub!(:find_by_login).and_return(@current_user)
   end
 
   def profiles(*args)
@@ -36,7 +37,7 @@ describe ProfilesController, "RESTFUL" do
     describe ProfilesController, "(xml)" do
       #define_models :users
       
-      def act!; get :show, :id => 1, :format => 'xml' ; end
+      def act!; get :show, :person_id => 1, :format => 'xml' ; end
 
       #it_renders :xml, :profile
       it "renders xml" do
@@ -49,53 +50,7 @@ describe ProfilesController, "RESTFUL" do
     describe ProfilesController, "(json)" do
       #define_models :users
       
-      def act!; get :show, :id => 1, :format => 'json' ; end
-
-      #it_renders :json, :profile
-      it "renders json" do
-        act!
-        #response.format.should be_json
-      end
-    end
-
-  
-  end
-
-  describe ProfilesController, "GET #new" do
-    #define_models :users
-    def act!; get :new ; end
-    before do
-      controller.current_user.private_profile.destroy
-      controller.current_user.reload
-      @profile  = Profile.new
-    end
-
-    it "assigns @profile" do
-      act!
-      assigns[:profile].should be_new_record
-    end
-    
-    #it_renders :template, :new
-    it "renders the new template" do
-      act!
-      response.should render_template(:new)
-    end
-    
-    
-    describe ProfilesController, "(xml)" do
-      #define_models :users
-      def act!; get :new, :format => 'xml' ; end
-
-      #it_renders :xml, :profile
-      it "renders xml" do
-        act!
-        #response.format.should be_xml
-      end
-    end
-
-    describe ProfilesController, "(json)" do
-      #define_models :users
-      def act!; get :new, :format => 'json' ; end
+      def act!; get :show, :person_id => 1, :format => 'json' ; end
 
       #it_renders :json, :profile
       it "renders json" do
@@ -109,7 +64,7 @@ describe ProfilesController, "RESTFUL" do
 
   describe ProfilesController, "GET #edit" do
     #define_models :users
-    def act!; get :edit, :id => 1 ; end
+    def act!; get :edit, :person_id => 1 ; end
     
     before do
       @profile  = profiles(:default)
@@ -130,146 +85,6 @@ describe ProfilesController, "RESTFUL" do
     
   end
 
-  describe ProfilesController, "POST #create" do
-    before do
-      @attributes = { }
-      @profile = create_valid_user.private_profile
-      Profile.stub!(:new).with(@attributes).and_return(@profile)
-    end
-    
-    describe ProfilesController, "(successful creation)" do
-      #define_models :users
-      def act!; post :create, :profile => @attributes ; end
-
-      before do
-        @profile.stub!(:save).and_return(true)
-      end
-      
-      #it_assigns :profile, :flash => { :notice => :not_nil }
-      it "assigns @profile" do
-        act!
-        assigns[:profile].should_not be_nil
-      end
-    
-      #it_redirects_to { profile_path(@collecting) }
-      it "redirects to new profile" do
-        act!
-        response.should redirect_to(:controller => '/profiles', :action => 'show' )
-      end
-    end
-
-    describe ProfilesController, "(unsuccessful creation)" do
-      #define_models :users
-      def act!; post :create, :profile => @attributes ; end
-
-      before do
-        @profile.stub!(:save).and_return(false)
-      end
-      
-      #it_assigns :profile
-      it "assigns @profile" do
-        act!
-        assigns[:profile].should_not be_nil
-      end
-    
-      #it_renders :template, :new
-      it "renders the new template" do
-        act!
-        response.should render_template(:new)
-      end
-    
-    end
-    
-    describe ProfilesController, "(successful creation, xml)" do
-      #define_models :users
-      def act!; post :create, :profile => @attributes, :format => 'xml' ; end
-
-      before do
-        @profile.stub!(:save).and_return(true)
-        @profile.stub!(:to_xml).and_return("mocked content")
-      end
-      
-      #it_assigns :profile, :headers => { :Location => lambda { collecting_url(@collecting) } }
-      it "assigns @profile" do
-        act!
-        assigns[:profile].should_not be_nil
-      end
-    
-      #it_renders :xml, :profile, :status => :created
-#      it "renders xml" do
-#        act!
-#        response.body.should match( profile.to_xml )
-#        response.status.should be_created
-#      end
-    end
-    
-    describe ProfilesController, "(unsuccessful creation, xml)" do
-      #define_models :users
-      def act!; post :create, :profile => @attributes, :format => 'xml' ; end
-
-      before do
-        @profile.stub!(:save).and_return(false)
-      end
-      
-      #it_assigns :profile
-      it "assigns @profile" do
-        act!
-        assigns[:profile].should_not be_nil
-      end
-    
-#      #it_renders :xml, "profile.errors", :status => :unprocessable_entity
-#      it "renders xml" do
-#        act!
-#        response.status.should be_unprocessable_entity
-#      end
-    end
-
-    describe ProfilesController, "(successful creation, json)" do
-      #define_models :users
-      def act!; post :create, :profile => @attributes, :format => 'json' ; end
-
-      before do
-        @profile.stub!(:save).and_return(true)
-        @profile.stub!(:to_json).and_return("mocked content")
-      end
-      
-      #it_assigns :profile, :headers => { :Location => lambda { collecting_url(@collecting) } }
-      it "assigns @profile" do
-        act!
-        assigns[:profile].should_not be_nil
-      end
-    
-#      #it_renders :json, :profile, :status => :created
-#      it "renders json" do
-#        act!
-#        #response.format.should be_json
-#        response.status.should be_created
-#      end
-    end
-    
-    describe ProfilesController, "(unsuccessful creation, json)" do
-      #define_models :users
-      def act!; post :create, :profile => @attributes, :format => 'json' ; end
-
-      before do
-        @profile.stub!(:save).and_return(false)
-      end
-      
-      #it_assigns :profile
-      it "assigns @profile" do
-        act!
-        assigns[:profile].should_not be_nil
-      end
-    
-#      #it_renders :json, "profile.errors", :status => :unprocessable_entity
-#      it "renders json" do
-#        act!
-#        #response.format.should be_json
-#        response.status.should be_unprocessable_entity
-#      end
-    end
-
-  end
 
   describe ProfilesController, "PUT #update" do
     before do
@@ -278,11 +93,12 @@ describe ProfilesController, "RESTFUL" do
       @profile = profiles(:default)
       updating_user.stub!(:private_profile).and_return(@profile)
       login_user updating_user
+      User.stub!(:find_by_login).and_return(updating_user)
     end
     
     describe ProfilesController, "(successful save)" do
       #define_models :users
-      def act!; put :update, :id => 1, :profile => @attributes ; end
+      def act!; put :update, :person_id => 1, :profile => @attributes ; end
 
       before do
         @profile.stub!(:save).and_return(true)
@@ -301,13 +117,13 @@ describe ProfilesController, "RESTFUL" do
       #it_redirects_to { profile_path(@collecting) }
       it "redirects to saved item" do
         act!
-        response.should redirect_to( me_profile_url )
+        response.should redirect_to( person_profile_path(@profile.entity))
       end
     end
 
     describe ProfilesController, "(unsuccessful save)" do
       #define_models :users
-      def act!; put :update, :id => 1, :profile => @attributes ; end
+      def act!; put :update, :person_id => 1, :profile => @attributes ; end
 
       before do
         @profile.stub!(:save).and_return(false)
@@ -330,7 +146,7 @@ describe ProfilesController, "RESTFUL" do
     
     describe ProfilesController, "(successful save, xml)" do
       #define_models :users
-      def act!; put :update, :id => 1, :profile => @attributes, :format => 'xml' ; end
+      def act!; put :update, :person_id => 1, :profile => @attributes, :format => 'xml' ; end
 
       before do
         @profile.stub!(:save).and_return(true)
@@ -351,7 +167,7 @@ describe ProfilesController, "RESTFUL" do
     
     describe ProfilesController, "(unsuccessful save, xml)" do
       #define_models :users
-      def act!; put :update, :id => 1, :profile => @attributes, :format => 'xml' ; end
+      def act!; put :update, :person_id => 1, :profile => @attributes, :format => 'xml' ; end
 
       before do
         @profile.stub!(:save).and_return(false)
@@ -373,7 +189,7 @@ describe ProfilesController, "RESTFUL" do
 
     describe ProfilesController, "(successful save, json)" do
       #define_models :users
-      def act!; put :update, :id => 1, :profile => @attributes, :format => 'json' ; end
+      def act!; put :update, :person_id => 1, :profile => @attributes, :format => 'json' ; end
 
       before do
         @profile.stub!(:save).and_return(true)
@@ -394,7 +210,7 @@ describe ProfilesController, "RESTFUL" do
     
     describe ProfilesController, "(unsuccessful save, json)" do
       #define_models :users
-      def act!; put :update, :id => 1, :profile => @attributes, :format => 'json' ; end
+      def act!; put :update, :person_id => 1, :profile => @attributes, :format => 'json' ; end
 
       before do
         @profile.stub!(:save).and_return(false)
@@ -418,12 +234,16 @@ describe ProfilesController, "RESTFUL" do
 
   describe ProfilesController, "DELETE #destroy" do
 
-    def act!; delete :destroy, :id => 1 ; end
+    def act!; delete :destroy, :person_id => @current_user.to_param ; end
     
     before do
       @profile = profiles(:default)
       @profile.stub!(:destroy)
-      Profile.stub!(:find).with('1').and_return(@profile)
+      @profile.stub!(:allows?).and_return(true)
+      @current_user.stub!(:profile_for).and_return(@profile)
+      @current_user.stub!(:private_profile).and_return(@profile)
+      User.stub!(:find_by_login).and_return(@current_user)
+      Profile.stub!(:find).and_return(@profile)
     end
 
     #it_assigns :profile
@@ -440,7 +260,7 @@ describe ProfilesController, "RESTFUL" do
     
     describe ProfilesController, "(xml)" do
       #define_models :users
-      def act!; delete :destroy, :id => 1, :format => 'xml' ; end
+      def act!; delete :destroy, :person_id => 1, :format => 'xml' ; end
 
       #it_assigns :profile
       it "assigns @profile" do
@@ -457,7 +277,7 @@ describe ProfilesController, "RESTFUL" do
 
     describe ProfilesController, "(json)" do
       #define_models :users
-      def act!; delete :destroy, :id => 1, :format => 'json' ; end
+      def act!; delete :destroy, :person_id => @current_user.to_param, :format => 'json' ; end
 
       #it_assigns :profile
       it "assigns @profile" do
@@ -480,10 +300,11 @@ describe ProfilesController do
   describe "when fetching a profile" do
     before do
       @viewing_user = @target_user = create_valid_user
+      User.stub!(:find_by_login).and_return(@target_user)
     end
     def act!
       login_user @viewing_user
-      get :edit, :person => @target_user
+      get :edit, :person_id => @target_user
     end
 
     it "should assign the current users profile" do
@@ -501,11 +322,12 @@ describe ProfilesController do
       login_user @user
       @profile = @user.private_profile
       @profile_attributes = @profile.attributes
+      User.stub!(:find_by_login).and_return(@user)
       @attributes = { :new => [] }
     end
 
     def act!
-      put :update, :profile => @profile.attributes, :email_addresses => @attributes, :phone_numbers => {} 
+      put :update, :person_id => 1, :profile => @profile.attributes, :email_addresses => @attributes, :phone_numbers => {} 
     end
 
     it "should create new items" do

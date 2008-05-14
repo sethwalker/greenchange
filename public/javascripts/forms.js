@@ -135,7 +135,6 @@ Crabgrass.Ajax = function() {
             message = "Hello!";
           }
           if (message_class == null) message_class = 'message';
-          console.log( message_class + ' showing error ' + message );
 
           m_self.display.update( new Element('div', { 'class': message_class }).update( message ));
           m_self.display.show();

@@ -1,0 +1,29 @@
+.section.menu.context
+  .menu
+    - unless this_is_the_landing_page = ( controller.action_name =='show' )
+      .info
+        = link_to person.name, me_path, html_options_for_icon_for( person, :size => :small, :class => 'home')
+      .clear
+    .pages
+      .padding-tabset
+        %ul.tabset
+          %li.tab
+            = link_to 'Your Contacts', me_people_path, selected_if( request.path == me_people_path)
+          %li.tab
+            = link_to 'Your Groups', me_groups_path, selected_if( request.path == me_groups_path)
+          %li.tab
+            = link_to 'Your Inbox', me_inbox_path, selected_if( request.path == me_inbox_path)
+            
+          %li.tab
+            = link_to 'Your Content', me_pages_path, selected_if( request.path == me_pages_path)
+      .padding-tabset
+        %ul.tabset
+          %li.tab
+            = link_to 'Your Network', me_network_path, selected_if( request.path == me_network_path)
+          %li.tab
+            = link_to 'Your Events', me_events_path, selected_if( request.path == me_events_path)
+          %li.tab
+            = link_to 'Your Profile', me_profile_path, selected_if( request.path == me_profile_path)
+          %li.tab
+            = link_to "Your Bookmarks", me_bookmarks_path, selected_if( request.path == me_bookmarks_path)
+

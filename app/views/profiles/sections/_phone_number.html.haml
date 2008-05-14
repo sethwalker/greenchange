@@ -1,12 +1,1 @@
-.section
-  %table
-    %tr
-      %td.label{ :valign => "top" }
-        = _('Phone Numbers')
-      %td.form
-        %table
-          %tbody#profile_phone_numbers
-            - profile.phone_numbers.each_with_index do |phone_number, index|
-            = render :partial => 'phone_number', :locals => { :phone_number => phone_number, :index => index }
-            - end
-        = add_row_link 'Add Phone Number'.t, 'add_phone_number'
+= render :partial => 'profiles/sections/list_item_default', :locals => { :item => phone_number, :item_type => :phone_number, :item_type_field => :phone_number_type, :item_types_collection => ProfileHelper::PHONE_TYPES, :profile => profile }

@@ -10,13 +10,16 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resource :session
   map.resource :account
+  map.resource :network, :member => { :connect => :get }  do | network |
+    network.resources :invitations, :controller => 'network_invitations'
+  end
   
 
   map.resources :issues
 
   ##### ASSET ROUTES ######################################
   
-  map.with_options :controller => 'asset', :action => 'show' do |m|
+  map.with_options :controller => 'asset', :action => 'show' do | m |
     m.connect 'assets/:id/versions/:version/*filename'
     m.connect 'assets/:id/*filename'
   end
@@ -69,33 +72,31 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :rsvps
   map.resources :ratings
 
-  #me routes
-  #map.resource :profile
-  map.namespace :me do |me|
-    me.namespace :profile do |profile|
-      profile.resources :email_addresses
-      profile.resources :im_addresses
-      profile.resources :phone_numbers
-      profile.resources :websites
-      profile.resources :web_resources
-      profile.resources :languages
-      profile.resources :locations
-    end
-    me.resource :profile
-    me.network  'network', :controller => 'network'#, :me => true
+  #map.namespace :me do |me|
+    #me.network  'network', :controller => 'network'#, :me => true
     #me.events   'events'#,  :controller => 'event'#, :me => true
     #me.content  'pages', :controller => 'tool/base'
-    me.resources :contacts, :controller => 'contact'
-  end
-  #map.resource :profile, :controller => 'profiles', :path_prefix => 'me/', :name_prefix => 'my'
-  map.resource :me, :controller => 'me', :member => { :search => :get, :files => :get, :tasks => :get, :invite => :get, :send_invitation => :post } do |me|  
-    me.resource :inbox,   :controller => 'inbox' do |inbox|
-      inbox.resources :messages 
-    end
+  #end
+
+  #me routes
+  map.resource :me, :controller => 'me' do |me|  
+    me.resources :contacts
     me.resources :people
     me.resources :groups   
     me.resources :bookmarks
     page_routes me
+    me.resource  :profile
+    me.resource  :network
+    me.resource :inbox,   :controller => 'inbox' do |inbox|
+      inbox.resources :messages 
+    end
+  end
+  map.resources :profiles do |profile|
+    profile.resources :email_addresses, :controller => 'profile/email_addresses'
+    profile.resources :im_addresses, :controller => 'profile/im_addresses'
+    profile.resources :phone_numbers, :controller => 'profile/phone_numbers'
+    profile.resources :web_resources, :controller => 'profile/web_resources'
+    profile.resources :locations, :controller => 'profile/locations'
   end
   
   map.resources :groups do |group|
@@ -104,7 +105,7 @@ ActionController::Routing::Routes.draw do |map|
     group.resources :join_requests, :member => { :approve => :put, :ignore => :put }
     #group.resources :memberships, :controller => 'membership', :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put, :promote => :put }
     group.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put, :promote => :put }
-    group.resource :profile, :controller => 'group/profiles'
+    #group.resource :profile, :controller => 'group/profiles'
     group.icon 'icon/:size.:format', :controller => 'groups', :action => 'icon'
     group.connect 'icon.:format', :controller => 'groups', :action => 'icon'
     group.chat 'chat', :controller => 'chat', :action => 'channel'
@@ -116,10 +117,10 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resources :people do |person|
     person.resources :invitations
-    person.resources :groups#, :collection => {:join => :get, :invite => :get, :leave => :get, :approve => :put }
-    person.resources 'contacts', :controller => 'contact'#, :member => { :approve => :post, :reject => :post }
+    person.resources :groups
+    person.resources :contacts
     person.resources :bookmarks
-    person.resource :profile, :controller => 'people/profiles'
+    person.resource :profile
     person.icon 'icon/:size.:format', :controller => 'people', :action => 'icon'
     person.connect 'icon.:format', :controller => 'people', :action => 'icon'
     page_routes(person)

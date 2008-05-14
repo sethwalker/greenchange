@@ -1,9 +1,0 @@
--##counts.thin
-  - total_count = @me.contact_requests_received.pending.count + @me.unread_messages.count + @me.pending_items.count
-  - unless total_count.zero?
-    You have 
-    = total_count
-    items in
-    = link_to 'your inbox', me_inbox_path
-    \.
-     

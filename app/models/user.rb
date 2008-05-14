@@ -209,7 +209,7 @@ class User < ActiveRecord::Base
   def profile_for( person )
     if person.is_a? AuthenticatedUser
       self.private_profile ||= build_private_profile
-      return private_profile if person == self or contacts.include? person #find :first, :conditions => ['contact_id = ?', person ]
+      return private_profile if person == self or contacts.include?( person ) || person.superuser?  #find :first, :conditions => ['contact_id = ?', person ]
     end
     self.public_profile ||= build_public_profile
   end
@@ -237,7 +237,7 @@ class User < ActiveRecord::Base
   end
 
   def inbox_items
-    membership_invitations + invitations_received + contact_requests_received.pending + messages_received + membership_requests_received_and_pending
+    messages_received + membership_requests_received_and_pending
   end
 
   def pending_items

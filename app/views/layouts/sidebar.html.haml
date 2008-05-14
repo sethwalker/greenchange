@@ -9,7 +9,7 @@
     = render :partial => 'groups/sides/admin'
 
   - if @issue
-    = render :partial => 'issues/sides/context_menu',  :locals => { :issue => @isssue }
+    = render :partial => 'issues/context_menu',             :locals => { :issue => @issue }
     = render :partial => 'shared/sides/donate'
     = render :partial => 'shared/sides/featured/people',    :locals => { :source => @issue }
     = render :partial => 'shared/groups_large',             :locals => { :source => @issue }
@@ -27,13 +27,12 @@
     -#= render :partial => 'pages/sides/assets', :locals => { :page => @page }
 
   - if @me 
-    = render :partial => 'me/sides/me'
-    -#= render :partial => 'me/sides/inbox', :locals => { :source => @me }
+    = render :partial => 'me/context_menu',       :locals => { :person => @me }
     = render :partial => 'shared/sides/invite'
     = render :partial => 'shared/sides/donate'
     = render :partial => 'shared/groups_large',   :locals => { :source => @me }
     = render :partial => 'shared/contacts_large', :locals => { :source => @me }
-    = render :partial => 'shared/issues',   :locals => { :source => @me }
+    = render :partial => 'shared/issues',         :locals => { :source => @me }
   - else
     - if @person
       = render :partial => 'people/sides/person',  :locals => { :person => @person }

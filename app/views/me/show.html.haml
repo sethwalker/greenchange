@@ -1,11 +1,16 @@
 - content_for :title do
-  = render :partial => 'title_menu'
+  .toolbar.title-menu
+    = render :partial => 'menu'
   = icon_for( @me, :size=> 'large')
   %h1
     = @me.name
   .section.info
-    .sectin.profile
-      = render :partial => 'info'
+    - unless @me.inbox_items.empty?
+      You have 
+      = @me.inbox_items.size
+      items in
+      = link_to 'your inbox.', me_inbox_path
+      .clear
     -unless @me.issues.empty?
       .issues.icon-only
         %label My issues:

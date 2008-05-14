@@ -1,0 +1,16 @@
+- content_for :title do
+  = icon_for current_user, :size => :medium
+  %h1.medium
+    Invite your friends to the Green Change Network  
+  = error_messages_for :invite
+
+.section
+  -#
+    Currently we are not allowing invitations until the network is live to the general public.
+
+.new.invite.form
+  - form_for :invite, @invite, :url => network_invitations_path do |f|
+    = render :partial => 'network_invitations/form', :locals => { :f => f }
+    %p.submit
+      = f.submit "Send"
+

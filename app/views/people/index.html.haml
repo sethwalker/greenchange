@@ -1,32 +1,21 @@
--#%h1 People
-- unless scoped_by_context?
-  -if logged_in?
-    -#%h3 My contacts
-    -#.workarea
-      -if @people
-        .icon-box
-          =render :partial => 'shared/list/person', :collection => @people
-      -else
-        You have no contacts
-      .clear
-    -#%h1 
-      People in my groups 
-      -#%span.normal
-        \(users I share a common group with)
-      .workarea
-        -if @peers
-          .icon-box
-            =render :partial => 'shared/list/person', :collection => @peers
-        -else
-          You have no peers
-      .clear
-  %h1 Everyone 
-  .workarea
-    .icon-box
-      =render :partial => 'shared/list/person', :collection => User.enabled.find(:all, :limit => 300)
-    .clear
-- else
-  .workarea
-    .icon-box
-      =render :partial => 'shared/list/person',  :collection =>@people
-    .clear    
+- content_for :title do
+  %h1
+    - if scoped_by_context?
+      - if scoped_by_context? == current_user
+        Your contacts
+      - elsif @issue
+        People concerned about
+        = scoped_by_context?.display_name 
+      - elsif @group
+        Members of 
+        = scoped_by_context?.display_name 
+      - else
+        People connected to 
+        = scoped_by_context?.display_name 
+    - else
+      Everyone 
+
+.section
+  .icon-box
+    =render :partial => 'shared/list/person', :collection => @people
+  .clear

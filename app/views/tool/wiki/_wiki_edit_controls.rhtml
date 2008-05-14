@@ -6,8 +6,6 @@
     (<%= link_to 'break_lock', break_lock_wiki_url(@page), :method => :post %>)
   <% end %>
   &nbsp;
-  <%= link_to '<u>p</u>rint', print_wiki_url(@page), :accesskey => 'p' %>
-  &nbsp;
   <%= link_to 'versions', versions_wiki_url(@page) %>
   &nbsp;
   <%= link_to 'last change', diff_wiki_url(@page, :from => @wiki.version.to_i-1, :to => @wiki.version) if @wiki.version > 1 %>

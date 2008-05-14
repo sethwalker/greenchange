@@ -1,6 +1,15 @@
+-content_for :title do
+  .toolbar.title-menu
+  = icon_for (@me || @person)
+  %h1
+    - if @me  
+      Edit my profile
+    - else
+      = "Edit profile for #{@person.display_name}"
+    
+
 .profile.edit
-  = error_messages_for :profile
-  - form_for :profile, @profile do |f|
-    = render :partial => 'form', :locals => { :f => f }
+  - form_for :profile, @profile, :url => person_profile_path( (@me || @person)), :html => { :method => :put, :multipart => true }  do |f|
+    = render :partial => 'form', :locals => { :f => f, :profile => @profile }
     %p.submit
-      = f.submit 'Save Changes'.t, :name => 'update', :class => 'submit'
+      = f.submit 'Save changes'.t, :name => 'update', :class => 'submit'

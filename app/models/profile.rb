@@ -51,6 +51,10 @@ class Profile < ActiveRecord::Base
   def private?
     friend?
   end
+
+  def allows?( user, action )
+    ( user.superuser? || ( user == self.entity ) || ( action == :view and self == self.entity.profile_for( user )))
+  end
   
   ### collections ########################################################## 
 

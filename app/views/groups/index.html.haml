@@ -1,30 +1,33 @@
 - content_for :title do
-  -if logged_in?
+  - if logged_in?
     .toolbar.title-menu
       .icon
         = link_to 'Create new group', new_group_path, :class => 'action new'
--#  %h1 Groups
-- unless scoped_by_context?
-  -if logged_in?
-    - unless @me
-      - groups_overlapping = current_user.groups & @groups
-      - if groups_overlapping
-        -# CONTEXT_USAGE
-        %h1 
-          = scoped_by_context? ? "Groups you share" : "My groups"
-        .workarea
-          .icon-box
-            =render :partial => 'shared/list/group', :collection => groups_overlapping 
-          .clear
-        .clear    
+  %h1 
+    - unless scoped_by_context?
+      Groups
+    - else
+      - case scoped_by_context?
+        - when @issue
+          = "Groups for #{@issue.name}"
+        - when @me
+          Your groups
+        - when @person
+          = "Groups for #{@person.display_name}"
+        - else
+          Groups
 
-  %h1 Groups
-  .workarea
+.section
+  .icon-box
+    =render :partial => 'shared/list/group',  :collection =>@groups
+  .clear
+
+- groups_overlapping  =   current_user.groups & @groups
+- if scoped_by_context? && @me.nil? && !groups_overlapping.empty?
+  .section
+    %h2 
+      = Groups you share
     .icon-box
-      =render :partial => 'shared/list/group', :collection => @groups
-    .clear
-- else
-  .workarea
-    .icon-box
-      =render :partial => 'shared/list/group',  :collection =>@groups
-    .clear
+      =render :partial => 'shared/list/group', :collection => groups_overlapping 
+    .clear    
+

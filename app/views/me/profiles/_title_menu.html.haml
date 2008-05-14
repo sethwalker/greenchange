@@ -1,6 +1,0 @@
-.toolbar.title-menu
-  -if current_user.may? :admin, person
-    .icon
-      = link_to 'Edit', edit_me_profile_url, :class => 'action edit'
-  .clear
-  = render :partial => 'people/menu', :locals => { :person => person }

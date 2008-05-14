@@ -43,6 +43,7 @@ Spec::Runner.configure do |config|
   # config.mock_with :rr
 
   config.before do
+    TzTime.zone = TimeZone[DEFAULT_TZ]
     #User.current = nil
   end
 
