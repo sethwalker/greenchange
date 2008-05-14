@@ -4,8 +4,7 @@ require 'net/https'
 class DemocracyInAction::API
   def login
     puts "logging in" if $DEBUG
-    #url = URI.parse('https://salsa.wiredforchange.com/dia/hq/processLogin.jsp')
-    url = URI.parse('https://salsa.democracyinaction.org/dia/hq/processLogin.jsp')
+    url = URI.parse('https://salsa.wiredforchange.com/dia/hq/processLogin.jsp')
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
     res = http.post(url.path, "email=#{user}&password=#{password}")
@@ -131,12 +130,4 @@ DemocracyInAction.configure do
     map('groups_KEY') { |user| user.democracy_in_action_list }
   end
 =end
-end
-
-User.class_eval do
-  attr_writer :democracy_in_action_list
-  after_save :update_democracy_in_action_subscriptions
-  def update_democracy_in_action_subscriptions
-    # supporter_groups => supporter_KEY + @democracy_in_action_list
-  end
 end
