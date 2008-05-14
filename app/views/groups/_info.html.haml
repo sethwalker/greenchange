@@ -9,4 +9,4 @@
   - unless @group.tags.empty?
     .tags
       Tags:
-      = @group.tags.map { |tag| render :partial => 'shared/tag', :locals => { :tag => tag } }.join(', ')
+      = render :partial => 'shared/tag', :collection => @group.tags

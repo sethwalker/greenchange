@@ -47,16 +47,13 @@
     <div id="main" class="<%= "wideside" if extended_sidebar? %><%= "noside" if no_sidebar? %> ">
       <div id="maincolumn">
         <%= render :partial => 'shared/messages' %>
-        <%= render :partial => 'shared/location' %>
         <div id="content">
           <div id="titlebox">
             <%= yield :title %>
           </div>
 
           <%= yield %>
-          
-          <%= render :partial => 'shared/content_footer' %>
-          
+
         </div>
       </div>
       <%  unless no_sidebar? %>

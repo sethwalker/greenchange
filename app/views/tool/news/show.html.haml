@@ -31,3 +31,6 @@
     = image_tag  @page.primary_image.public_filename(:pic), { :class => 'picture'}
   = article.try(:body_html )
 .clear
+
+= render :partial => 'pages/comments'
+

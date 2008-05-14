@@ -4,7 +4,7 @@
     = render :partial => 'groups/context_menu',   :locals => { :group => @group }
     = render :partial => 'shared/sides/donate'
     = render :partial => 'groups/sides/members',  :locals => { :group => @group }
-    = render :partial => 'shared/media',          :locals => { :source => @group }
+    = render :partial => 'shared/sides/media',          :locals => { :source => @group }
     = render :partial => 'groups/sides/events'
     = render :partial => 'groups/sides/admin'
 
@@ -13,7 +13,7 @@
     = render :partial => 'shared/sides/donate'
     = render :partial => 'shared/sides/featured/people',    :locals => { :source => @issue }
     = render :partial => 'shared/groups_large',             :locals => { :source => @issue }
-    = render :partial => 'shared/media',                    :locals => { :source => @issue }
+    = render :partial => 'shared/sides/media',                    :locals => { :source => @issue }
 
   - if @page && !@page.new_record? && controller.action_name != 'edit'
     = render :partial => 'shared/sides/invite'
@@ -39,13 +39,13 @@
       = render :partial => 'shared/sides/donate'
       = render :partial => 'shared/contacts_large',       :locals => { :source => @person }
       = render :partial => 'shared/groups_large',         :locals => { :source => @person }
-      = render :partial => 'shared/media',                :locals => { :source => @person }
+      = render :partial => 'shared/sides/media',                :locals => { :source => @person }
       = render :partial => 'shared/sides/featured/pages', :locals => { :source => @person }
 
   -#- if @tag
     = render :partial => 'shared/sides/donate'
   -#= render :partial => 'shared/groups_large',   :locals => { :source => @tag }
-  -#= render :partial => 'shared/media',          :locals => { :source => @tag }
+  -#= render :partial => 'shared/sides/media',          :locals => { :source => @tag }
 
   - unless scoped_by_context?
     = render :partial => 'shared/sides/invite'

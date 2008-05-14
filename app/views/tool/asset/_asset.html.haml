@@ -56,3 +56,5 @@
           = "#{asset.width}x#{asset.height}"
   -#%p
     = link_to("download %s" % asset.filename, asset.public_filename, :class => 'first' )
+
+= render :partial => 'pages/comments'

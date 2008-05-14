@@ -2,3 +2,6 @@
 - if asset and asset.image?
   .section.image.display
     = image_tag asset.public_filename(:display)
+
+= render :partial => 'pages/comments'
+
