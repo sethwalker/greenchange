@@ -12,8 +12,8 @@
       = ff.text_field :web_resource, :size => 20, :maxlength => 100, :index => index 
       = ff.label "#{index}_web_resource", 'Web service info'
     - unless web_resource.new_record?
-      .toolbar
+      .toolbar.icons-only
         .icon
-          = button_to 'Delete', profile_web_resource_path(profile, web_resource), :method => :delete , :class => 'remote confirm delete action', :remote_url => formatted_profile_web_resource_path(profile, web_resource, :xml )
+          = button_to 'Delete', profile_web_resource_path(profile, web_resource), :method => :delete , :class => 'remote confirm delete action', :remote_url => formatted_profile_web_resource_path(profile, web_resource, :xml ), :title => 'Delete'
        
 

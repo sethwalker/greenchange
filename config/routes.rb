@@ -53,7 +53,7 @@ ActionController::Routing::Routes.draw do |map|
     parent.resources :events, :controller => 'tool/event', :member => {:participate => :post, :set_event_description => :post}, :collection => {:day => :get, :week => :get, :month => :get, :calendar => :get} do |event|
       #event.resources :attendees
       event.resources :rsvps
-      event.resources :invitations, :controller => 'event/invitations', :member => {:accept => :post, :reject => :put}
+      event.resources :invitations, :controller => 'event/invitations', :member => {:accept => :post, :ignore => :put}
     end
     parent.resources :videos, :controller => 'tool/external_video' #for now
     parent.resources :audio, :controller => 'tool/audio'
@@ -104,7 +104,7 @@ ActionController::Routing::Routes.draw do |map|
     group.resources :invitations
     group.resources :join_requests, :member => { :approve => :put, :ignore => :put }
     #group.resources :memberships, :controller => 'membership', :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put, :promote => :put }
-    group.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put, :promote => :put }
+    group.resources :memberships, :member => { :promote => :put }
     #group.resource :profile, :controller => 'group/profiles'
     group.icon 'icon/:size.:format', :controller => 'groups', :action => 'icon'
     group.connect 'icon.:format', :controller => 'groups', :action => 'icon'
@@ -113,7 +113,7 @@ ActionController::Routing::Routes.draw do |map|
   end
 
   #map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|search|calendar_month|list_by_day|list_by_week|list_by_month/
-  map.resources :memberships, :collection => {:join => :get, :invite => :get, :leave => :get}
+  map.resources :memberships
 
   map.resources :people do |person|
     person.resources :invitations
@@ -151,8 +151,6 @@ ActionController::Routing::Routes.draw do |map|
   map.takeaction 'takeaction', :controller => 'tool/action_alert', :action => 'landing'
   map.resources :posts
   
-  
-  #map.connect '', :controller => "sessions", :action => 'new'
   
   # typically, this is the default route
   map.connect ':controller/:action/:id'

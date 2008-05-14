@@ -12,9 +12,9 @@
         = ff.label "#{index}_street", 'Street Address'
          
       - unless location.new_record?
-        .toolbar
+        .toolbar.icons-only
           .icon
-            = button_to 'Delete', profile_location_path(profile, location), :method => :delete , :class => 'remote confirm delete action', :remote_url => formatted_profile_location_path(profile, location, :xml )
+            = button_to 'Delete', profile_location_path(profile, location), :method => :delete , :class => 'remote confirm delete action', :remote_url => formatted_profile_location_path(profile, location, :xml ), :title => 'Delete'
       .clear
       %p
         = ff.text_field :city, :size => 20, :maxlength => 100, :index => index 
