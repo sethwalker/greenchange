@@ -6,21 +6,14 @@
     :padding 0
     :float left
     :margin 0
-  .offset-row.admin
-    :clear both
-    :padding-bottom .5em
-    :background-color = !admin_toolbar_bg
-    :border 1px solid
-      :color = !admin_toolbar_border
-    :float left 
   .icon
     :float left
     :overflow hidden
-    :margin-right 3px
+    :margin-right 4px
     &:hover
       :background-color = !toolbar_bg_hover
     .action
-      :padding 22px 0 0 0
+      :padding 0 0 0 0
       :display block
       :float left
       :background-repeat no-repeat 
@@ -34,7 +27,6 @@
       :border 0
     a.create
       :background-position -5px -6px
-      -#:background-image url(/images/actions/list-add.png)  
       :background-image url(/images/gc/icons/19_icons/create_page.gif)  
     a.subscribe
       :background-position 2px 2px
@@ -43,13 +35,10 @@
       :background-image url(/images/gc/icons/19_icons/edit.gif)
     a.edit
       :background-position 2px 2px
-      -#:background-image url(/images/actions/edit.png)  
       :background-image url(/images/gc/icons/19_icons/edit.gif)
     a.invite
-      -#:background-image url(/images/actions/announce.png)  
       :background-image url(/images/gc/icons/19_icons/group_invitation.gif)
     .delete
-      -#:background-image url(/images/actions/minus.png)  
       :background-image url(/images/gc/icons/19_icons/delete.gif)
     .contact_request
       :background-image url(/images/gc/icons/19_icons/membership_request.gif)
@@ -68,12 +57,10 @@
     .membership_request
       :background-image url(/images/gc/icons/19_icons/join_group.gif)
     .chat
-      -#:background-image url(/images/actions/bullhorn.png)  
       :background-image url(/images/gc/icons/19_icons/join_chat.gif)
     .discuss
       :background-image url(/images/gc/icons/pages/small/discussion.png)  
     .message
-      -#:background-image url(/images/actions/mail-message-new.png)
       :background-image url(/images/gc/icons/19_icons/send_message.gif)
     .action.reply
       :background-image url(/images/actions/mail-reply-sender.png)
@@ -81,7 +68,13 @@
     .action.ignore
       :background-image url(/images/actions/mail-mark-not-junk.png)
       :background-position -1px -1px
-
+  .offset-row.admin
+    :clear both
+    :padding-bottom .5em
+    :background-color = !admin_toolbar_bg
+    :border 1px solid
+      :color = !admin_toolbar_border
+    :float left 
   .add, .new
     :background-position 2px 2px
     :background-image url(/images/actions/plus.png)  
@@ -94,17 +87,45 @@
     &:hover
       :background-color = !toolbar_bg_hover
 
-.toolbar.list-menu
+.toolbar.title-menu, .toolbar.list-menu
+  :padding-left 2px
+  :padding-top 2px
   :float right
+  .icon
+    :margin-bottom 2px
+    :clear both
+    :width 125px
+    :margin-top 0px
+    .action
+      :padding-top 0
+      :padding-left 28px
+    input.action
+      :height auto
+      :color = !link_text
+      :text-decoration underline
+      :padding-left 23px
+      :margin 0
+      :font-size 12px
+      :font-weight normal
+      &:hover
+        :color = !link_text_hover
+  a.cancel
+    :margin-top 8px
+    :margin-bottom 8px
+    :clear both
+    :width 125px
+    :display block
+
+.toolbar.list-menu
   .icon
     :width auto 
     :height auto 
     :clear none
     :float left
 
-.list-menu
-  :float left
-  :max-width = !list_menu_width
+.toolbar-block
+  :float left 
+  :width = !list_menu_width
   .source
     :clear both
     .icon
@@ -129,39 +150,5 @@
     &:hover
       :color = !link_text_hover
       :text-decoration underline
-
-.toolbar.title-menu
-  :float right
-
-.toolbar.title-menu, .toolbar.list-menu
-  -#:background-color = !admin_toolbar_bg
-  -#:border 1px solid
-    :color = !admin_toolbar_border
-  :padding-left 2px
-  :padding-top 2px
-  .icon
-    :margin-bottom 2px
-    :clear both
-    :width 125px
-    :margin-top 0px
-    .action
-      :padding-top 0
-      :padding-left 28px
-    input.action
-      :height auto
-      :color = !link_text
-      :text-decoration underline
-      :padding-left 25px
-      :margin 0
-      :font-size 12px
-      :font-weight normal
-      &:hover
-        :color = !link_text_hover
-  a.cancel
-    :margin-top 8px
-    :margin-bottom 8px
-    :clear both
-    :width 125px
-    :display block
 
 

@@ -42,7 +42,9 @@ h1
     body.ie6 &
       :width = !side_column_wideside_width - !ie_padding_offset
   body.ie6 &
-    :width = !side_column_width - !ie_padding_offset
+    :width 230px
+    :margin 25px 5px 0 10px
+    -#:width = !side_column_width - !ie_padding_offset 
 
 body
   :margin 0
@@ -121,7 +123,7 @@ img
   :padding 0px
   :background = !main_bg
   :float left
-  :margin .5em
+  :margin 5px 
   :width = !main_column_width
   body.ie6 &
     :width = !main_column_width - !ie_padding_offset
