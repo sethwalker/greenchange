@@ -4,3 +4,6 @@
 [submodule "vendor/plugins/calendar_date_select"]
 	path = vendor/plugins/calendar_date_select
 	url = git://gitorious.org/calendar_date_select/mainline.git
+[submodule "vendor/plugins/democracy_in_action"]
+	path = vendor/plugins/democracy_in_action
+	url = git://github.com/sethwalker/democracy_in_action_plugin.git
