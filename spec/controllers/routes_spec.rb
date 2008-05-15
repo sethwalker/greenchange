@@ -25,13 +25,13 @@ describe "Routes" do
       group_memberships_path(@g).should == "/groups/#{@g.to_param}/memberships"
     end
     it "should have a join route" do
-      join_group_memberships_path(@g).should == "/groups/#{@g.to_param}/memberships/join"
+      new_group_join_request_path(@g).should == "/groups/#{@g.to_param}/join_requests/new"
     end
     it "but a better join route would be" do
       new_group_membership_path(@g).should == "/groups/#{@g.to_param}/memberships/new"
     end
     it "should have an invite route" do
-      invite_group_memberships_path(@g).should == "/groups/#{@g.to_param}/memberships/invite"
+      new_group_invitation_path(@g).should == "/groups/#{@g.to_param}/invitations/new"
     end
     it "should have a nested route for wikis" do
       group_wikis_path(@g).should == "/groups/#{@g.to_param}/wikis"
