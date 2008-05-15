@@ -33,7 +33,7 @@ module NetworkContentHelper
   def find_random( klass, qty )
     #TODO find a way to get rid of this special-case sql and use the named_scope
     if klass == User
-      ids = klass.connection.select_all("Select id from #{klass.name.tableize} where enabled=true and activated_at IS NOT NULL")
+      ids = klass.connection.select_all("Select id from #{klass.name.tableize} where " + klass.__send__( :sanitize_sql_for_conditions, [ "enabled= ? and activated_at IS NOT NULL", true ]))
     else
       ids = klass.connection.select_all("Select id from #{klass.name.tableize}")
     end
