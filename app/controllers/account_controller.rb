@@ -67,6 +67,7 @@ class AccountController < ApplicationController
     end
 
     if @user.save && @profile.save && @public_profile.save
+      @user.add_to_democracy_in_action_groups
       #self.current_user = @user
       flash[:notice] = "Thank you for signing up. <br />You must authenticate your account before you login. <br />Check your email inbox. <br/>There will be a short message telling you how to complete the creation of your account."
       redirect_to login_path

@@ -21,6 +21,8 @@ Crabgrass::Config.profile_note_types = [
 
 Crabgrass::Config.dia_subscribe_to_email_list_group_id = 34365
 Crabgrass::Config.dia_allow_info_sharing_group_id =  34839
+Crabgrass::Config.dia_all_members_group_id = 36056
+Crabgrass::Config.dia_no_groups_group_id = 36057
 
 crabgrass_config = "#{RAILS_ROOT}/config/crabgrass.yml"
 # kluge for cruise control for now
