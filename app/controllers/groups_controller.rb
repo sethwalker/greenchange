@@ -10,7 +10,7 @@ class GroupsController < ApplicationController
   include IconResource
     
   
-  prepend_before_filter :find_group, :except => [:index, :new,:create]
+  before_filter :find_group, :except => [:index, :new,:create]
   
   before_filter :login_required, :only => [:create, :update, :destroy, :new, :edit ]
     #:except => [:list, :index, :show, :search, :archive, :tags, :calendar_month, :list_by_day, :list_by_week, :list_by_month]
@@ -176,7 +176,7 @@ class GroupsController < ApplicationController
 #  end
   
   def find_group
-    @group = Group.find_by_name(params[:id])  
+    @group ||= Group.find_by_name(params[:id])  
     raise ActiveRecord::RecordNotFound unless @group
   end
 
