@@ -52,4 +52,3 @@ describe "Profile::Profile" do
     
   end
 end
-

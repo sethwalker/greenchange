@@ -32,3 +32,21 @@ describe "A group membership" do
 
   end
 end
+
+describe Membership, "with DIA hooks" do
+  it "should remove from no groups group when a membership is created" do
+    DemocracyInAction::Proxy.should_receive(:find_by_local_type_and_local_id_and_name).with('User', 123, 'no_groups_group_membership')
+    Membership.create(:user_id => 123, :group_id => 1234)
+  end
+
+  it "should add to group if no more memberships after destroy" do
+    u = create_user
+    g = create_group
+    m = Membership.create :user => u, :group => g
+    m.stub!(:supporter_key).and_return(5)
+    DemocracyInAction::API.stub!(:disabled?).and_return(false)
+    DemocracyInAction::API.stub!(:new).and_return(api = stub('api', :process => 123))
+    m.destroy
+    DemocracyInAction::Proxy.find_by_name_and_local_id('no_groups_group_membership', u.id).should_not be_nil
+  end
+end

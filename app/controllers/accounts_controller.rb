@@ -27,6 +27,7 @@ class AccountsController < ApplicationController
     @profile = @user.build_private_profile params[:profile].merge(:friend => true, :entity => @user )
 
     if @user.save && @profile.save 
+      @user.add_to_democracy_in_action_groups
       flash[:notice] = "Thank you for signing up. <br />You must authenticate your account before you login. <br />Check your email inbox. <br/>There will be a short message telling you how to complete the creation of your account."
       redirect_to login_path
     else

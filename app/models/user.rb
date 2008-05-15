@@ -24,6 +24,17 @@ class User < ActiveRecord::Base
   has_many :preferences, :dependent => :destroy 
   has_many :languages, :class_name => 'Profile::Language'
 
+  def add_to_democracy_in_action_groups
+    return if DemocracyInAction::API.disabled?
+    auth = DemocracyInAction::Auth
+    api = DemocracyInAction::API.new 'authCodes' => [auth.username, auth.password, auth.org_key]
+    all_members_key = api.process('supporter_groups', 'supporter_KEY' => private_profile.democracy_in_action_proxies.find_by_remote_table('supporter').remote_key, 'groups_KEY' => Crabgrass::Config.dia_all_members_group_id)
+    DemocracyInAction::Proxy.create :name => 'all_members_group_membership', :local_type => 'User', :local_id => id, :remote_table => 'supporter_groups', :remote_key => all_members_key
+
+    no_groups_key = api.process('supporter_groups', 'supporter_KEY' => private_profile.democracy_in_action_proxies.find_by_remote_table('supporter').remote_key, 'groups_KEY' => Crabgrass::Config.dia_no_groups_group_id)
+    DemocracyInAction::Proxy.create :name => 'no_groups_group_membership', :local_type => 'User', :local_id => id, :remote_table => 'supporter_groups', :remote_key => no_groups_key
+  end
+
   def preferences=(settings)
     if settings.is_a? Hash
       settings.each do |key, value|

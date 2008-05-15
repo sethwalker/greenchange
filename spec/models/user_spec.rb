@@ -186,3 +186,27 @@ describe User, "with preferences" do
   end
 
 end
+
+describe User, "with DIA saving" do
+  before do
+    class DemocracyInAction::API
+      def self.disabled?; false; end
+    end
+    DemocracyInAction::API.stub!(:new).and_return(@api = stub('api', :process => 1234))
+    @user = new_user
+    @user.stub!(:private_profile).and_return(stub('profile', :democracy_in_action_proxies => stub('proxies', :find_by_remote_table => stub('proxy', :remote_key => 111))))
+  end
+  after do
+    class DemocracyInAction::API
+      def self.disabled?; true; end
+    end
+  end
+  it "should save to DIA all members groups" do
+    @api.should_receive('process').with('supporter_groups', {'supporter_KEY' => 111, 'groups_KEY' => Crabgrass::Config.dia_all_members_group_id}).and_return(2345)
+    @user.add_to_democracy_in_action_groups
+  end
+  it "should save to DIA no groups group" do
+    @api.should_receive('process').with('supporter_groups', {'supporter_KEY' => 111, 'groups_KEY' => Crabgrass::Config.dia_no_groups_group_id}).and_return(3456)
+    @user.add_to_democracy_in_action_groups
+  end
+end
