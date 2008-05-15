@@ -19,8 +19,8 @@ Crabgrass::Config.profile_note_types = [
     [:interests  , 'Personal Interests'], 
     [:work       , 'Work Life' ] ]
 
-Crabgrass::Config.dia_subscribe_to_email_list_group_id = 61414
-Crabgrass::Config.dia_allow_info_sharing_group_id = 61415 
+Crabgrass::Config.dia_subscribe_to_email_list_group_id = 34365
+Crabgrass::Config.dia_allow_info_sharing_group_id =  34839
 
 crabgrass_config = "#{RAILS_ROOT}/config/crabgrass.yml"
 # kluge for cruise control for now
