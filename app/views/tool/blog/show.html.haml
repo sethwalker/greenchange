@@ -1,3 +1,6 @@
+- content_for :title do
+  = render :partial => 'pages/title'
+
 - article = @page.data
 .section.page-content
   -if  @page.primary_image && @page.primary_image.public_filename(:pic) 

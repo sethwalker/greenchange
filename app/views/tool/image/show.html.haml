@@ -1,3 +1,6 @@
+- content_for :title do
+  = render :partial => 'pages/title'
+
 - asset = @page.data
 - if asset and asset.image?
   .section.image.display
