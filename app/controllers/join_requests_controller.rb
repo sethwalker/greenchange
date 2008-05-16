@@ -44,6 +44,7 @@ class JoinRequestsController < ApplicationController
     else
       after :approve_fails
       flash[:error] = "The request cannot be approved"
+      redirect_to me_inbox_path
     end
   end
     

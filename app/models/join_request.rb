@@ -14,7 +14,7 @@ class JoinRequest < Message
       if groups.any? 
         {:conditions => [ "messages.requestable_id in (?) and messages.requestable_type = 'Group'", groups ] }
       else
-        {}
+        {:conditions => [ '?', false ]}
       end
     else
       {}
