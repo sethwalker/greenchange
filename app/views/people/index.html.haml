@@ -5,7 +5,7 @@
         Your contacts
       - elsif @issue
         People concerned about
-        = scoped_by_context?.display_name 
+        = scoped_by_context?.display_name.downcase
       - elsif @group
         Members of 
         = scoped_by_context?.display_name 

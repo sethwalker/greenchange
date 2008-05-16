@@ -1,6 +1,5 @@
 - unless featured_users(source).empty?
   .section
-    .header
-      Featured people 
+    = link_to "Featured people", scoped_path( :people ), :class => 'header' 
     .icon-box    
       = render :partial => 'shared/list/person', :collection => featured_users(source)
