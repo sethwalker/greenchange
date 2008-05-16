@@ -1,6 +1,6 @@
 - content_for :title do
   .title-menu.toolbar
-    = render :partial => 'menu'
+    = render :partial => 'menu', :locals => { :item => @message }
   = icon_for @message.sender
   %h1
     - if @message.subject?
