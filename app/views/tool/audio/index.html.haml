@@ -1,4 +1,6 @@
 %h1 Audio
 .content-list
+  = will_paginate(@pages)
   %ul
     = render :partial => 'pages/list/page', :collection => @pages
+  = will_paginate(@pages)
