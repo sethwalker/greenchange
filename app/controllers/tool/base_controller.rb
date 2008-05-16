@@ -114,7 +114,7 @@ class Tool::BaseController < ApplicationController
       
     @page.updated_by = current_user
     if @page.save
-      flash[:notice] = 'Page has been updated'
+      flash[:notice] = 'This page has been updated.'
       redirect_to tool_page_path(@page)
     else
       render :action => 'edit'
