@@ -1,6 +1,6 @@
 - if group.members.any?
   .section
-    = link_to 'Featured Members', group_memberships_path(group), :class => 'header'  
+    = link_to 'Featured Members', group_people_path(group), :class => 'header'  
     .icon-box  
       = render :partial => 'shared/list/person', :collection => featured_users(group)
 
