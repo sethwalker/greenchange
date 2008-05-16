@@ -99,7 +99,7 @@ class Page < ActiveRecord::Base
   }
 
   has_finder :in_network,
-    lambda {|user| {:include => [:group_participations, :user_participations], :conditions => ["user_participations.user_id = ? OR group_participations.group_id IN (?)", user.id, user.all_group_ids]}}
+    lambda {|user| {:include => [:group_participations, :user_participations], :conditions => ["user_participations.user_id = ? OR pages.created_by_id = ? OR group_participations.group_id IN (?)", user.id, user.id, user.all_group_ids]}}
 
 
   has_finder :changed, {:conditions => "pages.updated_at > pages.created_at"}
