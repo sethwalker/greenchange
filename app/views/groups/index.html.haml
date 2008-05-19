@@ -26,7 +26,7 @@
 - if scoped_by_context? && @me.nil? && !groups_overlapping.empty?
   .section
     %h2 
-      = Groups you share
+      Groups you share
     .icon-box
       =render :partial => 'shared/list/group', :collection => groups_overlapping 
     .clear    
