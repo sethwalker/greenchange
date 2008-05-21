@@ -547,9 +547,25 @@ class Page < ActiveRecord::Base
   #######################################################################
   ## SUPPORT FOR PAGE SUBCLASSING
 
-  # to be set by subclasses (ie tools)
-  class_attribute :icon,
-    :class_description, :class_display_name
+  # allow subclasses (ie Tools) to define themselves
+  # (ie icon, description, etc) by setting class attributes.
+  #
+  # <example>
+  #   class Wiki < Page
+  #     class_description 'A free-form text document.'
+  #   end
+  # </example>
+  %w(icon class_description class_display_name).each do |word|
+    module_eval <<-"end_eval"
+      def self.#{word}(value=nil)
+        @#{word.sub '?',''} = value if value
+        @#{word.sub '?',''}
+      end
+      def #{word}
+        self.class.#{word.sub '?',''}
+      end
+    end_eval
+  end
 
   def self.icon_path
     "/images/pages/#{self.icon}"
