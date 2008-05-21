@@ -84,23 +84,23 @@ class PagesController < ApplicationController
     render :partial => "pages/tags"
   end
     
-  # for quickly creating a wiki
-  def create_wiki
-    group = Group.get_by_name(params[:group])
-    if !logged_in?
-      message :error => 'You must first login.'
-    elsif group.nil?
-      message :error => 'Group does not exist.'
-    elsif !current_user.member_of?(group)
-      message :error => "You don't have permission to create a page for that group"
-    else
-      page = Page.make :wiki, {:user => current_user, :group => group, :name => params[:name]}
-      page.save
-      redirect_to page_url(page)
-      return
-    end
-    render :text => '', :layout => 'application'
-  end
+#  # for quickly creating a wiki
+#  def create_wiki
+#    group = Group.get_by_name(params[:group])
+#    if !logged_in?
+#      message :error => 'You must first login.'
+#    elsif group.nil?
+#      message :error => 'Group does not exist.'
+#    elsif !current_user.member_of?(group)
+#      message :error => "You don't have permission to create a page for that group"
+#    else
+#      page = Page.make :wiki, {:user => current_user, :group => group, :name => params[:name]}
+#      page.save
+#      redirect_to page_url(page)
+#      return
+#    end
+#    render :text => '', :layout => 'application'
+#  end
 
 
   # send an announcement to users about this page.

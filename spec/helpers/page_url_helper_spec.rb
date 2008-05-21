@@ -33,10 +33,6 @@ describe PageUrlHelper do
       @page = Tool::Video.create :title => 'title'
       page_url(@page).should == video_url(@page)
     end
-    it "should work for messages" do
-      @page = Tool::Message.create :title => 'title'
-      page_url(@page).should == message_url(@page)
-    end
     it "should work for ranked vote" do
       @page = Tool::RankedVote.create :title => 'title'
       page_url(@page).should == poll_url(@page)

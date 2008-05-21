@@ -50,7 +50,7 @@ describe "AuthorizedSystem" do
   it "should recognize page resources by class name" do
     policy = AuthorizedSystem.access_policy :user
   
-    wiki = Page.make :wiki, {:user => @user, :group => @group, :name => 'TestWikiResource'}
+    wiki = create_valid_page :created_by => @user, :group => @group
     policy.allows?(:view, wiki).should be_true
   end
 
@@ -59,7 +59,7 @@ describe "AuthorizedSystem" do
     @auth.normalize_resource( page ).should == :page
   end
   it "should recognize wikis as page resources" do
-    wiki = Page.make :wiki, {:user => @user, :group => @group, :name => 'TestWikiResource'}
+    wiki = create_valid_page :created_by => @user, :group => @group
     @auth.normalize_resource( wiki ).should == :page
   end
 end

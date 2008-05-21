@@ -51,7 +51,7 @@ module PageUrlHelper
         'photo'
       when Tool::Asset
         'upload'
-      when Tool::Blog, Tool::News, Tool::Event, Tool::Message, Tool::Discussion
+      when Tool::Blog, Tool::News, Tool::Event, Tool::Discussion
         "#{page.class.to_s.demodulize.underscore}"
       when Tool::TextDoc
         'wiki'

@@ -127,11 +127,10 @@ event3:
 hello:
   id: 205
   title: hello
-  type: Tool::Message
+  type: Tool::Event
 flow_test:
   id: 206
   title: flow test
   type: Tool::Discussion
-  flow: 1
   public: 1
 

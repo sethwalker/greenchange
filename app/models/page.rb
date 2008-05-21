@@ -611,9 +611,9 @@ class Page < ActiveRecord::Base
     @flags ||= {}
   end
 
-  def self.make(function,options={})
-    PageStork.send(function, options)
-  end
+#  def self.make(function,options={})
+#    PageStork.send(function, options)
+#  end
 
   #######################################
   ## USER behavior

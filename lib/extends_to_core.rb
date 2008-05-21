@@ -30,12 +30,12 @@ class NilClass
   end
 end
 
-class Object
-  def cast!(class_constant)
-    raise TypeError.new unless self.is_a? class_constant
-    self
-  end
-end
+#class Object
+#  def cast!(class_constant)
+#    raise TypeError.new unless self.is_a? class_constant
+#    self
+#  end
+#end
 
 class String
   def nameize
