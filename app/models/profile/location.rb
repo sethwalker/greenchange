@@ -32,10 +32,6 @@ class Profile::Location < ActiveRecord::Base
     ERB::Util.url_encode(geocode_address)
   end
 
-  def self.options
-    %w[Home Work School Other].to_localized_select
-  end
-
   protected
 
   def validate

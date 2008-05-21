@@ -14,10 +14,6 @@ class Profile::EmailAddress < ActiveRecord::Base
   #after_save {|record| record.profile.save if record.profile}
   #after_destroy {|record| record.profile.save if record.profile}
   
-  #def self.options
-  #%w[Home Work School Personal Group Other].to_localized_select
-  #end
-  
   def email_type
     read_attribute( :email_type )
   end

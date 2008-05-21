@@ -246,7 +246,7 @@ class PathFinder::SqlBuilder < PathFinder::Builder
   end
 
   def sql_for_where(conditions, values)
-    Page.public_sanitize_sql([sql_for_conditions(conditions)] + values )
+    Page.__send__ :sanitize_sql, ([sql_for_conditions(conditions)] + values )
   end
     
 end

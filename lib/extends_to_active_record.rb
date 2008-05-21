@@ -12,22 +12,12 @@ ActiveRecord::Base.class_eval do
       unless record.body.blank?
         record.body.strip!
         record.body_html = GreenCloth.new(record.body).to_html
-        #if record.respond_to? :group_name 
-        #  record.body_html = GreenCloth.new(record.body,record.group_name).to_html
-        #else
-        #  record.body_html = GreenCloth.new(record.body).to_html
-        #end
       end
     end
   end
   
   def dom_id
     [self.class.name.downcase.pluralize.dasherize, id] * '-'
-  end
-  
-  # make sanitize_sql public so we can use it ourselves
-  def self.public_sanitize_sql(condition)
-    sanitize_sql(condition)
   end
   
   # class_attribute()
@@ -91,41 +81,41 @@ ActiveRecord::Base.class_eval do
   # 
   # This plugin is currently installed and used by some models.
   #
-  def self.track_changes(*attr_names)
-    attr_names.each do |attr_name|
-      define_method "#{attr_name}=" do |value|
-        write_changed_attribute attr_name.to_sym, value
-      end
-    end
-  end
-
-  def changed
-    @changed || reset_changed
-  end
-
-  def reset_changed
-    @changed = Hash.new(false)
-  end
-  
-  def old_value(key)
-    changed[key.to_sym]
-  end
-  
-  def write_changed_attribute(attr_name, value)
-    old_value = self.send(attr_name)
-    write_attribute attr_name, value
-    changed[attr_name.to_sym] = old_value if self.send(attr_name) != old_value
-  end
-    
-  def changed?(attr_name = nil)
-    return changed.any? unless attr_name
-    begin
-      changed.fetch(attr_name.to_sym)
-      return true
-    rescue IndexError
-      return false
-    end
-  end
-
+#  def self.track_changes(*attr_names)
+#    attr_names.each do |attr_name|
+#      define_method "#{attr_name}=" do |value|
+#        write_changed_attribute attr_name.to_sym, value
+#      end
+#    end
+#  end
+#
+#  def changed
+#    @changed || reset_changed
+#  end
+#
+#  def reset_changed
+#    @changed = Hash.new(false)
+#  end
+#  
+#  def old_value(key)
+#    changed[key.to_sym]
+#  end
+#  
+#  def write_changed_attribute(attr_name, value)
+#    old_value = self.send(attr_name)
+#    write_attribute attr_name, value
+#    changed[attr_name.to_sym] = old_value if self.send(attr_name) != old_value
+#  end
+#    
+#  def changed?(attr_name = nil)
+#    return changed.any? unless attr_name
+#    begin
+#      changed.fetch(attr_name.to_sym)
+#      return true
+#    rescue IndexError
+#      return false
+#    end
+#  end
+#
 
 end
