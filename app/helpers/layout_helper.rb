@@ -52,13 +52,5 @@ module LayoutHelper
     options
   end
 
-  def column_1_of_2( dataset )
-    dataset[0, dataset.size/2]
-  end
-
-  def column_2_of_2(dataset)
-    dataset[dataset.size/2, dataset.size]
-  end
-    
   
 end

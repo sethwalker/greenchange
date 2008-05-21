@@ -1,0 +1,10 @@
+= f.label :recipients, "To:"
+.scrollable
+  .checkbox-columns
+    - users.sort { |a,b| a.display_name.downcase <=> b.display_name.downcase }.chunk(3).each do |column_users|
+      .column
+        - for user in column_users
+          %p
+            = check_box_tag "#{f.object_name}[recipients][]", user.to_param, ( f.object.recipients && f.object.recipients.include?(user.to_param)), :id => "recipients[#{user.to_param}]"
+            %label{ html_options_for_icon_for( user, :size => 'small', :for => "recipients[#{user.to_param}]") }
+              = user.display_name

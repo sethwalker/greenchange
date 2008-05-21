@@ -2,13 +2,7 @@
   %h4
     Languages
   .behavior-block
-        
-    .column
-      - column_1_of_2(ProfileHelper::LANGUAGES).each do |(key, name)|
-        = render :partial => 'shared/form/list/language', :locals => { :f => f, :language_key => key, :language_name => name }
-    .column
-      - column_2_of_2(ProfileHelper::LANGUAGES).each do |(key, name)|
-        = render :partial => 'shared/form/list/language', :locals => { :f => f, :language_key => key, :language_name => name }
-    
-
-
+    - ProfileHelper::LANGUAGES.chunk(2).each do |column_languages|
+      .column
+        - column_languages.each do |(key, name)|
+          = render :partial => 'shared/form/list/language', :locals => { :f => f, :language_key => key, :language_name => name }

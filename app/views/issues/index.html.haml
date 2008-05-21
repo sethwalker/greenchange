@@ -1,9 +1,6 @@
 %h1
   Issues
-.landing
-  - issues = Issue.find(:all, :order => 'name')
-  .column  
-    =render :partial => 'issue', :collection => column_1_of_2(issues)
-  .column  
-    =render :partial => 'issue', :collection => column_2_of_2(issues)
-	
+.landing.content-list
+  - Issue.standard_set.chunk(2).each do |column_issues|
+    .column.form-column
+      =render :partial => 'issue', :collection => column_issues

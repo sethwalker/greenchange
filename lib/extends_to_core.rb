@@ -1,4 +1,5 @@
 require 'iconv'
+require 'core_extensions/array_chunk'
 
 #
 # here is a file of hackish extends to core ruby. how fun and confusing.

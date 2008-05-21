@@ -2,11 +2,12 @@
   - unless message.is_a?(JoinRequest)
     - unless message.is_a?( Invitation ) 
       %p
-        = f.label :subject, "Subject"
+        = f.label :subject, "Subject:"
         = f.text_field :subject
     - unless message.recipient
       .section
-        %p
+        = render :partial => 'messages/form/recipients', :locals => { :f => f, :users => current_user.contacts }
+        -#%p
           = f.label :recipients, "To (usernames separated with commas)"
           = f.text_area :recipients, :size => '50x2'
   .section
