@@ -3,6 +3,10 @@ class UnauthenticatedUser
     raise PermissionDenied
   end
 
+  def may!(action, resource)
+    raise PermissionDenied unless self.may?(action, resource)
+  end
+
   def may?(action, resource)
     return false unless Permission.alias_for( action ) == :view
     if self.respond_to?(method = "may_#{action}?")
