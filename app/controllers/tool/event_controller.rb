@@ -35,6 +35,7 @@ class Tool::EventController < Tool::BaseController
   
   def show
     @page = Tool::Event.find params[:id]
+    current_user.may! :view, @page
 #    @user_participation= UserParticipation.find(:first, :conditions => {:page_id => @page.id, :user_id => current_user.id})  
 #    if @user_participation.nil?
 #      @user_participation = UserParticipation.new
@@ -49,18 +50,19 @@ class Tool::EventController < Tool::BaseController
 
   def edit
     @page = Tool::Event.find params[:id]
-    raise PermissionDenied unless current_user.may? :admin, @page
+    current_user.may! :edit, @page
   end
   
   def update
     @page = Tool::Event.find params[:id]
-    raise PermissionDenied unless current_user.may? :admin, @page
+    current_user.may! :edit, @page
     @event = @page.data
     # greenchange_note: currently, you aren't able to change a group
     # if one has already been set during event creation
     
     @event.attributes = params[:page].delete(:page_data)
     @page.attributes = params[:page]
+    @page.updated_by = current_user
 
 
     if @page.save and @event.save
