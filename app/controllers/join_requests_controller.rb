@@ -5,6 +5,8 @@ class JoinRequestsController < ApplicationController
   make_resourceful do
     actions :new, :create, :show
     before( :show ) { current_user.may!( :view, current_object ) }
+    before( :ignore )  { current_user.may!( :admin, current_object ) }
+    before( :approve ) { current_user.may!( :admin, current_object ) }
     response_for(:create) do |format| 
       format.html do 
         flash[:notice] = "Your request to join this group has been sent"
@@ -36,6 +38,7 @@ class JoinRequestsController < ApplicationController
   def approve
     load_object
     before :approve
+    current_object.approved_by = current_user
     current_object.approve!
     if current_object.approved?
       after :approve
