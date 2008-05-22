@@ -89,13 +89,19 @@ form
 .with-editor 
   .form-column.first
     :width = !main_column_width - 100
+    body.ie6 &
+      :width = !side_column_width  - 100 - !ie_padding_offset
   .form-column.last
     :width = !side_column_width  + 100
     .section, p
       :width = !side_column_width + 100
+      body.ie6 &
+        :width = !side_column_width  - !ie_padding_offset
     .row
       p
         :width auto
+    body.ie6 &
+      :width = !side_column_width - !ie_padding_offset
 
   
   .icon-upload

@@ -116,7 +116,7 @@ Crabgrass.Ajax = function() {
         init: function() {
           if(!$('ajax-message'))  {
             m_self.display = new Element('div', { 'id': 'ajax-message' })
-            document.body.insert( { bottom: m_self.display } );
+            Element.extend(document.body).insert( { bottom: m_self.display } );
             m_self.display.hide();
           } else {
             m_self.display = $('ajax-message');
