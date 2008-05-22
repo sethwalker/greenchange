@@ -9,10 +9,10 @@
         = render :partial => 'messages/form/recipients', :locals => { :f => f, :users => current_user.contacts }
         -#%p
           = f.label :recipients, "To (usernames separated with commas)"
-          = f.text_area :recipients, :size => '50x2'
+          ~ f.text_area :recipients, :size => '50x2'
   .section
     %p
-      = f.textile_editor :body, :size => '50x20', :id => 'message_body'
+      ~ f.textile_editor :body, :size => '50x20', :id => 'message_body'
       = render :partial => 'tool/wiki/formatting_link'
 
 - content_for :javascript do

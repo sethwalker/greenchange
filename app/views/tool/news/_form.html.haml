@@ -1,6 +1,6 @@
 %p
   = f.label :body, 'Full text'
-  = f.textile_editor :body, :size => '60x40'
+  ~ f.textile_editor :body, :size => '60x40'
   = render :partial => 'tool/wiki/formatting_link'
   = f.hidden_field :lock_version
   
