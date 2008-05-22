@@ -71,6 +71,7 @@ DemocracyInAction.configure do
     map('First_Name')     { |profile| profile.first_name if profile.private? }
     map('Last_Name')      { |profile| profile.last_name if profile.private? }
     map('Organization')   { |profile| profile.organization if profile.private? }
+    map('Source_Details', 'network')
   end
 
   #maybe don't need mirror here.  more like an after_create.

@@ -52,6 +52,9 @@ describe "DemocracyInAction initializer" do
           it "should have organization" do
             @remote_user['Organization'].should == 'organizationally'
           end
+          it "should have organization" do
+            @remote_user['Source_Details'].should == 'network'
+          end
         end
 
         it "should save a proxy" do
