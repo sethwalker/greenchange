@@ -23,11 +23,11 @@
   .clear
 
 - groups_overlapping  =   current_user.groups & @groups
-- if scoped_by_context? && @me.nil? && !groups_overlapping.empty?
+- if scoped_by_context? && ( scoped_by_context? != current_user ) && !groups_overlapping.empty?
   .section
     %h2 
       Groups you share
     .icon-box
-      =render :partial => 'shared/list/group', :collection => groups_overlapping 
+      = render :partial => 'shared/list/group', :collection => groups_overlapping 
     .clear    
 
