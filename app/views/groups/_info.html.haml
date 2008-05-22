@@ -3,8 +3,9 @@
   Members:
   = link_to @group.members.count, group_people_url(@group) 
   - unless @group.issues.empty?
-    .issues.icon-box
-      Issues:
+    .issues.icon-only
+      %label
+        Issues:
       = render :partial => 'shared/icons/issue', :collection => group.issues
   - unless @group.tags.empty?
     .tags

@@ -37,7 +37,7 @@
         :float left
         :padding-bottom 10px
         :padding-top 5px
-  .issues
+  -#.issues
     :float left
     :clear both
     label
@@ -205,17 +205,21 @@
   .tags
     :float left
     :font-size 11px
-  .issues.icon-only
+
+.issues.icon-only
+  label
+    :float left
+    :font-size 11px
+    :line-height 25px
+  .icon.small
+    :float left
+    :width 28px
+    :height 28px
+    :margin-top 5px
+    :background-position top left
+  .group-profile &
     label
-      :float left
-      :font-size 11px
-      :line-height 25px
-    .icon.small
-      :float left
-      :width 28px
-      :height 28px
-      :margin-top 5px
-      :background-position top left
+      :font-size 12px
 
 .promo
   :padding 0px

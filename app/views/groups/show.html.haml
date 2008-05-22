@@ -7,10 +7,6 @@
   .section.info
     .section.profile
       = render :partial => 'info', :locals => { :group => @group }
-    -unless @group.issues.empty?
-      .issues.icon-only
-        %label Issues:
-        = render :partial => 'shared/icons/issue', :collection => @group.issues
 
 .content-list.main
   -#.section.promo
