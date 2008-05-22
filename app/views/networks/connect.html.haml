@@ -3,13 +3,19 @@
     Connect
 
 .section
-  %h2 Groups
+  %h2 
+    Groups
+    &nbsp;&nbsp;
+    = link_to " show all ", groups_path
   .icon-box
     =render :partial => 'shared/list/group', :collection => @groups
 .clear
 
 .section
-  %h2 People
+  %h2 
+    People
+    &nbsp;&nbsp;
+    = link_to " show all ", people_path
   .icon-box
     =render :partial => 'shared/list/person', :collection => @people
 .clear
