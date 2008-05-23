@@ -96,6 +96,9 @@ class InvitationsController < ApplicationController
     unless defaults[:recipients]
       invitable[:recipients] ||= @person.login if @person
     end
+    unless defaults[:recipient]
+      invitable[:recipient] ||= @person if @person
+    end
     defaults.merge invitable
   end
 
