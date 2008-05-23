@@ -4,7 +4,7 @@ There are many ways to check out the network.  Here are just a few ideas:
 
 1) Make [your profile -> /me/profile/edit] page.  Add a photo, share your interests, start a blog and more.
 
-2) [Connect -> /me/connect]  with other people and groups.   
+2) [Connect -> /network/connect]  with other people and groups.   
 
 3) Share your art, writing, videos, audio, photos and more.  Get heard.  Just go [to create -> /pages/new].
 
