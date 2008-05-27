@@ -56,5 +56,16 @@ module AjaxUiHelper
     @ajax_list_behavior_loaded = true
   end
 
+  def load_markitup_library
+    content_for( :stylesheet, 
+      stylesheet_link_tag( '../javascripts/markitup/skins/greenchange/style-full' ) +
+      stylesheet_link_tag( '../javascripts/markitup/sets/textile/style' ))
+    content_for( :javascript, 
+      jquery_javascript_library +
+      javascript_include_tag( 'markitup/jquery.markitup.preview.js' ) +
+      javascript_include_tag( 'markitup/sets/textile/parser' ) +
+      javascript_include_tag( 'markitup/sets/textile/set' ) )
+  end
+
 
 end
