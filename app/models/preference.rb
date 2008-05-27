@@ -2,6 +2,7 @@ class Preference < ActiveRecord::Base
   belongs_to :user
   PREFERENCE_KEYS = Crabgrass::Config.user_preferences.map(&:first)
   #validates_inclusion_of :name, :in => PREFERENCE_KEYS
+  validates_uniqueness_of :name, :scope => :user_id
 
   after_save :update_democracy_in_action
   def update_democracy_in_action

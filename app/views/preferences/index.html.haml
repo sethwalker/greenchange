@@ -1,0 +1,6 @@
+- @preferences.each do |pref|
+  %p
+    %label{ :for => "preference-#{pref.id}" }
+      = Crabgrass::Config.user_preferences.assoc( pref.name.to_sym ).try(:last)
+    %span{ :id => "preference-#{pref.id}" }
+      = pref.value

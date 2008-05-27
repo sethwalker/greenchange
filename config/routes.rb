@@ -84,6 +84,7 @@ ActionController::Routing::Routes.draw do |map|
     me.resources :people
     me.resources :groups   
     me.resources :bookmarks
+    me.resources :preferences
     page_routes me
     me.resource  :profile
     me.resource  :network
