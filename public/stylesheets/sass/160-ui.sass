@@ -262,3 +262,12 @@ div.edit-tab
   :display none
   p
     :margin 2px 0 2px 0
+  input[type=submit].action
+    :font-size 11px
+    :outline 0
+    :border 0
+    :background-color transparent
+    :color = !link_text
+    &:hover
+      :color = !link_text_hover
+      :text-decoration underline

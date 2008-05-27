@@ -11,6 +11,7 @@ Crabgrass::Config.image_sizes = {
 Crabgrass::Config.user_preferences = [
     [:subscribe_to_email_list, 'Subscribe me to Green Change e-updates'], 
     [:allow_info_sharing, 'Share my information with other Green organizations'], 
+    [:html_editor_level, 'HTML Editor preference'], 
 ]
 
 Crabgrass::Config.profile_note_types = [ 
