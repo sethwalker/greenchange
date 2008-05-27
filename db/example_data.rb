@@ -60,6 +60,9 @@ module FixtureReplacement
   attributes_for :message do |a|
     
 	end
+  attributes_for :network_event do |a|
+    a.action = 'create'
+  end
 
   attributes_for :page_tool do |a|
     

@@ -584,4 +584,37 @@ describe Page do
       Page.by_issue(@issue, issue2).should include(@page)
     end
   end
+
+  describe "notifications" do
+    before do
+      @user = @page.created_by = create_user
+      @user.contacts << ( @buddy = create_user )
+      @page.group = ( @team = create_group)
+      @page.group.members << ( @i_in_team = create_user )
+    end
+    describe "the default watcher group" do
+      before do
+      end
+      it "includes the creator" do
+        @page.watchers.should include(@page.created_by)
+      end
+      it "includes the creators buddies" do
+        @page.watchers.should include(@buddy)
+      end
+      it "includes the group members" do
+        @page.watchers.should include(@i_in_team)
+      end
+      it "does not include randoms" do
+        no_i_in_team = create_user
+        @page.watchers.should_not include(no_i_in_team)
+      end
+
+    end
+    describe "are created on save" do
+      it "creates a network event when saved" do
+        @page.save
+        NetworkEvent.find_by_modified_id(@page).should_not be_nil
+      end
+    end
+  end
 end

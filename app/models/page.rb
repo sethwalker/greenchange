@@ -679,6 +679,10 @@ class Page < ActiveRecord::Base
     gpart.group.role_for(user).allows?(action, self ) } ) 
   end
 
+  def watchers
+    ( [ created_by ] << created_by.try(:contacts) << group.try(:members ) ).flatten.compact.uniq
+  end
+
   #Ratings commands
   def star!(user)
     participation = user_participations.find_or_create_by_user_id( user.id )
