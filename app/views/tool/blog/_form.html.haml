@@ -1,9 +1,10 @@
 %p
-  ~ f.textile_editor :body, :size => '60x40'
+  -#~ f.textile_editor :body, :size => '60x40'
+  ~ f.text_area :body, :size => '60x40', :class => 'tiny_mce'
   = render :partial => 'tool/wiki/formatting_link'
   = f.hidden_field :lock_version
 
 - content_for :javascript do
-  = textile_editor_support
-- content_for :javascript_onload do
-  TextileEditor.initialize("page_page_data_body", "extended");
+  = javascript_include_tag 'tiny_mce/tiny_mce'
+  ~ javascript_tag 'tinyMCE.init( { mode: "textareas", theme: "advanced", editor_selector: "tiny_mce",  theme_advanced_toolbar_location:"top", theme_advanced_toolbar_align: "left", theme_advanced_disable: "justifyfull,styleselect,help", theme_advanced_buttons1: "bold,italic,underline,strikethrough,|,sup,sub,charmap,|,link,unlink,anchor,image,|,undo,redo,|,cleanup,code", theme_advanced_buttons2: "styleselect,justifyleft,justifycenter,justifyright,|,bullist,numlist,|,outdent,indent,|,hr,removeformat,visualaid" });'
+-# content_for :javascript_onload do
