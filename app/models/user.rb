@@ -23,6 +23,7 @@ class User < ActiveRecord::Base
   has_many :given_permissions,  :as => 'grantee', :class_name => 'Permission'
   has_many :preferences, :dependent => :destroy 
   has_many :languages, :class_name => 'Profile::Language'
+  has_many :notifications
 
   def add_to_democracy_in_action_groups
     return if DemocracyInAction::API.disabled?
