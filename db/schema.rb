@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1210877410) do
+ActiveRecord::Schema.define(:version => 1211330167) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -345,6 +345,26 @@ ActiveRecord::Schema.define(:version => 1210877410) do
     t.datetime "updated_at"
     t.integer  "approved_by_id"
   end
+
+  create_table "network_events", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "modified_type"
+    t.integer  "modified_id"
+    t.string   "action"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "network_events", ["modified_type", "modified_id"], :name => "index_on_modified"
+  add_index "network_events", ["user_id"], :name => "index_on_user_id"
+
+  create_table "notifications", :force => true do |t|
+    t.integer "network_event_id"
+    t.integer "user_id"
+    t.string  "status",           :default => "new"
+  end
+
+  add_index "notifications", ["user_id", "status"], :name => "index_on_user_id_and_status"
 
   create_table "page_tools", :force => true do |t|
     t.integer "page_id"

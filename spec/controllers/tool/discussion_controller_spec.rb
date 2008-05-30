@@ -31,6 +31,7 @@ describe Tool::DiscussionController do
         p.save_with_validation(false)
       end
       page = stub_everything('page')
+      page.stub!(:created_at).and_return(Time.now)
       page.should_receive(:discussion).any_number_of_times.and_return(discussion)
       page.should_receive(:data).any_number_of_times.and_return(discussion)
       Tool::Discussion.should_receive(:find).and_return(page)
