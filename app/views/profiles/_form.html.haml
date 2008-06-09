@@ -58,7 +58,7 @@
 
 - content_for :javascript do
   = jquery_javascript_library
-  = javascript_include_tag( 'jquery/jquery.dimensions.js' )
+  -#= javascript_include_tag( 'jquery/jquery.dimensions.js' )
   = javascript_include_tag 'forms'
 - load_ajax_form_behaviors
 - content_for :javascript_onload do

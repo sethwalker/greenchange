@@ -7,12 +7,12 @@ module AjaxUiHelper
   end
 
   def jquery_javascript_library
-    javascript_include_tag( 'jquery/jquery' ) +
+    javascript_include_tag( 'jquery/jquery-1.2.6.js' ) +
     javascript_tag( 'var jQ$ = jQuery.noConflict();' )
   end
   def jquery_javascript_effect_includes
     jquery_javascript_library + 
-    javascript_include_tag( 'jquery/jquery.dimensions.js' )+
+    #javascript_include_tag( 'jquery/jquery.dimensions.js' )+
     javascript_include_tag( 'jquery/enchant/fx' )+
     javascript_include_tag( 'jquery/enchant/fx.slide.js' )
   end
