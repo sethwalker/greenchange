@@ -112,16 +112,12 @@ Crabgrass.Ajax = function() {
   var self = {
     Message: function() {
       var m_self = {
-        display: {},
-        init: function() {
-          if(!$('ajax-message'))  {
-            m_self.display = new Element('div', { 'id': 'ajax-message' })
-            Element.extend(document.body).insert( { bottom: m_self.display } );
-            m_self.display.hide();
-          } else {
-            m_self.display = $('ajax-message');
-          }
-        },
+        display: function() {
+          if (jQ$('#ajax-message').length == 0) {
+           jQ$('<div id="ajax-message"></div>').appendTo( document.body ).hide()[0] ; 
+          } 
+          return jQ$('#ajax-message')[0];
+        }(),
 
         show_error: function( message ) {
           if (message == null) {
@@ -136,43 +132,36 @@ Crabgrass.Ajax = function() {
           }
           if (message_class == null) message_class = 'message';
 
-          m_self.display.update( new Element('div', { 'class': message_class }).update( message ));
-          m_self.display.show();
+          //m_self.display.update( new Element('div', { 'class': message_class }).update( message ));
+          jQ$(m_self.display).html( jQ$('<div></div>').addClass( message_class).text( message) )[0].show();
           m_self.set_position();
           
-          m_self.onscroll = m_self.set_position.bindAsEventListener(m_self);
-          m_self.expire = m_self.hide.bindAsEventListener(m_self);
-          Event.observe( window, 'scroll', m_self.onscroll );
-          window.setTimeout( m_self.expire, 10000 );
+          m_self.onscroll = function() {  m_self.set_position(m_self) } ;
+          jQ$(window).scroll( m_self.set_position );
+          window.setTimeout( m_self.hide, 10000 );
         },
 
         hide: function() {
           m_self.display.hide();
-          Event.stopObserving( window, 'scroll', m_self.onscroll);
+          jQ$(window).unbind('scroll', m_self.set_position );
         },
 
         set_position: function () {
-          m_self.display.setStyle({ top: document.viewport.getScrollOffsets().top + 'px' } ) 
+          jQ$(m_self.display).css({ top: jQ$(document).scrollTop()});
         }
       };
-      m_self.init();
       return m_self;
     }(),
 
     show_busy: function( el ) {
-      el = Element.extend( el );
-      el.hide();
-      if(!el.next() || !el.next().hasClassName('busy')) {
-        el.insert( { after: new Element( 'div', { 'class': 'busy'} ) });
+      jQ$(el).hide();
+      if(!jQ$(el).next().is('.busy')) {
+        jQ$(el).after( jQ$('<div class="busy"></div>'));
       } 
     },
 
     hide_busy: function( el ) {
-      el = Element.extend( el );
-      el.show();
-      if(el.next() && el.next().hasClassName('busy')) {
-        el.next().remove();
-      }
+      jQ$(el).show().next('.busy').remove();
     }
   };
   return self;

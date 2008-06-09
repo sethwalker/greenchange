@@ -9,7 +9,8 @@ class Profile::MetadataController < ApplicationController
   def new
     @item = ::Profile.const_get(controller_name.demodulize.classify).new
     if request.xhr?
-      render :partial => "profiles/form/#{item_partial}", :locals => { item_partial => @item, :profile => @profile  }
+      render :head => :unprocessable_entity
+      #render :partial => "profiles/form/#{item_partial}", :locals => { item_partial => @item, :profile => @profile  }
     end
   end
 

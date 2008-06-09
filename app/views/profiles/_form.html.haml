@@ -56,9 +56,11 @@
   -# use these options for the default view
   -# locals => { :item_collection => item_collection, :item_type => section.to_sym, :item_collection_type => section.pluralize.to_sym }
 
-- load_ajax_form_behaviors
 - content_for :javascript do
+  = jquery_javascript_library
+  = javascript_include_tag( 'jquery/jquery.dimensions.js' )
   = javascript_include_tag 'forms'
+- load_ajax_form_behaviors
 - content_for :javascript_onload do
   $('content').down('form input[type=text]').focus();
   Crabgrass.Forms.submit_from_menu();
