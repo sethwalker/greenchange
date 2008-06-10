@@ -7,6 +7,8 @@ jQ$.fn.activate = function() {
 jQ$.fn.deactivate = function() { 
   return jQ$(this).removeClass('active');
 };
+
+if( Crabgrass == undefined ) var Crabgrass = function() { return { }; }
 Crabgrass.Tabs =  function() {
   return {
     create: function( self ) {

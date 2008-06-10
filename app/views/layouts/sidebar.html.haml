@@ -1,5 +1,5 @@
 = yield :sidebar_header
-- unless controller.controller_name =~ /account/ || controller.action_name == 'new' 
+- unless controller.controller_name =~ /account|session/ || controller.action_name == 'new' 
   - if @group
     = render :partial => 'groups/context_menu',   :locals => { :group => @group }
     = render :partial => 'shared/sides/donate'

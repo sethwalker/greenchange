@@ -1,3 +1,4 @@
+if( Crabgrass == undefined ) var Crabgrass = function() { return { }; }
 Crabgrass.Forms = function() {
   var self = { 
     initialize_radio_behavior: function() {

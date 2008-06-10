@@ -1,4 +1,13 @@
 = link_to 'formatting_reference', '/static/greencloth', :target => 'blank', :id => 'formatting-reference-link'
 
 - content_for :javascript_onload do
-  jQ$('#formatting-reference-link').click( function(ev) { quickRedReference(); return false; } );
+  jQ$('#formatting-reference-link').click( function(ev) { 
+  window.open( 
+  "/static/greencloth",
+  "redRef",
+  "height=600,width=750/inv,channelmode=0,dependent=0," +
+  "directories=0,fullscreen=0,location=0,menubar=0," +
+  "resizable=0,scrollbars=1,status=1,toolbar=0"
+  );
+  return false; 
+  } );
