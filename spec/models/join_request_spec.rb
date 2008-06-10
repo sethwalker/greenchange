@@ -21,9 +21,9 @@ describe JoinRequest do
     before do
       @group = create_valid_group
       @req.requestable = @group
-      @req.sender_id = create_valid_user.id
-      @req.recipient = create_valid_user
-      @req.approved_by = create_valid_user
+      @req.sender_id = (@sender = create_user).id
+      @req.recipient = create_user
+      @req.approved_by = create_user
       @req.save
     end
 

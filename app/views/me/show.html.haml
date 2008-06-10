@@ -17,7 +17,7 @@
         = render :partial => 'shared/icons/issue', :collection => @me.issues
 
 .landing
-  -#= render :partial => 'pages/shared/time_segmented_list', :locals => {:pages => @pages} 
-  = render :partial => 'notifications/time_segmented_list', :locals => { :notifications => @me.notifications } 
-
-
+  %h2.landing
+    In your network
+  %ul.row-listing.pages
+    = render_network_events(@me.network_events)

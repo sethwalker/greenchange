@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   include AuthenticatedUser
   include SocialUser
   include Crabgrass::ActiveRecord::Collector
+  include Crabgrass::Serializeable
 
   validates_acceptance_of :terms_of_service, :message => 'must be agreed to before you can sign up'
   validates_presence_of :login
@@ -24,6 +25,7 @@ class User < ActiveRecord::Base
   has_many :preferences, :dependent => :destroy 
   has_many :languages, :class_name => 'Profile::Language'
   has_many :notifications
+  has_many :network_events, :through => :notifications, :order => "network_events.created_at DESC"
 
   def add_to_democracy_in_action_groups
     return if DemocracyInAction::API.disabled?

@@ -31,6 +31,7 @@
 
 
 class Group < ActiveRecord::Base
+  include Crabgrass::Serializeable
 
   #track_changes :name
   acts_as_modified

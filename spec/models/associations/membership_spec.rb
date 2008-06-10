@@ -35,8 +35,10 @@ end
 
 describe Membership, "with DIA hooks" do
   it "should remove from no groups group when a membership is created" do
-    DemocracyInAction::Proxy.should_receive(:find_by_local_type_and_local_id_and_name).with('User', 123, 'no_groups_group_membership')
-    Membership.create(:user_id => 123, :group_id => 1234)
+    user = create_user
+    group = create_group
+    DemocracyInAction::Proxy.should_receive(:find_by_local_type_and_local_id_and_name).with('User', user.id, 'no_groups_group_membership')
+    Membership.create(:user => user, :group => group)
   end
 
   it "should add to group if no more memberships after destroy" do

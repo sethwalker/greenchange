@@ -10,7 +10,7 @@ class Membership < ActiveRecord::Base
   belongs_to :group
   belongs_to :page
 
-  validates_presence_of :role
+  validates_presence_of :user_id, :group_id, :role
 
   def role=(value)
     write_attribute :role, value.to_s
@@ -49,4 +49,18 @@ class Membership < ActiveRecord::Base
     DemocracyInAction::Proxy.find_by_local_type_and_local_id_and_name('User', user_id, 'no_groups_group_membership').try(:destroy)
   end
     
+  after_create :created_network_event
+  def created_network_event
+    @created_network_event ||= NetworkEvent.create! :modified => self, :action => 'create', :user => user, :recipients => watchers, :data_snapshot => {:group => group, :user => user}
+  end
+
+  before_destroy :destroyed_network_event
+  def destroyed_network_event
+    @destroyed_network_event ||= NetworkEvent.create! :modified => self, :action => 'destroy', :user => user, :recipients =>watchers, :data_snapshot => {:group => group, :user => user}
+  end
+
+  def watchers
+    user.contacts + group.admins
+  end
+
 end

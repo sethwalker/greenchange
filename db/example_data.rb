@@ -62,6 +62,8 @@ module FixtureReplacement
 	end
   attributes_for :network_event do |a|
     a.action = 'create'
+    a.user = default_user
+    a.modified = default_page
   end
 
   attributes_for :page_tool do |a|

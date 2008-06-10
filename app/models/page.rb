@@ -7,6 +7,7 @@
 # 
 
 class Page < ActiveRecord::Base
+  include Crabgrass::Serializeable
   acts_as_modified
   acts_as_fleximage do
     image_directory 'public/images/uploaded/icons/pages' 

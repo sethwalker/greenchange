@@ -610,11 +610,5 @@ describe Page do
       end
 
     end
-    describe "are created on save" do
-      it "creates a network event when saved" do
-        @page.save
-        NetworkEvent.find_by_modified_id(@page).should_not be_nil
-      end
-    end
   end
 end
