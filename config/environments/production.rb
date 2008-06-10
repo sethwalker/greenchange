@@ -35,6 +35,7 @@ MAKE_ASSET_BUNDLES = true
 # Crabgrass::Config.http_only = true
 
 # smtp configuration
+require 'tlsmail'
 Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)
 ActionMailer::Base.delivery_method = :smtp
 #
