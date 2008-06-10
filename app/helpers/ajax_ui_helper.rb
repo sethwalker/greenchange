@@ -7,10 +7,14 @@ module AjaxUiHelper
   end
 
   def jquery_javascript_library
+    return '' if @jquery_library_loaded
+    @jquery_library_loaded = true
     javascript_include_tag( 'jquery/jquery-1.2.6.js' ) +
     javascript_tag( 'var jQ$ = jQuery.noConflict();' )
   end
-  def jquery_javascript_effect_includes
+  def jquery_effects
+    return '' if @jquery_effects_loaded
+    @jquery_effects_loaded = true
     jquery_javascript_library + 
     javascript_include_tag( 'jquery/ui/effects.core.js' ) +
     javascript_include_tag( 'jquery/ui/effects.slide.js' ) +
@@ -21,7 +25,7 @@ module AjaxUiHelper
   def load_javascript_tabs
     return if @javascript_tabs_loaded
     content_for :javascript,
-      jquery_javascript_effect_includes + 
+      jquery_effects + 
       javascript_include_tag('tabs') 
     content_for :javascript_onload, "Crabgrass.Tabs.initialize_tab_blocks();"
     @javascript_tabs_loaded = true
@@ -37,19 +41,13 @@ module AjaxUiHelper
 
   def load_ajax_list_behaviors
     return if @ajax_list_behavior_loaded
-    content_for :javascript_onload, <<-SCRIPT
-    $$('ul.list').each( function( list ) {
-        list.observe('click', function(ev) {
-          clicked_item = Event.element(ev);
-          if( clicked_item.hasClassName('delete' ) && clicked_item.hasClassName('confirm')) {
-            if( !confirm( 'You are about to delete this item.  You will not be able to undo this.' )) {
-              ev.stop();
-              return;
-            }
-          }
-        } );
-      } );
-    SCRIPT
+    content_for( :javascript, jquery_javascript_library +
+      javascript_tag( <<-SCRIPT
+      jQ$('ul.list .toolbar .delete.confirm').click( function( ev ) { 
+        return confirm( 'You are about to delete this item.  You will not be able to undo this.' );
+      });
+      SCRIPT
+      ))
     @ajax_list_behavior_loaded = true
   end
 
