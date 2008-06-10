@@ -17,7 +17,7 @@
         = f.label :group_summary,  'Group description'
         %span.comment
           Brief information regarding this group.
-        = f.text_area :summary, :rows => 8, :cols => 60
+        ~ f.text_area :summary, :rows => 8, :cols => 60
 
   .column.form-column.last
     .section
@@ -35,6 +35,7 @@
     = render :partial => "shared/form/issues", :locals => {:f => f}
 
 - content_for :javascript do
+  = jquery_javascript_library
   = javascript_include_tag 'forms'
 - content_for :javascript_onload do
   $('group_full_name').focus();

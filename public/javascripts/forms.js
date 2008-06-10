@@ -1,106 +1,64 @@
 Crabgrass.Forms = function() {
   var self = { 
     initialize_radio_behavior: function() {
-      $$('input.behavior-radio').each( function(el){
-        el.observe( 'click', function( ev ) {
-          if( !el.getValue()) {
-            ev.stop();
-            return false;
-          }
-          el.up('.behavior-block').select( 'input.behavior-radio').without(el).each( function(elo) { 
-            elo.checked = false;
-          } );
-        } );
-      } );
+      jQ$('input.behavior-radio').click( function(ev) {
+          jQ$( 'input.behavior-radio', jQ$(this).parents('.behavior-block')).not(this).each( function() { 
+              jQ$(this).attr('checked', false) 
+            } );
+          if( !jQ$(ev.target).attr( 'checked' )) return false;
+        });
     },
     submit_from_menu: function() {
-      title_menu = $('titlebox').down('.toolbar.title-menu');
-      delete_button = title_menu.down('input[type=submit].delete');
-      if (delete_button != null ) { 
-        delete_button.observe( 'click', function(ev) {
-          if(!confirm("You are about to delete the current page.  You will not be able to undo this.")) {
-            ev.stop();
-            return;
-          }
+      var title_menu = jQ$('#titlebox .toolbar.title-menu');
+      if( title_menu.length == 0 ) return;
+      jQ$('input[type=submit].delete', title_menu).click( function(ev) {
+          if(!confirm("You are about to delete the current page.  You will not be able to undo this.")) { return false; }
         });
-      }
-      if (title_menu == null ) return;
-      form = $('content').down('.edit form');
-      if ( form == null ) form = $('content').down('.new form');
-      if ( form == null ) return;
-      //submit_buttons = form.select("p.submit input[type=submit]").each( function( submit_button ) {
-      submit_block = form.down("p.submit").cloneNode(true);
-      submit_block.select('input[type=submit]').each( function( menu_submit ) {
-        menu_submit.observe( 'click', function(ev) { form.submit(); } );
-        //title_menu.insert( menu_submit );
-      } );
-      title_menu.insert( { top: submit_block } );
+      var form = jQ$('#content .edit form').find('#content .new form').andSelf()[0];
+      jQ$( 'input[type=submit]', jQ$( 'p.submit', form ).clone().prependTo( title_menu )).click( function(ev) { form.submit(); });
     },
 
     initialize_remote_actions: function() {
-      $$('.behavior-block .remote').each( function(el) {
-        el.observe( 'click', function(ev) {
-          if( el != Event.element(ev)) {
-            //ev.stop();
-            return false;
-          }
-          //confirm action if so marked -- replace this someday with nicer text or undo options
-          if( el.hasClassName('confirm')){ 
-            data_to_delete = el.up('.row').select('select,input[type=text]').pluck( 'value' ).join("\n");
-            confirm_message = "You are about to delete the following data:\n\n" + data_to_delete + "\n\n";
-            if( !confirm(confirm_message+'Are you sure?')) {
-              ev.stop();
-              return false;
-            }
-          }
-          //discover remote target
-          if( !(remote_action = el.readAttribute('remote_url'))) { 
-            if( !(remote_action = el.readAttribute('href'))) {
-              return; 
-            }
-          } 
+      jQ$('.behavior-block .remote').click( function(ev) {
+        if( this != ev.target ) return false;
+        var remote_action = jQ$(ev.target).attr('remote_url') || jQ$(ev.target).attr('href');
+        if( !remote_action ) return;
 
-          request_options = { 
-            asynchronous:true, 
-            evalScripts:true, 
-            method: 'get',
-            onLoading: function(){ Crabgrass.Ajax.show_busy(el); }, 
-            onComplete: function(){ Crabgrass.Ajax.hide_busy(el); },  
-            onFailure: function( response ){ Crabgrass.Ajax.Message.show_error() ; }  
-          };
-          if (el.form) { 
-            request_options.parameters= Form.serialize(el.form);
-            request_options.method = 'post'
-          }
-          if(el.hasClassName('delete')) {
-            request_options.onSuccess = function( response ){ self.delete_successful(el); };
-            request_options.method = 'delete'
-          }
-          if(el.hasClassName('new')) {
-            request_options.onSuccess = function( response ){ self.new_successful(el, response ); };
-          }
-          new Ajax.Request( remote_action, request_options);
-          ev.stop();
-        } );
-      } );
+        if( jQ$(ev.target).is('.confirm')) {
+          var data_to_delete = jQ$( 'select,input[type=text]', jQ$(ev.target).parents('.row')).map( function() { return jQ$(this).val(); }).get().join('\n');
+          var confirm_message = "You are about to delete the following data:\n\n" + data_to_delete + "\n\n";
+          if( !confirm(confirm_message+'Are you sure?')) return false;
+        }
+        request_options = { 
+          url: remote_action,
+          beforeSend: function(){ Crabgrass.Ajax.show_busy(ev.target) }, 
+          complete: function(){ Crabgrass.Ajax.hide_busy(ev.target) },  
+          error: function( response ){ Crabgrass.Ajax.Message.show_error() },
+          data: {}
+        };
+        if(jQ$(ev.target).is('.delete')) {
+          //html datatype prevents jQuery from throwing xml parse error
+          request_options.dataType = 'html'
+          request_options.data['_method'] =  'delete'
+          request_options.success = function( ){ self.delete_successful(ev.target); };
+          request_options.type = 'POST';
+        }
+        if(jQ$(ev.target).is('.new')) {
+          request_options.success = function( response ){ self.new_successful(ev.target, response ); };
+        }
+        jQ$.ajax( request_options );
+        return false;
+
+        
+      });
     },
 
     delete_successful: function( el ) {
-      to_delete = el.up('.row');
-      if(to_delete) {
-        new Effect.DropOut( to_delete );
-        to_delete.byebye = to_delete.remove.bindAsEventListener( to_delete );
-        setTimeout( to_delete.byebye , 1000 );
-      }
+      jQ$(el).parents().filter('.row').eq(0).hide('drop', { direction: 'down', duration: 400, callback: function() { this.remove() } } );
     },
 
     new_successful: function( el, response ) {
-      
-      insert_block = new Element( 'div' ).update(response.responseText);
-      insert_block.hide();
-      
-      el.up('.toolbar').insert( { before: insert_block } );
-      new Effect.Appear( insert_block );
+      jQ$(response).hide().insertBefore( jQ$(el).parents('.toolbar').parents('.row').eq(0)).show('drop', { direction: 'up' });
     }
 
     

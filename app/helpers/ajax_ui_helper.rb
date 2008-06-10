@@ -12,9 +12,9 @@ module AjaxUiHelper
   end
   def jquery_javascript_effect_includes
     jquery_javascript_library + 
-    #javascript_include_tag( 'jquery/jquery.dimensions.js' )+
-    javascript_include_tag( 'jquery/enchant/fx' )+
-    javascript_include_tag( 'jquery/enchant/fx.slide.js' )
+    javascript_include_tag( 'jquery/ui/effects.core.js' ) +
+    javascript_include_tag( 'jquery/ui/effects.slide.js' ) +
+    javascript_include_tag( 'jquery/ui/effects.drop.js' )
   end
 
   # load the javascript tabs.  redefine the method when you're done so it can't be called again

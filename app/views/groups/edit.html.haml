@@ -4,10 +4,10 @@
   %h1
     Edit Group Profile
 
-- form_for :group, @group, :url => group_path(@group), :html => { :method => :put, :multipart => true, :id =>'edit-group-form' } do |f|
-  .edit.group.form
+.edit.group
+  - form_for :group, @group, :url => group_path(@group), :html => { :method => :put, :multipart => true, :id =>'edit-group-form' } do |f|
     = render :partial => 'form', :locals => {:f => f }
-  %p.submit
-    = f.submit 'Update'
+    %p.submit
+      = f.submit 'Update'
 
 
