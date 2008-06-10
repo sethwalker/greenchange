@@ -23,15 +23,46 @@ class NetworkFeed < ActiveRecord::Migration
 
     add_index "notifications", ["user_id", "status"], :name => "index_on_user_id_and_status"
 
+    @events = {}
     NetworkEvent.record_timestamps = false
+    Membership.record_timestamps = false
+
+    puts "setting up pages"
     Page.find(:all).each do |page|
       if (page.updated_at == page.created_at) && page.created_by
-        NetworkEvent.create! :modified => page, :action => 'create', :user => page.created_by, :recipients => watchers(page), :data_snapshot => {:page => page, :page_created_by => page.created_by}, :user => page.created_by
+        @events[page.created_at.to_i] ||= []
+        @events[page.created_at.to_i] << lambda {
+          puts "adding an page create"
+          NetworkEvent.create! :modified => page, :action => 'create', :user => page.created_by, :recipients => watchers(page), :data_snapshot => {:page => page, :page_created_by => page.created_by}, :user => page.created_by, :created_at => page.created_at
+        }
       elsif page.created_by && page.updated_by
-        NetworkEvent.create! :modified => page, :action => 'update', :user => page.updated_by, :recipients => watchers(page), :data_snapshot => {:page => page, :page_created_by => page.created_by, :page_updated_by => page.updated_by}, :user => page.updated_by
+        @events[page.updated_at.to_i] ||= []
+        @events[page.updated_at.to_i] << lambda {
+          puts "adding an page update"
+          NetworkEvent.create! :modified => page, :action => 'update', :user => page.updated_by, :recipients => watchers(page), :data_snapshot => {:page => page, :page_created_by => page.created_by, :page_updated_by => page.updated_by}, :user => page.updated_by, :created_at => page.updated_at
+        }
       end
     end
+
+    puts "setting up membership"
+    Membership.find(:all).each do |membership|
+      @events[membership.created_at.to_i] ||= []
+      @events[membership.created_at.to_i] << lambda {
+        puts "\tadding a membership"
+        NetworkEvent.create! :modified => membership, :action => 'create', :user => membership.user, :recipients => membership.watchers, :data_snapshot => {:group => membership.group, :user => membership.user}, :created_at => membership.created_at
+      }
+    end
+
+    puts "creating everything"
+    @events.sort.each do |time, ary|
+      puts "time: #{time}"
+      ary.each do |p|
+        p.call
+      end
+    end
+
     NetworkEvent.record_timestamps = true
+    Membership.record_timestamps = true
   end
 
 
