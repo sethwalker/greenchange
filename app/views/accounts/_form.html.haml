@@ -43,6 +43,6 @@
       = hidden_field_tag( 'redirect', params[:redirect]) if params[:redirect]
 
 
-- content_for :javascript do 
-  = javascript_tag "document.getElementById('user_login').focus();"
+- content_for :javascript_onload do 
+  jQ$('#user_login').focus();
 

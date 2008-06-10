@@ -60,6 +60,7 @@ observe_field(:entryfield,
                         :id => @channel })
 %>
 <% content_for :javascript do %>
+  <%= prototype_library -%>
   <%= javascript_tag scroll_conversation_script %>
   <%= javascript_tag set_time_and_name_script %>
 <% end %>

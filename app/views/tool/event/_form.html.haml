@@ -67,16 +67,17 @@
     = f.text_area :directions, :rows => 10, :cols => 50
 
 - content_for :javascript do
+  = prototype_library
   = javascript_include_tag 'calendar_date_select/calendar_date_select'
   = stylesheet_link_tag 'calendar_date_select/blue'
 
 - content_for :javascript_onload do
-  Event.observe( $("event_date_start"), 'focus', function(ev) { 
+  jQ$("#event_date_start").focus( function(ev) { 
   var calselect = new CalendarDateSelect( 'event_date_start', { year_range: 10  } );
   });
-  Event.observe( $("event_date_end"), 'focus', function(ev) { 
+  jQ$("#event_date_end").focus( function(ev) { 
   var calselect = new CalendarDateSelect( 'event_date_end', { year_range: 10  } );
   });
-  if( $("event_is_all_day").checked ) $$(".time-details").invoke('hide');
-  Event.observe( $("event_is_all_day"), 'click', function(ev) { $$(".time-details").invoke('toggle'); });
+  if( jQ$("#event_is_all_day").attr('checked') ) jQ$(".time-details").hide();
+  jQ$("#event_is_all_day").click( function(ev) { jQ$(".time-details").toggle() });
 

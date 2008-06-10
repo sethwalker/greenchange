@@ -11,13 +11,3 @@
     %ul.section.plain
       = render :partial => 'inbox/list/message', :collection => @items
 
--# content_for :javascript_onload do
-  // message display/hiding for inbox
-  $('inbox-list').select('.view-indicator-stub').each( function( view_icon ) { view_icon.addClassName('view-indicator') } );
-  $('inbox-list').select('.message-block .message-body').invoke('hide');
-  $('inbox-list').select('.message-block').each( function( message_block ) {
-  message_block.down('.message-meta').observe('click', function(ev) {
-  message_block.toggleClassName('expanded');
-  message_block.down('.message-body').toggle();
-  } );
-  } );

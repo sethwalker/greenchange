@@ -35,9 +35,8 @@
     = render :partial => "shared/form/issues", :locals => {:f => f}
 
 - content_for :javascript do
-  = jquery_javascript_library
   = javascript_include_tag 'forms'
 - content_for :javascript_onload do
-  $('group_full_name').focus();
+  jQ$('#group_full_name').focus();
   Crabgrass.Forms.submit_from_menu();
 

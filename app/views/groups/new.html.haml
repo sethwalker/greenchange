@@ -10,4 +10,4 @@
       = f.submit 'Create'
 
 - content_for :javascript_onload do
-  Form.focusFirstElement('create-group-form');
+  jQ$('#create-group-form :text').eq(0).focus();

@@ -20,4 +20,4 @@
       = link_to _('Forgot your password?'), forgot_password_path
 
 - content_for :javascript_onload do 
-  Form.focusFirstElement('loginform');
+  jQ$('#loginform :text').eq(0).focus();

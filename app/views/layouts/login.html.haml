@@ -34,7 +34,7 @@
           %p.hidden  
             = hidden_field_tag 'redirect', params[:redirect] || request.request_uri
           - content_for :javascript_onload do
-            $('top-login-form').hide();
-            $('top-login-prompt').observe( 'click', function(ev) { $('top-login-form').toggle(); Field.focus('login'); $('top-login-prompt').hide(); ev.stop(); } );
+            jQ$('#top-login-form').hide();
+            jQ$('#top-login-prompt').click( function(ev) { jQ$('#top-login-form').toggle(); jQ$('#top-login-form :text[name=login]').focus(); jQ$('#top-login-prompt').hide(); return false; } );
 
 

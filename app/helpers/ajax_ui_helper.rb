@@ -7,10 +7,16 @@ module AjaxUiHelper
   end
 
   def jquery_javascript_library
-    return '' if @jquery_library_loaded
-    @jquery_library_loaded = true
-    javascript_include_tag( 'jquery/jquery-1.2.6.js' ) +
-    javascript_tag( 'var jQ$ = jQuery.noConflict();' )
+    ''
+    #return '' if @jquery_library_loaded
+    #@jquery_library_loaded = true
+    #javascript_include_tag( 'jquery/jquery-1.2.6.js' ) +
+    #javascript_tag( 'var jQ$ = jQuery.noConflict();' )
+  end
+  def prototype_library
+    return '' if @prototype_library_loaded
+    @prototype_library_loaded = true
+    javascript_include_tag 'prototype'
   end
   def jquery_effects
     return '' if @jquery_effects_loaded

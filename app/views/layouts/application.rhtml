@@ -29,9 +29,6 @@
   <%= stylesheet_link_tag 'greenchange' %>
   <!-- local styles -->
   <%= yield :stylesheet %>
-  <style type="text/css">
-    <% yield :style %>
-  </style> 
 </head>
 
 <body class="<%=controller.controller_name%>">
@@ -79,10 +76,12 @@
     pageTracker._trackPageview();
   </script>
 </body>
+<%= javascript_include_tag 'jquery/jquery-1.2.6.js' -%>
+<%= javascript_tag( 'var jQ$ = jQuery.noConflict();' ) -%>
 <%= yield :javascript %>
 <% if onload_script = yield( :javascript_onload )-%>
   <script type='text/javascript'>
-    Event.observe( document, 'dom:loaded', function() {
+    jQ$( function() { 
       <%= onload_script %>
     } );
   </script>

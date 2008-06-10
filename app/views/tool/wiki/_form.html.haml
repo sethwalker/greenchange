@@ -7,11 +7,3 @@
   = textile_editor_support
 - content_for :javascript_onload do
   TextileEditor.initialize("page_page_data_body", "extended");
-
--#
-  = f.hidden_field 'lock_version'
-  = f.textile_editor 'body', :size => '80x35'
-  %div
-    %a{:style => "float: right", :href => "javascript:quickRedReference();"} formatting reference
-
-  = textile_editor_initialize

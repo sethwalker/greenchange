@@ -61,5 +61,5 @@
   = javascript_include_tag 'forms'
 - load_ajax_form_behaviors
 - content_for :javascript_onload do
-  $('content').down('form input[type=text]').focus();
+  jQ$('#content form :text').eq(0).focus();
   Crabgrass.Forms.submit_from_menu();
