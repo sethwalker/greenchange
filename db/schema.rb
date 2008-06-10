@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1212704034) do
+ActiveRecord::Schema.define(:version => 1211330167) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -268,8 +268,7 @@ ActiveRecord::Schema.define(:version => 1212704034) do
   add_index "issue_identifications", ["issue_id", "issue_identifying_id", "issue_identifying_type"], :name => "index_issue_identifications", :unique => true
 
   create_table "issues", :force => true do |t|
-    t.string "name",        :null => false
-    t.text   "description"
+    t.string "name", :null => false
   end
 
   add_index "issues", ["name"], :name => "index_issues_on_name", :unique => true
@@ -351,9 +350,9 @@ ActiveRecord::Schema.define(:version => 1212704034) do
     t.string   "modified_type"
     t.integer  "modified_id"
     t.string   "action"
+    t.text     "data_snapshot"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.text     "data_snapshot"
   end
 
   add_index "network_events", ["user_id"], :name => "index_on_user_id"

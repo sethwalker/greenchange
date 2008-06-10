@@ -2,8 +2,10 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe "create page partial" do
   before do
-    @page = create_page :title => 'a page', :created_by => (@creator = create_user), :group => (@group = create_group), :updated_by => (@updater = create_user)
-    @event = PageObserver.instance.after_update(@page)
+    @page = create_page :title => 'a page', :created_by => (@creator = create_user), :group => (@group = create_group), :created_at => 1.day.ago
+    @page.updated_by = (@updater = create_user)
+    @page.save
+    @event = NetworkEvent.find(PageObserver.instance.after_update(@page).id)
   end
 
   def act!
@@ -13,6 +15,7 @@ describe "create page partial" do
   describe "should render without error" do
     it do
       lambda { act! }.should_not raise_error
+      response.body.should =~ /Updated by/
     end
 
     it "when the page is destroyed" do

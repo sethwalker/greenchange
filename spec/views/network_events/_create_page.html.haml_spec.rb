@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe "create page partial" do
   before do
     @page = create_page :title => 'a page', :created_by => (@user = create_user), :group => (@group = create_group)
-    @event = PageObserver.instance.after_create(@page)
+    @event = NetworkEvent.find(PageObserver.instance.after_update(@page).id)
   end
 
   def act!

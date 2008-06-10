@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe "destroy membership partial" do
   before do
     @membership = create_membership :user => (@user = create_user), :group => (@group = create_group)
-    @event = @membership.destroyed_network_event
+    @event = NetworkEvent.find(@membership.destroyed_network_event.id)
   end
 
   def act!

@@ -1,5 +1,10 @@
-- page = event.data_snapshot[:page].freeze
+-#TODO: move this into the models
+- page = event.data_snapshot[:page]
+- page.instance_variable_set(:@attributes_cache, Hash.new)
+- page.freeze
 - page_created_by = event.data_snapshot[:page_created_by].freeze
+- page_created_by.instance_variable_set(:@attributes_cache, Hash.new)
+- page_created_by.freeze
 %li.row.list-item{ :class => cycle( 'shade-odd', 'shade-even', :name => 'activity_entry_cycle' )}
   .owner.row-block.first
     - owner, owner_path = page.group, group_path( page.group ) if page.group

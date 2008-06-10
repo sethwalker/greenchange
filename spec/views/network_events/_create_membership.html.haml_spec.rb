@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe "create membership partial" do
   before do
     @membership = create_membership :user => (@user = create_user), :group => (@group = create_group)
-    @event = @membership.created_network_event
+    @event = NetworkEvent.find(@membership.created_network_event.id)
   end
 
   def act!

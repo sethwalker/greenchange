@@ -8,6 +8,7 @@ class NetworkFeed < ActiveRecord::Migration
 
       t.string "action" #create, update, delete
 
+      t.text "data_snapshot"
       t.timestamps
     end
 
@@ -24,28 +25,22 @@ class NetworkFeed < ActiveRecord::Migration
 
     NetworkEvent.record_timestamps = false
     Page.find(:all).each do |page|
-      if page.updated_at == page.created_at
-        NetworkEvent.create :modified => page, :user => page.created_by, :created_at => page.created_at, :action => 'create'
-      else
-        NetworkEvent.create :modified => page, :user => page.updated_by, :created_at => page.updated_at, :action => 'update'
+      if (page.updated_at == page.created_at) && page.created_by
+        NetworkEvent.create! :modified => page, :action => 'create', :user => page.created_by, :recipients => watchers(page), :data_snapshot => {:page => page, :page_created_by => page.created_by}, :user => page.created_by
+      elsif page.created_by && page.updated_by
+        NetworkEvent.create! :modified => page, :action => 'update', :user => page.updated_by, :recipients => watchers(page), :data_snapshot => {:page => page, :page_created_by => page.created_by, :page_updated_by => page.updated_by}, :user => page.updated_by
       end
     end
     NetworkEvent.record_timestamps = true
-=begin
-    User.find(:all).each do |user|
-      pages = Page.in_network(user).allowed(user).find(:all, :order => "updated_at DESC", :limit => 40)
-      pages.each do |page|
-
-        network_event = NetworkEvent.find_or_initialize_by_user_id_and_affected_id
-        network_event.save
-      end
-    end
-=end
   end
 
 
   def self.down
     drop_table "notifications"
     drop_table "network_events"
+  end
+
+  def self.watchers(page)
+    ( [ page.created_by ] << page.created_by.try(:contacts) << page.group.try(:members ) ).flatten.compact.uniq
   end
 end
