@@ -20,4 +20,4 @@
   %h2.landing
     In your network
   %ul.row-listing.pages
-    = render_network_events(@me.network_events)
+    = render_network_events(@me.network_events.find(:all, :limit => 40))
