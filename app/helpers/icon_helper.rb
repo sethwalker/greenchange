@@ -22,6 +22,7 @@ module IconHelper
     end
     size_option = html_options.delete(:size) || 'standard'
     html_options.delete(:avatar_size) 
+    html_options[:title] ||= item.try(:display_name)
     new_class = [ (html_options[:class] ||= ''), "icon", item_type, size_option.to_s ]
     html_options[:class] = new_class.join(' ').strip
     html_options
