@@ -6,12 +6,11 @@ module AjaxUiHelper
     link_to(name, options, html_options)
   end
 
-  def jquery_javascript_library
-    ''
-    #return '' if @jquery_library_loaded
-    #@jquery_library_loaded = true
-    #javascript_include_tag( 'jquery/jquery-1.2.6.js' ) +
-    #javascript_tag( 'var jQ$ = jQuery.noConflict();' )
+  def jquery_library
+    return '' if @jquery_library_loaded
+    @jquery_library_loaded = true
+    javascript_include_tag( 'jquery/jquery-1.2.6.min.js' ) +
+    javascript_tag( 'var jQ$ = jQuery.noConflict();' )
   end
   def prototype_library
     return '' if @prototype_library_loaded
@@ -21,10 +20,10 @@ module AjaxUiHelper
   def jquery_effects
     return '' if @jquery_effects_loaded
     @jquery_effects_loaded = true
-    jquery_javascript_library + 
-    javascript_include_tag( 'jquery/ui/effects.core.js' ) +
-    javascript_include_tag( 'jquery/ui/effects.slide.js' ) +
-    javascript_include_tag( 'jquery/ui/effects.drop.js' )
+    jquery_library + 
+    javascript_include_tag( 'jquery/ui/minified/effects.core.min.js' ) +
+    javascript_include_tag( 'jquery/ui/minified/effects.slide.min.js' ) +
+    javascript_include_tag( 'jquery/ui/minified/effects.drop.min.js' )
   end
 
   # load the javascript tabs.  redefine the method when you're done so it can't be called again
@@ -47,7 +46,7 @@ module AjaxUiHelper
 
   def load_ajax_list_behaviors
     return if @ajax_list_behavior_loaded
-    content_for( :javascript, jquery_javascript_library +
+    content_for( :javascript, jquery_library +
       javascript_tag( <<-SCRIPT
       jQ$('ul.list .toolbar .delete.confirm').click( function( ev ) { 
         return confirm( 'You are about to delete this item.  You will not be able to undo this.' );

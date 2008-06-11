@@ -27,7 +27,7 @@
         = image_tag "spinner.gif", :id=>'new-task-loading', :style=>'display:none'
 
 - content_for :javascript do
-  = jquery_javascript_library
+  = jquery_library
   - javascript_tag do
     jQ$( function() {
     jQ$('#new-task-form-container').hide();

@@ -8,7 +8,7 @@ jQ$.fn.deactivate = function() {
   return jQ$(this).removeClass('active');
 };
 
-if( Crabgrass == undefined ) var Crabgrass = function() { return { }; }
+if( Crabgrass === undefined ) { var Crabgrass = function() { return { }; }; }
 Crabgrass.Tabs =  function() {
   return {
     create: function( self ) {
@@ -18,18 +18,18 @@ Crabgrass.Tabs =  function() {
           trigger: trigger,
           tabset: ul,
           transition_in: function() {
-              if(!jQ$(tab.trigger).is('.active')) jQ$(tab.trigger).activate();
+              if(!jQ$(tab.trigger).is('.active')) { jQ$(tab.trigger).activate(); }
               if(!jQ$(tab).is(':visible')) {
-                if(jQ$(tab).is('.active')) jQ$(tab).deactivate();
+                if(jQ$(tab).is('.active')) { jQ$(tab).deactivate(); }
                 jQ$(tab).show('slide', 
                   { duration: 150, 
                     direction: 'right', 
                     callback: jQ$(tab).activate 
-                  })
-              }; 
+                  });
+              } 
             },
           show: function() { 
-            if(jQ$(tab).is(':visible')) return tab.transition_in();
+            if(jQ$(tab).is(':visible')) { return tab.transition_in(); }
 
             ul.tabs.deactivate();
             ul.triggers.deactivate();
@@ -67,7 +67,7 @@ Crabgrass.Tabs =  function() {
       //extend triggers and tabs
       jQ$(self.triggers).each( function() { 
           var tab = jQ$(this).next('.tab-content')[0];
-          _extend_tab( tab, this, self )  
+          _extend_tab( tab, this, self );
           jQ$.extend( this, { tab: tab }); 
         } );
       return self;
@@ -81,12 +81,12 @@ Crabgrass.Tabs =  function() {
 
         //i miss the spaceship operator
         //checking if either item has no date
-        if(!(time_a||time_b)) return 0;
-        if(!time_a) return 1;
-        if(!time_b) return -1;
+        if(!(time_a||time_b)) { return 0; }
+        if(!time_a) { return 1; }
+        if(!time_b) { return -1; }
 
-        var time_a = jQ$(".friendly_date", entry_a)[0].readAttribute('title');
-        var time_b = jQ$(".friendly_date", entry_b)[0].readAttribute('title');
+        time_a = jQ$(".friendly_date", entry_a).eq(0).attr('title');
+        time_b = jQ$(".friendly_date", entry_b).eq(0).attr('title');
 
         //i miss the spaceship operator
         //comparing the dates
@@ -108,7 +108,7 @@ Crabgrass.Tabs =  function() {
 
     create_tab_bar: function( ul ) {
       //create tab-titlebar
-      jQ$('.tab-title', ul).remove().prependTo(jQ$(ul)).wrapAll('<div class="tab-titlebar"></div>').parent().click( function(ev) { if (ev.target.tab != undefined ) ev.target.tab.show(); } ) ;
+      jQ$('.tab-title', ul).remove().prependTo(jQ$(ul)).wrapAll('<div class="tab-titlebar"></div>').parent().click( function(ev) { if (ev.target.tab !== undefined ) { ev.target.tab.show(); } } ) ;
 
       //move toolbar into titlebar
       jQ$('.toolbar.tabs-menu', ul).remove().appendTo( jQ$('tab-titlebar', ul));
@@ -127,7 +127,7 @@ Crabgrass.Tabs =  function() {
 
       } );
     }
-  }
+  };
 }();
 
 

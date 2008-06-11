@@ -75,8 +75,7 @@
     pageTracker._trackPageview();
   </script>
 </body>
-<%= javascript_include_tag 'jquery/jquery-1.2.6.js' -%>
-<%= javascript_tag( 'var jQ$ = jQuery.noConflict();' ) -%>
+<%= jquery_library %>
 <%= yield :javascript %>
 <% if onload_script = yield( :javascript_onload )-%>
   <script type='text/javascript'>
@@ -86,4 +85,5 @@
   </script>
 <% end -%>
 <%= render :partial => 'shared/ie' %>
+<%= render :partial => 'shared/google_analytics' %>
 </html>
