@@ -3,15 +3,15 @@
   - unless current_user.preference_for(:html_editor_level)
     #editor-howto.form-help
       %p
-        The editor below uses textile, a simple code to mark up your text for presentation.
-      %p
-        To preview your work as it will appear on the page, click the checkmark 
-        = image_tag '/javascripts/markitup/sets/textile/images/preview.png', :alt => "checkmark"
-        on the right side of the toolbar.
-      %p
-        For examples of how you can format your pages, click the link 
+        The editor below uses textile to format your work. ( examples: 
         = render :partial => 'tool/wiki/formatting_link'
-        below the window.
+        )
+      %p
+        
+        = link_to "See a Preview of your work", "#preview", :id => 'note-preview-link'
+        or click the checkmark
+        = image_tag '/javascripts/markitup/sets/textile/images/preview.png', :alt => "checkmark" 
+        below.
 
       - editor_preference_update = { :preference => { :name => 'html_editor_level', :value => 'markitup' } }
       .toolbar
@@ -30,3 +30,4 @@
   } );
   jQ$('#page_page_data_body').markItUp(mySettings);
   jQ$('#editor-howto').show(300); 
+  jQ$('#page_page_data_body .markItUpHeader .preview a').click();
