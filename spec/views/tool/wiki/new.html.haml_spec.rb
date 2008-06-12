@@ -3,6 +3,7 @@ require File.dirname(__FILE__) + '/../../../spec_helper'
 describe "wiki/new" do
   before do
     template.stub!(:current_user).and_return create_user
+    template.stub!(:form_authenticity_token)
     assigns[:page] = @page = Tool::TextDoc.new
     assigns[:data] = @wiki = @page.build_data(:body => 'new page')
     template.class.__send__(:include, Tool::BaseHelper)
