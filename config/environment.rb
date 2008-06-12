@@ -72,7 +72,7 @@ end
 
 require 'enhanced_migrations'
 require 'tagging_extensions'
-require 'textile_editor_form_builder_helper'
+#require 'textile_editor_form_builder_helper'
 
 
 #### SESSION HANDLING ##############

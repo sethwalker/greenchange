@@ -1,6 +1,7 @@
 %p
-  = f.label :body, 'Full text'
-  ~ f.textile_editor :body, :size => '60x40'
+  -#~ f.textile_editor :body, :size => '60x40'
+  = render :partial => 'tool/wiki/editor_help'
+  ~ f.text_area :body, :size => '60x40'
   = render :partial => 'tool/wiki/formatting_link'
   = f.hidden_field :lock_version
   
@@ -20,8 +21,6 @@
       = ff.label :published_at, 'Publication date'
       = ff.date_select :published_at, :order => [:month, :day, :year ]
 
-- content_for :javascript do
-  = textile_editor_support
+- load_markitup_library
 - content_for :javascript_onload do
-  TextileEditor.initialize("page_page_data_body", "extended");
-
+  jQ$('#page_page_data_body').markItUp(mySettings);

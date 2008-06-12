@@ -1,0 +1,24 @@
+- unless current_user.preference_for(:html_editor_level)
+  #editor-howto.form-help
+    %p
+      The editor below uses textile to format your work. ( 
+      = render :partial => 'tool/wiki/formatting_link'
+      )
+    %p
+      
+      Preview your work &mdash; just click the checkmark
+      = image_tag '/javascripts/markitup/sets/textile/images/preview.png', :alt => "checkmark" 
+      below.
+
+    - editor_preference_update = { :preference => { :name => 'html_editor_level', :value => 'markitup' } }
+    .toolbar
+      = button_to "Stop showing this message", me_preferences_path( editor_preference_update), :class => 'action remove remote'
+
+- content_for :javascript_onload do
+  jQ$('#editor-howto input.remove').click( function(ev) { 
+  ev.preventDefault(); 
+  jQ$(ev.target).addClass('busy');
+  = "jQ$.post('#{me_preferences_path}', 'authenticity_token=#{form_authenticity_token}&preference[name]=html_editor_level&preference[value]=markitup', function(ev) {"
+  = "jQ$('#editor-howto').hide(300);  } );"
+  } );
+  jQ$('#editor-howto').show(300); 
