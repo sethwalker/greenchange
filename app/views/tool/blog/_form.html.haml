@@ -3,13 +3,12 @@
   - unless current_user.preference_for(:html_editor_level)
     #editor-howto.form-help
       %p
-        The editor below uses textile to format your work. ( examples: 
+        The editor below uses textile to format your work. ( 
         = render :partial => 'tool/wiki/formatting_link'
         )
       %p
         
-        = link_to "See a Preview of your work", "#preview", :id => 'note-preview-link'
-        or click the checkmark
+        Preview your work: click the checkmark
         = image_tag '/javascripts/markitup/sets/textile/images/preview.png', :alt => "checkmark" 
         below.
 
@@ -30,4 +29,3 @@
   } );
   jQ$('#page_page_data_body').markItUp(mySettings);
   jQ$('#editor-howto').show(300); 
-  jQ$('#page_page_data_body .markItUpHeader .preview a').click();

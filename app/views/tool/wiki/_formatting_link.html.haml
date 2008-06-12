@@ -1,7 +1,7 @@
-= link_to 'formatting_reference', '/static/greencloth', :target => 'blank', :id => 'formatting-reference-link'
+= link_to 'formatting examples', '/static/greencloth', :target => 'blank', :class => 'formatting-reference-link'
 
 - content_for :javascript_onload do
-  jQ$('#formatting-reference-link').click( function(ev) { 
+  jQ$('.formatting-reference-link').click( function(ev) { 
   window.open( 
   "/static/greencloth",
   "redRef",

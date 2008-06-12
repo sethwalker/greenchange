@@ -20,5 +20,5 @@
 - content_for :javascript do
   = javascript_include_tag 'forms'
 - content_for :javascript_onload do
-  $("page_title").focus();
+  jQ$("#page_title").focus();
   Crabgrass.Forms.submit_from_menu();
