@@ -1,7 +1,7 @@
-class Chat::Message < ActiveRecord::Base
+class ChatMessage < ActiveRecord::Base
 
   set_table_name 'chat_messages'
-  belongs_to :channel#, :class_name => 'Chat::Channel', :foreign_key => 'chat_channel_id'
+  belongs_to :channel, :class_name => 'ChatChannel'#, :foreign_key => 'chat_channel_id'
   #alias :channel :chat_channel
 
   belongs_to :sender, :class_name => 'User', :foreign_key => 'sender_id'

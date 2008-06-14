@@ -38,7 +38,7 @@ class NetworkInvitation
     errors.add( :recipient, ( "address %s is not valid" % self.recipient.email) ) and return unless self.recipient.valid? 
     #raise DeliveryBlocked( self.recipient.email )  if self.recipient.blocked?
     errors.add( :recipient, "address #{self.recipient_email} has requested no further email from #{Crabgrass::Config.site_name}") and return if self.recipient.blocked?
-    errors.add( :recipient, "address #{self.recipient_email} belongs to an existing member of this network") and return if ( User.find_by_email( self.recipient_email ) || Profile::EmailAddress.find_by_email_address( self.recipient_email ))
+    errors.add( :recipient, "address #{self.recipient_email} belongs to an existing member of this network") and return if ( User.find_by_email( self.recipient_email ) || ProfileEmailAddress.find_by_email_address( self.recipient_email ))
     true
   end
 

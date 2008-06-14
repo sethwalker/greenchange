@@ -23,7 +23,7 @@ class User < ActiveRecord::Base
   has_many :gives_permissions,  :as => 'grantor', :class_name => 'Permission'
   has_many :given_permissions,  :as => 'grantee', :class_name => 'Permission'
   has_many :preferences, :dependent => :destroy 
-  has_many :languages, :class_name => 'Profile::Language'
+  has_many :languages, :class_name => 'ProfileLanguage'
   has_many :notifications
   has_many :network_events, :through => :notifications, :order => "network_events.created_at DESC"
 

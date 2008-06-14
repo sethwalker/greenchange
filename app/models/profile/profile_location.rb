@@ -2,7 +2,7 @@
 
 =end
 
-class Profile::Location < ActiveRecord::Base
+class ProfileLocation < ActiveRecord::Base
   set_table_name 'locations'
   belongs_to  :profile, :foreign_key => 'profile_id'
 

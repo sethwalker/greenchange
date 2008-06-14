@@ -2,7 +2,7 @@
 
 =end
 
-class Profile::PhoneNumber < ActiveRecord::Base
+class ProfilePhoneNumber < ActiveRecord::Base
   set_table_name 'phone_numbers'
   validates_presence_of :phone_number_type
   validates_presence_of :phone_number

@@ -1,4 +1,4 @@
-class Chat::ChannelsUser < ActiveRecord::Base
+class ChatChannelsUser < ActiveRecord::Base
 
   set_table_name 'chat_channels_users'
 

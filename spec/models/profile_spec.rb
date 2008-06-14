@@ -1,6 +1,6 @@
 require File.dirname(__FILE__) + '/../spec_helper.rb'
 
-describe "Profile::Profile" do
+describe "Profile" do
 
   before do
     @user = User.new( :login => 'testo' , :password => 'test', :password_confirmation => 'test', :email => 'jk@ju.co' )

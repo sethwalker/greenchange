@@ -2,7 +2,7 @@
 
 =end
 
-class Profile::ImAddress < ActiveRecord::Base
+class ProfileImAddress < ActiveRecord::Base
   set_table_name 'im_addresses'
   validates_presence_of :im_type
   validates_presence_of :im_address

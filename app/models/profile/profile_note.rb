@@ -1,7 +1,7 @@
 =begin
 
 =end
-class Profile::Note < ActiveRecord::Base
+class ProfileNote < ActiveRecord::Base
   validates_presence_of :note_type
 
   set_table_name 'profile_notes'

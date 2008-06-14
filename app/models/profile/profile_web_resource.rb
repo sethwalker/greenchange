@@ -1,4 +1,4 @@
-class Profile::WebResource < ActiveRecord::Base
+class ProfileWebResource < ActiveRecord::Base
   set_table_name 'web_resources'
   validates_presence_of :web_resource_type
   validates_presence_of :web_resource

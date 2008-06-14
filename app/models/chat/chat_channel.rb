@@ -1,9 +1,9 @@
-class Chat::Channel < ActiveRecord::Base
+class ChatChannel < ActiveRecord::Base
 
   set_table_name 'chat_channels'
   belongs_to :group
   
-  has_many :channels_users, :dependent => :delete_all#, :class_name => 'Chat::ChannelsUsers'
+  has_many :channels_users, :dependent => :delete_all, :class_name => 'ChatChannelsUser', :foreign_key => 'channel_id'
   #alias :channels_users :chat_channels_users
 
   has_many :users, :through => :channels_users #do
@@ -16,7 +16,7 @@ class Chat::Channel < ActiveRecord::Base
 #      connection.execute("DELETE FROM channels_users WHERE last_seen < DATE_SUB(\'#{ Time.now.strftime("%Y-%m-%d %H:%M:%S") }\', INTERVAL 1 MINUTE) OR last_seen IS NULL")
 #    end
   
-  has_many :messages, :order => 'created_at asc', :dependent => :delete_all, :class_name => 'Chat::Message'#, :local_key => 'chat_channel_id'
+  has_many :messages, :order => 'created_at asc', :dependent => :delete_all, :class_name => 'ChatMessage', :foreign_key => 'channel_id'#, :local_key => 'chat_channel_id'
 #  alias :messages :chat_messages
 #  do
 #    def since(last_seen_id)
@@ -42,7 +42,7 @@ class Chat::Channel < ActiveRecord::Base
   end
   
   def active_channel_users
-    @active_channel_users ||= Chat::ChannelsUser.find_by_sql(["SELECT * FROM chat_channels_users cu WHERE cu.last_seen >= DATE_SUB(?, INTERVAL 1 MINUTE) AND cu.channel_id = ?", Time.now.strftime("%Y-%m-%d %H:%M:%S"), self.id])
+    @active_channel_users ||= ChatChannelsUser.find_by_sql(["SELECT * FROM chat_channels_users cu WHERE cu.last_seen >= DATE_SUB(?, INTERVAL 1 MINUTE) AND cu.channel_id = ?", Time.now.strftime("%Y-%m-%d %H:%M:%S"), self.id])
   end
   
   def keep
