@@ -250,7 +250,10 @@ ul.tab-block
   :padding 0
   :margin 0
   :float left
-  :margin-top = !tab_block_title_offset + 3px
+  :margin-top 30px
+  body.ie7 &
+    :margin-top 0px
+  //:margin-top = !tab_block_title_offset + 3px
   body.ie6 &
     :width = !main_column_width - !ie_padding_offset
   #main.wideside #maincolumn &
@@ -270,7 +273,7 @@ ul.tab-block
     body.ie6 &
       :width = !side_column_width - !ie_padding_offset
   body.ie7 &
-    :padding-bottom = !tab_block_title_offset
+    :padding-bottom 0
   li
     :width 100%
     :float left
@@ -282,7 +285,7 @@ ul.tab-block
   .tab-titlebar
     :background = !tab_block_title_bg
     :margin-top = 0 - !tab_block_title_offset
-    body.ie6 &
+    body.ie &
       :margin-top 0
   .tab-title
     :text-transform capitalize 

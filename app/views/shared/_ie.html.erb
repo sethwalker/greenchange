@@ -1,22 +1,15 @@
-  <!--[if lte IE 7]>
-  <script defer type="text/javascript" src="/javascripts/pngfix.js"></script>
-  <script type="text/javascript">
-    Event.observe( document, 'dom:loaded', function() { 
-        Element.extend( document.body).addClassName('ie6'); 
-        $$("#topmenu > li").each( function(li) { 
-            li.observe( 'mouseover', function() { li.addClassName(    'hover' ); } );
-            li.observe( 'mouseout', function()  { li.removeClassName( 'hover' ); } );
-          } );
-        } );
-  </script>
-  <![endif]-->
   <!--[if IE]>
   <script type="text/javascript">
-    Event.observe( document, 'dom:loaded', function() { Element.extend( document.body).addClassName('ie'); });
-  </script>
-  <![endif]-->
-  <!--[if IE 7]>
-  <script type="text/javascript">
-    Event.observe( document, 'dom:loaded', function() { Element.extend( document.body).addClassName('ie7'); } );
+    jQ$( function() { 
+      jQ$( 'body' ).addClass('ie'); 
+      if (jQ$.browser.version === '6.0') { 
+        jQ$( document.body ).addClass('ie6'); 
+        //jQ$('<style type="text/css"> div, a, img, input { behavior: url(/javascripts/iepngfix.htc) } </style>').appendTo( jQ$('body') );
+        jQ$("#topmenu > li").mouseover( function(ev) { jQ$(ev.target).addClass('hover'); } ).mouseout( function(ev) { jQ$(ev.target).removeClass( 'hover' ); } );
+      }
+      if (jQ$.browser.version === '7.0') { 
+        jQ$( 'body' ).addClass('ie7'); 
+      }
+    } ); 
   </script>
   <![endif]-->

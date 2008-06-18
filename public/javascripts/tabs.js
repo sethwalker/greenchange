@@ -22,7 +22,7 @@ Crabgrass.Tabs =  function() {
               if(!jQ$(tab).is(':visible')) {
                 if(jQ$(tab).is('.active')) { jQ$(tab).deactivate(); }
                 jQ$(tab).show('slide', 
-                  { duration: 150, 
+                  { duration: 350, 
                     direction: 'right', 
                     callback: jQ$(tab).activate 
                   });
@@ -50,6 +50,7 @@ Crabgrass.Tabs =  function() {
           tabs: triggers.next('.tab-content'),
           triggers: triggers,
           activate: function() {
+            if( self.tabs.length === 0 ) { return; }
             self.tabs[0].show();
             jQ$(self).activate();
           },
