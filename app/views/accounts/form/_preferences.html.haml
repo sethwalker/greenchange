@@ -1,7 +1,7 @@
 .section.preferences
   %h2 Preferences
   %p.preference
-    = check_box_tag "user[preferences][subscribe_to_email_list]", 1, user.preference_for(:email_list)
+    = check_box_tag "user[preferences][subscribe_to_email_list]", 1, user.preference_for(:subscribe_to_email_list)
     %label{ :for => "user[preferences][subscribe_to_email_list]" }
       Subscribe me to Green Change e-updates
   %p.preference

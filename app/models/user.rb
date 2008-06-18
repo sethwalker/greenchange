@@ -38,12 +38,24 @@ class User < ActiveRecord::Base
     DemocracyInAction::Proxy.create :name => 'no_groups_group_membership', :local_type => 'User', :local_id => id, :remote_table => 'supporter_groups', :remote_key => no_groups_key
   end
 
-  def preferences=(settings)
-    if settings.is_a? Hash
-      settings.each do |key, value|
-        pref = preferences.find_by_name(key.to_s) || preferences.build( :name => key.to_s)
-        pref.value = value 
+  def preferences=(user_preferences)
+    preferences.reject(&:new_record?).each do |preference|
+      value = user_preferences.delete(preference.name)
+      if value
+        preference.value = value
+      else
+        preferences.destroy(preference)
       end
+    end
+    user_preferences.each do |name, value|
+      preferences.build(:name => name, :value => value)
+    end
+  end
+
+  after_save :save_preferences
+  def save_preferences
+    preferences.each do |preference|
+      preference.save(false)
     end
   end
 

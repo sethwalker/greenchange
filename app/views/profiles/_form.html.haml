@@ -42,6 +42,20 @@
       = render :partial => "shared/form/issues", :locals => {:f => ff}
       = render :partial => "shared/form/languages", :locals => {:f => ff}
       = render :partial => "accounts/form/preferences", :locals => { :f => ff, :user => profile.entity}
+      .section.email-preferences
+        %p.preference
+          %label
+            = radio_button_tag "user[preferences][email_notification]", 'none', 'none' == profile.entity.preference_for(:email_notification)
+            Send me no email
+        %p.preference
+          %label
+            = radio_button_tag "user[preferences][email_notification]", 'messages', ('messages' == profile.entity.preference_for(:email_notification) || profile.entity.preference_for(:email_notification).nil?)
+            Send me an email when I receive a message, an invitation or a request
+        %p.preference
+          %label
+            = radio_button_tag "user[preferences][email_notification]", 'comments', 'comments' == profile.entity.preference_for(:email_notification)
+            Send me an email when I receive a message, an invitation, a request or someone adds a comment to something I wrote
+
       .section.timezone
         %p
           = ff.label :time_zone, "Time zone"

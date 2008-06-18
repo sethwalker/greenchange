@@ -185,6 +185,12 @@ describe User, "with preferences" do
     @user.preference_for( :allow_info_sharing ).should be_false
   end
 
+  it "should allow preferences to be updated" do
+    @user.preferences.create :name => 'email_notification', :value => 'comments'
+    @user.preferences = {'email_notification' => 'messages'}
+    @user.save! && @user = User.find(@user)
+    @user.preference_for( :email_notification ).should == "messages"
+  end
 end
 
 describe User, "with DIA saving" do
