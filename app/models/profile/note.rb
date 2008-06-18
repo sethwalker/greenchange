@@ -2,7 +2,7 @@
 
 =end
 class Profile::Note < ActiveRecord::Base
-  validates_presence_of :type
+  validates_presence_of :note_type
 
   set_table_name 'profile_notes'
 
