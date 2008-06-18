@@ -10,8 +10,6 @@ module IconHelper
   # returns a hash of html options to add an icon to the element to which they are applied
   def html_options_for_icon_for( item, html_options = {} )
     item_type = ''
-    item = item.contact if item.is_a? ContactRequest
-    item = item.user if item.is_a? MembershipRequest
 
     %w[ Page Issue Group User Asset ].each do |type_check|
       if item.is_a?( Object.const_get(type_check) )

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1211330167) do
+ActiveRecord::Schema.define(:version => 1213750168) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(:version => 1211330167) do
   add_index "assets", ["page_id"], :name => "index_assets_page_id"
 
   create_table "avatars", :force => true do |t|
-    t.binary  "data",   :default => "",    :null => false
+    t.binary  "data",                      :null => false
     t.boolean "public", :default => false
   end
 
@@ -115,19 +115,6 @@ ActiveRecord::Schema.define(:version => 1211330167) do
     t.integer "page_id"
     t.string  "permission"
   end
-
-  create_table "contact_requests", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "contact_id"
-    t.string   "state"
-    t.text     "message"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "approved_by_id"
-  end
-
-  add_index "contact_requests", ["user_id", "contact_id", "state"], :name => "index_user_contact_state"
-  add_index "contact_requests", ["contact_id", "user_id", "state"], :name => "index_contact_user_state"
 
   create_table "contacts", :force => true do |t|
     t.integer "user_id"
@@ -260,15 +247,15 @@ ActiveRecord::Schema.define(:version => 1211330167) do
   add_index "im_addresses", ["profile_id"], :name => "im_addresses_profile_id_index"
 
   create_table "issue_identifications", :force => true do |t|
-    t.integer "issue_id",                               :null => false
-    t.integer "issue_identifying_id",                   :null => false
-    t.string  "issue_identifying_type", :default => "", :null => false
+    t.integer "issue_id",               :null => false
+    t.integer "issue_identifying_id",   :null => false
+    t.string  "issue_identifying_type", :null => false
   end
 
   add_index "issue_identifications", ["issue_id", "issue_identifying_id", "issue_identifying_type"], :name => "index_issue_identifications", :unique => true
 
   create_table "issues", :force => true do |t|
-    t.string "name",        :default => "", :null => false
+    t.string "name",        :null => false
     t.text   "description"
   end
 
@@ -304,19 +291,6 @@ ActiveRecord::Schema.define(:version => 1211330167) do
     t.text     "request"
     t.datetime "created_at"
   end
-
-  create_table "membership_requests", :force => true do |t|
-    t.integer  "user_id"
-    t.integer  "group_id"
-    t.string   "state"
-    t.text     "message"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "approved_by_id"
-  end
-
-  add_index "membership_requests", ["user_id", "group_id", "state"], :name => "index_user_group_state"
-  add_index "membership_requests", ["group_id", "user_id", "state"], :name => "index_group_user_state"
 
   create_table "memberships", :force => true do |t|
     t.integer  "group_id"

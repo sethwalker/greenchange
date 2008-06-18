@@ -14,7 +14,6 @@ describe MembershipsController do
     end
     it "redirects to a join request page if there are memberships" do
       @group.memberships.create :user => create_user
-      #MembershipRequest.should_receive(:find_by_user_id_and_group_id).with(@user.id, @group.id).and_return(MembershipRequest.create(:user => @user, :group => @group))
       get :new, :group_id => @group
       response.should redirect_to( new_group_join_request_path(@group) )
     end

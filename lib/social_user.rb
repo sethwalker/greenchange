@@ -67,7 +67,6 @@ module SocialUser
         has_many :memberships, :foreign_key => 'user_id', :dependent => :destroy, :after_add => :update_membership_cache, :after_remove => :update_membership_cache
         
         has_many :join_requests, :class_name => 'JoinRequest'
-        has_many :membership_invitations, :class_name => 'MembershipRequest', :conditions => [ 'state = ? and approved_by_id IS NOT ?', 'pending', nil ]
 
         has_many :groups, :foreign_key => 'user_id', :through => :memberships do
           def <<(*dummy)
@@ -90,7 +89,6 @@ module SocialUser
 
         has_many :admin_memberships, :class_name => 'Membership', :conditions => ['role=?', 'administrator']
         has_many :groups_administering, :class_name => 'Group', :through => :admin_memberships, :source => :group
-        #has_many :membership_requests_received, :class_name => 'MembershipRequest', :include => :groups_administering
         
         serialize_as IntArray, :direct_group_id_cache, :all_group_id_cache, :peer_id_cache
 
@@ -186,10 +184,6 @@ module SocialUser
           people.any? ? { :include => :contacts, :conditions => [ "contacts.contact_id in (?)", people ] } : {}
         }
         has_finder :online, :conditions => ['users.last_seen_at > ?',10.minutes.ago], :order => 'users.last_seen_at DESC' 
-
-        has_many :contact_requests_sent, :class_name => 'ContactRequest'
-        has_many :contact_requests_received, :class_name => 'ContactRequest', :foreign_key => 'contact_id'
-
       end
     end
 
