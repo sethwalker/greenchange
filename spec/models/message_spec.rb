@@ -113,3 +113,22 @@ describe Message do
 
   end
 end
+
+describe Message, "with email notification" do
+  before do
+    @recipient = create_user
+    @sender = create_user
+    @message = Message.new :sender => @sender, :recipient => @recipient, :subject => 'Dude!', :body => "Hi", :sender_copy => false
+  end
+  it "should notify recipients if they allow it" do
+    @recipient.should_receive(:receives_email_on).and_return(true)
+    UserMailer.should_receive(:deliver_message_received).with(@message)
+    @message.save
+  end
+
+  it "should not notify recipients if they don't allow it" do
+    @recipient.should_receive(:receives_email_on).and_return(false)
+    UserMailer.should_not_receive(:deliver_message_received)
+    @message.save
+  end
+end

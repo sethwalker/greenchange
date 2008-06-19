@@ -43,4 +43,8 @@ class Message < ActiveRecord::Base
     true
   end
 
+  after_create :notify_recipient
+  def notify_recipient
+    UserMailer.deliver_message_received(self) if recipient.receives_email_on('messages')
+  end
 end

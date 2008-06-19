@@ -191,6 +191,24 @@ describe User, "with preferences" do
     @user.save! && @user = User.find(@user)
     @user.preference_for( :email_notification ).should == "messages"
   end
+
+  describe "email preference" do
+    it "should return false if none is the preference" do
+      @user.preferences = {'email_notification' => 'none'}
+      @user.receives_email_on('messages').should == false
+      @user.receives_email_on('comments').should == false
+    end
+    it "should return true if comments is the preference" do
+      @user.preferences = {'email_notification' => 'comments'}
+      @user.receives_email_on('messages').should == true
+      @user.receives_email_on('comments').should == true
+    end
+    it "should respect the preference if messages is the preference" do
+      @user.preferences = {'email_notification' => 'messages'}
+      @user.receives_email_on('messages').should == true
+      @user.receives_email_on('comments').should == false
+    end
+  end
 end
 
 describe User, "with DIA saving" do

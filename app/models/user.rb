@@ -63,6 +63,14 @@ class User < ActiveRecord::Base
     preferences.detect { |p| p.name == key.to_s }.try(:value)
   end
 
+  def receives_email_on(event)
+    preference = preference_for(:email_notification)
+    return false if 'none' == preference
+    return true  if event == preference
+    return true  if event == 'messages' && preference == 'comments'
+    return false
+  end
+
   has_finder :by_issue, lambda {|*issues|
     issues.any? ? { :include => :issue_identifications, :conditions => [ "issue_identifications.issue_id in (?)", issues ] } : {}
   }

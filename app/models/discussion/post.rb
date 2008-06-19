@@ -33,5 +33,11 @@ class Post < ActiveRecord::Base
   def group_name
     discussion.page.group_name
   end
+
+  after_create :notify_author
+  def notify_author
+    # NetworkEvent.create
+    UserMailer.deliver_comment_posted(self) if discussion.page.created_by.receives_email_on('comments')
+  end
   
 end

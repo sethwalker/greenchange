@@ -27,4 +27,7 @@ class Invitation < Message
     end
   end
 
+  def notify_recipient
+    UserMailer.deliver_invitation_received(self) if recipient.receives_email_on('messages')
+  end
 end

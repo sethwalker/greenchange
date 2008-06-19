@@ -22,6 +22,18 @@ class UserMailer < ActionMailer::Base
     @subject += 'Your password has been reset'
   end
 
+  def message_received(message)
+    setup_email(message.recipient)
+  end
+
+  def invitation_received(message)
+    setup_email(message.recipient)
+  end
+
+  def comment_posted(post)
+    setup_email(post.discussion.page.created_by)
+  end
+
   protected
     def setup_email(user)
       @recipients   = "#{user.email}"
