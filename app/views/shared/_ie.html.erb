@@ -4,7 +4,7 @@
       jQ$( 'body' ).addClass('ie'); 
       if (jQ$.browser.version === '6.0') { 
         jQ$( document.body ).addClass('ie6'); 
-        //jQ$('<style type="text/css"> div, a, img, input { behavior: url(/javascripts/iepngfix.htc) } </style>').appendTo( jQ$('body') );
+        jQ$('<style type="text/css"> div, a, img, input { behavior: url(/javascripts/iepngfix.htc) } </style>').appendTo( jQ$('body') );
         jQ$("#topmenu > li").mouseover( function(ev) { jQ$(ev.target).addClass('hover'); } ).mouseout( function(ev) { jQ$(ev.target).removeClass( 'hover' ); } );
       }
       if (jQ$.browser.version === '7.0') { 
