@@ -1,10 +1,12 @@
 jQ$.fn.sort = function() { 
   return this.pushStack( jQuery.makeArray( [].sort.apply( this, arguments )) ); 
 };
-jQ$.fn.activate = function() { 
+jQ$.fn.activate = function( base_class ) { 
+  if ( base_class !== undefined ) { jQ$(this).addClass( base_class+'-active'); }
   return jQ$(this).addClass('active');
 };
-jQ$.fn.deactivate = function() { 
+jQ$.fn.deactivate = function( base_class ) { 
+  if ( base_class !== undefined ) { jQ$(this).removeClass( base_class+'-active'); }
   return jQ$(this).removeClass('active');
 };
 
@@ -15,24 +17,26 @@ Crabgrass.Tabs =  function() {
       // this private method adds tab methods to DOM elements
       var _extend_tab = function( tab, trigger, ul ) {
         jQ$.extend( tab, {
-          trigger: trigger,
+          trigger: trigger === undefined,
           tabset: ul,
           transition_in: function() {
-              if(!jQ$(tab.trigger).is('.active')) { jQ$(tab.trigger).activate(); }
+              if ( tab.trigger !== undefined ) {
+                if(!jQ$(tab.trigger).is('.active')) { jQ$(tab.trigger).activate('tab-title'); }
+              }
               if(!jQ$(tab).is(':visible')) {
-                if(jQ$(tab).is('.active')) { jQ$(tab).deactivate(); }
+                if(jQ$(tab).is('.active')) { jQ$(tab).deactivate('tab-content'); }
                 jQ$(tab).show('slide', 
-                  { duration: 350, 
+                  { duration: 500, 
                     direction: 'right', 
-                    callback: jQ$(tab).activate 
+                    callback: function() { jQ$(tab).activate('tab-content'); }
                   });
               } 
             },
           show: function() { 
             if(jQ$(tab).is(':visible')) { return tab.transition_in(); }
 
-            ul.tabs.deactivate();
-            ul.triggers.deactivate();
+            ul.tabs.deactivate('tab-content');
+            ul.triggers.deactivate('tab-title');
             ul.transition_to( tab );
 
           }
@@ -43,20 +47,26 @@ Crabgrass.Tabs =  function() {
       jQ$('.tab-title + .tab-content:not(:has(li))', self).prev().addClass('disabled');
 
       //establish a list of active tab-triggers
-      var triggers = jQ$('.tab-title', jQ$(self).children()).not('.disabled');
+      var triggers = jQ$('.tab-title:not(.disabled)', self );
+      if ( triggers.length === 0 ) { 
+        var tabs = jQ$('.tab-content:has(li)', self);
+      } else {
+        var tabs = triggers.next('.tab-content'); 
+      }
 
       // some methods for the ul container
       var container_extensions = { 
-          tabs: triggers.next('.tab-content'),
+          tabs: tabs,
           triggers: triggers,
           activate: function() {
             if( self.tabs.length === 0 ) { return; }
             self.tabs[0].show();
-            jQ$(self).activate();
+            jQ$(self.tabs[0]).activate('tab-content');
+            jQ$(self).activate('tab-block');
           },
           transition_to: function( new_tab ) { 
             self.tabs.filter(':visible').not(new_tab).hide('slide', 
-            { duration: 150, 
+            { duration: 500, 
               direction: 'left',   
               callback: new_tab.transition_in
                 } );
@@ -71,6 +81,12 @@ Crabgrass.Tabs =  function() {
           _extend_tab( tab, this, self );
           jQ$.extend( this, { tab: tab }); 
         } );
+      if ( self.tabs.length > self.triggers.length ) {
+        jQ$(self.tabs).each( function() { 
+          if( this.trigger !== undefined ) { return; }
+          _extend_tab( this, undefined, self );
+        } );
+      }
       return self;
     },
 
@@ -103,7 +119,7 @@ Crabgrass.Tabs =  function() {
 
       // add the "all" block to the existing ul
       jQ$('.tab-content', ul).hide();
-      all_list.prependTo( ul).wrapAll('<li><ul class="tab-content list active"></ul></li>').parent().before('<div class="tab-title">All</div>');
+      all_list.prependTo( ul).wrapAll('<li><ul class="tab-content list active tab-content-active"></ul></li>').parent().before('<div class="tab-title">All</div>');
 
     },
 
@@ -119,7 +135,8 @@ Crabgrass.Tabs =  function() {
     initialize_tab_blocks: function( )  {
       jQ$("ul.tab-block").each( function() { 
 
-        Crabgrass.Tabs.create_all_block( this );
+        if( !jQ$(this).is('.no-all-block')) { Crabgrass.Tabs.create_all_block( this ); }
+        //Crabgrass.Tabs.create_all_block( this );
         var ul = Crabgrass.Tabs.create(this);
 
         Crabgrass.Tabs.create_tab_bar( this );
