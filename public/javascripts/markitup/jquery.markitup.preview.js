@@ -437,9 +437,10 @@
                 if (iFrame) {
                     $('body').removeClass('markItUpPreviewActive');
                     $('.markItUpPreviewBlock').remove();
+                } else {
+                  previewWindow.close();
+                  previewWindow = iFrame = false;
                 }
-                previewWindow.close();
-                previewWindow = iFrame = false;
             }
 
 			// refresh Preview window
