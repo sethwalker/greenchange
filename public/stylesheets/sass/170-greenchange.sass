@@ -214,77 +214,151 @@
 
 
 !issue_icon_path = "/images/gc/icons/issues/"
-!issue_icon_file = "corporate_power.gif"
+!issue_icon_file = "corporate_power"
+!issue_icon_file_extension = ".png"
+!issue_icon_file_extension_IE = ".gif"
 .icon.issue.corporate-power
   &.small
-    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
   &.standard
-    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
   &.large
-    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
 
-!issue_icon_file = "climate_crisis.gif"
+//IE version
+body.ie6
+  .corporate-power-small
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+  .corporate-power-standard
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+  .corporate-power-large
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+
+!issue_icon_file = "climate_crisis"
 .icon.issue.climate-crisis
   &.small
-    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
   &.standard
-    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
   &.large
-    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
 
-!issue_icon_file = "economic_justice.gif"
+//IE version
+body.ie6
+  .climate-crisis-small
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+  .climate-crisis-standard
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+  .climate-crisis-large
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+
+!issue_icon_file = "economic_justice"
 .icon.issue.economic-justice
   &.small
-    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
   &.standard
-    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
   &.large
-    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
 
-!issue_icon_file = "environment.gif"
+//IE version
+body.ie6
+  .economic-justice-small
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+  .economic-justice-standard
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+  .economic-justice-large
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+
+!issue_icon_file = "environment"
 .icon.issue.environment
   &.small
-    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
   &.standard
-    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
   &.large
-    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
 
-!issue_icon_file = "human_rights.gif"
+//IE version
+body.ie6
+  .environment-small
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+  .environment-standard
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+  .environment-large
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+
+!issue_icon_file = "human_rights"
 .icon.issue.human-rights
   &.small
-    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
   &.standard
-    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
   &.large
-    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
 
-!issue_icon_file = "politics.gif"
+//IE version
+body.ie6
+  .human-rights-small
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+  .human-rights-standard
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+  .human-rights-large
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+
+!issue_icon_file = "politics"
 .icon.issue.politics
   &.small
-    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
   &.standard
-    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
   &.large
-    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
 
-!issue_icon_file = "social_justice.gif"
+//IE version
+body.ie6
+  .politics-small
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+  .politics-standard
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+  .politics-large
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+
+!issue_icon_file = "social_justice"
 .icon.issue.social-justice
   &.small
-    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
   &.standard
-    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
   &.large
-    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
 
-!issue_icon_file = "war_and_peace.gif"
+//IE version
+body.ie6
+  .social-justice-small
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+  .social-justice-standard
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+  .social-justice-large
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+
+!issue_icon_file = "war_and_peace"
 .icon.issue.war-and-peace
   &.small
-    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
   &.standard
-    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
   &.large
-    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + ")"
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
+
+//IE version
+body.ie6
+  .war-and-peace-small
+    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+  .war-and-peace-standard
+    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+  .war-and-peace-large
+    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
 
 .icon-only
   div.icon.small

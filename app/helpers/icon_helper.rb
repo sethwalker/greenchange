@@ -118,7 +118,8 @@ module IconHelper
     end
 
     def extra_html_options_for_icon_for_issue( issue, html_options ={} )
-      html_options[:class] = [ (html_options[:class]||''), issue.name.downcase.gsub(' ', '-') ].join(' ').strip
+      ie_issue_class = [ issue.name.downcase.gsub(' ', '-'), (html_options[:size] || 'standard') ].join('-')
+      html_options[:class] = [ (html_options[:class]||''), issue.name.downcase.gsub(' ', '-'), ie_issue_class ].join(' ').strip
       html_options
     end
 
