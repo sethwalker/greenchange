@@ -23,14 +23,15 @@ module IconHelper
     size_option = html_options.delete(:size) || 'standard'
     html_options.delete(:avatar_size) 
     html_options[:title] ||= item.try(:display_name)
-    new_class = [ (html_options[:class] ||= ''), "icon", item_type, size_option.to_s ]
+    new_class = [ (html_options[:class] ||= ''), "icon", item_type, size_option.to_s, ['icon', size_option.to_s ].join('-') ]
     html_options[:class] = new_class.join(' ').strip
     html_options
 
   end
 
   def html_options_for_avatar_for( item, html_options ={} )
-    html_options[:class] = [ (html_options[:class] || ''), 'avatar' ].join(' ').strip
+    size_option = html_options[:size] || 'standard'
+    html_options[:class] = [ (html_options[:class] || ''), 'avatar', "avatar-#{size_option}" ].join(' ').strip
     #item_url_type = case item when User; 'person'; when Group; 'group'; when Page; 'page'; end
     #if item.respond_to?(:has_image?) && item.has_image? && item_url_type
     #  item_icon_method = "#{item_url_type}_icon_path"
@@ -96,7 +97,8 @@ module IconHelper
 
   protected
     def extra_html_options_for_icon_for_page( page, html_options ={} )
-      html_options[:class] = [ (html_options[:class] || ''), css_page_type(page) ].join(' ').strip
+      ie_page_class = [ 'page', css_page_type(page), (html_options[:size] || 'standard') ].join('-')
+      html_options[:class] = [ (html_options[:class] || ''), css_page_type(page), ie_page_class ].join(' ').strip
       if custom_icon_url = ( ( icon_url_for_image( page, html_options ) or icon_url_for_youtube( page, html_options )))
         html_options[:style] = "background-image: url( #{custom_icon_url});"
         html_options[:class] << " youtube-thumbnail" if icon_url_for_youtube page 
@@ -118,7 +120,7 @@ module IconHelper
     end
 
     def extra_html_options_for_icon_for_issue( issue, html_options ={} )
-      ie_issue_class = [ issue.name.downcase.gsub(' ', '-'), (html_options[:size] || 'standard') ].join('-')
+      ie_issue_class = [ 'issue', issue.name.downcase.gsub(' ', '-'), (html_options[:size] || 'standard') ].join('-')
       html_options[:class] = [ (html_options[:class]||''), issue.name.downcase.gsub(' ', '-'), ie_issue_class ].join(' ').strip
       html_options
     end

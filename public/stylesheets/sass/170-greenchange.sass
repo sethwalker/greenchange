@@ -7,10 +7,10 @@
     :height 100px
     :display block
 
-.icon.large, 
-.icon.small, 
-.icon.medium,
-.icon.standard,
+.icon-large, 
+.icon-small, 
+.icon-medium,
+.icon-standard,
 .list-thumb .icon
   :display block
   :float left
@@ -20,353 +20,303 @@
   :width 64px
   :margin 5px
 
-.icon.large
+.icon-large
   :height 92px
   :width 92px
 
-.icon.medium
+.icon-medium
   :height 48px
   :width 48px
 
-.icon.small
+.icon-small
   :height 24px
   :width 24px
 
-.icon.youtube-thumbnail
-  -#:background-position -25px -8px
+.youtube-thumbnail
+  :background-position -25px -8px
 
 !page_icon_path = "/images/gc/icons/pages/"
 !page_icon_file = "asset.gif"
-.icon.page.asset
-  &.small
-    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
-  &.medium
-    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
-  &.standard
-    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
-  &.large
-    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+.page-asset-small
+  :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+.page-asset-medium
+  :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+.page-asset-standard
+  :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+.page-asset-large
+  :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
 
 !page_icon_file = "wiki.gif"
-.icon.page
-  &.small
-    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
-  &.medium
-    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
-  &.standard
-    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
-  &.large
-    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+.page-wiki-small
+  :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+.page-wiki-medium
+  :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+.page-wiki-standard
+  :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+.page-wiki-large
+  :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
 
 !page_icon_file = "discussion.gif"
-.icon.page.discussion
-  &.small
-    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
-  &.medium
-    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
-  &.standard
-    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
-  &.large
-    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+.page-discussion-small
+  :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+.page-discussion-medium
+  :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+.page-discussion-standard
+  :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+.page-discussion-large
+  :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
 
 !page_icon_file = "event.gif"
-.icon.page.event
-  &.small
-    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
-  &.medium
-    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
-  &.standard
-    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
-  &.large
-    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+.page-event-small
+  :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+.page-event-medium
+  :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+.page-event-standard
+  :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+.page-event-large
+  :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
 
 !page_icon_file = "gallery.gif"
-.icon.page.gallery
-  &.small
-    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
-  &.medium
-    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
-  &.standard
-    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
-  &.large
-    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+.page-gallery-small
+  :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+.page-gallery-medium
+  :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+.page-gallery-standard
+  :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+.page-gallery-large
+  :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
 
 !page_icon_file = "news.gif"
-.icon.page.news
-  &.small
-    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
-  &.medium
-    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
-  &.standard
-    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
-  &.large
-    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+.page-news-small
+  :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+.page-news-medium
+  :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+.page-news-standard
+  :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+.page-news-large
+  :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
 
 !page_icon_file = "video.gif"
-.icon.page.video
-  &.small
-    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
-  &.medium
-    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
-  &.standard
-    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
-  &.large
-    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+.page-video-small
+  :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+.page-video-medium
+  :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+.page-video-standard
+  :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+.page-video-large
+  :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
 
 !page_icon_file = "group.jpg"
-.icon.page.group
-  &.small
-    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
-  &.medium
-    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
-  &.standard
-    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
-  &.large
-    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+.page-group-small
+  :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+.page-group-medium
+  :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+.page-group-standard
+  :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+.page-group-large
+  :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
 
 !page_icon_file = "image.gif"
-.icon.page.image
-  &.small
-    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
-  &.medium
-    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
-  &.standard
-    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
-  &.large
-    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+.page-image-small
+  :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+.page-image-medium
+  :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+.page-image-standard
+  :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+.page-image-large
+  :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
 
 !page_icon_file = "audio.gif"
-.icon.page.audio
-  &.small
-    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
-  &.medium
-    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
-  &.standard
-    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
-  &.large
-    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+.page-audio-small
+  :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+.page-audio-medium
+  :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+.page-audio-standard
+  :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+.page-audio-large
+  :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
 
 !page_icon_file = "action_alert.gif"
-.icon.page.action-alert
-  &.small
-    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
-  &.medium
-    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
-  &.standard
-    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
-  &.large
-    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+.page-action-alert-small
+  :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+.page-action-alert-medium
+  :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+.page-action-alert-standard
+  :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+.page-action-alert-large
+  :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
 
 !page_icon_file = "poll.gif"
-.icon.page.poll
-  &.small
-    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
-  &.medium
-    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
-  &.standard
-    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
-  &.large
-    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
-
-!page_icon_file = "wiki.gif"
-.icon.page.wiki
-  &.small
-    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
-  &.medium
-    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
-  &.standard
-    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
-  &.large
-    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+.page-poll-small
+  :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+.page-poll-medium
+  :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+.page-poll-standard
+  :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+.page-poll-large
+  :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
 
 !page_icon_file = "blog.gif"
-.icon.page.blog
-  &.small
-    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
-  &.medium
-    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
-  &.standard
-    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
-  &.large
-    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+.page-blog-small
+  :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+.page-blog-medium
+  :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+.page-blog-standard
+  :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+.page-blog-large
+  :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+
 
 !page_icon_file = "tasklist.gif"
-.icon.page.task-list
-  &.small
-    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
-  &.medium
-    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
-  &.standard
-    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
-  &.large
-    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+.page-task-list-small
+  :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+.page-task-list-medium
+  :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+.page-task-list-standard
+  :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+.page-task-list-large
+  :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
 
 !page_icon_file = "petition.gif"
-.icon.page.petition
-  &.small
-    :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
-  &.medium
-    :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
-  &.standard
-    :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
-  &.large
-    :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
+.page-petition-small
+  :background-image = "url(" + !page_icon_path + "small/" + !page_icon_file + ")"
+.page-petition-medium
+  :background-image = "url(" + !page_icon_path + "medium/" + !page_icon_file + ")"
+.page-petition-standard
+  :background-image = "url(" + !page_icon_path + "standard/" + !page_icon_file + ")"
+.page-petition-large
+  :background-image = "url(" + !page_icon_path + "large/" + !page_icon_file + ")"
 
 
 !issue_icon_path = "/images/gc/icons/issues/"
 !issue_icon_file = "corporate_power"
 !issue_icon_file_extension = ".png"
 !issue_icon_file_extension_IE = ".gif"
-.icon.issue.corporate-power
-  &.small
-    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
-  &.standard
-    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
-  &.large
-    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
-
-//IE version
-body.ie6
-  .corporate-power-small
+.issue-corporate-power-small
+  :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
-  .corporate-power-standard
+.issue-corporate-power-standard
+  :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
-  .corporate-power-large
+.issue-corporate-power-large
+  :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
 
 !issue_icon_file = "climate_crisis"
-.icon.issue.climate-crisis
-  &.small
-    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
-  &.standard
-    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
-  &.large
-    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
-
-//IE version
-body.ie6
-  .climate-crisis-small
+.issue-climate-crisis-small
+  :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
-  .climate-crisis-standard
+.issue-climate-crisis-standard
+  :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
-  .climate-crisis-large
+.issue-climate-crisis-large
+  :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+
 
 !issue_icon_file = "economic_justice"
-.icon.issue.economic-justice
-  &.small
-    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
-  &.standard
-    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
-  &.large
-    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
-
-//IE version
-body.ie6
-  .economic-justice-small
+.issue-economic-justice-small
+  :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
-  .economic-justice-standard
+.issue-economic-justice-standard
+  :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
-  .economic-justice-large
+.issue-economic-justice-large
+  :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+
 
 !issue_icon_file = "environment"
-.icon.issue.environment
-  &.small
-    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
-  &.standard
-    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
-  &.large
-    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
-
-//IE version
-body.ie6
-  .environment-small
+.issue-environment-small
+  :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
-  .environment-standard
+.issue-environment-standard
+  :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
-  .environment-large
+.issue-environment-large
+  :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+
 
 !issue_icon_file = "human_rights"
-.icon.issue.human-rights
-  &.small
-    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
-  &.standard
-    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
-  &.large
-    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
-
-//IE version
-body.ie6
-  .human-rights-small
+.issue-human-rights-small
+  :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
-  .human-rights-standard
+.issue-human-rights-standard
+  :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
-  .human-rights-large
+.issue-human-rights-large
+  :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+
 
 !issue_icon_file = "politics"
-.icon.issue.politics
-  &.small
-    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
-  &.standard
-    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
-  &.large
-    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
-
-//IE version
-body.ie6
-  .politics-small
+.issue-politics-small
+  :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
-  .politics-standard
+.issue-politics-standard
+  :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
-  .politics-large
+.issue-politics-large
+  :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
+
 
 !issue_icon_file = "social_justice"
-.icon.issue.social-justice
-  &.small
-    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
-  &.standard
-    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
-  &.large
-    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
-
-//IE version
-body.ie6
-  .social-justice-small
+.issue-social-justice-small
+  :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
-  .social-justice-standard
+.issue-social-justice-standard
+  :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
-  .social-justice-large
+.issue-social-justice-large
+  :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
 
-!issue_icon_file = "war_and_peace"
-.icon.issue.war-and-peace
-  &.small
-    :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
-  &.standard
-    :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
-  &.large
-    :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
 
-//IE version
-body.ie6
-  .war-and-peace-small
+!issue_icon_file = "war_and_peace"
+.issue-war-and-peace-small
+  :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "small/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
-  .war-and-peace-standard
+.issue-war-and-peace-standard
+  :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "standard/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
-  .war-and-peace-large
+.issue-war-and-peace-large
+  :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension + ")"
+  body.ie6 &
     :background-image = "url(" + !issue_icon_path + "large/" + !issue_icon_file + !issue_icon_file_extension_IE + ")"
 
 .icon-only
-  div.icon.small
+  div.icon-small
     :width 28px
     :height 28px
     :overflow hidden
     :float left
-  a.icon.issue
+  a.issue
     :padding-top 100px
     :display block
   
