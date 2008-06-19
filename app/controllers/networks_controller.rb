@@ -1,5 +1,5 @@
 class NetworksController < ApplicationController
-  before_filter :login_required
+  before_filter :login_required, :except => :connect
 
   def show
     @pages = Page.in_network(current_user).allowed(current_user).find(:all, :order => "updated_at DESC", :limit => 40)
