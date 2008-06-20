@@ -22,19 +22,21 @@ set :deploy_via, :remote_cache
 set :git_enable_submodules, 1
 
 after "deploy:update_code", "deploy:symlink_shared"
+after "deploy:update_code", "deploy:passenger_hates_htaccess"
 
 namespace :deploy do
 
   task :start, :roles => :app do
-    invoke_command "monit -g greenchange start all", :via => run_method
+#    invoke_command "monit -g greenchange start all", :via => run_method
   end
 
   task :stop, :roles => :app do
-    invoke_command "monit -g greenchange stop all", :via => run_method
+#    invoke_command "monit -g greenchange stop all", :via => run_method
   end
 
   task :restart, :roles => :app do
-    invoke_command "monit -g greenchange restart all", :via => run_method
+    invoke_command "touch #{release_path}/tmp/restart.txt"
+#    invoke_command "monit -g greenchange restart all", :via => run_method
   end
 
   task :symlink_shared, :roles => :app, :except => {:no_symlink => true} do
@@ -56,4 +58,7 @@ namespace :deploy do
     invoke_command "ln -nfs #{shared_path}/public_stylesheets/textile-editor.css #{release_path}/public/stylesheets/textile-editor.css"
   end
 
+  task :passenger_hates_htaccess, :roles => :app, :except => {:no_symlink => true} do
+    invoke_command "rm #{release_path}/public/.htaccess"
+  end
 end
