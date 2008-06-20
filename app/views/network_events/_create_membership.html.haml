@@ -5,12 +5,13 @@
   .owner.row-block.first
     = link_to ' ', group_url(group), html_options_for_icon_for( group, :size => :small )
     = link_to user.name, person_url(user), :class => 'name'
-  .membership_icon.row-block
-    = link_to ' ', group_url(group), html_options_for_icon_for(group, :size => :small, :title => group.name)
-  .row-block
-    .title.row-block
-      = link_to(user.name, person_url(user)) + " joined the group " + link_to(group.name, group_url(group))
-    .clear
-    .changes.row-block
-      = time_ago_in_words(event.created_at)
-      ago.
+  .left-bagface
+    .membership-icon.row-block
+      = link_to ' ', group_url(group), html_options_for_icon_for(group, :size => :small, :title => group.name)
+    .row-block
+      .title.row-block
+        = link_to(user.name, person_url(user)) + " joined the group " + link_to(group.name, group_url(group))
+      .clear
+      .changes.row-block
+        = time_ago_in_words(event.created_at)
+        ago.

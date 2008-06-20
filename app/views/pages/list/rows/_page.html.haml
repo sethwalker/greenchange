@@ -6,7 +6,7 @@
     - if owner
       = link_to ' ', owner_path, html_options_for_icon_for( owner, :size => :small )
       = link_to owner.name, owner_path, :class => 'name'
-  .page_icon.row-block
+  .page-icon.row-block
     = link_to ' ', tool_pages_url(page, scoped_by_context? ), html_options_for_icon_for(page, :size => :small, :title => tool_pages_title(page))
   .row-block
     .title.row-block
