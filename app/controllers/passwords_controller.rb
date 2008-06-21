@@ -43,13 +43,18 @@ class PasswordsController < ApplicationController
     end
     @user = User.find_by_password_reset_code(params[:id]) if params[:id]
     raise if @user.nil?
-    return if @user unless params[:password]
+    return if @user && !params[:password]
     
     if (params[:password] == params[:password_confirmation])
       @user.password_confirmation = params[:password_confirmation]
       @user.password = params[:password]
       @user.reset_password
-      flash[:notice] = @user.save ? "Password reset" : "Password not reset"
+      if @user.save
+        flash[:notice] = "Password reset"
+        @user.activate! unless @user.active?
+      else
+        flash[:notice] = "Password reset"
+      end
     else
       flash[:notice] = "Password mismatch"
       render :action => 'edit', :id => params[:id]

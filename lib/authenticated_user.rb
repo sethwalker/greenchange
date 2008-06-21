@@ -99,8 +99,8 @@ module AuthenticatedUser
   end
 
   def active?
-    # the existence of an activation code means they have not activated yet
-    activation_code.nil?
+    # the existence of an activated_at timestamp means they are active
+    !activated_at.nil?
   end
 
   # Returns true if the user has just been activated.
