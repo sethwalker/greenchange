@@ -101,7 +101,7 @@ DemocracyInAction.configure do
   end
 
   mirror(:supporter_groups, Preference ) do
-    guard { |pref| pref.value and pref.name =~ /subscribe_to_email_list|allow_info_sharing/ and pref.user_id }
+    guard { |pref| pref.value == "1" and pref.name =~ /subscribe_to_email_list|allow_info_sharing/ and pref.user_id }
     map('supporter_KEY') { |preference|
       user = preference.user
       if user

@@ -67,7 +67,7 @@ describe "DemocracyInAction initializer" do
 
         describe "allow_info_sharing preference" do
           before do
-            @pref = @user.preferences.create(:name => 'allow_info_sharing', :value => true)
+            @pref = @user.preferences.create(:name => 'allow_info_sharing', :value => "1")
             @pref_proxy = @pref.democracy_in_action_proxies.find_by_remote_table('supporter_groups')
           end
 

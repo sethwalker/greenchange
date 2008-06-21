@@ -20,7 +20,7 @@ describe PreferencesController do
   end
   describe "POST #create" do
     before do
-      @preference_attr = { :name => 'subscribe_to_email_list', :value => false }
+      @preference_attr = { :name => 'subscribe_to_email_list', :value => "0" }
     end
     def act!
       post :create, :preference => @preference_attr

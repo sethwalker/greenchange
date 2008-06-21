@@ -17,8 +17,8 @@ class AccountsController < ApplicationController
   # Display the signup form
   def new 
     @user = User.new(params[:user])
-    @user.preferences.build :name => 'allow_info_sharing', :value => true
-    @user.preferences.build :name => 'subscribe_to_email_list', :value => true
+    @user.preferences.build :name => 'allow_info_sharing', :value => "1"
+    @user.preferences.build :name => 'subscribe_to_email_list', :value => "1"
   end
 
   # Create a new Account

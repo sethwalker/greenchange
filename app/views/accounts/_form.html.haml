@@ -29,14 +29,15 @@
       - link_text = link_to "terms and conditions.", "http://greenchange.org/terms", :target => "blank"
       = f.label :terms_of_service, "I agree to the  #{link_text}"
 
-    %p.preference
-      = check_box_tag "user[preferences][subscribe_to_email_list]", 1, ( @user.preference_for(:email_list).nil? ? true : @user.preference_for(:email_list))
-      %label{ :for => "user[preferences][subscribe_to_email_list]" }
-        Subscribe me to Green Change e-updates
-    %p.preference
-      = check_box_tag "user[preferences][allow_info_sharing]", 1, ( @user.preference_for(:allow_info_sharing).nil? ? true : @user.preference_for(:allow_info_sharing))
-      %label{ :for => "user[preferences][allow_info_sharing]" }
-        Share my information with other Green organizations.
+    - f.fields_for :preferences do |preference_fields|
+      %p.preference
+        = preference_fields.check_box "subscribe_to_email_list", :checked => @user.preference_for(:subscribe_to_email_list) == "1"
+        %label{ :for => "user_preferences_subscribe_to_email_list" }
+          Subscribe me to Green Change e-updates
+      %p.preference
+        = preference_fields.check_box "allow_info_sharing", :checked => @user.preference_for(:allow_info_sharing) == "1"
+        %label{ :for => "user_preferences_allow_info_sharing" }
+          Share my information with other Green organizations.
 
     %p.submit
       = f.submit "Sign up"

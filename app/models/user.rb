@@ -39,24 +39,20 @@ class User < ActiveRecord::Base
   end
 
   def preferences=(user_preferences)
-    preferences.reject(&:new_record?).each do |preference|
-      value = user_preferences.delete(preference.name)
-      if value
-        preference.value = value
-      else
-        preferences.destroy(preference)
+    if user_preferences.is_a? Hash
+      user_preferences.each do |key, value|
+        @updated_preferences = true
+        pref = preferences.detect {|p| p.name.to_s == key.to_s} || preferences.build( :name => key.to_s)
+        pref.value = value 
       end
-    end
-    user_preferences.each do |name, value|
-      preferences.build(:name => name, :value => value)
     end
   end
 
   after_save :save_preferences
   def save_preferences
     preferences.each do |preference|
-      preference.save(false)
-    end
+      preference.save!
+    end if @updated_preferences #TODO: this shouldn't be necessary with dirty checking in 2.1
   end
 
   def preference_for(key)

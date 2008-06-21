@@ -78,6 +78,10 @@ module FixtureReplacement
     
 	end
 
+  attributes_for :preference do |p|
+
+  end
+
   attributes_for :rating do |a|
     
 	end

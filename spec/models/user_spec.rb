@@ -181,8 +181,8 @@ describe User, "with preferences" do
   end
 
   it "should return preference values by name" do
-    @user.preferences = {'allow_info_sharing' => false }
-    @user.preference_for( :allow_info_sharing ).should be_false
+    @user.preferences = {'allow_info_sharing' => "0" }
+    @user.preference_for( :allow_info_sharing ).should == "0"
   end
 
   it "should allow preferences to be updated" do
@@ -190,6 +190,14 @@ describe User, "with preferences" do
     @user.preferences = {'email_notification' => 'messages'}
     @user.save! && @user = User.find(@user)
     @user.preference_for( :email_notification ).should == "messages"
+  end
+
+  it "should not delete preferences" do
+    @user.preferences.create :name => 'email_notification', :value => 'comments'
+    @user.preferences.create :name => 'allow_info_sharing', :value => '1'
+    @user.preferences = {'email_notification' => 'messages'}
+    @user.save! && @user = User.find(@user)
+    @user.preference_for( :allow_info_sharing ).should == '1'
   end
 
   describe "email preference" do

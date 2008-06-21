@@ -6,7 +6,7 @@ class Preference < ActiveRecord::Base
 
   after_save :update_democracy_in_action
   def update_democracy_in_action
-    if name =~ /subscribe_to_email_list|allow_info_sharing/ && !value
+    if name.to_s =~ /subscribe_to_email_list|allow_info_sharing/ && value.to_s == "0"
       democracy_in_action_proxies.destroy_all
     end
   end

@@ -17,6 +17,11 @@ config.action_view.debug_rjs                         = true
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
 
+config.to_prepare do
+  # this initializer alters class behavior, so when cache_classes == false, bad times
+  load 'config/initializers/democracy_in_action.rb'
+end
+
 #begin
 #  require 'syslog_logger'
 #  RAILS_DEFAULT_LOGGER = SyslogLogger.new

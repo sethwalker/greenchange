@@ -66,7 +66,7 @@ describe AccountsController do
 
       describe "user preferences" do
         before do
-          @extra_user_params = { :preferences => { 'subscribe_to_email_list' => 1, 'allow_info_sharing' => false }}
+          @extra_user_params = { :preferences => { 'subscribe_to_email_list' => "1", 'allow_info_sharing' => "0" }}
         end
         it "should add user preferences if they are present" do
           act!

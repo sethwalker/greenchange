@@ -41,20 +41,32 @@
 
       = render :partial => "shared/form/issues", :locals => {:f => ff}
       = render :partial => "shared/form/languages", :locals => {:f => ff}
-      = render :partial => "accounts/form/preferences", :locals => { :f => ff, :user => profile.entity}
-      .section.email-preferences
-        %p.preference
-          %label
-            = radio_button_tag "user[preferences][email_notification]", 'none', 'none' == profile.entity.preference_for(:email_notification)
-            Send me no email
-        %p.preference
-          %label
-            = radio_button_tag "user[preferences][email_notification]", 'messages', ('messages' == profile.entity.preference_for(:email_notification) || profile.entity.preference_for(:email_notification).nil?)
-            Send me an email when I receive a message, an invitation or a request
-        %p.preference
-          %label
-            = radio_button_tag "user[preferences][email_notification]", 'comments', 'comments' == profile.entity.preference_for(:email_notification)
-            Send me an email when I receive a message, an invitation, a request or someone adds a comment to something I wrote
+
+      - ff.fields_for :preferences do |preference_fields|
+        .section.preferences
+          %h2 Preferences
+          %p.preference
+            = preference_fields.check_box "subscribe_to_email_list", :checked => profile.entity.preference_for(:subscribe_to_email_list) == "1"
+            %label{ :for => "user_preferences_subscribe_to_email_list" }
+              Subscribe me to Green Change e-updates
+          %p.preference
+            = preference_fields.check_box "allow_info_sharing", :checked => profile.entity.preference_for(:allow_info_sharing) == "1"
+            %label{ :for => "user_preferences_allow_info_sharing" }
+              Share my information with other Green organizations.
+
+        .section.email-preferences
+          %p.preference
+            %label
+              = radio_button_tag "user[preferences][email_notification]", 'none', 'none' == profile.entity.preference_for(:email_notification)
+              Send me no email
+          %p.preference
+            %label
+              = radio_button_tag "user[preferences][email_notification]", 'messages', ('messages' == profile.entity.preference_for(:email_notification) || profile.entity.preference_for(:email_notification).nil?)
+              Send me an email when I receive a message, an invitation or a request
+          %p.preference
+            %label
+              = radio_button_tag "user[preferences][email_notification]", 'comments', 'comments' == profile.entity.preference_for(:email_notification)
+              Send me an email when I receive a message, an invitation, a request or someone adds a comment to something I wrote
 
       .section.timezone
         %p
