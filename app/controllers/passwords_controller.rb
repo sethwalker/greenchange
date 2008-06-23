@@ -53,7 +53,7 @@ class PasswordsController < ApplicationController
         flash[:notice] = "Password reset"
         @user.activate! unless @user.active?
       else
-        flash[:notice] = "Password reset"
+        flash[:notice] = "Password reset failed"
       end
     else
       flash[:notice] = "Password mismatch"
