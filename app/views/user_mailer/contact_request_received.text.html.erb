@@ -1,7 +1,5 @@
-Subject: <%= @subject %>
+<p><%= @text %></p>
 
-<%= @text %>
-
-To approve or decline this contact request, go to: <%= link_to @reply_url, @reply_url %>.
+<p>To approve or decline this contact request, go to: <%= link_to @reply_url, @reply_url %>.</p>
 
 <%= render :partial => 'user_mailer/footer_html' %>

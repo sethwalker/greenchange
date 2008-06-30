@@ -63,6 +63,7 @@ class User < ActiveRecord::Base
     preference = preference_for(:email_notification)
     return false if 'none' == preference
     return true  if event == preference
+    return true  if event == 'messages' && preference.nil?
     return true  if event == 'messages' && preference == 'comments'
     return false
   end

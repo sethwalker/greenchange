@@ -1,7 +1,7 @@
-Subject: <%= @subject %>
+<p>Subject: <%= @subject %></p>
 
-<%= @text %>
+<p><%= @text %></p>
 
-To reply to this message, go to <%= link_to @reply_url, @reply_url %>.
+<p>To reply to this message, go to <%= link_to @reply_url, @reply_url %>.</p>
 
 <%= render :partial => 'user_mailer/footer_html' %>
