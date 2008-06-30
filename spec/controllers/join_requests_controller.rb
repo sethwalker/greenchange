@@ -7,7 +7,7 @@ describe JoinRequestsController do
 
   describe "GET show" do
     before do
-      @req = JoinRequest.create :sender => create_valid_user, :requestable => create_valid_group
+      @req = JoinRequest.create :sender => create_valid_user, :recipient => create_user, :requestable => create_valid_group
       JoinRequest.stub!(:find).and_return(@req)
     end
     it "checks authorization" do

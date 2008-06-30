@@ -25,8 +25,8 @@ module FixtureReplacement
     
 	end
 
-  attributes_for :discussion do |a|
-    
+  attributes_for :discussion do |d|
+    d.page                  = default_page
 	end
 
   attributes_for :event do |a|
@@ -45,6 +45,9 @@ module FixtureReplacement
     g.name                  = 'grouply'
 	end
 
+  attributes_for :invitation do |i|
+  end
+
   attributes_for :issue do |i|
     i.name                  = String.random 
 	end
@@ -60,6 +63,7 @@ module FixtureReplacement
   attributes_for :message do |a|
     
 	end
+
   attributes_for :network_event do |a|
     a.action = 'create'
     a.user = default_user
@@ -74,8 +78,10 @@ module FixtureReplacement
     p.title                 = 'atitle'
 	end
 
-  attributes_for :post do |a|
-    
+  attributes_for :post do |p|
+    p.body = String.random
+    p.user = default_user
+    p.discussion = default_discussion
 	end
 
   attributes_for :preference do |p|

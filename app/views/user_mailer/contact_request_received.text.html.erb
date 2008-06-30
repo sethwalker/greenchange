@@ -2,6 +2,6 @@ Subject: <%= @subject %>
 
 <%= @text %>
 
-To reply to this message, go to <%= link_to @reply_url, @reply_url %>.
+To approve or decline this contact request, go to: <%= link_to @reply_url, @reply_url %>.
 
 <%= render :partial => 'user_mailer/footer_html' %>

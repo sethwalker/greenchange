@@ -24,14 +24,37 @@ class UserMailer < ActionMailer::Base
 
   def message_received(message)
     setup_email(message.recipient)
+    subject "#{message.sender.display_name} sent you a message on Green Change"
+    body :subject => message.subject, 
+      :text => message.body,
+      :reply_url => message_url(message, :host => Crabgrass::Config.host),
+      :login_url => login_url(:host => Crabgrass::Config.host)
   end
 
   def invitation_received(message)
     setup_email(message.recipient)
+    subject "#{message.sender.display_name} sent you an invitation on Green Change"
+    body :subject => message.subject, 
+      :text => message.body,
+      :reply_url => message_url(message, :host => Crabgrass::Config.host),
+      :login_url => login_url(:host => Crabgrass::Config.host)
+  end
+
+  def contact_request_received(message)
+    setup_email(message.recipient)
+    subject "#{message.contact.display_name} wants to be your contact on Green Change"
+    body :subject => message.subject, 
+      :text => message.body,
+      :reply_url => message_url(message, :host => Crabgrass::Config.host),
+      :login_url => login_url(:host => Crabgrass::Config.host)
   end
 
   def comment_posted(post)
-    setup_email(post.discussion.page.created_by)
+    poster = post.discussion.page.created_by
+    setup_email(poster)
+    subject "#{poster.display_name} left you a comment on Green Change"
+    body :page_url => page_url(post.discussion.page, :host => Crabgrass::Config.host),
+      :login_url => login_url(:host => Crabgrass::Config.host)
   end
 
   protected

@@ -28,6 +28,11 @@ class Invitation < Message
   end
 
   def notify_recipient
-    UserMailer.deliver_invitation_received(self) if recipient.receives_email_on('messages')
+    return unless recipient.receives_email_on('messages')
+    if contact?
+      UserMailer.deliver_contact_request_received(self)
+    else
+      UserMailer.deliver_invitation_received(self)
+    end
   end
 end

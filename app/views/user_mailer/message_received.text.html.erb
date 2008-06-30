@@ -1,3 +1,7 @@
-you received a message
+Subject: <%= @subject %>
 
-go to <%= link_to 'here', 'http://network.greenchange.org/me/inbox' %> to read it
+<%= @text %>
+
+To reply to this message, go to <%= link_to @reply_url, @reply_url %>.
+
+<%= render :partial => 'user_mailer/footer_html' %>

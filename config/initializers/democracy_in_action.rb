@@ -7,6 +7,7 @@ class DemocracyInAction::API
     url = URI.parse('https://salsa.wiredforchange.com/dia/hq/processLogin.jsp')
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     res = http.post(url.path, "email=#{user}&password=#{password}")
     cookies = res['set-cookie']
 
