@@ -14,7 +14,7 @@
   %li
     .tab-title
       Discussions
-    %ul#apple.tab-content.list
+    %ul.tab-content.list
       = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).page_type(:discussion).find(:all, list_options.merge( :order => 'updated_at DESC' ))
   %li
     .tab-title
