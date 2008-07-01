@@ -111,7 +111,7 @@ class InvitationsController < ApplicationController
     if params[:invitation]
       @group = Group.find params[:invitation][:group_id] if params[:invitation][:group_id]
       if params[:invitation][:event_id]
-        event = Event.find params[:invitation][:group_id] 
+        event = Event.find params[:invitation][:event_id] 
         @event = event.page
       end
     end
