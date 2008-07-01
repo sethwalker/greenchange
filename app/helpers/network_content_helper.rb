@@ -1,32 +1,32 @@
 module NetworkContentHelper
 
-  def featured_pages( source )
+  def featured_pages( source, qty = 1 )
     # TODO: network content sorting
     if source
       return [] unless source.respond_to?(:pages) && source.pages.any?
       [ Page.send(*context_finder(source)).find(:first, :order => "updated_at DESC") ].compact
     else
-      find_random Page, 1
+      find_random Page, qty
     end
   end
 
-  def featured_users( source )
+  def featured_users( source, qty = 6 )
     # TODO: network content sorting
     if source
       return [] unless source.respond_to?(:users) && source.users.any?
       source.users.enabled.find(:all, :limit => 6, :order => "updated_at DESC") 
     else
-      find_random User, 6
+      find_random User, qty
     end
   end
 
-  def featured_groups( source=nil )
+  def featured_groups( source=nil, qty = 6 )
     # TODO: network content sorting
     if source
       return [] unless source.respond_to?(:groups) && source.groups.any?
-      source.groups.find(:all, :limit => 6, :order => "updated_at DESC")
+      source.groups.find(:all, :limit => qty, :order => "updated_at DESC")
     else
-      find_random Group, 6
+      find_random Group, qty 
     end
   end
 
