@@ -52,6 +52,11 @@ module FixtureReplacement
     i.name                  = String.random 
 	end
 
+  attributes_for :join_request do |j|
+    j.sender                = default_user
+    j.requestable           = default_group
+  end
+
   attributes_for :link do |a|
     
 	end

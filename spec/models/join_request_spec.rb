@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe JoinRequest do
   before do
-    @req = JoinRequest.create :state => "pending"
+    @req = create_join_request :state => "pending"
   end
 
   describe "requestable" do
