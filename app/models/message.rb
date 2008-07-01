@@ -10,7 +10,7 @@ class Message < ActiveRecord::Base
 
   has_finder :to, Proc.new { |recipient| { :conditions => [ "messages.recipient_id = ?", recipient ] }}
   has_finder :from, Proc.new { |sender|  { :conditions => [ "messages.sender_id = ?", sender ] }}
-  has_finder :pending, { :conditions => [ "messages.state = ?", "pending" ] }
+  has_finder :pending, { :conditions => [ "messages.state = ? or messages.state IS NULL", "pending" ] }
 
   def allows?( user, action )
     return false unless user == sender or user == recipient

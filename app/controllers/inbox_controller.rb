@@ -3,7 +3,7 @@ class InboxController < ApplicationController
   before_filter :login_required
  
   def show
-    @messages = @me.messages_received.paginate(:all, :order => "updated_at DESC", :page => params[:page] )
+    @messages = @me.messages_received.pending.paginate(:all, :order => "updated_at DESC", :page => params[:page] )
     @join_requests = JoinRequest.to(@me).pending.paginate :all, :order => "updated_at DESC", :page => params[:page]
     @items = ( @messages + @join_requests ).sort { |item, item2 | item2.updated_at <=> item.updated_at }.compact
 
