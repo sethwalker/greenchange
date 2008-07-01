@@ -1,6 +1,6 @@
-Subject: <%= @subject %>
+Subject: <%= sanitize @subject %>
 
-<%= @text %>
+<%= sanitize @text %>
 
 To reply to this message, go to <%= @reply_url %>.
 

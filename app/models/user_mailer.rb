@@ -26,7 +26,7 @@ class UserMailer < ActionMailer::Base
     setup_email(message.recipient)
     subject "#{message.sender.display_name} sent you a message on Green Change"
     body :subject => message.subject, 
-      :text => message.body,
+      :text => (message.body || ''),
       :reply_url => message_url(message, :host => Crabgrass::Config.host),
       :login_url => login_url(:host => Crabgrass::Config.host)
   end
@@ -34,7 +34,7 @@ class UserMailer < ActionMailer::Base
   def invitation_received(message)
     setup_email(message.recipient)
     subject "#{message.sender.display_name} sent you an invitation on Green Change"
-    body :text => message.body,
+    body :text => (message.body || ''),
       :reply_url => message_url(message, :host => Crabgrass::Config.host),
       :login_url => login_url(:host => Crabgrass::Config.host)
   end
@@ -42,7 +42,7 @@ class UserMailer < ActionMailer::Base
   def contact_request_received(message)
     setup_email(message.recipient)
     subject "#{message.contact.display_name} wants to be your contact on Green Change"
-    body :text => message.body,
+    body :text => (message.body || ''), 
       :reply_url => message_url(message, :host => Crabgrass::Config.host),
       :login_url => login_url(:host => Crabgrass::Config.host)
   end
