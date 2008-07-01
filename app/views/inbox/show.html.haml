@@ -7,7 +7,21 @@
     Inbox
 
 .landing.inbox
-  #inbox-list
-    %ul.section.plain
-      = render :partial => 'inbox/list/message', :collection => @items
+  %ul#inbox-list.tab-block.no-all-block
+    %li
+      .tab-title
+        Received
+      %ul.section.plain.tab-content.list
+        = render :partial => 'inbox/list/message', :collection => @items_received
+    %li
+      .tab-title
+        Sent
+      %ul.section.plain.tab-content.list
+        = render :partial => 'inbox/list/message', :collection => @items_sent
+    %li
+      .tab-title
+        Deleted
+      %ul.section.plain.tab-content.list
+        = render :partial => 'inbox/list/message', :collection => @items_deleted
 
+- load_javascript_tabs

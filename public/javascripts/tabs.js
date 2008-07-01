@@ -65,6 +65,7 @@ Crabgrass.Tabs =  function() {
             jQ$(self).activate('tab-block');
           },
           transition_to: function( new_tab ) { 
+            console.log( 'tronsing: ' + self.tabs.filter(':visible').not(new_tab).length);
             self.tabs.filter(':visible').not(new_tab).hide('slide', 
             { duration: 500, 
               direction: 'left',   
@@ -81,9 +82,9 @@ Crabgrass.Tabs =  function() {
           _extend_tab( tab, this, self );
           jQ$.extend( this, { tab: tab }); 
         } );
-      if ( self.tabs.length > self.triggers.length ) {
+      if ( self.triggers.length == 0 ) {
         jQ$(self.tabs).each( function() { 
-          if( this.trigger !== undefined ) { return; }
+//          if( this.trigger !== undefined ) { return; }
           _extend_tab( this, undefined, self );
         } );
       }
