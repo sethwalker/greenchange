@@ -15,8 +15,10 @@ Crabgrass.Forms = function() {
       jQ$('input[type=submit].delete', title_menu).click( function(ev) {
           if(!confirm("You are about to delete the current page.  You will not be able to undo this.")) { return false; }
         });
-      var form = jQ$('#content .edit form').find('#content .new form').andSelf()[0];
-      jQ$( 'input[type=submit]', jQ$( 'p.submit', form ).clone().prependTo( title_menu )).click( function(ev) { form.submit(); });
+      var form = jQ$('.edit form, .new form', "#content" )[0];
+      if( form !== undefined ) {
+        jQ$( 'input[type=submit]', jQ$( 'p.submit', form ).clone().prependTo( title_menu )).click( function(ev) { form.submit(); });
+      }
     },
 
     initialize_remote_actions: function() {
