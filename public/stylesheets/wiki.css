@@ -24,33 +24,33 @@ ins.diffmod, ins.diffins {
   margin-bottom: -1em;
   padding: 0.25em;
   font-weight: bold; }
-.wiki h1 {
-  font-size: 24pt;
-  line-height: 1.25em;
-  margin-top: 1.5em;
-  color: #666;
-  border-bottom: 2px dotted #999; }
-.wiki h2 {
-  font-size: 14pt;
-  margin-top: 1.25em;
-  line-height: 1.25em;
-  border-bottom: 1px dashed #ccc; }
-.wiki h3 {
-  font-size: 1.1em;
-  margin-top: 0.75em; }
-.wiki table {
-  border-collapse: collapse; }
-.wiki td {
-  padding: 4px;
-  border: 1px solid #CCC; }
-.wiki th {
-  padding: 4px;
-  border: 1px solid #CCC;
-  background: #ddd; }
-.wiki tr.odd {
-  background-color: #F2F2F2; }
-.wiki tr.even {
-  background-color: white; }
+  .wiki div.codetitle h1 {
+    font-size: 24pt;
+    line-height: 1.25em;
+    margin-top: 1.5em;
+    color: #666;
+    border-bottom: 2px dotted #999; }
+  .wiki div.codetitle h2 {
+    font-size: 14pt;
+    margin-top: 1.25em;
+    line-height: 1.25em;
+    border-bottom: 1px dashed #ccc; }
+  .wiki div.codetitle h3 {
+    font-size: 1.1em;
+    margin-top: 0.75em; }
+  .wiki div.codetitle table {
+    border-collapse: collapse; }
+  .wiki div.codetitle td {
+    padding: 4px;
+    border: 1px solid #CCC; }
+  .wiki div.codetitle th {
+    padding: 4px;
+    border: 1px solid #CCC;
+    background: #ddd; }
+  .wiki div.codetitle tr.odd {
+    background-color: #F2F2F2; }
+  .wiki div.codetitle tr.even {
+    background-color: white; }
 
 .post pre {
   white-space: pre-wrap;
