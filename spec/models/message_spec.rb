@@ -2,8 +2,8 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe Message do
   before do
-    @sender = create_valid_user
-    @recipient = create_valid_user
+    @sender = create_user
+    @recipient = create_user
     @message = Message.create :sender => @sender, :recipient => @recipient, :subject => 'Dude!', :body => "Hi", :sender_copy => false
   end
 
@@ -42,7 +42,7 @@ describe Message do
 
   describe "when spawning for multiple recipients" do
     before do
-      @message = Message.create :sender => @sender, :subject => 'Dude!', :body => "Hi", :sender_copy => false
+      @message = Message.create :sender => @sender, :recipient => @recipient, :subject => 'Dude!', :body => "Hi", :sender_copy => false
       @recipients = "joey, frankie"
       User.stub!(:find_by_login).and_return(create_valid_user(:login => 'joey'))
     end
