@@ -48,9 +48,9 @@ class UserMailer < ActionMailer::Base
   end
 
   def comment_posted(post)
-    poster = post.discussion.page.created_by
-    setup_email(poster)
-    subject "#{poster.display_name} left you a comment on Green Change"
+    author = post.discussion.page.created_by
+    setup_email(author)
+    subject "#{post.user.display_name} left you a comment on Green Change"
     body :page_url => page_url(post.discussion.page, :host => Crabgrass::Config.host),
       :login_url => login_url(:host => Crabgrass::Config.host)
   end

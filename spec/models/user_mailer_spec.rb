@@ -27,11 +27,25 @@ describe UserMailer do
   end
 
   describe "comment posted" do
-    it "should render both parts" do
+    before do
       @post = create_post
-      @post.discussion.page.created_by = create_user
+      @post.discussion.page.created_by = create_user :email => "deepthought@example.com"
+    end
+
+    it "should render both parts" do
       mail = UserMailer.create_comment_posted(@post)
       mail.parts.length.should == 2 
+    end
+
+    it "should be from the comment poster" do
+      @post.user.private_profile.attributes = {:first_name => "happy", :last_name => "hoppy"}
+      mail = UserMailer.create_comment_posted(@post)
+      mail.subject.should match(/#{@post.user.display_name} left you a comment/)
+    end
+
+    it "should be to the page creator" do
+      mail = UserMailer.create_comment_posted(@post)
+      mail.to.should include(@post.discussion.page.created_by.email)
     end
   end
 end
