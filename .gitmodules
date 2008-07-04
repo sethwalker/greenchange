@@ -7,3 +7,6 @@
 [submodule "vendor/plugins/democracy_in_action"]
 	path = vendor/plugins/democracy_in_action
 	url = git://github.com/sethwalker/democracy_in_action_plugin.git
+[submodule "vendor/plugins/thinking-sphinx"]
+	path = vendor/plugins/thinking-sphinx
+	url = git://github.com/freelancing-god/thinking-sphinx.git
