@@ -7,6 +7,12 @@
 # 
 
 class Page < ActiveRecord::Base
+  define_index do
+    indexes title
+    has :public
+    set_property :delta => true
+  end
+
   include Crabgrass::Serializeable
   acts_as_modified
   acts_as_fleximage do

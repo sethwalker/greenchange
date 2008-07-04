@@ -18,4 +18,7 @@ Autotest.add_hook :initialize do |at|
   end
   at.add_exception(/^\.\/vendor/)
   at.add_exception(/\.git/)
+  at.add_exception(/log\/.*/)
+  at.add_exception(/config\/.*\.sphinx\.conf/)
+  at.add_exception(/db\/sphinx\/.*/)
 end

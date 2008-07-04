@@ -612,3 +612,45 @@ describe Page do
     end
   end
 end
+
+if 'true' == ENV['SPHINX'] #this takes a long time
+  describe Page, "when searching with sphinx" do
+    self.use_transactional_fixtures=false
+    before(:all) do
+      `rake ts:start RAILS_ENV=test`
+    end
+
+    after(:all) do
+      `rake ts:stop RAILS_ENV=test`
+    end
+
+    before do
+      Page.delete_all
+    end
+
+    it "should find" do
+      @page = create_page(:title => 'searchable')
+      # doesn't do deltas in test env
+      `rake ts:index RAILS_ENV=test`
+      Page.search('searchable').should include(@page)
+    end
+
+    it "should find public pages" do
+      @public = create_page(:title => "public page", :public => true)
+      `rake ts:index RAILS_ENV=test`
+      # apparently can only use 1 and 0, not t and f
+      Page.search('page', :with => {:public => 1}).should include(@public)
+    end
+
+    it "should not find private pages" do
+      @private = create_page(:title => "private page", :public => false)
+      `rake ts:index RAILS_ENV=test`
+      Page.search('page', :with => {:public => 1}).should_not include(@private)
+    end
+
+    it "should not find pages where public is nil" do
+      @default = create_page(:title => "private page", :public => nil)
+      Page.search('page', :with => {:public => 1}).should_not include(@default)
+    end
+  end
+end
