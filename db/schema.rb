@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1213750168) do
+ActiveRecord::Schema.define(:version => 1214013810) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -605,6 +605,8 @@ ActiveRecord::Schema.define(:version => 1213750168) do
     t.datetime "activated_at"
     t.boolean  "enabled",                                 :default => true
     t.string   "identity_url"
+    t.boolean  "searchable"
+    t.boolean  "delta"
   end
 
   add_index "users", ["login"], :name => "index_users_on_login"

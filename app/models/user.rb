@@ -1,5 +1,11 @@
 #require 'crabgrass/active_record/collector'
 class User < ActiveRecord::Base
+  define_index do
+    indexes login
+    indexes [private_profile.first_name, private_profile.last_name], :as => :name
+    has searchable
+    set_property :delta => true
+  end
 
   include AuthenticatedUser
   include SocialUser
