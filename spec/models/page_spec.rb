@@ -650,6 +650,7 @@ if 'true' == ENV['SPHINX'] #this takes a long time
 
     it "should not find pages where public is nil" do
       @default = create_page(:title => "private page", :public => nil)
+      `rake ts:index RAILS_ENV=test`
       Page.search('page', :with => {:public => 1}).should_not include(@default)
     end
   end

@@ -7,10 +7,39 @@
 # 
 
 class Page < ActiveRecord::Base
-  define_index do
-    indexes title
-    has :public
-    set_property :delta => true
+  class << self
+    def search_for_ids(*args)
+      options = args.extract_options!
+      options.delete(:class)
+      options[:with] ||= {}
+      class_crc = subclasses.empty? ? [to_crc32] : subclasses.map {|c| c.to_crc32 }
+      options[:with][:class_crc] = class_crc
+      args << options
+      ThinkingSphinx::Search.search_for_ids(*args)
+    end
+
+    # Searches for results limited to a single model. See
+    # ThinkingSphinx::Search#search for syntax examples.
+    #
+    def search(*args)
+      options = args.extract_options!
+      options.delete(:class)
+      options[:with] ||= {}
+      class_crc = subclasses.empty? ? [to_crc32] : subclasses.map {|c| c.to_crc32 }
+      options[:with][:class_crc] = class_crc
+      args << options
+      ThinkingSphinx::Search.search(*args)
+    end
+    
+    def search_for_id(*args)
+      options = args.extract_options!
+      options.delete(:class)
+      options[:with] ||= {}
+      class_crc = subclasses.empty? ? [to_crc32] : subclasses.map {|c| c.to_crc32 }
+      options[:with][:class_crc] = class_crc
+      args << options
+      ThinkingSphinx::Search.search_for_id(*args)
+    end
   end
 
   include Crabgrass::Serializeable
