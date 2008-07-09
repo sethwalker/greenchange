@@ -7,3 +7,6 @@ tmp
 config/democracy_in_action.yml
 public/people
 public/groups
+config/development.sphinx.conf
+config/test.sphinx.conf
+db/sphinx
