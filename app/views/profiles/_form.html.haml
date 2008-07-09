@@ -53,6 +53,9 @@
             = preference_fields.check_box "allow_info_sharing", :checked => profile.entity.preference_for(:allow_info_sharing) == "1"
             %label{ :for => "user_preferences_allow_info_sharing" }
               Share my information with other Green organizations.
+          %p.preference
+            = ff.check_box "searchable", :checked => profile.entity.searchable
+            = ff.label "searchable", "Allow users to find me when searching."
 
         .section.email-preferences
           %h2 Email Preferences
