@@ -1,6 +1,6 @@
 class AddDeltaToUser < ActiveRecord::Migration
   def self.up
-    add_column :users, :searchable, :boolean
+    add_column :users, :searchable, :boolean, :default => 1
     add_column :users, :delta, :boolean
   end
 
