@@ -265,7 +265,10 @@ class User < ActiveRecord::Base
   end
 
   def inbox_items
-    messages_received + membership_requests_received_and_pending
+    messages_received.pending + JoinRequest.to(self).pending
+  end
+  def inbox_count
+    messages_received.pending.count + JoinRequest.to(self).pending.count
   end
 
   def pending_items

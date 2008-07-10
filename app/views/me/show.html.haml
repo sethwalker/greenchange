@@ -5,7 +5,7 @@
   %h1
     = @me.name
   .section.info
-    - unless @me.inbox_items.empty?
+    - unless @me.inbox_count == 0
       You have 
       = @me.inbox_items.size
       items in

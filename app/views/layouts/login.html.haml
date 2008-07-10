@@ -7,7 +7,7 @@
       = link_to current_user.login, me_url
       %br
       = image_tag '/images/gc/icons/19_icons/send_message.gif', :align=>"top", :alt=>"Inbox"
-      = link_to"(#{current_user.inbox_items.size})", me_inbox_path  
+      = link_to"(#{current_user.inbox_count})", me_inbox_path  
         
 - else
   #user-menu
