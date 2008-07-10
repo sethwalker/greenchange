@@ -22,7 +22,7 @@ class PeopleController < ApplicationController
       @peers = current_user.peers
     end
     if params[:query]
-      @people = User.search(params[:query])
+      @people = User.search(params[:query], :with => { :searchable => 1 } )
     else
       @people = User.by_group(@group).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag).enabled
     end
