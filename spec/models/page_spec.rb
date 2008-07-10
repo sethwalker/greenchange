@@ -617,7 +617,7 @@ if !sphinx_running?
   puts "not running sphinx tests because no sphinx daemon running (start with 'rake ts:start RAILS_ENV=test')"
 else
 
-  Page.destroy_all && `rake ts:index RAILS_ENV=test`
+  Page.destroy_all && reindex
 
   describe Page, "when searching with sphinx" do
     self.use_transactional_fixtures=false

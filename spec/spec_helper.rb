@@ -158,3 +158,9 @@ end
 def sphinx_running?
   sphinx_pid && `ps -p #{sphinx_pid} | wc -l`.to_i > 1
 end
+
+def reindex
+  config = ThinkingSphinx::Configuration.new
+  FileUtils.mkdir_p config.searchd_file_path
+  %x[indexer --config #{config.config_file} --all --rotate --quiet]
+end

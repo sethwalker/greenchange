@@ -7,6 +7,18 @@ class User < ActiveRecord::Base
     set_property :delta => true
   end
 
+  after_save :update_searchable_index
+  def update_searchable_index
+    config = ThinkingSphinx::Configuration.new
+    client = Riddle::Client.new config.address, config.port
+
+    client.update(
+      "#{self.class.indexes.first.name}_core",
+      ['searchable'],
+      {self.id => searchable ? 1 : 0 }
+    ) if self.in_core_index?
+  end
+
   include AuthenticatedUser
   include SocialUser
   include Crabgrass::ActiveRecord::Collector
