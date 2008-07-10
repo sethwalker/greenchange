@@ -613,44 +613,41 @@ describe Page do
   end
 end
 
-if 'true' == ENV['SPHINX'] #this takes a long time
+if !sphinx_running?
+  puts "not running sphinx tests because no sphinx daemon running (start with 'rake ts:start RAILS_ENV=test')"
+else
+
+  Page.destroy_all && `rake ts:index RAILS_ENV=test`
+
   describe Page, "when searching with sphinx" do
     self.use_transactional_fixtures=false
-    before(:all) do
-      `rake ts:start RAILS_ENV=test`
-    end
-
-    after(:all) do
-      `rake ts:stop RAILS_ENV=test`
-    end
 
     before do
-      Page.delete_all
+      ThinkingSphinx.deltas_enabled = true
+    end
+
+    after do
+      ThinkingSphinx.deltas_enabled = false
     end
 
     it "should find" do
-      @page = create_page(:title => 'searchable')
-      # doesn't do deltas in test env
-      `rake ts:index RAILS_ENV=test`
+      @page = Tool::Blog.create!(:title => 'searchable')
       Page.search('searchable').should include(@page)
     end
 
     it "should find public pages" do
-      @public = create_page(:title => "public page", :public => true)
-      `rake ts:index RAILS_ENV=test`
+      @public = Tool::Blog.create!(:title => "public page", :public => true)
       # apparently can only use 1 and 0, not t and f
       Page.search('page', :with => {:public => 1}).should include(@public)
     end
 
     it "should not find private pages" do
-      @private = create_page(:title => "private page", :public => false)
-      `rake ts:index RAILS_ENV=test`
+      @private = Tool::Blog.create!(:title => "private page", :public => false)
       Page.search('page', :with => {:public => 1}).should_not include(@private)
     end
 
     it "should not find pages where public is nil" do
-      @default = create_page(:title => "private page", :public => nil)
-      `rake ts:index RAILS_ENV=test`
+      @default = Tool::Blog.create!(:title => "private page", :public => nil)
       Page.search('page', :with => {:public => 1}).should_not include(@default)
     end
   end

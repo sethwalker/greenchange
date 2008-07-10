@@ -243,44 +243,40 @@ describe User, "with DIA saving" do
   end
 end
 
-if 'true' == ENV['SPHINX'] #this takes a long time
+if !sphinx_running?
+  puts "not running sphinx tests because no sphinx daemon running (start with 'rake ts:start RAILS_ENV=test')"
+else
+
+  User.destroy_all && `rake ts:index RAILS_ENV=test`
+
   describe User, "when searching with sphinx" do
     self.use_transactional_fixtures=false
     before(:all) do
-      `rake ts:start RAILS_ENV=test`
+      ThinkingSphinx.deltas_enabled = true
     end
 
     after(:all) do
-      `rake ts:stop RAILS_ENV=test`
-    end
-
-    before do
-      User.delete_all
+      ThinkingSphinx.deltas_enabled = false
     end
 
     it "should find" do
       @user = create_user(:login => 'searchable')
-      # doesn't do deltas in test env
-      `rake ts:index RAILS_ENV=test`
       User.search('searchable').should include(@user)
     end
 
     it "should find searchable people" do
       @searchable = create_user(:login => 'searchable', :searchable => true)
-      `rake ts:index RAILS_ENV=test`
       User.search('searchable', :with => {:searchable => 1}).should include(@searchable)
     end
 
     it "should not find unsearchable people" do
       @unsearchable = create_user(:login => 'searchable', :searchable => false)
-      `rake ts:index RAILS_ENV=test`
       User.search('searchable', :with => {:searchable => 1}).should_not include(@unsearchable)
     end
 
     describe "when searching by name" do
       before do
         @user = create_user :private_profile => create_profile(:first_name => 'dweezil', :last_name => 'zappa')
-        `rake ts:index RAILS_ENV=test`
       end
 
       it "should find people by first name" do
