@@ -15,4 +15,13 @@ describe PeopleController do
       response.should render_template('index')
     end
   end
+  describe "search people" do
+    def act! 
+      get :index, {:query => "first name"}
+    end
+    it "should search for people by login" do
+      User.should_receive(:search).with("first name")
+      act!
+    end
+  end
 end

@@ -26,6 +26,8 @@ describe "create membership partial" do
     end
 
     it "when the user is destroyed" do
+      #pending "SPHINX" 
+      @user.stub!(:delta?).and_return(false)
       @user.destroy
       lambda { act! }.should_not raise_error
     end

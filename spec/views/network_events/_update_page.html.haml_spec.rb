@@ -29,11 +29,15 @@ describe "create page partial" do
     end
 
     it "when the creator is destroyed" do
+      #pending "SPHINX"
+      @user.stub!(:delta).and_return(false)
       @creator.destroy
       lambda { act! }.should_not raise_error
     end
 
     it "when the updater is destroyed" do
+      #pending "SPHINX"
+      @user.stub!(:delta).and_return(false)
       @updater.destroy
       lambda { act! }.should_not raise_error
     end

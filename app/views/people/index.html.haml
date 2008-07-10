@@ -14,7 +14,11 @@
         = scoped_by_context?.display_name 
     - else
       Everyone 
-
+- unless scoped_by_context?
+  .section.search
+    -form_tag('', :method => :get) do 
+      =text_field_tag :query, h( params[:query])
+      =submit_tag 'Search People'
 .section
   .icon-box
     =render :partial => 'shared/list/person', :collection => @people

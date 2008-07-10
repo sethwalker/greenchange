@@ -21,7 +21,11 @@ class PeopleController < ApplicationController
       @contacts = current_user.contacts
       @peers = current_user.peers
     end
-    @people = User.by_group(@group).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag).enabled
+    if params[:query]
+      @people = User.search(params[:query])
+    else
+      @people = User.by_group(@group).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag).enabled
+    end
   end
 
 end
