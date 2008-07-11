@@ -247,16 +247,18 @@ if !sphinx_running?
   puts "not running sphinx tests because no sphinx daemon running (start with 'rake ts:start RAILS_ENV=test')"
 else
 
-  User.destroy_all && reindex
+#  User.destroy_all && reindex
 
   describe User, "when searching with sphinx" do
     self.use_transactional_fixtures=false
     before(:all) do
       ThinkingSphinx.deltas_enabled = true
+      User.destroy_all and reindex
     end
 
     after(:all) do
       ThinkingSphinx.deltas_enabled = false
+      User.destroy_all and reindex
     end
 
     it "should find" do
@@ -276,7 +278,9 @@ else
 
     describe "when searching by name" do
       before do
+        User.destroy_all
         @user = create_user :private_profile => create_profile(:first_name => 'dweezil', :last_name => 'zappa')
+        reindex
       end
 
       it "should find people by first name" do
@@ -295,23 +299,25 @@ else
 
   describe "when updating searchability" do
     self.use_transactional_fixtures=false
-    before(:all) do
+    before do
+      User.destroy_all && reindex
       ThinkingSphinx.deltas_enabled = true
     end
 
     after(:all) do
       ThinkingSphinx.deltas_enabled = false
-    end
-
-    after do
       User.destroy_all && reindex
     end
 
+    after do
+    end
+
     it "should not find people who just set themselves to unsearchable" do
-      @searchable = create_user(:login => 'searchable', :searchable => true)
+      @searchable = create_user(:login => 'searchable', :searchable => 0)
       reindex
       @searchable.searchable = false
-      @searchable.save
+      @searchable.save!
+      sleep(2)
       User.search('searchable', :with => {:searchable => 1}).should_not include(@searchable)
     end
   end

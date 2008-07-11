@@ -20,7 +20,7 @@ describe PeopleController do
       get :index, {:query => "first name"}
     end
     it "should search for people by login" do
-      User.should_receive(:search).with("first name")
+      User.should_receive(:search).with("first name", :with => {:searchable => 1})
       act!
     end
   end
