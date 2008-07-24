@@ -261,7 +261,7 @@ else
       User.destroy_all and reindex
     end
 
-    it "should find" do
+    it "should find people" do
       @user = create_user(:login => 'searchable')
       User.search('searchable').should include(@user)
     end
@@ -295,6 +295,74 @@ else
         User.search('dweezil zappa').should include(@user)
       end
     end
+
+    describe "when searching by location" do
+      before do
+        User.destroy_all
+        @user = create_user :private_profile => create_profile(:first_name => 'dweezil', :last_name => 'zappa')
+        @user.private_profile.locations.create(:city => 'pasadena', :state => 'California')
+        @user.private_profile.save
+        reindex
+        sleep 1
+      end
+      it "should find people by city" do
+        User.search('pasadena').should include(@user)
+      end
+
+      it "should find people by state" do
+        User.search('California').should include(@user)
+      end
+
+      it "should find people by state abbreviation" do
+        pending "denormalized data or a slick way to calculate in sql"
+        User.search('CA').should include(@user)
+      end
+    end
+
+    describe  "when searching by issue" do
+      before do
+        Issue.destroy_all
+        User.destroy_all
+        @user = create_user 
+        @user.issues << create_issue(:name => 'super frogs')
+        reindex
+        sleep 1
+      end
+      it "should find people by issue" do
+        User.search("frogs").should include(@user)
+      end
+      it "should find people by long issue name" do
+        User.search("super frogs").should include(@user)
+      end
+    end
+
+    describe "when searching by profile info" do
+      before do
+        User.destroy_all
+        @bystander = create_user 
+        @user = create_user 
+        @user.private_profile.notes.create(:note_type => :blurb, :body => 'grapefruit soda is the best!')
+        @user.private_profile.notes.create(:note_type => :activism, :body => 'don\'t mortgage your house for the grapefruit!')
+        @user.private_profile.save
+        reindex
+      end
+      it "should find people by notes" do
+        User.search("grapefruit").should include(@user)
+      end
+      it "should find people by notes no matter where the words are" do
+        User.search("best").should include(@user)
+      end
+      it "should find people by notes of all kinds" do
+        User.search("mortgage").should include(@user)
+      end
+      it "should find words with apostrophes" do
+        User.search("don't").should include(@user)
+      end
+      it "should not find other beings" do
+        User.search("don't").should_not include(@bystander)
+      end
+    end
+
   end
 
   describe "when updating searchability" do

@@ -7,6 +7,12 @@
 # 
 
 class Page < ActiveRecord::Base
+  #define_index do
+  #  indexes title
+  #  has :public
+  #  set_property :delta => true
+  #end
+
   class << self
     def search_for_ids(*args)
       options = args.extract_options!

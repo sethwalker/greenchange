@@ -617,18 +617,15 @@ if !sphinx_running?
   puts "not running sphinx tests because no sphinx daemon running (start with 'rake ts:start RAILS_ENV=test')"
 else
 
-  Page.destroy_all && reindex
 
   describe Page, "when searching with sphinx" do
     self.use_transactional_fixtures=false
 
     before do
-      ThinkingSphinx.deltas_enabled = true
+      Page.destroy_all 
+      reindex
     end
 
-    after do
-      ThinkingSphinx.deltas_enabled = false
-    end
 
     it "should find" do
       @page = Tool::Blog.create!(:title => 'searchable')
@@ -649,6 +646,18 @@ else
     it "should not find pages where public is nil" do
       @default = Tool::Blog.create!(:title => "private page", :public => nil)
       Page.search('page', :with => {:public => 1}).should_not include(@default)
+    end
+  end
+  describe "when searching by page data" do
+    before do
+      Page.destroy_all
+      @bystander = create_page 
+      @page = Tool::Blog.create!(:title => 'searchable', :page_data => { :body => 'should have seen this one, mofo' } )
+      reindex
+    end
+
+    it "finds by title" do
+      Page.search('mofo').should include(@page)
     end
   end
 end

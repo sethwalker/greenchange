@@ -3,6 +3,9 @@ class User < ActiveRecord::Base
   define_index do
     indexes login
     indexes [private_profile.first_name, private_profile.last_name], :as => :name
+    indexes [private_profile.locations.city, private_profile.locations.state], :as => :location
+    indexes issues.name, :as => :issues
+    indexes private_profile.notes.body, :as => :profile_info
     has searchable
     set_property :delta => true
   end
@@ -17,6 +20,7 @@ class User < ActiveRecord::Base
       ['searchable'],
       {self.id => searchable ? 1 : 0 }
     ) if self.in_core_index?
+  rescue ThinkingSphinx::ConnectionError
   end
 
   include AuthenticatedUser

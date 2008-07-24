@@ -163,4 +163,5 @@ def reindex
   config = ThinkingSphinx::Configuration.new
   FileUtils.mkdir_p config.searchd_file_path
   %x[indexer --config #{config.config_file} --all --rotate --quiet]
+  sleep(1)
 end
