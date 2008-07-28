@@ -1,8 +1,10 @@
 class PageObserver < ActiveRecord::Observer
   def after_create(page)
+    return true unless page.created_by
     NetworkEvent.create! :modified => page, :action => 'create', :user => page.created_by, :recipients => watchers(page), :data_snapshot => {:page => page, :page_created_by => page.created_by}
   end
   def after_update(page)
+    return true unless page.updated_by
     NetworkEvent.create! :modified => page, :action => 'update', :user => page.updated_by, :recipients => watchers(page), :data_snapshot => {:page => page, :page_created_by => page.created_by, :page_updated_by => page.updated_by}
   end
 
