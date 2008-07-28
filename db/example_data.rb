@@ -81,6 +81,7 @@ module FixtureReplacement
 
   attributes_for :page do |p|
     p.title                 = 'atitle'
+    p.created_by            = default_user
 	end
 
   attributes_for :post do |p|

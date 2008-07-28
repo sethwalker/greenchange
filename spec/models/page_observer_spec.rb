@@ -5,11 +5,11 @@ describe PageObserver do
     @observer = PageObserver.instance
   end
   it "should create network events" do
-    @page = create_page :created_by => (user = create_user)
+    @page = create_page
     lambda { @observer.after_create(@page) }.should change( NetworkEvent, :count )
   end
   it "should create network events as a callback" do
-    @page = new_page :created_by => (user = create_user)
+    @page = new_page
     PageObserver.instance.should_receive(:after_create).with(@page)
     @page.save!
   end
@@ -30,8 +30,5 @@ describe PageObserver do
       @group.members << (@member = create_user)
       @observer.watchers(@page).should include(@member)
     end
-  end
-  it "should observe pages!  wtf!" do
-
   end
 end

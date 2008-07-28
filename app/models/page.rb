@@ -103,7 +103,7 @@ class Page < ActiveRecord::Base
     lambda {|user| {:include => [:group_participations, :user_participations], :conditions => ["user_participations.user_id = ? OR pages.created_by_id = ? OR group_participations.group_id IN (?)", user.id, user.id, user.all_group_ids]}}
 
 
-  has_finder :changed, {:conditions => "pages.updated_at > pages.created_at"}
+  has_finder :updated, {:conditions => "pages.updated_at > pages.created_at"}
 
   #note, don't use finders that depend on user_participations for a specific users starred pages, use user.pages_starred, etc instead
   has_finder :starred?, 
