@@ -629,22 +629,26 @@ else
 
     it "should find" do
       @page = Tool::Blog.create!(:title => 'searchable')
+      reindex
       Page.search('searchable').should include(@page)
     end
 
     it "should find public pages" do
       @public = Tool::Blog.create!(:title => "public page", :public => true)
+      reindex
       # apparently can only use 1 and 0, not t and f
       Page.search('page', :with => {:public => 1}).should include(@public)
     end
 
     it "should not find private pages" do
       @private = Tool::Blog.create!(:title => "private page", :public => false)
+      reindex
       Page.search('page', :with => {:public => 1}).should_not include(@private)
     end
 
     it "should not find pages where public is nil" do
       @default = Tool::Blog.create!(:title => "private page", :public => nil)
+      reindex
       Page.search('page', :with => {:public => 1}).should_not include(@default)
     end
   end
