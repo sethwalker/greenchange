@@ -26,18 +26,4 @@ describe "Participations" do
     part.viewed.should be_true
     part.viewed_at.should_not be_nil
   end
-
-  # this is related to user participation, but not directly related to
-  # the participations model. belong in page_spec.rb?
-  it "should update user login when user login changes" do
-    @user.updated(@page)
-    @page.updated_by_login.should == 'writer'
-
-    @user.login = 'editor'
-    @user.save!
-
-    @page.reload
-    @page.updated_by_login.should == 'editor'
-  end
 end
-

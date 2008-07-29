@@ -463,7 +463,6 @@ class Page < ActiveRecord::Base
     if self.created_by
       self.created_by_login = self.created_by.login
       self.updated_by       = self.created_by
-      self.updated_by_login = self.created_by.login
     end
     true
   end
@@ -602,9 +601,6 @@ class Page < ActiveRecord::Base
       group = (group_participations.first.group if group_participations.any?)
       self.group_name = (group.name if group)
       self.group_id = (group.id if group)
-    end
-    if changed? :updated_by
-      self.updated_by_login = updated_by.login
     end
     true
   end

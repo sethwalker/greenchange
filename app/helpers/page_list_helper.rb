@@ -12,8 +12,8 @@ module PageListHelper
       check_box('page_checked', page.id, {}, 'checked', '')
     elsif column == :title
       return page_list_title(page, column, participation)    
-    elsif column == :updated_by or column == :updated_by_login
-      return( page.updated_by ? link_to_user( page.updated_by ) : page.updated_by_login )
+    elsif column == :updated_by
+      return( link_to_user( page.updated_by ) )
     elsif column == :created_by or column == :created_by_login
       return( page.created_by ? link_to_user( page.created_by ) : page.created_by_login )
     elsif column == :updated_at
@@ -62,8 +62,8 @@ module PageListHelper
     elsif column == :checkbox
       page_list_toggle_all_script
       content_tag 'th', link_to( 'Toggle', '#', :id => 'inbox-toggle-selection' )
-    elsif column == :updated_by or column == :updated_by_login
-      list_heading 'updated by'.t, 'updated_by_login'
+    elsif column == :updated_by
+      list_heading 'updated by'.t, 'updated_by'
     elsif column == :created_by or column == :created_by_login
       list_heading 'created by'.t, 'created_by_login'
     elsif column == :updated_at

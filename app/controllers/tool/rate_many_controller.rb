@@ -37,7 +37,7 @@ class Tool::RateManyController < Tool::BaseController
     @possible = @poll.possibles.find(params[:possible_id])
     @poll.delete_votes_by_user_and_possible(current_user,@possible)
     @possible.votes.create :user => current_user, :value => new_value
-    current_user.updated(@page, :resolved => true)
+#    current_user.updated(@page, :resolved => true)
   end
   
   def vote
@@ -51,7 +51,7 @@ class Tool::RateManyController < Tool::BaseController
       weight = new_votes[possible.id.to_s]
       possible.votes.create :user => current_user, :value => weight if weight
     end
-    current_user.updated(@page, :resolved => true)
+#    current_user.updated(@page, :resolved => true)
     redirect_to survey_url(@page)
   end
 

@@ -241,14 +241,6 @@ class PagesController < ApplicationController
   
   end
 
-  # only works with xhr for now.
-  def update_public
-    @page.update_attribute(:public, ('true' == params[:public]))
-    current_user.updated @page
-    # in the future, indicate that the page was changed by making it public
-    render :nothing => true
-  end
-  
   ##############################################
   ## page participation modifications
   

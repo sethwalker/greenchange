@@ -58,7 +58,8 @@ class Tool::BlogController < Tool::WikiController
         raise ErrorMessage.new("can't save your data, someone else has locked the page." )
       end
       if save_revision(@wiki)
-        current_user.updated(@page)
+        @page.updated_by = current_user
+        @page.save
         @wiki.unlock
         redirect_to blog_url(@page)
       else

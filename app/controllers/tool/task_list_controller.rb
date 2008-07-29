@@ -92,10 +92,6 @@ class Tool::TaskListController < Tool::BaseController
       user.resolved(@page, (not pending))
     end
     
-    # make sure the page is updated_at this very moment
-#    @page.save 
-    #elijah recommended doing this as follows instead:
-    current_user.updated(@page)
     true
   end
   

@@ -22,7 +22,7 @@
       = link_to page.title, page_url(page)#page_list_cell(page, :title)
     .clear
     .changes.row-block
-      - if page.updated_at > page.created_at + 1.hour
+      - if page.updated_at != page.created_at
         Updated by
         = link_to_user(page_updated_by)
         = time_ago_in_words(page.updated_at)

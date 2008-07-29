@@ -177,15 +177,6 @@ class User < ActiveRecord::Base
     end
   end
 
-  after_save :update_name
-  def update_name
-    if login_modified?
-      Page.connection.execute "UPDATE pages SET `updated_by_login` = '#{self.login}' WHERE pages.updated_by_id = #{self.id}"
-      Page.connection.execute "UPDATE pages SET `created_by_login` = '#{self.login}' WHERE pages.created_by_id = #{self.id}"
-    end
-  end
-
-  
   # the user's custom display name, could be anything.
   def display_name
     if self.private_profile

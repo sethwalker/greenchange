@@ -562,6 +562,7 @@ module SocialUser
     #  - resolved: user's participation is resolved with this page
     #  - all_resolved: everyone's participation is resolved.
     #
+=begin
     def updated(page, options={})
       # create self's participation if it does not exist
       find_or_build_participation(page)
@@ -591,6 +592,7 @@ module SocialUser
       page.changed :updated_by
       page.save
     end
+=end
   end
 
   

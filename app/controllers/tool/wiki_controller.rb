@@ -37,8 +37,8 @@ class Tool::WikiController < Tool::BaseController
 #  def update
 #    @page.attributes = params[:page]
 #    @page.data.updater = current_user
+#    @page.updated_by = current_user
 #    if @page.save
-#      current_user.updated(@page)
 #      return redirect_to(wiki_url(@page))
 #    end
 #  rescue RecordLockedError => e
@@ -58,8 +58,8 @@ class Tool::WikiController < Tool::BaseController
     @page.data.updater = current_user if @page.data
 
     begin
+      @page.updated_by = current_user
       super
-      current_user.updated(@page)
     rescue RecordLockedError => e
       flash.now[:error] = e.message
       render :action => 'edit'
@@ -108,7 +108,8 @@ class Tool::WikiController < Tool::BaseController
     begin
       @wiki.body = params[:data][:body]
       if save_revision(@wiki)
-        current_user.updated(@page)
+        @page.updated_by = current_user
+        @page.save
         @wiki.unlock
         return true
       else
