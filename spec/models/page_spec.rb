@@ -627,7 +627,7 @@ else
     end
 
 
-    it "should find" do
+    it "should find by title" do
       @page = Tool::Blog.create!(:title => 'searchable')
       reindex
       Page.search('searchable').should include(@page)
@@ -653,15 +653,21 @@ else
     end
   end
   describe "when searching by page data" do
+    self.use_transactional_fixtures=false
     before do
       Page.destroy_all
       @bystander = create_page 
       @page = Tool::Blog.create!(:title => 'searchable', :page_data => { :body => 'should have seen this one, mofo' } )
-      reindex
     end
 
-    it "finds by title" do
+    it "finds by content" do
+      reindex
       Page.search('mofo').should include(@page)
+    end
+
+    it "does not find non-matching bystanders" do
+      reindex
+      Page.search('mofo').should_not include(@bystander)
     end
   end
 end

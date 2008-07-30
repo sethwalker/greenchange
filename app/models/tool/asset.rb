@@ -1,9 +1,15 @@
 require 'asset'
 class Tool::Asset < Page
 
+  define_index do
+    indexes title
+    indexes [ data.filename, data.content_type ], :as => 'content'
+    has :public
+    set_property :delta => true
+  end
   class_display_name 'file'
   class_description 'an uploaded file'
-  belongs_to :data, :class_name => '::Asset'
+  belongs_to :data, :class_name => '::Asset', :foreign_key => 'data_id'
 
   def icon
     return asset.small_icon if asset

@@ -19,3 +19,22 @@ describe Tool::Asset do
   it "should update type if content type changes" do
   end
 end
+if !sphinx_running?
+  puts "not running sphinx tests because no sphinx daemon running (start with 'rake ts:start RAILS_ENV=test')"
+else
+  describe Tool::Asset, "with sphinx" do
+    self.use_transactional_fixtures=false
+    before do
+      Tool::Asset.destroy_all
+      @bystander = create_page :title => 'mofo time' 
+      @page = Tool::Asset.create!(:title => 'searchable', :page_data => { :uploaded_data => fixture_file_upload(File.join('files','photos.png'), 'image/png') } )
+    end
+
+    it "finds by content" do
+      pending "setup asset search"
+      reindex
+      Tool::Asset.search('image/png').should include(@page)
+    end
+
+  end
+end

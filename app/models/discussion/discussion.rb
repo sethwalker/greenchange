@@ -37,7 +37,7 @@ class Discussion < ActiveRecord::Base
     #raise 'yo bi ath'
     if @new_post
       @new_post.discussion = self
-      @new_post.save 
+      @new_post.save
     end
     posts(true)
   end
