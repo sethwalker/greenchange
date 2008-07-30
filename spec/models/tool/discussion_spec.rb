@@ -20,5 +20,10 @@ else
       reindex
       Tool::Discussion.search('mofo').should_not include(@bystander)
     end
+
+    it "finds by new posts using delta index" do
+      @page.discussion.posts.create :body => 'watch your language, fartwad'
+      Tool::Discussion.search('fartwad').should include(@page)
+    end
   end
 end
