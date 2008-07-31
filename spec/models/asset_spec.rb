@@ -5,6 +5,8 @@ describe Asset do
   Asset.public_storage = "#{RAILS_ROOT}/tmp/public/assets"
 
   before do
+    Asset.delete_all
+    Asset::Version.delete_all
     FileUtils.mkdir_p(Asset.file_storage)
     FileUtils.mkdir_p(Asset.public_storage)
     @asset = Asset.create :uploaded_data => fixture_file_upload(File.join('files','image.png'), 'image/png')
