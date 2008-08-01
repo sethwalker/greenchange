@@ -626,7 +626,6 @@ else
       reindex
     end
 
-
     it "should find by title" do
       @page = Tool::Blog.create!(:title => 'searchable')
       reindex

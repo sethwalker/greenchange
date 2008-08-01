@@ -24,10 +24,19 @@ if !sphinx_running?
 else
   describe Tool::Asset, "with sphinx" do
     self.use_transactional_fixtures=false
+    Asset.file_storage = "#{RAILS_ROOT}/tmp/assets"
+    Asset.public_storage = "#{RAILS_ROOT}/tmp/public/assets"
     before do
       Tool::Asset.destroy_all
+      FileUtils.mkdir_p(Asset.file_storage)
+      FileUtils.mkdir_p(Asset.public_storage)
       @bystander = create_page :title => 'mofo time' 
       @page = Tool::Asset.create!(:title => 'searchable', :page_data => { :uploaded_data => fixture_file_upload(File.join('files','photos.png'), 'image/png') } )
+    end
+
+    after do
+      FileUtils.rm_rf(Asset.file_storage)
+      FileUtils.rm_rf(File.dirname(Asset.public_storage))
     end
 
     it "finds by content" do

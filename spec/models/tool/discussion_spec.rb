@@ -22,6 +22,7 @@ else
     end
 
     it "finds by new posts using delta index" do
+      pending
       @page.discussion.posts.create :body => 'watch your language, fartwad'
       Tool::Discussion.search('fartwad').should include(@page)
     end
