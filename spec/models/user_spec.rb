@@ -246,120 +246,125 @@ end
 if !sphinx_running?
   puts "not running sphinx tests because no sphinx daemon running (start with 'rake ts:start RAILS_ENV=test')"
 else
-
-#  User.destroy_all && reindex
-
   describe User, "when searching with sphinx" do
     self.use_transactional_fixtures=false
-    before(:all) do
-      ThinkingSphinx.deltas_enabled = true
-      User.destroy_all and reindex
-    end
 
-    after(:all) do
-      ThinkingSphinx.deltas_enabled = false
-      User.destroy_all and reindex
+    before do
+      User.delete_all
     end
 
     it "should find people" do
       @user = create_user(:login => 'searchable')
+      reindex('user_core user_delta')
       User.search('searchable').should include(@user)
     end
 
     it "should find searchable people" do
       @searchable = create_user(:login => 'searchable', :searchable => true)
+      reindex('user_core user_delta')
       User.search('searchable', :with => {:searchable => 1}).should include(@searchable)
     end
 
     it "should not find unsearchable people" do
       @unsearchable = create_user(:login => 'searchable', :searchable => false)
+      reindex('user_core user_delta')
       User.search('searchable', :with => {:searchable => 1}).should_not include(@unsearchable)
     end
 
     describe "when searching by name" do
+      self.use_transactional_fixtures=false
       before do
-        User.destroy_all
         @user = create_user :private_profile => create_profile(:first_name => 'dweezil', :last_name => 'zappa')
-        reindex
       end
 
       it "should find people by first name" do
+        reindex('user_core user_delta')
         User.search('dweezil').should include(@user)
       end
 
       it "should find people by last name" do
+        reindex('user_core user_delta', 1.5)
         User.search('zappa').should include(@user)
       end
 
       it "should find people by first and last name" do
+        reindex('user_core user_delta')
         User.search('dweezil zappa').should include(@user)
       end
     end
 
     describe "when searching by location" do
+      self.use_transactional_fixtures=false
       before do
-        User.destroy_all
+        User.delete_all
         @user = create_user :private_profile => create_profile(:first_name => 'dweezil', :last_name => 'zappa')
         @user.private_profile.locations.create(:city => 'pasadena', :state => 'California')
         @user.private_profile.save
-        reindex
-        sleep 1
       end
       it "should find people by city" do
+        reindex('user_core user_delta')
         User.search('pasadena').should include(@user)
       end
 
       it "should find people by state" do
+        reindex('user_core user_delta')
         User.search('California').should include(@user)
       end
 
       it "should find people by state abbreviation" do
         pending "denormalized data or a slick way to calculate in sql"
+        reindex('user_core user_delta')
         User.search('CA').should include(@user)
       end
     end
 
     describe  "when searching by issue" do
+      self.use_transactional_fixtures=false
       before do
-        Issue.destroy_all
-        User.destroy_all
+        Issue.delete_all
+        User.delete_all
         @user = create_user 
         @user.issues << create_issue(:name => 'super frogs')
-        reindex
-        sleep 1
       end
       it "should find people by issue" do
+        reindex('user_core user_delta', 2)
         User.search("frogs").should include(@user)
       end
       it "should find people by long issue name" do
+        reindex('user_core user_delta')
         User.search("super frogs").should include(@user)
       end
     end
 
     describe "when searching by profile info" do
+      self.use_transactional_fixtures=false
       before do
-        User.destroy_all
+        User.delete_all
         @bystander = create_user 
         @user = create_user 
         @user.private_profile.notes.create(:note_type => :blurb, :body => 'grapefruit soda is the best!')
         @user.private_profile.notes.create(:note_type => :activism, :body => 'don\'t mortgage your house for the grapefruit!')
         @user.private_profile.save
-        reindex
       end
       it "should find people by notes" do
+        reindex('user_core user_delta')
         User.search("grapefruit").should include(@user)
       end
       it "should find people by notes no matter where the words are" do
+        reindex('user_core user_delta')
         User.search("best").should include(@user)
       end
       it "should find people by notes of all kinds" do
+        reindex('user_core user_delta')
         User.search("mortgage").should include(@user)
       end
       it "should find words with apostrophes" do
+        reindex('user_core user_delta')
         User.search("don't").should include(@user)
       end
       it "should not find other beings" do
-        User.search("don't").should_not include(@bystander)
+        reindex('user_core user_delta')
+        User.search("grapefruit").should_not include(@bystander)
       end
     end
 
@@ -368,21 +373,12 @@ else
   describe "when updating searchability" do
     self.use_transactional_fixtures=false
     before do
-      User.destroy_all && reindex
-      ThinkingSphinx.deltas_enabled = true
-    end
-
-    after(:all) do
-      ThinkingSphinx.deltas_enabled = false
-      User.destroy_all && reindex
-    end
-
-    after do
+      User.delete_all
     end
 
     it "should not find people who just set themselves to unsearchable" do
       @searchable = create_user(:login => 'searchable', :searchable => 0)
-      reindex
+      reindex('user_core user_delta')
       @searchable.searchable = false
       @searchable.save!
       sleep(2)
