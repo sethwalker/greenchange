@@ -27,7 +27,7 @@ else
     Asset.file_storage = "#{RAILS_ROOT}/tmp/assets"
     Asset.public_storage = "#{RAILS_ROOT}/tmp/public/assets"
     before do
-      Tool::Asset.destroy_all
+      Tool::Asset.delete_all
       FileUtils.mkdir_p(Asset.file_storage)
       FileUtils.mkdir_p(Asset.public_storage)
       @bystander = create_page :title => 'mofo time' 

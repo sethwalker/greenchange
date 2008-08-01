@@ -30,7 +30,11 @@ class Tool::BaseController < ApplicationController
   end
 
   def index
-    @pages = Page.allowed(current_user).page_type( page_type ).by_group( @group ).by_issue( params[:issue_id ]).by_person( ( @me || @person ) ).paginate :all, :page => params[:page], :order => 'created_at DESC'
+    if params[:query]
+      @pages = page_class.search(params[:query], :with => { :public => 1 })
+    else
+      @pages = Page.allowed(current_user).page_type( page_type ).by_group( @group ).by_issue( params[:issue_id ]).by_person( ( @me || @person ) ).paginate :all, :page => params[:page], :order => 'created_at DESC'
+    end
     unless !Dir.glob( "#{RAILS_ROOT}/app/views/tool/#{( params[:page_type] || page_type )}/index*").empty?  and  render :action => "index" 
        render :action => '../shared/index'
     end

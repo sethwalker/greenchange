@@ -1,4 +1,9 @@
 %h1 Photos
+- unless scoped_by_context?
+  .section.search
+    -form_tag('', :method => :get) do 
+      =text_field_tag :query, h( params[:query])
+      =submit_tag 'Search Content'
 .content-list
   = will_paginate(@pages)
   %ul

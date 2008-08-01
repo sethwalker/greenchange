@@ -7,7 +7,7 @@ module AuthenticatedSystem
 
   def load_user(id)
     user = User.find_by_id(id)
-    user.update_attribute :last_seen_at, Time.now
+    User.update_all(["last_seen_at = ?", Time.now], ["id = ?", user.id])
     user
   end
   
