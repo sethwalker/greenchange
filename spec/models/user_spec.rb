@@ -261,7 +261,7 @@ else
 
     it "should find searchable people" do
       @searchable = create_user(:login => 'searchable', :searchable => true)
-      reindex('user_core user_delta')
+      reindex('user_core user_delta', 1.5)
       User.search('searchable', :with => {:searchable => 1}).should include(@searchable)
     end
 

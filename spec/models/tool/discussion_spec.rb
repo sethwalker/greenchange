@@ -12,12 +12,12 @@ else
     end
 
     it "finds by content" do
-      reindex
+      reindex('tool_discussion_core tool_discussion_delta')
       Tool::Discussion.search('mofo').should include(@page)
     end
 
     it "does not find non-matching bystanders" do
-      reindex
+      reindex('tool_discussion_core tool_discussion_delta')
       Tool::Discussion.search('mofo').should_not include(@bystander)
     end
 

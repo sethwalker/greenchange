@@ -15,22 +15,22 @@ else
     end
 
     it "finds by description content" do
-      reindex
+      reindex('tool_event_core tool_event_delta')
       Tool::Event.search('mofo').should include(@page)
     end
 
     it "finds by city content" do
-      reindex
+      reindex('tool_event_core tool_event_delta')
       Tool::Event.search('flint').should include(@page)
     end
 
     it "finds by state content" do
-      reindex
+      reindex('tool_event_core tool_event_delta')
       Tool::Event.search('michigan').should include(@page)
     end
 
     it "does not find non-matching bystanders" do
-      reindex
+      reindex('tool_event_core tool_event_delta')
       Tool::Event.search('mofo').should_not include(@bystander)
     end
   end
