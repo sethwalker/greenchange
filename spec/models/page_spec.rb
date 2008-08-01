@@ -669,4 +669,26 @@ else
       Page.search('mofo').should_not include(@bystander)
     end
   end
+
+  describe "with subclasses" do
+    self.use_transactional_fixtures=false
+    before do
+      Page.delete_all
+    end
+    #Tool::Asset, Tool::Audio, Tool::Document, Tool::ExternalVideo, Tool::Image
+    [Tool::ActionAlert, Tool::Blog, Tool::Discussion, Tool::Event, Tool::News, Tool::TextDoc].each do |klass|
+      it "Page.search finds #{klass}" do
+        @page = create_page(:title => "classical", :type => klass.to_s)
+        @page = Page.find(@page)
+        reindex
+        Page.search('classical').should include(@page)
+      end
+      it "klass.search finds #{klass}" do
+        @page = create_page(:title => "classical", :type => klass.to_s)
+        @page = Page.find(@page)
+        reindex
+        klass.search('classical').should include(@page)
+      end
+    end
+  end
 end
