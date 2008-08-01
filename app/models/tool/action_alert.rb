@@ -1,7 +1,7 @@
 class Tool::ActionAlert < Page
   define_index do
     indexes title
-    indexes data.body, :as => 'content'
+    indexes [summary, data.body], :as => 'content'
     has :public
     set_property :delta => true
   end

@@ -3,7 +3,7 @@ class Tool::Discussion < Page
   define_index do
     indexes title
 #    indexes discussion.posts.body, :as => 'content'
-    indexes data.posts.body, :as => 'content'
+    indexes [summary, data.posts.body], :as => 'content'
     has :public
     set_property :delta => true
   end

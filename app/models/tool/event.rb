@@ -1,7 +1,7 @@
 class Tool::Event < Page
   define_index do
     indexes title
-    indexes [data.description, data.city, data.state], :as => 'content'
+    indexes [summary, data.description, data.city, data.state], :as => 'content'
     has :public
     set_property :delta => true
   end
