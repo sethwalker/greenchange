@@ -8,6 +8,8 @@ else
     before do
       Tool::Discussion.destroy_all
       @bystander = create_page :title => 'mofo time' 
+      @bystander.type = 'Tool::Discussion'
+      @bystander.save
       @page = Tool::Discussion.create!(:title => 'searchable' , :page_data => { :new_post => {:body => 'should have seen this one, mofo', :user_id => create_user.id } }  )
     end
 
@@ -20,11 +22,38 @@ else
       reindex('tool_discussion_core tool_discussion_delta')
       Tool::Discussion.search('mofo').should_not include(@bystander)
     end
+  end
 
-    it "finds by new posts using delta index" do
-      pending
-      @page.discussion.posts.create :body => 'watch your language, fartwad'
+  describe "with a delta index" do
+    self.use_transactional_fixtures=false
+    before do
+      ThinkingSphinx.deltas_enabled = true
+      Tool::Discussion.destroy_all
+      @bystander = create_page :title => 'mofo time' 
+      @bystander.type = 'Tool::Discussion'
+      @bystander.save
+      @page = Tool::Discussion.create!(:title => 'searchable' , :page_data => { :new_post => {:body => 'should have seen this one, mofo', :user_id => create_user.id } }  )
+    end
+    after do
+      ThinkingSphinx.deltas_enabled = false
+    end
+
+    it "should find" do
+      reindex
+      @page.title = 'the new hotness'
+      @page.save!
+      sleep(1.5)
+      Tool::Discussion.search('hotness').should include(@page)
+    end
+
+    it "finds by new posts" do
+      pending do
+      reindex
+      @post = @page.build_post Post.new(:body => 'watch your language, fartwad'), create_user
+      @post.save!
+      sleep(1)
       Tool::Discussion.search('fartwad').should include(@page)
+      end
     end
   end
 end

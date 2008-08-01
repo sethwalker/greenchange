@@ -7,7 +7,9 @@ else
     self.use_transactional_fixtures=false
     before do
       Tool::ActionAlert.destroy_all
-      @bystander = create_page :title => 'mofo time' 
+      @bystander = new_page :title => 'mofo time'
+      @bystander.type = 'Tool::ActionAlert'
+      @bystander.save
       @page = Tool::ActionAlert.create!(:title => 'searchable', :page_data => { :body => 'should have seen this one, mofo' } )
     end
 

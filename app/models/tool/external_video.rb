@@ -1,4 +1,11 @@
 class Tool::ExternalVideo < Tool::Video
+  define_index do
+    indexes title
+    indexes summary, :as => 'content'
+    has :public
+    set_property :delta => true
+  end
+
   class_display_name 'external video'
   class_description 'a video from an external service'
   belongs_to :data, :class_name => 'ExternalMedia::Youtube'

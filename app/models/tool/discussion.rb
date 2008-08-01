@@ -24,4 +24,3 @@ class Tool::Discussion < Page
 #  end
 #
 end
-

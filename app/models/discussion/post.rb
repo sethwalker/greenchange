@@ -46,4 +46,15 @@ class Post < ActiveRecord::Base
     discussion.try :page
   end
   
+  after_save :index_page
+  def index_page
+    if page
+      page.update_attribute(:delta, true)
+      page.index_delta
+    end
+  end
+
+  after_destroy :toggle_deleted_page
+  def toggle_deleted_page
+  end
 end
