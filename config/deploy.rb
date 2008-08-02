@@ -55,9 +55,38 @@ namespace :deploy do
     invoke_command "rm #{release_path}/public/stylesheets/*css"
     invoke_command "ln -nfs #{shared_path}/public_stylesheets/calendar_date_select #{release_path}/public/stylesheets/calendar_date_select"
     invoke_command "ln -nfs #{shared_path}/public_stylesheets/textile-editor.css #{release_path}/public/stylesheets/textile-editor.css"
+    invoke_command "rm -fr #{release_path}/db/sphinx"
+    invoke_command "ln -nfs #{shared_path}/db/sphinx #{release_path}/db/sphinx"
   end
 
   task :passenger_hates_htaccess, :roles => :app, :except => {:no_symlink => true} do
     invoke_command "rm #{release_path}/public/.htaccess"
   end
 end
+
+namespace :sphinx do
+  desc "Generate the ThinkingSphinx configuration file"
+  task :configure, :roles => :app do
+    run "cd #{release_path} && rake thinking_sphinx:configure RAILS_ENV=production"
+  end
+
+  desc "Stop the sphinx server"
+  task :stop, :roles => :app do
+    run "cd #{current_path} && rake thinking_sphinx:stop RAILS_ENV=production"
+  end
+
+  desc "Start the sphinx server"
+  task :start, :roles => :app do
+    run "cd #{current_path} && rake thinking_sphinx:configure RAILS_ENV=production && rake thinking_sphinx:start RAILS_ENV=production"
+  end
+
+  desc "Restart the sphinx server"
+  task :restart, :roles => :app do
+    stop
+    start
+  end  
+
+end
+
+after "deploy:update_code", "sphinx:configure"
+before "deploy:restart", "sphinx:restart"
