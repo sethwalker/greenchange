@@ -3,7 +3,7 @@
     = render :partial => 'menu', :locals => { :person => @person }
   = icon_for( @person, :size=> 'large')
   %h1
-    = @person.name
+    = @person.display_name
   .section.info
     .section.profile
       =render :partial => 'profile', :locals => { :profile => @person.profile_for( current_user ) }
