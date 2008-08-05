@@ -42,7 +42,7 @@ class MessagesController < ApplicationController
   def destroy
     @message = Message.find params[:id]
     current_user.may! :admin, @message
-    @message.destroy 
+    @message.update_attribute(:state, 'deleted' )
     flash[:notice] = "Removed message from #{@message.sender.display_name}"
     redirect_to :back
   end

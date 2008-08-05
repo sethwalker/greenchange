@@ -8,9 +8,10 @@ class Message < ActiveRecord::Base
   attr_accessor :recipients
   #acts_as_state_machine :initial => :pending, :column => 'read_state'
 
-  has_finder :to, Proc.new { |recipient| { :conditions => [ "messages.recipient_id = ?", recipient ] }}
-  has_finder :from, Proc.new { |sender|  { :conditions => [ "messages.sender_id = ?", sender ] }}
+  has_finder :to,   Proc.new { |recipient|  { :conditions => [ "messages.recipient_id = ?", recipient ] }}
+  has_finder :from, Proc.new { |sender|     { :conditions => [ "messages.sender_id = ?", sender ] }}
   has_finder :pending, { :conditions => [ "messages.state = ? or messages.state IS NULL", "pending" ] }
+  has_finder :ignored, { :conditions => [ "messages.state IN (?)", %w[ ignored deleted ]] }
 
   def allows?( user, action )
     return false unless user == sender or user == recipient

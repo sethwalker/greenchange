@@ -3,15 +3,15 @@ class InboxController < ApplicationController
   before_filter :login_required
  
   def show
-    @messages = @me.messages_received.pending.paginate(:all, :order => "updated_at DESC", :page => params[:page] )
-    @join_requests = JoinRequest.to(@me).pending.paginate :all, :order => "updated_at DESC", :page => params[:page]
-    @items_received = ( @messages + @join_requests ).sort { |item, item2 | item2.updated_at <=> item.updated_at }.compact
+    messages_rcvd = @me.messages_received.pending.paginate(:all, :order => "updated_at DESC", :page => params[:page] )
+    join_requests_rcvd = JoinRequest.to(@me).pending.paginate :all, :order => "updated_at DESC", :page => params[:page]
+    @items_received = ( messages_rcvd + join_requests_rcvd ).sort { |item, item2 | item2.updated_at <=> item.updated_at }.compact
 
-    @messages = @me.messages_received.pending.paginate(:all, :order => "updated_at DESC", :page => params[:page] )
-    @join_requests = @me.join_requests.paginate :all, :order => "updated_at DESC", :page => params[:page]
-    @items_sent= ( @messages + @join_requests ).sort { |item, item2 | item2.updated_at <=> item.updated_at }.compact
+    @items_sent = @me.messages_sent.pending.paginate(:all, :order => "updated_at DESC", :page => params[:page] )
 
-    @items_deleted = []
+    messages_ignd = @me.messages_received.ignored.paginate(:all, :order => "updated_at DESC", :page => params[:page] )
+    join_requests_ignd = JoinRequest.to(@me).ignored.paginate :all, :order => "updated_at DESC", :page => params[:page]
+    @items_ignored = ( messages_ignd + join_requests_ignd ).sort { |item, item2 | item2.updated_at <=> item.updated_at }.compact
   end
 
   protected

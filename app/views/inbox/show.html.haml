@@ -20,8 +20,8 @@
         = render :partial => 'inbox/list/message', :collection => @items_sent
     %li
       .tab-title
-        Deleted
+        Trash
       %ul.section.plain.tab-content.list
-        = render :partial => 'inbox/list/message', :collection => @items_deleted
+        = render :partial => 'inbox/list/message', :collection => @items_ignored
 
 - load_javascript_tabs
