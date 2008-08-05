@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1214013810) do
+ActiveRecord::Schema.define(:version => 1217905363) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(:version => 1214013810) do
   add_index "assets", ["page_id"], :name => "index_assets_page_id"
 
   create_table "avatars", :force => true do |t|
-    t.binary  "data",   :default => "",    :null => false
+    t.binary  "data",                      :null => false
     t.boolean "public", :default => false
   end
 
@@ -247,15 +247,15 @@ ActiveRecord::Schema.define(:version => 1214013810) do
   add_index "im_addresses", ["profile_id"], :name => "im_addresses_profile_id_index"
 
   create_table "issue_identifications", :force => true do |t|
-    t.integer "issue_id",                               :null => false
-    t.integer "issue_identifying_id",                   :null => false
-    t.string  "issue_identifying_type", :default => "", :null => false
+    t.integer "issue_id",               :null => false
+    t.integer "issue_identifying_id",   :null => false
+    t.string  "issue_identifying_type", :null => false
   end
 
   add_index "issue_identifications", ["issue_id", "issue_identifying_id", "issue_identifying_type"], :name => "index_issue_identifications", :unique => true
 
   create_table "issues", :force => true do |t|
-    t.string "name",        :default => "", :null => false
+    t.string "name",        :null => false
     t.text   "description"
   end
 
@@ -605,7 +605,7 @@ ActiveRecord::Schema.define(:version => 1214013810) do
     t.datetime "activated_at"
     t.boolean  "enabled",                                 :default => true
     t.string   "identity_url"
-    t.boolean  "searchable",                              :default => true
+    t.boolean  "searchable",                              :default => false
     t.boolean  "delta"
   end
 

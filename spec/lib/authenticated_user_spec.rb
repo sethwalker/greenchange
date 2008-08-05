@@ -49,4 +49,15 @@ describe "Authenticated User" do
     user.remember_token.should be_nil
     user.remember_token_expires_at.should be_nil
   end
+
+  it "should not be searchable if not active" do
+    user = create_user
+    user.searchable.should be_false
+  end
+
+  it "should be searchable after activation" do
+    user = create_user
+    user.send(:activate!)
+    user.searchable.should be_true
+  end
 end
