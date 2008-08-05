@@ -66,7 +66,7 @@ module SocialUser
       base.instance_eval do
         has_many :memberships, :foreign_key => 'user_id', :dependent => :destroy, :after_add => :update_membership_cache, :after_remove => :update_membership_cache
         
-        has_many :join_requests, :class_name => 'JoinRequest'
+        has_many :join_requests, :class_name => 'JoinRequest', :foreign_key => 'sender_id'
 
         has_many :groups, :foreign_key => 'user_id', :through => :memberships do
           def <<(*dummy)

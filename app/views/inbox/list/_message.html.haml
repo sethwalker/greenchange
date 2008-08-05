@@ -24,8 +24,9 @@
           Received:
           = friendly_date( item.created_at )
 
-    .toolbar.list-menu.inline
-      = render :partial => 'messages/menu', :locals => { :item => item }
+    - unless item.sender == current_user
+      .toolbar.list-menu.inline
+        = render :partial => 'messages/menu', :locals => { :item => item }
 
   .message-body
     .message
