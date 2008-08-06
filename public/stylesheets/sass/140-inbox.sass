@@ -23,7 +23,8 @@ body.inbox, body.messages
   .message-meta-block, .message-body, .message-block
     :clear both
     :float left
-    :width 100%
+    -#:width 100%
+    :width = !main_column_width - 28px
   .list-menu
     :float right
     .action

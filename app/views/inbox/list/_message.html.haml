@@ -1,6 +1,6 @@
 - color = cycle( 'shade-odd', 'shade-even')
 - item = message
-%li.message-block{ :class => color }
+%li.list-item.message-block{ :class => color }
   .message-meta-block{:class => ( item.try(:unread?) ? 'unread' : '' ) }
     .page-icon
       = link_to ' ', person_path(item.sender), html_options_for_icon_for(item.sender, :size => :small )
@@ -24,7 +24,7 @@
           Received:
           = friendly_date( item.created_at )
 
-    - unless item.sender == current_user
+    - unless item.sender == current_user or message.ignored?
       .toolbar.list-menu.inline
         = render :partial => 'messages/menu', :locals => { :item => item }
 
