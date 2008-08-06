@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe '/posts/_list.rhtml' do
   describe "when paginating" do
 
-    before do
+    before(:all) do
       Post.delete_all
       @posts = []
       20.times do 
