@@ -31,6 +31,13 @@
 
 
 class Group < ActiveRecord::Base
+  define_index do
+    indexes :name
+    indexes full_name
+    indexes summary
+    indexes issues(:name), :as => :issues
+    set_property :delta => true
+  end
   include Crabgrass::Serializeable
 
   #track_changes :name

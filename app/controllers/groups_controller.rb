@@ -19,7 +19,11 @@ class GroupsController < ApplicationController
   #  :only => [:create, :update, :destroy]
 
   def index
-    @groups = Group.allowed( current_user, :view ).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag)
+    if params[:query]
+      @groups = Group.search(params[:query])
+    else
+      @groups = Group.allowed( current_user, :view ).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag)
+    end
   end
 
   def show

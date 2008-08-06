@@ -17,6 +17,11 @@
         - else
           Groups
 
+- unless scoped_by_context?
+  .section.search
+    -form_tag('', :method => :get) do 
+      =text_field_tag :query, h( params[:query])
+      =submit_tag 'Search Groups'
 .section
   .icon-box
     =render :partial => 'shared/list/group',  :collection =>@groups
