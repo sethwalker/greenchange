@@ -65,6 +65,7 @@ Crabgrass.Tabs =  function() {
             jQ$(self).activate('tab-block');
           },
           transition_to: function( new_tab ) { 
+            console.log( 'tronsing: ' + self.tabs.filter(':visible').not(new_tab).length);
             self.tabs.filter(':visible').not(new_tab).hide('slide', 
             { duration: 500, 
               direction: 'left',   
