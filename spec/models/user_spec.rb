@@ -377,12 +377,15 @@ else
     end
 
     it "should not find people who just set themselves to unsearchable" do
-      @searchable = create_user(:login => 'searchable', :searchable => 0)
-      reindex('user_core user_delta')
+      pending
+      ThinkingSphinx.deltas_enabled = true
+      @searchable = create_user(:login => 'searchable', :searchable => true)
+#      reindex('user_core user_delta')
       @searchable.searchable = false
       @searchable.save!
-      sleep(2)
+      sleep(1)
       User.search('searchable', :with => {:searchable => 1}).should_not include(@searchable)
+      ThinkingSphinx.deltas_enabled = false
     end
   end
 
