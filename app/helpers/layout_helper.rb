@@ -15,7 +15,7 @@ module LayoutHelper
   end
 
   def rss_available?
-    controller.controller_name == 'pages' and controller.action_name == 'index'
+    ( controller.controller_name == 'pages' || controller.is_a?( Tool::BaseController )) and controller.action_name == 'index'
   end
 
   # returns avatar divs for people or groups

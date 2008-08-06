@@ -41,9 +41,13 @@ ActionController::Routing::Routes.draw do |map|
       wikis.resources :news, :controller => 'tool/news'
     end
     parent.media 'media', :controller => 'tool/media', :page_type => 'media', :action => 'index'
+    parent.formatted_media 'media.:format', :controller => 'tool/media', :page_type => 'media', :action => 'index'
     parent.tools 'tools', :controller => 'tool/tools', :page_type => 'tools', :action => 'index'
+    parent.formatted_tools 'tools.:format', :controller => 'tool/tools', :page_type => 'tools', :action => 'index'
     parent.involvements 'involvements', :controller => 'tool/involvements', :page_type => 'involvements', :action => 'index'
+    parent.formatted_involvements 'involvements.:format', :controller => 'tool/involvements', :page_type => 'involvements', :action => 'index'
     parent.updates      'updates',      :controller => 'tool/updates',      :page_type => 'updates',      :action => 'index'
+    parent.formatted_updates      'updates.:format',      :controller => 'tool/updates',      :page_type => 'updates',      :action => 'index'
     parent.resources :pages do |page|
       page.icon 'icon/:size.:format', :controller => 'pages', :action => 'icon'
       page.connect 'icon.:format', :controller => 'pages', :action => 'icon'

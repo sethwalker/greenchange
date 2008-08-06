@@ -35,9 +35,24 @@ class Tool::BaseController < ApplicationController
     else
       @pages = Page.allowed(current_user).page_type( page_type ).by_group( @group ).by_issue( params[:issue_id ]).by_person( ( @me || @person ) ).paginate :all, :page => params[:page], :order => 'created_at DESC'
     end
-    unless !Dir.glob( "#{RAILS_ROOT}/app/views/tool/#{( params[:page_type] || page_type )}/index*").empty?  and  render :action => "index" 
-       render :action => '../shared/index'
+    respond_to do |format|
+      format.html do
+        unless !Dir.glob( "#{RAILS_ROOT}/app/views/tool/#{( params[:page_type] || page_type )}/index*").empty?  and  render :action => "index" 
+           render :action => '../shared/index'
+        end
+      end
+      format.rss do
+        options = {
+          :title => [ 'Crabgrass Content', (scoped_by_context? ? scoped_by_context?.display_name : nil ), ( params[:page_type] || page_type ).to_s.titleize ].compact.join( ' - ' ), 
+          :link => url_for(:action => 'index', :controller => controller_name, :belongs_to => scoped_by_context? ),
+          :image => icon_path_for( scoped_by_context? ),
+          :items => @pages
+        }
+        render :partial => 'pages/rss', :locals => options
+      end
     end
+      
+    
   end
 
   # the form to create this type of page
