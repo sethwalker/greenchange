@@ -39,6 +39,9 @@ class Message < ActiveRecord::Base
       self.create message_attrs.merge( :recipient_id => (user ? user.id : nil), :recipients => recipient_login )
     end
   end
+  def ignored?
+    state == 'ignored' || state == 'deleted'
+  end
 
   def recipient_required?
     true

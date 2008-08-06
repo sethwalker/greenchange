@@ -17,7 +17,7 @@ Crabgrass.Tabs =  function() {
       // this private method adds tab methods to DOM elements
       var _extend_tab = function( tab, trigger, ul ) {
         jQ$.extend( tab, {
-          trigger: trigger === undefined,
+          trigger: trigger,
           tabset: ul,
           transition_in: function() {
               if ( tab.trigger !== undefined ) {
@@ -65,7 +65,6 @@ Crabgrass.Tabs =  function() {
             jQ$(self).activate('tab-block');
           },
           transition_to: function( new_tab ) { 
-            console.log( 'tronsing: ' + self.tabs.filter(':visible').not(new_tab).length);
             self.tabs.filter(':visible').not(new_tab).hide('slide', 
             { duration: 500, 
               direction: 'left',   
@@ -136,7 +135,11 @@ Crabgrass.Tabs =  function() {
     initialize_tab_blocks: function( )  {
       jQ$("ul.tab-block").each( function() { 
 
-        if( !jQ$(this).is('.no-all-block')) { Crabgrass.Tabs.create_all_block( this ); }
+        if( jQ$(this).is(':not(.no-all-block)')) { 
+           Crabgrass.Tabs.create_all_block( this ); 
+        } else {
+          jQ$('.tab-content:not(:first)', ul).hide();
+        }
         //Crabgrass.Tabs.create_all_block( this );
         var ul = Crabgrass.Tabs.create(this);
 

@@ -116,6 +116,15 @@ describe MessagesController do
 
   describe "DELETE destroy" do
     def current_model; Message; end
-    it_should_behave_like "message destruction"
+    def act!
+      delete :destroy, :id => 1 
+    end
+    it "is told to ignore the message" do
+      Message.stub!(:find).and_return(@message)
+      @user.stub!(:may!).and_return(true)
+      @message.should_receive( :update_attribute).with( :state, 'deleted')
+      controller.stub!(:redirect_to)
+      act!
+    end
   end
 end
