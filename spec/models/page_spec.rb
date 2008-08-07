@@ -160,6 +160,26 @@ describe Page do
     lambda {Page.allowed(u, :view)}.should_not raise_error
   end
 
+  describe "popular finder" do
+    before do
+      @more_popular = create_page
+      2.times { star = @more_popular.stars.build(:user => create_user); star.star = true; star.save }
+      @less_popular = create_page
+      star = @less_popular.stars.build(:user => create_user); star.star = true; star.save
+      @not_popular = create_page
+      @not_popular.user_participations.create :user => create_user
+    end
+    it "finds popular pages" do
+      Page.popular.should include(@more_popular, @less_popular)
+    end
+    it "does not find unpopular pages" do
+      Page.popular.should_not include(@not_popular)
+    end
+    it "popular orders by number of stars" do
+      Page.popular.first.should == @more_popular
+    end
+  end
+
   describe "unauthenticated user" do
     before do
       @un_u = UnauthenticatedUser.new

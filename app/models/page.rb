@@ -58,6 +58,8 @@ class Page < ActiveRecord::Base
 
   has_many :permissions, :as => 'resource'
 
+  has_finder :popular, :joins => :stars, :select => "#{quoted_table_name}.*, COUNT(user_participations.id) as number_of_stars", :group => "pages.id", :order => "number_of_stars DESC"
+
   has_finder :allowed, 
     Proc.new { |user, perm| 
       if not [:view, :edit, :participate, :admin].include? perm
