@@ -13,7 +13,8 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :network, :member => { :connect => :get }  do | network |
     network.resources :invitations, :controller => 'network_invitations'
   end
-  
+
+  map.resource :popular
 
   map.resources :issues
 
