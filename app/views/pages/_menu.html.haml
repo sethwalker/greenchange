@@ -8,7 +8,7 @@
   - unless page.starred_by?( current_user )
     .icon
       = button_to 'Add Star', ratings_path(:page_id => page), :class => 'action rate', :title => 'Promote this page'
-  -#.icon
-    = link_to 'Recommend', 'recommend_tool_page_path(page)', :class => 'action recommend', :title => 'Recommend this page to a friend'
+  .icon
+    = link_to 'Recommend', new_page_recommendation_path(@page), :class => 'action recommend', :title => 'Recommend this page to a friend'
 
   = render :partial => 'tool/event/menu'

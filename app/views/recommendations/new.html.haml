@@ -1,0 +1,12 @@
+- content_for :title do
+  = icon_for( @page, :size => :medium )
+  %h1 
+    Send Recommendation
+    = "about #{@page.display_name}"
+  = error_messages_for :message
+
+.new.message.form.with-editor
+  - form_for :message, @message, :url => page_recommendations_path( @page ) do |f|
+    = render :partial => 'messages/form', :locals => { :f => f, :message => @message }
+    %p.submit
+      = f.submit "Send"

@@ -52,6 +52,7 @@ ActionController::Routing::Routes.draw do |map|
       page.icon 'icon/:size.:format', :controller => 'pages', :action => 'icon'
       page.connect 'icon.:format', :controller => 'pages', :action => 'icon'
       page.resources :bookmarks
+      page.resources :recommendations
     end
     parent.resources :uploads, :controller => 'tool/asset', :member => {:destroy_version => :destroy}
     parent.resources :events, :controller => 'tool/event', :member => {:participate => :post, :set_event_description => :post}, :collection => {:day => :get, :week => :get, :month => :get, :calendar => :get} do |event|
