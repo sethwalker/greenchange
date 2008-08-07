@@ -1,0 +1,5 @@
+- content_for :title do
+  %h1 Most Popular
+
+.landing.popular
+  = render :partial => 'pages/shared/time_segmented_list', :locals => {:pages => @pages} 
