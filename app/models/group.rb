@@ -39,6 +39,7 @@ class Group < ActiveRecord::Base
     set_property :delta => true
   end
   include Crabgrass::Serializeable
+  attr_protected :featured
 
   #track_changes :name
   acts_as_modified
@@ -309,6 +310,7 @@ class Group < ActiveRecord::Base
   end
 
   has_finder :allowed, {} #do nothing for now
+  has_finder :featured, :conditions =>[ 'groups.featured = ?', true ]
 
   # check if user has permission to perform action. the optional resource
   # will be used if given, otherwise the :group resource is used.

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1218063883) do
+ActiveRecord::Schema.define(:version => 1218061752) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -232,7 +232,7 @@ ActiveRecord::Schema.define(:version => 1218063883) do
     t.string   "style"
     t.string   "parent_name"
     t.string   "image_filename"
-    t.boolean  "delta"
+    t.boolean  "featured"
   end
 
   add_index "groups", ["name"], :name => "index_groups_on_name"
@@ -615,6 +615,7 @@ ActiveRecord::Schema.define(:version => 1218063883) do
     t.string   "identity_url"
     t.boolean  "searchable",                              :default => false
     t.boolean  "delta"
+    t.boolean  "featured"
   end
 
   add_index "users", ["login"], :name => "index_users_on_login"

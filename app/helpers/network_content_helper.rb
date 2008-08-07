@@ -14,9 +14,10 @@ module NetworkContentHelper
     # TODO: network content sorting
     if source
       return [] unless source.respond_to?(:users) && source.users.any?
-      source.users.enabled.find(:all, :limit => 6, :order => "updated_at DESC") 
+      source.users.enabled.find(:all, :limit => qty, :order => "updated_at DESC") 
     else
-      find_random User, qty
+      User.enabled.featured.find(:all, :limit => qty, :order => "updated_at DESC") 
+      #find_random User, qty
     end
   end
 
@@ -26,7 +27,8 @@ module NetworkContentHelper
       return [] unless source.respond_to?(:groups) && source.groups.any?
       source.groups.find(:all, :limit => qty, :order => "updated_at DESC")
     else
-      find_random Group, qty 
+      Group.featured.find(:all, :limit => qty, :order => "updated_at DESC")
+      #find_random Group, qty 
     end
   end
 

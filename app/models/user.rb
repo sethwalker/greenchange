@@ -24,6 +24,8 @@ class User < ActiveRecord::Base
   rescue ThinkingSphinx::ConnectionError
   end
 
+  attr_protected :featured
+
   include AuthenticatedUser
   include SocialUser
   include Crabgrass::ActiveRecord::Collector
@@ -95,6 +97,7 @@ class User < ActiveRecord::Base
     issues.any? ? { :include => :issue_identifications, :conditions => [ "issue_identifications.issue_id in (?)", issues ] } : {}
   }
   has_finder :enabled, :conditions => [ "users.enabled = ? and users.activated_at IS NOT NULL", true ]
+  has_finder :featured, :conditions =>[ 'users.featured = ?', true ]
  
 
   #has_many :memberships

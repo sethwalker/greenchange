@@ -19,3 +19,10 @@
 - if logged_in? and !current_user.member_of? group
   .icon
     = link_to "Join Group", new_group_membership_path( group ), :class => 'action join_group', :title => 'Join this group'
+-#superuser menu
+- if logged_in? and current_user.superuser?
+  .icon
+    - if group.featured?
+      = button_to 'Remove Featured', group_feature_path(group), :class => 'action unfeature', :method => :delete
+    - else
+      = button_to 'Feature Group', group_feature_path(group), :class => 'action feature'

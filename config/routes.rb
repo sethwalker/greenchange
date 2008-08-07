@@ -107,6 +107,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :groups do |group|
     group.resources :people
     group.resources :invitations
+    group.resource :feature
     group.resources :join_requests, :member => { :approve => :put, :ignore => :put }
     #group.resources :memberships, :controller => 'membership', :collection => {:join => :get, :invite => :get, :leave => :get, :send_invitation => :post }, :member => { :approve => :put, :reject => :delete, :refuse => :delete, :accept => :put, :promote => :put }
     group.resources :memberships, :member => { :promote => :put }
@@ -123,6 +124,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :people do |person|
     person.resources :invitations
     person.resources :groups
+    person.resource  :feature
     person.resources :contacts
     person.resources :bookmarks
     person.resource :profile

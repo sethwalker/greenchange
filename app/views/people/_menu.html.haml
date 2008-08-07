@@ -15,3 +15,9 @@
   - else
     .icon
       = link_to 'Add contact', new_person_contact_path(person), :class => 'action contact_request'
+- if logged_in? and current_user.superuser?
+  .icon
+    - if person.featured?
+      = button_to 'Remove Featured', person_feature_path(person), :class => 'action unfeature', :method => :delete
+    - else
+      = button_to 'Feature User', person_feature_path(person), :class => 'action feature'
