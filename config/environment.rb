@@ -72,6 +72,9 @@ end
 
 require 'enhanced_migrations'
 require 'tagging_extensions'
+require 'feed-normalizer'
+require 'open-uri'
+
 #require 'textile_editor_form_builder_helper'
 
 

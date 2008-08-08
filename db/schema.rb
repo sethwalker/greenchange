@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1218063883) do
+ActiveRecord::Schema.define(:version => 1218154964) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -384,6 +384,7 @@ ActiveRecord::Schema.define(:version => 1218063883) do
     t.boolean  "public_participate"
     t.string   "image_filename"
     t.boolean  "delta"
+    t.integer  "subscription_id"
   end
 
   add_index "pages", ["name"], :name => "index_pages_on_name"
@@ -520,6 +521,14 @@ ActiveRecord::Schema.define(:version => 1218063883) do
     t.integer  "event_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "subscriptions", :force => true do |t|
+    t.string   "url"
+    t.integer  "user_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.datetime "last_updated_at"
   end
 
   create_table "taggings", :force => true do |t|
