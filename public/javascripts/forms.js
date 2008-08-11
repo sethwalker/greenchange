@@ -77,24 +77,24 @@ Crabgrass.Ajax = function() {
           if (jQ$('#ajax-message').length === 0) {
            jQ$('<div id="ajax-message"></div>').appendTo( document.body ).hide(); 
           } 
-          return jQ$('#ajax-message')[0];
+          return jQ$('#ajax-message');
         }(),
 
         show_error: function( message ) {
-          if (message === null) {
+          if (message === undefined) {
             message = "Whoops...something went wrong.  Reload the page or try again later... ";
           }
           m_self.show( message, 'error' );
         },
 
         show: function( message, message_class ) {
-          if (message === null) {
+          if (message === undefined ) {
             message = "Hello!";
           }
-          if (message_class === null) { message_class = 'message'; }
+          if (message_class === undefined ) { message_class = 'message'; }
 
           //m_self.display.update( new Element('div', { 'class': message_class }).update( message ));
-          jQ$(m_self.display).html( jQ$('<div></div>').addClass( message_class).text( message) )[0].show();
+          m_self.display.html( jQ$('<div></div>').addClass( message_class).text( message) ).eq(0).show();
           m_self.set_position();
           
           m_self.onscroll = function() {  m_self.set_position(m_self); } ;
@@ -108,7 +108,7 @@ Crabgrass.Ajax = function() {
         },
 
         set_position: function () {
-          jQ$(m_self.display).css({ top: jQ$(document).scrollTop()});
+          m_self.display.css({ top: jQ$(document).scrollTop()});
         }
       };
       return m_self;

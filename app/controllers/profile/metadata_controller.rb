@@ -7,15 +7,20 @@ class Profile::MetadataController < ApplicationController
   end
 
   def new
-    @item = ::Profile.const_get(controller_name.demodulize.classify).new
+    @item = current_object_class.new
     if request.xhr?
       #render :head => :unprocessable_entity
       render :partial => "profiles/form/#{item_partial}", :locals => { item_partial => @item, :profile => @profile  }
     end
   end
 
+  def current_object_class
+    ('profile_'+(controller_name.demodulize)).classify.constantize
+  end
+
   def destroy
-    @item = ::Profile.const_get(controller_name.demodulize.classify).find params[:id]
+    #@item = ::Profile.const_get(controller_name.demodulize.classify).find params[:id]
+    @item = current_object_class.find params[:id]
     @item.destroy   
     
     
