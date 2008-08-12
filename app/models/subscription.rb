@@ -10,7 +10,7 @@ class Subscription < ActiveRecord::Base
       create feed_entries.map { |e| translate(e) }
     end
     def translate(e)
-      { :title => e.title, :summary => e.description, :page_data => { :body => e.content, :document_meta_data => { :creator => e.author, :source_url => e.url, :source => proxy_owner.feed.title, :published_at => e.date_published } } }
+      { :title => e.title, :summary => e.description, :page_data => { :body => e.content, :document_meta_data => { :creator => e.author, :source_url => e.url, :source => proxy_owner.feed.title, :published_at => e.date_published } }, :created_by => proxy_owner.user }
     end
   end
 

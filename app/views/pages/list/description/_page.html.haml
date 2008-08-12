@@ -2,6 +2,8 @@
   = render :partial => 'pages/list/description/event', :locals => { :page => page }
 - elsif page.is_a? Tool::Discussion
   = render :partial => 'pages/list/description/discussion', :locals => { :page => page }
+- elsif page.is_a? Tool::Repost
+  = render :partial => 'pages/list/description/repost', :locals => { :page => page }
 - else
   .byline
     .name
