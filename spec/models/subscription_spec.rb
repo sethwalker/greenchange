@@ -53,6 +53,30 @@ describe Subscription do
       @sub.reposts.first.should be_valid
     end
 
+    it "does not create duplicate reposts" do
+      @sub.save
+      lambda {@sub.update!}.should_not change(Tool::Repost, :count)
+    end
+
+    describe "when the updated date changes" do
+      before do
+        Time.stub!(:now).and_return(Time.mktime(2008, 8, 10))
+        @sub.save
+        @sub.stub!(:open).with(@test_url).and_return File.read("#{RAILS_ROOT}/spec/fixtures/rss_20_updated.rss")
+        @sub.instance_variable_set(:@feed, nil)
+      end
+      it "does not create duplicate reposts when the updated date changes" do
+        lambda {@sub.update!}.should_not change(Tool::Repost, :count)
+      end
+
+      it "updates existing reposts when the updated date changes" do
+        @sub.update!
+        repost = Tool::Repost.find :first, :include => {:data => :document_meta}, :conditions => [ 'source_url = ?', "http://www.alternet.org/columnists/story/94128/the_new_face_of_terrorism_a_square_white_guy/"]
+        repost.summary.should match(/ontological/)
+      end
+    end
+
+
     describe "repost metadata" do
       before do
         @entry = @sub.entries.first
@@ -61,7 +85,7 @@ describe Subscription do
         @sub.last_updated_at = nil
       end
       it "sets repost creator" do
-        @sub.reposts.create_from_feed([@entry]).first.data.creator.should == @entry.author
+        @sub.reposts.first.data.creator.should == @entry.author
       end
 
       it "sets repost creator_url" do
