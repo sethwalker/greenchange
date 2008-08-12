@@ -93,6 +93,7 @@ ActionController::Routing::Routes.draw do |map|
     me.resources :preferences
     page_routes me
     me.resource  :profile
+    me.resources :subscription_updates
     me.resource  :network
     me.resource :inbox,   :controller => 'inbox' do |inbox|
       inbox.resources :messages 

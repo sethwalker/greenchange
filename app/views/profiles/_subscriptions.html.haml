@@ -4,3 +4,24 @@
     %p
       %label{ :for =>"user[subscription_data][0][url]" } Feed URL
       = text_field_tag "user[subscription_data][0][url]", user.subscription_data.first.try(:url), :size => 50
+    - if sub = user.subscription_data.first
+      .section.remote.behavior-block
+        = button_to "Update Now", me_subscription_updates_path, :method => :post, :id => 'update_subscriptions', :'data-target' => me_subscription_updates_path
+        #last_update_block
+          - if sub.last_updated_at
+            Last Updated:
+            = sub.last_updated_at.strftime( "%A, %B %d" )
+
+- content_for :javascript_onload do
+  :plain
+    jQ$('#update_subscriptions').click( function(ev) {
+        var token = jQ$(ev.target).next('input').val();
+        Crabgrass.Ajax.show_busy(ev.target);
+        jQ$.post( jQ$(ev.target).attr('data-target'), { authenticity_token: token },
+          function( data ) { 
+            jQ$('#last_update_block').text( data ); 
+            Crabgrass.Ajax.hide_busy(ev.target);
+            });
+        return false;
+      });
+
