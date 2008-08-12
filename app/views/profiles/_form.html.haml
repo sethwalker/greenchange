@@ -25,6 +25,9 @@
 
         = render :partial => "profiles/form/list/note", :locals => {:profile => profile, :f => f , :notes => @notes }
 
+        .section
+          = render :partial => "subscriptions", :locals => {:user => profile.user}
+
   .column.form-column.last
     - fields_for :user, profile.user do |ff|
       .section

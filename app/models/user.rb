@@ -51,6 +51,27 @@ class User < ActiveRecord::Base
   has_many :languages, :class_name => 'ProfileLanguage'
   has_many :notifications
   has_many :network_events, :through => :notifications, :order => "network_events.created_at DESC"
+  has_many :subscriptions
+
+  validate :validate_associated_subscriptions
+  def validate_associated_subscriptions
+    errors.add_to_base 'Feed URL is invalid' unless subscriptions.all?(&:valid?)
+  end
+  
+  def subscription_data
+    subscriptions
+  end
+
+  def subscription_data=(subs)
+    subs = subs.values
+    return if subs.first[:url].blank?
+    if subscriptions.any?
+      subscriptions.first.attributes = subs.first
+      subscriptions.first.save unless subscriptions.first.new_record?
+    else
+      subscriptions.build(subs)
+    end
+  end
 
   def add_to_democracy_in_action_groups
     return if DemocracyInAction::API.disabled?

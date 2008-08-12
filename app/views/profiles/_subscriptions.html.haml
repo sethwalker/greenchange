@@ -1,0 +1,6 @@
+%h2 Blog Republishing
+- fields_for :user, user do |f|
+  -#raise user.subscription_data.first.try(:url).inspect
+  %div{ :class => user.subscription_data.first.valid? ? '' : 'fieldWithErrors' }
+    %label{ :for =>"user[subscription_data][0][url]" } Feed URL
+    = text_field_tag "user[subscription_data][0][url]", user.subscription_data.first.try(:url), :size => 50

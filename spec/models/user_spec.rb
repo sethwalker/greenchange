@@ -217,6 +217,39 @@ describe User, "with preferences" do
       @user.receives_email_on('comments').should == false
     end
   end
+
+  describe "subscriptions" do
+    before :all do
+      #class Subscription < ActiveRecord::Base; def update!; end; end;
+      FeedNormalizer::FeedNormalizer.stub!(:parse).and_return( stub('parsed_feed', :entries => [] ))
+    end
+
+    describe "valid subscription" do
+      before do
+        @user.subscription_data = { 0 => {:url => 'http://alternet.org'} }
+        #@user.update_subscription_data
+      end
+      it "builds subscriptions" do
+        @user.subscriptions.first.url.should == 'http://alternet.org'
+      end
+      it "saves subscriptions" do
+        @user.save!
+        @user.subscriptions.first.should_not be_new_record
+      end
+    end
+    describe "invalid url" do
+      before do
+        @user.subscription_data = { 0 => {:url => 'http://badness'} }
+      end
+      it "fails with invalid url" do
+        lambda {@user.save!}.should raise_error(ActiveRecord::RecordInvalid)
+      end
+      it "displays incorrect url when save fails" do
+        @user.save
+        @user.subscription_data.first.url.should =='http://badness'
+      end
+    end
+  end
 end
 
 describe User, "with DIA saving" do
