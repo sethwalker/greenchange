@@ -1,7 +1,7 @@
 class Subscription < ActiveRecord::Base
   belongs_to :user
   after_create :update!
-  validate :valid_url
+  before_validation :discover_feed_url
   validates_uniqueness_of :url, :message => "has already been subscribed by another user"
 
   has_many :reposts, :class_name => "Tool::Repost" do
@@ -59,10 +59,20 @@ class Subscription < ActiveRecord::Base
     feed.entries
   end
 
-  def valid_url
-    test_uri = URI.parse url
-    open( test_uri )
-  rescue
-    errors.add :url, "not valid"
+  def lookup_uri(uri)
+    "http://ajax.googleapis.com/ajax/services/feed/lookup?q=#{CGI::escape(uri)}&v=1.0"
+  end
+
+  def discover_feed_url
+    result = ActiveSupport::JSON.decode(open(lookup_uri(url)).read)
+
+    unless result['responseData'] and result['responseData']['url']
+      errors.add :url, "not valid" and return false
+    end
+
+    result = result['responseData']
+    if result['url'] and result['url'] != result['query']
+      self.url = result['url']
+    end
   end
 end

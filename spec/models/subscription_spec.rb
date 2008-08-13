@@ -15,25 +15,26 @@ describe Subscription do
   end
 
   it "pulls the feed on create" do
-    @sub.stub!(:valid_url).and_return true
+    @sub.stub!(:discover_feed_url).and_return true
     @sub.should_receive(:fetch)
     @sub.save
   end
 
   it "validates the format of the url" do
     @sub.url = "invalid host . com"
+    @sub.stub!(:open).with( @sub.lookup_uri(@sub.url)).and_return File.new("#{RAILS_ROOT}/spec/fixtures/google_feed_find_fail.json")
     @sub.should_not be_valid
   end
 
   describe "with valid url" do
     before do
-      @sub.stub!(:valid_url).and_return true
-      @sub.stub!(:open).with(@test_url).and_return File.read("#{RAILS_ROOT}/spec/fixtures/rss_20.rss")
-      @sub.stub!(:open).with(@atom_url).and_return File.read("#{RAILS_ROOT}/spec/fixtures/atom_10.xml")
+      @sub.stub!(:discover_feed_url).and_return true
+      @sub.stub!(:open).with(@test_url).and_return File.open("#{RAILS_ROOT}/spec/fixtures/rss_20.rss")
+      @sub.stub!(:open).with(@atom_url).and_return File.open("#{RAILS_ROOT}/spec/fixtures/atom_10.xml")
     end
 
     it "gets input from open-uri" do
-      @sub.should_receive(:open).and_return File.read("#{RAILS_ROOT}/spec/fixtures/rss_20.rss")
+      @sub.should_receive(:open).and_return File.open("#{RAILS_ROOT}/spec/fixtures/rss_20.rss")
       @sub.fetch
     end
 
@@ -62,7 +63,7 @@ describe Subscription do
       before do
         Time.stub!(:now).and_return(Time.mktime(2008, 8, 10))
         @sub.save
-        @sub.stub!(:open).with(@test_url).and_return File.read("#{RAILS_ROOT}/spec/fixtures/rss_20_updated.rss")
+        @sub.stub!(:open).with(@test_url).and_return File.open("#{RAILS_ROOT}/spec/fixtures/rss_20_updated.rss")
         @sub.instance_variable_set(:@feed, nil)
       end
       it "does not create duplicate reposts when the updated date changes" do
@@ -110,5 +111,17 @@ describe Subscription do
 
     it "should send etags and ifnotmodiedsince headers or something"
 
+  end
+
+  it "discovers existing feeds" do
+    @test_discovery_url = 'http://intertwingly.net/blog'
+    @test_discovered_url = 'http://intertwingly.net/blog/index.atom'
+    @google_feed_url = @sub.lookup_uri(@test_discovery_url)
+    @sub.stub!(:open).with(@google_feed_url).and_return File.open("#{RAILS_ROOT}/spec/fixtures/google_feed_find.json")
+    @sub.stub!(:open).with(@test_discovered_url).and_return File.open("#{RAILS_ROOT}/spec/fixtures/atom_10.xml")
+
+    @sub.url = @test_discovery_url
+    @sub.save
+    @sub.url.should == @test_discovered_url
   end
 end
