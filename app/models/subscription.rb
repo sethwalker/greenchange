@@ -56,11 +56,11 @@ class Subscription < ActiveRecord::Base
   end
 
   def entries
-    feed.entries
+    feed.try(:entries) || []
   end
 
   def lookup_uri(uri)
-    "http://ajax.googleapis.com/ajax/services/feed/lookup?q=#{CGI::escape(uri)}&v=1.0"
+    "http://ajax.googleapis.com/ajax/services/feed/lookup?q=#{URI.escape(uri)}&v=1.0"
   end
 
   def discover_feed_url
