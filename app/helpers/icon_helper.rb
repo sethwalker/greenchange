@@ -81,7 +81,7 @@ module IconHelper
   def css_page_type(page)
     css_class = page.class.name.demodulize.underscore.to_sym
 
-    translations = { :wiki => [ :text_doc ], :video => [ :external_video ], :poll => [:ranked_vote] }
+    translations = { :wiki => [ :text_doc ], :video => [ :external_video ], :poll => [:ranked_vote], :blog => [ :repost ] }
     translated_page_type = translations.detect { | css, tool_types | css if tool_types.include? css_class }.first
     css_class = translated_page_type if translated_page_type
 

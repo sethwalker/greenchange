@@ -1,2 +1,5 @@
 %label Reposted from:
 = page.data.source
+.clear
+%label View original:
+= link_to "#{page.data.source_url[0..40]}...", page.data.source_url, :target => 'blank'

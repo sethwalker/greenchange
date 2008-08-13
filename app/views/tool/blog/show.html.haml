@@ -1,6 +1,11 @@
 - content_for :title do
   = render :partial => 'pages/title'
 
+- if @page.is_a?( Tool::Repost )
+  Republished from
+  = @page.data.source
+  = link_to "view original", @page.data.source_url, :target => "blank"
+  
 - article = @page.data
 .section.page-content
   -if  @page.primary_image && @page.primary_image.public_filename(:pic) 

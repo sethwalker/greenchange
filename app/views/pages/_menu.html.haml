@@ -1,5 +1,5 @@
 - if logged_in?
-  - if current_user.may? :admin, @page 
+  - if current_user.may? :edit, @page 
     .icon
       = link_to 'Edit', edit_tool_page_path(@page), :class => 'action edit', :title => 'Edit'
   - unless current_user.bookmarked_pages.include? @page
