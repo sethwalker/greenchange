@@ -64,11 +64,12 @@ class User < ActiveRecord::Base
 
   def subscription_data=(subs)
     subs = subs.values
-    return if subs.first[:url].blank?
     if subscriptions.any?
+      return subscriptions.first.destroy if subs.first[:url].blank?
       subscriptions.first.attributes = subs.first
       subscriptions.first.save unless subscriptions.first.new_record?
     else
+      return if subs.first[:url].blank?
       subscriptions.build(subs)
     end
   end

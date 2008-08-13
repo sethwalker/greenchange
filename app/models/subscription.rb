@@ -21,7 +21,9 @@ class Subscription < ActiveRecord::Base
     end
 
     def translate(e)
-      { :title => e.title, :summary => e.description, :page_data => { :body => e.content, :document_meta_data => { :creator => e.author, :source_url => e.url, :source => proxy_owner.feed.title, :published_at => e.date_published } }, :created_by => proxy_owner.user }
+      feed_host = URI.parse( proxy_owner.feed.url ).host
+      item_url = (e.url.include?(feed_host) || e.url =~ /^http:\/\//) ? e.url : "http://#{feed_host}#{e.url}"
+      { :title => e.title, :summary => e.description, :page_data => { :body => e.content, :document_meta_data => { :creator => e.author, :source_url => item_url, :source => proxy_owner.feed.title, :published_at => e.date_published } }, :created_by => proxy_owner.user }
     end
   end
 
