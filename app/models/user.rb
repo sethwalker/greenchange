@@ -55,7 +55,13 @@ class User < ActiveRecord::Base
 
   validate :validate_associated_subscriptions
   def validate_associated_subscriptions
-    errors.add_to_base 'Feed URL is invalid' unless subscriptions.all?(&:valid?)
+    #errors.add_to_base 'Feed URL is invalid' unless subscriptions.all?(&:valid?)
+    subscriptions.each do |sub|
+      next if sub.valid?
+      sub.errors.each do |(item, message)|
+        errors.add item, message 
+      end
+    end
   end
   
   def subscription_data

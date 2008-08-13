@@ -2,6 +2,8 @@ class Subscription < ActiveRecord::Base
   belongs_to :user
   after_create :update!
   validate :valid_url
+  validates_uniqueness_of :url, :message => "has already been subscribed by another user"
+
   has_many :reposts, :class_name => "Tool::Repost" do
     def update_from_feed( updated_entries, existing )
       return if updated_entries.empty?
