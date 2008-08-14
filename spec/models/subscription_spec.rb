@@ -4,6 +4,7 @@ describe Subscription do
   before do
     @test_url = 'http://test.org'
     @atom_url = 'http://test_atom.org'
+    @wordpress_url = 'http://test-wordpress.org'
     @sub = new_subscription :url => @test_url
   end
 
@@ -31,6 +32,7 @@ describe Subscription do
       @sub.stub!(:discover_feed_url).and_return true
       @sub.stub!(:open).with(@test_url).and_return File.open("#{RAILS_ROOT}/spec/fixtures/rss_20.rss")
       @sub.stub!(:open).with(@atom_url).and_return File.open("#{RAILS_ROOT}/spec/fixtures/atom_10.xml")
+      @sub.stub!(:open).with(@wordpress_url).and_return File.open("#{RAILS_ROOT}/spec/fixtures/wordpress.rss")
     end
 
     it "gets input from open-uri" do
@@ -40,7 +42,7 @@ describe Subscription do
 
     it "only returns items that are new since the last update" do
       @sub.last_updated_at = Time.mktime 2008, 8, 6
-      @sub.fetch.all? {|entry| entry.last_updated > @sub.last_updated_at}.should be_true
+      @sub.fetch.all? {|entry| Time.parse(entry.last_updated) > @sub.last_updated_at}.should be_true
     end
 
     it "fetched feed create new reposts" do
@@ -100,13 +102,18 @@ describe Subscription do
         @sub.reposts.first.data.source_url.should == @sub.fetch.first.url
       end
       it "sets repost published_at" do
-        @sub.reposts.first.data.published_at.should == @sub.fetch.first.date_published
+        @sub.reposts.first.data.published_at.should == Time.parse(@sub.fetch.first.date_published)
       end
     end
 
     it "parses atom feeds" do
       @sub.url = @atom_url
       @sub.fetch.should_not be_empty
+    end
+
+    it "parses wordpress feeds" do
+      @sub.url = @wordpress_url
+      @sub.save!
     end
 
     it "should send etags and ifnotmodiedsince headers or something"

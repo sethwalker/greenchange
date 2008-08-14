@@ -221,7 +221,7 @@ describe User, "with preferences" do
   describe "subscriptions" do
     before :all do
       #class Subscription < ActiveRecord::Base; def update!; end; end;
-      FeedNormalizer::FeedNormalizer.stub!(:parse).and_return( stub('parsed_feed', :entries => [] ))
+      FeedNormalizer::FeedNormalizer.stub!(:parse).and_return( stub('parsed_feed', :entries => [], :clean! => true ))
     end
 
     describe "valid subscription" do

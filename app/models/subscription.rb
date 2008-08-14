@@ -23,9 +23,10 @@ class Subscription < ActiveRecord::Base
     end
 
     def translate(e)
-      feed_host = URI.parse( proxy_owner.feed.url ).host
+      feed_host = URI.parse( proxy_owner.feed.url.strip ).host
       item_url = (e.url.include?(feed_host) || e.url =~ /^http:\/\//) ? e.url : "http://#{feed_host}#{e.url}"
-      { :title => e.title, :summary => e.description, :page_data => { :body => e.content, :document_meta_data => { :creator => e.author, :source_url => item_url, :source => proxy_owner.feed.title, :published_at => e.date_published } }, :created_by => proxy_owner.user, :public => true }
+      date_published = e.date_published.is_a?(Time) ? e.date_published : Time.parse(e.date_published)
+      { :title => e.title, :summary => e.description, :page_data => { :body => e.content, :document_meta_data => { :creator => e.author, :source_url => item_url, :source => proxy_owner.feed.title, :published_at => date_published } }, :created_by => proxy_owner.user, :public => true }
     end
   end
 
@@ -47,12 +48,18 @@ class Subscription < ActiveRecord::Base
 
   def fetch
     return entries unless last_updated_at
-    entries.select {|entry| entry.last_updated > last_updated_at }
+    entries.select do |entry|
+      entry_last_updated = entry.last_updated.is_a?(Time) ? entry.last_updated : Time.parse(entry.last_updated)
+      entry_last_updated > last_updated_at 
+    end
   rescue SocketError
   end
 
   def feed
-    @feed ||= FeedNormalizer::FeedNormalizer.parse open(url)
+    return @feed if @feed
+    @feed = FeedNormalizer::FeedNormalizer.parse open(url)
+    @feed.clean!
+    @feed
   end
 
   def entries
@@ -60,7 +67,8 @@ class Subscription < ActiveRecord::Base
   end
 
   def lookup_uri(uri)
-    "http://ajax.googleapis.com/ajax/services/feed/lookup?q=#{URI.escape(uri)}&v=1.0"
+     escaped_uri = URI.escape(uri, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))
+    "http://ajax.googleapis.com/ajax/services/feed/lookup?q=#{escaped_uri}&v=1.0"
   end
 
   def discover_feed_url
@@ -71,8 +79,12 @@ class Subscription < ActiveRecord::Base
     end
 
     result = result['responseData']
-    if result['url'] and result['url'] != result['query']
-      self.url = result['url']
+    # for feeds that include '=', google translates to encoded 
+    # and this is the only way i've found to decode
+    result_url = result['url'].gsub('\\u003d', '=')
+    query_url = result['query'].gsub('\\u003d', '=')
+    if result_url and result_url != query_url
+      self.url = result_url
     end
   end
 end
