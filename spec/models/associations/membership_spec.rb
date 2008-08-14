@@ -48,6 +48,7 @@ describe Membership, "with DIA hooks" do
     m.stub!(:supporter_key).and_return(5)
     DemocracyInAction::API.stub!(:disabled?).and_return(false)
     DemocracyInAction::API.stub!(:new).and_return(api = stub('api', :process => 123))
+    m.democracy_in_action_proxies.each {|p| p.stub!(:destroy) }
     m.destroy
     DemocracyInAction::Proxy.find_by_name_and_local_id('no_groups_group_membership', u.id).should_not be_nil
   end

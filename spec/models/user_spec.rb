@@ -233,6 +233,7 @@ describe User, "with preferences" do
         @user.subscriptions.first.url.should == 'http://alternet.org'
       end
       it "saves subscriptions" do
+        @user.subscriptions.first.stub!(:discover_feed_url).and_return(true)
         @user.save!
         @user.subscriptions.first.should_not be_new_record
       end
@@ -240,6 +241,7 @@ describe User, "with preferences" do
     describe "invalid url" do
       before do
         @user.subscription_data = { 0 => {:url => 'http://badness'} }
+        @user.subscriptions.each {|s| s.stub!(:open).and_return(stub('json', :read => '{}')) }
       end
       it "fails with invalid url" do
         lambda {@user.save!}.should raise_error(ActiveRecord::RecordInvalid)
