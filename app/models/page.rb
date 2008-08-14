@@ -31,7 +31,7 @@ class Page < ActiveRecord::Base
       options = args.extract_options!
       options.delete(:class)
       options[:with] ||= {}
-      class_crc = subclasses.empty? ? [to_crc32] : subclasses.map {|c| c.to_crc32 }
+      class_crc = subclasses.empty? ? [to_crc32] : subclasses.inject([to_crc32]) {|crcs, c| crcs << c.to_crc32 }
       options[:with][:class_crc] = class_crc
       args << options
       ThinkingSphinx::Search.search(*args)

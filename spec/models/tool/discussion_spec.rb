@@ -28,6 +28,7 @@ else
     self.use_transactional_fixtures=false
     before do
       ThinkingSphinx.deltas_enabled = true
+      ThinkingSphinx.updates_enabled = true
       Tool::Discussion.destroy_all
       @bystander = create_page :title => 'mofo time' 
       @bystander.type = 'Tool::Discussion'
@@ -36,6 +37,7 @@ else
     end
     after do
       ThinkingSphinx.deltas_enabled = false
+      ThinkingSphinx.updates_enabled = false
     end
 
     it "should find" do
