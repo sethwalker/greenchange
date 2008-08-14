@@ -36,7 +36,7 @@ Rails::Initializer.run do |config|
   end
 
   #load models in subdirectories
-  config.load_paths += %w(associations discussion chat profile).collect do |dir|
+  config.load_paths += %w(associations chat).collect do |dir|
     "#{RAILS_ROOT}/app/models/#{dir}"
   end
   

@@ -60,14 +60,14 @@ class Profile < ActiveRecord::Base
 
   belongs_to :wiki
   
-  has_many   :locations,       :dependent => :destroy, :class_name => '::ProfileLocation'#, :order=>"preferred desc"
-  has_many   :email_addresses, :dependent => :destroy, :class_name => '::ProfileEmailAddress'#, :order=>"preferred desc"
-  has_many   :im_addresses,    :dependent => :destroy, :class_name => '::ProfileImAddress'###, :order=>"preferred desc"
-  has_many   :web_resources,   :dependent => :destroy, :class_name => '::ProfileWebResource'
-  has_many   :phone_numbers,   :dependent => :destroy, :class_name => '::ProfilePhoneNumber'#, :order=>"preferred desc"
-  has_many   :languages,       :dependent => :destroy, :class_name => '::ProfileLanguage'#, :order=>"preferred desc"
+  has_many   :locations,       :dependent => :destroy, :class_name => 'ProfileLocation'#, :order=>"preferred desc"
+  has_many   :email_addresses, :dependent => :destroy, :class_name => 'ProfileEmailAddress'#, :order=>"preferred desc"
+  has_many   :im_addresses,    :dependent => :destroy, :class_name => 'ProfileImAddress'###, :order=>"preferred desc"
+  has_many   :web_resources,   :dependent => :destroy, :class_name => 'ProfileWebResource'
+  has_many   :phone_numbers,   :dependent => :destroy, :class_name => 'ProfilePhoneNumber'#, :order=>"preferred desc"
+  has_many   :languages,       :dependent => :destroy, :class_name => 'ProfileLanguage'#, :order=>"preferred desc"
   #has_many   :websites,        :dependent => :destroy#, :order=>"preferred desc"
-  has_many   :notes,           :dependent => :destroy, :class_name => '::ProfileNote' do #, :order=>"preferred desc" do
+  has_many   :notes,           :dependent => :destroy, :class_name => 'ProfileNote' do #, :order=>"preferred desc" do
     def [] ( note_type )
       detect { |n| n.note_type == note_type } or
       find_or_create_by_note_type note_type.to_s

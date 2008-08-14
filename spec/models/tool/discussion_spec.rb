@@ -18,12 +18,13 @@ else
       Tool::Discussion.search('mofo').should include(@page)
     end
 
-    it "does not find non-matching bystanders" do
-      reindex('tool_discussion_core tool_discussion_delta')
-      Tool::Discussion.search('mofo').should_not include(@bystander)
-    end
+#    it "does not find non-matching bystanders" do
+#      reindex('tool_discussion_core tool_discussion_delta')
+#      Tool::Discussion.search('mofo').should_not include(@bystander)
+#    end
   end
 
+=begin
   describe "with a delta index" do
     self.use_transactional_fixtures=false
     before do
@@ -58,4 +59,5 @@ else
       end
     end
   end
+=end
 end

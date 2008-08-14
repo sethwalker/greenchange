@@ -42,7 +42,7 @@ module FixtureReplacement
 	end
 
   attributes_for :group do |g|
-    g.name                  = 'grouply'
+    g.name                  = String.random
 	end
 
   attributes_for :invitation do |i|

@@ -5,7 +5,7 @@ class Discussion < ActiveRecord::Base
   belongs_to :page
     
   # relationship with posts   
-  has_many :posts, :order => 'posts.created_at', :dependent => :destroy, :class_name => '::Post' do
+  has_many :posts, :order => 'posts.created_at', :dependent => :destroy do
     def last
       @last_post ||= find(:first, :order => 'posts.created_at desc')
     end
@@ -19,7 +19,7 @@ class Discussion < ActiveRecord::Base
   # to help with the create form
   attr_accessor :body, :new_post
   def new_post=(values)
-    @new_post =  ::Post.new( values ) if values.any? { |key, v| !v.blank? }
+    @new_post =  Post.new( values ) if values.any? { |key, v| !v.blank? }
     # this lines courtesey of attr_accessible ...
     @new_post.user_id = values[:user_id] if values[:user_id]
   end
