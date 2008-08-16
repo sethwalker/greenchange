@@ -56,11 +56,11 @@ class Membership < ActiveRecord::Base
 
   before_destroy :destroyed_network_event
   def destroyed_network_event
-    @destroyed_network_event ||= NetworkEvent.create! :modified => self, :action => 'destroy', :user => user, :recipients =>watchers, :data_snapshot => {:group => group, :user => user}
+    @destroyed_network_event ||= NetworkEvent.create! :modified => self, :action => 'destroy', :user => user, :recipients => watchers, :data_snapshot => {:group => group, :user => user}
   end
 
   def watchers
-    user.contacts + group.admins
+    (user.contacts + group.admins).uniq
   end
 
 end

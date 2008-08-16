@@ -61,8 +61,10 @@ module FixtureReplacement
     
 	end
 
-  attributes_for :membership do |a|
-    
+  attributes_for :membership do |m|
+    m.group                 = default_group
+    m.user                  = default_user
+    m.role                  = 'member'
 	end
 
   attributes_for :message do |a|
