@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe PreferencesController do
   before do
-    @user = login_valid_user
+    login_user(@user = create_user)
   end
   describe "GET index" do
     before do

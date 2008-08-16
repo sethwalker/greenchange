@@ -116,6 +116,8 @@ module FixtureReplacement
     u.password_confirmation = 'password'
     u.email                 = 'auser@email.com'
     u.private_profile       = default_profile
+    u.activated_at          = 1.day.ago
+    u.enabled               = true
 	end
 
   attributes_for :profile do |p|

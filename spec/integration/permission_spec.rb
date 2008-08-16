@@ -7,10 +7,10 @@ describe 'check page access with webrat' do
 
   before do 
     pending "webrat doesn't cooperate with 'render' in view specs"
-    @creator = create_valid_user
-    @newbie = create_valid_user
-    @page = create_valid_page
-    @public_page = create_valid_page(:public => true )
+    @creator = create_user
+    @newbie = create_user
+    @page = create_page
+    @public_page = create_page(:public => true )
     [ @page, @public_page ].each { |p| p.update_attributes! :created_by_id => @creator.id  }
   end
 
@@ -52,7 +52,7 @@ describe 'check page access with webrat' do
   end
 
   def login_test_user(test_user=nil)
-    test_user ||= create_valid_user
+    test_user ||= create_user
     @webrat.visits "/login"
     @webrat.fills_in "login", :with => test_user.login
     @webrat.fills_in "password", :with => test_user.password

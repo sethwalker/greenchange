@@ -6,7 +6,7 @@ describe Tool::DiscussionController do
 
   describe "create" do
     before do
-      @user = login_valid_user
+      login_user(@user = new_user)
       post :create, :page => {:title => 'thetitle'}
     end
     it "should make a discussion" do

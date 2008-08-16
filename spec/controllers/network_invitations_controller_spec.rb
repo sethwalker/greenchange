@@ -2,7 +2,7 @@ require File.dirname( __FILE__ ) + '/../spec_helper'
 
 describe NetworkInvitationsController do
   before do
-    @user = login_valid_user
+    login_user(@user = new_user)
   end
 
   describe "network invitations" do

@@ -21,20 +21,20 @@ describe "message creation", :shared => true  do
   end
 
   it "assigns invalid messages for later handling" do
-    spawn_returns([Message.new, Message.new, Message.create( :sender => create_valid_user, :recipient => create_valid_user ) ])
+    spawn_returns([Message.new, Message.new, Message.create( :sender => create_user, :recipient => create_user ) ])
     act!
     assigns[invalid_objects_collection].size.should == 2
   end
 
   it "targets invalid recipients in the message error" do
-    spawn_returns([ Message.new, Message.new( :recipients => 'invalid' ), Message.new( :sender => create_valid_user, :recipient => User.new, :recipients => 'invalid' ) ] )
+    spawn_returns([ Message.new, Message.new( :recipients => 'invalid' ), Message.new( :sender => create_user, :recipient => User.new, :recipients => 'invalid' ) ] )
     act!
     assigns[object_name].errors.should_not be_empty
     assigns[object_name].errors.any?{ |e| e.last =~ /couldn.t send/}.should be_true
   end
 
   it "recognizes valid messages and saves them" do
-    valid_message = Message.create( :sender => create_valid_user, :recipient => create_valid_user ) 
+    valid_message = Message.create( :sender => create_user, :recipient => create_user ) 
     spawn_returns([Message.new, Message.new, valid_message ] )
     valid_message.should_receive(:save)
     act!
@@ -48,7 +48,7 @@ end
 describe "message destruction", :shared => true  do
   before do
     request.env["HTTP_REFERER"] = "/me/inbox"
-    @message = current_model.new :sender => create_valid_user
+    @message = current_model.new :sender => create_user
     @message.stub!(:allows?).and_return true
     current_model.stub!(:find).and_return @message
   end

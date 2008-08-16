@@ -56,7 +56,7 @@ describe PagesController do
 
   describe "archive" do
     before do
-      @group = create_valid_group
+      @group = create_group
       pending "renew support for page archives view"
     end
 

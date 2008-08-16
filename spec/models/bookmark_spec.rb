@@ -12,7 +12,7 @@ describe Bookmark do
     end
   
     it "should not create duplicate bookmarks" do
-      b = Bookmark.create :page => (@page = create_valid_page), :user => (@user = create_valid_user)
+      b = Bookmark.create :page => (@page = create_page), :user => (@user = create_user)
       c = Bookmark.create :page => @page, :user => @user
       c.should_not be_valid
     end
@@ -29,7 +29,7 @@ describe Bookmark do
 
   include PageUrlHelper
   it "should show the url if url" do
-    b = Bookmark.create :page => (p = create_valid_page(:title => 'pagey'))
+    b = Bookmark.create :page => (p = create_page)
     b.url.should == page_url(p)
   end
 end

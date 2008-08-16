@@ -47,44 +47,11 @@ Spec::Runner.configure do |config|
     #User.current = nil
   end
 
-  def create_valid_page(options = {})
-    options[:title] ||= ( options[:name] || ( 'valid_page' + rand(90000).to_s) )
-    Page.delete_all :title => options[:title]
-    Page.create!( { :title => 'valid_page'  }.merge( options))
-  end
-
   def create_valid_asset
     Asset.create! :filename => 'test.jpg', :size => '100', :content_type => 'image/jpg'
   end
 
-  def create_valid_user( options = {} )
-    User.delete_all :login => ( options[:login] || 'jones' )
-    profile_options = options[:profile] ? options.delete(:profile) : {}
-    valid_user = User.new( { :login => "jones", :email => "aviary@birdcage.com", :password => "joke", :password_confirmation => "joke"}.merge( options ))
-    valid_user.build_private_profile({ :first_name => "Plus", :last_name => "Ca Change", :friend => true }.merge( profile_options) )
-    valid_user.build_public_profile({ :first_name => "Plus", :last_name => "Ca Change", :stranger => true }.merge( profile_options) )
-    #valid_user.profiles.build({ :first_name => "Plus", :last_name => "Ca Change", :friend => true }.merge( profile_options) )
-    valid_user.enabled = true
-    valid_user.save!
-    valid_user.send(:activate!)
-    valid_user.instance_variable_set :@activated, nil
-    valid_user
-  end
-
-  def create_valid_group(options={})
-    group_name = options[:name] || 'valid_group'
-    Group.delete_all :name => group_name
-    valid_group = Group.create({:name => group_name}.merge(options))
-  end
-
-  def login_valid_user( options = {} )
-    current_user = create_valid_user( options )
-    login_user(current_user)
-    current_user
-  end
-
   def login_user(user)
-    #User.current = user
     controller.stub!(:current_user).and_return(user)
   end
 end

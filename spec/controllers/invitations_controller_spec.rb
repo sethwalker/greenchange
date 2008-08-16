@@ -3,9 +3,9 @@ require File.dirname(__FILE__) + '/messages_spec_helper'
 
 describe InvitationsController do
   before do
-    @current_user = login_valid_user
-    @group = create_valid_group
-    @recipient = create_valid_user
+    login_user(@current_user = create_user)
+    @group = create_group
+    @recipient = create_user
     Membership.create :user => @current_user, :group => @group, :role => :administrator
   end
   describe "new is context aware" do
@@ -46,7 +46,7 @@ describe InvitationsController do
         assigns[:invitations].first.sender.should == @current_user
       end
       it "checks that the sender is authorized to admin" do
-        current_user = login_valid_user
+        login_user(current_user = create_user)
         @controller.should_receive( :access_denied )
         
         post :create, :group_id => @group.name, :invitation => { :recipient_id => @recipient.id }

@@ -34,7 +34,7 @@ before do
 
   describe "with members" do
     before do
-      @user = create_valid_user :login => 'kangaroo'
+      @user = create_user
     end
     
    
@@ -114,7 +114,7 @@ before do
   
   describe "permission for members of committee" do
     before do
-      @user = create_valid_user
+      @user = create_user
       @committee_1.memberships.create :user => @user
       @group_page = Page.create :title => 'a group page', :public => false
 

@@ -33,7 +33,7 @@ describe 'Login with webrat' do
   end
 
   def login_test_user
-    @test_user ||= create_valid_user
+    @test_user ||= create_user
     @webrat.visits  '/login'  
     @webrat.fills_in "login", :with => @test_user.login
     @webrat.fills_in "password", :with => @test_user.password

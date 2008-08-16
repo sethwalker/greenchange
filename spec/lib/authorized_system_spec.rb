@@ -3,8 +3,8 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe "AuthorizedSystem" do
   
   before do
-    @user = create_valid_user
-    @group = create_valid_group
+    @user = create_user
+    @group = create_group
     @auth = AuthorizedSystem.access_policy
   end
 
@@ -50,16 +50,16 @@ describe "AuthorizedSystem" do
   it "should recognize page resources by class name" do
     policy = AuthorizedSystem.access_policy :user
   
-    wiki = create_valid_page :created_by => @user, :group => @group
+    wiki = create_page :created_by => @user, :group => @group
     policy.allows?(:view, wiki).should be_true
   end
 
   it "should recognize assets as page resources" do
-    page = create_valid_page :data => create_valid_asset, :type => 'Tool::Asset'
+    page = create_page :data => create_valid_asset, :type => 'Tool::Asset'
     @auth.normalize_resource( page ).should == :page
   end
   it "should recognize wikis as page resources" do
-    wiki = create_valid_page :created_by => @user, :group => @group
+    wiki = create_page :created_by => @user, :group => @group
     @auth.normalize_resource( wiki ).should == :page
   end
 end

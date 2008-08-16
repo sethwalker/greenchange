@@ -2,8 +2,8 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe "SocialUser with permissions" do
   before do
-    @user = create_valid_user
-    @group = create_valid_group
+    @user = create_user
+    @group = create_group
 
     @group_page  = Page.new(:public => true)
   end

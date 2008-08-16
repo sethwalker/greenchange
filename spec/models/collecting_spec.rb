@@ -4,7 +4,7 @@ describe Collecting do
 
   before do
     @collection = Collection.create :permission => :social
-    @page = create_valid_page
+    @page = create_page
     @collecting = Collecting.create :collection => @collection, :collectable => @page
   end
 
@@ -22,7 +22,7 @@ describe Collecting do
 
   it "should allow unauthenticated users to view public things" do
     collection = Collection.create :permission => :unrestricted
-    page = create_valid_page
+    page = create_page
     collecting = Collecting.create! :collection => collection, :collectable => page
     
     Collecting.allowed( UnauthenticatedUser.new ).size.should == 1
@@ -32,11 +32,11 @@ describe Collecting do
 
     before do
       User.delete_all
-      @owning_user = create_valid_user    :login => "yoko"
-      @searching_user = create_valid_user :login => "jimbo"
-      @owning_user.public_collection  << ( @public_page = create_valid_page )
-      @owning_user.social_collection  << ( @social_page = create_valid_page )
-      @owning_user.private_collection << ( @private_page = create_valid_page )
+      @owning_user = create_user
+      @searching_user = create_user
+      @owning_user.public_collection  << ( @public_page = create_page )
+      @owning_user.social_collection  << ( @social_page = create_page )
+      @owning_user.private_collection << ( @private_page = create_page )
     end
 
     it "should allaw the owning user to see all pages" do

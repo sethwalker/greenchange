@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 describe Tool::EventController do
   describe "show" do
     before do
-      current_user = login_valid_user
+      login_user(current_user = new_user)
       @page = Tool::Event.create :title => 'event'
       @page.build_data :is_all_day => true, :page => @page
       @page.save!

@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Tool::NewsController do
   before do
-    current_user = login_valid_user
+    login_user(current_user = new_user)
     controller.stub!(:fetch_page_data)
     controller.stub!(:fetch_wiki)
     @page = create_page(:type => 'Tool::News', :name => 'anews', :created_by => current_user )

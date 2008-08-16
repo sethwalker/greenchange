@@ -2,9 +2,8 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Tool::AssetController do
   it "should keep the page title as the filename for new versions" do
-    login_valid_user
     @asset = Asset.new :filename => 'pagetitle.jpg', :size => 1, :content_type => 'image/jpeg'
-    @page = create_valid_page
+    @page = create_page
     @page.data = @asset
     controller.stub!(:login_required).and_return(true)
     #controller.stub!(:fetch_page_data).and_return(true)
@@ -21,7 +20,7 @@ describe Tool::AssetController do
 
   describe "new" do
     before do
-      login_valid_user
+      login_user(new_user)
     end
     it 'should be successful' do
       get :new
@@ -31,7 +30,7 @@ describe Tool::AssetController do
 
   describe "create" do
     before do
-      login_valid_user
+      login_user(new_user)
     end
     it 'should be successful' do
       post :create, :page => {:title => 'assetpage'}, :asset => {:filename => 'file.jpg'}
@@ -41,7 +40,7 @@ describe Tool::AssetController do
 
   describe "update" do
     before do
-      login_valid_user
+      login_user(new_user)
       @page = Tool::Asset.create :title => 'test'
       @page.build_data :size => 1, :content_type => 'image/jpeg', :filename => 'test.jpg'
     end
@@ -57,7 +56,7 @@ describe Tool::AssetController do
 
   describe "destroy_version" do
     before do
-      login_valid_user
+      login_user(new_user)
       @page = create_page(:type => 'Tool::Asset', :data => create_asset)
     end
     it 'should be successful' do

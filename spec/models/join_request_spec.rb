@@ -7,7 +7,7 @@ describe JoinRequest do
 
   describe "requestable" do
     it "recognizes its type" do
-      @req.requestable = create_valid_group
+      @req.requestable = create_group
       @req.should be_group
     end
 
@@ -19,7 +19,7 @@ describe JoinRequest do
 
   describe "approvable" do
     before do
-      @group = create_valid_group
+      @group = create_group
       @req.requestable = @group
       @req.sender_id = (@sender = create_user).id
       @req.recipient = create_user

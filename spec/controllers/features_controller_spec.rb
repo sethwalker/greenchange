@@ -2,9 +2,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe FeaturesController do
   before do
-    @user = login_valid_user
-    @user.superuser = true
-    @user.save
+    login_user(@user = new_user(:superuser => true))
   end
   it "only allows superusers to do anything" do
     controller.should_receive( :superuser_required )

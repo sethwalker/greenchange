@@ -20,7 +20,7 @@ describe Tool::WikiController do
 #  it_should_behave_like "a tool controller"
 
   before do
-    @user = login_valid_user
+    login_user(@user = new_user)
     controller.stub!(:fetch_page_data)
     controller.stub!(:fetch_wiki)
     @page = Tool::TextDoc.create :title => 'awiki', :created_by => @user
@@ -216,8 +216,6 @@ describe Tool::WikiController do
     describe "without being able to edit because i didn't lock it" do
       self.use_transactional_fixtures = false
       before do
-        #@wiki.should_receive(:locked?).and_return(true)
-        #@wiki.stub!(:locked_by).and_return(create_valid_user)
         @page.stub!(:save).and_raise( RecordLockedError.new('someone else has locked the page') )
       end
       def act!

@@ -44,7 +44,7 @@ describe Group do
   end
 
   it "should have the same tags as its pages" do
-    @page = create_valid_page
+    @page = create_page
     @group.save!
     @group.pages << @page
     @page.tag_with 'crackers ninjas'
@@ -67,8 +67,8 @@ describe Group do
     end
     it "returns proper months" do
       @group.save
-      @group.pages << create_valid_page(:created_at => Date.new(2007, 12))
-      @group.pages << create_valid_page(:created_at => Date.new(2008, 2))
+      @group.pages << create_page(:created_at => Date.new(2007, 12))
+      @group.pages << create_page(:created_at => Date.new(2008, 2))
       @group.stub!(:allows?).and_return(true)
       months = @group.months_with_pages_viewable_by_user(User.new)
       months[0]['month'].should == '12'
@@ -123,8 +123,8 @@ describe Group do
 
   describe "adding members with <<" do
     before do
-      @user = create_valid_user
-      @group = create_valid_group
+      @user = create_user
+      @group = create_group
     end 
     it 'should be a-ok to add people with <<' do
       @group.members << @user
@@ -144,8 +144,8 @@ describe Group do
 
   describe "find by_person" do
     before do
-      @user = create_valid_user
-      @group = create_valid_group
+      @user = create_user
+      @group = create_group
     end 
 
     it "should find members" do
@@ -157,8 +157,8 @@ describe Group do
 
   describe "find by_issue" do
     before do
-      @user = create_valid_user
-      @group = create_valid_group
+      @user = create_user
+      @group = create_group
       @issue = Issue.create :name => "net neutrality"
     end 
 
@@ -177,10 +177,10 @@ describe Group do
     before do
       Tag.delete_all
       Group.delete_all
-      @user = create_valid_user
-      @group = create_valid_group
+      @user = create_user
+      @group = create_group
       @tag = Tag.create :name => "netneutrality"
-      @page = create_valid_page
+      @page = create_page
       @page.tags << @tag
     end 
 
@@ -194,7 +194,7 @@ describe Group do
 
     it "should not find other groups" do
       tag2 = Tag.create! :name => 'bankruptcy'
-      new_page = create_valid_page
+      new_page = create_page
       new_page.tag_with( 'bankruptcy' )
       new_page.save!
       

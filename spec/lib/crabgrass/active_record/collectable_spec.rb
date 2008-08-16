@@ -8,10 +8,10 @@ describe Crabgrass::ActiveRecord::Collectable do
   end
 
   before do
-    @user = create_valid_user
-    @user.public_collection   << ( @public_page =   create_valid_page )
-    @user.private_collection  << ( @private_page =  create_valid_page )
-    @user.social_collection   << ( @social_page =   create_valid_page )
+    @user = create_user
+    @user.public_collection   << ( @public_page =   create_page )
+    @user.private_collection  << ( @private_page =  create_page )
+    @user.social_collection   << ( @social_page =   create_page )
   end
 
   it "should allow private items to be viewed by the creating user" do
@@ -19,7 +19,7 @@ describe Crabgrass::ActiveRecord::Collectable do
   end
 
   it "should not allow private items to be viewed by another user" do
-    new_user = create_valid_user :login => 'newbie'
+    new_user = create_user
     Collecting.allowed(new_user).should_not include(@private_page)
   end
 

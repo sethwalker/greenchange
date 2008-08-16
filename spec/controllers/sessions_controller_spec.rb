@@ -25,7 +25,7 @@ describe SessionsController do
     end
 
     it "should redirect to the welcome message for new users" do
-      @message = Message.create :sender => create_valid_user, :recipient => create_valid_user
+      @message = Message.create :sender => create_user, :recipient => create_user
       controller.stub!(:send_welcome_message).and_return(@message)
       act!
       response.should redirect_to( message_path(@message))

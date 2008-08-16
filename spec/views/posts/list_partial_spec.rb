@@ -9,7 +9,7 @@ describe '/posts/_list.rhtml' do
       20.times do 
         p = Post.new :body => 'post'
         p.stub!(:group_name).and_return('grouple')
-        p.user = create_valid_user
+        p.user = create_user
         p.created_at = Time.now.to_s :db
         p.save(false)
         @posts << p

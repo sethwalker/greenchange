@@ -129,33 +129,33 @@ describe Page do
   end
 
   it "has_finder for month returns pages" do
-    p = create_valid_page(:created_at => Date.new(2008, 2))
+    p = create_page(:created_at => Date.new(2008, 2))
     pages = Page.created_in_month('2')
     pages.should_not be_empty
   end
 
   it "has_finder for year returns pages" do
-    p = create_valid_page(:created_at => Date.new(2008, 2))
+    p = create_page(:created_at => Date.new(2008, 2))
     pages = Page.created_in_year('2008')
     pages.should_not be_empty
   end
 
   it "has_finder for month and year returns pages" do
-    p = create_valid_page(:created_at => Date.new(2008, 2))
+    p = create_page(:created_at => Date.new(2008, 2))
     pages = Page.created_in_year('2008').created_in_month('2')
     pages.should include(p)
   end
 
   it "has_finder should not find pages in other months" do
-    p = create_valid_page(:created_at => Date.new(2008, 2))
-    p2 = create_valid_page(:created_at => Date.new(2008, 3))
+    p = create_page(:created_at => Date.new(2008, 2))
+    p2 = create_page(:created_at => Date.new(2008, 3))
     pages = Page.created_in_year('2008').created_in_month('2').find :all
     pages.should include(p)
     pages.should_not include(p2)
   end
 
   it "has_finder for allowed accepts multiple arguments" do
-    u = create_valid_user
+    u = create_user
     lambda {Page.allowed(u)}.should_not raise_error
     lambda {Page.allowed(u, :view)}.should_not raise_error
   end
@@ -188,7 +188,7 @@ describe Page do
       Page.allowed( @un_u, :participate).should be_empty
     end
     it "can view public pages" do
-      page2 = create_valid_page :public => true
+      page2 = create_page :public => true
       Page.allowed( @un_u, :view).should_not be_empty
     end
   end
@@ -248,9 +248,9 @@ describe Page do
 
   describe "participation" do
     before do
-      @page = create_valid_page :title => 'zebra'
-      @user = create_valid_user
-      @group = create_valid_group
+      @page = create_page :title => 'zebra'
+      @user = create_user
+      @group = create_group
       @page.add(@user, :star => true )
       @page.add @group
     end
@@ -308,36 +308,36 @@ describe Page do
   describe "find pages with Page.allowed" do
 
     before do
-      @user = create_valid_user(:login => 'guinea_pig')
+      @user = create_user(:login => 'guinea_pig')
 
       # groups the user belongs to, 1 as an admin and 1 as a member
-      @admins_group = create_valid_group(:name => 'admin_group')
-      @member_group = create_valid_group(:name => 'member_group')
+      @admins_group = create_group(:name => 'admin_group')
+      @member_group = create_group(:name => 'member_group')
 
       # a group granting permission to the user (non-member)
-      @granting_group = create_valid_group(:name => 'granting_group')
+      @granting_group = create_group(:name => 'granting_group')
 
       # user memberships
       Membership.create(:group => @admins_group, :user => @user, :role => 'administrator')
       Membership.create(:group => @member_group, :user => @user, :role => 'member')
 
       # the user should be able to view these without any special permissions
-      @public_page      = create_valid_page( :title => 'public', :public => true )
-      @owned_page       = create_valid_page( :title => 'user', :public => false, :created_by_id => @user.id )
+      @public_page      = create_page( :title => 'public', :public => true )
+      @owned_page       = create_page( :title => 'user', :public => false, :created_by => @user )
 
       # group membership pages
-      @group_admin_page   = create_valid_page( :title => 'group_admin', :public => false, :group => @admins_group )
-      @member_page        = create_valid_page( :title => 'member', :public => false, :group => @member_group )
+      @group_admin_page   = create_page( :title => 'group_admin', :public => false, :group => @admins_group )
+      @member_page        = create_page( :title => 'member', :public => false, :group => @member_group )
 
       # explicit permission pages 
-      @view_page        = create_valid_page( :title => 'view_page', :public => false )
-      @view_edit_page   = create_valid_page( :title => 'view_edit_page', :public => false )
-      @participate_page = create_valid_page( :title => 'participate_page', :public => false )
-      @admin_page       = create_valid_page( :title => 'admin_page', :public => false, :group => @granting_group )
+      @view_page        = create_page( :title => 'view_page', :public => false )
+      @view_edit_page   = create_page( :title => 'view_edit_page', :public => false )
+      @participate_page = create_page( :title => 'participate_page', :public => false )
+      @admin_page       = create_page( :title => 'admin_page', :public => false, :group => @granting_group )
 
       # a private page that doesn't belong to the user and should not be viewable, or
       # anything else for that matter
-      @private_page     = create_valid_page( :title => 'private_page', :public => false )
+      @private_page     = create_page( :title => 'private_page', :public => false )
 
       # grant user permissions
       Permission.grant(:view,         @view_page,         @granting_group, @user)
@@ -370,18 +370,39 @@ describe Page do
         @pages = Page.allowed(@user, :view)
       end
 
-      it "should include all expected pages" do
+      it "should include the public page" do
         @pages.should include(@public_page)
+      end
+
+      it "should include the owned page" do
         @pages.should include(@owned_page)
+      end
+
+      it "should include the view page" do
         @pages.should include(@view_page)
+      end
+
+      it "should include the view/edit page" do
         @pages.should include(@view_edit_page)
+      end
+
+      it "should include the participate page" do
         @pages.should include(@participate_page)
+      end
+
+      it "should include the admin page" do
         @pages.should include(@admin_page)
+      end
+      
+      it "should include the group admin page" do
         @pages.should include(@group_admin_page)
+      end
+
+      it "should include the member page" do
         @pages.should include(@member_page)
       end
 
-      it "should not include any unexpected pages" do
+      it "should not include the private page" do
         @pages.should_not include(@private_page)
       end
     end
@@ -458,7 +479,7 @@ describe Page do
 
   describe "checking permissions with allows" do
     before do
-      @user = create_valid_user(:login => 'subject')
+      @user = create_user(:login => 'subject')
     end
 
     it "should check it, yo" do
@@ -495,13 +516,13 @@ describe Page do
 
   describe "find by_person" do
     before do
-      @page = create_valid_page
-      @user = create_valid_user
-      @grantor = create_valid_group
+      @page = create_page
+      @user = create_user
+      @grantor = create_group
     end 
 
     it "should find created_by pages" do
-      @page.created_by_id = @user.id
+      @page.created_by = @user
       @page.save
       Page.by_person(@user).find(:all).should include(@page)
     end
@@ -521,8 +542,8 @@ describe Page do
     end
 
     it "accepts multiple users" do
-      user2 = create_valid_user
-      user3 = create_valid_user
+      user2 = create_user
+      user3 = create_user
       Permission.grant( :view, @page, @grantor, user3 )
       Page.by_person( @user, user2, user3 ).should include(@page)
       
@@ -531,9 +552,9 @@ describe Page do
 
   describe "find by_group" do
     before do
-      @page = create_valid_page
-      @user = create_valid_user
-      @group = create_valid_group
+      @page = create_page
+      @user = create_user
+      @group = create_group
     end 
 
     it "should find created_by pages" do
@@ -552,8 +573,8 @@ describe Page do
     end
 
     it "accepts multiple groups" do
-      group2 = create_valid_group
-      group3 = create_valid_group
+      group2 = create_group
+      group3 = create_group
       Permission.grant( :view, @page, @user, group2 )
       Page.by_group( @group, group2, group3).should include(@page)
     end
@@ -563,9 +584,9 @@ describe Page do
 
   describe "find by_tag" do
     before do
-      @user = create_valid_user
+      @user = create_user
       @tag = Tag.create :name => "netneutrality"
-      @page = create_valid_page
+      @page = create_page
       @page.tags << @tag
     end 
 
@@ -581,7 +602,7 @@ describe Page do
   end
   describe "find by_issue" do
     before do
-      @page = create_valid_page
+      @page = create_page
       @issue = Issue.create :name => 'Open Access'
     end
 

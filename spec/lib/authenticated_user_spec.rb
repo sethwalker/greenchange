@@ -18,24 +18,24 @@ describe "Authenticated User" do
   end
 
   it "should reset password" do
-    user = create_valid_user
+    user = create_user
     user.update_attributes(:password => 'new password', :password_confirmation => 'new password')
-    User.authenticate('jones','new password').should_not be_nil
+    User.authenticate(user.login,'new password').should_not be_nil
   end
 
   it "should not rehash the password" do
-    user = create_valid_user
+    user = create_user(:password => 'joke', :password_confirmation => 'joke')
     user.update_attributes(:login => 'jonez')
     User.authenticate('jonez','joke').should_not be_nil
   end
 
   it "should authenticate a known user" do
-    user = create_valid_user
+    user = create_user(:login => 'jones', :password => 'joke', :password_confirmation => 'joke')
     User.authenticate('jones','joke').should_not be_nil
   end
 
   it "should set remember token" do
-    user = create_valid_user
+    user = create_user
     user.remember_me
 
     user.remember_token.should_not be_nil
@@ -43,7 +43,7 @@ describe "Authenticated User" do
   end
 
   it "should unset remember token" do
-    user = create_valid_user
+    user = create_user
     user.forget_me
 
     user.remember_token.should be_nil

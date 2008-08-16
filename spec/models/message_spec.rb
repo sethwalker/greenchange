@@ -27,7 +27,7 @@ describe Message do
 
   describe "permissions for messages" do
     it "allow nothing unless the user sent or is receiving the message" do
-      other_user = create_valid_user
+      other_user = create_user
       other_user.should_not be_allowed_to(:view, @message)
     end
 
@@ -44,7 +44,7 @@ describe Message do
     before do
       @message = Message.create :sender => @sender, :recipient => @recipient, :subject => 'Dude!', :body => "Hi", :sender_copy => false
       @recipients = "joey, frankie"
-      User.stub!(:find_by_login).and_return(create_valid_user(:login => 'joey'))
+      User.stub!(:find_by_login).and_return(@joey = create_user(:login => 'joey'))
     end
     def act!
       @messages = Message.spawn( @message.attributes.merge({ :recipients => @recipients }))
@@ -67,8 +67,8 @@ describe Message do
       @messages.each {|m| m.should be_an_instance_of(Message)}
     end
     it "should return a message with the recipient matching the login" do
-      User.should_receive(:find_by_login).with('frankie').and_return(create_valid_user(:login => 'frankie'))
-      User.should_receive(:find_by_login).with('joey').and_return(create_valid_user(:login => 'joey'))
+      User.should_receive(:find_by_login).with('frankie').and_return(create_user(:login => 'frankie'))
+      User.should_receive(:find_by_login).with('joey').and_return(@joey)
       act!
       @messages.first.recipient.login.should == "joey"
     end

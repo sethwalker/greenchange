@@ -2,12 +2,12 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe JoinRequestsController do
   before do
-    login_valid_user
+    login_user(new_user)
   end
 
   describe "GET show" do
     before do
-      @req = JoinRequest.create :sender => create_valid_user, :recipient => create_user, :requestable => create_valid_group
+      @req = JoinRequest.create :sender => create_user, :recipient => create_user, :requestable => create_group
       JoinRequest.stub!(:find).and_return(@req)
     end
     it "checks authorization" do

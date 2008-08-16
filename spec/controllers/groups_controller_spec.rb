@@ -4,12 +4,12 @@ describe GroupsController do
 
   describe "create" do
     before do
-      @user = User.new
-      controller.stub!(:current_user).and_return(@user)
+      @user = new_user
+      login_user(@user)
     end
 
     it "should respond to POST" do
-      g = Group.new
+      g = new_group
       g.should_receive(:save).and_return(false)
       Group.should_receive(:new).and_return(g)
       post :create
@@ -17,47 +17,15 @@ describe GroupsController do
     end
 
     it "should clear parent groups users cache after create" do
-      parent = create_valid_group :name => 'daparent'
+      parent = create_group
       @user.stub!(:member_of?).and_return(true)
       post :create, :parent_id => parent.id, :group => {:name => 'dacommittee'}
     end
   end
 
-#  describe "tasks" do
-#    before do
-#      @group = create_valid_group
-#      @user = create_valid_user
-#      controller.stub!(:current_user).and_return(@user)
-#    end
-#    it "should be successful" do
-#      get :tasks, :id => @group.name
-#      response.should be_success
-#    end
-#  end
-#
-#  describe "tags" do
-#    before do
-#      user = login_valid_user 
-#      @group = create_valid_group
-#      @group.memberships.create :user => user
-#      @page = create_valid_page
-#      @page.tag_with 'tagish'
-#      @group.pages << @page
-#      @group.member_collection << @page
-#    end
-#    it "should not die" do
-#      get :tags, :id => @group.name, :path => ['tagish']
-#      assigns[:pages].should include(@page)
-#    end
-#    it "should be a paginated collection" do
-#      get :tags, :id => @group.name, :path => ['tagish']
-#      assigns[:pages].should be_a_kind_of(WillPaginate::Collection)
-#    end
-#  end
-
   describe "group calendar" do
     before do
-      @group = create_valid_group
+      @group = create_group
       @page = Tool::Event.create :title => 'anevent', :group_id => @group.id
     end
     describe "list_by_day" do
@@ -78,7 +46,7 @@ describe GroupsController do
   end
   describe "when logged in" do
     before do
-      @user = create_valid_user
+      @user = create_user
       login_user @user
     end
 
@@ -208,7 +176,7 @@ describe GroupsController do
 
   describe "when not logged in" do
     before do
-        @group = create_valid_group :name => 'private'
+        @group = create_group
     end
     describe "show" do
       before do

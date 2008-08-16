@@ -2,8 +2,8 @@ require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MembershipsController do
   before do
-    @user = login_valid_user
-    @group = create_valid_group
+    login_user(@user = create_user)
+    @group = create_group
     Group.stub!(:find_by_name).and_return(@group)
   end
 

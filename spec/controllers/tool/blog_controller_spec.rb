@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Tool::BlogController do
   before do
-    @user = create_valid_user
+    @user = create_user
     login_user @user
     controller.stub!(:fetch_page_data)
     controller.stub!(:fetch_wiki)

@@ -64,7 +64,7 @@ describe NetworkInvitation do
     end
 
     it "is not valid if the recipient is already a member" do
-      create_valid_user :email => 'jo@jo.com'
+      create_user :email => 'jo@jo.com'
       @invite.recipient = EmailRecipient.new :email => 'jo@jo.com'
       @invite.valid?
       @invite.errors_on(:recipient).should match(/an existing member/)
@@ -87,7 +87,7 @@ describe NetworkInvitation do
     end
 
     it "should not send email for invalid emails" do
-      message_params = { :recipients => 'cheesecom, rats@rats.com, celery@pbj.com', :body => 'hize', :sender => create_valid_user }
+      message_params = { :recipients => 'cheesecom, rats@rats.com, celery@pbj.com', :body => 'hize', :sender => create_user }
       @stubbed_invite.should_receive(:valid?).and_return( true,true,false)
       @stubbed_invite.should_receive(:send_email).exactly(2).times
       NetworkInvitation.spawn message_params
@@ -96,11 +96,11 @@ describe NetworkInvitation do
 
   describe "sending email" do
     it "should create emails" do
-      @invite.attributes = { :sender => create_valid_user, :recipient_email => 'cheese@cheese.com' }
+      @invite.attributes = { :sender => create_user, :recipient_email => 'cheese@cheese.com' }
       @invite.send_email.should be_an_instance_of(TMail::Mail)
     end
     it "should not send emails for invalid addresses" do
-      @invite.attributes = { :sender => create_valid_user, :recipient_email => 'cheese.com' }
+      @invite.attributes = { :sender => create_user, :recipient_email => 'cheese.com' }
       @invite.send_email.should be_nil
     end
   end

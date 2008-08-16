@@ -32,7 +32,6 @@ describe "DemocracyInAction initializer" do
           @timestamp += 1
           login = "greenchange_test_#{@timestamp}"
           email = "#{login}_#{@timestamp}@radicaldesigns.org"
-          #          @user = create_valid_user(:email => email, :profile => {:first_name => 'firstly', :last_name => 'lastly', :organization => 'organizationally'})
           @user = create_user(:email => email)
           @user.private_profile.update_attributes(:first_name => 'firstly', :last_name => 'lastly', :organization => 'organizationally', :entity => @user)
           @profile_proxy = @user.private_profile.democracy_in_action_proxies.find_by_remote_table('supporter')

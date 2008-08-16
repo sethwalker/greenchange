@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe ContextHelper do
   describe "scoped path" do
     before do
-      @current_user = create_valid_user
+      @current_user = create_user
       self.stub!(:current_user).and_return( @current_user )
     end
 
@@ -16,11 +16,11 @@ describe ContextHelper do
     end
 
     it "should respect the current scope" do
-      @group = create_valid_group
+      @group = create_group
       self.scoped_path( :message, :action => :new ).should == "/groups/#{@group.to_param}/messages/new"
     end
     it "should respect a passed scope" do
-      passable_group = create_valid_group
+      passable_group = create_group
       self.scoped_path( :message, :action => :new, :scope => passable_group ).should == "/groups/#{passable_group.to_param}/messages/new"
     end
 

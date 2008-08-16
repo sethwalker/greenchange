@@ -3,10 +3,10 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe "Permission" do
 
   before do
-    @user           = create_valid_user(:login => 'guinea_pig')
-    @group          = create_valid_group(:name => 'granting_group')
-    @page           = create_valid_page( :title => 'page', :public => false )
-    @private_page   = create_valid_page( :title => 'private_page', :public => false )
+    @user           = create_user(:login => 'guinea_pig')
+    @group          = create_group(:name => 'granting_group')
+    @page           = create_page( :title => 'page', :public => false )
+    @private_page   = create_page( :title => 'private_page', :public => false )
   end
 
   describe "in general" do

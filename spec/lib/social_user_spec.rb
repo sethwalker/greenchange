@@ -6,8 +6,8 @@ describe "SocialUser" do
 
   before do
     #TzTime.zone = TimeZone["Pacific Time (US & Canada)"]
-    @user = create_valid_user :login => 'membershiptester'
-    @group = create_valid_group
+    @user = create_user
+    @group = create_group
   end
 
   it "should be mixed into user" do
@@ -50,8 +50,8 @@ describe "SocialUser" do
     describe "membership data #no longer caches ids" do
 
       before do
-        @user = create_valid_user :login => 'hermione'
-        @group = create_valid_group :name => 'hogwarts-academy'
+        @user = create_user
+        @group = create_group
         @group.memberships.create :user => @user
       end
 
@@ -64,22 +64,22 @@ describe "SocialUser" do
       end
 
       it "serialize_as the all_group_ids to a cache" do
-        group2 = create_valid_group :name => 'slytherin'
+        group2 = create_group
         group2.memberships.create :user => @user
         @user.all_group_id_cache.should == [@group.id, group2.id]
       end
 
       it "should update groups array when changes happen" do
-        user = create_valid_user :login => 'hermione'
+        user = create_user
         user.groups #performs initial caching
-        group = create_valid_group :name => 'hogwarts-academy'
+        group = create_group
         group.memberships.create :user => user
         user.group_ids.should == [ group.id ]
       end
       it "should update the all-groups array when changes happen" do
-        user = create_valid_user :login => 'hermione'
+        user = create_user
         user.all_groups #performs initial caching
-        group = create_valid_group :name => 'hogwarts-academy'
+        group = create_group
         group.memberships.create :user => user
         #user.all_groups(true) #reloads associations
         user.all_group_ids.should == [ group.id ]
@@ -91,8 +91,8 @@ describe "SocialUser" do
 
   describe "when having contacts" do
     before do
-      @a = create_valid_user :login => 'red'
-      @b = create_valid_user :login => 'green'
+      @a = create_user
+      @b = create_user
     end
 
     it "starts without contacts" do
@@ -122,9 +122,9 @@ describe "SocialUser" do
 
   describe "with committees" do
     before do
-      @user = create_valid_user :login => 'ron'
+      @user = create_user
 
-      @group = Group.create :name => 'hogwarts-academy'
+      @group = create_group
       @group.memberships.create :user => @user
       @committee = Committee.create :name => 'dumbledores-army', :parent => @group
       @user.reload
@@ -137,8 +137,8 @@ describe "SocialUser" do
 
   describe "when pestering," do
     before do
-      @user1 = create_valid_user :login => 'pest'
-      @user2 = create_valid_user :login => 'aff'
+      @user1 = create_user
+      @user2 = create_user
     end
     it "does not allows pestering by strangers" do
       @user1.may_pester?(@user2).should be_false
@@ -149,7 +149,7 @@ describe "SocialUser" do
       @user1.may_pester?(@user2).should be_true
     end
     it "groups may be pestered by all" do
-      @group = create_valid_group
+      @group = create_group
       @user1.may_pester?(@group).should be_true
     end
     it "pestering can be stopped" do
@@ -159,7 +159,7 @@ describe "SocialUser" do
 
   describe "with pages" do
     it "should be able to access pending pages" do
-      p = create_valid_page
+      p = create_page
       @user.pages << p
       @user.participations.detect {|up| up.page_id = p.id }.update_attribute :resolved, false
       @user.pages_pending.should include(p)

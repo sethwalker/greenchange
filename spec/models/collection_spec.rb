@@ -13,12 +13,12 @@ describe "Collection" do
     end
 
     it "can add a page to a collection" do
-      @collection.collectables << (p = create_valid_page)
+      @collection.collectables << (p = create_page)
       @collection.collectables.should include(p)
     end
     
     it "can remove a page from a collection" do
-      @collection.collectables << (p = create_valid_page)
+      @collection.collectables << (p = create_page)
       @collection.collectables.delete(p)
       @collection.collectables.should_not include(p)
     end

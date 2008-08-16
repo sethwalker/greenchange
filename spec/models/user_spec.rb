@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe User do
 
   before do
-    @user = create_valid_user
+    @user = create_user :email => "aviary@birdcage.com"
   end
 
   describe "when forgetting a password" do
@@ -79,7 +79,7 @@ describe User do
 
   describe User, "profile actions" do
     before do
-      @person = create_valid_user
+      @person = create_user
     end
 
     it "should show the public profile to any user" do
@@ -101,14 +101,14 @@ describe User, "with issues" do
 
   it "should be able to add an issue" do
     i = Issue.find_or_create_by_name('an issue')
-    u = create_valid_user
+    u = create_user
     u.issues << i
     u.issues.should include(i)
   end
 
   it "should be able to set issues" do
     i = Issue.find_or_create_by_name('an issue')
-    u = create_valid_user
+    u = create_user
     u.issue_ids = [i.id]
     u.issues.should include(i)
   end
@@ -117,7 +117,7 @@ end
 
 describe User, "with privileges" do
   before do
-    @user = create_valid_user
+    @user = create_user
   end
 
   it "should have a set of privileged access collection ids" do
@@ -130,20 +130,20 @@ describe User, "with bookmarks" do
     User.new.should respond_to(:bookmarked?)
   end
   it "bookmarked? should return nil if not bookmarked" do
-    u = create_valid_user
-    p = create_valid_page
+    u = create_user
+    p = create_page
     u.bookmarked?(p).should be_nil
   end
 
   it "bookmarked? should not be false if a page is bookmarked" do
-    u = create_valid_user
-    p = create_valid_page
+    u = create_user
+    p = create_page
     u.bookmarked_pages << p
     u.bookmarked?(p).should_not be_false
   end
   it "bookmark! should add a page to bookmarked_pages" do
-    u = create_valid_user
-    p = create_valid_page
+    u = create_user
+    p = create_page
     u.bookmark!(p)
     u.bookmarked?(p).should_not be_false
   end
@@ -156,7 +156,7 @@ end
 
 describe User, "with preferences" do
   before do
-    @user = create_valid_user
+    @user = create_user
   end
 
   it "should accept arbitrary preference assignments" do

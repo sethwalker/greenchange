@@ -2,7 +2,7 @@ require File.dirname(__FILE__) + '/../../spec_helper'
 
 describe Tool::RankedVoteController do
   before do
-    @user = login_valid_user
+    login_user(@user = new_user)
     @page = create_page(:type => 'Tool::RankedVote')
     @page.data = Poll::Poll.new
     controller.stub!(:fetch_page_data)

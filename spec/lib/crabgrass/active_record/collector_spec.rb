@@ -8,7 +8,7 @@ describe "Model::Collector" do
   end
 
   before do
-    @user = create_valid_user
+    @user = create_user
   end
 
   it "should have a class var for collections" do

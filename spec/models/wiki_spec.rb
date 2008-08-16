@@ -3,9 +3,9 @@ require File.dirname(__FILE__) + '/../spec_helper'
 describe Wiki do
 
   before do
-    @blue_user = create_valid_user :login => 'blue'
-    @red_user = create_valid_user :login => 'red'
-    @group = create_valid_group :name => 'robots'
+    @blue_user = create_user :login => 'blue'
+    @red_user = create_user :login => 'red'
+    @group = create_group :name => 'robots'
     @wiki = Tool::TextDoc.create :title => 'x61'
   end
 

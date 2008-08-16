@@ -4,8 +4,8 @@ describe Contact do
 
   describe "on creation" do
     before do
-      @a = create_valid_user :login => 'red'
-      @b = create_valid_user :login => 'green'
+      @a = create_user
+      @b = create_user
       @a.contacts << @b
     end
     it "should create a reciprocal relationship" do
@@ -24,8 +24,8 @@ describe Contact do
 
   describe "on removal" do
     before do
-      @a = create_valid_user :login => 'red'
-      @b = create_valid_user :login => 'green'
+      @a = create_user
+      @b = create_user
       @a.contacts << @b
       @a.save
       @ab_rel = @a.contact_relationships.find :first, :conditions => [ 'contact_id = ?',  @b ]

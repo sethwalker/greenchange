@@ -1,7 +1,7 @@
 describe "a tool controller", :shared => true do
   before do
     Issue.delete_all
-    @user = login_valid_user
+    login_user(@user = new_user)
     @war = create_issue :name => 'war'
     @peace = create_issue :name => 'peace'
   end

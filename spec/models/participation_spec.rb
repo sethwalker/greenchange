@@ -5,7 +5,7 @@ describe "Participations" do
   before do
     TzTime.zone = TimeZone["Pacific Time (US & Canada)"]
 
-    @user = create_valid_user({:login => 'writer'})
+    @user = create_user({:login => 'writer'})
     @page = Page.create :title => 'Test Page'
     @page.updated_at = Time.now
     @page.save

@@ -3,13 +3,9 @@ describe ProfilesController, "RESTFUL" do
 
   before do
     User.delete_all
-    @current_user = login_valid_user
+    login_user(@current_user = create_user)
+    @current_user.private_profile(true)
     User.stub!(:find_by_login).and_return(@current_user)
-  end
-
-  def profiles(*args)
-    return create_valid_user.profiles.first if args[0] == :default
-    create_valid_user( :profile => args.extract_options )
   end
 
   describe ProfilesController, "GET #show" do
@@ -18,7 +14,7 @@ describe ProfilesController, "RESTFUL" do
     def act!; get :show, :person_id => ( @person_id || 1 ) ; end
 
     before do
-      @person = create_valid_user
+      @person = create_user
       @person_id = @person.login
       #User.stub!(:find).and_return(@person)
     end
@@ -67,7 +63,7 @@ describe ProfilesController, "RESTFUL" do
     def act!; get :edit, :person_id => 1 ; end
     
     before do
-      @profile  = profiles(:default)
+      @profile  = new_profile
       Profile.stub!(:find).with('1').and_return(@profile)
     end
 
@@ -88,9 +84,9 @@ describe ProfilesController, "RESTFUL" do
 
   describe ProfilesController, "PUT #update" do
     before do
-      updating_user = create_valid_user 
+      updating_user = create_user 
       @attributes = {}
-      @profile = profiles(:default)
+      @profile = new_profile
       updating_user.stub!(:private_profile).and_return(@profile)
       login_user updating_user
       User.stub!(:find_by_login).and_return(updating_user)
@@ -237,7 +233,7 @@ describe ProfilesController, "RESTFUL" do
     def act!; delete :destroy, :person_id => @current_user.to_param ; end
     
     before do
-      @profile = profiles(:default)
+      @profile = new_profile
       @profile.stub!(:destroy)
       @profile.stub!(:allows?).and_return(true)
       @current_user.stub!(:profile_for).and_return(@profile)
@@ -299,7 +295,7 @@ end
 describe ProfilesController do
   describe "when fetching a profile" do
     before do
-      @viewing_user = @target_user = create_valid_user
+      @viewing_user = @target_user = create_user
       User.stub!(:find_by_login).and_return(@target_user)
     end
     def act!
@@ -318,9 +314,9 @@ end
 describe ProfilesController do
   describe "when updating a dependent collection" do
     before do
-      @user = create_valid_user
+      @user = create_user
       login_user @user
-      @profile = @user.private_profile
+      @profile = @user.private_profile(true)
       @profile_attributes = @profile.attributes
       User.stub!(:find_by_login).and_return(@user)
       @attributes = { :new => [] }
