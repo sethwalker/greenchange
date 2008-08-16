@@ -102,8 +102,8 @@ module FixtureReplacement
     t.taggable_type         = 'Page'
 	end
 
-  attributes_for :tag do |a|
-    
+  attributes_for :tag do |t|
+    t.name                  = String.random
 	end
 
   attributes_for :user_participation do |a|

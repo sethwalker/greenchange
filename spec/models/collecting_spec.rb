@@ -31,7 +31,6 @@ describe Collecting do
   describe "when dealing with private collections" do
 
     before do
-      User.delete_all
       @owning_user = create_user
       @searching_user = create_user
       @owning_user.public_collection  << ( @public_page = create_page )

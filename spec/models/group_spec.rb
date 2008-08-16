@@ -175,11 +175,8 @@ describe Group do
 
   describe "find by_tag" do
     before do
-      Tag.delete_all
-      Group.delete_all
-      @user = create_user
       @group = create_group
-      @tag = Tag.create :name => "netneutrality"
+      @tag = create_tag
       @page = create_page
       @page.tags << @tag
     end 
@@ -193,9 +190,9 @@ describe Group do
     end
 
     it "should not find other groups" do
-      tag2 = Tag.create! :name => 'bankruptcy'
+      tag2 = create_tag
       new_page = create_page
-      new_page.tag_with( 'bankruptcy' )
+      new_page.tag_with( tag2.name )
       new_page.save!
       
       Group.by_tag(tag2).should_not include(@group)
