@@ -1,32 +1,49 @@
 class ExternalVideo < ExternalMedia
-  YOUTUBE_TEMPLATE = %Q[<object width="%2$d" height="%3$d"><param name="movie" value="http://www.youtube.com/v/%1$s"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/%1$s" type="application/x-shockwave-flash" wmode="transparent" width="%2$d" height="%3$d"></embed></object>]
-  GOOGLE_VIDEO_TEMPLATE = %Q[<embed id="VideoPlayback" style="width:%2$dpx;height:%3$dpx" allowFullScreen="true" src="http://video.google.com/googleplayer.swf?docid=%1$s&hl=en&fs=true" type="application/x-shockwave-flash"> </embed>]
-  BLIPTV_TEMPLATE = %Q[<embed src="http://blip.tv/play/%1$s" type="application/x-shockwave-flash" width="%2$d" height="%3$d" allowscriptaccess="always" allowfullscreen="true"></embed>]
+  SERVICES = [
 
+    { :name => :youtube,
+      :token => /youtube/,
+      :media_key_pattern => /youtube.com\/v\/([\w-]+)/,
+      :default_width =>  425,
+      :default_height =>  355,
+      :thumbnail_template => "http://img.youtube.com/vi/%1$s/default.jpg",
+      :template => %Q[<object width="%2$d" height="%3$d"><param name="movie" value="http://www.youtube.com/v/%1$s"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/%1$s" type="application/x-shockwave-flash" wmode="transparent" width="%2$d" height="%3$d"></embed></object>]
+    },
+
+    { :name => :google_video,
+      :token => /video\.google\.com/,
+      :media_key_pattern => /video.google.com\/googleplayer.swf\?docid=([\w-]+)/,
+      :default_width =>  400,
+      :default_height =>  326,
+      :template => %Q[<embed id="VideoPlayback" style="width:%2$dpx;height:%3$dpx" allowFullScreen="true" src="http://video.google.com/googleplayer.swf?docid=%1$s&hl=en&fs=true" type="application/x-shockwave-flash"> </embed>]
+    },
+
+    { :name => :bliptv,
+      :token => /blip\.tv/,
+      :media_key_pattern => /blip.tv\/play\/([\w-]+)/,
+      :default_width =>  480,
+      :default_height =>  300,
+      :template => %Q[<embed src="http://blip.tv/play/%1$s" type="application/x-shockwave-flash" width="%2$d" height="%3$d" allowscriptaccess="always" allowfullscreen="true"></embed>]
+    }
+  ]
 
   before_validation { @service_name = nil }
   validate :supported
 
   def supported
-    errors.add(:media_embed, "is not supported (currently only youtube, google video, and blip.tv)") unless service_name
+    errors.add(:media_embed, "is not supported (currently only youtube, google video, and blip.tv)") unless service
+  end
+
+  def service
+    @service ||= SERVICES.find { |service| media_embed =~ service[:token] }
   end
 
   def service_name
-    @service_name ||= case media_embed
-    when /youtube/
-      :youtube
-    when /video.google.com/
-      :google_video
-    when /blip.tv/
-      :bliptv
-    end
+    service[:name] if service
   end
 
   def thumbnail_url
-    case service_name
-    when :youtube
-      "http://img.youtube.com/vi/#{media_key}/default.jpg" if media_key
-    end
+    service[:thumbnail_template] % media_key if media_key and service and service[:thumbnail_template] 
   end
 
   def media_key
@@ -34,14 +51,7 @@ class ExternalVideo < ExternalMedia
   end
 
   def extract_media_key_from_embed
-    case service_name
-    when :youtube
-      media_embed[/youtube.com\/v\/([\w-]+)/, 1]
-    when :google_video
-      media_embed[/video.google.com\/googleplayer.swf\?docid=([\w-]+)/, 1]
-    when :bliptv
-      media_embed[/blip.tv\/play\/([\w-]+)/, 1]
-    end
+    media_embed[service[:media_key_pattern], 1] if service
   end
 
   def height
@@ -53,35 +63,14 @@ class ExternalVideo < ExternalMedia
   end
 
   def default_width
-    case service_name
-    when :youtube
-      "425"
-    when :google_video
-      "400"
-    when :bliptv
-      "480"
-    end
+    service[:default_width] if service
   end
 
   def default_height
-    case service_name
-    when :youtube
-      "355"
-    when :google_video
-      "326"
-    when :bliptv
-      "300"
-    end
+    service[:default_height] if service
   end
 
   def build_embed
-    case service_name
-    when :youtube
-      YOUTUBE_TEMPLATE % [media_key, width, height]
-    when :google_video
-      GOOGLE_VIDEO_TEMPLATE % [media_key, width, height]
-    when :bliptv
-      BLIPTV_TEMPLATE % [media_key, width, height]
-    end
+    service[:template ] % [media_key, width, height] if service
   end
 end
