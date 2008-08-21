@@ -33,9 +33,9 @@ module FixtureReplacement
     
 	end
 
-  attributes_for :federation do |a|
-    
-	end
+  attributes_for :external_media do |m|
+  end
+  attributes_for :external_video, :from => :external_media, :class => ExternalVideo
 
   attributes_for :group_participation do |a|
     
@@ -77,14 +77,12 @@ module FixtureReplacement
     a.modified = default_page
   end
 
-  attributes_for :page_tool do |a|
-    
-	end
-
   attributes_for :page do |p|
     p.title                 = 'atitle'
     p.created_by            = default_user
 	end
+
+  attributes_for :video_page, :from => :page, :class => Tool::ExternalVideo
 
   attributes_for :post do |p|
     p.body = String.random

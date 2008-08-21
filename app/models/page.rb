@@ -398,7 +398,7 @@ class Page < ActiveRecord::Base
 
   belongs_to :data, :polymorphic => true
   attr_writer :page_data
-  before_save :update_data
+  before_validation :update_data
   def page_data
     @page_data  || self.data
   end

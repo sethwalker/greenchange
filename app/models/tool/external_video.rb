@@ -8,7 +8,7 @@ class Tool::ExternalVideo < Tool::Video
 
   class_display_name 'external video'
   class_description 'a video from an external service'
-  belongs_to :data, :class_name => 'ExternalMedia::Youtube'
+  belongs_to :data, :class_name => '::ExternalVideo'
 
   def update_access; end
 
