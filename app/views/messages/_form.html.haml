@@ -11,11 +11,10 @@
           = f.label :recipients, "To (usernames separated with commas)"
           ~ f.text_area :recipients, :size => '50x2'
   .section
-    %p
-      -#~ f.textile_editor :body, :size => '50x20', :id => 'message_body'
-      = render :partial => 'tool/wiki/editor_help'
-      ~ f.text_area :body, :size => '60x40', :id => 'message_body'
-      = render :partial => 'tool/wiki/formatting_link'
+    -#~ f.textile_editor :body, :size => '50x20', :id => 'message_body'
+    = render :partial => 'tool/wiki/editor_help'
+    ~ f.text_area :body, :size => '60x40', :id => 'message_body'
+    = render :partial => 'tool/wiki/formatting_link'
 
 - load_markitup_library
 - content_for :javascript_onload do
