@@ -2,4 +2,5 @@
   .section
     = link_to "Featured people", scoped_path( :people ), :class => 'header' 
     .icon-box    
-      = render :partial => 'shared/list/person', :collection => featured_users(source, 8)
+      - user_count = extended_sidebar? ? 8 : 9
+      = render :partial => 'shared/list/person', :collection => featured_users(source, user_count)
