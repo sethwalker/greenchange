@@ -7,7 +7,11 @@ class FeaturesController < ApplicationController
     else
       flash[:notice] = "Unable to feature #{@featured.display_name}"
     end
-    featured_path = send( (context_path_prefix_type( @featured ) + '_path').to_sym, @featured )
+    if @featured == current_user
+      featured_path = person_path(@featured)
+    else
+      featured_path = send( (context_path_prefix_type( @featured ) + '_path').to_sym, @featured )
+    end
     redirect_to featured_path and return
   end
   def destroy
@@ -16,7 +20,11 @@ class FeaturesController < ApplicationController
     else
       flash[:notice] = "There is a problem removing #{@featured.display_name} from features"
     end
-    featured_path = send( (context_path_prefix_type( @featured ) + '_path').to_sym, @featured )
+    if @featured == current_user
+      featured_path = person_path(@featured)
+    else
+      featured_path = send( (context_path_prefix_type( @featured ) + '_path').to_sym, @featured )
+    end
     redirect_to featured_path and return
   end
 
