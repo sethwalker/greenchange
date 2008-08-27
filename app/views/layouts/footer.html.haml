@@ -1,3 +1,8 @@
+- if current_user.superuser?
+  .online-count
+    There are 
+    = User.online.count
+    people online.
 .links
   =#= link_to "Home", "http://greenchange.org", :class => 'first'
   = link_to "About", "http://greenchange.org/section.php?id=3", :class => 'first'

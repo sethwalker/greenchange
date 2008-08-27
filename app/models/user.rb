@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
     set_property :delta => true
   end
 
+  has_finder :online, :conditions => ["last_seen_at > ?", 10.minutes.ago]
+
   after_save :update_searchable_index
   def update_searchable_index
     config = ThinkingSphinx::Configuration.new
@@ -239,7 +241,7 @@ class User < ActiveRecord::Base
       self.display_name? ? read_attribute( :display_name ) : login
     end
   end
-  
+
   # the user's handle, in same namespace as group name,
   # must be url safe.
   def name; login; end
