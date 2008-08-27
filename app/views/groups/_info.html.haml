@@ -1,5 +1,15 @@
 .group-profile
   = simple_format @group.summary
+  - @group.locations.each do |location|
+    .group-location
+      Location:
+      - unless location.city.blank? && location.state.blank?
+        %span.locality
+          = h(location.city) + ( location.state ? ', ':'')
+        %span.region
+          = h(location.state)
+      %span.country-name
+        = location.country_name
   Members:
   = link_to @group.members.count, group_people_url(@group) 
   - unless @group.issues.empty?

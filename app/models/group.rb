@@ -34,12 +34,37 @@ class Group < ActiveRecord::Base
   define_index do
     indexes :name
     indexes full_name
+    indexes [locations.city, locations.state, locations.country_name], :as => :location
     indexes summary
     indexes issues(:name), :as => :issues
     set_property :delta => true
   end
   include Crabgrass::Serializeable
   attr_protected :featured
+
+  has_many :locations, :class_name => 'ProfileLocation'
+
+  attr_accessor :location_data
+  def location_data=(values)
+    if locations.empty?
+      locations.build( values )
+    else
+      locations.first.attributes = values
+    end
+  end
+
+  def location_data
+    if locations.empty?
+      locations.build
+    else
+      locations.first
+    end
+  end
+
+  after_save :save_location
+  def save_location
+    locations.each {|loc| loc.save}
+  end
 
   #track_changes :name
   acts_as_modified

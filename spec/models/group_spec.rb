@@ -36,6 +36,19 @@ describe Group do
     g2.save
     g2.should have(1).error_on(:name)
   end
+
+  it "should set the location" do
+    @g.location_data = {:city => 'san francisco', :state => 'CA', :country_name => 'USA'}
+    @g.save
+    @g.locations.first.city.should == 'san francisco'
+  end
+
+  it "should blank that shiz out" do
+    @g.locations.create :city => 'san francisco', :state => 'CA'
+    @g.location_data = {:city => '', :state => ''}
+    @g.save
+    @g.locations.first.city.should be_blank
+  end
 end
 
 describe Group do

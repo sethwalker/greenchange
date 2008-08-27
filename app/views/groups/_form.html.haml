@@ -18,6 +18,17 @@
         %span.comment
           Brief information regarding this group.
         ~ f.text_area :summary, :rows => 8, :cols => 60
+      - f.fields_for :location_data, @group.location_data do |ff|
+        %p
+          = ff.label "city", 'City'
+          = ff.text_field :city, :size => 20, :maxlength => 100
+        .clear
+        %p
+          = ff.label "state", 'State'
+          = ff.state_select :state, ['US', 'CANADA'], { :include_blank => true }
+        %p
+          = ff.label "country_name", 'Country'
+          = ff.country_select :country_name, [ 'United States', 'Canada', 'United Kingdom'], { :size => 10, :maxlength => 100, :include_blank => true}
 
   .column.form-column.last
     .section

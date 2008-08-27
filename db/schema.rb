@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1218154964) do
+ActiveRecord::Schema.define(:version => 1219877546) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -286,9 +286,11 @@ ActiveRecord::Schema.define(:version => 1218154964) do
     t.string  "postal_code"
     t.string  "geocode"
     t.string  "country_name"
+    t.integer "group_id"
   end
 
   add_index "locations", ["profile_id"], :name => "locations_profile_id_index"
+  add_index "locations", ["group_id"], :name => "index_on_group_id"
 
   create_table "logged_exceptions", :force => true do |t|
     t.string   "exception_class"
