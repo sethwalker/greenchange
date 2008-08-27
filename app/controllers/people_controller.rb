@@ -22,9 +22,9 @@ class PeopleController < ApplicationController
       @peers = current_user.peers
     end
     if params[:query]
-      @people = User.search(params[:query], :with => { :searchable => 1 } )
+      @people = User.search(params[:query], :with => { :searchable => 1 }, :page => params[:page], :per_page => User.per_page )
     else
-      @people = User.by_group(@group).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag).enabled
+      @people = User.by_group(@group).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag).enabled.paginate(:all, :page => params[:page])
     end
   end
 

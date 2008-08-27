@@ -27,6 +27,12 @@ module ContextHelper
     [ context_finder_method, source ]
   end
 
+  def scoped_pagination_params
+    scope_type = context_path_prefix_type( scoped_by_context? )
+    return nil unless scope_type
+    { scope_type + '_id' => scoped_by_context? }
+  end
+
   def scoped_path( path_type, options = {} )
     action =  options[:action]
     requested_scope = options[:scope] || scoped_by_context?

@@ -84,21 +84,6 @@ ActionController::Routing::Routes.draw do |map|
     #me.content  'pages', :controller => 'tool/base'
   #end
 
-  #me routes
-  map.resource :me, :controller => 'me' do |me|  
-    me.resources :contacts
-    me.resources :people
-    me.resources :groups   
-    me.resources :bookmarks
-    me.resources :preferences
-    page_routes me
-    me.resource  :profile
-    me.resources :subscription_updates
-    me.resource  :network
-    me.resource :inbox,   :controller => 'inbox' do |inbox|
-      inbox.resources :messages 
-    end
-  end
   map.resources :profiles do |profile|
     profile.resources :email_addresses, :controller => 'profile/email_addresses'
     profile.resources :im_addresses, :controller => 'profile/im_addresses'
@@ -149,6 +134,22 @@ ActionController::Routing::Routes.draw do |map|
     issue.resources :people
     issue.resources :groups
     page_routes( issue )
+  end
+  
+  #me routes
+  map.resource :me, :controller => 'me' do |me|  
+    me.resources :contacts
+    me.resources :people
+    me.resources :groups   
+    me.resources :bookmarks
+    me.resources :preferences
+    page_routes me
+    me.resource  :profile
+    me.resources :subscription_updates
+    me.resource  :network
+    me.resource :inbox,   :controller => 'inbox' do |inbox|
+      inbox.resources :messages 
+    end
   end
   
   #map.connect 'pages/search/*path', :controller => 'pages', :action => 'search'

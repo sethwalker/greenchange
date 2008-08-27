@@ -19,6 +19,9 @@ class CrabgrassLinkRenderer < WillPaginate::LinkRenderer
         else
           url_options(page)
         end
+        if (url.is_a?(Hash) && url.delete('me_id')) 
+          url = '/me' + @template.url_for( url )
+        end
         @template.content_tag :li, @template.link_to(text, url, :rel => rel_value(page)), options
       else
         @template.content_tag :li, text, :class => li_class

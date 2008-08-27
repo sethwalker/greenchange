@@ -337,4 +337,7 @@ class User < ActiveRecord::Base
   def contact_for( user )
     contact_relationships.find :first, :conditions => ["contact_id = ?", user]
   end
+  def self.per_page 
+    48
+  end
 end

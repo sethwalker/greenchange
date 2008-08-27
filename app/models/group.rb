@@ -444,4 +444,7 @@ class Group < ActiveRecord::Base
     end if parent
   end
  
+  def self.per_page
+    48
+  end
 end

@@ -4,8 +4,8 @@ class ExternalVideo < ExternalMedia
     { :name => :youtube,
       :token => /youtube/,
       :media_key_pattern => /youtube.com\/v\/([\w-]+)/,
-      :default_width =>  425,
-      :default_height =>  355,
+      :default_width =>  '425',
+      :default_height =>  '355',
       :thumbnail_template => "http://img.youtube.com/vi/%1$s/default.jpg",
       :template => %Q[<object width="%2$d" height="%3$d"><param name="movie" value="http://www.youtube.com/v/%1$s"></param><param name="wmode" value="transparent"></param><embed src="http://www.youtube.com/v/%1$s" type="application/x-shockwave-flash" wmode="transparent" width="%2$d" height="%3$d"></embed></object>]
     },
@@ -13,16 +13,16 @@ class ExternalVideo < ExternalMedia
     { :name => :google_video,
       :token => /video\.google\.com/,
       :media_key_pattern => /video.google.com\/googleplayer.swf\?docid=([\w-]+)/,
-      :default_width =>  400,
-      :default_height =>  326,
+      :default_width =>  '400',
+      :default_height =>  '326',
       :template => %Q[<embed id="VideoPlayback" style="width:%2$dpx;height:%3$dpx" allowFullScreen="true" src="http://video.google.com/googleplayer.swf?docid=%1$s&hl=en&fs=true" type="application/x-shockwave-flash"> </embed>]
     },
 
     { :name => :bliptv,
       :token => /blip\.tv/,
       :media_key_pattern => /blip.tv\/play\/([\w-]+)/,
-      :default_width =>  480,
-      :default_height =>  300,
+      :default_width =>  '480',
+      :default_height =>  '300',
       :template => %Q[<embed src="http://blip.tv/play/%1$s" type="application/x-shockwave-flash" width="%2$d" height="%3$d" allowscriptaccess="always" allowfullscreen="true"></embed>]
     }
   ]

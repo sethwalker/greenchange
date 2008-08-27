@@ -33,6 +33,8 @@
     %h2 
       Groups you share
     .icon-box
+      = will_paginate(@groups, :params => scoped_pagination_params )
       = render :partial => 'shared/list/group', :collection => groups_overlapping 
     .clear    
+    = will_paginate(@groups, :params => scoped_pagination_params )
 

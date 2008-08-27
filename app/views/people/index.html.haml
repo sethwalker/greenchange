@@ -21,5 +21,7 @@
       =submit_tag 'Search People'
 .section
   .icon-box
+    = will_paginate(@people, :params => scoped_pagination_params )
     =render :partial => 'shared/list/person', :collection => @people
   .clear
+    = will_paginate(@people, :params => scoped_pagination_params )
