@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
     set_property :delta => true
   end
 
-  has_finder :online, :conditions => ["last_seen_at > ?", 10.minutes.ago]
+  has_finder :online, :conditions => ["last_seen_at > ? AND searchable = ?", 10.minutes.ago, true]
 
   after_save :update_searchable_index
   def update_searchable_index

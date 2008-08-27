@@ -8,6 +8,10 @@
       %br
       = image_tag '/images/gc/icons/19_icons/send_message.gif', :align=>"top", :alt=>"Inbox"
       = link_to"(#{current_user.inbox_count})", me_inbox_path  
+      - online_contacts_count = current_user.contacts.online.count
+      - if online_contacts_count > 0
+        = image_tag '/images/gc/icons/19_icons/personal.gif', :align=>"top", :alt=>"Online contacts"
+        = link_to"(#{online_contacts_count})", me_people_path, :title => "You have #{online_contacts_count} contacts currently online"
         
 - else
   #user-menu
