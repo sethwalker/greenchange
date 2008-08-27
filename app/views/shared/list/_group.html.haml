@@ -1,3 +1,4 @@
 .icon
-  = link_to group.name, group_url(group), html_options_for_icon_for( group, :size => (local_assigns[:size] || 'standard'), :class => 'name-bottom' ) 
+  - padding = content_tag :div, '', :class => 'online_padding'
+  = link_to padding + group.name, group_url(group), html_options_for_icon_for( group, :size => (local_assigns[:size] || 'standard'), :class => 'name-bottom' ) 
 

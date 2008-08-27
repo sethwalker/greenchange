@@ -20,11 +20,19 @@ module IconHelper
     end
     size_option = html_options.delete(:size) || 'standard'
     html_options.delete(:avatar_size) 
-    html_options[:title] ||= item.try(:display_name)
+    html_options[:title] ||= icon_name(item)
     new_class = [ (html_options[:class] ||= ''), "icon", item_type, size_option.to_s, ['icon', size_option.to_s ].join('-') ]
     html_options[:class] = new_class.join(' ').strip
     html_options
 
+  end
+
+  def icon_name(item)
+    if item.is_a?(User) && logged_in? && item.online? && item.searchable?
+      item.display_name + ' (online)'
+    else
+      item.try(:display_name)
+    end
   end
 
   def html_options_for_avatar_for( item, html_options ={} )

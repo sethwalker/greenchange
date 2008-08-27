@@ -1,5 +1,6 @@
-.icon{ :class => (person.online? ? 'online':'')}
-  = link_to person.display_name, person_url(person), html_options_for_icon_for( person, :size => (local_assigns[:size] ||'standard'), :class => 'name-bottom' )
+.icon{ :class => (logged_in? && person.online? && person.searchable? ? 'online':'')}
+  - padding = content_tag :div, content_tag( :div, '', :class => 'online_inner_padding'), :class => 'online_padding'
+  = link_to padding + person.display_name, person_url(person), html_options_for_icon_for( person, :size => (local_assigns[:size] ||'standard'), :class => 'name-bottom' )
   -#-if scoped_by_context? == @me  && scoped_by_context?
     %br
     .toolbar
