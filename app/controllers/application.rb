@@ -108,6 +108,10 @@ class ApplicationController < ActionController::Base
     true
   end
 
+  def superuser_required
+    raise PermissionDenied unless current_user and current_user.superuser?
+  end
+
   def group_admin_required
     current_user.may!( :admin, @group ) if @group 
     true

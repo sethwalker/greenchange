@@ -1,3 +1,4 @@
+# Feature users and groups
 class FeaturesController < ApplicationController
   before_filter :superuser_required, :target_required
 
@@ -32,8 +33,5 @@ class FeaturesController < ApplicationController
   def target_required
     @featured = (@group || @person)
     raise ActiveRecord::RecordNotFound unless @featured
-  end
-  def superuser_required
-    raise PermissionDenied unless current_user and current_user.superuser?
   end
 end

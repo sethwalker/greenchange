@@ -16,7 +16,7 @@ ActionController::Routing::Routes.draw do |map|
 
   map.resource :popular
 
-  map.resources :issues
+  #map.resources :issues
 
   ##### ASSET ROUTES ######################################
   
@@ -133,6 +133,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resources :issues do |issue|
     issue.resources :people
     issue.resources :groups
+    issue.resources :featurings
     page_routes( issue )
   end
   

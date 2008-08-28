@@ -20,6 +20,8 @@ module ContextHelper
     context unless context && context.new_record?
   end
 
+  alias :current_context :scoped_by_context?
+
   # returns an array suitable for formatting in the send statement
   def context_finder(source)
     context_finder_method = case source when User; :by_person; when Group; :by_group; when Issue; :by_issue; when Tag; :by_tag; end

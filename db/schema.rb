@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 1219877546) do
+ActiveRecord::Schema.define(:version => 1219883333) do
 
   create_table "asset_versions", :force => true do |t|
     t.integer  "asset_id"
@@ -200,6 +200,11 @@ ActiveRecord::Schema.define(:version => 1219877546) do
     t.string "media_thumbnail_url"
     t.text   "media_embed"
     t.string "type"
+  end
+
+  create_table "featurings", :force => true do |t|
+    t.integer "issue_id"
+    t.integer "page_id"
   end
 
   create_table "federations", :force => true do |t|

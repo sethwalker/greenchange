@@ -5,4 +5,12 @@
   .icon
     = button_to 'delete', tool_page_path(page), :method => :delete, :class => 'action delete confirm' #:confirm => 'Once deleted, it will not be possible to recover this page', :class => 'action delete'
 
+- if current_user.superuser? && current_context.is_a?(Issue)
+  .icon
+    - if current_context.features?(page)
+      = button_to 'Stop Featuring', issue_featuring_path( current_context, current_context.feature_for(page) ), :class => 'action feature', :method => :delete
+    - else
+      = button_to 'Feature This', issue_featurings_path( current_context, :page_id => page.id ), :class => 'action feature'
+
+
 - load_ajax_list_behaviors

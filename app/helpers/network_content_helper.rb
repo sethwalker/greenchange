@@ -2,7 +2,9 @@ module NetworkContentHelper
 
   def featured_pages( source, qty = 1 )
     # TODO: network content sorting
-    if source
+    if source && source.is_a?(Issue)
+      [source.featured_pages.find(:first, :order => "rand()")].compact
+    elsif source
       return [] unless source.respond_to?(:pages) && source.pages.any?
       [ Page.send(*context_finder(source)).find(:first, :order => "updated_at DESC") ].compact
     else
