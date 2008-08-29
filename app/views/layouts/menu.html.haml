@@ -109,7 +109,7 @@
   #search
     - form_tag('/search', :method => :get) do
       = text_field_tag 'query', params[:query] || 'Search'
-      = submit_tag 'Search'
+      = submit_tag '', :title => 'Search'
   .clear
 
 - content_for :javascript_onload do
