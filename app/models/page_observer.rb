@@ -5,7 +5,8 @@ class PageObserver < ActiveRecord::Observer
   end
   def after_update(page)
     return true unless page.updated_by
-    NetworkEvent.create! :modified => page, :action => 'update', :user => page.updated_by, :recipients => watchers(page), :data_snapshot => {:page => page, :page_created_by => page.created_by, :page_updated_by => page.updated_by}
+    recipients = page.network_events.find(:first, :conditions => ["user_id = ? AND network_events.created_at > ?", page.updated_by_id, 1.hour.ago]) ? [] : watchers(page)
+    NetworkEvent.create! :modified => page, :action => 'update', :user => page.updated_by, :recipients => recipients, :data_snapshot => {:page => page, :page_created_by => page.created_by, :page_updated_by => page.updated_by}
   end
 
   def watchers(page)

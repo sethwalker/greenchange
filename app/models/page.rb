@@ -57,6 +57,7 @@ class Page < ActiveRecord::Base
   end
 
   has_many :permissions, :as => 'resource'
+  has_many :network_events, :as => 'modified'
 
   has_finder :popular, :joins => :stars, :select => "#{quoted_table_name}.*, COUNT(user_participations.id) as number_of_stars", :group => "pages.id", :order => "number_of_stars DESC"
 
