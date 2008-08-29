@@ -18,9 +18,4 @@ describe IconHelper do
       end
     end
   end
-
-  def helper
-    self
-  end
 end
-

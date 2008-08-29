@@ -83,6 +83,7 @@ module FixtureReplacement
 	end
 
   attributes_for :video_page, :from => :page, :class => Tool::ExternalVideo
+  attributes_for :wiki_page, :from => :page, :class => Tool::TextDoc
 
   attributes_for :post do |p|
     p.body = String.random

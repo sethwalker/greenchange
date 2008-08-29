@@ -7,7 +7,7 @@ describe ApplicationHelper do
     second.should_receive(:name).and_return('second issue')
     issues = [first, second]
     Issue.should_receive(:find).and_return(issues)
-    text = issue_selector(stub('entity', :issues => []))
+    text = helper.issue_selector(stub('entity', :issues => []))
     text.should have_tag("input[type=checkbox][name='issues[]']")
   end
 

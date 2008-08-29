@@ -1,12 +1,11 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe PageUrlHelper do
+  include ActionView::Helpers::UrlHelper
+  include PageUrlHelper
   describe "page_url" do
-    before do
-#      @page = create_page
-    end
     it "should work for wikis" do
-      @page = Tool::TextDoc.create :title => 'title'
+      @page = create_wiki_page
       page_url(@page).should == wiki_url(@page)
     end
     it "should work for actions" do
@@ -20,6 +19,8 @@ describe PageUrlHelper do
     it "should work for news" do
       @page = Tool::News.create :title => 'title'
       page_url(@page).should == news_url(@page)
+      puts page_url(@page)
+      puts news_url(@page)
     end
     it "should work for assets" do
       @page = Tool::Asset.create :title => 'title'

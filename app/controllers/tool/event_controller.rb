@@ -189,7 +189,7 @@ class Tool::EventController < Tool::BaseController
       ).find(:all, :order => "pages.starts_at ASC")
     else
       # TODO: will this ever be called? show public events? 
-      @events = Page.public.page_type(:event).occurs_between_dates(
+      @events = Page.totally_public.page_type(:event).occurs_between_dates(
         @start_date.to_s, @end_date.to_s
       ).find(:all, :order => "pages.starts_at ASC")
     end

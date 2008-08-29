@@ -215,7 +215,8 @@ class Page < ActiveRecord::Base
       page_types.any? ? {:conditions => ["pages.type IN (?)", page_types]} : {}
     }
 
-  has_finder :public, {:conditions => ["pages.public = ?", true]}
+  # public is a reserved word
+  has_finder :totally_public, {:conditions => ["pages.public = ?", true]}
 
   has_finder :tagged, 
     lambda {|*tags| 
