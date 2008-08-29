@@ -40,7 +40,7 @@ class ExternalVideo < ExternalMedia
   validate :supported
 
   def supported
-    errors.add(:media_embed, "is not supported (currently only youtube, google video, and blip.tv)") unless service
+    errors.add(:media_embed, "is not supported (currently only youtube, google video, blip.tv, and vimeo)") unless service
   end
 
   def service
