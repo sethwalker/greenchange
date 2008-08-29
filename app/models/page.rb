@@ -280,8 +280,6 @@ class Page < ActiveRecord::Base
     end
   }
 
-  extend PathFinder::FindByPath
-
   #######################################################################
   ## PAGE NAMING
   

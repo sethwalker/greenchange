@@ -26,7 +26,7 @@ class PagesController < ApplicationController
 
   helper Tool::BaseHelper
   
-  before_filter :login_required, :except => [:search, :index]
+  before_filter :login_required, :except => :index
   prepend_before_filter :fetch_page
   include IconResource
 
@@ -43,7 +43,7 @@ class PagesController < ApplicationController
   def index
     load_context
     if params[:query]
-      @pages = Page.search(params[:query], :with => { :public => 1 })
+      @pages = Page.search(params[:query], :with => { :public => 1 }, :page => params[:page])
     else
       @pages = Page.allowed(current_user).by_group( @group ).by_issue( params[:issue_id ]).by_person( ( @me || @person ) ).by_tag( @tag ).paginate :all, :page => params[:page], :per_page => 100, :order => 'updated_at DESC'
     end
@@ -61,17 +61,6 @@ class PagesController < ApplicationController
     end
   end
   
-#  def search
-#    unless @pages
-#      if logged_in?
-#        options = options_for_me
-#      else
-#        options = options_for_public_pages
-#      end
-#      @pages, @page_sections = Page.find_and_paginate_by_path(params[:path], options)
-#    end
-#  end
-
   # a simple form to allow the user to select which type of page
   # they want to create. the actual create form is handled by
   # Tool::BaseController (or overridden by the particular tool). 
@@ -187,44 +176,6 @@ class PagesController < ApplicationController
     end
   end
 
-  def search
-    if request.post?
-      return redirect_to(search_pages_path + 
-        build_filter_path(params[:search]))
-    end
-
-    path = (params[:path].dup if params[:path]) || []
-    should_be_starred = path.delete('starred')
-    should_be_pending = path.delete('pending')
-    options = Hash[*path.flatten]
-
-    @pages = Page.allowed(current_user).
-      starred?(should_be_starred).
-      pending?(should_be_pending).
-      page_type(options['type']).
-      created_by(options['person']).
-      created_in_month(options['month']).
-      created_in_year(options['year']).
-      text(options['text'])
-
-    if parsed_path.sort_arg?('created_at') or parsed_path.sort_arg?('created_by_login')    
-      @columns = [:icon, :title, :created_by, :created_at, :contributors_count]
-    else
-      @columns = [:icon, :title, :updated_by, :updated_at, :contributors_count]
-    end
-
-    respond_to do |format|
-      format.html {}
-      format.rss do
-        options = {
-          :title => "Search pages",
-          :description => '',
-          :link => pages_path
-        }
-        render :partial => 'pages/rss', :locals => options
-      end
-    end
-  end
   def participation
     
   end

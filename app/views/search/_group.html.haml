@@ -1,0 +1,26 @@
+%li.list-item.page{ :class => cycle( 'shade-odd', 'shade-even', :name => 'activity_entry_cycle' )}
+  .list-thumb
+    = link_to icon_for( group), group_path(group)
+  .list-description
+    .header-block
+      .title-block
+        %h3
+          = link_to group.display_name, group_url(group)
+        .group-members-count
+          (
+          = group.members.count
+          members )
+      .clear
+      .blurb
+        = group.summary
+      - unless group.locations.empty?
+        .clear
+        .location
+          Location:
+          - l = group.locations.first
+          = [l.city, l.state, l.country_name].compact.join(' / ')
+      -unless group.issues.empty?
+        .clear
+        .issues.icon-only
+          %label Issues:
+          = render :partial => 'shared/icons/issue', :collection => group.issues

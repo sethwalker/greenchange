@@ -1,0 +1,16 @@
+%li.list-item.page{ :class => cycle( 'shade-odd', 'shade-even', :name => 'activity_entry_cycle' )}
+  .list-thumb
+    = link_to icon_for( person), person_path(person)
+  .list-description
+    .header-block
+      .title-block
+        %h3
+          = link_to person.display_name, person_url(person)
+      .clear
+      .blurb
+        = render :partial => 'people/profile', :locals => {:profile => person.profile_for(current_user)}
+      -unless person.issues.empty?
+        .clear
+        .issues.icon-only
+          %label Issues:
+          = render :partial => 'shared/icons/issue', :collection => person.issues

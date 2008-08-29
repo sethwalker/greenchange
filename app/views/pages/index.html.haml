@@ -1,9 +1,12 @@
 %h1 Our community
-.section.search
-  -form_tag('', :method => :get) do 
-    =text_field_tag :query, h( params[:query])
-    =submit_tag 'Search Content'
+- unless scoped_by_context?
+  .section.search
+    -form_tag('', :method => :get, :action => '/pages') do 
+      =text_field_tag :query, h( params[:query])
+      =submit_tag 'Search Content'
 .content-list.main
   .section
+    = will_paginate(@pages, :params => scoped_pagination_params )
     %ul.list
       = render :partial => 'pages/list/page', :collection => @pages
+    = will_paginate(@pages, :params => scoped_pagination_params )

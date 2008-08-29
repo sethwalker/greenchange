@@ -31,7 +31,7 @@ class Tool::BaseController < ApplicationController
 
   def index
     if params[:query]
-      @pages = page_class.search(params[:query], :with => { :public => 1 })
+      @pages = page_class.search(params[:query], :with => { :public => 1 }, :page => params[:page])
     else
       @pages = Page.allowed(current_user).page_type( page_type ).by_group( @group ).by_issue( params[:issue_id ]).by_person( ( @me || @person ) ).paginate :all, :page => params[:page], :order => 'created_at DESC'
     end

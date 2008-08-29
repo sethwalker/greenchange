@@ -1,0 +1,22 @@
+%h1 
+  Results for /
+  = params[:query]
+  \/
+- if @items.empty?
+  .section.search
+    -form_tag('', :method => :get) do 
+      =text_field_tag :query, h( params[:query])
+      =submit_tag 'Search Greenchange'
+.content-list.main
+  .section
+    = will_paginate(@items)
+    %ul.list
+    - @items.each do |item|
+      - case item
+        - when Page
+          = render :partial => 'pages/list/page', :locals => {:page => item}
+        - when User
+          = render :partial => 'person', :locals => {:person => item}
+        - when Group
+          = render :partial => 'group', :locals => {:group => item}
+    = will_paginate(@items)
