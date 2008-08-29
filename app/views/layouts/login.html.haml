@@ -4,7 +4,7 @@
       = link_to "Logout".t, logout_path
     #login-name
       Hi 
-      = link_to current_user.login, me_url
+      = link_to current_user.display_name, me_url
       %br
       = image_tag '/images/gc/icons/19_icons/send_message.gif', :align=>"top", :alt=>"Inbox"
       = link_to"(#{current_user.inbox_count})", me_inbox_path  

@@ -9,7 +9,7 @@
     .name
       %label.name
         By: 
-      = link_to page.created_by.login, person_url(page.created_by), :class =>'name'
+      = link_to page.created_by.display_name, person_url(page.created_by), :class =>'name'
       .date
         = friendly_date(page.created_at)
 .clear
