@@ -24,6 +24,15 @@ class ExternalVideo < ExternalMedia
       :default_width =>  '480',
       :default_height =>  '300',
       :template => %Q[<embed src="http://blip.tv/play/%1$s" type="application/x-shockwave-flash" width="%2$d" height="%3$d" allowscriptaccess="always" allowfullscreen="true"></embed>]
+    },
+    
+    { :name => :vimeo,
+      :token => /vimeo\.com/,
+      :media_key_pattern => /vimeo.com\/moogaloop.swf\?clip_id=([\w-]+)/,
+      :default_width =>  '400',
+      :default_height =>  '225',
+      :template => %Q[<object width="%2$d" height="%3$d"> <param name="allowfullscreen" value="true" /> <param name="allowscriptaccess" value="always" /> <param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=%1$s&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" />  <embed src="http://vimeo.com/moogaloop.swf?clip_id=%1$s&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="%2$d" height="%3$d"></embed></object><br />]
+#      <a href="http://vimeo.com/833101?pg=embed&amp;sec=833101">Cynthia McKinney - Green Party Presidential Candidate - Interviewed on Issues</a> from <a href="http://vimeo.com/craigseeman?pg=embed&amp;sec=833101">Craig Seeman</a> on <a href="http://vimeo.com?pg=embed&amp;sec=833101">Vimeo</a>]
     }
   ]
 
