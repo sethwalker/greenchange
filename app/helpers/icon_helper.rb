@@ -55,7 +55,7 @@ module IconHelper
     item_url_type = case item when User; 'person'; when Group; 'group'; end# when Page; 'page'; end
     return nil unless item.respond_to?(:has_image?) && item.has_image? && item_url_type
     item_icon_method = "#{item_url_type}_icon_path"
-    timestamp_suffix = (item && item.updated_at )? ? "?#{item.updated_at.to_i}" : "" 
+    timestamp_suffix = (item && item.updated_at ) ? "?#{item.updated_at.to_i}" : "" 
     send( item_icon_method, item, :format => :png, :size => avatar_size_option ) + timestamp_suffix
   end
 
