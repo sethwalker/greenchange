@@ -105,6 +105,12 @@ describe Subscription do
         @sub.reposts.first.data.published_at.should == Time.parse(@sub.fetch.first.date_published)
       end
     end
+    it "creates items in the order they were published" do
+      @sub.save!
+      square = Tool::Repost.find( :first, :conditions => [ 'title like ?', "%Square White Guy%" ] )
+      palin = Tool::Repost.find( :first, :conditions => [ 'title like ?', "%Disturbing%" ] )
+      (palin.created_at > square.created_at).should be_true
+    end
 
     it "parses atom feeds" do
       @sub.url = @atom_url

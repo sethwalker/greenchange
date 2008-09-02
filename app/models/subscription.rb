@@ -22,11 +22,17 @@ class Subscription < ActiveRecord::Base
       build feed_entries.map { |e| translate(e) }
     end
 
+    # for manipulating created_at timestamps to be in the order of date_published
+    def now
+      @now ||= Time.now
+      @now = @now + 1.second
+    end
+
     def translate(e)
       feed_host = URI.parse( proxy_owner.feed.url.strip ).host
       item_url = (e.url.include?(feed_host) || e.url =~ /^http:\/\//) ? e.url : "http://#{feed_host}#{e.url}"
       date_published = e.date_published.is_a?(Time) ? e.date_published : Time.parse(e.date_published)
-      { :title => e.title, :summary => e.description, :page_data => { :body => e.content, :document_meta_data => { :creator => e.author, :source_url => item_url, :source => proxy_owner.feed.title, :published_at => date_published } }, :created_by => proxy_owner.user, :public => true }
+      { :title => e.title, :summary => e.description, :page_data => { :body => e.content, :document_meta_data => { :creator => e.author, :source_url => item_url, :source => proxy_owner.feed.title, :published_at => date_published } }, :created_by => proxy_owner.user, :public => true, :created_at => self.now }
     end
   end
 
@@ -63,7 +69,8 @@ class Subscription < ActiveRecord::Base
   end
 
   def entries
-    feed.try(:entries) || []
+    e = feed.try(:entries) || []
+    e.sort_by {|entry| entry.date_published.to_time }
   end
 
   def lookup_uri(uri)
