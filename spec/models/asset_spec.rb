@@ -190,4 +190,8 @@ describe Asset do
   it "should respond to document?" do
     @asset.should respond_to(:document?)
   end
+  it "should be pdf" do
+    @asset.content_type = 'application/pdf'
+    @asset.display_type_name.should == :pdf
+  end
 end

@@ -27,7 +27,10 @@
   .section.uploads
     %h4 Upload images and attachments 
     - f.object.assets.each do |upload|
-      = link_to ' ', upload.public_filename, html_options_for_icon_for(upload, :target => 'blank', :size => 'small' )
+      = link_to ' ', upload.public_filename, html_options_for_icon_for(upload, :target => 'blank', :size => 'small', :style => "background-image: url(#{upload.public_filename(:small)})" )
+      .toolbar.icons-only
+        .icon
+          = link_to 'Delete', asset_path(upload), :method => :delete, :class => 'action delete confirm', :title => 'Delete this item'
     - fields_for "page[assets][]", "" do |ff|
 
       %p

@@ -14,15 +14,20 @@ class AssetController < ApplicationController
   end
 
   def destroy
-    @asset.destroy
-    respond_to do |format|
-      format.js { render :nothing => true }
-      format.html do
-        message(:success => "file deleted") 
-        redirect_to(page_url(@asset.page))
+    if @asset.destroy
+      respond_to do |format|
+        format.js { head :ok }
+        format.html do
+          flash[:notice] = "#{@asset.filename} has been deleted"
+          redirect_to(edit_tool_page_path(@asset.parent_page))
+        end
       end
+    else
+      flash[:error] = "Unable to delete this file"
+      redirect_to(edit_tool_page_path(@asset.parent_page))
     end
   end
+
 
   protected
 
@@ -36,7 +41,7 @@ class AssetController < ApplicationController
       @thumb = thumb.thumbnail.to_sym
       @asset.create_or_update_thumbnail(@asset.full_filename,@thumb,Asset.attachment_options[:thumbnails][@thumb]) unless File.exists? thumb.full_filename
     end
-    if @asset.is_public?
+    if @asset.public? && 'show' == action_name
       @asset.update_access 
       redirect_to and return false
     end
@@ -55,27 +60,29 @@ class AssetController < ApplicationController
   protected
 
   def public_or_login_required
-    @asset.page.public? or login_required
+    @asset.parent_page.public? or login_required
   end
   
   def authorized?
     if @asset
+      page = @asset.page || @asset.parent_page
       if action_name == 'show' || action_name == 'version'
-        current_user.may?(:read, @asset.page)
+        current_user.may?(:read, page)
       elsif action_name == 'create' || action_name == 'destroy'
-        current_user.may?(:edit, @asset.page)
+        current_user.may?(:edit, page)
       end
     else
       false
     end
   end
 
+=begin
   def access_denied
     message :error => 'You do not have sufficient permission to access that file' if logged_in?
     message :error => 'Please login to access that file.' unless logged_in?
-    redirect_to :controller => '/account', :action => 'login', :redirect => @request.request_uri
+    redirect_to login_path(:redirect => request.request_uri)
   end
-  
+=end
   
 end
 

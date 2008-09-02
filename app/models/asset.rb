@@ -5,6 +5,10 @@ class Asset < ActiveRecord::Base
   cattr_reader :extra_content_types
 
   class << self
+    def image?(content_type)
+      content_type.to_s =~ /^image/
+    end
+
     def movie?(content_type)
       content_type.to_s =~ /^video/ || extra_content_types[:movie].include?(content_type)
     end
@@ -27,8 +31,15 @@ class Asset < ActiveRecord::Base
     end
   end
 
-  [:movie, :video, :audio, :other, :pdf, :document].each do |content|
+  TYPES = [:image, :movie, :video, :audio, :pdf, :document, :other]
+  TYPES.each do |content|
     define_method("#{content}?") { self.class.send("#{content}?", content_type) }
+  end
+
+  def display_type_name
+    TYPES.find do |type_check| 
+      send("#{type_check}?".to_sym) 
+    end
   end
 
   def display_class
@@ -75,7 +86,7 @@ class Asset < ActiveRecord::Base
   alias_method_chain :destroy_file, :versions_directory
   
   versioned_class.class_eval do
-    delegate :page, :is_public?, :small_icon, :big_icon, :icon, :to => :asset
+    delegate :page, :small_icon, :big_icon, :icon, :to => :asset
     def public_filename(thumbnail = nil)
       "/assets/#{asset.id}/versions/#{version}/#{thumbnail_name_for(thumbnail)}"
     end
@@ -119,10 +130,10 @@ class Asset < ActiveRecord::Base
   end
   
   def public?
-    return true unless page
-    return page.public?
+    return page.public? if page
+    return parent_page.public? if parent_page
+    true
   end
-  alias :is_public? :public?
 
   def public_filename(thumbnail = nil)
     "/assets/#{id}/#{thumbnail_name_for(thumbnail)}"

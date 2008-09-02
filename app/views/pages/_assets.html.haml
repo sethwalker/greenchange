@@ -1,0 +1,3 @@
+- @page.assets.each do |asset|
+  .line{ :id => "asset_#{asset.id}" }
+    = link_to truncate(asset.filename, 20), asset.public_filename, html_options_for_icon_for( asset, :size => 'small' )

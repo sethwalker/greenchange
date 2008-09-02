@@ -20,6 +20,7 @@ ActionController::Routing::Routes.draw do |map|
 
   ##### ASSET ROUTES ######################################
   
+  map.resources :assets, :controller => 'asset'
   map.with_options :controller => 'asset', :action => 'show' do | m |
     m.connect 'assets/:id/versions/:version/*filename'
     m.connect 'assets/:id/*filename'

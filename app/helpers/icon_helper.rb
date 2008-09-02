@@ -121,7 +121,9 @@ module IconHelper
         html_options[:class] << " image-thumbnail" if icon_url_for_image asset 
       else
         html_options[:class] << " page-default"
+        html_options[:class] << " asset-#{asset.display_type_name}"
       end
+      html_options[:title] ||= asset.filename
       html_options
     end
 
