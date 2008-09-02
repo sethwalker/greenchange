@@ -32,7 +32,7 @@ module IconResource
     def refresh_icon
       raise "Missing an instance of @#{self.class.icon_resource_name} to clear cache" unless icon_resource
       Crabgrass::Config.image_sizes.merge({:default => 'x'}).each do |size, dimensions| 
-        expire_page( icon_path_for( icon_resource, :size => size ))
+        expire_page( icon_path_for( icon_resource, :size => size ).gsub(/\?\d+$/, '') )
       end
       true
     end
