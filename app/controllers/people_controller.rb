@@ -24,7 +24,7 @@ class PeopleController < ApplicationController
     if params[:query]
       @people = User.search(params[:query], :with => { :searchable => 1 }, :page => params[:page], :per_page => User.per_page )
     else
-      @people = User.by_group(@group).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag).enabled.paginate(:all, :page => params[:page])
+      @people = User.by_group(@group).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag).enabled.paginate(:all, :page => params[:page], :per_page => (params[:per_page] || User.per_page))
     end
   end
 

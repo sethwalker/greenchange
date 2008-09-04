@@ -1,5 +1,5 @@
 - unless featured_users(source).empty?
-  .section
+  .section.featured-people
     = link_to "Featured people", scoped_path( :people ), :class => 'header' 
     .icon-box    
       - user_count = extended_sidebar? ? 8 : 9
