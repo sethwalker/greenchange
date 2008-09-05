@@ -135,7 +135,7 @@ module FeedNormalizer
   module RewriteRelativeLinks
     def rewrite_relative_links(text, url)
       if host = url_host(url)
-        text.to_s.gsub(/(href|src)=('|")\//, '\1=\2http://' + host + '/')
+        text.to_s.gsub(/(href|src)=('|")(http|mailto){0}\/?/, '\1=\2http://' + host + '/')
       else
         text
       end

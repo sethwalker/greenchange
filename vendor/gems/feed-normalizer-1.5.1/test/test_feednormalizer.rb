@@ -247,7 +247,8 @@ class FeedNormalizerTest < Test::Unit::TestCase
     feed = FeedNormalizer::FeedNormalizer.parse(XML_FILES[:atom03])
     assert_match '<a href="http://www.cheapstingybargains.com/link/tplclick?lid=41000000011334249&#038;pubid=21000000000053626"' + 
       ' target=_"blank"><img  src="http://www.cheapstingybargains.com/assets/images/product/productDetail/9990000058546711.jpg"' + 
-      ' width="150" height="150" border="0" style="float: right; margin: 0px 0px 5px 5px;" /></a>',
+      ' width="150" height="150" border="0" style="float: right; margin: 0px 0px 5px 5px;" /></a>' +
+      '<br /><img  src="http://www.cheapstingybargains.com/assets/images/product/productDetail/9990000058546711.jpg" width="150" height="150" border="0" style="float: right; margin: 0px 0px 5px 5px;" />',
       feed.items.first.content
   end
 
