@@ -60,4 +60,6 @@ observe_field(:entryfield,
   <%= javascript_tag scroll_conversation_script %>
   <%= javascript_tag set_time_and_name_script %>
 <% end %>
-
+<% content_for :stylesheet do %>
+  <%= javascript_include_tag :prototype %>
+<% end %>
