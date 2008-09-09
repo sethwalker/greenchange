@@ -1,0 +1,5 @@
+<p><%= sanitize(GreenCloth.new(@text).to_html) %></p>
+
+<p>To reply to this message, go to <%= link_to @reply_url, @reply_url %>.</p>
+
+<%= render :partial => 'user_mailer/footer_html' %>

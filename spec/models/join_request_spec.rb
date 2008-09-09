@@ -17,6 +17,33 @@ describe JoinRequest do
     end
   end
 
+  describe "notify recipients" do
+    before do
+      @group = create_group
+      @member1 = create_user
+      @member2 = create_user
+      memship = @group.memberships.create :user => @member1
+      memship2 = @group.memberships.create :user => @member2
+      memship.promote
+      memship2.promote
+
+      @req = new_join_request :group => @group
+    end
+    it "sends to all admins" do
+      @req.requestable.should_receive(:admins)
+      @req.save
+    end
+    it "sends a message" do
+      UserMailer.should_receive(:deliver_join_request_received).twice
+      @req.save
+    end
+    it "doesn't send message for events" do
+      @req.requestable = new_event
+      UserMailer.should_not_receive(:deliver_join_request_received) 
+      @req.save
+    end
+  end
+
   describe "approvable" do
     before do
       @group = create_group

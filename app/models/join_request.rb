@@ -49,4 +49,14 @@ class JoinRequest < Message
     return true if requestable_id? and user.may?( :admin, requestable )
     super
   end
+
+  def notify_recipient
+    return true unless group?
+    group.admins.each do |admin|
+      self.recipient = admin
+      UserMailer.deliver_join_request_received(self)
+    end
+    self.recipient = nil
+  rescue Errno::ECONNRESET
+  end
 end

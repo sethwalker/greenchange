@@ -47,6 +47,14 @@ class UserMailer < ActionMailer::Base
       :login_url => login_url(:host => Crabgrass::Config.host)
   end
 
+  def join_request_received(message)
+    setup_email(message.recipient)
+    subject "#{message.sender.display_name} asked to join #{message.group.display_name} on Green Change"
+    body :text => (message.body || ''),
+      :reply_url => message_url(message, :host => Crabgrass::Config.host),
+      :login_url => login_url(:host => Crabgrass::Config.host)
+  end
+
   def comment_posted(post)
     author = post.discussion.page.created_by
     setup_email(author)

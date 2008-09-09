@@ -26,6 +26,15 @@ describe UserMailer do
     end
   end
 
+  describe "join request received" do
+    it "should render both parts" do
+      @message = create_join_request :requestable => create_group, :sender => create_user
+      @message.recipient = create_user
+      mail = UserMailer.create_join_request_received(@message)
+      mail.parts.length.should == 2 
+    end
+  end
+
   describe "comment posted" do
     before do
       @post = create_post
