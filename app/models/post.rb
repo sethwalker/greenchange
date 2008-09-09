@@ -40,6 +40,7 @@ class Post < ActiveRecord::Base
     if page && page.created_by && page.created_by != user
       UserMailer.deliver_comment_posted(self) if page.created_by.receives_email_on('comments')
     end
+  rescue Errno::ECONNRESET
   end
 
   def page

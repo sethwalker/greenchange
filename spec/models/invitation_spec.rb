@@ -86,4 +86,12 @@ describe Message, "with email notification" do
     UserMailer.should_not_receive(:deliver_invitation_received)
     @message.save!
   end
+
+  it "should not blow up on Errno::ECONNRESET" do
+    invitation = new_invitation
+    invitation.stub!(:contact?).and_return(false)
+    invitation.stub!(:recipient).and_return(stub('recipient', :receives_email_on => true))
+    UserMailer.should_receive(:deliver_invitation_received).and_raise(Errno::ECONNRESET)
+    lambda { invitation.notify_recipient }.should_not raise_error
+  end
 end

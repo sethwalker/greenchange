@@ -50,5 +50,6 @@ class Message < ActiveRecord::Base
   after_create :notify_recipient
   def notify_recipient
     UserMailer.deliver_message_received(self) if recipient && recipient.receives_email_on('messages')
+  rescue Errno::ECONNRESET
   end
 end

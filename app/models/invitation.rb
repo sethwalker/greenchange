@@ -34,5 +34,6 @@ class Invitation < Message
     else
       UserMailer.deliver_invitation_received(self)
     end
+  rescue Errno::ECONNRESET
   end
 end
