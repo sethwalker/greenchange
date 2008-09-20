@@ -215,9 +215,6 @@ class Page < ActiveRecord::Base
       page_types.any? ? {:conditions => ["pages.type IN (?)", page_types]} : {}
     }
 
-  # public is a reserved word
-  has_finder :totally_public, {:conditions => ["pages.public = ?", true]}
-
   has_finder :tagged, 
     lambda {|*tags| 
       Tag
@@ -248,38 +245,15 @@ class Page < ActiveRecord::Base
     end
   end
 
-  has_finder :occurs_on_day, lambda {|datestring|
-    year, month, day = datestring.split('-')
-    date = Time.utc(year, month, day)
-    case connection.adapter_name
-    when "SQLite"
-      {:conditions => ["STRFTIME('%Y-%m-%d',pages.starts_at) <= :day AND STRFTIME('%Y-%m-%d',pages.ends_at) >= :day", {:day => date.loc('%Y-%m-%d')}]}
-    when "MySQL"
-      {:conditions => ["DATE_FORMAT(pages.starts_at,'%Y-%m-%d') <= :day AND DATE_FORMAT(pages.ends_at,'%Y-%m-%d') >= :day", {:day => date.loc('%Y-%m-%d')}]}
-    end
+  has_finder :occurs_on_day, lambda {|date|
+    date = date.to_time
+    { :conditions => [ "pages.starts_at >= ? AND pages.starts_at <= ?", date.beginning_of_day, date.end_of_day ] }
   }
 
-  has_finder :occurs_between_dates, lambda {|start_datestring, end_datestring|
-    start_year, start_month, start_day  = start_datestring.split('-')
-    end_year, end_month, end_day        = end_datestring.split('-')
-
-    start_date  = Time.utc(start_year, start_month, start_day)
-    end_date    = Time.utc(end_year, end_month, end_day)
-
-    case connection.adapter_name
-    when "SQLite"
-      { :conditions => [
-          "STRFTIME('%Y-%m-%d',pages.starts_at) >= :start_day AND STRFTIME('%Y-%m-%d',pages.ends_at) <= :end_day",
-          {:start_day => start_date.loc('%Y-%m-%d'), :end_day => end_date.loc('%Y-%m-%d')}
-        ]
-      }
-    when "MySQL"
-      { :conditions => [
-          "DATE_FORMAT(pages.starts_at,'%Y-%m-%d') >= :start_day AND DATE_FORMAT(pages.ends_at,'%Y-%m-%d') <= :end_day",
-          {:start_day => start_date.loc('%Y-%m-%d'), :end_day => end_date.loc('%Y-%m-%d')}
-        ]
-      }
-    end
+  has_finder :occurs_between_dates, lambda {|start_date, end_date|
+    start_date = start_date.to_time
+    end_date = end_date.to_time
+    { :conditions => [ "(pages.starts_at >= :start AND pages.starts_at <= :end) OR (pages.ends_at >= :start AND pages.ends_at <= :end) OR (pages.starts_at <= :start AND pages.ends_at >= :end)", {:start => start_date, :end => end_date} ] }
   }
 
   #######################################################################

@@ -36,7 +36,7 @@ module ContextHelper
   end
 
   def scoped_path( path_type, options = {} )
-    action =  options[:action]
+    action =  options.delete(:action)
     requested_scope = options[:scope] || scoped_by_context?
     scope_type = context_path_prefix_type( requested_scope )
 #      case scoped_by_context?
@@ -47,12 +47,12 @@ module ContextHelper
 #        when Tag; "tag"
 #        when Tool::Event; "event"
 #      end
-    (return self.send( ( action ? "#{action}_" : "" ) + "#{path_type}_path" )) unless scope_type
+    (return self.send( ( action ? "#{action}_" : "" ) + "#{path_type}_path", options )) unless scope_type
     
     if scope_type == 'me'
-      self.send( ( action ? "#{action}_" : "" ) + "#{scope_type}_#{path_type}_path" ) 
+      self.send( ( action ? "#{action}_" : "" ) + "#{scope_type}_#{path_type}_path", options ) 
     else
-      self.send( ( action ? "#{action}_" : "" ) + "#{scope_type}_#{path_type}_path", requested_scope ) 
+      self.send( ( action ? "#{action}_" : "" ) + "#{scope_type}_#{path_type}_path", requested_scope, options ) 
     end
   end
 

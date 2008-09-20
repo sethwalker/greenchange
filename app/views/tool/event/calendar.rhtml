@@ -1,9 +1,9 @@
 <%= render(:partial => "nav") %>
 <h1><%= "#{@date.strftime('%B')}"%> <%= @date.year %></h1>
-<p><%= link_to("#{@date.<<(12).year}", :date=>@date.<<(12)) %>
-   <%= link_to("#{@date.<<(1).strftime('%B')}", :date=>@date.<<(1)) %>
-   <%= link_to("#{@date.>>(1).strftime('%B')}", :date=>@date.>>(1)) %>
-   <%= link_to("#{@date.>>(12).year}", :date=>@date.>>(12)) %>  
+<p><%= link_to("#{@date.<<(12).year}", scoped_path(:events, :action => 'month', :date => @date.<<(12))) %>
+   <%= link_to("#{@date.<<(1).strftime('%B')}", scoped_path(:events, :action => 'month', :date => @date.<<(1))) %>
+   <%= link_to("#{@date.>>(1).strftime('%B')}", scoped_path(:events, :action => 'month', :date => @date.>>(1))) %>
+   <%= link_to("#{@date.>>(12).year}", scoped_path(:events, :action => 'month', :date=>@date.>>(12))) %>
 </p>        
 <table cellpadding="5" cellspacing="0" border="1" width="100%" height="100%">
     <tr valign="top">

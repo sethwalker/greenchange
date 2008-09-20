@@ -152,24 +152,20 @@ class Tool::EventController < Tool::BaseController
 
   def request_dates
       if params[:date]
-        year = params[:date].split("-")[0].to_i
-        month = params[:date].split("-")[1].to_i
-        day = params[:date].split("-")[2].to_i
-
-        @date = Date.new(year,month, day)
+        @date = params[:date].to_date
       else
         @date = Date.today
       end
 
-      if params[:by] == 'month'
-        start_date  = @date.beginning_of_month
-        end_date    = @date.end_of_month
-      elsif params[:by] == 'day'
-        start_date  = @date
-        end_date    = start_date
-      else # week is the default
-        start_date  = @date.beginning_of_week 
-        end_date    = @date.beginning_of_week + 6 
+      if action_name == 'week'
+        start_date  = @date.beginning_of_week.beginning_of_day
+        end_date    = @date.beginning_of_week.end_of_day + 6.days
+      elsif action_name == 'day'
+        start_date  = @date.beginning_of_day
+        end_date    = @date.end_of_day
+      else # month is the default
+        start_date  = @date.beginning_of_month.beginning_of_day
+        end_date    = @date.end_of_month.end_of_day
       end
 
       [start_date, end_date]
@@ -180,17 +176,17 @@ class Tool::EventController < Tool::BaseController
     @start_date, @end_date = request_dates
 
     if @group
-      @events = @group.pages.page_type(:event).occurs_between_dates(
-        @start_date.to_s, @end_date.to_s
+      @events = Page.send( *context_finder(@group)).page_type(:event).occurs_between_dates(
+        @start_date, @end_date
       ).find(:all, :order => "pages.starts_at ASC")
-    elsif @person
+    elsif @person || @me
+      @person ||= @me
       @events = @person.pages.page_type(:event).occurs_between_dates(
-        @start_date.to_s, @end_date.to_s
+        @start_date, @end_date
       ).find(:all, :order => "pages.starts_at ASC")
     else
-      # TODO: will this ever be called? show public events? 
-      @events = Page.totally_public.page_type(:event).occurs_between_dates(
-        @start_date.to_s, @end_date.to_s
+      @events = Page.allowed(current_user, :view).page_type(:event).occurs_between_dates(
+        @start_date, @end_date
       ).find(:all, :order => "pages.starts_at ASC")
     end
 
