@@ -17,8 +17,8 @@
     = render :partial => 'shared/sides/events',                    :locals => { :source => @issue }
 
   - if @page && !@page.new_record? && controller.action_name != 'edit'
-    = render :partial => 'shared/sides/invite'
     = render :partial => 'shared/sides/donate'
+    = render :partial => 'shared/sides/invite'
     = render :partial => 'shared/sides/rss'
     = render :partial => 'pages/sides/contributors', :locals => { :page => @page }
     = render :partial => 'shared/groups_large', :locals => {:source => @page}
@@ -30,8 +30,8 @@
 
   - if @me 
     = render :partial => 'me/context_menu',       :locals => { :person => @me }
-    = render :partial => 'shared/sides/invite'
     = render :partial => 'shared/sides/donate'
+    = render :partial => 'shared/sides/invite'
     = render :partial => 'shared/sides/rss'
     = render :partial => 'shared/groups_large',   :locals => { :source => @me }
     = render :partial => 'shared/contacts_large', :locals => { :source => @me }
@@ -53,8 +53,8 @@
   -#= render :partial => 'shared/sides/events',          :locals => { :source => @tag }
 
   - unless scoped_by_context?
-    = render :partial => 'shared/sides/invite'
     = render :partial => 'shared/sides/donate'
+    = render :partial => 'shared/sides/invite'
     = render :partial => 'shared/sides/rss'
     - if controller.controller_name == 'people' and controller.action_name == 'index'
       = render :partial => 'shared/sides/featured/people', :locals => { :source => nil }
