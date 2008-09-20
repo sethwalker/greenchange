@@ -19,11 +19,11 @@ describe ContextHelper do
 
     it "should respect the current scope" do
       @group = create_group
-      scoped_path( :message, :action => :new ).should == "/groups/#{@group.to_param}/messages/new"
+      scoped_path( :message, :action => :new ).should == "/groups/#{@group.to_param}/messages/new?"
     end
     it "should respect a passed scope" do
       passable_group = create_group
-      scoped_path( :message, :action => :new, :scope => passable_group ).should == "/groups/#{passable_group.to_param}/messages/new"
+      scoped_path( :message, :action => :new, :scope => passable_group ).should == "/groups/#{passable_group.to_param}/messages/new?"
     end
 
     it "should work for the me context" do

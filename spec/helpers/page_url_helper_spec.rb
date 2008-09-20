@@ -19,8 +19,6 @@ describe PageUrlHelper do
     it "should work for news" do
       @page = Tool::News.create :title => 'title'
       page_url(@page).should == news_url(@page)
-      puts page_url(@page)
-      puts news_url(@page)
     end
     it "should work for assets" do
       @page = Tool::Asset.create :title => 'title'

@@ -37,7 +37,7 @@ module ContextHelper
 
   def scoped_path( path_type, options = {} )
     action =  options.delete(:action)
-    requested_scope = options[:scope] || scoped_by_context?
+    requested_scope = options.delete(:scope) || scoped_by_context?
     scope_type = context_path_prefix_type( requested_scope )
 #      case scoped_by_context?
 #        when Group; "group"

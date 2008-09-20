@@ -46,9 +46,8 @@ class Group < ActiveRecord::Base
 
   attr_accessor :location_data
   def location_data=(attributes)
-    return if attributes.values.all? {|v| v.blank?}
     if locations.empty?
-      locations.build( attributes )
+      locations.build( attributes ) unless attributes.values.all? {|v| v.blank?}
     else
       locations.first.attributes = attributes
     end
