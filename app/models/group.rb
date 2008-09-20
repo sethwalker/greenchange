@@ -45,11 +45,12 @@ class Group < ActiveRecord::Base
   has_many :locations, :class_name => 'ProfileLocation'
 
   attr_accessor :location_data
-  def location_data=(values)
+  def location_data=(attributes)
+    return if attributes.values.all? {|v| v.blank?}
     if locations.empty?
-      locations.build( values )
+      locations.build( attributes )
     else
-      locations.first.attributes = values
+      locations.first.attributes = attributes
     end
   end
 
