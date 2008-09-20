@@ -1,31 +1,42 @@
 - list_options = { :limit => 25, :order => 'created_at DESC' }
-%ul.tab-block
-  -#.toolbar
-    .icon
-    .icon
-      = link_to 'Subscribe to Updates', "formatted_group_pages_url(source.id, :format => :rss )", :class => 'subscribe action', :title => 'Subscribe to Updates'
+- blogs_and_news = Page.send( *context_finder(source)).page_type(:news, :blog, :wiki ).find(:all, list_options)
+- discussions =    Page.send( *context_finder(source)).page_type(:discussion).find(:all, list_options.merge( :order => 'updated_at DESC' ))
+- action_alerts =  Page.send( *context_finder(source)).page_type(:action_alert).find( :all, list_options )
+- media =          Page.send( *context_finder(source)).allowed(current_user).page_type(:media).find( :all, list_options )
 
-  %li
-    .tab-title
-      Blogs &amp; News
-      .toolbar
-    %ul.tab-content.list
-      = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).page_type(:news, :blog, :wiki ).find(:all, list_options)
-  %li
-    .tab-title
-      Discussions
-    %ul.tab-content.list
-      = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).page_type(:discussion).find(:all, list_options.merge( :order => 'updated_at DESC' ))
-  %li
-    .tab-title
-      Actions alerts
-    %ul.tab-content.list
-      = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).page_type(:action_alert).find( :all, list_options )
+- if [blogs_and_news, discussions, action_alerts, media].all? {|section| section.empty?}
+  - if source.is_a?(User)
+    This person has not created any pages
+  - elsif source.is_a?(Group)
+    There are no pages for this group
+- else
+  %ul.tab-block
+    -#.toolbar
+      .icon
+      .icon
+        = link_to 'Subscribe to Updates', "formatted_group_pages_url(source.id, :format => :rss )", :class => 'subscribe action', :title => 'Subscribe to Updates'
 
     %li
       .tab-title
-        Media
+        Blogs &amp; News
+        .toolbar
       %ul.tab-content.list
-        = render :partial => 'pages/list/page', :collection => Page.send( *context_finder(source)).allowed(current_user).page_type(:media).find( :all, list_options )
-- load_javascript_tabs
+        = render :partial => 'pages/list/page', :collection => blogs_and_news
+    %li
+      .tab-title
+        Discussions
+      %ul.tab-content.list
+        = render :partial => 'pages/list/page', :collection => discussions
+    %li
+      .tab-title
+        Actions alerts
+      %ul.tab-content.list
+        = render :partial => 'pages/list/page', :collection => action_alerts
+
+      %li
+        .tab-title
+          Media
+        %ul.tab-content.list
+          = render :partial => 'pages/list/page', :collection => media
+  - load_javascript_tabs
 
