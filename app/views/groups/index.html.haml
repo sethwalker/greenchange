@@ -24,17 +24,15 @@
       =submit_tag 'Search Groups'
 .section
   .icon-box
-    =render :partial => 'shared/list/group',  :collection =>@groups
+    = will_paginate(@groups, :params => scoped_pagination_params )
+    =render :partial => 'shared/list/group', :collection => @groups
   .clear
+    = will_paginate(@groups, :params => scoped_pagination_params )
 
-- groups_overlapping  =   current_user.groups & @groups
-- if scoped_by_context? && ( scoped_by_context? != current_user ) && !groups_overlapping.empty?
+- unless @shared_groups.empty?
   .section
     %h2 
       Groups you share
     .icon-box
-      = will_paginate(@groups, :params => scoped_pagination_params )
-      = render :partial => 'shared/list/group', :collection => groups_overlapping 
+      = render :partial => 'shared/list/group', :collection => @shared_groups
     .clear    
-    = will_paginate(@groups, :params => scoped_pagination_params )
-

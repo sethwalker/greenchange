@@ -197,6 +197,9 @@ class Group < ActiveRecord::Base
     people.any? ? { :include => :memberships, :conditions => [ "memberships.user_id in(?)", people ]  } : {}
     }
 
+  has_finder :shared, lambda {|has_groups|
+    { :conditions => ["groups.id IN (?)", has_groups.group_ids] }
+    }
   
   def user_ids
     @user_ids ||= memberships.collect{|m|m.user_id}

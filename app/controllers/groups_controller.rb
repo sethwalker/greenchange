@@ -23,6 +23,9 @@ class GroupsController < ApplicationController
       @groups = Group.search(params[:query], :page => params[:page], :per_page => Group.per_page)
     else
       @groups = Group.allowed( current_user, :view ).by_person(( @me || @person)).by_issue(@issue).by_tag(@tag).paginate(:all, :page => params[:page])
+      if scoped_by_context? && ( scoped_by_context? != current_user )
+        @shared_groups = current_user.groups.shared(scoped_by_context?)
+      end
     end
   end
 
