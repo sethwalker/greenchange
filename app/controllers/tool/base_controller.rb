@@ -33,7 +33,7 @@ class Tool::BaseController < ApplicationController
     if params[:query]
       @pages = page_class.search(params[:query], :with => { :public => 1 }, :page => params[:page])
     else
-      @pages = Page.allowed(current_user).page_type( page_type ).by_group( @group ).by_issue( params[:issue_id ]).by_person( ( @me || @person ) ).paginate :all, :page => params[:page], :order => 'created_at DESC'
+      @pages = Page.allowed(current_user).page_type( page_type ).by_group( @group ).by_issue( @issue ).by_person( ( @me || @person ) ).paginate :all, :page => params[:page], :order => 'created_at DESC'
     end
     respond_to do |format|
       format.html do

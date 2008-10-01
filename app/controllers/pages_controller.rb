@@ -45,7 +45,7 @@ class PagesController < ApplicationController
     if params[:query]
       @pages = Page.search(params[:query], :with => { :public => 1 }, :page => params[:page])
     else
-      @pages = Page.allowed(current_user).by_group( @group ).by_issue( params[:issue_id ]).by_person( ( @me || @person ) ).by_tag( @tag ).paginate :all, :page => params[:page], :per_page => 100, :order => 'updated_at DESC'
+      @pages = Page.allowed(current_user).by_group( @group ).by_issue( @issue ).by_person( ( @me || @person ) ).by_tag( @tag ).paginate :all, :page => params[:page], :per_page => 100, :order => 'updated_at DESC'
     end
     respond_to do |format|
       format.html {}
