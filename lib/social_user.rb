@@ -98,7 +98,7 @@ module SocialUser
 
         #this seems to be the only way to override the A/R created method
         remove_method :all_group_ids
-        remove_method :group_ids
+#        remove_method :group_ids
       end
 
     end
@@ -114,9 +114,9 @@ module SocialUser
       end
 
       # alias for the cache.
-      def group_ids
-        self.direct_group_id_cache
-      end
+#      def group_ids
+#        self.direct_group_id_cache
+#      end
       
       # alias for the cache
       def all_group_ids
