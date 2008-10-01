@@ -70,6 +70,7 @@ class Subscription < ActiveRecord::Base
 
   def entries
     e = feed.try(:entries) || []
+    return e if e.empty?
     if e.first.date_published
       e.sort_by {|entry| entry.date_published.to_time }
     else

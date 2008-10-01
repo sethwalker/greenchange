@@ -26,6 +26,7 @@ describe JoinRequest do
       memship2 = @group.memberships.create :user => @member2
       memship.promote
       memship2.promote
+      @group.memberships(true)
 
       @req = new_join_request :group => @group
     end
