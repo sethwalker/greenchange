@@ -8,5 +8,4 @@
   .section
     .header
       Contributors
-    -if @page.contributors.size > 1
-      = render :partial => 'shared/list/person', :collection => @page.contributors
+    = render :partial => 'shared/list/person', :collection => @page.contributors

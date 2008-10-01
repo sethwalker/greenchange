@@ -459,7 +459,7 @@ class Page < ActiveRecord::Base
   
   # like users.participated, but uses already included data
   def contributors
-    user_participations.collect{|part| part.user if part.changed_at }.compact
+    (user_participations.collect{|part| part.user if part.changed_at }.compact + discussion.posts.map {|p| p.user}.compact).uniq
   end
   
   # like user_participations.find_by_user_id, but uses already included data
