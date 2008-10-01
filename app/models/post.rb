@@ -50,7 +50,7 @@ class Post < ActiveRecord::Base
   after_save :index_page
   def index_page
     if page
-      page.update_attribute(:delta, true)
+      Page.update_all(["delta = ?", true], ["id = ?", page.id])
       page.index_delta
     end
   end
