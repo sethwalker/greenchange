@@ -48,6 +48,8 @@ namespace :deploy do
     invoke_command "ln -nfs #{shared_path}/assets #{release_path}/assets"
     invoke_command "ln -nfs #{shared_path}/public_assets #{release_path}/public/assets"
     invoke_command "ln -nfs #{shared_path}/avatars #{release_path}/public/avatars"
+    invoke_command "ln -nfs #{shared_path}/public_groups #{release_path}/public/groups"
+    invoke_command "ln -nfs #{shared_path}/public_people #{release_path}/public/people"
     # avatars are now at this path
     invoke_command "ln -nfs #{shared_path}/public_uploaded #{release_path}/public/images/uploaded"
 
