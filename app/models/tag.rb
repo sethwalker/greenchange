@@ -13,6 +13,10 @@ class Tag < ActiveRecord::Base
   # Change this validation if you need more complex tag names.
   validates_format_of :name, :with => /^[a-zA-Z0-9\_\-]+$/, :message => "can not contain special characters"
   
+  def display_name
+    name
+  end
+
   # Set up the polymorphic relationship.
   has_many_polymorphs :taggables, 
     :from => ([:pages, :bookmarks ] + TOOLS.map {|t| t.to_s.underscore.pluralize.to_sym}),
