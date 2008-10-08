@@ -59,6 +59,8 @@ namespace :deploy do
     invoke_command "ln -nfs #{shared_path}/public_stylesheets/textile-editor.css #{release_path}/public/stylesheets/textile-editor.css"
     invoke_command "rm -fr #{release_path}/db/sphinx"
     invoke_command "ln -nfs #{shared_path}/db/sphinx #{release_path}/db/sphinx"
+    invoke_command "chown -R nogroup #{release_path}/tmp"
+    invoke_command "chmod -R g+w #{release_path}/tmp"
   end
 
   task :passenger_hates_htaccess, :roles => :app, :except => {:no_symlink => true} do
