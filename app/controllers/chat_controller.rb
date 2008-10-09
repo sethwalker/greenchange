@@ -14,19 +14,22 @@ class ChatController < ApplicationController
   
   # show a list of available channels
   def index
-    if logged_in?
-      @groups = current_user.groups
-    end
+    redirect_to chat_path
   end
   
   
   # http request front door
   # everything else is xhr request.
   def channel
+    flash[:notice] = "The chat room is full right now &mdash; try back in a few minutes." and redirect_to(me_path) and return if @channel.active_channel_users.length >= Crabgrass::Config.chat_room_limit && !@channel.active_channel_users.include?( current_user )
+
     @channel.destroy_old_messages
+    @channel.channels_users.find(:all, :conditions => ['last_seen <= ?', 20.minutes.ago]).each {|u| u.destroy}
     unless @channel.users.include?(@user)
       user_joins_channel(@user, @channel)
       record_user_action :not_typing
+    else
+      @channel.record_seeing_user(@user)
     end
     @messages = @channel.latest_messages
     session[:last_retrieved_message_id] = @messages.last.id if @messages.any?
@@ -87,7 +90,8 @@ class ChatController < ApplicationController
   # Get channel and user info that most methods use
   def get_channel_and_user
     @user = current_user
-    @channel = ChatChannel.find_by_id(params[:id])
+    #@channel = ChatChannel.find_or_create_by_name(params[:id])
+    @channel = ChatChannel.find_or_create_by_name('main')
     unless @channel
       @group = Group.get_by_name((params[:id] || params[:group_id]))
       if @group
@@ -101,11 +105,6 @@ class ChatController < ApplicationController
     true
   end
 
-  def authorized?
-    return true if params[:action] == 'index'
-    return( @user and @channel and @user.member_of?(@channel.group) )
-  end
-  
   def user_say_in_channel(user, channel, say)
     say = sanitize(say)
     #say = say.gsub(":)", "<img src='../images/emoticons/smiley.png' \/>")

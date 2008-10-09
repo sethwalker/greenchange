@@ -103,12 +103,12 @@ ActionController::Routing::Routes.draw do |map|
     #group.resource :profile, :controller => 'group/profiles'
     group.icon 'icon/:size.:format', :controller => 'groups', :action => 'icon'
     group.connect 'icon.:format', :controller => 'groups', :action => 'icon'
-    group.chat 'chat', :controller => 'chat', :action => 'channel'
     page_routes(group)
   end
 
   #map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|search|calendar_month|list_by_day|list_by_week|list_by_month/
   map.resources :memberships
+  map.chat 'chat', :controller => 'chat', :action => 'channel', :id => 'main'
 
   map.resources :people do |person|
     person.resources :invitations

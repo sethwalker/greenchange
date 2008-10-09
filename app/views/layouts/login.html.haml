@@ -11,7 +11,16 @@
       - online_contacts_count = current_user.contacts.online.count
       - if online_contacts_count > 0
         = image_tag '/images/gc/icons/19_icons/personal.gif', :align=>"top", :alt=>"Online contacts"
-        = link_to"(#{online_contacts_count})", me_people_path, :title => "You have #{online_contacts_count} contacts currently online"
+        = link_to"(#{online_contacts_count})", me_people_path, :title => "You have #{online_contacts_count} contacts currently online : #{current_user.contacts.online.map {|c| c.display_name}.join(', ')}"
+
+      - chat_users = ChatChannel.find_or_create_by_name('main').active_channel_users
+      - if chat_users.size >= Crabgrass::Config.chat_room_limit
+        = image_tag '/images/gc/icons/19_icons/chat_room.gif', :align=>"top", :alt=>"Chat room full"
+        = link_to"(chat room full)", chat_path, :title => "#{chat_users.size} people are currently chatting: #{chat_users.map {|c| c.user.display_name}.join(', ')}"
+      - elsif chat_users.size > 0
+        = image_tag '/images/gc/icons/19_icons/chat_room.gif', :align=>"top", :alt=>"Chat room"
+        = link_to"(#{chat_users.size})", chat_path, :title => "#{chat_users.size} people are currently chatting: #{chat_users.map {|c| c.user.display_name}.join(', ')}"
+
         
 - else
   #user-menu

@@ -42,29 +42,17 @@ class ChatChannel < ActiveRecord::Base
   end
   
   def active_channel_users
-    @active_channel_users ||= ChatChannelsUser.find_by_sql(["SELECT * FROM chat_channels_users cu WHERE cu.last_seen >= DATE_SUB(?, INTERVAL 1 MINUTE) AND cu.channel_id = ?", Time.now.strftime("%Y-%m-%d %H:%M:%S"), self.id])
+    @active_channel_users ||= ChatChannelsUser.find_by_sql(["SELECT * FROM chat_channels_users cu WHERE cu.last_seen >= DATE_SUB(?, INTERVAL 4 MINUTE) AND cu.channel_id = ?", Time.now.to_s(:db), self.id])
   end
   
   def keep
     500
   end
 
-  def record_seeing_user(user, typing_action)
-    # use typing_delta to change typing counter, but keep value bounded between -2 and 2
-    typing = 0
+  def record_seeing_user(user)
     c_user = self.channels_users.find_by_user_id(user.id)
-    if c_user and c_user.typing?
-      typing = c_user.typing
-      if typing_action == 2 and typing < 2
-        typing += 2
-      elsif typing_action == -2
-        typing = -2
-      elsif typing_action == 0 and typing > 0
-        typing -= 1
-      end
-    end
     
     self.users.delete(user)
-    self.channel_users.create :user => user,  :last_seen => Time.now, :typing => 10 
+    self.channels_users.create :user => user,  :last_seen => Time.now
   end
 end

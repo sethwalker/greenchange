@@ -5,10 +5,9 @@
   %h1
     = @person.display_name
   .section.info
-    .section.profile
-      =render :partial => 'profile', :locals => { :profile => @person.profile_for( current_user ) }
+    =render :partial => 'profile', :locals => { :profile => @person.profile_for( current_user ) }
     -unless @person.issues.empty?
-      .issues.icon-only
+      .issues.icon-only.clear
         %label Issues:
         = render :partial => 'shared/icons/issue', :collection => @person.issues
 

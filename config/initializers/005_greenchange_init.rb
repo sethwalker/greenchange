@@ -25,6 +25,8 @@ Crabgrass::Config.dia_allow_info_sharing_group_id =  34839
 Crabgrass::Config.dia_all_members_group_id = 36056
 Crabgrass::Config.dia_no_groups_group_id = 36057
 
+Crabgrass::Config.chat_room_limit = 8
+
 crabgrass_config = "#{RAILS_ROOT}/config/crabgrass.yml"
 # kluge for cruise control for now
 crabgrass_config = "#{RAILS_ROOT}/config/crabgrass_example.yml" unless File.exists? "#{RAILS_ROOT}/config/crabgrass.yml"
