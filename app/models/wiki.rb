@@ -148,7 +148,7 @@ class Wiki < ActiveRecord::Base
   # called internally
   def format_wiki_text(text)
     if text
-      GreenCloth.new(text, default_group_name).to_html
+      GreenCloth.new(text, default_group_name).to_html.gsub(/<\/?del>-|-<\/?del>/, '&mdash;')
     else
       "<p></p>"
     end

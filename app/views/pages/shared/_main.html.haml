@@ -6,15 +6,29 @@
 
 - if [blogs_and_news, discussions, action_alerts, media].all? {|section| section.empty?}
   - if source.is_a?(User)
-    This person has not created any pages
+    = render :partial => 'people/no_content', :locals => { :source => source }
   - elsif source.is_a?(Group)
-    There are no pages for this group
+    .section.no_content_section 
+      .padding
+        %p
+          No one in this group has added content yet. 
+        - if source.members.include? current_user
+          %p
+            You can 
+            = link_to "start sharing", new_group_blog_path( source )
+            some Green thoughts, news, art and culture right now.
+        - else
+          %p
+            You can 
+            = link_to "join and start sharing", new_group_membership_path( source )
+            some Green thoughts, news, art and culture right now.
+
 - else
   %ul.tab-block
     -#.toolbar
       .icon
       .icon
-        = link_to 'Subscribe to Updates', "formatted_group_pages_url(source.id, :format => :rss )", :class => 'subscribe action', :title => 'Subscribe to Updates'
+        = link_to 'Subscribe to updates', "formatted_group_pages_url(source.id, :format => :rss )", :class => 'subscribe action', :title => 'Subscribe to updates'
 
     %li
       .tab-title

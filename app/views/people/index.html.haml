@@ -22,6 +22,6 @@
 .section
   .icon-box
     = will_paginate(@people, :params => scoped_pagination_params )
-    =render :partial => 'shared/list/person', :collection => @people
+    =render :partial => 'shared/list/person_large', :collection => @people
   .clear
     = will_paginate(@people, :params => scoped_pagination_params )

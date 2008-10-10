@@ -1,5 +1,5 @@
-.vcard
-  #titlebox
+- content_for :title do
+  .vcard
     .toolbar.title-menu
       = render :partial => 'profiles/menu', :locals => { :person => @profile.entity }
     %img{ html_options_for_icon_for( @profile.entity, :class => 'photo', :src => icon_path_for( @profile.entity), :size => 'large' ) }
@@ -16,104 +16,124 @@
 
     %h3.org-info
       %span.title
-        = @profile.role? ?  @profile.role + (( @profile.organization && @profile.role ) ? ', ' : '' ) : ''
+        = @profile.role? ?  @profile.role + (( !@profile.organization.blank? && !@profile.role.blank? ) ? ', ' : '' ) : ''
       %span.org
         = @profile.organization
 
-  %ul.landing.profile.show.plainlist
-    - unless @profile.locations.empty?
-      %li
-        %h4
-          Location:
-        - @profile.locations.each do |location|
-          %dl.adr
-            %dt.type
-              = h(_(location.location_type))
-            %dd.mailable
-              .street-address
-                = h(location.street)
-              .address-last-line
-                %span.locality
-                  = h(location.city) + ( location.state ? ', ':'')
-                %span.region
-                  = h(location.state)
-                %span.postal-code
-                  = h(location.postal_code)
-              .country-name
-                = location.country_name
+- has_content = false
+%ul.landing.profile.show.plainlist
+  - unless @profile.locations.empty?
+    %li
+      %h4
+        Location
+      - @profile.locations.each do |location|
+        - has_content = true
+        %dl.adr
+          %dt.type
+            = h(_(location.location_type))
+          %dd.mailable
+            .street-address
+              = h(location.street)
+            .address-last-line
+              %span.locality
+                = h(location.city) + ( location.state ? ', ':'')
+              %span.region
+                = h(location.state)
+              %span.postal-code
+                = h(location.postal_code)
+            .country-name
+              = location.country_name
 
-    - unless @profile.web_resources.empty?
-      %li
-        %h4
-          Online:
-        %dl.profile.web_resources
-          - @profile.web_resources.each do |web_resource|
-            %dt.type
-              = web_resource.web_resource_type
-              \:
-            %dd
-              - if web_resource_url( web_resource.web_resource_type, web_resource.web_resource )
-                = link_to web_resource.web_resource, web_resource_url( web_resource.web_resource_type, web_resource.web_resource ), :class => 'url external', :target => 'blank'
-              - else
-                = web_resource.web_resource
-            .clear
-
-
-    - unless @profile.phone_numbers.empty?
-      %li
-        %h4
-          Phone:
-        - @profile.phone_numbers.each do |phone_number|
-          %dl.tel
-            %dt.type
-              = phone_number.phone_number_type
-            %dd.value
-              = h(phone_number.phone_number)
-
-    - unless @profile.email_addresses.empty?
-      %li
-        %h4
-          Email:
-        - @profile.email_addresses.each do |email_address|
-          %dl.email
-            %dt
-              = h email_address.email_type
-              .cdata.type
-                = hcard_data_type(email_address.email_type )
-            %dd.value
-              = mail_to email_address.email_address, email_address.email_address, :encode => 'hex'
+  - unless @profile.web_resources.empty?
+    %li
+      %h4
+        Online
+      - has_content = true
+      %dl.profile.web_resources
+        - @profile.web_resources.sort_by {|wr| wr.web_resource_type == 'website' ? -1 : 1 }.each do |web_resource|
+          %dt.type
+            = web_resource.web_resource_type
+          %dd
+            - if web_resource_url( web_resource.web_resource_type, web_resource.web_resource )
+              = link_to web_resource.web_resource, web_resource_url( web_resource.web_resource_type, web_resource.web_resource ), :class => 'url external', :target => 'blank'
+            - else
+              = web_resource.web_resource
+          .clear
 
 
-    - unless @profile.im_addresses.empty?
-      %li
-        %h4
-          Instant Messaging:
-        %dl
-          - @profile.im_addresses.each do |im|
-            %dt
-              = h(im.im_type)
-            %dd
-              - if hcard_im_url( im.im_type, im.im_address )
-                = link_to im.im_address, hcard_im_url( im.im_type, im.im_address ), :class => 'url'
-              - else
-                %span.url
-                  = im.im_address
+  - unless @profile.phone_numbers.empty?
+    - has_content = true
+    %li
+      %h4
+        Phone
+      - @profile.phone_numbers.each do |phone_number|
+        %dl.tel
+          %dt.type
+            = phone_number.phone_number_type
+          %dd.value
+            = h(phone_number.phone_number)
 
-    - unless @profile.entity.languages.empty?
-      %li
-        %h4
-          Languages
-        .languages.note
-          = list_languages @profile.entity.languages
+  - unless @profile.email_addresses.empty?
+    - has_content = true
+    %li
+      %h4
+        Email
+      - @profile.email_addresses.each do |email_address|
+        %dl.email
+          %dt
+            = h email_address.email_type
+            .cdata.type
+              = hcard_data_type(email_address.email_type )
+          %dd.value
+            = mail_to email_address.email_address, email_address.email_address, :encode => 'hex'
+
+
+  - unless @profile.im_addresses.empty?
+    - has_content = true
+    %li
+      %h4
+        Instant messaging
+      %dl
+        - @profile.im_addresses.each do |im|
+          %dt
+            = h(im.im_type)
+          %dd
+            - if hcard_im_url( im.im_type, im.im_address )
+              = link_to im.im_address, hcard_im_url( im.im_type, im.im_address ), :class => 'url'
+            - else
+              %span.url
+                = im.im_address
+
+  - unless @profile.entity.languages.empty?
+    - has_content = true
+    %li
+      %h4
+        Languages
+      .languages.note
+        = list_languages @profile.entity.languages
 
 
 - unless @profile.notes.empty?
   %ul.plainlist
     - ProfileHelper::NOTES.each do |note_type| 
-      - next unless note = @profile.notes[ note_type] and note.body
+      - next unless note = @profile.notes[ note_type] and !note.body.blank?
+      - has_content = true
       %li
         %h4
-          = ProfileHelper::NOTE_TYPE_NAMES[note_type]+':'
+          = ProfileHelper::NOTE_TYPE_NAMES[note_type]
         = simple_format note.body
 
-
+- if !has_content
+  .landing
+    .section.no_content_section
+      .padding
+        - if @profile.entity == current_user
+          %p
+            No info here yet.  Please
+            = link_to "fill out your profile.", edit_me_profile_path
+        - else
+          %p
+            This member has not filled out a profile.
+          %p
+            = link_to "Send a message", new_person_message_path( @profile.entity )
+            encouraging him or her to do so.

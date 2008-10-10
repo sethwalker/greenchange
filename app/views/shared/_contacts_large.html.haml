@@ -2,4 +2,4 @@
   = link_to 'Contacts', person_contacts_url(source), :class => 'header'
   .icon-box 
     - limit = extended_sidebar? ? 8 : 6
-    = render :partial => 'shared/list/person', :collection => source.contacts.find( :all, :limit => limit )
+    = render :partial => 'shared/list/person', :collection => source.contacts.find( :all, :limit => limit, :order => "RAND()" )

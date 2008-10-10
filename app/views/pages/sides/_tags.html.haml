@@ -1,7 +1,7 @@
 - if page.tags.any? || ( logged_in? && current_user.may?( :participate, page ) )
   .section
     .header
-      tags
+      Tags
     - if logged_in? && current_user.may?(:participate, page)
       = render :partial => "shared/form/tags", :locals => { :taggable => page }
     - if page.tags.any?

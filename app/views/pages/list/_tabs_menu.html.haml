@@ -1,7 +1,7 @@
 .toolbar.tabs-menu
   -#
     .icon
-      = link_to 'Create Page', new_polymorphic_path( [:issue, scoped_by_context?, :blog] ), :class => 'create action', :title => 'Create Page'
+      = link_to 'Create page', new_polymorphic_path( [:issue, scoped_by_context?, :blog] ), :class => 'create action', :title => 'Create Page'
   -#.icon
-    = link_to 'Subscribe to Updates', formatted_group_pages_url( source, :format => :rss ), :class => 'subscribe action', :title => 'Subscribe to Updates'
+    = link_to 'Subscribe to updates', formatted_group_pages_url( source, :format => :rss ), :class => 'subscribe action', :title => 'Subscribe to updates'
 

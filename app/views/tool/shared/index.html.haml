@@ -1,5 +1,5 @@
 %h1
-  = controller.controller_name.pluralize.titleize
+  = controller.controller_name.pluralize.humanize
 .section.search
   -form_tag('', :method => :get) do 
     =text_field_tag :query, h( params[:query])

@@ -290,7 +290,7 @@ div.edit-tab
   :width 58px
   :margin-top 17px
   :opacity .5
-  .icon.online &
+  .icon.online &, .icon_large.online &
     :border-color yellow
   body.ie &
     :display none
@@ -303,7 +303,7 @@ div.edit-tab
   :height 52px
   :width 52px
   :opacity .4
-  .icon.online &
+  .icon.online &, .icon_large.online &
     :border-top-color yellow
     :border-bottom-color yellow
 
@@ -315,3 +315,28 @@ div.edit-tab
 
 .group-members-count
   :font-weight bold
+
+body.action_alert #main .landing > .last_column
+  :margin-left 40px
+
+.no_content_section
+  :border 2px solid #6A7B12 
+  :background #F5FBE0
+  .padding
+    :margin 10px
+  p
+    :font-size 18px
+  #bar & 
+    :background none
+
+.icon_large
+  :margin 10px
+  :float left
+  :width 120px
+  :margin-top 1em
+  .icon_large_name 
+    :height 2em
+    :float left
+  .online_padding
+    :margin-top 0
+  .online_inner_padding

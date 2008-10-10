@@ -1,0 +1,8 @@
+- person = person_large
+.icon_large{ :class => (logged_in? && person.online? && person.searchable? ? 'online':'')}
+  - padding = content_tag :span, content_tag( :span, '', :class => 'online_inner_padding'), :class => 'online_padding'
+  - linked_name = content_tag :span, person.display_name, :class => 'person_name_link'
+  = link_to padding, person_url(person), html_options_for_icon_for( person, :size => (local_assigns[:size] ||'standard'), :class => 'name-bottom-large' )
+  .clear
+  .icon_large_name
+    = link_to truncate(person.display_name), person_path(person), :title => person.display_name

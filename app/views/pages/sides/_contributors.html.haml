@@ -1,7 +1,7 @@
 - if @page.created_by and @page.created_by.enabled?
   .section
     .header
-      Created By
+      Created by
     .icon-box
       = render :partial => 'shared/list/person', :object => @page.created_by 
 - if @page.contributors.any? and @page.contributors.size > 1

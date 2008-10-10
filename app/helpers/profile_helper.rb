@@ -64,7 +64,9 @@ module ProfileHelper
   end
 
   WEB_RESOURCE_TYPES =
-    {'blog' => 'My blog URL',
+  {
+    'website' => 'My website',
+    'blog' => 'My blog URL',
     'facebook' => 'Facebook profile URL',
     'linkedin' => 'LinkedIn profile URL',
     'myspace' => 'MySpace profile URL',

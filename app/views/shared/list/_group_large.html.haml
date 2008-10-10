@@ -1,0 +1,6 @@
+- group = group_large
+.icon_large
+  = link_to '&nbsp;' , group_url(group), html_options_for_icon_for( group, :size => (local_assigns[:size] || 'standard'), :class => 'name-bottom-large' ) 
+  .clear
+  .icon_large_name
+    = link_to truncate(group.display_name), group_path(group), :title => group.display_name

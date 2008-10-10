@@ -8,7 +8,7 @@
     .section
       %ul.list
         =render :partial => 'pages/list/page', :collection => Page.allowed(current_user).page_type(:event).find(:all, :limit=>25, :order=> "created_at desc")
-  .column
+  .column.last_column
     %h2 Take action
     -#=link_to 'Post an action alert', new_action_url, :class => 'add'
     -#=link_to 'Search for an event', '/search/action', :class => 'search'

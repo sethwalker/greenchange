@@ -8,4 +8,4 @@
       Groups
     .icon-box  
       - limit = extended_sidebar? ? 8 : 6
-      = render :partial => 'shared/list/group', :collection => source.groups.find( :all, :limit => limit )
+      = render :partial => 'shared/list/group', :collection => source.groups.find( :all, :limit => limit, :order => "RAND()" )

@@ -1,0 +1,11 @@
+.section.no_content_section
+  .padding
+    %p
+      - if source == current_user
+        Now it's your turn to
+        = link_to "create some content.", new_blog_path
+      - else
+        This network member has not created any content yet. 
+        = link_to "Send a message", new_person_message_path( source )
+        encouraging him or her to share some Green thoughts, news, art and culture.
+

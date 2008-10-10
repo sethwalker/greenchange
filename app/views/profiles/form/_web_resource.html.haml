@@ -7,7 +7,7 @@
     -#%p
       -#= ff.check_box :preferred, { :index => index, :class => 'behavior-radio'}, 1
     %p
-      = ff.select :web_resource_type, ProfileHelper::WEB_RESOURCE_TYPES.invert, {}, :index => index
+      = ff.select :web_resource_type, ProfileHelper::WEB_RESOURCE_TYPES.invert.sort {|k,v| k == 'website' ? 1 : 0}, {}, :index => index
     %p
       = ff.text_field :web_resource, :size => 20, :maxlength => 100, :index => index 
       = ff.label "#{index}_web_resource", 'Web service info'
