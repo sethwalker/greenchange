@@ -7,6 +7,8 @@
 
 .new.message.form.with-editor
   - form_for :message, @message, :url => scoped_path( :messages ) do |f|
+    %p.submit
+      = f.submit "Send"
     = render :partial => 'form', :locals => { :f => f, :message => @message }
     %p.submit
       = f.submit "Send"
