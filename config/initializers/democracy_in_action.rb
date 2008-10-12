@@ -1,4 +1,4 @@
-DemocracyInAction::API.__send__ :class_variable_set, :@@DEFAULT_URLS, { 'get' => 'http://salsa.wiredforchange.com/dia/api/get.jsp', 'process' => 'http://salsa.wiredforchange.com/dia/api/process.jsp', 'delete' => 'http://salsa.wiredforchange.com/dia/deleteEntry.jsp' }
+DemocracyInAction::API.__send__ :class_variable_set, :@@DEFAULT_URLS, { 'get' => 'http://salsa.wiredforchange.com/dia/api/get.jsp', 'process' => 'http://salsa.wiredforchange.com/dia/api/process.jsp', 'delete' => 'http://salsa.wiredforchange.com/delete' }
 
 require 'net/https'
 class DemocracyInAction::API
@@ -28,6 +28,22 @@ class DemocracyInAction::API
     key
   end
   alias_method_chain :process, :login
+
+  def delete(table, criteria)
+    options = processOptions(table, criteria)
+    options['object'] = options.delete('table')
+    options.delete('simple')
+    options['xml'] = true
+
+    res = sendRequest(@urls['delete'], criteria)
+    # if it contains '<success', it worked, otherwise a failure
+    if res.include?('<success')
+      return true
+    else
+      puts res if $DEBUG
+      return false
+    end
+  end
 
   def delete_with_login(*args)
     return false if DemocracyInAction::API.disabled?
