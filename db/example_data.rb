@@ -13,7 +13,7 @@ module FixtureReplacement
     
 	end
 
-  attributes_for :channel do |a|
+  attributes_for :channel, :class => ChatChannel do |a|
     
 	end
 
