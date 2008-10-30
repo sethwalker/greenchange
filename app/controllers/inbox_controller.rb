@@ -7,7 +7,7 @@ class InboxController < ApplicationController
     join_requests_rcvd = JoinRequest.to(@me).pending.paginate :all, :order => "updated_at DESC", :page => params[:page]
     @items_received = ( messages_rcvd + join_requests_rcvd ).sort { |item, item2 | item2.updated_at <=> item.updated_at }.compact
 
-    @items_sent = @me.messages_sent.pending.paginate(:all, :order => "updated_at DESC", :page => params[:page] )
+    @items_sent = @me.messages_sent.paginate(:all, :order => "updated_at DESC", :page => params[:page] )
 
     messages_ignd = @me.messages_received.ignored.paginate(:all, :order => "updated_at DESC", :page => params[:page] )
     join_requests_ignd = JoinRequest.to(@me).ignored.paginate :all, :order => "updated_at DESC", :page => params[:page]
