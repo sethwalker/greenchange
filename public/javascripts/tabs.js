@@ -44,7 +44,7 @@ Crabgrass.Tabs =  function() {
       };
 
       //disable tabs without content
-      jQ$('.tab-title + .tab-content:not(:has(li))', self).prev().addClass('disabled');
+      jQ$('.tab-title:not(:first) + .tab-content:not(:has(li))', self).prev().addClass('disabled');
 
       //establish a list of active tab-triggers
       var triggers = jQ$('.tab-title:not(.disabled)', self );
