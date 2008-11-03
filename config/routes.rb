@@ -108,7 +108,7 @@ ActionController::Routing::Routes.draw do |map|
 
   #map.connect 'groups/:action/:id/*path', :controller => 'groups', :action => /tags|archive|search|calendar_month|list_by_day|list_by_week|list_by_month/
   map.resources :memberships
-  map.chat 'chat', :controller => 'chat', :action => 'channel', :id => 'main'
+  map.chat 'chat', :controller => 'chat', :action => 'index'
 
   map.resources :people do |person|
     person.resources :invitations

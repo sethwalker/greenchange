@@ -10,11 +10,11 @@ class ChatController < ApplicationController
   include ChatHelper
  
   before_filter :login_required 
-  prepend_before_filter :get_channel_and_user
+  prepend_before_filter :get_channel_and_user, :except => :index
   
   # show a list of available channels
   def index
-    redirect_to chat_path
+  #  redirect_to chat_path
   end
   
   

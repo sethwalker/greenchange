@@ -1,12 +1,3 @@
-<% if @groups.any?%>
-  <% for group in @groups %>
-    <div style='float: left; text-align: center; margin: 1em;'>
-      <%= link_to "#{avatar_for group, 'small'}<br/>#{group.name} #{num_active_in_channel group.id}",
-                  :controller => 'chat', :action => 'channel', :id => group.name %>
-    </div>
-  <% end %>
-<% else %>
-  You are not a member of any group.
-<% end %>
-
-<br style="clear:both"/>
+<div style="height:475px;width:650px;">
+<iframe style='overflow:hidden;width:100%;height:100%;' frameborder='0' border='0' src='http://chat.zoho.com/shout.sas?k=%7B%22o%22%3A%22eK6x06gQ979le6e78X7%22%2C%22c%22%3A%22EN770GaI7B22M0lA8FBd7A8F%22%2C%22g%22%3A%22Anonymous%22%7D&V=FFFFFF,9CBF11,EEEFE5,9EBFDF,Greenchange%20chat'></iframe>
+</div>
