@@ -36,25 +36,25 @@
         .toolbar
       %ul.tab-content.list
         = render :partial => 'pages/list/page', :collection => blogs_and_news
-        = link_to 'more...', group_updates_path(source) if source.is_a?(Group) && blogs_and_news.size == 25
+        = link_to 'MORE BLOGS AND NEWS...', group_updates_path(source) if source.is_a?(Group) && blogs_and_news.size == 25
     %li
       .tab-title
         Discussions
       %ul.tab-content.list
         = render :partial => 'pages/list/page', :collection => discussions
-        = link_to 'more...', group_discussions_path(source) if source.is_a?(Group) && discussions.size == 25
+        = link_to 'MORE DISCUSSIONS...', group_discussions_path(source) if source.is_a?(Group) && discussions.size == 25
     %li
       .tab-title
         Actions alerts
       %ul.tab-content.list
         = render :partial => 'pages/list/page', :collection => action_alerts
-        = link_to 'more...', group_actions_path(source) if source.is_a?(Group) && action_alerts.size == 25
+        = link_to 'MORE ACTION ALERTS...', group_actions_path(source) if source.is_a?(Group) && action_alerts.size == 25
 
       %li
         .tab-title
           Media
         %ul.tab-content.list
           = render :partial => 'pages/list/page', :collection => media
-          = link_to 'more...', group_media_path(source) if source.is_a?(Group) && media.size == 25
+          = link_to 'MORE MEDIA...', group_media_path(source) if source.is_a?(Group) && media.size == 25
   - load_javascript_tabs
 
