@@ -64,8 +64,10 @@ class Subscription < ActiveRecord::Base
   def feed
     return @feed if @feed
     @feed = FeedNormalizer::FeedNormalizer.parse open(url)
-    @feed.clean!
+    @feed.clean! if @feed
     @feed
+  rescue OpenURI::HTTPError
+    nil
   end
 
   def entries
