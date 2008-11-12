@@ -43,6 +43,7 @@ class Subscription < ActiveRecord::Base
     existing_items = existing_reposts( fetched.map(&:url))
     existing_urls = existing_items.map { |ex| ex.data.source_url }
     updated_fetched, new_fetched = fetched.partition { |fe| existing_urls.include?( fe.url )}
+    updated_fetched = updated_fetched.select {|fe| !fe.last_updated.blank?}
     reposts.create_from_feed new_fetched unless new_fetched.empty?
     reposts.update_from_feed( updated_fetched, existing_items ) unless updated_fetched.empty?
     update_attribute :last_updated_at, Time.now
