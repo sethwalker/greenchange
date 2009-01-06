@@ -1,6 +1,6 @@
 %p
-  = check_box_tag "#{f.object_name}[issue_ids][]", issue.id, f.object.issue_identifications.map(&:issue_id).include?( issue.id  ), :id => "issue_ids[#{issue.id}]"
-  %label{html_options_for_icon_for( issue, :size => 'small', :for => "issue_ids[#{issue.id}]")} 
+  = check_box_tag "#{f.object_name}[issue_ids][]", issue.id, f.object.issue_identifications.map(&:issue_id).include?( issue.id  ), :id => "issue_ids_#{issue.id}"
+  %label{html_options_for_icon_for( issue, :size => 'small', :for => "issue_ids_#{issue.id}")} 
     = issue.name
 
 
