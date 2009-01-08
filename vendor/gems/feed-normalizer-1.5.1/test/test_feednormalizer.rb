@@ -245,7 +245,7 @@ class FeedNormalizerTest < Test::Unit::TestCase
 
   def test_relative_links_and_images_should_be_rewritten_with_url_base
     feed = FeedNormalizer::FeedNormalizer.parse(XML_FILES[:atom03])
-    assert_match '<a href="http://www.cheapstingybargains.com/link/tplclick?lid=41000000011334249&#038;pubid=21000000000053626"' + 
+    assert_match 'a long ignored &lt;a href="http://prorev.com/2008/12/letter-to-thomas-jefferson.html"&gt;letter to Thomas Jefferson&lt;/a&gt; <a href="http://www.cheapstingybargains.com/link/tplclick?lid=41000000011334249&#038;pubid=21000000000053626"' + 
       ' target=_"blank"><img  src="http://www.cheapstingybargains.com/assets/images/product/productDetail/9990000058546711.jpg"' + 
       ' width="150" height="150" border="0" style="float: right; margin: 0px 0px 5px 5px;" /></a>' +
       '<br /><img  src="http://www.cheapstingybargains.com/assets/images/product/productDetail/9990000058546711.jpg" width="150" height="150" border="0" style="float: right; margin: 0px 0px 5px 5px;" />',
