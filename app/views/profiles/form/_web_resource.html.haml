@@ -12,8 +12,12 @@
       = ff.text_field :web_resource, :size => 20, :maxlength => 100, :index => index 
       = ff.label "#{index}_web_resource", 'Web service info'
     - unless web_resource.new_record?
-      .toolbar.icons-only
+      .toolbar.icons-only.js-only
         .icon
-          = button_to 'Delete', profile_web_resource_path(profile, web_resource), :method => :delete , :class => 'remote confirm delete action', :remote_url => formatted_profile_web_resource_path(profile, web_resource, :xml ), :title => 'Delete'
+          = link_to 'Delete', profile_web_resource_path(profile, web_resource), :class => 'remote confirm delete action', :remote_url => formatted_profile_web_resource_path(profile, web_resource, :xml ), :title => 'Delete'
+      - content_for :content_footer do
+        .deleteables.js-hide
+          = button_to "Delete \"#{web_resource.web_resource_type}\" #{web_resource.web_resource}", profile_web_resource_path(profile, web_resource), :method => 'delete'
+        -#, :class => 'remote confirm delete action', :remote_url => formatted_profile_web_resource_path(profile, web_resource, :xml ), :title => 'Delete'
        
 

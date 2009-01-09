@@ -6,6 +6,6 @@
       = render :partial => 'profiles/form/web_resource', :locals => { :web_resource => web_resource, :f => f, :profile => profile }
     = render :partial => 'profiles/form/web_resource', :locals => { :web_resource => profile.web_resources.build, :f => f, :profile => profile }
     .row
-      .toolbar
+      .toolbar.js-only
         = link_to 'Add web service', new_profile_web_resource_path(profile), :class => 'remote new action'
 

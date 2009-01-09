@@ -57,7 +57,7 @@ Crabgrass.Forms = function() {
     },
 
     delete_successful: function( el ) {
-      jQ$(el).parents().filter('.row').eq(0).hide('drop', { direction: 'down', duration: 400, callback: function() { this.remove(); } } );
+      jQ$(el).parents().filter('.row').eq(0).hide('drop', { direction: 'down', duration: 400, callback: function() { jQ$(this).remove(); } } );
     },
 
     new_successful: function( el, response ) {

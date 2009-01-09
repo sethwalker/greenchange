@@ -32,6 +32,7 @@
           </div>
 
           <%= yield %>
+          <%= yield :content_footer %>
 
         </div>
       </div>
@@ -54,6 +55,8 @@
 <% if onload_script = yield( :javascript_onload )-%>
   <script type='text/javascript'>
     jQ$( function() { 
+      jQ$('.js-only').removeClass('js-only');
+      jQ$('.js-hide').hide();
       <%= onload_script %>
     } );
   </script>
