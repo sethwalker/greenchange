@@ -12,9 +12,12 @@
         = ff.label "#{index}_street", 'Street Address'
          
       - unless location.new_record?
-        .toolbar.icons-only
+        .toolbar.icons-only.js-only
           .icon
-            = button_to 'Delete', profile_location_path(profile, location), :method => :delete , :class => 'remote confirm delete action', :remote_url => formatted_profile_location_path(profile, location, :xml ), :title => 'Delete'
+            = link_to 'Delete', profile_location_path(profile, location), :class => 'remote confirm delete action', :remote_url => formatted_profile_location_path(profile, location, :xml ), :title => 'Delete'
+        - content_for :content_footer do
+          .deleteables.js-hide
+            = button_to "Delete \"#{location.location_type}\" #{location.street}", profile_location_path(profile, location), :method => 'delete'
       .clear
       %p
         = ff.text_field :city, :size => 20, :maxlength => 100, :index => index 

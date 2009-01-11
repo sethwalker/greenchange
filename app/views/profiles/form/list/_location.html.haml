@@ -7,5 +7,5 @@
     = render :partial => 'profiles/form/location', :locals => { :location => profile.locations.build, :f => f, :profile => profile }
 
     .row
-      .toolbar
+      .toolbar.js-only
         = link_to 'Add Location', new_profile_location_path(profile), :class => 'remote new action'

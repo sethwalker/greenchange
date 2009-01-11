@@ -4,7 +4,7 @@
     %p
       %label{ :for =>"user_subscription_data_0_url" } URL
       = text_field_tag "user[subscription_data][0][url]", user.subscription_data.first.try(:url), :size => 50, :id => 'user_subscription_data_0_url'
-    - if sub = user.subscription_data.first
+    -# if sub = user.subscription_data.first
       .section.remote.behavior-block
         = button_to "Update Now", me_subscription_updates_path, :method => :post, :id => 'update_subscriptions', :'data-target' => me_subscription_updates_path
         #last_update_block

@@ -7,6 +7,6 @@
     = render :partial => 'profiles/form/im_address', :locals => { :im_address => profile.im_addresses.build, :f => f, :profile => profile }
 
     .row
-      .toolbar
+      .toolbar.js-only
         = link_to 'Add IM Address', new_profile_im_address_path(profile), :class => 'remote new action'
 

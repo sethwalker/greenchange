@@ -18,6 +18,3 @@
       - content_for :content_footer do
         .deleteables.js-hide
           = button_to "Delete \"#{web_resource.web_resource_type}\" #{web_resource.web_resource}", profile_web_resource_path(profile, web_resource), :method => 'delete'
-        -#, :class => 'remote confirm delete action', :remote_url => formatted_profile_web_resource_path(profile, web_resource, :xml ), :title => 'Delete'
-       
-

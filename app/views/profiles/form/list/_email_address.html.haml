@@ -7,5 +7,5 @@
 
     = render :partial => 'profiles/form/email_address', :locals => { :email_address => profile.email_addresses.build, :f => f, :profile => profile  }
     .row
-      .toolbar
+      .toolbar.js-only
         = link_to 'Add Email Address', new_profile_email_address_path(profile), :class => 'remote new action'

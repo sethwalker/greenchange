@@ -1,16 +1,1 @@
 = render :partial => 'profiles/form/list_item_default', :locals => { :item => email_address, :item_type => :email_address, :item_type_field => :email_type, :item_types_collection => ProfileHelper::EMAIL_TYPES.invert, :profile => profile }
--# fields_target = email_address.new_record? ? "email_addresses[new][]" : :email_addresses
--# index = email_address.try(:id) || ''
--#-# fields_for fields_target, email_address do |ff|
--#  .row
--#    -#%p
--#      -#= ff.check_box :preferred, { :index => index, :class => 'behavior-radio'}, 1
--#    %p
--#      = ff.select :email_type, ProfileHelper::EMAIL_TYPES.invert, {}, :index => index
--#    %p
--#      = ff.text_field :email_address, :size => 20, :maxlength => 100, :index => index 
--#      = ff.label "#{index}_email_address", 'Email'
--#    - unless email_address.new_record?
--#      .toolbar
--#        .icon
--#          = button_to 'Delete', me_profile_email_address_path(email_address), :method => :delete , :class => 'remote confirm delete action', :remote_url => formatted_me_profile_email_address_path(email_address, :xml )
