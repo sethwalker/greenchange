@@ -86,25 +86,11 @@ module Inline
   URL_PUNCT = Regexp::quote(',.;:!')
   
   AUTO_LINK_RE = %r{
-    (                          # leading text
-      <\w+.*?>|                # leading HTML tag, or
-      [^=!:'"/]|               # leading punctuation, or
-      ^                        # beginning of line
-    )
-    (
-      (?:https?://)|           # protocol spec, or
-      (?:www\.)                # www.*
-    )
-    (
-      [-\w]+                   # subdomain or domain
-      (?:\.[-\w]+)*            # remaining subdomains or domain
-      (?::\d+)?                # port
-      (?:/(?:(?:[#{URL_CHAR}]|(?:[#{URL_PUNCT}][^\s$]))+)?)* # path
-      (?:\?[\w\+%&=.;-]+)?     # query string
-      (?:\#[\w\-]*)?           # trailing anchor
-    )
-    ([[:punct:]]|\s|<|$)       # trailing text
-  }x
+      ( https?:// | www\. )
+      [^\s<]+
+    }x unless const_defined?(:AUTO_LINK_RE)
+
+  BRACKETS = { ']' => '[', ')' => '(', '}' => '{' }
 
   # 
   # auto links are extracted and put in @pre_list so they
@@ -112,14 +98,25 @@ module Inline
   #                       
   def inline_auto_link_urls(text)
     text.gsub!(AUTO_LINK_RE) do
-      all, a, b, c, d = $&, $1, $2, $3, $4
-      if a =~ /<a\s/i # don't replace URL's that are already linked
-        all
+      href = $&
+      punctuation = ''
+      # detect already linked URLs
+      if $` =~ /<a\s[^>]*href="$/
+        # do not change string; URL is alreay linked
+        href
       else
-        text = truncate c, 42
-        url = %(#{b=="www."?"http://www.":b}#{c})
-        link = bypass_filter( %(<a href="#{url}">#{text}</a>) )
-        %(#{a}#{link}#{d})
+        # don't include trailing punctuation character as part of the URL
+        if href.sub!(/[^\w\/-]$/, '') and punctuation = $& and opening = BRACKETS[punctuation]
+          if href.scan(opening).size > href.scan(punctuation).size
+            href << punctuation
+            punctuation = ''
+          end
+        end
+ 
+        link_text = truncate href, 42
+        href = 'http://' + href unless href.index('http') == 0
+ 
+        bypass_filter( %(<a href="#{href}">#{link_text}</a>) ) + punctuation
       end
     end
   end
