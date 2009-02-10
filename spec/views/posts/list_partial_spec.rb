@@ -23,7 +23,7 @@ describe '/posts/_list.rhtml' do
 
     it "should render pagination correctly when on page 1" do
       assigns[:posts] = Post.paginate(:all, :page => 1, :per_page => 2)
-      template.stub_render 'posts/_post'
+      template.stub!(:render).with('posts/_post')
       render "/posts/_list"
       response.should have_tag('div.pagination') do
         with_tag('ul') do
@@ -39,7 +39,7 @@ describe '/posts/_list.rhtml' do
 
     it "should render pagination correctly on page 5" do
       assigns[:posts] = Post.paginate(:all, :page => 5, :per_page => 2)
-      template.stub_render 'posts/_post'
+      template.stub!(:render).with('posts/_post')
       render "/posts/_list"
       response.should have_tag('div.pagination') do
         with_tag('ul') do
@@ -56,7 +56,7 @@ describe '/posts/_list.rhtml' do
 
     it "should render pagination correctly on page 10" do
       assigns[:posts] = Post.paginate(:all, :page => 10, :per_page => 2)
-      template.stub_render 'posts/_post'
+      template.stub!(:render).with('posts/_post')
       render "/posts/_list"
       response.should have_tag('div.pagination') do
         with_tag('ul') do

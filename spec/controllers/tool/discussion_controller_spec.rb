@@ -36,7 +36,7 @@ describe Tool::DiscussionController do
       page.should_receive(:data).any_number_of_times.and_return(discussion)
       Tool::Discussion.should_receive(:find).and_return(page)
       controller.stub!(:login_or_public_page_required).and_return(true)
-      controller.stub_render('posts/_post')
+      controller.stub!(:render).with('posts/_post')
     end
 
     it "shows show page" do

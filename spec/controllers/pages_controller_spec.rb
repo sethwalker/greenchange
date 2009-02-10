@@ -49,7 +49,7 @@ describe PagesController do
     it "should render the pages _tags partial" do
       page = usable_page_stub
       Page.stub!(:find_by_id).and_return(page)
-      controller.expect_render(:partial => 'pages/tags') 
+      controller.should_receive(:render).with(:partial => 'pages/tags') 
       xhr :post, :tag, :id => '111', :tag_list => "tag1 tag2 tag3"
     end
   end

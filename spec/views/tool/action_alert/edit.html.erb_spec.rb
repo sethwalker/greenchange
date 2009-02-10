@@ -4,7 +4,7 @@ describe "action_alerts/edit" do
   it "should have the proper form tag" do
     template.stub!(:current_user).and_return(create_user)
     template.stub!(:form_authenticity_token)
-    template.stub_render(:partial => 'document_meta', :object => nil)
+    template.stub!(:render).with(:partial => 'document_meta', :object => nil)
     template.class.__send__(:include, Tool::BaseHelper)
     #assigns[:wiki] = @wiki = ActionAlert.new(:id => 1)
     assigns[:page] = @page = Tool::ActionAlert.create(:title => 'anaction')
