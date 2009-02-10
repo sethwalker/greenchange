@@ -57,7 +57,7 @@ class User < ActiveRecord::Base
 
   validate :validate_associated_subscriptions
   def validate_associated_subscriptions
-    #errors.add_to_base 'Feed URL is invalid' unless subscriptions.all?(&:valid?)
+    return true unless @new_subscriptions
     subscriptions.each do |sub|
       next if sub.valid?
       sub.errors.each do |(item, message)|
@@ -80,6 +80,7 @@ class User < ActiveRecord::Base
       return if subs.first[:url].blank?
       subscriptions.build(subs)
     end
+    @new_subscriptions = true
   end
 
   def add_to_democracy_in_action_groups

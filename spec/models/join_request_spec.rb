@@ -36,7 +36,7 @@ describe JoinRequest do
     end
     it "sends a message" do
       UserMailer.should_receive(:deliver_join_request_received).twice
-      @req.save
+      @req.save!
     end
     it "doesn't send message for events" do
       @req.requestable = new_event

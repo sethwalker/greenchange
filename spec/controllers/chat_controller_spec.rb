@@ -33,13 +33,4 @@ describe ChatController do
     end
   end
 
-
-
-
-
-
-  it "flunk" do
-    flunk
-  end
-
 end

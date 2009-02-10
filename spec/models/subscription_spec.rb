@@ -36,7 +36,7 @@ describe Subscription do
     end
 
     it "gets input from open-uri" do
-      @sub.should_receive(:open).and_return File.open("#{RAILS_ROOT}/spec/fixtures/rss_20.rss")
+      @sub.should_receive(:open).with(@test_url).and_return File.open("#{RAILS_ROOT}/spec/fixtures/rss_20.rss")
       @sub.fetch
     end
 
